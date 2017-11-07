@@ -3,6 +3,5 @@
 package anduin.component.util
 
 object JavaScriptUtils {
-
   final val VoidMethod = "javascript: void(0);"
 }
