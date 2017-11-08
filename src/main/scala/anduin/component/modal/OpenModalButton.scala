@@ -2,9 +2,6 @@
 
 package anduin.component.modal
 
-import japgolly.scalajs.react.vdom.TagOf
-import org.scalajs.dom.html.Anchor
-
 import anduin.component.util.JavaScriptUtils
 
 // scalastyle:off underscore.import
@@ -60,23 +57,26 @@ object OpenModalButton {
       } yield ()
     }
 
-    def render(props: OpenModalButton, state: State, children: PropsChildren): TagOf[Anchor] = {
-      <.a(
-        ^.href := JavaScriptUtils.VoidMethod,
-        ^.classSet(
-          s"dib ${props.buttonClasses}" -> true,
-          "disabled" -> props.disabled
+    def render(props: OpenModalButton, state: State, children: PropsChildren): VdomElement = {
+      <.span(
+        <.a(
+          ^.href := JavaScriptUtils.VoidMethod,
+          ^.classSet(
+            s"dib ${props.buttonClasses}" -> true,
+            "disabled" -> props.disabled
+          ),
+          ^.onClick --> Callback.when(!props.disabled)(show),
+          TagMod.when(props.tip.nonEmpty) {
+            TagMod(
+              TagMod.when(state.over)(VdomAttr("data-tip") := props.tip),
+              ^.onMouseEnter --> Callback.when(!state.over)(scope.modState(_.copy(over = true))),
+              ^.onMouseLeave --> Callback.when(state.over)(scope.modState(_.copy(over = false)))
+            )
+          },
+          props.buttonLabel,
+          children
         ),
-        ^.onClick --> Callback.when(!props.disabled)(show),
-        TagMod.when(props.tip.nonEmpty) {
-          TagMod(
-            TagMod.when(state.over)(VdomAttr("data-tip") := props.tip),
-            ^.onMouseEnter --> Callback.when(!state.over)(scope.modState(_.copy(over = true))),
-            ^.onMouseLeave --> Callback.when(state.over)(scope.modState(_.copy(over = false)))
-          )
-        },
-        props.buttonLabel,
-        children,
+
         TagMod.unless(props.disabled) {
           Modal(
             title = props.modalTitle,
@@ -85,7 +85,7 @@ object OpenModalButton {
             shouldCloseOnOverlayClick = props.overlayCloseable,
             shouldCloseOnEscape = props.closeOnEscape,
             onRequestClose = hide
-          )(onClose => props.modalBody(onClose))
+          )(props.modalBody)
         }
       )
     }
