@@ -292,7 +292,7 @@ object Popover {
             TagMod.when(props.hasCloseButton)(<.div(
               ^.cls := "close-button-align",
               <.a(
-                ^.href := JavaScriptUtils.voidMethod,
+                ^.href := JavaScriptUtils.VoidMethod,
                 ^.onClick --> hide,
                 Icon.cross("close-button", isSolid = true)
               )
