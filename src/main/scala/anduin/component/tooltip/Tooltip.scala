@@ -82,7 +82,13 @@ object Tooltip {
           for {
             _ <- Callback {
               document.body.appendChild(tipNode)
-              tipNode.innerHTML = s"<span class='arrow ${props.placement.className} -fade'>${props.tip}</span>"
+
+              val element = <.span(
+                ^.cls := s"arrow ${props.placement.className} -fade",
+                props.tip
+              )
+
+              element.renderIntoDOM(tipNode)
               tipNode.setAttribute("class", s"tip ${props.tipClasses} ${props.status.className} ${props.size.className}")
             }
             _ <- updatePosition
