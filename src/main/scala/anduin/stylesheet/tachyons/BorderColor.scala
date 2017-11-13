@@ -1,0 +1,76 @@
+// Copyright (C) 2014-2017 Anduin Transactions Inc.
+
+package anduin.stylesheet.tachyons
+
+// See https://github.com/tachyons-css/tachyons/blob/master/src/_border-colors.css
+// scalastyle:off number.of.methods
+private[tachyons] final case class BorderColor(classes: List[String] = List.empty) {
+
+  def black: Tachyons = new Tachyons(classes :+ "b--black")
+  def nearBlack: Tachyons = new Tachyons(classes :+ "b--near-black")
+  def darkGray: Tachyons = new Tachyons(classes :+ "b--dark-gray")
+  def midGray: Tachyons = new Tachyons(classes :+ "b--mid-gray")
+  def gray: Tachyons = new Tachyons(classes :+ "b--gray")
+  def silver: Tachyons = new Tachyons(classes :+ "b--silver")
+  def lightSilver: Tachyons = new Tachyons(classes :+ "b--light-silver")
+  def moonGray: Tachyons = new Tachyons(classes :+ "b--moon-gray")
+  def lightGray: Tachyons = new Tachyons(classes :+ "b--light-gray")
+  def nearWhite: Tachyons = new Tachyons(classes :+ "b--near-white")
+  def white: Tachyons = new Tachyons(classes :+ "b--white")
+
+  def white90: Tachyons = new Tachyons(classes :+ "b--white-90")
+  def white80: Tachyons = new Tachyons(classes :+ "b--white-80")
+  def white70: Tachyons = new Tachyons(classes :+ "b--white-70")
+  def white60: Tachyons = new Tachyons(classes :+ "b--white-60")
+  def white50: Tachyons = new Tachyons(classes :+ "b--white-50")
+  def white40: Tachyons = new Tachyons(classes :+ "b--white-40")
+  def white30: Tachyons = new Tachyons(classes :+ "b--white-30")
+  def white20: Tachyons = new Tachyons(classes :+ "b--white-20")
+  def white10: Tachyons = new Tachyons(classes :+ "b--white-10")
+  def white05: Tachyons = new Tachyons(classes :+ "b--white-05")
+  def white025: Tachyons = new Tachyons(classes :+ "b--white-025")
+  def white0125: Tachyons = new Tachyons(classes :+ "b--white-0125")
+
+  def black90: Tachyons = new Tachyons(classes :+ "b--black-90")
+  def black80: Tachyons = new Tachyons(classes :+ "b--black-80")
+  def black70: Tachyons = new Tachyons(classes :+ "b--black-70")
+  def black60: Tachyons = new Tachyons(classes :+ "b--black-60")
+  def black50: Tachyons = new Tachyons(classes :+ "b--black-50")
+  def black40: Tachyons = new Tachyons(classes :+ "b--black-40")
+  def black30: Tachyons = new Tachyons(classes :+ "b--black-30")
+  def black20: Tachyons = new Tachyons(classes :+ "b--black-20")
+  def black10: Tachyons = new Tachyons(classes :+ "b--black-10")
+  def black05: Tachyons = new Tachyons(classes :+ "b--black-05")
+  def black025: Tachyons = new Tachyons(classes :+ "b--black-025")
+  def black0125: Tachyons = new Tachyons(classes :+ "b--black-0125")
+
+  def darkRed: Tachyons = new Tachyons(classes :+ "b--dark-red")
+  def red: Tachyons = new Tachyons(classes :+ "b--red")
+  def lightRed: Tachyons = new Tachyons(classes :+ "b--light-red")
+  def orange: Tachyons = new Tachyons(classes :+ "b--orange")
+  def gold: Tachyons = new Tachyons(classes :+ "b--gold")
+  def yellow: Tachyons = new Tachyons(classes :+ "b--yellow")
+  def lightYellow: Tachyons = new Tachyons(classes :+ "b--light-yellow")
+  def purple: Tachyons = new Tachyons(classes :+ "b--purple")
+  def lightPurple: Tachyons = new Tachyons(classes :+ "b--light-purple")
+  def darkPink: Tachyons = new Tachyons(classes :+ "b--dark-pink")
+  def hotPink: Tachyons = new Tachyons(classes :+ "b--hot-pink")
+  def pink: Tachyons = new Tachyons(classes :+ "b--pink")
+  def lightPink: Tachyons = new Tachyons(classes :+ "b--light-pink")
+  def darkGreen: Tachyons = new Tachyons(classes :+ "b--dark-green")
+  def green: Tachyons = new Tachyons(classes :+ "b--green")
+  def lightGreen: Tachyons = new Tachyons(classes :+ "b--light-green")
+  def navy: Tachyons = new Tachyons(classes :+ "b--navy")
+  def darkBlue: Tachyons = new Tachyons(classes :+ "b--dark-blue")
+  def blue: Tachyons = new Tachyons(classes :+ "b--blue")
+  def lightBlue: Tachyons = new Tachyons(classes :+ "b--light-blue")
+  def lightestBlue: Tachyons = new Tachyons(classes :+ "b--lightest-blue")
+  def washedBlue: Tachyons = new Tachyons(classes :+ "b--washed-blue")
+  def washedGreen: Tachyons = new Tachyons(classes :+ "b--washed-green")
+  def washedYellow: Tachyons = new Tachyons(classes :+ "b--washed-yellow")
+  def washedRed: Tachyons = new Tachyons(classes :+ "b--washed-red")
+
+  def transparent: Tachyons = new Tachyons(classes :+ "b--transparent")
+  def inherit: Tachyons = new Tachyons(classes :+ "b--inherit")
+}
+// scalastyle:on number.of.methods

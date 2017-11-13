@@ -1,0 +1,70 @@
+// Copyright (C) 2014-2017 Anduin Transactions Inc.
+
+package anduin.stylesheet.tachyons
+
+// See https://github.com/tachyons-css/tachyons/blob/master/src/_skins.css
+// scalastyle:off number.of.methods
+private[tachyons] final case class BackgroundColor(classes: List[String] = List.empty) {
+
+  def black90: Tachyons = new Tachyons(classes :+ "bg-black-90")
+  def black80: Tachyons = new Tachyons(classes :+ "bg-black-80")
+  def black70: Tachyons = new Tachyons(classes :+ "bg-black-70")
+  def black60: Tachyons = new Tachyons(classes :+ "bg-black-60")
+  def black50: Tachyons = new Tachyons(classes :+ "bg-black-50")
+  def black40: Tachyons = new Tachyons(classes :+ "bg-black-40")
+  def black30: Tachyons = new Tachyons(classes :+ "bg-black-30")
+  def black20: Tachyons = new Tachyons(classes :+ "bg-black-20")
+  def black10: Tachyons = new Tachyons(classes :+ "bg-black-10")
+  def black05: Tachyons = new Tachyons(classes :+ "bg-black-05")
+
+  def white90: Tachyons = new Tachyons(classes :+ "bg-white-90")
+  def white80: Tachyons = new Tachyons(classes :+ "bg-white-80")
+  def white70: Tachyons = new Tachyons(classes :+ "bg-white-70")
+  def white60: Tachyons = new Tachyons(classes :+ "bg-white-60")
+  def white50: Tachyons = new Tachyons(classes :+ "bg-white-50")
+  def white40: Tachyons = new Tachyons(classes :+ "bg-white-40")
+  def white30: Tachyons = new Tachyons(classes :+ "bg-white-30")
+  def white20: Tachyons = new Tachyons(classes :+ "bg-white-20")
+  def white10: Tachyons = new Tachyons(classes :+ "bg-white-10")
+
+  def black: Tachyons = new Tachyons(classes :+ "bg-black")
+  def nearBlack: Tachyons = new Tachyons(classes :+ "bg-near-black")
+  def darkGray: Tachyons = new Tachyons(classes :+ "bg-dark-gray")
+  def midGray: Tachyons = new Tachyons(classes :+ "bg-mid-gray")
+  def gray: Tachyons = new Tachyons(classes :+ "bg-gray")
+  def silver: Tachyons = new Tachyons(classes :+ "bg-silver")
+  def lightSilver: Tachyons = new Tachyons(classes :+ "bg-light-silver")
+  def moonGray: Tachyons = new Tachyons(classes :+ "bg-moon-gray")
+  def lightGray: Tachyons = new Tachyons(classes :+ "bg-light-gray")
+  def nearWhite: Tachyons = new Tachyons(classes :+ "bg-near-white")
+  def white: Tachyons = new Tachyons(classes :+ "bg-white")
+  def transparent: Tachyons = new Tachyons(classes :+ "bg-transparent")
+
+  def darkRed: Tachyons = new Tachyons(classes :+ "bg-dark-red")
+  def red: Tachyons = new Tachyons(classes :+ "bg-red")
+  def lightRed: Tachyons = new Tachyons(classes :+ "bg-light-red")
+  def orange: Tachyons = new Tachyons(classes :+ "bg-orange")
+  def gold: Tachyons = new Tachyons(classes :+ "bg-gold")
+  def yellow: Tachyons = new Tachyons(classes :+ "bg-yellow")
+  def lightYellow: Tachyons = new Tachyons(classes :+ "bg-light-yellow")
+  def purple: Tachyons = new Tachyons(classes :+ "bg-purple")
+  def lightPurple: Tachyons = new Tachyons(classes :+ "bg-light-purple")
+  def darkPink: Tachyons = new Tachyons(classes :+ "bg-dark-pink")
+  def hotPink: Tachyons = new Tachyons(classes :+ "bg-hot-pink")
+  def pink: Tachyons = new Tachyons(classes :+ "bg-pink")
+  def lightPink: Tachyons = new Tachyons(classes :+ "bg-light-pink")
+  def darkGreen: Tachyons = new Tachyons(classes :+ "bg-dark-green")
+  def green: Tachyons = new Tachyons(classes :+ "bg-green")
+  def lightGreen: Tachyons = new Tachyons(classes :+ "bg-light-green")
+  def navy: Tachyons = new Tachyons(classes :+ "bg-navy")
+  def darkBlue: Tachyons = new Tachyons(classes :+ "bg-dark-blue")
+  def blue: Tachyons = new Tachyons(classes :+ "bg-blue")
+  def lightBlue: Tachyons = new Tachyons(classes :+ "bg-light-blue")
+  def lightestBlue: Tachyons = new Tachyons(classes :+ "bg-lightest-blue")
+  def washedBlue: Tachyons = new Tachyons(classes :+ "bg-washed-blue")
+  def washedGreen: Tachyons = new Tachyons(classes :+ "bg-washed-green")
+  def washedYellow: Tachyons = new Tachyons(classes :+ "bg-washed-yellow")
+  def washedRed: Tachyons = new Tachyons(classes :+ "bg-washed-red")
+
+  def inherit: Tachyons = new Tachyons(classes :+ "bg-inherit")
+}
