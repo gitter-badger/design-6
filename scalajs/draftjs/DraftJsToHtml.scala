@@ -5,7 +5,7 @@ package anduin.scalajs.draftjs
 import scala.scalajs.js
 import scala.scalajs.js.annotation.{JSImport, JSName}
 
-import com.anduin.stargazer.client.facades.draftjs.Draft.RawDraftContentState
+import anduin.scalajs.draftjs.Draft.RawDraftContentState
 
 @JSImport("draftjs-to-html", JSImport.Namespace, "DraftJsToHtml")
 @js.native
