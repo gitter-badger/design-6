@@ -23,6 +23,7 @@ final case class OpenModalButton(
   isOpen: Boolean = false,
   onBeforeShowing: Callback = Callback.empty,
   onAfterHiding: Callback = Callback.empty,
+  showCloseBtn: Boolean = true,
   // Add key when we want to distinguish between different button
   keyOpt: Option[String] = None
 ) {
@@ -84,7 +85,8 @@ object OpenModalButton {
             overlayClassName = props.modalClasses,
             shouldCloseOnOverlayClick = props.overlayCloseable,
             shouldCloseOnEscape = props.closeOnEscape,
-            onRequestClose = hide
+            onRequestClose = hide,
+            showCloseBtn = props.showCloseBtn
           )(props.modalBody)
         }
       )

@@ -27,7 +27,8 @@ object Modal {
     shouldCloseOnOverlayClick: Boolean,
     shouldCloseOnEscape: Boolean,
     onAfterOpen: Callback,
-    onRequestClose: Callback
+    onRequestClose: Callback,
+    showCloseBtn: Boolean
   )
 
   private val component = ScalaComponent
@@ -47,18 +48,21 @@ object Modal {
         <.div(
           ^.cls := "modal-header",
           <.h3(^.cls := "title fw-600", props.title),
-          <.button(
-            ^.cls := "btn -plain -close border-radius-round tc",
-            ^.title := "Close this dialog",
-            ^.onClick --> props.onRequestClose,
-            Icon.cross()
-          )
+          TagMod.when(props.showCloseBtn) {
+            <.button(
+              ^.cls := "btn -plain -close border-radius-round tc",
+              ^.title := "Close this dialog",
+              ^.onClick --> props.onRequestClose,
+              Icon.cross()
+            )
+          }
         ),
         props.body(props.onRequestClose)
       )
     }
     .build
 
+  // scalastyle:off parameter.number
   def apply(
     title: String,
     isOpen: Boolean = true,
@@ -66,7 +70,8 @@ object Modal {
     shouldCloseOnOverlayClick: Boolean = true,
     shouldCloseOnEscape: Boolean = true,
     onAfterOpen: Callback = Callback.empty,
-    onRequestClose: Callback = Callback.empty
+    onRequestClose: Callback = Callback.empty,
+    showCloseBtn: Boolean = true
   )(body: Callback => VdomElement): ScalaComponent.Unmounted[Props, Unit, Unit] = {
     component(Props(
       title,
@@ -76,7 +81,9 @@ object Modal {
       shouldCloseOnOverlayClick,
       shouldCloseOnEscape,
       onAfterOpen,
-      onRequestClose
+      onRequestClose,
+      showCloseBtn
     ))
   }
+  // scalastyle:on parameter.number
 }
