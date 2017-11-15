@@ -86,7 +86,7 @@ object Tab {
                 "tab-panel" -> true,
                 "active" -> (index == state.activeIndex)
               ),
-              TagMod.when(!item.lazyloadContent || index == state.activeIndex)(TagMod(item.header.children: _*))
+              TagMod.when(!item.lazyloadContent || index == state.activeIndex)(TagMod(item.content.children: _*))
             )
           }
         ))
