@@ -5,7 +5,7 @@ package anduin.component.editor
 // scalastyle:off underscore.import
 import japgolly.scalajs.react.vdom.html_<^._
 
-import anduin.facade.draftjs._
+import anduin.scalajs.draftjs._
 // scalastyle:on underscore.import
 
 object ImageDecorator {

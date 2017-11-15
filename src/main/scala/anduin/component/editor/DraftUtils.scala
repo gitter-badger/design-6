@@ -7,11 +7,11 @@ import scala.util.Try
 
 import org.scalajs.dom.raw.HTMLElement
 
-import anduin.facade.draftconvert.ConvertFromHtmlOptions.CreateEntityFn
-import anduin.facade.draftconvert.{ConvertFromHtmlOptions, DraftConvert, FlatOption}
+import anduin.scalajs.draftconvert.ConvertFromHtmlOptions.CreateEntityFn
+import anduin.scalajs.draftconvert.{ConvertFromHtmlOptions, DraftConvert, FlatOption}
 
 // scalastyle:off underscore.import
-import anduin.facade.draftjs._
+import anduin.scalajs.draftjs._
 // scalastyle:on underscore.import
 
 object DraftUtils {

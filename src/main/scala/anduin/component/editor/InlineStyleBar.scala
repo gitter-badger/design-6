@@ -11,7 +11,7 @@ import anduin.component.icon.Iconv2
 import japgolly.scalajs.react._
 import japgolly.scalajs.react.vdom.html_<^._
 
-import anduin.facade.draftjs._
+import anduin.scalajs.draftjs._
 // scalastyle:on underscore.import
 
 private[editor] final case class InlineStyleBar(

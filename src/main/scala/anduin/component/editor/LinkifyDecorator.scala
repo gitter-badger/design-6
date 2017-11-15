@@ -2,13 +2,13 @@
 
 package anduin.component.editor
 
-import anduin.facade.linkifyit.LinkifyIt
-import anduin.facade.tlds.Tlds
+import anduin.scalajs.linkifyit.LinkifyIt
+import anduin.scalajs.tlds.Tlds
 
 // scalastyle:off underscore.import
 import japgolly.scalajs.react.vdom.html_<^._
 
-import anduin.facade.draftjs._
+import anduin.scalajs.draftjs._
 // scalastyle:on underscore.import
 
 object LinkifyDecorator {

@@ -6,7 +6,7 @@ import japgolly.scalajs.react.vdom.TagOf
 import org.scalajs.dom.html.Span
 
 import anduin.component.util.JavaScriptUtils
-import anduin.facade.draftjs.Style
+import anduin.scalajs.draftjs.Style
 
 // scalastyle:off underscore.import
 import japgolly.scalajs.react._

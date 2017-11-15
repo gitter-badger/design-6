@@ -6,7 +6,7 @@ import japgolly.scalajs.react.vdom.TagOf
 import org.scalajs.dom.html.Div
 
 import anduin.component.icon.Icon
-import anduin.facade.draftjs.{EditorState, OrderedListBlock, RichUtils, UnorderedListBlock}
+import anduin.scalajs.draftjs.{EditorState, OrderedListBlock, RichUtils, UnorderedListBlock}
 
 // scalastyle:off underscore.import
 import japgolly.scalajs.react._

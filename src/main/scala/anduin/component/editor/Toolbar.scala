@@ -13,7 +13,7 @@ import anduin.component.modal.OpenModalButton
 import anduin.component.tooltip.Tooltip
 import anduin.component.uploader.BrowseFileButton
 import anduin.component.util.JavaScriptUtils
-import anduin.facade.draftjs.{EditorState, RichUtils}
+import anduin.scalajs.draftjs.{EditorState, RichUtils}
 
 // scalastyle:off underscore.import
 import japgolly.scalajs.react._

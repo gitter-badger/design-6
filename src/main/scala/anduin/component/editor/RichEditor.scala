@@ -13,7 +13,7 @@ import org.scalajs.dom.html.Div
 import japgolly.scalajs.react._
 import japgolly.scalajs.react.vdom.html_<^._
 
-import anduin.facade.draftjs._
+import anduin.scalajs.draftjs._
 // scalastyle:on underscore.import
 
 final case class RichEditor(

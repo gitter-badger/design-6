@@ -8,7 +8,7 @@ import japgolly.scalajs.react.component.Js.UnmountedWithRawType
 
 // scalastyle:off underscore.import
 import japgolly.scalajs.react._
-import anduin.facade.draftjs._
+import anduin.scalajs.draftjs._
 // scalastyle:on underscore.import
 
 private[editor] object DraftEditor {

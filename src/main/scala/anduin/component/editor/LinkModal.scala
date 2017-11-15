@@ -5,7 +5,7 @@ package anduin.component.editor
 import org.scalajs.dom.html.Div
 import org.scalajs.dom.raw.HTMLInputElement
 
-import anduin.facade.draftjs.EditorState
+import anduin.scalajs.draftjs.EditorState
 
 // scalastyle:off underscore.import
 import japgolly.scalajs.react._
