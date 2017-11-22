@@ -3,7 +3,7 @@
 package anduin.scalajs.linkifyit
 
 import scala.scalajs.js
-import scala.scalajs.js.annotation.{JSGlobal, JSName}
+import scala.scalajs.js.annotation.{JSImport, JSName}
 
 // See https://github.com/markdown-it/linkify-it/
 
@@ -23,7 +23,7 @@ trait MatchingItem extends js.Object {
 }
 
 @js.native
-@JSGlobal("LinkifyIt")
+@JSImport("linkify-it", JSImport.Namespace, "LinkifyIt")
 object LinkifyIt extends js.Object {
 
   def apply(schemas: js.Object = new js.Object(), options: js.Object = new js.Object()): LinkifyIt = js.native // linter:ignore UnusedParameter
