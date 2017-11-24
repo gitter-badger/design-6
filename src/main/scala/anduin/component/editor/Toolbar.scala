@@ -23,7 +23,8 @@ import japgolly.scalajs.react.vdom.html_<^._
 final case class Toolbar(
   editorState: EditorState,
   onChange: EditorState => Callback,
-  onSelectFilesOpt: Option[FileList => Callback] = None
+  onSelectFilesOpt: Option[FileList => Callback] = None,
+  showAttachmentIcon: Boolean
 ) {
   def apply(children: VdomNode*): ScalaComponent.Unmounted[_, _, _] = Toolbar.component(this)(children: _*)
 }
@@ -70,14 +71,18 @@ object Toolbar {
     def render(props: Toolbar, children: PropsChildren): TagOf[Div] = {
       <.div(^.cls := "editor-toolbar flex padding-all-small items-center",
         <.div(^.cls := "btn-group flex items-center",
-          Tooltip(
-            tip = "Upload documents",
-            offset = 4
-          )(BrowseFileButton(
-            classes = s"btn -plain -icon-only ${if (props.onSelectFilesOpt.isEmpty) "disabled" else ""}",
-            onBrowse = fileList => Callback.traverseOption(props.onSelectFilesOpt)(_(fileList))
-          )(Iconv2.clippie())),
-          <.span(^.cls := "divider margin-horizontal-small", "-------"),
+          TagMod.when(props.showAttachmentIcon) {
+            TagMod(
+              Tooltip(
+                tip = "Upload documents",
+                offset = 4
+              )(BrowseFileButton(
+                classes = s"btn -plain -icon-only ${if (props.onSelectFilesOpt.isEmpty) "disabled" else ""}",
+                onBrowse = fileList => Callback.traverseOption(props.onSelectFilesOpt)(_(fileList))
+              )(Iconv2.clippie())),
+              <.span(^.cls := "divider margin-horizontal-small", "-------")
+            )
+          },
 
           InlineStyleBar(props.editorState, props.onChange)(),
           <.span(^.cls := "divider margin-horizontal-small", "-------"),
