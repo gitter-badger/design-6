@@ -67,8 +67,9 @@ object Tab {
                 "-active" -> (index == state.activeIndex),
                 "disabled" -> !item.enabled
               ),
-              (^.onClick ==> onClickTab(item, index))
-                .when(item.target == JavaScriptUtils.VoidMethod && item.enabled),
+              TagMod.when(item.target == JavaScriptUtils.VoidMethod && item.enabled) {
+                ^.onClick ==> onClickTab(item, index)
+              },
               <.a(
                 ^.cls := "link",
                 ^.href := item.target,
