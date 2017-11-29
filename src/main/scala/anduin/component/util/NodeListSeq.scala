@@ -1,6 +1,6 @@
 // Copyright (C) 2014-2017 Anduin Transactions Inc.
 
-package com.anduin.stargazer.client.utils
+package anduin.component.util
 
 import org.scalajs.dom.{DOMList, Node}
 
