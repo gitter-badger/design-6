@@ -42,11 +42,16 @@ object OpenModalButton {
 
   private case class Backend(scope: BackendScope[OpenModalButton, State]) {
 
-    private def show = {
+    private def show(e: ReactEventFromHtml): Callback = {
       for {
+        _ <- e.stopPropagationCB
         props <- scope.props
-        _ <- props.onBeforeShowing
-        _ <- scope.modState(_.copy(isOpen = true))
+        _ <- Callback.unless(props.disabled) {
+          for {
+            _ <- props.onBeforeShowing
+            _ <- scope.modState(_.copy(isOpen = true))
+          } yield ()
+        }
       } yield ()
     }
 
@@ -66,7 +71,7 @@ object OpenModalButton {
             s"dib ${props.buttonClasses}" -> true,
             "disabled" -> props.disabled
           ),
-          ^.onClick --> Callback.when(!props.disabled)(show),
+          ^.onClick ==> show,
           TagMod.when(props.tip.nonEmpty) {
             TagMod(
               TagMod.when(state.over)(VdomAttr("data-tip") := props.tip),
