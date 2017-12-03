@@ -19,6 +19,11 @@ object Modal {
 
   val ComponentName: String = ComponentUtils.name(this)
 
+  type ModalHeaderRenderer = (
+    String,   // The title
+    Callback  // The callback of closing modal
+  ) => VdomElement
+
   final case class Props(
     title: String,
     body: Callback => VdomElement,
@@ -28,7 +33,8 @@ object Modal {
     shouldCloseOnEscape: Boolean,
     onAfterOpen: Callback,
     onRequestClose: Callback,
-    showCloseBtn: Boolean
+    showCloseBtn: Boolean,
+    renderHeader: Option[ModalHeaderRenderer] = None
   )
 
   private val component = ScalaComponent
@@ -45,18 +51,20 @@ object Modal {
         contentLabel = props.title,
         shouldCloseOnEsc = props.shouldCloseOnEscape
       )(
-        <.div(
-          ^.cls := "modal-header",
-          <.h3(^.cls := "title fw-600", props.title),
-          TagMod.when(props.showCloseBtn) {
-            <.button(
-              ^.cls := "btn -plain -close border-radius-round tc",
-              ^.title := "Close this dialog",
-              ^.onClick --> props.onRequestClose,
-              Icon.cross()
-            )
-          }
-        ),
+        props.renderHeader.fold[VdomElement](
+          <.div(
+            ^.cls := "modal-header",
+            <.h3(^.cls := "title fw-600", props.title),
+            TagMod.when(props.showCloseBtn) {
+              <.button(
+                ^.cls := "btn -plain -close border-radius-round tc",
+                ^.title := "Close this dialog",
+                ^.onClick --> props.onRequestClose,
+                Icon.cross()
+              )
+            }
+          )
+        )(_(props.title, props.onRequestClose)),
         props.body(props.onRequestClose)
       )
     }
@@ -71,7 +79,8 @@ object Modal {
     shouldCloseOnEscape: Boolean = true,
     onAfterOpen: Callback = Callback.empty,
     onRequestClose: Callback = Callback.empty,
-    showCloseBtn: Boolean = true
+    showCloseBtn: Boolean = true,
+    renderHeader: Option[ModalHeaderRenderer] = None
   )(body: Callback => VdomElement): ScalaComponent.Unmounted[Props, Unit, Unit] = {
     component(Props(
       title,
@@ -82,7 +91,8 @@ object Modal {
       shouldCloseOnEscape,
       onAfterOpen,
       onRequestClose,
-      showCloseBtn
+      showCloseBtn,
+      renderHeader
     ))
   }
   // scalastyle:on parameter.number

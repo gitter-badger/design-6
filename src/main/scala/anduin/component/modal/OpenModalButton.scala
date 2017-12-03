@@ -18,6 +18,7 @@ final case class OpenModalButton(
   modalTitle: String = "",
   modalClasses: String = "",
   modalBody: Callback => VdomElement = _ => <.span(),
+  modalHeader: Option[Modal.ModalHeaderRenderer] = None,
   overlayCloseable: Boolean = true,
   closeOnEscape: Boolean = true,
   isOpen: Boolean = false,
@@ -91,7 +92,8 @@ object OpenModalButton {
             shouldCloseOnOverlayClick = props.overlayCloseable,
             shouldCloseOnEscape = props.closeOnEscape,
             onRequestClose = hide,
-            showCloseBtn = props.showCloseBtn
+            showCloseBtn = props.showCloseBtn,
+            renderHeader = props.modalHeader
           )(props.modalBody)
         }
       )
