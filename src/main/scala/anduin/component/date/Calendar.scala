@@ -323,7 +323,7 @@ object Calendar {
     yearRange: Int = 10,
     shown: Boolean = false,
     onDayChange: LocalDate => Callback = _ => Callback.empty,
-    onHideCalendar: LocalDate => Callback
+    onHideCalendar: LocalDate => Callback = _ => Callback.empty
   ): ScalaComponent.Unmounted[_, _, _] = component(
     Props(
       date = date,
