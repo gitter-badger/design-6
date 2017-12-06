@@ -63,7 +63,7 @@ object Tab {
           props.panels.zipWithIndex.toTagMod { case (item, index) =>
             <.li(
               ^.classSet(
-                s"tab-item ${item.headerClass}" -> true,
+                s"tab-item pointer ${item.headerClass}" -> true,
                 "-active" -> (index == state.activeIndex),
                 "disabled" -> !item.enabled
               ),
