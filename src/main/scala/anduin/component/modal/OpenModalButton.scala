@@ -64,18 +64,6 @@ object OpenModalButton {
       } yield ()
     }
 
-    private def stopPropagateTouchEvent(e: ReactTouchEvent) = {
-      e.stopPropagationCB
-    }
-
-    private def handleTouchEvent(e: ReactTouchEvent) = {
-      for {
-        _ <- stopPropagateTouchEvent(e)
-        props <- scope.props
-        _ <- Callback.when(!props.disabled)(show)
-      } yield ()
-    }
-
     def render(props: OpenModalButton, state: State, children: PropsChildren): VdomElement = {
       <.span(
         <.a(
@@ -85,6 +73,7 @@ object OpenModalButton {
             "disabled" -> props.disabled
           ),
           ^.onClick ==> show,
+          ^.onTouchStart ==> show,
           TagMod.when(props.tip.nonEmpty) {
             TagMod(
               TagMod.when(state.over)(VdomAttr("data-tip") := props.tip),
