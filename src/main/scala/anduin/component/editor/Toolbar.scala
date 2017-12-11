@@ -24,6 +24,7 @@ final case class Toolbar(
   editorState: EditorState,
   onChange: EditorState => Callback,
   onSelectFilesOpt: Option[FileList => Callback] = None,
+  shareDocsFromWorkspaceButton: Option[TagMod],
   showAttachmentIcon: Boolean
 ) {
   def apply(children: VdomNode*): ScalaComponent.Unmounted[_, _, _] = Toolbar.component(this)(children: _*)
@@ -80,6 +81,7 @@ object Toolbar {
                 classes = s"btn -plain -icon-only ${if (props.onSelectFilesOpt.isEmpty) "disabled" else ""}",
                 onBrowse = fileList => Callback.traverseOption(props.onSelectFilesOpt)(_(fileList))
               )(Iconv2.clippie())),
+              props.shareDocsFromWorkspaceButton.whenDefined,
               <.span(^.cls := "divider margin-horizontal-small", "-------")
             )
           },
