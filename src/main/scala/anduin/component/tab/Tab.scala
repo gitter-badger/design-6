@@ -25,7 +25,7 @@ object Tab {
     active: Boolean = false,
     headerClass: String = "",
     content: Content = Content(),
-    target: String = JavaScriptUtils.VoidMethod,
+    target: String = JavaScriptUtils.voidMethod,
     onClick: Option[ClickPanelHandler] = None,
     enabled: Boolean = true,
     lazyloadContent: Boolean = false)
@@ -67,7 +67,7 @@ object Tab {
                 "-active" -> (index == state.activeIndex),
                 "disabled" -> !item.enabled
               ),
-              TagMod.when(item.target == JavaScriptUtils.VoidMethod && item.enabled) {
+              TagMod.when(item.target == JavaScriptUtils.voidMethod && item.enabled) {
                 ^.onClick ==> onClickTab(item, index)
               },
               <.a(

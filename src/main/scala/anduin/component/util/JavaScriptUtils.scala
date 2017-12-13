@@ -10,7 +10,7 @@ import org.scalajs.dom.raw.HTMLIFrameElement
 
 object JavaScriptUtils {
 
-  final val VoidMethod = "javascript: void(0);"
+  final val voidMethod = "javascript: void(0);"
 
   // The amount of milliseconds that the download frame will be removed from the document
   private final val DownloadTimeout = 30.0 * 1000.0 // 30 seconds * 1000 milli/sec

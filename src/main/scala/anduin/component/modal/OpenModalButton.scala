@@ -66,7 +66,7 @@ object OpenModalButton {
     def render(props: OpenModalButton, state: State, children: PropsChildren): VdomElement = {
       <.span(
         <.a(
-          ^.href := JavaScriptUtils.VoidMethod,
+          ^.href := JavaScriptUtils.voidMethod,
           ^.classSet(
             s"dib ${props.buttonClasses}" -> true,
             "disabled" -> props.disabled

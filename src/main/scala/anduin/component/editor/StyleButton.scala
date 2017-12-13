@@ -44,7 +44,7 @@ private[editor] object StyleButton {
             "btn -plain -icon-only" -> true,
             "-selected" -> props.active
           ),
-          ^.href := JavaScriptUtils.VoidMethod,
+          ^.href := JavaScriptUtils.voidMethod,
           ^.onClick ==> { (e: ReactEvent) ⇒
             e.preventDefault()
             props.onToggle(props.style)

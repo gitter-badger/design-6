@@ -99,7 +99,7 @@ object Toolbar {
                 "btn -plain -icon-only" -> true,
                 "disabled" -> props.editorState.getUndoStack().isEmpty()
               ),
-              ^.href := JavaScriptUtils.VoidMethod,
+              ^.href := JavaScriptUtils.voidMethod,
               ^.onClick --> props.onChange(EditorState.undo(props.editorState)),
               Iconv2.undo()
             )
@@ -114,7 +114,7 @@ object Toolbar {
                 "btn -plain -icon-only" -> true,
                 "disabled" -> props.editorState.getRedoStack().isEmpty()
               ),
-              ^.href := JavaScriptUtils.VoidMethod,
+              ^.href := JavaScriptUtils.voidMethod,
               ^.onClick --> props.onChange(EditorState.redo(props.editorState)),
               Iconv2.redo()
             )
@@ -138,7 +138,7 @@ object Toolbar {
             VdomAttr("data-tip") := "Remove link",
             <.a(
               ^.cls := "btn -plain -icon-only",
-              ^.href := JavaScriptUtils.VoidMethod,
+              ^.href := JavaScriptUtils.voidMethod,
               ^.onClick --> onRemoveLink,
               Iconv2.unlink()
             )

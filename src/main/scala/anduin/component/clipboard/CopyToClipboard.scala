@@ -52,7 +52,7 @@ object CopyToClipboard {
           ^.cls := "tooltip -right",
           VdomAttr("data-tip") := (if (state.copied) "Copied to clipboard" else "Click to copy"),
           ^.onMouseOut --> scope.modState(_.copy(copied = false)),
-          ^.href := JavaScriptUtils.VoidMethod,
+          ^.href := JavaScriptUtils.voidMethod,
           ^.onClick --> copyToClipboard,
           children
         )

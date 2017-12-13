@@ -50,7 +50,7 @@ object BrowseFileButton {
           props.classes -> props.classes.nonEmpty,
           "browse-file" -> true
         ),
-        ^.href := JavaScriptUtils.VoidMethod,
+        ^.href := JavaScriptUtils.voidMethod,
         TagMod.when(props.tip.nonEmpty)(VdomAttr("data-tip") := props.tip),
         children,
         <.input(
