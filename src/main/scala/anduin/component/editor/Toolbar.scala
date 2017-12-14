@@ -10,6 +10,7 @@ import org.scalajs.dom.{FileList, window}
 
 import anduin.component.icon.{Icon, Iconv2}
 import anduin.component.modal.OpenModalButton
+import anduin.component.popover.Popover
 import anduin.component.tooltip.Tooltip
 import anduin.component.uploader.BrowseFileButton
 import anduin.component.util.JavaScriptUtils
@@ -74,14 +75,32 @@ object Toolbar {
         <.div(^.cls := "btn-group flex items-center",
           TagMod.when(props.showAttachmentIcon) {
             TagMod(
-              Tooltip(
-                tip = "Upload documents",
-                offset = 4
-              )(BrowseFileButton(
-                classes = s"btn -plain -icon-only ${if (props.onSelectFilesOpt.isEmpty) "disabled" else ""}",
-                onBrowse = fileList => Callback.traverseOption(props.onSelectFilesOpt)(_(fileList))
-              )(Iconv2.clippie())),
-              props.shareDocsFromWorkspaceButton.whenDefined,
+              Popover(
+                toggler = Tooltip(
+                  tip = "Share documents",
+                  offset = 4
+                )(
+                  Iconv2.clippie()
+                ),
+                placement = Popover.Placement.BottomRight
+              )(
+                _ => <.ul(
+                  ^.cls := "no-bullet",
+                  <.li(
+                    ^.cls := "item",
+                    BrowseFileButton(
+                      classes = s"popover-menu-item ${if (props.onSelectFilesOpt.isEmpty) "disabled" else ""}",
+                      onBrowse = fileList => Callback.traverseOption(props.onSelectFilesOpt)(_(fileList))
+                    )(<.span("Upload documents"))
+                  ),
+                  props.shareDocsFromWorkspaceButton.whenDefined { component =>
+                    <.li(
+                      ^.cls := "item popover-menu-item",
+                      component
+                    )
+                  }
+                )
+              )(),
               <.span(^.cls := "divider margin-horizontal-small", "-------")
             )
           },
