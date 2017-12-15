@@ -87,7 +87,7 @@ object Toolbar {
                 _ => <.ul(
                   ^.cls := "no-bullet",
                   <.li(
-                    ^.cls := "item",
+                    ^.cls := "item mb1",
                     BrowseFileButton(
                       classes = s"popover-menu-item ${if (props.onSelectFilesOpt.isEmpty) "disabled" else ""}",
                       onBrowse = fileList => Callback.traverseOption(props.onSelectFilesOpt)(_(fileList))
@@ -95,7 +95,7 @@ object Toolbar {
                   ),
                   props.shareDocsFromWorkspaceButton.whenDefined { component =>
                     <.li(
-                      ^.cls := "item popover-menu-item",
+                      ^.cls := "item",
                       component
                     )
                   }
