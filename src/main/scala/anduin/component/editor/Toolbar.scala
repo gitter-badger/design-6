@@ -75,32 +75,42 @@ object Toolbar {
         <.div(^.cls := "btn-group flex items-center",
           TagMod.when(props.showAttachmentIcon) {
             TagMod(
-              Popover(
-                toggler = Tooltip(
-                  tip = "Share documents",
-                  offset = 4
-                )(
-                  Iconv2.clippie()
-                ),
-                placement = Popover.Placement.BottomRight
-              )(
-                _ => <.ul(
-                  ^.cls := "no-bullet",
-                  <.li(
-                    ^.cls := "item mb1",
-                    BrowseFileButton(
-                      classes = s"popover-menu-item ${if (props.onSelectFilesOpt.isEmpty) "disabled" else ""}",
-                      onBrowse = fileList => Callback.traverseOption(props.onSelectFilesOpt)(_(fileList))
-                    )(<.span("Upload documents"))
+              if (props.shareDocsFromWorkspaceButton.isDefined) {
+                Popover(
+                  toggler = Tooltip(
+                    tip = "Share documents",
+                    offset = 4
+                  )(
+                    Iconv2.clippie()
                   ),
-                  props.shareDocsFromWorkspaceButton.whenDefined { component =>
+                  placement = Popover.Placement.BottomRight
+                )(
+                  _ => <.ul(
+                    ^.cls := "no-bullet",
                     <.li(
-                      ^.cls := "item",
-                      component
-                    )
-                  }
-                )
-              )(),
+                      ^.cls := "item mb1",
+                      BrowseFileButton(
+                        classes = s"popover-menu-item ${if (props.onSelectFilesOpt.isEmpty) "disabled" else ""}",
+                        onBrowse = fileList => Callback.traverseOption(props.onSelectFilesOpt)(_(fileList))
+                      )(<.span("Upload documents"))
+                    ),
+                    props.shareDocsFromWorkspaceButton.whenDefined { component =>
+                      <.li(
+                        ^.cls := "item",
+                        component
+                      )
+                    }
+                  )
+                )()
+              } else {
+                Tooltip(
+                  tip = "Upload documents",
+                  offset = 4
+                )(BrowseFileButton(
+                  classes = s"btn -plain -icon-only ${if (props.onSelectFilesOpt.isEmpty) "disabled" else ""}",
+                  onBrowse = fileList => Callback.traverseOption(props.onSelectFilesOpt)(_(fileList))
+                )(Iconv2.clippie()))
+              },
               <.span(^.cls := "divider margin-horizontal-small", "-------")
             )
           },
