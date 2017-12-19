@@ -78,12 +78,12 @@ object Toolbar {
               if (props.shareDocsFromWorkspaceButton.isDefined) {
                 Popover(
                   toggler = Tooltip(
-                    tip = "Share documents",
-                    offset = 4
+                    tip = "Upload documents"
                   )(
                     Iconv2.clippie()
                   ),
-                  placement = Popover.Placement.BottomRight
+                  placement = Popover.Placement.BottomRight,
+                  classes = "pointer"
                 )(
                   _ => <.ul(
                     ^.cls := "no-bullet",
