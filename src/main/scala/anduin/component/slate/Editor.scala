@@ -6,7 +6,7 @@ import scala.scalajs.js
 
 import japgolly.scalajs.react.component.Js.UnmountedWithRawType
 
-import anduin.scalajs.slate.Slate.Value
+import anduin.scalajs.slate.Slate.{Change, Value}
 
 // scalastyle:off underscore.import
 import japgolly.scalajs.react._
@@ -20,11 +20,11 @@ object Editor {
 
   def apply(
     value: Value,
-    onChange: Value => Callback
+    onChange: Change => Callback
   ): UnmountedWithRawType[_, _, _] = {
     component(new SlateReact.Props(
       value = value,
-      onChange = js.defined { (v: Value) =>
+      onChange = js.defined { (v: Change) =>
         onChange(v).runNow()
       }
     ))
