@@ -5,16 +5,16 @@ package anduin.scalajs.slate
 import scala.scalajs.js
 import scala.scalajs.js.annotation.JSImport
 
-import anduin.scalajs.slate.Slate.Value
+import anduin.scalajs.slate.Slate.{Change, Value}
 
 object SlateReact {
 
-  @JSImport("slate-react", JSImport.Namespace, "Editor")
+  @JSImport("slate-react", "Editor")
   @js.native
   object EditorComponent extends js.Object
 
   final class Props(
     val value: Value,
-    val onChange: js.UndefOr[Value => Unit] = js.undefined
+    val onChange: js.UndefOr[js.Function1[Change, Unit]] = js.undefined
   ) extends js.Object
 }

@@ -7,11 +7,15 @@ import scala.scalajs.js.annotation.JSImport
 
 object Slate {
 
-  @JSImport("slate", JSImport.Namespace, "Value")
+  class Value extends js.Object
+
+  @JSImport("slate", "Value")
   @js.native
   object Value extends js.Object {
     def fromJSON(json: js.Object): Value = js.native // linter:ignore UnusedParameter
   }
 
-  trait Value extends js.Object
+  @JSImport("slate", "Change")
+  @js.native
+  class Change(val value: Value) extends js.Object
 }
