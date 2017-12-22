@@ -21,6 +21,7 @@ object Slate {
   @js.native
   class Change(val value: Value) extends js.Object {
     def addMark(mark: String): Change = js.native // linter:ignore UnusedParameter
+    def toggleMark(mark: String): Change = js.native // linter:ignore UnusedParameter
   }
 
   // See https://docs.slatejs.org/slate-core/mark
