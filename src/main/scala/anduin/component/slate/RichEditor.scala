@@ -30,7 +30,7 @@ object RichEditor {
         e.key match {
           case "b" => Callback {
             e.preventDefault()
-            change.addMark("bold")
+            change.toggleMark("bold")
           }
           case _ => Callback.empty
         }
