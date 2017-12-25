@@ -29,7 +29,16 @@ object Slate {
   @js.native
   class Mark(
     @JSName("type")
-    val markType: String
+    val markType: String,
+    val kind: String
   ) extends js.Object
+
+  // See https://docs.slatejs.org/slate-core/node
+  @js.native
+  trait Node extends js.Object {
+    val key: String = js.native
+    val kind: String = js.native
+    val nodes: js.Array[Node] = js.native
+  }
 }
 // scalastyle:on multiple.string.literals
