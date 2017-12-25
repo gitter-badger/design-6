@@ -24,12 +24,14 @@ private[slate] object Editor {
 
   def apply(
     value: Value,
+    readOnly: Boolean,
     onChange: Change => Callback,
     onKeyDown: (KeyboardEvent, Change) => Callback,
     renderMark: RenderMarkProps => RenderMarkOutput
   ): UnmountedWithRawType[_, _, _] = {
     component(new Props(
       value = value,
+      readOnly = readOnly,
       onChange = js.defined { onChange(_).runNow() },
       onKeyDown = js.defined { (e: KeyboardEvent, c: Change) =>
         onKeyDown(e, c).runNow()
@@ -38,8 +40,10 @@ private[slate] object Editor {
     ))
   }
 
+  // See https://docs.slatejs.org/slate-react/editor
   final class Props(
     val value: Value,
+    val readOnly: Boolean,
     val onChange: js.UndefOr[js.Function1[Change, Unit]] = js.undefined,
     val onKeyDown: js.UndefOr[js.Function2[KeyboardEvent, Change, Unit]] = js.undefined,
     val renderMark: js.UndefOr[js.Function1[RenderMarkProps, RenderMarkOutput]] = js.undefined

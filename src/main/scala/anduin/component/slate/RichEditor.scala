@@ -2,6 +2,7 @@
 
 package anduin.component.slate
 
+import japgolly.scalajs.react.component.Scala.Unmounted
 import org.scalajs.dom.KeyboardEvent
 
 import anduin.component.slate.Editor.RenderMarkProps
@@ -14,7 +15,8 @@ import japgolly.scalajs.react.vdom.html_<^._
 
 final case class RichEditor(
   value: Value,
-  onChange: Change => Callback
+  onChange: Change => Callback,
+  readOnly: Boolean
 ) {
   def apply(): ScalaComponent.Unmounted[_, _, _] = RichEditor.component(this)
 }
@@ -22,6 +24,16 @@ final case class RichEditor(
 object RichEditor {
 
   private final val ComponentName = this.getClass.getSimpleName
+
+  // A helper function to create a read-only instance of editor from given HTML
+  def readOnlyFromHtml(html: String, maxLengthOpt: Option[Int] = None): Unmounted[_, _, _] = {
+    val body = maxLengthOpt.map(html.substring(0, _)).getOrElse(html)
+    RichEditor(
+      value = Serializer.deserialize(body),
+      onChange = _ => Callback.empty,
+      readOnly = true
+    )()
+  }
 
   private case class Backend(scope: BackendScope[RichEditor, _]) {
 
@@ -50,6 +62,7 @@ object RichEditor {
       <.div(
         Editor(
           value = props.value,
+          readOnly = props.readOnly,
           onChange = props.onChange,
           onKeyDown = onKeyDown,
           renderMark = renderMark
