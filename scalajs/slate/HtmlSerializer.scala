@@ -7,27 +7,42 @@ import scala.scalajs.js.annotation.{JSImport, JSName}
 import scala.scalajs.js.|
 
 import org.scalajs.dom.Element
+import org.scalajs.dom.raw.NodeList
 
-import anduin.scalajs.slate.Slate.{Mark, Node, Value}
+import anduin.scalajs.slate.Slate.Value
 
-// See https://github.com/ianstormtaylor/slate/blob/master/docs/reference/slate-html-serializer/index.md
-@JSImport("slate-html-serializer", JSImport.Default, "Html")
-@js.native
-class HtmlSerializer(
-  val rules: js.UndefOr[js.Array[Rule]] = js.undefined
-) extends js.Object {
-  def deserialize(html: String): Value = js.native // linter:ignore UnusedParameter
-  def serialize(value: Value): String = js.native // linter:ignore UnusedParameter
+object HtmlSerializer {
+
+  type SerializeOutputType = js.Object | Unit | Null
+  type DeserializeOutputType = RuleDeserializeOutput | Unit
+
+  // See https://github.com/ianstormtaylor/slate/blob/master/docs/reference/slate-html-serializer/index.md
+  @JSImport("slate-html-serializer", JSImport.Default, "Html")
+  @js.native
+  final class HtmlSerializer(
+    val options: js.UndefOr[Options] = js.undefined
+  ) extends js.Object {
+    def deserialize(html: String): Value = js.native // linter:ignore UnusedParameter
+    def serialize(value: Value): String = js.native // linter:ignore UnusedParameter
+  }
+
+  final class Options(
+    val rules: js.UndefOr[js.Array[Rule]] = js.undefined
+  ) extends js.Object
+
+  final class Rule(
+    val deserialize: js.Function2[Element, js.Function1[NodeList, NodeList], DeserializeOutputType],
+    val serialize: js.Function2[RuleSerializeInput, js.Object, SerializeOutputType]
+  ) extends js.Object
+
+  final class RuleSerializeInput(
+    val kind: String,
+    @JSName("type") val tpe: String
+  ) extends js.Object
+
+  final class RuleDeserializeOutput(
+    val kind: String,
+    @JSName("type") val tpe: String,
+    val nodes: NodeList
+  ) extends js.Object
 }
-
-class Rule(
-  val deserialize: js.Function2[Element, js.Function1[js.Array[Element], js.Array[Node]], RuleDeserializeOutput | Unit],
-  val serialize: js.Function2[Node | Mark | String, String, js.Object | Unit]
-) extends js.Object
-
-class RuleDeserializeOutput(
-  val kind: String,
-  @JSName("type")
-  val nodeType: String,
-  val nodes: js.Array[Node]
-) extends js.Object

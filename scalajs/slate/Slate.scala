@@ -5,7 +5,7 @@ package anduin.scalajs.slate
 import scala.scalajs.js
 import scala.scalajs.js.annotation.{JSImport, JSName}
 
-import anduin.scalajs.immutable.ImmutableSet
+import anduin.scalajs.immutable.{ImmutableList, ImmutableSet}
 
 // scalastyle:off multiple.string.literals
 object Slate {
@@ -34,8 +34,7 @@ object Slate {
   @JSImport("slate", "Mark")
   @js.native
   class Mark(
-    @JSName("type")
-    val markType: String,
+    @JSName("type") val markType: String,
     val kind: String
   ) extends js.Object
 
@@ -44,7 +43,8 @@ object Slate {
   trait Node extends js.Object {
     val key: String = js.native
     val kind: String = js.native
-    val nodes: js.Array[Node] = js.native
+    @JSName("type") val nodeType: String = js.native
+    val nodes: ImmutableList[Node] = js.native
   }
 }
 // scalastyle:on multiple.string.literals
