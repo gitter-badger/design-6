@@ -5,15 +5,21 @@ package anduin.scalajs.slate
 import scala.scalajs.js
 import scala.scalajs.js.annotation.{JSImport, JSName}
 
+import anduin.scalajs.immutable.ImmutableSet
+
 // scalastyle:off multiple.string.literals
 object Slate {
-
-  class Value extends js.Object
 
   @JSImport("slate", "Value")
   @js.native
   object Value extends js.Object {
     def fromJSON(json: js.Object): Value = js.native // linter:ignore UnusedParameter
+  }
+
+  @js.native
+  trait Value extends js.Object {
+    def activeMarks: ImmutableSet[Mark] = js.native // linter:ignore UnusedParameter
+    def change(): Change = js.native
   }
 
   // See https://docs.slatejs.org/slate-core/change
