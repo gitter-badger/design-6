@@ -42,7 +42,15 @@ object RichEditor {
         e.key match {
           case "b" => Callback {
             e.preventDefault()
-            change.toggleMark("bold")
+            change.toggleMark(BoldAction.markType)
+          }
+          case "i" => Callback {
+            e.preventDefault()
+            change.toggleMark(ItalicAction.markType)
+          }
+          case "u" => Callback {
+            e.preventDefault()
+            change.toggleMark(UnderlineAction.markType)
           }
           case _ => Callback.empty
         }
@@ -52,7 +60,9 @@ object RichEditor {
     // scalastyle:off null
     private def renderMark(props: RenderMarkProps) = {
       props.mark.markType match {
-        case "bold" => <.strong(PropsChildren.fromRawProps(props)).rawElement
+        case BoldAction.markType => <.strong(PropsChildren.fromRawProps(props)).rawElement
+        case ItalicAction.markType => <.em(PropsChildren.fromRawProps(props)).rawElement
+        case UnderlineAction.markType => <.u(PropsChildren.fromRawProps(props)).rawElement
         case _ => null
       }
     }
