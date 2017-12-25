@@ -5,7 +5,7 @@ package anduin.component.slate
 import japgolly.scalajs.react.component.Scala.Unmounted
 import org.scalajs.dom.KeyboardEvent
 
-import anduin.component.slate.Editor.RenderMarkProps
+import anduin.component.slate.Editor.{RenderMarkProps, RenderNodeProps}
 import anduin.scalajs.slate.Slate.{Change, Value}
 
 // scalastyle:off underscore.import
@@ -58,6 +58,15 @@ object RichEditor {
     }
 
     // scalastyle:off null
+    private def renderNode(props: RenderNodeProps) = {
+      props.node.nodeType match {
+        case "code" => <.pre(<.code(PropsChildren.fromRawProps(props))).rawElement
+        case "paragraph" => <.p(PropsChildren.fromRawProps(props)).rawElement
+        case "quote" => <.blockquote(PropsChildren.fromRawProps(props)).rawElement
+        case _ => null
+      }
+    }
+
     private def renderMark(props: RenderMarkProps) = {
       props.mark.markType match {
         case BoldAction.markType => <.strong(PropsChildren.fromRawProps(props)).rawElement
@@ -75,6 +84,7 @@ object RichEditor {
           readOnly = props.readOnly,
           onChange = props.onChange,
           onKeyDown = onKeyDown,
+          renderNode = renderNode,
           renderMark = renderMark
         )()
       )
