@@ -52,6 +52,18 @@ object RichEditor {
             e.preventDefault()
             change.toggleMark(UnderlineAction.markType)
           }
+          case "z" =>
+            e.preventDefault()
+            for {
+              props <- scope.props
+              _ <- Callback.when(props.value.hasUndos)(props.onChange(change.undo()))
+            } yield ()
+          case "y" =>
+            e.preventDefault()
+            for {
+              props <- scope.props
+              _ <- Callback.when(props.value.hasRedos)(props.onChange(change.redo()))
+            } yield ()
           case _ => Callback.empty
         }
       }
