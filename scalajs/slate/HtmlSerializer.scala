@@ -9,7 +9,7 @@ import scala.scalajs.js.|
 import org.scalajs.dom.Element
 import org.scalajs.dom.raw.NodeList
 
-import anduin.scalajs.slate.Slate.Value
+import anduin.scalajs.slate.Slate.{Data, Value}
 
 object HtmlSerializer {
 
@@ -17,6 +17,7 @@ object HtmlSerializer {
   type DeserializeOutputType = RuleDeserializeOutput | Unit
 
   // See https://github.com/ianstormtaylor/slate/blob/master/docs/reference/slate-html-serializer/index.md
+  // and https://docs.slatejs.org/other-packages/slate-html-serializer
   @JSImport("slate-html-serializer", JSImport.Default, "Html")
   @js.native
   final class HtmlSerializer(
@@ -37,11 +38,14 @@ object HtmlSerializer {
 
   final class RuleSerializeInput(
     val kind: String,
-    @JSName("type") val tpe: String
+    @JSName("type") val tpe: String,
+    val data: Data
   ) extends js.Object
 
   final class RuleDeserializeOutput(
+    // Can be either `block`, `inline`, `mark` or `text`
     val kind: String,
+    val data: js.UndefOr[js.Object] = js.undefined,
     @JSName("type") val tpe: String,
     val nodes: NodeList
   ) extends js.Object

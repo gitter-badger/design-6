@@ -5,7 +5,7 @@ package anduin.scalajs.slate
 import scala.scalajs.js
 import scala.scalajs.js.annotation.{JSImport, JSName}
 
-import anduin.scalajs.immutable.{ImmutableList, ImmutableSet}
+import anduin.scalajs.immutable.{ImmutableList, ImmutableMap, ImmutableSet}
 
 // scalastyle:off multiple.string.literals
 object Slate {
@@ -20,6 +20,7 @@ object Slate {
   @js.native
   trait Value extends js.Object {
     def activeMarks: ImmutableSet[Mark] = js.native // linter:ignore UnusedParameter
+    def inlines: ImmutableList[Inline] = js.native // linter:ignore UnusedParameter
     def change(): Change = js.native
     def hasUndos: Boolean = js.native
     def hasRedos: Boolean = js.native
@@ -33,7 +34,15 @@ object Slate {
     def toggleMark(mark: String): Change = js.native // linter:ignore UnusedParameter
     def undo(): Change = js.native
     def redo(): Change = js.native
+    def collapseToEnd(): Change = js.native
+    def unwrapInline(inlineType: String): Change = js.native // linter:ignore UnusedParameter
+    def wrapInline(props: js.Object): Change = js.native // linter:ignore UnusedParameter
   }
+
+  class WrapInlineProps(
+    @JSName("type") val inlineType: String,
+    val data: js.Object
+  ) extends js.Object
 
   // See https://docs.slatejs.org/slate-core/mark
   @JSImport("slate", "Mark")
@@ -48,8 +57,25 @@ object Slate {
   trait Node extends js.Object {
     val key: String = js.native
     val kind: String = js.native
+    val data: Data = js.native
     @JSName("type") val nodeType: String = js.native
     val nodes: ImmutableList[Node] = js.native
   }
+
+  // See https://docs.slatejs.org/slate-core/inline
+  @JSImport("slate", "Inline")
+  @js.native
+  class Inline(
+    @JSName("type") val inlineType: String = js.native // link, hashtag, for example
+  ) extends js.Object
+
+  object Inline {
+    final val LinkType = "link"
+  }
+
+  // See https://docs.slatejs.org/slate-core/data
+  @JSImport("slate", "Data")
+  @js.native
+  class Data extends ImmutableMap[String, js.Object]
 }
 // scalastyle:on multiple.string.literals
