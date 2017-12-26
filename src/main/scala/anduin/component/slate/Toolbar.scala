@@ -4,10 +4,9 @@ package anduin.component.slate
 
 import scala.scalajs.js
 
-import japgolly.scalajs.react.vdom.html_<^.<
-import org.scalajs.dom.FileList
+import org.scalajs.dom.{FileList, window}
 
-import anduin.component.icon.Iconv2
+import anduin.component.icon.{Icon, Iconv2}
 import anduin.component.modal.OpenModalButton
 import anduin.component.popover.Popover
 import anduin.component.tooltip.Tooltip
@@ -33,6 +32,8 @@ final case class Toolbar(
 object Toolbar {
 
   private val ComponentName = this.getClass.getSimpleName
+
+  private final val isMac = window.navigator.userAgent.matches(".*(Mac|iPod|iPhone|iPad).*")
 
   private case class Backend(scope: BackendScope[Toolbar, _]) {
 
@@ -187,6 +188,17 @@ object Toolbar {
         ),
 
         <.div(^.cls := "flex margin-left-auto",
+          <.span(
+            ^.cls := "tooltip -top",
+            VdomAttr("data-tip") := "Keyboard Shortcuts",
+            OpenModalButton(
+              buttonLabel = "",
+              buttonClasses = "btn -plain -icon-only",
+              modalTitle = "Keyboard Shortcuts",
+              modalClasses = "editor-hotkeys-dialog",
+              modalBody = _ => ShortcutModal(isMac)()
+            )(Icon.info())
+          ),
           children
         )
       )
