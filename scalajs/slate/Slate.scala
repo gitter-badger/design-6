@@ -10,6 +10,7 @@ import anduin.scalajs.immutable.{ImmutableList, ImmutableSet}
 // scalastyle:off multiple.string.literals
 object Slate {
 
+  // See https://docs.slatejs.org/slate-core/value
   @JSImport("slate", "Value")
   @js.native
   object Value extends js.Object {
@@ -20,6 +21,8 @@ object Slate {
   trait Value extends js.Object {
     def activeMarks: ImmutableSet[Mark] = js.native // linter:ignore UnusedParameter
     def change(): Change = js.native
+    def hasUndos: Boolean = js.native
+    def hasRedos: Boolean = js.native
   }
 
   // See https://docs.slatejs.org/slate-core/change
@@ -28,6 +31,8 @@ object Slate {
   class Change(val value: Value) extends js.Object {
     def addMark(mark: String): Change = js.native // linter:ignore UnusedParameter
     def toggleMark(mark: String): Change = js.native // linter:ignore UnusedParameter
+    def undo(): Change = js.native
+    def redo(): Change = js.native
   }
 
   // See https://docs.slatejs.org/slate-core/mark
