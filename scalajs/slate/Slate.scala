@@ -24,6 +24,7 @@ object Slate {
     def change(): Change = js.native
     def hasUndos: Boolean = js.native
     def hasRedos: Boolean = js.native
+    def isExpanded: Boolean = js.native
   }
 
   // See https://docs.slatejs.org/slate-core/change
@@ -37,6 +38,8 @@ object Slate {
     def collapseToEnd(): Change = js.native
     def unwrapInline(inlineType: String): Change = js.native // linter:ignore UnusedParameter
     def wrapInline(props: js.Object): Change = js.native // linter:ignore UnusedParameter
+    def insertText(text: String): Change = js.native // linter:ignore UnusedParameter
+    def extend(num: Int): Change = js.native // linter:ignore UnusedParameter
   }
 
   class WrapInlineProps(
