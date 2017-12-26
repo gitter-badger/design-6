@@ -8,6 +8,7 @@ import anduin.component.icon.Iconv2
 import anduin.component.popover.Popover
 import anduin.component.tooltip.Tooltip
 import anduin.component.uploader.BrowseFileButton
+import anduin.component.util.JavaScriptUtils
 import anduin.scalajs.slate.Slate.{Change, Value}
 
 // scalastyle:off underscore.import
@@ -70,7 +71,39 @@ object Toolbar {
             )
           },
 
-          MarkButtonBar(props.value, props.onChange)()
+          MarkButtonBar(props.value, props.onChange)(),
+
+          <.span(^.cls := "divider margin-horizontal-small", "-------"),
+
+          // Undo button
+          <.span(
+            ^.cls := "tooltip -top",
+            VdomAttr("data-tip") := "Undo",
+            <.a(
+              ^.classSet(
+                "btn -plain -icon-only" -> true,
+                "disabled" -> !props.value.hasUndos
+              ),
+              ^.href := JavaScriptUtils.voidMethod,
+              ^.onClick --> props.onChange(props.value.change().undo()),
+              Iconv2.undo()
+            )
+          ),
+
+          // Redo button
+          <.span(
+            ^.cls := "tooltip -top",
+            VdomAttr("data-tip") := "Redo",
+            <.a(
+              ^.classSet(
+                "btn -plain -icon-only" -> true,
+                "disabled" -> props.value.hasRedos
+              ),
+              ^.href := JavaScriptUtils.voidMethod,
+              ^.onClick --> props.onChange(props.value.change().redo()),
+              Iconv2.redo()
+            )
+          )
         ),
 
         <.div(^.cls := "flex margin-left-auto",
