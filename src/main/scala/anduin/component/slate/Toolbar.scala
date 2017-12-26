@@ -52,6 +52,10 @@ object Toolbar {
           }
         }
         _ <- {
+          if (!value.isExpanded) {
+            // If there's no selected text, create a link with the same text and href
+            change.insertText(link).extend(0 - link.length)
+          }
           change.wrapInline(js.Dynamic.literal(
             `type` = Inline.LinkType,
             data = js.Dynamic.literal(href = link)
