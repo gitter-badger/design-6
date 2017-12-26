@@ -20,12 +20,19 @@ object Slate {
   @js.native
   trait Value extends js.Object {
     def activeMarks: ImmutableSet[Mark] = js.native // linter:ignore UnusedParameter
+    def blocks: ImmutableList[Block] = js.native // linter:ignore UnusedParameter
     def inlines: ImmutableList[Inline] = js.native // linter:ignore UnusedParameter
     def change(): Change = js.native
     def hasUndos: Boolean = js.native
     def hasRedos: Boolean = js.native
     def isExpanded: Boolean = js.native
+    val document: Document = js.native
   }
+
+  // See https://docs.slatejs.org/slate-core/document
+  @JSImport("slate", "Document")
+  @js.native
+  class Document extends Node
 
   // See https://docs.slatejs.org/slate-core/change
   @JSImport("slate", "Change")
@@ -40,6 +47,9 @@ object Slate {
     def wrapInline(props: js.Object): Change = js.native // linter:ignore UnusedParameter
     def insertText(text: String): Change = js.native // linter:ignore UnusedParameter
     def extend(num: Int): Change = js.native // linter:ignore UnusedParameter
+    def setBlock(block: String): Change = js.native // linter:ignore UnusedParameter
+    def unwrapBlock(block: String): Change = js.native // linter:ignore UnusedParameter
+    def wrapBlock(block: String): Change = js.native // linter:ignore UnusedParameter
   }
 
   class WrapInlineProps(
@@ -63,6 +73,8 @@ object Slate {
     val data: Data = js.native
     @JSName("type") val nodeType: String = js.native
     val nodes: ImmutableList[Node] = js.native
+
+    def getClosest(key: String, @JSName("match") find: js.Function1[Node, Boolean]): js.UndefOr[Node] = js.native // linter:ignore UnusedParameter
   }
 
   // See https://docs.slatejs.org/slate-core/inline
@@ -80,5 +92,10 @@ object Slate {
   @JSImport("slate", "Data")
   @js.native
   class Data extends ImmutableMap[String, js.Object]
+
+  // See https://docs.slatejs.org/slate-core/block
+  @JSImport("slate", "Block")
+  @js.native
+  class Block extends Node
 }
 // scalastyle:on multiple.string.literals
