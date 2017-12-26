@@ -19,9 +19,12 @@ import anduin.scalajs.slate.HtmlSerializer._
 object Serializer {
 
   private final val BlockTags = Map(
-    "blockquote" -> "quote",
+    "blockquote" -> BlockQuoteNode.nodeType,
     "p" -> "paragraph",
-    "pre" -> "code"
+    "pre" -> "code",
+    "li" -> ListItemNode.nodeType,
+    "ul" -> UnorderedListNode.nodeType,
+    "ol" -> OrderedListNode.nodeType
   )
 
   private final val InlineTags = Map(
@@ -29,9 +32,9 @@ object Serializer {
   )
 
   private final val MarkTags = Map(
-    "strong" -> BoldAction,
-    "em" -> ItalicAction,
-    "u" -> UnderlineAction
+    "strong" -> BoldNode.nodeType,
+    "em" -> ItalicNode.nodeType,
+    "u" -> UnderlineNode.nodeType
   )
 
   // See https://docs.slatejs.org/walkthroughs/saving-and-loading-html-content
@@ -53,7 +56,10 @@ object Serializer {
         obj.tpe match {
           case "code" => <.pre(<.code(PropsChildren.fromRawProps(p))).rawElement
           case "paragraph" => <.p(PropsChildren.fromRawProps(p)).rawElement
-          case "quote" => <.blockquote(PropsChildren.fromRawProps(p)).rawElement
+          case BlockQuoteNode.nodeType => <.blockquote(PropsChildren.fromRawProps(p)).rawElement
+          case ListItemNode.nodeType => <.li(PropsChildren.fromRawProps(p)).rawElement
+          case UnorderedListNode.nodeType => <.ul(PropsChildren.fromRawProps(p)).rawElement
+          case OrderedListNode.nodeType => <.ol(PropsChildren.fromRawProps(p)).rawElement
           case _ => null // scalastyle:ignore null
         }
       }
@@ -90,10 +96,10 @@ object Serializer {
 
   private val markHandler = new Rule(
     deserialize = (ele: Element, next: js.Function1[NodeList, NodeList]) => {
-      MarkTags.get(ele.tagName.toLowerCase).fold[DeserializeOutputType](()) { action =>
+      MarkTags.get(ele.tagName.toLowerCase).fold[DeserializeOutputType](()) { nodeType =>
         new RuleDeserializeOutput(
           kind = "mark",
-          tpe = action.markType,
+          tpe = nodeType,
           nodes = next(ele.childNodes)
         )
       }
@@ -104,9 +110,9 @@ object Serializer {
       } else {
         val p = js.Dynamic.literal(children = children)
         obj.tpe match {
-          case BoldAction.markType => <.strong(PropsChildren.fromRawProps(p)).rawElement
-          case ItalicAction.markType => <.em(PropsChildren.fromRawProps(p)).rawElement
-          case UnderlineAction.markType => <.u(PropsChildren.fromRawProps(p)).rawElement
+          case BoldNode.nodeType => <.strong(PropsChildren.fromRawProps(p)).rawElement
+          case ItalicNode.nodeType => <.em(PropsChildren.fromRawProps(p)).rawElement
+          case UnderlineNode.nodeType => <.u(PropsChildren.fromRawProps(p)).rawElement
           case _ => null // scalastyle:ignore null
         }
       }

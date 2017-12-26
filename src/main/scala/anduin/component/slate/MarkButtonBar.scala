@@ -26,16 +26,16 @@ private[slate] object MarkButtonBar {
     def render(props: MarkButtonBar): VdomElement = {
       <.div(
         List(
-          (BoldAction, Iconv2.bold(), "Bold"),
-          (ItalicAction, Iconv2.italic(), "Italic"),
-          (UnderlineAction, Iconv2.underline(), "Underline")
-        ).toVdomArray { case (markAction, icon, tip) =>
-          MarkButton(
-            markAction = markAction,
+          (BoldNode, Iconv2.bold(), "Bold"),
+          (ItalicNode, Iconv2.italic(), "Italic"),
+          (UnderlineNode, Iconv2.underline(), "Underline")
+        ).toVdomArray { case (markNode, icon, tip) =>
+          ToolbarButton(
+            nodeType = markNode,
             tip = tip,
-            active = props.value.activeMarks.some(item => item.markType == markAction.markType),
-            onToggle = markAction => {
-              val change = props.value.change().toggleMark(markAction.markType)
+            active = props.value.activeMarks.some(item => item.markType == markNode.nodeType),
+            onClick = markNode => {
+              val change = props.value.change().toggleMark(markNode.nodeType)
               props.onChange(change)
             }
           )(icon)

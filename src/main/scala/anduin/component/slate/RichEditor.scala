@@ -42,15 +42,15 @@ object RichEditor {
         e.key match {
           case "b" => Callback {
             e.preventDefault()
-            change.toggleMark(BoldAction.markType)
+            change.toggleMark(BoldNode.nodeType)
           }
           case "i" => Callback {
             e.preventDefault()
-            change.toggleMark(ItalicAction.markType)
+            change.toggleMark(ItalicNode.nodeType)
           }
           case "u" => Callback {
             e.preventDefault()
-            change.toggleMark(UnderlineAction.markType)
+            change.toggleMark(UnderlineNode.nodeType)
           }
           case "z" =>
             e.preventDefault()
@@ -72,6 +72,9 @@ object RichEditor {
     // scalastyle:off null
     private def renderNode(props: RenderNodeProps) = {
       props.node.nodeType match {
+        case OrderedListNode.nodeType => <.ol(PropsChildren.fromRawProps(props)).rawElement
+        case UnorderedListNode.nodeType => <.ul(PropsChildren.fromRawProps(props)).rawElement
+        case ListItemNode.nodeType => <.li(PropsChildren.fromRawProps(props)).rawElement
         case "link" => {
           val href = props.node.data.get("href").toOption.map(_.asInstanceOf[String]).getOrElse("")
           <.a(^.href := href, PropsChildren.fromRawProps(props)).rawElement
@@ -82,9 +85,9 @@ object RichEditor {
 
     private def renderMark(props: RenderMarkProps) = {
       props.mark.markType match {
-        case BoldAction.markType => <.strong(PropsChildren.fromRawProps(props)).rawElement
-        case ItalicAction.markType => <.em(PropsChildren.fromRawProps(props)).rawElement
-        case UnderlineAction.markType => <.u(PropsChildren.fromRawProps(props)).rawElement
+        case BoldNode.nodeType => <.strong(PropsChildren.fromRawProps(props)).rawElement
+        case ItalicNode.nodeType => <.em(PropsChildren.fromRawProps(props)).rawElement
+        case UnderlineNode.nodeType => <.u(PropsChildren.fromRawProps(props)).rawElement
         case _ => null
       }
     }
