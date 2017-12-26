@@ -74,6 +74,8 @@ object Toolbar {
 
     // scalastyle:off method.length multiple.string.literals
     def render(props: Toolbar, children: PropsChildren): VdomElement = {
+      val hasLink = hasLinks(props.value)
+
       <.div(^.cls := "editor-toolbar flex padding-all-small items-center",
         <.div(^.cls := "btn-group flex items-center",
           TagMod.when(props.showAttachmentIcon) {
@@ -162,7 +164,10 @@ object Toolbar {
             ^.cls := "tooltip -top",
             VdomAttr("data-tip") := "Remove link",
             <.a(
-              ^.cls := "btn -plain -icon-only",
+              ^.classSet(
+                "btn -plain -icon-only" -> true,
+                "disabled" -> !hasLink
+              ),
               ^.href := JavaScriptUtils.voidMethod,
               ^.onClick --> onRemoveLink,
               Iconv2.unlink()
