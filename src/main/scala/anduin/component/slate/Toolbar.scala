@@ -2,14 +2,18 @@
 
 package anduin.component.slate
 
+import scala.scalajs.js
+
+import japgolly.scalajs.react.vdom.html_<^.<
 import org.scalajs.dom.FileList
 
 import anduin.component.icon.Iconv2
+import anduin.component.modal.OpenModalButton
 import anduin.component.popover.Popover
 import anduin.component.tooltip.Tooltip
 import anduin.component.uploader.BrowseFileButton
 import anduin.component.util.JavaScriptUtils
-import anduin.scalajs.slate.Slate.{Change, Value}
+import anduin.scalajs.slate.Slate.{Change, Inline, Value}
 
 // scalastyle:off underscore.import
 import japgolly.scalajs.react._
@@ -31,6 +35,42 @@ object Toolbar {
   private val ComponentName = this.getClass.getSimpleName
 
   private case class Backend(scope: BackendScope[Toolbar, _]) {
+
+    private def hasLinks(value: Value) = {
+      value.inlines.some(inline => inline.inlineType == Inline.LinkType)
+    }
+
+    private def onAddLink(link: String) = {
+      for {
+        props <- scope.props
+        value = props.value
+        change = value.change()
+        // If there's a link inside the current selection, then remove it
+        _ <- Callback.when(hasLinks(value)) {
+          Callback {
+            change.unwrapInline(Inline.LinkType)
+          }
+        }
+        _ <- {
+          change.wrapInline(js.Dynamic.literal(
+            `type` = Inline.LinkType,
+            data = js.Dynamic.literal(href = link)
+          ))
+          change.collapseToEnd()
+          props.onChange(change)
+        }
+      } yield ()
+    }
+
+    private def onRemoveLink = {
+      for {
+        props <- scope.props
+        value = props.value
+        _ <- Callback.when(hasLinks(value)) {
+          props.onChange(value.change().unwrapInline(Inline.LinkType))
+        }
+      } yield ()
+    }
 
     // scalastyle:off method.length multiple.string.literals
     def render(props: Toolbar, children: PropsChildren): VdomElement = {
@@ -102,6 +142,30 @@ object Toolbar {
               ^.href := JavaScriptUtils.voidMethod,
               ^.onClick --> props.onChange(props.value.change().redo()),
               Iconv2.redo()
+            )
+          ),
+
+          <.span(^.cls := "divider margin-horizontal-small", "-------"),
+
+          <.span(
+            ^.cls := "tooltip -top",
+            VdomAttr("data-tip") := "Add a link",
+            OpenModalButton(
+              buttonLabel = "",
+              buttonClasses = "btn -plain -icon-only",
+              modalTitle = "Add a link",
+              modalBody = LinkModal(props.value, onAddLink, _)()
+            )(Iconv2.link())
+          ),
+
+          <.span(
+            ^.cls := "tooltip -top",
+            VdomAttr("data-tip") := "Remove link",
+            <.a(
+              ^.cls := "btn -plain -icon-only",
+              ^.href := JavaScriptUtils.voidMethod,
+              ^.onClick --> onRemoveLink,
+              Iconv2.unlink()
             )
           )
         ),

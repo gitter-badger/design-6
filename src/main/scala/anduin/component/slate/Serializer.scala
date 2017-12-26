@@ -24,6 +24,10 @@ object Serializer {
     "pre" -> "code"
   )
 
+  private final val InlineTags = Map(
+    "a" -> "link"
+  )
+
   private final val MarkTags = Map(
     "strong" -> BoldAction,
     "em" -> ItalicAction,
@@ -53,7 +57,33 @@ object Serializer {
           case _ => null // scalastyle:ignore null
         }
       }
-
+      res
+    }
+  )
+  private val inlineHandler = new Rule(
+    deserialize = (ele: Element, next: js.Function1[NodeList, NodeList]) => {
+      InlineTags.get(ele.tagName.toLowerCase).fold[DeserializeOutputType](()) { tpe =>
+        new RuleDeserializeOutput(
+          kind = "inline",
+          tpe = tpe,
+          data = js.defined(js.Dynamic.literal(href = ele.getAttribute("href"))),
+          nodes = next(ele.childNodes)
+        )
+      }
+    },
+    serialize = (obj: RuleSerializeInput, children: js.Object) => {
+      val res: SerializeOutputType = if (obj.kind != "inline") {
+        ()
+      } else {
+        val p = js.Dynamic.literal(children = children)
+        obj.tpe match {
+          case "link" => {
+            val href = obj.data.get("href").toOption.map(_.asInstanceOf[String]).getOrElse("")
+            <.a(^.href := href, PropsChildren.fromRawProps(p)).rawElement
+          }
+          case _ => null // scalastyle:ignore null
+        }
+      }
       res
     }
   )
@@ -80,12 +110,11 @@ object Serializer {
           case _ => null // scalastyle:ignore null
         }
       }
-
       res
     }
   )
 
-  private val htmlSerializer = new HtmlSerializer(new Options(js.Array(blockHandler, markHandler)))
+  private val htmlSerializer = new HtmlSerializer(new Options(js.Array(blockHandler, inlineHandler, markHandler)))
 
   def deserialize(rawHtml: String): Value = {
     htmlSerializer.deserialize(rawHtml)

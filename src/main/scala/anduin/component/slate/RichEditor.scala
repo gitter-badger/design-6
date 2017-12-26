@@ -72,9 +72,10 @@ object RichEditor {
     // scalastyle:off null
     private def renderNode(props: RenderNodeProps) = {
       props.node.nodeType match {
-        case "code" => <.pre(<.code(PropsChildren.fromRawProps(props))).rawElement
-        case "paragraph" => <.p(PropsChildren.fromRawProps(props)).rawElement
-        case "quote" => <.blockquote(PropsChildren.fromRawProps(props)).rawElement
+        case "link" => {
+          val href = props.node.data.get("href").toOption.map(_.asInstanceOf[String]).getOrElse("")
+          <.a(^.href := href, PropsChildren.fromRawProps(props)).rawElement
+        }
         case _ => null
       }
     }
