@@ -29,6 +29,7 @@ object Modal {
     body: Callback => VdomElement,
     isOpen: Boolean,
     overlayClassName: String,
+    modalClassName: String,
     shouldCloseOnOverlayClick: Boolean,
     shouldCloseOnEscape: Boolean,
     onAfterOpen: Callback,
@@ -43,7 +44,7 @@ object Modal {
     .render_P { props =>
       ReactModal(
         isOpen = props.isOpen,
-        className = "modal",
+        className = s"modal ${props.modalClassName}",
         overlayClassName = s"modal-wrapper modal-overlay open ${props.overlayClassName}",
         onAfterOpen = props.onAfterOpen,
         onRequestClose = js.defined { _ => props.onRequestClose },
@@ -75,6 +76,7 @@ object Modal {
     title: String,
     isOpen: Boolean = true,
     overlayClassName: String = "",
+    modalClassName: String = "",
     shouldCloseOnOverlayClick: Boolean = true,
     shouldCloseOnEscape: Boolean = true,
     onAfterOpen: Callback = Callback.empty,
@@ -87,6 +89,7 @@ object Modal {
       body,
       isOpen,
       overlayClassName,
+      modalClassName,
       shouldCloseOnOverlayClick,
       shouldCloseOnEscape,
       onAfterOpen,
