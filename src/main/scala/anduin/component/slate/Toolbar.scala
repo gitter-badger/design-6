@@ -41,6 +41,13 @@ object Toolbar {
     }
 
     private def onAddLink(link: String) = {
+      // Prepend `http://` if the link doesn't start with it
+      val standardLink = if (!link.startsWith("http://") && !link.startsWith("https://")) {
+        s"http://$link"
+      } else {
+        link
+      }
+
       for {
         props <- scope.props
         value = props.value
@@ -54,11 +61,11 @@ object Toolbar {
         _ <- {
           if (!value.isExpanded) {
             // If there's no selected text, create a link with the same text and href
-            change.insertText(link).extend(0 - link.length)
+            change.insertText(standardLink).extend(0 - standardLink.length)
           }
           change.wrapInline(js.Dynamic.literal(
             `type` = Inline.LinkType,
-            data = js.Dynamic.literal(href = link)
+            data = js.Dynamic.literal(href = standardLink)
           ))
           change.collapseToEnd()
           props.onChange(change)
