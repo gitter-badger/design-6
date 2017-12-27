@@ -95,15 +95,17 @@ object RichEditor {
     // scalastyle:on null
 
     def render(props: RichEditor): VdomElement = {
-      <.div(
-        Editor(
-          value = props.value,
-          readOnly = props.readOnly,
-          onChange = props.onChange,
-          onKeyDown = onKeyDown,
-          renderNode = renderNode,
-          renderMark = renderMark
-        )()
+      <.div(^.cls := "editor-wrapper",
+        <.div(^.cls := "editor",
+          Editor(
+            value = props.value,
+            readOnly = props.readOnly,
+            onChange = props.onChange,
+            onKeyDown = onKeyDown,
+            renderNode = renderNode,
+            renderMark = renderMark
+          )()
+        )
       )
     }
   }
