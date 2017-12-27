@@ -21,6 +21,8 @@ private[slate] object BlockButtonBar {
 
   private val ComponentName = this.getClass.getSimpleName
 
+  private final val DefaultNodeType = ParagraphNode.nodeType
+
   private case class Backend(scope: BackendScope[BlockButtonBar, _]) {
 
     private def hasBlock(value: Value, blockNode: NodeType) = {
@@ -49,7 +51,7 @@ private[slate] object BlockButtonBar {
               })
               if (isList && isType) {
                 change
-                  .setBlock("paragraph")
+                  .setBlock(DefaultNodeType)
                   .unwrapBlock(UnorderedListNode.nodeType)
                   .unwrapBlock(OrderedListNode.nodeType)
               } else if (isList) {
@@ -66,7 +68,7 @@ private[slate] object BlockButtonBar {
             case blockNode: BlockNode =>
               val isActive = hasBlock(value, blockNode)
               val isList = hasBlock(value, ListItemNode)
-              val newNodeType = if (isActive) "paragraph" else nodeType.nodeType
+              val newNodeType = if (isActive) DefaultNodeType else nodeType.nodeType
 
               if (isList) {
                 change
@@ -78,7 +80,7 @@ private[slate] object BlockButtonBar {
               }
               props.onChange(change)
 
-            case _: MarkNode =>
+            case _: MarkNode | _: InlineNode =>
               Callback.empty
           }
         }

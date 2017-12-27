@@ -75,7 +75,7 @@ object RichEditor {
         case OrderedListNode.nodeType => <.ol(PropsChildren.fromRawProps(props)).rawElement
         case UnorderedListNode.nodeType => <.ul(PropsChildren.fromRawProps(props)).rawElement
         case ListItemNode.nodeType => <.li(PropsChildren.fromRawProps(props)).rawElement
-        case "link" => {
+        case LinkNode.nodeType => {
           val href = props.node.data.get("href").toOption.map(_.asInstanceOf[String]).getOrElse("")
           <.a(^.href := href, PropsChildren.fromRawProps(props)).rawElement
         }

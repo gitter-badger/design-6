@@ -20,15 +20,15 @@ object Serializer {
 
   private final val BlockTags = Map(
     "blockquote" -> BlockQuoteNode.nodeType,
-    "p" -> "paragraph",
-    "pre" -> "code",
+    "p" -> ParagraphNode.nodeType,
+    "pre" -> CodeNode.nodeType,
     "li" -> ListItemNode.nodeType,
     "ul" -> UnorderedListNode.nodeType,
     "ol" -> OrderedListNode.nodeType
   )
 
   private final val InlineTags = Map(
-    "a" -> "link"
+    "a" -> LinkNode.nodeType
   )
 
   private final val MarkTags = Map(
@@ -54,8 +54,8 @@ object Serializer {
       } else {
         val p = js.Dynamic.literal(children = children)
         obj.tpe match {
-          case "code" => <.pre(<.code(PropsChildren.fromRawProps(p))).rawElement
-          case "paragraph" => <.p(PropsChildren.fromRawProps(p)).rawElement
+          case CodeNode.nodeType => <.pre(<.code(PropsChildren.fromRawProps(p))).rawElement
+          case ParagraphNode.nodeType => <.p(PropsChildren.fromRawProps(p)).rawElement
           case BlockQuoteNode.nodeType => <.blockquote(PropsChildren.fromRawProps(p)).rawElement
           case ListItemNode.nodeType => <.li(PropsChildren.fromRawProps(p)).rawElement
           case UnorderedListNode.nodeType => <.ul(PropsChildren.fromRawProps(p)).rawElement
@@ -83,7 +83,7 @@ object Serializer {
       } else {
         val p = js.Dynamic.literal(children = children)
         obj.tpe match {
-          case "link" => {
+          case LinkNode.nodeType => {
             val href = obj.data.get("href").toOption.map(_.asInstanceOf[String]).getOrElse("")
             <.a(^.href := href, PropsChildren.fromRawProps(p)).rawElement
           }

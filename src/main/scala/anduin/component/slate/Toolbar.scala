@@ -12,7 +12,7 @@ import anduin.component.popover.Popover
 import anduin.component.tooltip.Tooltip
 import anduin.component.uploader.BrowseFileButton
 import anduin.component.util.JavaScriptUtils
-import anduin.scalajs.slate.Slate.{Change, Inline, Value}
+import anduin.scalajs.slate.Slate.{Change, Value}
 
 // scalastyle:off underscore.import
 import japgolly.scalajs.react._
@@ -38,7 +38,7 @@ object Toolbar {
   private case class Backend(scope: BackendScope[Toolbar, _]) {
 
     private def hasLinks(value: Value) = {
-      value.inlines.some(inline => inline.inlineType == Inline.LinkType)
+      value.inlines.some(inline => inline.inlineType == LinkNode.nodeType)
     }
 
     private def onAddLink(link: String) = {
@@ -56,7 +56,7 @@ object Toolbar {
         // If there's a link inside the current selection, then remove it
         _ <- Callback.when(hasLinks(value)) {
           Callback {
-            change.unwrapInline(Inline.LinkType)
+            change.unwrapInline(LinkNode.nodeType)
           }
         }
         _ <- {
@@ -65,7 +65,7 @@ object Toolbar {
             change.insertText(standardLink).extend(0 - standardLink.length)
           }
           change.wrapInline(js.Dynamic.literal(
-            `type` = Inline.LinkType,
+            `type` = LinkNode.nodeType,
             data = js.Dynamic.literal(href = standardLink)
           ))
           change.collapseToEnd()
@@ -79,7 +79,7 @@ object Toolbar {
         props <- scope.props
         value = props.value
         _ <- Callback.when(hasLinks(value)) {
-          props.onChange(value.change().unwrapInline(Inline.LinkType))
+          props.onChange(value.change().unwrapInline(LinkNode.nodeType))
         }
       } yield ()
     }
