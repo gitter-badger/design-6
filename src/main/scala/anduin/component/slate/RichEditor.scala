@@ -2,15 +2,15 @@
 
 package anduin.component.slate
 
-import japgolly.scalajs.react.component.Scala.Unmounted
 import org.scalajs.dom.KeyboardEvent
 
 import anduin.component.slate.Editor.{RenderMarkProps, RenderNodeProps}
-import anduin.scalajs.slate.Slate.{Change, Value}
 
 // scalastyle:off underscore.import
 import japgolly.scalajs.react._
 import japgolly.scalajs.react.vdom.html_<^._
+
+import anduin.scalajs.slate.Slate._
 // scalastyle:on underscore.import
 
 final case class RichEditor(
@@ -25,17 +25,6 @@ final case class RichEditor(
 object RichEditor {
 
   private final val ComponentName = this.getClass.getSimpleName
-
-  // A helper function to create a read-only instance of editor from given HTML
-  def readOnlyFromHtml(html: String, maxLengthOpt: Option[Int] = None): Unmounted[_, _, _] = {
-    val body = maxLengthOpt.map(html.substring(0, _)).getOrElse(html)
-    RichEditor(
-      placeholder = "",
-      value = Serializer.deserialize(body),
-      onChange = _ => Callback.empty,
-      readOnly = true
-    )()
-  }
 
   private case class Backend(scope: BackendScope[RichEditor, _]) {
 
@@ -78,10 +67,9 @@ object RichEditor {
         case UnorderedListNode.nodeType => <.ul(PropsChildren.fromRawProps(props)).rawElement
         case ListItemNode.nodeType => <.li(PropsChildren.fromRawProps(props)).rawElement
         case BlockQuoteNode.nodeType => <.blockquote(PropsChildren.fromRawProps(props)).rawElement
-        case LinkNode.nodeType => {
+        case LinkNode.nodeType =>
           val href = props.node.data.get("href").toOption.map(_.asInstanceOf[String]).getOrElse("")
           <.a(^.href := href, PropsChildren.fromRawProps(props)).rawElement
-        }
         case _ => null
       }
     }
@@ -97,18 +85,16 @@ object RichEditor {
     // scalastyle:on null
 
     def render(props: RichEditor): VdomElement = {
-      <.div(^.cls := "editor-wrapper",
-        <.div(^.cls := "editor",
-          Editor(
-            placeholder = props.placeholder,
-            value = props.value,
-            readOnly = props.readOnly,
-            onChange = props.onChange,
-            onKeyDown = onKeyDown,
-            renderNode = renderNode,
-            renderMark = renderMark
-          )()
-        )
+      <.div(^.cls := "editor",
+        Editor(
+          placeholder = props.placeholder,
+          value = props.value,
+          readOnly = props.readOnly,
+          onChange = props.onChange,
+          onKeyDown = onKeyDown,
+          renderNode = renderNode,
+          renderMark = renderMark
+        )()
       )
     }
   }

@@ -9,11 +9,12 @@ import japgolly.scalajs.react.component.Js.UnmountedWithRawType
 import japgolly.scalajs.react.raw.ReactElement
 import org.scalajs.dom.KeyboardEvent
 
-import anduin.scalajs.slate.Slate.{Change, Mark, Node, Value}
 import anduin.scalajs.slate.SlateReact
 
 // scalastyle:off underscore.import
 import japgolly.scalajs.react._
+
+import anduin.scalajs.slate.Slate._
 // scalastyle:on underscore.import
 
 private[slate] object Editor {
@@ -21,6 +22,7 @@ private[slate] object Editor {
   private val component = JsComponent[Props, Children.None, Null](SlateReact.EditorComponent)
 
   type RenderOutput = ReactElement | Null
+  type DecorateNodeFn = js.Function1[Node, js.Array[js.Object]]
 
   def apply(
     placeholder: String,
@@ -29,7 +31,8 @@ private[slate] object Editor {
     onChange: Change => Callback,
     onKeyDown: (KeyboardEvent, Change) => Callback,
     renderNode: RenderNodeProps => RenderOutput,
-    renderMark: RenderMarkProps => RenderOutput
+    renderMark: RenderMarkProps => RenderOutput,
+    decorateNodeOpt: Option[Node => js.Array[js.Object]] = None
   ): UnmountedWithRawType[_, _, _] = {
     component(new Props(
       placeholder = placeholder,
@@ -40,7 +43,8 @@ private[slate] object Editor {
         onKeyDown(e, c).runNow()
       },
       renderNode = js.defined { renderNode },
-      renderMark = js.defined { renderMark }
+      renderMark = js.defined { renderMark },
+      decorateNode = decorateNodeOpt.fold[js.UndefOr[DecorateNodeFn]](js.undefined)(js.defined(_))
     ))
   }
 
@@ -52,7 +56,8 @@ private[slate] object Editor {
     val onChange: js.UndefOr[js.Function1[Change, Unit]] = js.undefined,
     val onKeyDown: js.UndefOr[js.Function2[KeyboardEvent, Change, Unit]] = js.undefined,
     val renderNode: js.UndefOr[js.Function1[RenderNodeProps, RenderOutput]] = js.undefined,
-    val renderMark: js.UndefOr[js.Function1[RenderMarkProps, RenderOutput]] = js.undefined
+    val renderMark: js.UndefOr[js.Function1[RenderMarkProps, RenderOutput]] = js.undefined,
+    val decorateNode: js.UndefOr[DecorateNodeFn] = js.undefined
   ) extends js.Object
 
   final class RenderMarkProps(
