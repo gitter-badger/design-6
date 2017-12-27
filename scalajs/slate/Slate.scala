@@ -84,10 +84,6 @@ object Slate {
     @JSName("type") val inlineType: String = js.native // link, hashtag, for example
   ) extends js.Object
 
-  object Inline {
-    final val LinkType = "link"
-  }
-
   // See https://docs.slatejs.org/slate-core/data
   @JSImport("slate", "Data")
   @js.native
