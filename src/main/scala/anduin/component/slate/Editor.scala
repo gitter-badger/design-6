@@ -23,6 +23,7 @@ private[slate] object Editor {
   type RenderOutput = ReactElement | Null
 
   def apply(
+    placeholder: String,
     value: Value,
     readOnly: Boolean,
     onChange: Change => Callback,
@@ -31,6 +32,7 @@ private[slate] object Editor {
     renderMark: RenderMarkProps => RenderOutput
   ): UnmountedWithRawType[_, _, _] = {
     component(new Props(
+      placeholder = placeholder,
       value = value,
       readOnly = readOnly,
       onChange = js.defined { onChange(_).runNow() },
@@ -44,6 +46,7 @@ private[slate] object Editor {
 
   // See https://docs.slatejs.org/slate-react/editor
   final class Props(
+    val placeholder: String,
     val value: Value,
     val readOnly: Boolean,
     val onChange: js.UndefOr[js.Function1[Change, Unit]] = js.undefined,

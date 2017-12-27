@@ -14,6 +14,7 @@ import japgolly.scalajs.react.vdom.html_<^._
 // scalastyle:on underscore.import
 
 final case class RichEditor(
+  placeholder: String,
   value: Value,
   onChange: Change => Callback,
   readOnly: Boolean
@@ -29,6 +30,7 @@ object RichEditor {
   def readOnlyFromHtml(html: String, maxLengthOpt: Option[Int] = None): Unmounted[_, _, _] = {
     val body = maxLengthOpt.map(html.substring(0, _)).getOrElse(html)
     RichEditor(
+      placeholder = "",
       value = Serializer.deserialize(body),
       onChange = _ => Callback.empty,
       readOnly = true
@@ -98,6 +100,7 @@ object RichEditor {
       <.div(^.cls := "editor-wrapper",
         <.div(^.cls := "editor",
           Editor(
+            placeholder = props.placeholder,
             value = props.value,
             readOnly = props.readOnly,
             onChange = props.onChange,
