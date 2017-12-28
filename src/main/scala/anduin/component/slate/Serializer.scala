@@ -142,12 +142,16 @@ object Serializer {
   private def createChildren(children: js.Object) = PropsChildren.fromRawProps(js.Dynamic.literal(children = children))
 
   def deserialize(rawHtml: String): Value = {
-    // We have to remove spaces between tags
-    // Otherwise, it can't render the nested blocks
-    // See
-    // - Working version: https://jsfiddle.net/oj53q1n2/10/
-    // - Not working version: https://jsfiddle.net/oj53q1n2/11/
-    val trim = rawHtml.replaceAll("\\n", "<br/>").replaceAll(">\\s+<", "><")
+    val trim = rawHtml
+      // Replace the new line character with `br` tag
+      .replaceAll("\n", "<br/>")
+      // We have to remove spaces between tags. Otherwise, it can't render the nested blocks
+      // See
+      // - Working version: https://jsfiddle.net/oj53q1n2/10/
+      // - Not working version: https://jsfiddle.net/oj53q1n2/11/
+      .replaceAll(">\\s+<", "><")
+      // Reduce the number of new lines
+      .replaceAll("(<br/>)+", "<br/>")
     htmlSerializer.deserialize(trim)
   }
 
