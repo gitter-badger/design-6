@@ -79,6 +79,7 @@ object RichEditor {
         case BoldNode.nodeType => <.strong(PropsChildren.fromRawProps(props)).rawElement
         case ItalicNode.nodeType => <.em(PropsChildren.fromRawProps(props)).rawElement
         case UnderlineNode.nodeType => <.u(PropsChildren.fromRawProps(props)).rawElement
+        case StrikeThroughNode.nodeType => <.del(PropsChildren.fromRawProps(props)).rawElement
         case _ => null
       }
     }

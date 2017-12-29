@@ -28,7 +28,8 @@ private[slate] object MarkButtonBar {
         List(
           (BoldNode, Iconv2.bold(), "Bold"),
           (ItalicNode, Iconv2.italic(), "Italic"),
-          (UnderlineNode, Iconv2.underline(), "Underline")
+          (UnderlineNode, Iconv2.underline(), "Underline"),
+          (StrikeThroughNode, Iconv2.strikethrough(), "Strike through")
         ).toVdomArray { case (markNode, icon, tip) =>
           ToolbarButton(
             nodeType = markNode,

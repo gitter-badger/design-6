@@ -34,7 +34,8 @@ object Serializer {
   private final val MarkTags = Map(
     "strong" -> BoldNode.nodeType,
     "em" -> ItalicNode.nodeType,
-    "u" -> UnderlineNode.nodeType
+    "u" -> UnderlineNode.nodeType,
+    "del" -> StrikeThroughNode.nodeType
   )
 
   // See https://docs.slatejs.org/walkthroughs/saving-and-loading-html-content
@@ -52,15 +53,13 @@ object Serializer {
       val res: SerializeOutputType = if (obj.kind != "block") {
         ()
       } else {
-        val p = js.Dynamic.literal(children = children)
         obj.tpe match {
-          case CodeNode.nodeType => <.pre(<.code(PropsChildren.fromRawProps(p))).rawElement
-          case ParagraphNode.nodeType => <.p(PropsChildren.fromRawProps(p)).rawElement
-          case BlockQuoteNode.nodeType => <.blockquote(PropsChildren.fromRawProps(p)).rawElement
-          case ListItemNode.nodeType => <.li(PropsChildren.fromRawProps(p)).rawElement
-          case UnorderedListNode.nodeType => <.ul(PropsChildren.fromRawProps(p)).rawElement
-          case OrderedListNode.nodeType => <.ol(PropsChildren.fromRawProps(p)).rawElement
-          case _ => null // scalastyle:ignore null
+          case CodeNode.nodeType => <.pre(<.code(createChildren(children))).rawElement
+          case ParagraphNode.nodeType => <.p(createChildren(children)).rawElement
+          case BlockQuoteNode.nodeType => <.blockquote(createChildren(children)).rawElement
+          case ListItemNode.nodeType => <.li(createChildren(children)).rawElement
+          case UnorderedListNode.nodeType => <.ul(createChildren(children)).rawElement
+          case OrderedListNode.nodeType => <.ol(createChildren(children)).rawElement
         }
       }
       res
@@ -81,13 +80,10 @@ object Serializer {
       val res: SerializeOutputType = if (obj.kind != "inline") {
         ()
       } else {
-        val p = js.Dynamic.literal(children = children)
         obj.tpe match {
-          case LinkNode.nodeType => {
+          case LinkNode.nodeType =>
             val href = obj.data.get("href").toOption.map(_.asInstanceOf[String]).getOrElse("")
-            <.a(^.href := href, PropsChildren.fromRawProps(p)).rawElement
-          }
-          case _ => null // scalastyle:ignore null
+            <.a(^.href := href, createChildren(children)).rawElement
         }
       }
       res
@@ -108,12 +104,11 @@ object Serializer {
       val res: SerializeOutputType = if (obj.kind != "mark") {
         ()
       } else {
-        val p = js.Dynamic.literal(children = children)
         obj.tpe match {
-          case BoldNode.nodeType => <.strong(PropsChildren.fromRawProps(p)).rawElement
-          case ItalicNode.nodeType => <.em(PropsChildren.fromRawProps(p)).rawElement
-          case UnderlineNode.nodeType => <.u(PropsChildren.fromRawProps(p)).rawElement
-          case _ => null // scalastyle:ignore null
+          case BoldNode.nodeType => <.strong(createChildren(children)).rawElement
+          case ItalicNode.nodeType => <.em(createChildren(children)).rawElement
+          case UnderlineNode.nodeType => <.u(createChildren(children)).rawElement
+          case StrikeThroughNode.nodeType => <.del(createChildren(children)).rawElement
         }
       }
       res
@@ -121,6 +116,8 @@ object Serializer {
   )
 
   private val htmlSerializer = new HtmlSerializer(new Options(js.Array(blockHandler, inlineHandler, markHandler)))
+
+  private def createChildren(children: js.Object) = PropsChildren.fromRawProps(js.Dynamic.literal(children = children))
 
   def deserialize(rawHtml: String): Value = {
     htmlSerializer.deserialize(rawHtml)
