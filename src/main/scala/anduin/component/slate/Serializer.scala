@@ -22,6 +22,7 @@ object Serializer {
   private final val BlockTags = Map(
     "blockquote" -> BlockQuoteNode.nodeType,
     "p" -> ParagraphNode.nodeType,
+    "div" -> DivNode.nodeType,
     "pre" -> CodeNode.nodeType,
     "li" -> ListItemNode.nodeType,
     "ul" -> UnorderedListNode.nodeType,
@@ -39,9 +40,11 @@ object Serializer {
   private val blockHandler = new Rule(
     deserialize = (ele: Element, next: js.Function1[NodeList, NodeList]) => {
       BlockTags.get(ele.tagName.toLowerCase).fold[DeserializeOutputType](()) { tpe =>
+        val textAlign = StyleParser.textAlign(ele)
         new RuleDeserializeOutput(
           kind = "block",
           tpe = tpe,
+          data = js.defined(js.Dynamic.literal(textAlign = textAlign)),
           nodes = next(ele.childNodes)
         )
       }
