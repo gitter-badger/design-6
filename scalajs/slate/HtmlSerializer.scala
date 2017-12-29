@@ -13,7 +13,7 @@ import anduin.scalajs.slate.Slate.{Data, Value}
 
 object HtmlSerializer {
 
-  type SerializeOutputType = js.Object | Unit | Null
+  type SerializeOutputType = js.Object | Unit
   type DeserializeOutputType = RuleDeserializeOutput | Unit
 
   // See https://github.com/ianstormtaylor/slate/blob/master/docs/reference/slate-html-serializer/index.md
