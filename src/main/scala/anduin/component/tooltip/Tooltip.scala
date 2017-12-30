@@ -1,4 +1,4 @@
-// Copyright (C) 2014-2017 Anduin Transactions Inc.
+// Copyright (C) 2014-2018 Anduin Transactions Inc.
 
 package anduin.component.tooltip
 
