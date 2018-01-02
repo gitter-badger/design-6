@@ -4,6 +4,7 @@ package anduin.scalajs.moment
 
 // https://github.com/widok/scala-js-momentjs
 
+import scala.collection.immutable
 import scala.scalajs.js
 import scala.scalajs.js.annotation.JSImport
 
@@ -48,4 +49,22 @@ object Moment extends js.Object {
   def duration(time: String): Duration = js.native // linter:ignore UnusedParameter
 
   def tz: Tz = js.native
+}
+
+object MomentUtils extends js.Object {
+  def availableTimezones(): immutable.ListMap[String, String] = immutable.ListMap[String, String](
+    Moment.tz.names()
+      .map(Moment.tz(_))
+      .filter(!_.tz().contains("Etc/"))
+      .sortBy {
+        _.format("Z").filterNot(_ == ':').toInt
+      }
+      .map { tz =>
+        tz.tz() -> getTimezoneDisplay(tz)
+      }: _*
+  )
+
+  def getTimezoneDisplay(time: Date): String = {
+    s"${time.format("(UTCZ)")} ${time.tz().replace('_', ' ')}"
+  }
 }
