@@ -28,10 +28,6 @@ object Serializer {
     "ol" -> OrderedListNode.nodeType
   )
 
-  private final val InlineTags = Map(
-    "a" -> LinkNode.nodeType
-  )
-
   private final val MarkTags = Map(
     "strong" -> BoldNode.nodeType,
     "em" -> ItalicNode.nodeType,
@@ -67,26 +63,65 @@ object Serializer {
     }
   )
 
-  private val inlineHandler = new Rule(
+  private val linkHandler = new Rule(
     deserialize = (ele: Element, next: js.Function1[NodeList, NodeList]) => {
-      InlineTags.get(ele.tagName.toLowerCase).fold[DeserializeOutputType](()) { tpe =>
+      if (ele.tagName.toLowerCase != "a") {
+        ()
+      } else {
         new RuleDeserializeOutput(
           kind = "inline",
-          tpe = tpe,
+          tpe = LinkNode.nodeType,
           data = js.defined(js.Dynamic.literal(href = ele.getAttribute("href"))),
           nodes = next(ele.childNodes)
         )
       }
     },
     serialize = (obj: RuleSerializeInput, children: js.Object) => {
-      val res: SerializeOutputType = if (obj.kind != "inline") {
+      val res: SerializeOutputType = if (obj.kind != "inline" || obj.tpe != LinkNode.nodeType) {
         ()
       } else {
-        obj.tpe match {
-          case LinkNode.nodeType =>
-            val href = obj.data.get("href").toOption.map(_.asInstanceOf[String]).getOrElse("")
-            <.a(^.href := href, createChildren(children)).rawElement
+        val href = obj.data.get("href").toOption.map(_.asInstanceOf[String]).getOrElse("")
+        <.a(^.href := href, createChildren(children)).rawElement
+      }
+      res
+    }
+  )
+
+  private val imageHandler = new Rule(
+    deserialize = (ele: Element, next: js.Function1[NodeList, NodeList]) => {
+      if (ele.tagName.toLowerCase != "img") {
+        ()
+      } else {
+        val source = ele.getAttribute("src")
+        if (source != null && (source.startsWith("http://") || source.startsWith("https://"))) {
+          new RuleDeserializeOutput(
+            kind = "inline",
+            tpe = ImageNode.nodeType,
+            isVoid = true,
+            data = js.defined(js.Dynamic.literal(
+              source = ele.getAttribute("src"),
+              width = ele.getAttribute("width"),
+              height = ele.getAttribute("height")
+            )),
+            nodes = next(ele.childNodes)
+          )
+        } else {
+          ()
         }
+      }
+    },
+    serialize = (obj: RuleSerializeInput, _: js.Object) => {
+      val res: SerializeOutputType = if (obj.kind != "inline" || obj.tpe != ImageNode.nodeType) {
+        ()
+      } else {
+        val source = obj.data.get("source").toOption.map(_.asInstanceOf[String]).getOrElse("")
+        val width = obj.data.get("width").toOption.map(_.asInstanceOf[String]).getOrElse("")
+        val height = obj.data.get("height").toOption.map(_.asInstanceOf[String]).getOrElse("")
+        <.img(
+          ^.src := source,
+          TagMod.when(width.nonEmpty)(^.width := width),
+          TagMod.when(height.nonEmpty)(^.height := height)
+        ).rawElement
       }
       res
     }
@@ -118,7 +153,7 @@ object Serializer {
   )
 
   private val htmlSerializer = new HtmlSerializer(new Options(js.Array(
-    blockHandler, inlineHandler, markHandler
+    blockHandler, linkHandler, markHandler, imageHandler
   )))
 
   private def createChildren(children: js.Object) = PropsChildren.fromRawProps(js.Dynamic.literal(children = children))

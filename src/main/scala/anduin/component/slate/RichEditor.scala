@@ -61,6 +61,7 @@ object RichEditor {
     }
 
     private def renderNode(props: RenderNodeProps) = {
+      val data = props.node.data
       props.node.nodeType match {
         case BlockQuoteNode.nodeType => <.blockquote(PropsChildren.fromRawProps(props)).rawElement
         case ParagraphNode.nodeType => <.p(PropsChildren.fromRawProps(props)).rawElement
@@ -69,8 +70,17 @@ object RichEditor {
         case UnorderedListNode.nodeType => <.ul(PropsChildren.fromRawProps(props)).rawElement
         case ListItemNode.nodeType => <.li(PropsChildren.fromRawProps(props)).rawElement
         case LinkNode.nodeType =>
-          val href = props.node.data.get("href").toOption.map(_.asInstanceOf[String]).getOrElse("")
+          val href = data.get("href").toOption.map(_.asInstanceOf[String]).getOrElse("")
           <.a(^.href := href, PropsChildren.fromRawProps(props)).rawElement
+        case ImageNode.nodeType =>
+          val source = data.get("source").toOption.map(_.asInstanceOf[String]).getOrElse("")
+          val width = data.get("width").toOption.map(_.asInstanceOf[String]).getOrElse("")
+          val height = data.get("height").toOption.map(_.asInstanceOf[String]).getOrElse("")
+          <.img(
+            ^.src := source,
+            TagMod.when(width.nonEmpty)(^.width := width),
+            TagMod.when(height.nonEmpty)(^.height := height)
+          ).rawElement
       }
     }
 

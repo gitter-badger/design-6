@@ -28,3 +28,4 @@ case object ParagraphNode extends BlockNode { override val nodeType = "paragraph
 sealed trait InlineNode extends NodeType
 
 case object LinkNode extends InlineNode { override val nodeType = "link" }
+case object ImageNode extends InlineNode { override val nodeType = "image" }
