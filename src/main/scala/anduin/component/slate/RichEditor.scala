@@ -71,7 +71,6 @@ object RichEditor {
         case LinkNode.nodeType =>
           val href = props.node.data.get("href").toOption.map(_.asInstanceOf[String]).getOrElse("")
           <.a(^.href := href, PropsChildren.fromRawProps(props)).rawElement
-        case BreakNode.nodeType => <.br.rawElement
       }
     }
 

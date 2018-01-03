@@ -117,41 +117,22 @@ object Serializer {
     }
   )
 
-  private val brTagHandler = new Rule(
-    deserialize = (ele: Element, next: js.Function1[NodeList, NodeList]) => {
-      if (ele.tagName.toLowerCase != "br") {
-        ()
-      } else {
-        new RuleDeserializeOutput(
-          kind = "block",
-          tpe = BreakNode.nodeType,
-          isVoid = true,
-          nodes = next(ele.childNodes)
-        )
-      }
-    },
-    serialize = (_: RuleSerializeInput, _: js.Object) => ()
-  )
-
   private val htmlSerializer = new HtmlSerializer(new Options(js.Array(
-    blockHandler, inlineHandler, markHandler, brTagHandler
+    blockHandler, inlineHandler, markHandler
   )))
-
-  private def childrenElement(children: js.Object) = PropsChildren.fromRawProps(js.Dynamic.literal(children = children))
 
   private def createChildren(children: js.Object) = PropsChildren.fromRawProps(js.Dynamic.literal(children = children))
 
   def deserialize(rawHtml: String): Value = {
     val trim = rawHtml
-      // Replace the new line character with `br` tag
-      .replaceAll("\n", "<br/>")
+      // Reduce the number of new lines
+      .replaceAll("(\n)+", "\n")
       // We have to remove spaces between tags. Otherwise, it can't render the nested blocks
       // See
       // - Working version: https://jsfiddle.net/oj53q1n2/10/
       // - Not working version: https://jsfiddle.net/oj53q1n2/11/
       .replaceAll(">\\s+<", "><")
-      // Reduce the number of new lines
-      .replaceAll("(<br/>)+", "<br/>")
+
     htmlSerializer.deserialize(trim)
   }
 
