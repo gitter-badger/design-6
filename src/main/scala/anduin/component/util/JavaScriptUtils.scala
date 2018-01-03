@@ -5,6 +5,7 @@ package anduin.component.util
 import scala.scalajs.js.timers.RawTimers
 
 import japgolly.scalajs.react.Callback
+import org.scalajs.dom
 import org.scalajs.dom.document
 import org.scalajs.dom.raw.HTMLIFrameElement
 
@@ -37,5 +38,22 @@ object JavaScriptUtils {
     Callback {
       frame.src = url
     }
+  }
+
+  /**
+    * Target can be "_self" so that this url open in a same tab.
+    * If target is "_blank", this url will be opened in a new tab
+    * @param url
+    * @param target
+    * @return Callback
+    */
+
+  def openURL(
+    url: String,
+    target: String = "_self"
+  ): Callback = {
+    Callback(
+      dom.window.open(url, target)
+    )
   }
 }
