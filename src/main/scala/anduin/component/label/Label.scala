@@ -57,6 +57,7 @@ object Label {
     .renderBackend[Backend]
     .build
 
+  def default(label: String, keyOpt: Option[String] = None): Unmounted[_, _, _] = Label(label, Default, keyOpt)()
   def primary(label: String, keyOpt: Option[String] = None): Unmounted[_, _, _] = Label(label, Primary, keyOpt)()
   def success(label: String, keyOpt: Option[String] = None): Unmounted[_, _, _] = Label(label, Success, keyOpt)()
   def warning(label: String, keyOpt: Option[String] = None): Unmounted[_, _, _] = Label(label, Warning, keyOpt)()
