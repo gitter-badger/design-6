@@ -114,14 +114,7 @@ object Serializer {
       val res: SerializeOutputType = if (obj.kind != "inline" || obj.tpe != ImageNode.nodeType) {
         ()
       } else {
-        val source = obj.data.get("source").toOption.map(_.asInstanceOf[String]).getOrElse("")
-        val width = obj.data.get("width").toOption.map(_.asInstanceOf[String]).getOrElse("")
-        val height = obj.data.get("height").toOption.map(_.asInstanceOf[String]).getOrElse("")
-        <.img(
-          ^.src := source,
-          TagMod.when(width.nonEmpty)(^.width := width),
-          TagMod.when(height.nonEmpty)(^.height := height)
-        ).rawElement
+        ImageNodeRenderer(obj.data).rawElement
       }
       res
     }

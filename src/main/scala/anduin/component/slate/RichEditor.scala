@@ -73,14 +73,7 @@ object RichEditor {
           val href = data.get("href").toOption.map(_.asInstanceOf[String]).getOrElse("")
           <.a(^.href := href, PropsChildren.fromRawProps(props)).rawElement
         case ImageNode.nodeType =>
-          val source = data.get("source").toOption.map(_.asInstanceOf[String]).getOrElse("")
-          val width = data.get("width").toOption.map(_.asInstanceOf[String]).getOrElse("")
-          val height = data.get("height").toOption.map(_.asInstanceOf[String]).getOrElse("")
-          <.img(
-            ^.src := source,
-            TagMod.when(width.nonEmpty)(^.width := width),
-            TagMod.when(height.nonEmpty)(^.height := height)
-          ).rawElement
+          ImageNodeRenderer(data).rawElement
       }
     }
 
