@@ -60,17 +60,17 @@ object RichEditor {
       }
     }
 
-    // scalastyle:off null
     private def renderNode(props: RenderNodeProps) = {
       props.node.nodeType match {
+        case BlockQuoteNode.nodeType => <.blockquote(PropsChildren.fromRawProps(props)).rawElement
+        case ParagraphNode.nodeType => <.p(PropsChildren.fromRawProps(props)).rawElement
+        case CodeNode.nodeType => <.pre(<.code(PropsChildren.fromRawProps(props))).rawElement
         case OrderedListNode.nodeType => <.ol(PropsChildren.fromRawProps(props)).rawElement
         case UnorderedListNode.nodeType => <.ul(PropsChildren.fromRawProps(props)).rawElement
         case ListItemNode.nodeType => <.li(PropsChildren.fromRawProps(props)).rawElement
-        case BlockQuoteNode.nodeType => <.blockquote(PropsChildren.fromRawProps(props)).rawElement
         case LinkNode.nodeType =>
           val href = props.node.data.get("href").toOption.map(_.asInstanceOf[String]).getOrElse("")
           <.a(^.href := href, PropsChildren.fromRawProps(props)).rawElement
-        case _ => null
       }
     }
 
@@ -80,10 +80,8 @@ object RichEditor {
         case ItalicNode.nodeType => <.em(PropsChildren.fromRawProps(props)).rawElement
         case UnderlineNode.nodeType => <.u(PropsChildren.fromRawProps(props)).rawElement
         case StrikeThroughNode.nodeType => <.del(PropsChildren.fromRawProps(props)).rawElement
-        case _ => null
       }
     }
-    // scalastyle:on null
 
     def render(props: RichEditor): VdomElement = {
       <.div(^.cls := "editor",

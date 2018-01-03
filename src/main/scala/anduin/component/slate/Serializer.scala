@@ -16,6 +16,7 @@ import japgolly.scalajs.react.vdom.html_<^._
 import anduin.scalajs.slate.HtmlSerializer._
 // scalastyle:on underscore.import
 
+// scalastyle:off multiple.string.literals
 object Serializer {
 
   private final val BlockTags = Map(
@@ -65,6 +66,7 @@ object Serializer {
       res
     }
   )
+
   private val inlineHandler = new Rule(
     deserialize = (ele: Element, next: js.Function1[NodeList, NodeList]) => {
       InlineTags.get(ele.tagName.toLowerCase).fold[DeserializeOutputType](()) { tpe =>
@@ -115,15 +117,28 @@ object Serializer {
     }
   )
 
-  private val htmlSerializer = new HtmlSerializer(new Options(js.Array(blockHandler, inlineHandler, markHandler)))
+  private val htmlSerializer = new HtmlSerializer(new Options(js.Array(
+    blockHandler, inlineHandler, markHandler
+  )))
 
   private def createChildren(children: js.Object) = PropsChildren.fromRawProps(js.Dynamic.literal(children = children))
 
   def deserialize(rawHtml: String): Value = {
-    htmlSerializer.deserialize(rawHtml)
+    val trim = rawHtml
+      // Reduce the number of new lines
+      .replaceAll("(\n)+", "\n")
+      // We have to remove spaces between tags. Otherwise, it can't render the nested blocks
+      // See
+      // - Working version: https://jsfiddle.net/oj53q1n2/10/
+      // - Not working version: https://jsfiddle.net/oj53q1n2/11/
+      .replaceAll(">\\s+<", "><")
+      .trim
+
+    htmlSerializer.deserialize(trim)
   }
 
   def serialize(value: Value): String = {
     htmlSerializer.serialize(value)
   }
 }
+// scalastyle:on multiple.string.literals
