@@ -11,9 +11,9 @@ import anduin.scalajs.slate.Slate._
 private[slate] object ImageNodeRenderer {
 
   def apply(data: Data): VdomElement = {
-    val source = data.get("source").toOption.map(_.asInstanceOf[String]).getOrElse("")
-    val width = data.get("width").toOption.map(_.asInstanceOf[String]).getOrElse("")
-    val height = data.get("height").toOption.map(_.asInstanceOf[String]).getOrElse("")
+    val source = DataUtil.value(data, "source")
+    val width = DataUtil.value(data, "width")
+    val height = DataUtil.value(data, "height")
     <.img(
       ^.src := source,
       TagMod.when(width.nonEmpty)(^.width := parseSize(width)),

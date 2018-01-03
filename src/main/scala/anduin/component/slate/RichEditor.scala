@@ -70,12 +70,12 @@ object RichEditor {
         case UnorderedListNode.nodeType => <.ul(PropsChildren.fromRawProps(props)).rawElement
         case ListItemNode.nodeType => <.li(PropsChildren.fromRawProps(props)).rawElement
         case LinkNode.nodeType =>
-          val href = NodeDataUtil.value(props.node, "href")
+          val href = DataUtil.value(props.node.data, "href")
           <.a(^.href := href, PropsChildren.fromRawProps(props)).rawElement
         case ImageNode.nodeType => ImageNodeRenderer(data).rawElement
         // With text alignment
         case TextAlignNode.nodeType =>
-          val textAlign = NodeDataUtil.value(props.node, "textAlign")
+          val textAlign = DataUtil.value(props.node.data, "textAlign")
           val textAlignAttr = TagMod.when(textAlign.nonEmpty)(^.textAlign := textAlign)
           <.div(textAlignAttr, PropsChildren.fromRawProps(props)).rawElement
       }
