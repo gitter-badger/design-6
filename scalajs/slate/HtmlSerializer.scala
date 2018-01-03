@@ -47,6 +47,7 @@ object HtmlSerializer {
     val kind: String,
     val data: js.UndefOr[js.Object] = js.undefined,
     @JSName("type") val tpe: String,
-    val nodes: NodeList
+    val nodes: NodeList,
+    val isVoid: Boolean = false
   ) extends js.Object
 }
