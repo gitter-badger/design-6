@@ -132,6 +132,7 @@ object Serializer {
       // - Working version: https://jsfiddle.net/oj53q1n2/10/
       // - Not working version: https://jsfiddle.net/oj53q1n2/11/
       .replaceAll(">\\s+<", "><")
+      .trim
 
     htmlSerializer.deserialize(trim)
   }
