@@ -25,6 +25,9 @@ case object BlockQuoteNode extends BlockNode { override val nodeType = "block-qu
 case object ParagraphNode extends BlockNode { override val nodeType = "paragraph" }
 case object DivNode extends BlockNode { override val nodeType = "div" }
 
+// Special node
+case object TextAlignNode extends BlockNode { override val nodeType = "text-alignment" }
+
 // Inline node
 sealed trait InlineNode extends NodeType
 

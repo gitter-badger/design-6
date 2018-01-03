@@ -22,7 +22,6 @@ object Serializer {
   private final val BlockTags = Map(
     "blockquote" -> BlockQuoteNode.nodeType,
     "p" -> ParagraphNode.nodeType,
-    "div" -> DivNode.nodeType,
     "pre" -> CodeNode.nodeType,
     "li" -> ListItemNode.nodeType,
     "ul" -> UnorderedListNode.nodeType,
@@ -36,15 +35,15 @@ object Serializer {
     "del" -> StrikeThroughNode.nodeType
   )
 
+  private final val TextAlignmentTags = Map("div" -> DivNode.nodeType) ++ BlockTags
+
   // See https://docs.slatejs.org/walkthroughs/saving-and-loading-html-content
   private val blockHandler = new Rule(
     deserialize = (ele: Element, next: js.Function1[NodeList, NodeList]) => {
       BlockTags.get(ele.tagName.toLowerCase).fold[DeserializeOutputType](()) { tpe =>
-        val textAlign = StyleParser.textAlign(ele)
         new RuleDeserializeOutput(
           kind = "block",
           tpe = tpe,
-          data = js.defined(js.Dynamic.literal(textAlign = textAlign)),
           nodes = next(ele.childNodes)
         )
       }
@@ -64,6 +63,24 @@ object Serializer {
       }
       res
     }
+  )
+
+  private val textAlignmentHandler = new Rule(
+    deserialize = (ele: Element, next: js.Function1[NodeList, NodeList]) => {
+      TextAlignmentTags.get(ele.tagName.toLowerCase).fold[DeserializeOutputType](()) { tpe =>
+        val textAlign = StyleParser.textAlign(ele)
+        new RuleDeserializeOutput(
+          kind = "block",
+          tpe = TextAlignNode.nodeType,
+          data = js.defined(js.Dynamic.literal(
+            textAlign = textAlign,
+            originalType = tpe
+          )),
+          nodes = next(ele.childNodes)
+        )
+      }
+    },
+    serialize = (_: RuleSerializeInput, _: js.Object) => ()
   )
 
   private val linkHandler = new Rule(
@@ -149,7 +166,7 @@ object Serializer {
   )
 
   private val htmlSerializer = new HtmlSerializer(new Options(js.Array(
-    blockHandler, linkHandler, markHandler, imageHandler
+    blockHandler, linkHandler, imageHandler, markHandler, textAlignmentHandler
   )))
 
   private def createChildren(children: js.Object) = PropsChildren.fromRawProps(js.Dynamic.literal(children = children))
