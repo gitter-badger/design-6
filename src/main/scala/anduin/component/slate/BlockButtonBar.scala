@@ -96,10 +96,10 @@ private[slate] object BlockButtonBar {
           (OrderedListNode, Icon.orderedList(), "Ordered list")
         ).toVdomArray { case (blockNode, icon, tip) =>
           ToolbarButton(
-            nodeType = blockNode,
+            key = blockNode.nodeType,
             tip = tip,
             active = hasBlock(props.value, blockNode),
-            onClick = onClick
+            onClick = onClick(blockNode)
           )(icon)
         }
       )

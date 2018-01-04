@@ -10,13 +10,12 @@ import japgolly.scalajs.react.vdom.html_<^._
 // scalastyle:on underscore.import
 
 private[slate] final case class ToolbarButton(
-  nodeType: NodeType,
+  key: String,
   tip: String,
   active: Boolean,
-  onClick: NodeType => Callback
+  onClick: Callback
 ) {
   def apply(children: VdomNode*): ScalaComponent.Unmounted[_, _, _] = {
-    val key = s"${ToolbarButton.ComponentName}-${nodeType.nodeType}"
     ToolbarButton.component.withKey(key)(this)(children: _*)
   }
 }
@@ -41,7 +40,7 @@ private[slate] object ToolbarButton {
           ^.href := JavaScriptUtils.voidMethod,
           ^.onClick ==> { (e: ReactEvent) ⇒
             e.preventDefault()
-            props.onClick(props.nodeType)
+            props.onClick
           },
           children
         )

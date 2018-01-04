@@ -32,10 +32,10 @@ private[slate] object MarkButtonBar {
           (StrikeThroughNode, Iconv2.strikethrough(), "Strike through")
         ).toVdomArray { case (markNode, icon, tip) =>
           ToolbarButton(
-            nodeType = markNode,
+            key = markNode.nodeType,
             tip = tip,
             active = props.value.activeMarks.some(item => item.markType == markNode.nodeType),
-            onClick = markNode => {
+            onClick = {
               val change = props.value.change().toggleMark(markNode.nodeType)
               props.onChange(change)
             }
