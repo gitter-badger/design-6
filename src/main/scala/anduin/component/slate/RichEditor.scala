@@ -5,7 +5,7 @@ package anduin.component.slate
 import org.scalajs.dom.KeyboardEvent
 
 import anduin.component.slate.Editor.{RenderMarkProps, RenderNodeProps}
-import anduin.component.slate.renderer.{ImageRenderer, LinkRenderer, MarkRenderer}
+import anduin.component.slate.renderer.{ImageRenderer, LinkRenderer, MarkRenderer, TextAlignRenderer}
 
 // scalastyle:off underscore.import
 import japgolly.scalajs.react._
@@ -74,21 +74,7 @@ object RichEditor {
         case ListItemNode.nodeType => <.li(children).rawElement
         case LinkNode.nodeType => LinkRenderer(data, props.children)
         case ImageNode.nodeType => ImageRenderer(data)
-
-        // With text alignment
-        case TextAlignNode.nodeType =>
-          val textAlign = DataUtil.value(data, "textAlign")
-          val textAlignAttr = TagMod.when(textAlign.nonEmpty)(^.textAlign := textAlign)
-
-          // Keep the original node type if it supports text alignment
-          val originalType = DataUtil.value(data, "originalType")
-          originalType match {
-            case ParagraphNode.nodeType => <.p(textAlignAttr, children).rawElement
-            case OrderedListNode.nodeType => <.ol(textAlignAttr, children).rawElement
-            case UnorderedListNode.nodeType => <.ul(textAlignAttr, children).rawElement
-            case ListItemNode.nodeType => <.li(textAlignAttr, children).rawElement
-            case _ => <.div(textAlignAttr, children).rawElement
-          }
+        case TextAlignNode.nodeType => TextAlignRenderer(data, props.children)
       }
     }
     // scalastyle:on cyclomatic.complexity

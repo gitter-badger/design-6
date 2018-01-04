@@ -7,7 +7,7 @@ import scala.scalajs.js
 import org.scalajs.dom.Element
 import org.scalajs.dom.raw.NodeList
 
-import anduin.component.slate.renderer.{ImageRenderer, LinkRenderer, MarkRenderer}
+import anduin.component.slate.renderer.{ImageRenderer, LinkRenderer, MarkRenderer, TextAlignRenderer}
 import anduin.scalajs.slate.Slate.Value
 
 // scalastyle:off underscore.import
@@ -85,7 +85,14 @@ object Serializer {
         }
       }
     },
-    serialize = (_: RuleSerializeInput, _: js.Object) => ()
+    serialize = (obj: RuleSerializeInput, children: js.Object) => {
+      val res: SerializeOutputType = if (obj.kind != "block" || obj.tpe != TextAlignNode.nodeType) {
+        ()
+      } else {
+        TextAlignRenderer(obj.data, children)
+      }
+      res
+    }
   )
 
   private val linkHandler = new Rule(
