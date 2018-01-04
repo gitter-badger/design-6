@@ -171,7 +171,7 @@ object Toolbar {
 
           <.span(
             ^.cls := "tooltip -top",
-            VdomAttr("data-tip") := "Add a link",
+            VdomAttr("data-tip") := "Insert Link",
             OpenModalButton(
               buttonLabel = "",
               buttonClasses = "btn -plain -icon-only",
@@ -182,7 +182,7 @@ object Toolbar {
 
           <.span(
             ^.cls := "tooltip -top",
-            VdomAttr("data-tip") := "Remove link",
+            VdomAttr("data-tip") := "Remove Link",
             <.a(
               ^.classSet(
                 "btn -plain -icon-only" -> true,

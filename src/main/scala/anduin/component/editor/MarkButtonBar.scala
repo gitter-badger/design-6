@@ -29,7 +29,7 @@ private[editor] object MarkButtonBar {
           (BoldNode, Iconv2.bold(), "Bold"),
           (ItalicNode, Iconv2.italic(), "Italic"),
           (UnderlineNode, Iconv2.underline(), "Underline"),
-          (StrikeThroughNode, Iconv2.strikethrough(), "Strike through")
+          (StrikeThroughNode, Iconv2.strikethrough(), "Strikethrough")
         ).toVdomArray { case (markNode, icon, tip) =>
           ToolbarButton(
             key = markNode.nodeType,

@@ -92,8 +92,8 @@ private[editor] object BlockButtonBar {
       <.div(
         List(
           (BlockQuoteNode, Icon.speechBubble(), "Quote"), // TODO: Change the icon
-          (UnorderedListNode, Icon.bulletPoint(), "Unordered list"),
-          (OrderedListNode, Icon.orderedList(), "Ordered list")
+          (UnorderedListNode, Icon.bulletPoint(), "Bulleted List"),
+          (OrderedListNode, Icon.orderedList(), "Numbered List")
         ).toVdomArray { case (blockNode, icon, tip) =>
           ToolbarButton(
             key = blockNode.nodeType,
