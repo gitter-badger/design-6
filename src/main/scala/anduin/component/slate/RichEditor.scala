@@ -5,6 +5,7 @@ package anduin.component.slate
 import org.scalajs.dom.KeyboardEvent
 
 import anduin.component.slate.Editor.{RenderMarkProps, RenderNodeProps}
+import anduin.component.slate.renderer.{ImageRenderer, LinkRenderer, MarkRenderer}
 
 // scalastyle:off underscore.import
 import japgolly.scalajs.react._
@@ -71,10 +72,8 @@ object RichEditor {
         case OrderedListNode.nodeType => <.ol(children).rawElement
         case UnorderedListNode.nodeType => <.ul(children).rawElement
         case ListItemNode.nodeType => <.li(children).rawElement
-        case LinkNode.nodeType =>
-          val href = DataUtil.value(data, "href")
-          <.a(^.href := href, children).rawElement
-        case ImageNode.nodeType => ImageNodeRenderer(data).rawElement
+        case LinkNode.nodeType => LinkRenderer(data, props.children)
+        case ImageNode.nodeType => ImageRenderer(data)
 
         // With text alignment
         case TextAlignNode.nodeType =>
@@ -94,16 +93,6 @@ object RichEditor {
     }
     // scalastyle:on cyclomatic.complexity
 
-    private def renderMark(props: RenderMarkProps) = {
-      val children = PropsChildren.fromRawProps(props)
-      props.mark.markType match {
-        case BoldNode.nodeType => <.strong(children).rawElement
-        case ItalicNode.nodeType => <.em(children).rawElement
-        case UnderlineNode.nodeType => <.u(children).rawElement
-        case StrikeThroughNode.nodeType => <.del(children).rawElement
-      }
-    }
-
     def render(props: RichEditor): VdomElement = {
       <.div(^.cls := "editor",
         Editor(
@@ -113,7 +102,7 @@ object RichEditor {
           onChange = props.onChange,
           onKeyDown = onKeyDown,
           renderNode = renderNode,
-          renderMark = renderMark
+          renderMark = (props: RenderMarkProps) => MarkRenderer(props.mark, props.children)
         )()
       )
     }

@@ -7,6 +7,7 @@ import scala.scalajs.js
 import org.scalajs.dom.Element
 import org.scalajs.dom.raw.NodeList
 
+import anduin.component.slate.renderer.{ImageRenderer, LinkRenderer, MarkRenderer}
 import anduin.scalajs.slate.Slate.Value
 
 // scalastyle:off underscore.import
@@ -104,8 +105,7 @@ object Serializer {
       val res: SerializeOutputType = if (obj.kind != "inline" || obj.tpe != LinkNode.nodeType) {
         ()
       } else {
-        val href = obj.data.get("href").toOption.map(_.asInstanceOf[String]).getOrElse("")
-        <.a(^.href := href, createChildren(children)).rawElement
+        LinkRenderer(obj.data, children)
       }
       res
     }
@@ -138,7 +138,7 @@ object Serializer {
       val res: SerializeOutputType = if (obj.kind != "inline" || obj.tpe != ImageNode.nodeType) {
         ()
       } else {
-        ImageNodeRenderer(obj.data).rawElement
+        ImageRenderer(obj.data)
       }
       res
     }
@@ -155,16 +155,7 @@ object Serializer {
       }
     },
     serialize = (obj: RuleSerializeInput, children: js.Object) => {
-      val res: SerializeOutputType = if (obj.kind != "mark") {
-        ()
-      } else {
-        obj.tpe match {
-          case BoldNode.nodeType => <.strong(createChildren(children)).rawElement
-          case ItalicNode.nodeType => <.em(createChildren(children)).rawElement
-          case UnderlineNode.nodeType => <.u(createChildren(children)).rawElement
-          case StrikeThroughNode.nodeType => <.del(createChildren(children)).rawElement
-        }
-      }
+      val res: SerializeOutputType = if (obj.kind != "mark") () else MarkRenderer(obj.tpe, children)
       res
     }
   )
