@@ -129,6 +129,10 @@ object Toolbar {
 
           <.span(^.cls := "divider margin-horizontal-small", "-------"),
 
+          AlignButtonBar(props.value, props.onChange)(),
+
+          <.span(^.cls := "divider margin-horizontal-small", "-------"),
+
           BlockButtonBar(props.value, props.onChange)(),
 
           <.span(^.cls := "divider margin-horizontal-small", "-------"),
