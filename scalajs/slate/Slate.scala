@@ -48,6 +48,7 @@ object Slate {
     def insertText(text: String): Change = js.native // linter:ignore UnusedParameter
     def extend(num: Int): Change = js.native // linter:ignore UnusedParameter
     def setBlock(block: String): Change = js.native // linter:ignore UnusedParameter
+    def setBlock(props: js.Object): Change = js.native // linter:ignore UnusedParameter
     def unwrapBlock(block: String): Change = js.native // linter:ignore UnusedParameter
     def wrapBlock(block: String): Change = js.native // linter:ignore UnusedParameter
     def insertInlineAtRange(range: Range, properties: js.Object): Change = js.native // linter:ignore UnusedParameter
