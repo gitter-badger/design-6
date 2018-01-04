@@ -69,15 +69,19 @@ object Serializer {
     deserialize = (ele: Element, next: js.Function1[NodeList, NodeList]) => {
       TextAlignmentTags.get(ele.tagName.toLowerCase).fold[DeserializeOutputType](()) { tpe =>
         val textAlign = StyleParser.textAlign(ele)
-        new RuleDeserializeOutput(
-          kind = "block",
-          tpe = TextAlignNode.nodeType,
-          data = js.defined(js.Dynamic.literal(
-            textAlign = textAlign,
-            originalType = tpe
-          )),
-          nodes = next(ele.childNodes)
-        )
+        if (textAlign.isEmpty) {
+          ()
+        } else {
+          new RuleDeserializeOutput(
+            kind = "block",
+            tpe = TextAlignNode.nodeType,
+            data = js.defined(js.Dynamic.literal(
+              textAlign = textAlign,
+              originalType = tpe
+            )),
+            nodes = next(ele.childNodes)
+          )
+        }
       }
     },
     serialize = (_: RuleSerializeInput, _: js.Object) => ()
@@ -166,7 +170,9 @@ object Serializer {
   )
 
   private val htmlSerializer = new HtmlSerializer(new Options(js.Array(
-    blockHandler, linkHandler, imageHandler, markHandler, textAlignmentHandler
+    // The order of rules are important
+    // We need to put the text alignment before block rule
+    textAlignmentHandler, blockHandler, linkHandler, imageHandler, markHandler
   )))
 
   private def createChildren(children: js.Object) = PropsChildren.fromRawProps(js.Dynamic.literal(children = children))
