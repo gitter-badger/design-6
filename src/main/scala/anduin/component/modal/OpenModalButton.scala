@@ -18,6 +18,7 @@ final case class OpenModalButton(
   modalTitle: String = "",
   modalClasses: String = "",
   modalBody: Callback => VdomElement = _ => <.span(),
+  modalHeader: Option[Modal.ModalHeaderRenderer] = None,
   overlayCloseable: Boolean = true,
   closeOnEscape: Boolean = true,
   isOpen: Boolean = false,
@@ -72,6 +73,7 @@ object OpenModalButton {
             "disabled" -> props.disabled
           ),
           ^.onClick ==> show,
+          ^.onTouchStart ==> show,
           TagMod.when(props.tip.nonEmpty) {
             TagMod(
               TagMod.when(state.over)(VdomAttr("data-tip") := props.tip),
@@ -91,7 +93,8 @@ object OpenModalButton {
             shouldCloseOnOverlayClick = props.overlayCloseable,
             shouldCloseOnEscape = props.closeOnEscape,
             onRequestClose = hide,
-            showCloseBtn = props.showCloseBtn
+            showCloseBtn = props.showCloseBtn,
+            renderHeader = props.modalHeader
           )(props.modalBody)
         }
       )
