@@ -37,9 +37,9 @@ private[editor] object AlignButtonBar {
     def render(props: AlignButtonBar): VdomElement = {
       <.div(
         List(
-          ("left", Iconv2.leftAlign(), "Left align"),
-          ("center", Iconv2.centerAlign(), "Center align"),
-          ("right", Iconv2.rightAlign(), "Right align")
+          ("left", Iconv2.leftAlign(), "Align Left"),
+          ("center", Iconv2.centerAlign(), "Align Center"),
+          ("right", Iconv2.rightAlign(), "Align Right")
         ).toVdomArray { case (align, icon, tip) =>
           ToolbarButton(
             key = align,
