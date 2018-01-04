@@ -50,21 +50,3 @@ object Moment extends js.Object {
 
   def tz: Tz = js.native
 }
-
-object MomentUtils extends js.Object {
-  def availableTimezones(): immutable.ListMap[String, String] = immutable.ListMap[String, String](
-    Moment.tz.names()
-      .map(Moment.tz(_))
-      .filter(!_.tz().contains("Etc/"))
-      .sortBy {
-        _.format("Z").filterNot(_ == ':').toInt
-      }
-      .map { tz =>
-        tz.tz() -> getTimezoneDisplay(tz)
-      }: _*
-  )
-
-  def getTimezoneDisplay(time: Date): String = {
-    s"${time.format("(UTCZ)")} ${time.tz().replace('_', ' ')}"
-  }
-}
