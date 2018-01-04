@@ -1,10 +1,10 @@
 // Copyright (C) 2014-2018 Anduin Transactions Inc.
 
-package anduin.component.slate.renderer
+package anduin.component.editor.renderer
 
 import japgolly.scalajs.react.raw
 
-import anduin.component.slate.DataUtil
+import anduin.component.editor.DataUtil
 
 // scalastyle:off underscore.import
 import japgolly.scalajs.react.vdom.html_<^._
@@ -12,7 +12,7 @@ import japgolly.scalajs.react.vdom.html_<^._
 import anduin.scalajs.slate.Slate._
 // scalastyle:on underscore.import
 
-private[slate] object ImageRenderer {
+private[editor] object ImageRenderer {
 
   def apply(data: Data): raw.ReactElement = {
     val source = DataUtil.value(data, "source")

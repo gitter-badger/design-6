@@ -1,6 +1,6 @@
 // Copyright (C) 2014-2018 Anduin Transactions Inc.
 
-package anduin.component.slate
+package anduin.component.editor
 
 import scala.scalajs.js
 

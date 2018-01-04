@@ -1,6 +1,6 @@
 // Copyright (C) 2014-2018 Anduin Transactions Inc.
 
-package anduin.component.slate
+package anduin.component.editor
 
 import anduin.component.util.JavaScriptUtils
 
@@ -9,7 +9,7 @@ import japgolly.scalajs.react._
 import japgolly.scalajs.react.vdom.html_<^._
 // scalastyle:on underscore.import
 
-private[slate] final case class ToolbarButton(
+private[editor] final case class ToolbarButton(
   key: String,
   tip: String,
   active: Boolean,
@@ -20,7 +20,7 @@ private[slate] final case class ToolbarButton(
   }
 }
 
-private[slate] object ToolbarButton {
+private[editor] object ToolbarButton {
 
   private val ComponentName = this.getClass.getSimpleName
 

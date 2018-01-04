@@ -1,6 +1,6 @@
 // Copyright (C) 2014-2018 Anduin Transactions Inc.
 
-package anduin.component.slate
+package anduin.component.editor
 
 import japgolly.scalajs.react.component.ScalaFn.Unmounted
 
@@ -9,11 +9,11 @@ import japgolly.scalajs.react._
 import japgolly.scalajs.react.vdom.html_<^._
 // scalastyle:on underscore.import
 
-private[slate] final case class ShortcutModal(isMac: Boolean) {
+private[editor] final case class ShortcutModal(isMac: Boolean) {
   def apply(): Unmounted[ShortcutModal] = ShortcutModal.component(this)
 }
 
-private[slate] object ShortcutModal {
+private[editor] object ShortcutModal {
 
   // scalastyle:off multiple.string.literals
   private def render(props: ShortcutModal): VdomElement = {

@@ -1,6 +1,6 @@
 // Copyright (C) 2014-2018 Anduin Transactions Inc.
 
-package anduin.component.slate.renderer
+package anduin.component.editor.renderer
 
 import scala.scalajs.js
 
@@ -9,11 +9,11 @@ import japgolly.scalajs.react.{PropsChildren, raw}
 // scalastyle:off underscore.import
 import japgolly.scalajs.react.vdom.html_<^._
 
-import anduin.component.slate._
+import anduin.component.editor._
 import anduin.scalajs.slate.Slate._
 // scalastyle:on underscore.import
 
-private[slate] object TextAlignRenderer {
+private[editor] object TextAlignRenderer {
 
   def apply(data: Data, children: js.Object): raw.ReactElement = {
     val childrenEle = PropsChildren.fromRawProps(js.Dynamic.literal(children = children))

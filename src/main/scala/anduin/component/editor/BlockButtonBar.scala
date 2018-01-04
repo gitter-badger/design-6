@@ -1,6 +1,6 @@
 // Copyright (C) 2014-2018 Anduin Transactions Inc.
 
-package anduin.component.slate
+package anduin.component.editor
 
 import anduin.component.icon.Icon
 import anduin.scalajs.slate.Slate.{Change, Value}
@@ -10,14 +10,14 @@ import japgolly.scalajs.react._
 import japgolly.scalajs.react.vdom.html_<^._
 // scalastyle:on underscore.import
 
-private[slate] final case class BlockButtonBar(
+private[editor] final case class BlockButtonBar(
   value: Value,
   onChange: Change => Callback
 ) {
   def apply(): ScalaComponent.Unmounted[_, _, _] = BlockButtonBar.component(this)
 }
 
-private[slate] object BlockButtonBar {
+private[editor] object BlockButtonBar {
 
   private val ComponentName = this.getClass.getSimpleName
 

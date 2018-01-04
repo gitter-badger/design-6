@@ -1,13 +1,13 @@
 // Copyright (C) 2014-2018 Anduin Transactions Inc.
 
-package anduin.component.slate
+package anduin.component.editor
 
 import scala.scalajs.js
 
 import org.scalajs.dom.Element
 import org.scalajs.dom.raw.NodeList
 
-import anduin.component.slate.renderer.{ImageRenderer, LinkRenderer, MarkRenderer, TextAlignRenderer}
+import anduin.component.editor.renderer.{ImageRenderer, LinkRenderer, MarkRenderer, TextAlignRenderer}
 import anduin.scalajs.slate.Slate.Value
 
 // scalastyle:off underscore.import

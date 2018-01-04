@@ -1,6 +1,6 @@
 // Copyright (C) 2014-2018 Anduin Transactions Inc.
 
-package anduin.component.slate
+package anduin.component.editor
 
 import scala.scalajs.js
 
@@ -12,14 +12,14 @@ import japgolly.scalajs.react._
 import japgolly.scalajs.react.vdom.html_<^._
 // scalastyle:on underscore.import
 
-private[slate] final case class AlignButtonBar(
+private[editor] final case class AlignButtonBar(
   value: Value,
   onChange: Change => Callback
 ) {
   def apply(): ScalaComponent.Unmounted[_, _, _] = AlignButtonBar.component(this)
 }
 
-private[slate] object AlignButtonBar {
+private[editor] object AlignButtonBar {
 
   private val ComponentName = this.getClass.getSimpleName
 

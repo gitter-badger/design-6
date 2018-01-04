@@ -1,6 +1,6 @@
 // Copyright (C) 2014-2018 Anduin Transactions Inc.
 
-package anduin.component.slate
+package anduin.component.editor
 
 import org.scalajs.dom.raw.HTMLInputElement
 
@@ -11,7 +11,7 @@ import japgolly.scalajs.react._
 import japgolly.scalajs.react.vdom.html_<^._
 // scalastyle:on underscore.import
 
-private[slate] final case class LinkModal(
+private[editor] final case class LinkModal(
   value: Value,
   onAddLink: String => Callback,
   onClose: Callback
@@ -19,7 +19,7 @@ private[slate] final case class LinkModal(
   def apply(): ScalaComponent.Unmounted[_, _, _] = LinkModal.component(this)
 }
 
-private[slate] object LinkModal {
+private[editor] object LinkModal {
 
   private val ComponentName = this.getClass.getSimpleName
 

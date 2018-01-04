@@ -1,6 +1,6 @@
 // Copyright (C) 2014-2018 Anduin Transactions Inc.
 
-package anduin.component.slate
+package anduin.component.editor
 
 import scala.scalajs.js
 import scala.scalajs.js.|
@@ -17,7 +17,7 @@ import japgolly.scalajs.react._
 import anduin.scalajs.slate.Slate._
 // scalastyle:on underscore.import
 
-private[slate] object Editor {
+private[editor] object Editor {
 
   private val component = JsComponent[Props, Children.None, Null](SlateReact.EditorComponent)
 

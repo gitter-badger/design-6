@@ -1,10 +1,10 @@
 // Copyright (C) 2014-2018 Anduin Transactions Inc.
 
-package anduin.component.slate
+package anduin.component.editor
 
 import org.scalajs.dom.Element
 
-private[slate] object StyleParser {
+private[editor] object StyleParser {
 
   private final val TextAlignProperty = "text-align:"
 
