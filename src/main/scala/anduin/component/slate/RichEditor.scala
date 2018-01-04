@@ -60,33 +60,47 @@ object RichEditor {
       }
     }
 
+    // scalastyle:off cyclomatic.complexity
     private def renderNode(props: RenderNodeProps) = {
       val data = props.node.data
+      val children = PropsChildren.fromRawProps(props)
       props.node.nodeType match {
-        case BlockQuoteNode.nodeType => <.blockquote(PropsChildren.fromRawProps(props)).rawElement
-        case ParagraphNode.nodeType => <.p(PropsChildren.fromRawProps(props)).rawElement
-        case CodeNode.nodeType => <.pre(<.code(PropsChildren.fromRawProps(props))).rawElement
-        case OrderedListNode.nodeType => <.ol(PropsChildren.fromRawProps(props)).rawElement
-        case UnorderedListNode.nodeType => <.ul(PropsChildren.fromRawProps(props)).rawElement
-        case ListItemNode.nodeType => <.li(PropsChildren.fromRawProps(props)).rawElement
+        case BlockQuoteNode.nodeType => <.blockquote(children).rawElement
+        case ParagraphNode.nodeType => <.p(children).rawElement
+        case CodeNode.nodeType => <.pre(<.code(children)).rawElement
+        case OrderedListNode.nodeType => <.ol(children).rawElement
+        case UnorderedListNode.nodeType => <.ul(children).rawElement
+        case ListItemNode.nodeType => <.li(children).rawElement
         case LinkNode.nodeType =>
-          val href = DataUtil.value(props.node.data, "href")
-          <.a(^.href := href, PropsChildren.fromRawProps(props)).rawElement
+          val href = DataUtil.value(data, "href")
+          <.a(^.href := href, children).rawElement
         case ImageNode.nodeType => ImageNodeRenderer(data).rawElement
+
         // With text alignment
         case TextAlignNode.nodeType =>
-          val textAlign = DataUtil.value(props.node.data, "textAlign")
+          val textAlign = DataUtil.value(data, "textAlign")
           val textAlignAttr = TagMod.when(textAlign.nonEmpty)(^.textAlign := textAlign)
-          <.div(textAlignAttr, PropsChildren.fromRawProps(props)).rawElement
+
+          // Keep the original node type if it supports text alignment
+          val originalType = DataUtil.value(data, "originalType")
+          originalType match {
+            case ParagraphNode.nodeType => <.p(textAlignAttr, children).rawElement
+            case OrderedListNode.nodeType => <.ol(textAlignAttr, children).rawElement
+            case UnorderedListNode.nodeType => <.ul(textAlignAttr, children).rawElement
+            case ListItemNode.nodeType => <.li(textAlignAttr, children).rawElement
+            case _ => <.div(textAlignAttr, children).rawElement
+          }
       }
     }
+    // scalastyle:on cyclomatic.complexity
 
     private def renderMark(props: RenderMarkProps) = {
+      val children = PropsChildren.fromRawProps(props)
       props.mark.markType match {
-        case BoldNode.nodeType => <.strong(PropsChildren.fromRawProps(props)).rawElement
-        case ItalicNode.nodeType => <.em(PropsChildren.fromRawProps(props)).rawElement
-        case UnderlineNode.nodeType => <.u(PropsChildren.fromRawProps(props)).rawElement
-        case StrikeThroughNode.nodeType => <.del(PropsChildren.fromRawProps(props)).rawElement
+        case BoldNode.nodeType => <.strong(children).rawElement
+        case ItalicNode.nodeType => <.em(children).rawElement
+        case UnderlineNode.nodeType => <.u(children).rawElement
+        case StrikeThroughNode.nodeType => <.del(children).rawElement
       }
     }
 
