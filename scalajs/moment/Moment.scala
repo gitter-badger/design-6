@@ -18,7 +18,7 @@ trait Tz extends js.Object {
 
   def apply(zone: String): Date = js.native // linter:ignore UnusedParameter
 
-  def apply(milis: Double, zone: String): Date = js.native// linter:ignore UnusedParameter
+  def apply(milis: Double, zone: String): Date = js.native // linter:ignore UnusedParameter
 }
 
 @JSImport("moment-timezone", JSImport.Namespace, "Moment")
@@ -33,7 +33,8 @@ object Moment extends js.Object {
 
   // moment("20111031", "YYYYMMDD").fromNow(); // 3 years ago
   def apply(value: String, format: String): Date = js.native // linter:ignore UnusedParameter
-  def apply(value: String, format: String, strict: Boolean): Date = js.native // linter:ignore UnusedParameter
+  def apply(value: String, format: String, strict: Boolean): Date =
+    js.native // linter:ignore UnusedParameter
   def apply(value: js.Date): Date = js.native // linter:ignore UnusedParameter
 
   def locale(s: String): Unit = js.native // linter:ignore UnusedParameter

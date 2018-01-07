@@ -10,7 +10,8 @@ import scala.scalajs.js.annotation.{JSImport, JSName}
 @js.native
 trait LinkifyIt extends js.Object {
 
-  def tlds(list: js.Array[String], keepOld: Boolean = false): LinkifyIt = js.native // linter:ignore UnusedParameter
+  def tlds(list: js.Array[String], keepOld: Boolean = false): LinkifyIt =
+    js.native // linter:ignore UnusedParameter
   @JSName("match")
   def matches(text: String): js.Array[MatchingItem] = js.native // linter:ignore UnusedParameter
 }
@@ -26,5 +27,6 @@ trait MatchingItem extends js.Object {
 @JSImport("linkify-it", JSImport.Namespace, "LinkifyIt")
 object LinkifyIt extends js.Object {
 
-  def apply(schemas: js.Object = new js.Object(), options: js.Object = new js.Object()): LinkifyIt = js.native // linter:ignore UnusedParameter
+  def apply(schemas: js.Object = new js.Object(), options: js.Object = new js.Object()): LinkifyIt =
+    js.native // linter:ignore UnusedParameter
 }

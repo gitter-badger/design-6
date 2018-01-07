@@ -21,33 +21,35 @@ object HtmlSerializer {
   @JSImport("slate-html-serializer", JSImport.Default, "Html")
   @js.native
   final class HtmlSerializer(
-    val options: js.UndefOr[Options] = js.undefined
+      val options: js.UndefOr[Options] = js.undefined
   ) extends js.Object {
     def deserialize(html: String): Value = js.native // linter:ignore UnusedParameter
     def serialize(value: Value): String = js.native // linter:ignore UnusedParameter
   }
 
   final class Options(
-    val rules: js.UndefOr[js.Array[Rule]] = js.undefined
+      val rules: js.UndefOr[js.Array[Rule]] = js.undefined
   ) extends js.Object
 
   final class Rule(
-    val deserialize: js.Function2[Element, js.Function1[NodeList, NodeList], DeserializeOutputType],
-    val serialize: js.Function2[RuleSerializeInput, js.Object, SerializeOutputType]
+      val deserialize: js.Function2[Element,
+                                    js.Function1[NodeList, NodeList],
+                                    DeserializeOutputType],
+      val serialize: js.Function2[RuleSerializeInput, js.Object, SerializeOutputType]
   ) extends js.Object
 
   final class RuleSerializeInput(
-    val kind: String,
-    @JSName("type") val tpe: String,
-    val data: Data
+      val kind: String,
+      @JSName("type") val tpe: String,
+      val data: Data
   ) extends js.Object
 
   final class RuleDeserializeOutput(
-    // Can be either `block`, `inline`, `mark` or `text`
-    val kind: String,
-    val data: js.UndefOr[js.Object] = js.undefined,
-    @JSName("type") val tpe: String,
-    val nodes: NodeList,
-    val isVoid: Boolean = false
+      // Can be either `block`, `inline`, `mark` or `text`
+      val kind: String,
+      val data: js.UndefOr[js.Object] = js.undefined,
+      @JSName("type") val tpe: String,
+      val nodes: NodeList,
+      val isVoid: Boolean = false
   ) extends js.Object
 }

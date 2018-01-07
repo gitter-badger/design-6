@@ -14,5 +14,6 @@ class FontFaceObserver(fontName: String) extends js.Object {
 @js.native
 trait Promise[T] extends js.Object {
   @JSName("then")
-  def andThen(onResolve: js.Function1[T, _], onReject: js.Function1[String, _] = ???): Promise[T] = js.native // linter:ignore UnusedParameter
+  def andThen(onResolve: js.Function1[T, _], onReject: js.Function1[String, _] = ???): Promise[T] =
+    js.native // linter:ignore UnusedParameter
 }
