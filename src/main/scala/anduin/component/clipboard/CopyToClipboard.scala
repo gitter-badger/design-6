@@ -14,7 +14,8 @@ import japgolly.scalajs.react.vdom.html_<^._
 // scalastyle:on underscore.import
 
 final case class CopyToClipboard() {
-  def apply(children: VdomNode*): ScalaComponent.Unmounted[_, _, _] = CopyToClipboard.component(this)(children: _*)
+  def apply(children: VdomNode*): ScalaComponent.Unmounted[_, _, _] =
+    CopyToClipboard.component(this)(children: _*)
 }
 
 object CopyToClipboard {
@@ -47,7 +48,8 @@ object CopyToClipboard {
     }
 
     def render(state: State, children: PropsChildren): TagOf[Span] = {
-      <.span(^.cls := "copy-clipboard",
+      <.span(
+        ^.cls := "copy-clipboard",
         <.a(
           ^.cls := "tooltip -right",
           VdomAttr("data-tip") := (if (state.copied) "Copied to clipboard" else "Click to copy"),
@@ -60,7 +62,8 @@ object CopyToClipboard {
     }
   }
 
-  private val component = ScalaComponent.builder[CopyToClipboard](componentName)
+  private val component = ScalaComponent
+    .builder[CopyToClipboard](componentName)
     .initialState(
       State(copied = false)
     )

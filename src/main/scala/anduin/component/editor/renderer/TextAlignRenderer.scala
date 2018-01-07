@@ -23,11 +23,11 @@ private[editor] object TextAlignRenderer {
     // Keep the original node type if it supports text alignment
     val originalType = DataUtil.value(data, "originalType")
     val ele = originalType match {
-      case ParagraphNode.nodeType => <.p(textAlignAttr, childrenEle)
-      case OrderedListNode.nodeType => <.ol(textAlignAttr, childrenEle)
+      case ParagraphNode.nodeType     => <.p(textAlignAttr, childrenEle)
+      case OrderedListNode.nodeType   => <.ol(textAlignAttr, childrenEle)
       case UnorderedListNode.nodeType => <.ul(textAlignAttr, childrenEle)
-      case ListItemNode.nodeType => <.li(textAlignAttr, childrenEle)
-      case _ => <.div(textAlignAttr, childrenEle)
+      case ListItemNode.nodeType      => <.li(textAlignAttr, childrenEle)
+      case _                          => <.div(textAlignAttr, childrenEle)
     }
     ele.rawElement
   }

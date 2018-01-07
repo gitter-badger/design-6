@@ -20,22 +20,22 @@ object Modal {
   val ComponentName: String = ComponentUtils.name(this)
 
   type ModalHeaderRenderer = (
-    String,   // The title
-    Callback  // The callback of closing modal
+      String, // The title
+      Callback // The callback of closing modal
   ) => VdomElement
 
   final case class Props(
-    title: String,
-    body: Callback => VdomElement,
-    isOpen: Boolean,
-    overlayClassName: String,
-    modalClassName: String,
-    shouldCloseOnOverlayClick: Boolean,
-    shouldCloseOnEscape: Boolean,
-    onAfterOpen: Callback,
-    onRequestClose: Callback,
-    showCloseBtn: Boolean,
-    renderHeader: Option[ModalHeaderRenderer] = None
+      title: String,
+      body: Callback => VdomElement,
+      isOpen: Boolean,
+      overlayClassName: String,
+      modalClassName: String,
+      shouldCloseOnOverlayClick: Boolean,
+      shouldCloseOnEscape: Boolean,
+      onAfterOpen: Callback,
+      onRequestClose: Callback,
+      showCloseBtn: Boolean,
+      renderHeader: Option[ModalHeaderRenderer] = None
   )
 
   private val component = ScalaComponent
@@ -47,7 +47,9 @@ object Modal {
         className = s"modal ${props.modalClassName}",
         overlayClassName = s"modal-wrapper modal-overlay open ${props.overlayClassName}",
         onAfterOpen = props.onAfterOpen,
-        onRequestClose = js.defined { _ => props.onRequestClose },
+        onRequestClose = js.defined { _ =>
+          props.onRequestClose
+        },
         shouldCloseOnOverlayClick = props.shouldCloseOnOverlayClick,
         contentLabel = props.title,
         shouldCloseOnEsc = props.shouldCloseOnEscape
@@ -73,30 +75,31 @@ object Modal {
 
   // scalastyle:off parameter.number
   def apply(
-    title: String,
-    isOpen: Boolean = true,
-    overlayClassName: String = "",
-    modalClassName: String = "",
-    shouldCloseOnOverlayClick: Boolean = true,
-    shouldCloseOnEscape: Boolean = true,
-    onAfterOpen: Callback = Callback.empty,
-    onRequestClose: Callback = Callback.empty,
-    showCloseBtn: Boolean = true,
-    renderHeader: Option[ModalHeaderRenderer] = None
+      title: String,
+      isOpen: Boolean = true,
+      overlayClassName: String = "",
+      modalClassName: String = "",
+      shouldCloseOnOverlayClick: Boolean = true,
+      shouldCloseOnEscape: Boolean = true,
+      onAfterOpen: Callback = Callback.empty,
+      onRequestClose: Callback = Callback.empty,
+      showCloseBtn: Boolean = true,
+      renderHeader: Option[ModalHeaderRenderer] = None
   )(body: Callback => VdomElement): ScalaComponent.Unmounted[Props, Unit, Unit] = {
-    component(Props(
-      title,
-      body,
-      isOpen,
-      overlayClassName,
-      modalClassName,
-      shouldCloseOnOverlayClick,
-      shouldCloseOnEscape,
-      onAfterOpen,
-      onRequestClose,
-      showCloseBtn,
-      renderHeader
-    ))
+    component(
+      Props(
+        title,
+        body,
+        isOpen,
+        overlayClassName,
+        modalClassName,
+        shouldCloseOnOverlayClick,
+        shouldCloseOnEscape,
+        onAfterOpen,
+        onRequestClose,
+        showCloseBtn,
+        renderHeader
+      ))
   }
   // scalastyle:on parameter.number
 }

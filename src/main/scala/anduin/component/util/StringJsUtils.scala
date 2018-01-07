@@ -11,7 +11,8 @@ import japgolly.scalajs.react.vdom.html_<^._
 object StringJsUtils {
 
   def newLineToBr(lines: List[String]): Array[TagMod] = {
-    lines.foldRight(Array.empty[TagMod])((l, acc) => if (acc.isEmpty) Array(l) else Array[TagMod](l, <.br) ++ acc)
+    lines.foldRight(Array.empty[TagMod])((l, acc) =>
+      if (acc.isEmpty) Array(l) else Array[TagMod](l, <.br) ++ acc)
   }
 
   def truncate(name: String, maxLength: Int = 40): String = {

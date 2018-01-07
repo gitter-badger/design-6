@@ -23,19 +23,19 @@ object Calendar {
 
   private val DaysPerWeek = 7 // The number of days in every week
 
-    /**
+  /**
     * Short name of week days
     */
   private val ShortDayNames = Array("Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat")
 
   case class Props(
-    date: LocalDate,
-    minDate: Option[LocalDate],
-    maxDate: Option[LocalDate],
-    yearRange: Int,
-    shown: Boolean,
-    onDayChange: LocalDate => Callback,
-    onHideCalendar: LocalDate => Callback // final date => Callback
+      date: LocalDate,
+      minDate: Option[LocalDate],
+      maxDate: Option[LocalDate],
+      yearRange: Int,
+      shown: Boolean,
+      onDayChange: LocalDate => Callback,
+      onHideCalendar: LocalDate => Callback // final date => Callback
   )
 
   case class State(date: LocalDate)
@@ -64,7 +64,7 @@ object Calendar {
       // Determine if user click inside or outside the picker area
       val rect = innerElementRef.getBoundingClientRect()
       val inside = (e.clientY >= rect.top && e.clientY <= rect.top + rect.height) &&
-                   (e.clientX >= rect.left && e.clientX <= rect.left + rect.width)
+        (e.clientX >= rect.left && e.clientX <= rect.left + rect.width)
       for {
         props <- scope.props
         state <- scope.state
@@ -95,7 +95,8 @@ object Calendar {
       val daysInFeb = if (isLeapYear(year)) 29 else 28
       month match {
         case Month.FEBRUARY => daysInFeb
-        case Month.JANUARY | Month.MARCH | Month.MAY | Month.JULY | Month.AUGUST | Month.OCTOBER | Month.DECEMBER =>
+        case Month.JANUARY | Month.MARCH | Month.MAY | Month.JULY | Month.AUGUST | Month.OCTOBER |
+            Month.DECEMBER =>
           31
         case _ => 30
       }
@@ -180,7 +181,8 @@ object Calendar {
               ^.value := month.getValue
             )
           }
-        ))
+        )
+      )
     }
 
     /**
@@ -203,7 +205,8 @@ object Calendar {
               ^.value := y
             )
           }
-        ))
+        )
+      )
     }
 
     /**
@@ -211,7 +214,9 @@ object Calendar {
       * month value is zero-index
       */
     // scalastyle:off multiple.string.literals
-    private def renderCalendar(date: LocalDate, minDate: Option[LocalDate], maxDate: Option[LocalDate]) = {
+    private def renderCalendar(date: LocalDate,
+                               minDate: Option[LocalDate],
+                               maxDate: Option[LocalDate]) = {
       val daysInMonth = getDaysInMonth(date.getYear, date.getMonth)
 
       // Note: -1 for the month because JsDate is 0-based, and LocalDate is 1-based
@@ -241,36 +246,41 @@ object Calendar {
           Array.range(0, numRows).toTagMod { i =>
             <.tr(
               ^.key := s"week-$i",
-              Array.range(0, DaysPerWeek).toTagMod { j =>
-                val d = (i * DaysPerWeek + j - before) + 1
+              Array.range(0, DaysPerWeek).toTagMod {
+                j =>
+                  val d = (i * DaysPerWeek + j - before) + 1
 
-                val dayModel = if (d > 0 && d <= daysInMonth) {
-                  date.withDayOfMonth(d)
-                } else if (d <= 0) {
-                  // Belong to previous month
-                  date.withDayOfMonth(1).plusDays(d.toLong - 1) // use plus here because d is negative
-                } else {
-                  // Belong to next month
-                  date.withDayOfMonth(daysInMonth).plusDays(d.toLong - daysInMonth)
-                }
-                val dayInMonth = d > 0 && d <= daysInMonth
-                val isDisabled = (minDate.nonEmpty && dayModel < minDate.getOrElse(now)) ||
-                  (maxDate.nonEmpty && dayModel > maxDate.getOrElse(now))
+                  val dayModel = if (d > 0 && d <= daysInMonth) {
+                    date.withDayOfMonth(d)
+                  } else if (d <= 0) {
+                    // Belong to previous month
+                    date
+                      .withDayOfMonth(1)
+                      .plusDays(d.toLong - 1) // use plus here because d is negative
+                  } else {
+                    // Belong to next month
+                    date.withDayOfMonth(daysInMonth).plusDays(d.toLong - daysInMonth)
+                  }
+                  val dayInMonth = d > 0 && d <= daysInMonth
+                  val isDisabled = (minDate.nonEmpty && dayModel < minDate.getOrElse(now)) ||
+                    (maxDate.nonEmpty && dayModel > maxDate.getOrElse(now))
 
-                <.td(
-                  ^.key := s"day-$d",
-                  ^.classSet(
-                    "datepicker-day-empty" -> !dayInMonth,
-                    "datepicker-day-selected" -> (d == date.getDayOfMonth),
-                    "datepicker-day-today" -> (now == dayModel),
-                    "datepicker-day-disabled" -> isDisabled
-                  ),
-                  TagMod.when(dayInMonth)(<.button(d, ^.tpe := "button", ^.onClick ==> onDayChange(dayModel)))
-                )
+                  <.td(
+                    ^.key := s"day-$d",
+                    ^.classSet(
+                      "datepicker-day-empty" -> !dayInMonth,
+                      "datepicker-day-selected" -> (d == date.getDayOfMonth),
+                      "datepicker-day-today" -> (now == dayModel),
+                      "datepicker-day-disabled" -> isDisabled
+                    ),
+                    TagMod.when(dayInMonth)(
+                      <.button(d, ^.tpe := "button", ^.onClick ==> onDayChange(dayModel)))
+                  )
               }
             )
           }
-        ))
+        )
+      )
     }
     // scalastyle:on multiple.string.literals
 
@@ -290,9 +300,15 @@ object Calendar {
             // The select to choose a year
             renderYears(state.date.getYear, props.yearRange),
             // The button to go to the previous month
-            <.button("Previous month", ^.cls := "datepicker-prev", ^.tpe := "button", ^.onClick ==> goToPrevMonth),
+            <.button("Previous month",
+                     ^.cls := "datepicker-prev",
+                     ^.tpe := "button",
+                     ^.onClick ==> goToPrevMonth),
             // The button to go to the next month
-            <.button("Next month", ^.cls := "datepicker-next", ^.tpe := "button", ^.onClick ==> goToNextMonth)
+            <.button("Next month",
+                     ^.cls := "datepicker-next",
+                     ^.tpe := "button",
+                     ^.onClick ==> goToNextMonth)
           ),
           renderCalendar(state.date, props.minDate, props.maxDate)
         )
@@ -300,7 +316,8 @@ object Calendar {
     }
   }
 
-  val component = ScalaComponent.builder[Props](ComponentName)
+  val component = ScalaComponent
+    .builder[Props](ComponentName)
     .initialStateFromProps { props =>
       State(props.date)
     }
@@ -317,13 +334,13 @@ object Calendar {
     .build
 
   def apply(
-    date: LocalDate = ZonedDateTime.now(ZoneOffset.UTC).toLocalDate,
-    minDate: Option[LocalDate] = None,
-    maxDate: Option[LocalDate] = None,
-    yearRange: Int = 10,
-    shown: Boolean = false,
-    onDayChange: LocalDate => Callback = _ => Callback.empty,
-    onHideCalendar: LocalDate => Callback = _ => Callback.empty
+      date: LocalDate = ZonedDateTime.now(ZoneOffset.UTC).toLocalDate,
+      minDate: Option[LocalDate] = None,
+      maxDate: Option[LocalDate] = None,
+      yearRange: Int = 10,
+      shown: Boolean = false,
+      onDayChange: LocalDate => Callback = _ => Callback.empty,
+      onHideCalendar: LocalDate => Callback = _ => Callback.empty
   ): ScalaComponent.Unmounted[_, _, _] = component(
     Props(
       date = date,

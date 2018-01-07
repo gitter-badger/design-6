@@ -11,11 +11,11 @@ import anduin.component.button.ProgressButton
 // scalastyle:on underscore.import
 
 final case class CommonConfirmModal(
-  displayInfo: TagMod,
-  onConfirm: Callback => Callback,
-  onClose: Callback,
-  confirmBtnLabel: String = "Confirm",
-  confirmBtnExtraClasses: String = ""
+    displayInfo: TagMod,
+    onConfirm: Callback => Callback,
+    onClose: Callback,
+    confirmBtnLabel: String = "Confirm",
+    confirmBtnExtraClasses: String = ""
 ) {
   def apply(): ScalaComponent.Unmounted[_, _, _] = CommonConfirmModal.component(this)
 }
@@ -25,7 +25,7 @@ object CommonConfirmModal {
   private val ComponentName = this.getClass.getSimpleName
 
   private case class State(
-    confirmBtnStatus: ProgressButton.Status
+      confirmBtnStatus: ProgressButton.Status
   )
 
   private case class Backend(scope: BackendScope[CommonConfirmModal, State]) {
@@ -46,8 +46,9 @@ object CommonConfirmModal {
             labels = {
               case ProgressButton.Status.Loading => "Confirming"
               case ProgressButton.Status.Success => "Done"
-              case ProgressButton.Status.Error => "Failed to confirm, please try again"
-              case ProgressButton.Status.Default | ProgressButton.Status.Disabled => props.confirmBtnLabel
+              case ProgressButton.Status.Error   => "Failed to confirm, please try again"
+              case ProgressButton.Status.Default | ProgressButton.Status.Disabled =>
+                props.confirmBtnLabel
             },
             onClick = for {
               _ <- scope.modState(_.copy(confirmBtnStatus = ProgressButton.Status.Loading))
@@ -59,7 +60,8 @@ object CommonConfirmModal {
     }
   }
 
-  private val component = ScalaComponent.builder[CommonConfirmModal](ComponentName)
+  private val component = ScalaComponent
+    .builder[CommonConfirmModal](ComponentName)
     .initialState(State(confirmBtnStatus = ProgressButton.Status.Default))
     .renderBackend[Backend]
     .build

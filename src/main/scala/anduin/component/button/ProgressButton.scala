@@ -33,19 +33,19 @@ import japgolly.scalajs.react.vdom.html_<^._
   */
 // scalastyle:off multiple.string.literals
 final case class ProgressButton(
-  status: ProgressButton.Status = ProgressButton.Status.Default,
-  labels: ProgressButton.Status => String,
-  classMap: ProgressButton.Status => String = {
-    case ProgressButton.Status.Default => "-primary"
-    case ProgressButton.Status.Loading => "-loading"
-    case ProgressButton.Status.Disabled => "disabled"
-    case ProgressButton.Status.Success => "-success"
-    case ProgressButton.Status.Error => "-danger"
-  },
-  extraClasses: String = "",
-  submitButton: Boolean = false,
-  onClick: Callback = Callback.empty,
-  extraTagMods: Seq[TagMod] = Seq.empty
+    status: ProgressButton.Status = ProgressButton.Status.Default,
+    labels: ProgressButton.Status => String,
+    classMap: ProgressButton.Status => String = {
+      case ProgressButton.Status.Default  => "-primary"
+      case ProgressButton.Status.Loading  => "-loading"
+      case ProgressButton.Status.Disabled => "disabled"
+      case ProgressButton.Status.Success  => "-success"
+      case ProgressButton.Status.Error    => "-danger"
+    },
+    extraClasses: String = "",
+    submitButton: Boolean = false,
+    onClick: Callback = Callback.empty,
+    extraTagMods: Seq[TagMod] = Seq.empty
 ) {
   def apply(children: VdomNode*): ScalaComponent.Unmounted[_, _, _] = {
     ProgressButton.component(this)(children: _*)
@@ -93,22 +93,21 @@ object ProgressButton {
         ),
         ^.onClick ==> onClick,
         ^.disabled := ((props.status == Status.Loading) || (props.status == Status.Disabled) || (props.status == Status.Success)),
-
-        TagMod.when(props.status == Status.Loading)(<.div(^.cls := "loader-inline margin-right-small",
-          <.span(^.cls := "item"),
-          <.span(^.cls := "item"),
-          <.span(^.cls := "item")
-        )),
+        TagMod.when(props.status == Status.Loading)(
+          <.div(^.cls := "loader-inline margin-right-small",
+                <.span(^.cls := "item"),
+                <.span(^.cls := "item"),
+                <.span(^.cls := "item"))),
         TagMod(props.extraTagMods: _*),
         props.labels(props.status),
-
         children
       )
     }
     // scalastyle:on multiple.string.literals
   }
 
-  private val component = ScalaComponent.builder[ProgressButton](ComponentName)
+  private val component = ScalaComponent
+    .builder[ProgressButton](ComponentName)
     .initialStateFromProps { props =>
       State(status = props.status, extraClasses = props.extraClasses)
     }

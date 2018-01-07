@@ -15,13 +15,12 @@ import org.scalajs.dom.raw._
   */
 // scalastyle:off number.of.methods public.methods.have.type multiple.string.literals file.size.limit line.size.limit
 object Icon {
-  def apply(
-    classNames: String,
-    additionalClass: String,
-    viewBox: String,
-    svgSolidContent: VdomTagOf[SVGElement],
-    svgLineContent: VdomTagOf[SVGElement],
-    isSolid: Boolean): VdomNode = {
+  def apply(classNames: String,
+            additionalClass: String,
+            viewBox: String,
+            svgSolidContent: VdomTagOf[SVGElement],
+            svgLineContent: VdomTagOf[SVGElement],
+            isSolid: Boolean): VdomNode = {
 
     val xmlnsVersion: TagMod = SvgAttrAndStyles.xmlns := "http://www.w3.org/2000/svg"
 
@@ -60,11 +59,13 @@ object Icon {
 
   private val arrowLeftSolid = svgPathVal(
     svgDVal := "M8,4 L12,8 L8,12 L8,4 Z M0,7 L8,7 L8,9 L0,9 L0,7 Z",
-    svgTransformVal := "translate(6.000000, 8.000000) scale(-1, 1) translate(-6.000000, -8.000000)")
+    svgTransformVal := "translate(6.000000, 8.000000) scale(-1, 1) translate(-6.000000, -8.000000)"
+  )
   private val arrowLeftLine = arrowLeftSolid
   private val arrowLeftViewBox = "0 0 12 16"
 
-  private val arrowRightSolid = svgPathVal(svgDVal := "M8,4 L12,8 L8,12 L8,4 Z M0,7 L8,7 L8,9 L0,9 L0,7 Z")
+  private val arrowRightSolid = svgPathVal(
+    svgDVal := "M8,4 L12,8 L8,12 L8,4 Z M0,7 L8,7 L8,9 L0,9 L0,7 Z")
   private val arrowRightLine = arrowRightSolid
   private val arrowRightViewBox = "0 0 12 16"
 
@@ -88,19 +89,23 @@ object Icon {
     svgDVal := "M4.00004081,4 L1.00087166,4 C0.444630861,4 0,4.44573523 0,4.9955775 L0,14.0044225 C0,14.555163 0.448105505,15 1.00087166,15 L14.9991283,15 C15.5553691,15 16,14.5542648 16,14.0044225 L16,4.9955775 C16,4.44483697 15.5518945,4 14.9991283,4 L11.9999573,4 C11.9999858,3.99688039 12,3.99375741 12,3.9906311 L12,2.0093689 C12,1.44335318 11.5536144,1 11.0029699,1 L4.99703014,1 C4.45303631,1 4,1.45190985 4,2.0093689 L4,3.9906311 C4,3.99375783 4.00001362,3.99688081 4.00004081,4 Z M11.061754,4.99823495 C13.2881873,4.99756713 15,4.99669145 15,4.9955775 C15,4.9955775 15.0025331,14 14.9991283,14 C14.9991283,14 1,14.0012369 1,14.0044225 C1,14.0044225 0.997466906,5 1.00087166,5 C1.00087166,5 2.72618475,4.99984756 4.9654282,4.99951188 C4.97592213,4.99983654 4.98645691,5 4.99703014,5 L11.0029699,5 C11.0226899,5 11.0422903,4.99940615 11.061754,4.99823495 Z M5.99077797,8 L10.009222,8 C10.5564136,8 11,8.44266033 11,8.99895656 L11,10.0010434 C11,10.5527519 10.5490248,11 10.009222,11 L5.99077797,11 C5.44358641,11 5,10.5573397 5,10.0010434 L5,8.99895656 C5,8.44724809 5.45097518,8 5.99077797,8 Z M6,10.0010434 C6,10.0045963 10.009222,10 10.009222,10 C9.99860066,10 10,8.99895656 10,8.99895656 C10,8.99540369 5.99077797,9 5.99077797,9 C6.00139934,9 6,10.0010434 6,10.0010434 Z M5,3.9906311 C5,4.00284038 4.99717781,4 4.99703014,4 L11.0029699,4 C10.9952443,4 11,3.99520756 11,3.9906311 L11,2.0093689 C11,1.99715962 11.0028222,2 11.0029699,2 L4.99703014,2 C5.00475567,2 5,2.00479244 5,2.0093689 L5,3.9906311 Z M1,9 L5,9 L5,10 L1,10 L1,9 Z M11,9 L15,9 L15,10 L11,10 L11,9 Z")
   private val briefcaseViewBox = defaultViewBox
 
-  private val chevronDownSolid = svgPolygonVal(svgPointsVal := "5 11.5 0 6.5 1.5 5 5 8.75 8.5 5 10 6.5")
+  private val chevronDownSolid = svgPolygonVal(
+    svgPointsVal := "5 11.5 0 6.5 1.5 5 5 8.75 8.5 5 10 6.5")
   private val chevronDownLine = chevronDownSolid
   private val chevronDownViewBox = "0 0 10 16"
 
-  private val chevronLeftSolid = svgPolygonVal(svgPointsVal := "5.5 3 7 4.5 3.25 8 7 11.5 5.5 13 0.5 8")
+  private val chevronLeftSolid = svgPolygonVal(
+    svgPointsVal := "5.5 3 7 4.5 3.25 8 7 11.5 5.5 13 0.5 8")
   private val chevronLeftLine = chevronLeftSolid
   private val chevronLeftViewBox = "0 0 8 16"
 
-  private val chevronRightSolid = svgPolygonVal(svgPointsVal := "7.5 8 2.5 13 1 11.5 4.75 8 1 4.5 2.5 3")
+  private val chevronRightSolid = svgPolygonVal(
+    svgPointsVal := "7.5 8 2.5 13 1 11.5 4.75 8 1 4.5 2.5 3")
   private val chevronRightLine = chevronRightSolid
   private val chevronRightViewBox = "0 0 8 16"
 
-  private val chevronUpSolid = svgPolygonVal(svgPointsVal := "10 10 8.5 11.5 5 7.75 1.5 11.5 0 10 5 5")
+  private val chevronUpSolid = svgPolygonVal(
+    svgPointsVal := "10 10 8.5 11.5 5 7.75 1.5 11.5 0 10 5 5")
   private val chevronUpLine = chevronUpSolid
   private val chevronUpViewBox = "0 0 10 16"
 
@@ -134,19 +139,23 @@ object Icon {
   private val triangleUpLine = triangleUpSolid
   private val triangleUpViewBox = "0 0 12 16"
 
-  private val triangleUpDownSolid = svgPathVal(svgDVal := "M0,7 L12,7 L6,1 L0,7 Z M0,9 L12,9 L6,15 L0,9 Z")
+  private val triangleUpDownSolid = svgPathVal(
+    svgDVal := "M0,7 L12,7 L6,1 L0,7 Z M0,9 L12,9 L6,15 L0,9 Z")
   private val triangleUpDownLine = triangleUpDownSolid
   private val triangleUpDownViewBox = "0 0 12 16"
 
-  private val triangleLeftRightSolid = svgPathVal(svgDVal := "M8,2 L8,14 L14,8 L8,2 Z M6,2 L6,14 L0,8 L6,2 Z")
+  private val triangleLeftRightSolid = svgPathVal(
+    svgDVal := "M8,2 L8,14 L14,8 L8,2 Z M6,2 L6,14 L0,8 L6,2 Z")
   private val triangleLeftRightLine = triangleLeftRightSolid
   private val triangleLeftRightViewBox = "0 0 14 16"
 
-  private val plusSolid = svgPolygonVal(svgPointsVal := "7 9 7 14 5 14 5 9 0 9 0 7 5 7 5 2 7 2 7 7 12 7 12 9")
+  private val plusSolid = svgPolygonVal(
+    svgPointsVal := "7 9 7 14 5 14 5 9 0 9 0 7 5 7 5 2 7 2 7 7 12 7 12 9")
   private val plusLine = plusSolid
   private val plusViewBox = "0 0 12 16"
 
-  private val checkmarkSolid = svgPolygonVal(svgPointsVal := "12 5.5 4 13.5 0 9.5 1.5 8 4 10.5 10.5 4")
+  private val checkmarkSolid = svgPolygonVal(
+    svgPointsVal := "12 5.5 4 13.5 0 9.5 1.5 8 4 10.5 10.5 4")
   private val checkmarkLine = checkmarkSolid
   private val checkmarkViewBox = "0 0 12 16"
 
@@ -552,10 +561,8 @@ object Icon {
     svgDVal := "M8,0 C3.582,0 0,3.582 0,8 C0,12.418 3.582,16 8,16 C12.418,16 16,12.418 16,8 C16,3.582 12.418,0 8,0 M8,1 C11.86,1 15,4.14 15,8 C15,11.86 11.86,15 8,15 C4.14,15 1,11.86 1,8 C1,4.14 4.14,1 8,1 Z M7.0898,13.0039 L2.7928,8.7069 L4.2068,7.2929 L6.9098,9.9959 L11.7138,3.8819 L13.2858,5.1179 L7.0898,13.0039 Z")
   private val validViewBox = defaultViewBox
 
-  private val verticalBarSolid = svgPathVal(
-    svgDVal := "M7.9,0 v20 h0.2 v-20 Z")
-  private val verticalBarLine = svgPathVal(
-    svgDVal := "M7.8,0 v20 M8.2 v20")
+  private val verticalBarSolid = svgPathVal(svgDVal := "M7.9,0 v20 h0.2 v-20 Z")
+  private val verticalBarLine = svgPathVal(svgDVal := "M7.8,0 v20 M8.2 v20")
   private val verticalBarViewBox = "0 0 16 20"
 
   private val zoomInSolid = svgPathVal(

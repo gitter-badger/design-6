@@ -12,9 +12,9 @@ import japgolly.scalajs.react.vdom.html_<^._
 // scalastyle:on underscore.import
 
 private[editor] final case class LinkModal(
-  value: Value,
-  onAddLink: String => Callback,
-  onClose: Callback
+    value: Value,
+    onAddLink: String => Callback,
+    onClose: Callback
 ) {
   def apply(): ScalaComponent.Unmounted[_, _, _] = LinkModal.component(this)
 }
@@ -37,7 +37,8 @@ private[editor] object LinkModal {
 
     def render(props: LinkModal, state: State): VdomElement = {
       <.div(
-        <.div(^.cls := "modal-body",
+        <.div(
+          ^.cls := "modal-body",
           <.input.ref(linkRef = _)(
             ^.cls := "text-field",
             ^.tpe := "text",
@@ -50,9 +51,10 @@ private[editor] object LinkModal {
             }
           )
         ),
-
-        <.div(^.cls := "modal-footer flex items-center justify-between",
-          <.div(^.cls := "btn-group margin-left-auto",
+        <.div(
+          ^.cls := "modal-footer flex items-center justify-between",
+          <.div(
+            ^.cls := "btn-group margin-left-auto",
             <.button(
               ^.cls := "btn",
               ^.tpe := "button",
@@ -77,7 +79,8 @@ private[editor] object LinkModal {
     }
   }
 
-  private val component = ScalaComponent.builder[LinkModal](ComponentName)
+  private val component = ScalaComponent
+    .builder[LinkModal](ComponentName)
     .initialState(State())
     .renderBackend[Backend]
     .componentDidMount(_.backend.focus)

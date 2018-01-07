@@ -15,15 +15,16 @@ import japgolly.scalajs.react.vdom.html_<^._
 // scalastyle:on underscore.import
 
 final case class Tooltip(
-  tip: String,
-  placement: Tooltip.Placement = Tooltip.Placement.Top,
-  containerClasses: String = "",
-  tipClasses: String = "",
-  status: Tooltip.Status = Tooltip.Status.Default,
-  offset: Double = 5,
-  size: Tooltip.Size = Tooltip.Size.Default
+    tip: String,
+    placement: Tooltip.Placement = Tooltip.Placement.Top,
+    containerClasses: String = "",
+    tipClasses: String = "",
+    status: Tooltip.Status = Tooltip.Status.Default,
+    offset: Double = 5,
+    size: Tooltip.Size = Tooltip.Size.Default
 ) {
-  def apply(children: VdomNode*): ScalaComponent.Unmounted[_, _, _] = Tooltip.component(this)(children: _*)
+  def apply(children: VdomNode*): ScalaComponent.Unmounted[_, _, _] =
+    Tooltip.component(this)(children: _*)
 }
 
 object Tooltip {
@@ -89,7 +90,9 @@ object Tooltip {
               )
 
               element.renderIntoDOM(tipNode)
-              tipNode.setAttribute("class", s"tip ${props.tipClasses} ${props.status.className} ${props.size.className}")
+              tipNode.setAttribute(
+                "class",
+                s"tip ${props.tipClasses} ${props.status.className} ${props.size.className}")
             }
             _ <- updatePosition
             _ <- scope.modState(_.copy(over = true))
@@ -135,24 +138,32 @@ object Tooltip {
           Callback {
             val (top, left) = props.placement match {
               case Placement.Top =>
-                (rect.top - tipNode.clientHeight - props.offset, rect.left + rect.width / 2 - tipNode.clientWidth / 2)
+                (rect.top - tipNode.clientHeight - props.offset,
+                 rect.left + rect.width / 2 - tipNode.clientWidth / 2)
               case Placement.TopLeft =>
                 (rect.top - tipNode.clientHeight - props.offset, rect.left)
               case Placement.TopRight =>
-                (rect.top - tipNode.clientHeight - props.offset, rect.left + rect.width - tipNode.clientWidth)
+                (rect.top - tipNode.clientHeight - props.offset,
+                 rect.left + rect.width - tipNode.clientWidth)
               case Placement.Bottom =>
-                (rect.top + rect.height + props.offset, rect.left + rect.width / 2 - tipNode.clientWidth / 2)
+                (rect.top + rect.height + props.offset,
+                 rect.left + rect.width / 2 - tipNode.clientWidth / 2)
               case Placement.BottomLeft =>
                 (rect.top + rect.height + props.offset, rect.left)
               case Placement.BottomRight =>
-                (rect.top + rect.height + props.offset, rect.left + rect.width - tipNode.clientWidth)
+                (rect.top + rect.height + props.offset,
+                 rect.left + rect.width - tipNode.clientWidth)
               case Placement.Left =>
-                (rect.top + rect.height / 2 - tipNode.clientHeight / 2, rect.left - tipNode.clientWidth - props.offset)
+                (rect.top + rect.height / 2 - tipNode.clientHeight / 2,
+                 rect.left - tipNode.clientWidth - props.offset)
               case Placement.Right =>
-                (rect.top + rect.height / 2 - tipNode.clientHeight / 2, rect.left + rect.width + props.offset)
+                (rect.top + rect.height / 2 - tipNode.clientHeight / 2,
+                 rect.left + rect.width + props.offset)
             }
 
-            tipNode.setAttribute("style", s"top: ${top + document.body.scrollTop}px; left: ${left + document.body.scrollLeft}px")
+            tipNode.setAttribute(
+              "style",
+              s"top: ${top + document.body.scrollTop}px; left: ${left + document.body.scrollLeft}px")
           }
         }
       } yield ()
@@ -185,7 +196,8 @@ object Tooltip {
     }
   }
 
-  private val component = ScalaComponent.builder[Tooltip](ComponentName)
+  private val component = ScalaComponent
+    .builder[Tooltip](ComponentName)
     .initialState(State(over = false))
     .renderBackendWithChildren[Backend]
     .componentWillUnmount(_.backend.removeTip)

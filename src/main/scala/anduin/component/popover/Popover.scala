@@ -20,29 +20,29 @@ import japgolly.scalajs.react.vdom.html_<^._
 // scalastyle:on underscore.import
 
 final case class Popover(
-  toggler: TagMod,
-  disableToggler: Boolean = false,
-  hasCloseButton: Boolean = false,
-  // Set it to `true` if you want to calculate the popover position dynamically when it's shown.
-  // It's used to fix the problem where the absolute positioning popover is displayed under some layers
-  dynamicPosition: Boolean = false,
-  verticalOffset: Double = 0,
-  horizontalOffset: Double = 0,
-  placement: Popover.Placement = Popover.Placement.Default,
-  size: Popover.Size = Popover.Size.Default,
-  classes: String = "",
-  popoverBodyClasses: String = "",
-  key: String = "",
-  trigger: Popover.Trigger = Popover.Trigger.Click,
-  hideWhenClickInside: Boolean = true,
-  //set to false if you don't want to hide popover on click event (both outside and inside)
-  //this is a workaround when inside the popover have a dropdown that content exceeds the popover body area
-  hideWhenClick: Boolean = true,
-  status: Popover.Status = Popover.Status.Hidden,
-  unmountWhenHide: Boolean = false,
-  onStatusChange: Popover.Status => Callback = _ => Callback.empty
+    toggler: TagMod,
+    disableToggler: Boolean = false,
+    hasCloseButton: Boolean = false,
+    // Set it to `true` if you want to calculate the popover position dynamically when it's shown.
+    // It's used to fix the problem where the absolute positioning popover is displayed under some layers
+    dynamicPosition: Boolean = false,
+    verticalOffset: Double = 0,
+    horizontalOffset: Double = 0,
+    placement: Popover.Placement = Popover.Placement.Default,
+    size: Popover.Size = Popover.Size.Default,
+    classes: String = "",
+    popoverBodyClasses: String = "",
+    key: String = "",
+    trigger: Popover.Trigger = Popover.Trigger.Click,
+    hideWhenClickInside: Boolean = true,
+    //set to false if you don't want to hide popover on click event (both outside and inside)
+    //this is a workaround when inside the popover have a dropdown that content exceeds the popover body area
+    hideWhenClick: Boolean = true,
+    status: Popover.Status = Popover.Status.Hidden,
+    unmountWhenHide: Boolean = false,
+    onStatusChange: Popover.Status => Callback = _ => Callback.empty
 )(
-  val children: Popover.RenderProps => TagMod // display state => component
+    val children: Popover.RenderProps => TagMod // display state => component
 ) {
   def apply(): ScalaComponent.Unmounted[_, _, _] = Popover.component.withKey(key)(this)
 }
@@ -138,7 +138,7 @@ object Popover {
             props.hideWhenClick && (
               (!insideToggler && !insideBody) || // user click outside of both toggler and popover's body
                 (insideBody && props.hideWhenClickInside) // or user click inside the popover's body
-              )
+            )
           )(hide)
         }
       } yield ()
@@ -199,10 +199,12 @@ object Popover {
       for {
         props <- scope.props
         state <- scope.state
-        _ <- Callback.when(state.status == Status.Displayed)(scope.modState(_.copy(
-          status = if (props.unmountWhenHide) Status.Unmounted else Status.Hidden,
-          leaveTogglerTimeOpt = None
-        )))
+        _ <- Callback.when(state.status == Status.Displayed)(
+          scope.modState(
+            _.copy(
+              status = if (props.unmountWhenHide) Status.Unmounted else Status.Hidden,
+              leaveTogglerTimeOpt = None
+            )))
       } yield ()
     }
 
@@ -214,22 +216,30 @@ object Popover {
           Callback {
             val rect = wrapperRef.getBoundingClientRect()
             val (top, left) = props.placement match {
-              case Placement.TopLeft => (rect.top - bodyRef.clientHeight, rect.left + rect.width - bodyRef.clientWidth)
-              case Placement.Top => (rect.top - bodyRef.clientHeight, rect.left + 0.5 * rect.width - 0.5 * bodyRef.clientWidth)
+              case Placement.TopLeft =>
+                (rect.top - bodyRef.clientHeight, rect.left + rect.width - bodyRef.clientWidth)
+              case Placement.Top =>
+                (rect.top - bodyRef.clientHeight,
+                 rect.left + 0.5 * rect.width - 0.5 * bodyRef.clientWidth)
               case Placement.TopRight => (rect.top - bodyRef.clientHeight, rect.left)
 
-              case Placement.RightTop => (rect.top + rect.height - bodyRef.clientHeight, rect.left + rect.width)
-              case Placement.Right => (rect.top + 0.5 * rect.height - 0.5 * bodyRef.clientHeight, rect.left + rect.width)
+              case Placement.RightTop =>
+                (rect.top + rect.height - bodyRef.clientHeight, rect.left + rect.width)
+              case Placement.Right =>
+                (rect.top + 0.5 * rect.height - 0.5 * bodyRef.clientHeight, rect.left + rect.width)
               case Placement.RightBottom => (rect.top, rect.left + rect.width)
 
               case Placement.BottomRight => (rect.top + rect.height, rect.left)
               case Placement.Bottom | Placement.Default =>
                 (rect.top + rect.height, rect.left + 0.5 * rect.width - 0.5 * bodyRef.clientWidth)
-              case Placement.BottomLeft => (rect.top + rect.height, rect.left + rect.width - bodyRef.clientWidth)
+              case Placement.BottomLeft =>
+                (rect.top + rect.height, rect.left + rect.width - bodyRef.clientWidth)
 
-              case Placement.LeftTop => (rect.top + rect.height - bodyRef.clientHeight, rect.left - bodyRef.clientWidth)
+              case Placement.LeftTop =>
+                (rect.top + rect.height - bodyRef.clientHeight, rect.left - bodyRef.clientWidth)
               case Placement.Left =>
-                (rect.top + 0.5 * rect.height - 0.5 * bodyRef.clientHeight, rect.left - bodyRef.clientWidth)
+                (rect.top + 0.5 * rect.height - 0.5 * bodyRef.clientHeight,
+                 rect.left - bodyRef.clientWidth)
               case Placement.LeftBottom => (rect.top, rect.left - bodyRef.clientWidth)
             }
             val offsetTop = top + props.verticalOffset + document.body.scrollTop
@@ -289,14 +299,15 @@ object Popover {
               props.popoverBodyClasses -> true
             ),
             TagMod.when(props.trigger == Trigger.Hover)(^.onMouseLeave --> hide),
-            TagMod.when(props.hasCloseButton)(<.div(
-              ^.cls := "close-button-align",
-              <.a(
-                ^.href := JavaScriptUtils.voidMethod,
-                ^.onClick --> hide,
-                Icon.cross("close-button", isSolid = true)
-              )
-            )),
+            TagMod.when(props.hasCloseButton)(
+              <.div(
+                ^.cls := "close-button-align",
+                <.a(
+                  ^.href := JavaScriptUtils.voidMethod,
+                  ^.onClick --> hide,
+                  Icon.cross("close-button", isSolid = true)
+                )
+              )),
             props.children(RenderProps(state.status == Status.Displayed, changeStatus))
           )
         }
@@ -304,7 +315,8 @@ object Popover {
     }
   }
 
-  val component = ScalaComponent.builder[Popover](ComponentName)
+  val component = ScalaComponent
+    .builder[Popover](ComponentName)
     .initialStateFromProps { props =>
       State(
         status = props.status,
@@ -321,7 +333,8 @@ object Popover {
     .configure(
       // `useCapture = true` means that the event will be handled from the document down to the event target
       // before the bubbling phase
-      EventListener[MouseEvent].install("click", _.backend.onWindowClick, _ => dom.window, useCapture = true),
+      EventListener[MouseEvent]
+        .install("click", _.backend.onWindowClick, _ => dom.window, useCapture = true),
       EventListener[MouseEvent].install("mousemove", _.backend.onWindowMouseMove, _ => dom.window),
       EventListener[MouseEvent].install("scroll", _.backend.onScroll, _ => dom.window)
     )

@@ -7,7 +7,12 @@ import scala.scalajs.js
 import org.scalajs.dom.Element
 import org.scalajs.dom.raw.NodeList
 
-import anduin.component.editor.renderer.{ImageRenderer, LinkRenderer, MarkRenderer, TextAlignRenderer}
+import anduin.component.editor.renderer.{
+  ImageRenderer,
+  LinkRenderer,
+  MarkRenderer,
+  TextAlignRenderer
+}
 import anduin.scalajs.slate.Slate.Value
 
 // scalastyle:off underscore.import
@@ -54,12 +59,12 @@ object Serializer {
         ()
       } else {
         obj.tpe match {
-          case CodeNode.nodeType => <.pre(<.code(createChildren(children))).rawElement
-          case ParagraphNode.nodeType => <.p(createChildren(children)).rawElement
-          case BlockQuoteNode.nodeType => <.blockquote(createChildren(children)).rawElement
-          case ListItemNode.nodeType => <.li(createChildren(children)).rawElement
+          case CodeNode.nodeType          => <.pre(<.code(createChildren(children))).rawElement
+          case ParagraphNode.nodeType     => <.p(createChildren(children)).rawElement
+          case BlockQuoteNode.nodeType    => <.blockquote(createChildren(children)).rawElement
+          case ListItemNode.nodeType      => <.li(createChildren(children)).rawElement
           case UnorderedListNode.nodeType => <.ul(createChildren(children)).rawElement
-          case OrderedListNode.nodeType => <.ol(createChildren(children)).rawElement
+          case OrderedListNode.nodeType   => <.ol(createChildren(children)).rawElement
         }
       }
       res
@@ -76,10 +81,11 @@ object Serializer {
           new RuleDeserializeOutput(
             kind = "block",
             tpe = TextAlignNode.nodeType,
-            data = js.defined(js.Dynamic.literal(
-              textAlign = textAlign,
-              originalType = tpe
-            )),
+            data = js.defined(
+              js.Dynamic.literal(
+                textAlign = textAlign,
+                originalType = tpe
+              )),
             nodes = next(ele.childNodes)
           )
         }
@@ -129,11 +135,12 @@ object Serializer {
             kind = "inline",
             tpe = ImageNode.nodeType,
             isVoid = true,
-            data = js.defined(js.Dynamic.literal(
-              source = ele.getAttribute("src"),
-              width = ele.getAttribute("width"),
-              height = ele.getAttribute("height")
-            )),
+            data = js.defined(
+              js.Dynamic.literal(
+                source = ele.getAttribute("src"),
+                width = ele.getAttribute("width"),
+                height = ele.getAttribute("height")
+              )),
             nodes = next(ele.childNodes)
           )
         } else {
@@ -167,17 +174,24 @@ object Serializer {
     }
   )
 
-  private val htmlSerializer = new HtmlSerializer(new Options(js.Array(
-    // The order of rules are important
-    // We need to put the text alignment before block rule
-    textAlignmentHandler, blockHandler, linkHandler, imageHandler, markHandler
-  )))
+  private val htmlSerializer = new HtmlSerializer(
+    new Options(
+      js.Array(
+        // The order of rules are important
+        // We need to put the text alignment before block rule
+        textAlignmentHandler,
+        blockHandler,
+        linkHandler,
+        imageHandler,
+        markHandler
+      )))
 
-  private def createChildren(children: js.Object) = PropsChildren.fromRawProps(js.Dynamic.literal(children = children))
+  private def createChildren(children: js.Object) =
+    PropsChildren.fromRawProps(js.Dynamic.literal(children = children))
 
   def deserialize(rawHtml: String): Value = {
     val trim = rawHtml
-      // Reduce the number of new lines
+    // Reduce the number of new lines
       .replaceAll("(\n)+", "\n")
       // We have to remove spaces between tags. Otherwise, it can't render the nested blocks
       // See

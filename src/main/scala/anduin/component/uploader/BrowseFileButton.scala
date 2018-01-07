@@ -17,15 +17,16 @@ import japgolly.scalajs.react.vdom.html_<^._
   * Renders an input element for choosing local files
   */
 final case class BrowseFileButton(
-  multiple: Boolean = true,
-  disabled: Boolean = false,
-  classes: String = "",
-  tip: String = "",
-  onBrowse: FileList => Callback = _ => Callback.empty,
-  keyOpt: Option[String] = None
+    multiple: Boolean = true,
+    disabled: Boolean = false,
+    classes: String = "",
+    tip: String = "",
+    onBrowse: FileList => Callback = _ => Callback.empty,
+    keyOpt: Option[String] = None
 ) {
   def apply(children: VdomNode*): ScalaComponent.Unmounted[_, _, _] = {
-    val component = keyOpt.map(BrowseFileButton.component.withKey(_)).getOrElse(BrowseFileButton.component.ctor)
+    val component =
+      keyOpt.map(BrowseFileButton.component.withKey(_)).getOrElse(BrowseFileButton.component.ctor)
     component(this)(children: _*)
   }
 }
@@ -67,7 +68,8 @@ object BrowseFileButton {
     }
   }
 
-  private val component = ScalaComponent.builder[BrowseFileButton](ComponentName)
+  private val component = ScalaComponent
+    .builder[BrowseFileButton](ComponentName)
     .stateless
     .renderBackendWithChildren[Backend]
     .build

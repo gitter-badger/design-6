@@ -11,25 +11,26 @@ import japgolly.scalajs.react.vdom.html_<^._
 
 // scalastyle:off parameter.number
 final case class OpenModalButton(
-  buttonLabel: String,
-  buttonClasses: String = "",
-  disabled: Boolean = false,
-  tip: String = "",
-  modalTitle: String = "",
-  modalClasses: String = "",
-  modalBody: Callback => VdomElement = _ => <.span(),
-  modalHeader: Option[Modal.ModalHeaderRenderer] = None,
-  overlayCloseable: Boolean = true,
-  closeOnEscape: Boolean = true,
-  isOpen: Boolean = false,
-  onBeforeShowing: Callback = Callback.empty,
-  onAfterHiding: Callback = Callback.empty,
-  showCloseBtn: Boolean = true,
-  // Add key when we want to distinguish between different button
-  keyOpt: Option[String] = None
+    buttonLabel: String,
+    buttonClasses: String = "",
+    disabled: Boolean = false,
+    tip: String = "",
+    modalTitle: String = "",
+    modalClasses: String = "",
+    modalBody: Callback => VdomElement = _ => <.span(),
+    modalHeader: Option[Modal.ModalHeaderRenderer] = None,
+    overlayCloseable: Boolean = true,
+    closeOnEscape: Boolean = true,
+    isOpen: Boolean = false,
+    onBeforeShowing: Callback = Callback.empty,
+    onAfterHiding: Callback = Callback.empty,
+    showCloseBtn: Boolean = true,
+    // Add key when we want to distinguish between different button
+    keyOpt: Option[String] = None
 ) {
   def apply(children: VdomNode*): ScalaComponent.Unmounted[_, _, _] = {
-    val ctorType = keyOpt.map(OpenModalButton.component.withKey(_)).getOrElse(OpenModalButton.component.ctor)
+    val ctorType =
+      keyOpt.map(OpenModalButton.component.withKey(_)).getOrElse(OpenModalButton.component.ctor)
     ctorType(this)(children: _*)
   }
 }
@@ -84,7 +85,6 @@ object OpenModalButton {
           props.buttonLabel,
           children
         ),
-
         TagMod.unless(props.disabled) {
           Modal(
             title = props.modalTitle,
@@ -101,7 +101,8 @@ object OpenModalButton {
     }
   }
 
-  private val component = ScalaComponent.builder[OpenModalButton](componentName)
+  private val component = ScalaComponent
+    .builder[OpenModalButton](componentName)
     .initialStateFromProps { props =>
       State(
         isOpen = props.isOpen,

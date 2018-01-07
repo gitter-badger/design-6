@@ -11,8 +11,8 @@ import japgolly.scalajs.react.vdom.html_<^._
 // scalastyle:on underscore.import
 
 private[editor] final case class MarkButtonBar(
-  value: Value,
-  onChange: Change => Callback
+    value: Value,
+    onChange: Change => Callback
 ) {
   def apply(): ScalaComponent.Unmounted[_, _, _] = MarkButtonBar.component(this)
 }
@@ -30,22 +30,24 @@ private[editor] object MarkButtonBar {
           (ItalicNode, Iconv2.italic(), "Italic"),
           (UnderlineNode, Iconv2.underline(), "Underline"),
           (StrikeThroughNode, Iconv2.strikethrough(), "Strikethrough")
-        ).toVdomArray { case (markNode, icon, tip) =>
-          ToolbarButton(
-            key = markNode.nodeType,
-            tip = tip,
-            active = props.value.activeMarks.some(item => item.markType == markNode.nodeType),
-            onClick = {
-              val change = props.value.change().toggleMark(markNode.nodeType)
-              props.onChange(change)
-            }
-          )(icon)
+        ).toVdomArray {
+          case (markNode, icon, tip) =>
+            ToolbarButton(
+              key = markNode.nodeType,
+              tip = tip,
+              active = props.value.activeMarks.some(item => item.markType == markNode.nodeType),
+              onClick = {
+                val change = props.value.change().toggleMark(markNode.nodeType)
+                props.onChange(change)
+              }
+            )(icon)
         }
       )
     }
   }
 
-  private val component = ScalaComponent.builder[MarkButtonBar](ComponentName)
+  private val component = ScalaComponent
+    .builder[MarkButtonBar](ComponentName)
     .stateless
     .renderBackend[Backend]
     .build

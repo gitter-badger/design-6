@@ -20,13 +20,14 @@ import japgolly.scalajs.react.vdom.html_<^._
 // scalastyle:on underscore.import
 
 final case class Toolbar(
-  value: Value,
-  onChange: Change => Callback,
-  onSelectFilesOpt: Option[FileList => Callback],
-  shareDocsFromWorkspaceButton: Option[TagMod],
-  showAttachmentIcon: Boolean
+    value: Value,
+    onChange: Change => Callback,
+    onSelectFilesOpt: Option[FileList => Callback],
+    shareDocsFromWorkspaceButton: Option[TagMod],
+    showAttachmentIcon: Boolean
 ) {
-  def apply(children: VdomNode*): ScalaComponent.Unmounted[_, _, _] = Toolbar.component(this)(children: _*)
+  def apply(children: VdomNode*): ScalaComponent.Unmounted[_, _, _] =
+    Toolbar.component(this)(children: _*)
 }
 
 object Toolbar {
@@ -64,10 +65,11 @@ object Toolbar {
             // If there's no selected text, create a link with the same text and href
             change.insertText(standardLink).extend(0 - standardLink.length)
           }
-          change.wrapInline(js.Dynamic.literal(
-            `type` = LinkNode.nodeType,
-            data = js.Dynamic.literal(href = standardLink)
-          ))
+          change.wrapInline(
+            js.Dynamic.literal(
+              `type` = LinkNode.nodeType,
+              data = js.Dynamic.literal(href = standardLink)
+            ))
           change.collapseToEnd()
           props.onChange(change)
         }
@@ -88,8 +90,10 @@ object Toolbar {
     def render(props: Toolbar, children: PropsChildren): VdomElement = {
       val hasLink = hasLinks(props.value)
 
-      <.div(^.cls := "editor-toolbar flex padding-all-small items-center",
-        <.div(^.cls := "btn-group flex items-center",
+      <.div(
+        ^.cls := "editor-toolbar flex padding-all-small items-center",
+        <.div(
+          ^.cls := "btn-group flex items-center",
           TagMod.when(props.showAttachmentIcon) {
             TagMod(
               if (props.shareDocsFromWorkspaceButton.isDefined) {
@@ -100,16 +104,22 @@ object Toolbar {
                   placement = Popover.Placement.BottomRight,
                   classes = "pointer"
                 )(
-                  _ => <.ul(^.cls := "no-bullet",
-                    <.li(^.cls := "item mb1",
-                      BrowseFileButton(
-                        classes = s"popover-menu-item ${if (props.onSelectFilesOpt.isEmpty) "disabled" else ""}",
-                        onBrowse = fileList => Callback.traverseOption(props.onSelectFilesOpt)(_ (fileList))
-                      )(<.span("Upload documents"))
-                    ),
-                    props.shareDocsFromWorkspaceButton.whenDefined { component =>
-                      <.li(^.cls := "item", component)
-                    }
+                  _ =>
+                    <.ul(
+                      ^.cls := "no-bullet",
+                      <.li(
+                        ^.cls := "item mb1",
+                        BrowseFileButton(
+                          classes = s"popover-menu-item ${if (props.onSelectFilesOpt.isEmpty) {
+                            "disabled"
+                          } else { "" }}",
+                          onBrowse =
+                            fileList => Callback.traverseOption(props.onSelectFilesOpt)(_(fileList))
+                        )(<.span("Upload documents"))
+                      ),
+                      props.shareDocsFromWorkspaceButton.whenDefined { component =>
+                        <.li(^.cls := "item", component)
+                      }
                   )
                 )()
               } else {
@@ -117,26 +127,21 @@ object Toolbar {
                   tip = "Upload documents",
                   offset = 4
                 )(BrowseFileButton(
-                  classes = s"btn -plain -icon-only ${if (props.onSelectFilesOpt.isEmpty) "disabled" else ""}",
-                  onBrowse = fileList => Callback.traverseOption(props.onSelectFilesOpt)(_ (fileList))
+                  classes =
+                    s"btn -plain -icon-only ${if (props.onSelectFilesOpt.isEmpty) { "disabled" } else { "" }}",
+                  onBrowse = fileList =>
+                    Callback.traverseOption(props.onSelectFilesOpt)(_(fileList))
                 )(Iconv2.clippie()))
               },
               <.span(^.cls := "divider margin-horizontal-small", "-------")
             )
           },
-
           MarkButtonBar(props.value, props.onChange)(),
-
           <.span(^.cls := "divider margin-horizontal-small", "-------"),
-
           AlignButtonBar(props.value, props.onChange)(),
-
           <.span(^.cls := "divider margin-horizontal-small", "-------"),
-
           BlockButtonBar(props.value, props.onChange)(),
-
           <.span(^.cls := "divider margin-horizontal-small", "-------"),
-
           // Undo button
           <.span(
             ^.cls := "tooltip -top",
@@ -151,7 +156,6 @@ object Toolbar {
               Iconv2.undo()
             )
           ),
-
           // Redo button
           <.span(
             ^.cls := "tooltip -top",
@@ -166,9 +170,7 @@ object Toolbar {
               Iconv2.redo()
             )
           ),
-
           <.span(^.cls := "divider margin-horizontal-small", "-------"),
-
           <.span(
             ^.cls := "tooltip -top",
             VdomAttr("data-tip") := "Insert Link",
@@ -179,7 +181,6 @@ object Toolbar {
               modalBody = LinkModal(props.value, onAddLink, _)()
             )(Iconv2.link())
           ),
-
           <.span(
             ^.cls := "tooltip -top",
             VdomAttr("data-tip") := "Remove Link",
@@ -194,8 +195,8 @@ object Toolbar {
             )
           )
         ),
-
-        <.div(^.cls := "flex margin-left-auto",
+        <.div(
+          ^.cls := "flex margin-left-auto",
           <.span(
             ^.cls := "tooltip -top",
             VdomAttr("data-tip") := "Keyboard Shortcuts",
@@ -214,7 +215,8 @@ object Toolbar {
     // scalastyle:on method.length multiple.string.literals
   }
 
-  private val component = ScalaComponent.builder[Toolbar](ComponentName)
+  private val component = ScalaComponent
+    .builder[Toolbar](ComponentName)
     .stateless
     .renderBackendWithChildren[Backend]
     .build

@@ -12,9 +12,9 @@ import japgolly.scalajs.react.vdom.html_<^._
 // scalastyle:on underscore.import
 
 final case class Label(
-  label: String,
-  labelType: Label.LabelType = Label.Default,
-  keyOpt: Option[String] = None
+    label: String,
+    labelType: Label.LabelType = Label.Default,
+    keyOpt: Option[String] = None
 ) {
   def apply(): Unmounted[_, _, _] = {
     val c = Label.component
@@ -52,14 +52,20 @@ object Label {
     }
   }
 
-  private val component = ScalaComponent.builder[Label](ComponentName)
+  private val component = ScalaComponent
+    .builder[Label](ComponentName)
     .stateless
     .renderBackend[Backend]
     .build
 
-  def default(label: String, keyOpt: Option[String] = None): Unmounted[_, _, _] = Label(label, Default, keyOpt)()
-  def primary(label: String, keyOpt: Option[String] = None): Unmounted[_, _, _] = Label(label, Primary, keyOpt)()
-  def success(label: String, keyOpt: Option[String] = None): Unmounted[_, _, _] = Label(label, Success, keyOpt)()
-  def warning(label: String, keyOpt: Option[String] = None): Unmounted[_, _, _] = Label(label, Warning, keyOpt)()
-  def danger(label: String, keyOpt: Option[String] = None): Unmounted[_, _, _] = Label(label, Danger, keyOpt)()
+  def default(label: String, keyOpt: Option[String] = None): Unmounted[_, _, _] =
+    Label(label, Default, keyOpt)()
+  def primary(label: String, keyOpt: Option[String] = None): Unmounted[_, _, _] =
+    Label(label, Primary, keyOpt)()
+  def success(label: String, keyOpt: Option[String] = None): Unmounted[_, _, _] =
+    Label(label, Success, keyOpt)()
+  def warning(label: String, keyOpt: Option[String] = None): Unmounted[_, _, _] =
+    Label(label, Warning, keyOpt)()
+  def danger(label: String, keyOpt: Option[String] = None): Unmounted[_, _, _] =
+    Label(label, Danger, keyOpt)()
 }

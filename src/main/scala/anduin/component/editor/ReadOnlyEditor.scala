@@ -17,8 +17,8 @@ import anduin.scalajs.slate.Slate._
 // scalastyle:on underscore.import
 
 final case class ReadOnlyEditor(
-  html: String,
-  maxLengthOpt: Option[Int] = None
+    html: String,
+    maxLengthOpt: Option[Int] = None
 ) {
   def apply(): ScalaComponent.Unmounted[_, _, _] = ReadOnlyEditor.component(this)
 }
@@ -58,12 +58,13 @@ object ReadOnlyEditor {
             val links = linkFinder.matches(text)
             if (links != null) { // scalastyle:ignore null
               links.foreach { link =>
-                val range = Range.create(js.Dynamic.literal(
-                  anchorKey = textItem.key,
-                  anchorOffset = link.index,
-                  focusKey = textItem.key,
-                  focusOffset = link.lastIndex
-                ))
+                val range = Range.create(
+                  js.Dynamic.literal(
+                    anchorKey = textItem.key,
+                    anchorOffset = link.index,
+                    focusKey = textItem.key,
+                    focusOffset = link.lastIndex
+                  ))
                 val inline = js.Dynamic.literal(
                   `type` = "link",
                   data = js.Dynamic.literal(href = link.url)
@@ -80,7 +81,8 @@ object ReadOnlyEditor {
     }
   }
 
-  private val component = ScalaComponent.builder[ReadOnlyEditor](ComponentName)
+  private val component = ScalaComponent
+    .builder[ReadOnlyEditor](ComponentName)
     .initialStateFromProps { props =>
       val body = props.maxLengthOpt.map(props.html.substring(0, _)).getOrElse(props.html)
       State(value = Serializer.deserialize(body))

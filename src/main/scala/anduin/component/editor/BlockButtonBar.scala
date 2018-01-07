@@ -11,8 +11,8 @@ import japgolly.scalajs.react.vdom.html_<^._
 // scalastyle:on underscore.import
 
 private[editor] final case class BlockButtonBar(
-  value: Value,
-  onChange: Change => Callback
+    value: Value,
+    onChange: Change => Callback
 ) {
   def apply(): ScalaComponent.Unmounted[_, _, _] = BlockButtonBar.component(this)
 }
@@ -94,19 +94,21 @@ private[editor] object BlockButtonBar {
           (BlockQuoteNode, Icon.speechBubble(), "Quote"), // TODO: Change the icon
           (UnorderedListNode, Icon.bulletPoint(), "Bulleted List"),
           (OrderedListNode, Icon.orderedList(), "Numbered List")
-        ).toVdomArray { case (blockNode, icon, tip) =>
-          ToolbarButton(
-            key = blockNode.nodeType,
-            tip = tip,
-            active = hasBlock(props.value, blockNode),
-            onClick = onClick(blockNode)
-          )(icon)
+        ).toVdomArray {
+          case (blockNode, icon, tip) =>
+            ToolbarButton(
+              key = blockNode.nodeType,
+              tip = tip,
+              active = hasBlock(props.value, blockNode),
+              onClick = onClick(blockNode)
+            )(icon)
         }
       )
     }
   }
 
-  private val component = ScalaComponent.builder[BlockButtonBar](ComponentName)
+  private val component = ScalaComponent
+    .builder[BlockButtonBar](ComponentName)
     .stateless
     .renderBackend[Backend]
     .build

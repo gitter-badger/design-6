@@ -19,9 +19,9 @@ private[editor] object MarkRenderer {
   def apply(markType: String, children: js.Object): raw.ReactElement = {
     val childrenEle = PropsChildren.fromRawProps(js.Dynamic.literal(children = children))
     markType match {
-      case BoldNode.nodeType => <.strong(childrenEle).rawElement
-      case ItalicNode.nodeType => <.em(childrenEle).rawElement
-      case UnderlineNode.nodeType => <.u(childrenEle).rawElement
+      case BoldNode.nodeType          => <.strong(childrenEle).rawElement
+      case ItalicNode.nodeType        => <.em(childrenEle).rawElement
+      case UnderlineNode.nodeType     => <.u(childrenEle).rawElement
       case StrikeThroughNode.nodeType => <.del(childrenEle).rawElement
     }
   }

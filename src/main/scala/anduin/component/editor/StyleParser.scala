@@ -12,10 +12,12 @@ private[editor] object StyleParser {
     * Parse the text alignment from given element
     */
   def textAlign(ele: Element): String = {
-    Option(ele.getAttribute("style")).flatMap(
-      _.split(";")
-        .find(_.trim.startsWith(TextAlignProperty))
-        .map(_.stripPrefix(TextAlignProperty).trim)
-    ).getOrElse("")
+    Option(ele.getAttribute("style"))
+      .flatMap(
+        _.split(";")
+          .find(_.trim.startsWith(TextAlignProperty))
+          .map(_.stripPrefix(TextAlignProperty).trim)
+      )
+      .getOrElse("")
   }
 }

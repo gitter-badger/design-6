@@ -28,25 +28,27 @@ private[editor] object ShortcutModal {
       ("Y", "Redo")
     )
 
-    <.div(^.cls := "modal-body",
-      <.ul(^.cls := "list os-specific-keys flex",
-        shortcuts.toVdomArray { case (key, description) =>
-          <.li(
-            ^.cls := "item flex items-center",
-            ^.key := s"key-$key",
-            cmdKey,
-            operator,
-            <.span(^.cls := "key", key),
-            <.span(^.cls := "margin-left-large", description)
-          )
+    <.div(
+      ^.cls := "modal-body",
+      <.ul(
+        ^.cls := "list os-specific-keys flex",
+        shortcuts.toVdomArray {
+          case (key, description) =>
+            <.li(
+              ^.cls := "item flex items-center",
+              ^.key := s"key-$key",
+              cmdKey,
+              operator,
+              <.span(^.cls := "key", key),
+              <.span(^.cls := "margin-left-large", description)
+            )
         }
       ),
-
-      <.ul(^.cls := "list universal-keys",
+      <.ul(
+        ^.cls := "list universal-keys",
         <.li(^.cls := "item flex items-center",
-          <.span(^.cls := "key padding-horizontal-normal", "Enter / Return"),
-          <.span(^.cls := "margin-left-large", "New Line")
-        )
+             <.span(^.cls := "key padding-horizontal-normal", "Enter / Return"),
+             <.span(^.cls := "margin-left-large", "New Line"))
       )
     )
   }
