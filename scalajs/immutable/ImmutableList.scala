@@ -6,10 +6,13 @@ import scala.scalajs.js
 
 @js.native
 trait ImmutableList[T <: js.Object] extends js.Object {
-  def some(predicate: js.Function1[T, Boolean]): Boolean =
-    js.native // linter:ignore UnusedParameter
-  def filter(predicate: js.Function1[T, Boolean]): ImmutableList[T] =
-    js.native // linter:ignore UnusedParameter
+  def some(predicate: js.Function1[T, Boolean]) // linter:ignore UnusedParameter
+  : Boolean = js.native
+
+  def filter(predicate: js.Function1[T, Boolean]) // linter:ignore UnusedParameter
+  : ImmutableList[T] = js.native
+
   def first(): T = js.native
+
   def toArray(): js.Array[T] = js.native
 }

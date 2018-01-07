@@ -6,6 +6,6 @@ import scala.scalajs.js
 
 @js.native
 trait ImmutableSet[T <: js.Object] extends js.Object {
-  def some(predicate: js.Function1[T, Boolean]): Boolean =
-    js.native // linter:ignore UnusedParameter
+  def some(predicate: js.Function1[T, Boolean]) // linter:ignore UnusedParameter
+  : Boolean = js.native
 }
