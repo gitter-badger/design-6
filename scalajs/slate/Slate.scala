@@ -62,16 +62,16 @@ object Slate {
   }
 
   final class WrapInlineProps(
-      @JSName("type") val inlineType: String,
-      val data: js.Object
+    @JSName("type") val inlineType: String,
+    val data: js.Object
   ) extends js.Object
 
   // See https://docs.slatejs.org/slate-core/mark
   @JSImport("slate", "Mark")
   @js.native
   final class Mark(
-      @JSName("type") val markType: String,
-      val kind: String = "mark"
+    @JSName("type") val markType: String,
+    val kind: String = "mark"
   ) extends js.Object
 
   // See https://docs.slatejs.org/slate-core/node
@@ -94,7 +94,7 @@ object Slate {
   @JSImport("slate", "Inline")
   @js.native
   final class Inline(
-      @JSName("type") val inlineType: String = js.native // link, hashtag, for example
+    @JSName("type") val inlineType: String = js.native // link, hashtag, for example
   ) extends js.Object
 
   // See https://docs.slatejs.org/slate-core/data
@@ -115,10 +115,10 @@ object Slate {
   }
 
   final class Range(
-      val anchorKey: String,
-      val anchorOffset: Int,
-      val focusKey: String,
-      val focusOffset: Int
+    val anchorKey: String,
+    val anchorOffset: Int,
+    val focusKey: String,
+    val focusOffset: Int
   ) extends js.Object
 
   // See https://docs.slatejs.org/slate-core/text

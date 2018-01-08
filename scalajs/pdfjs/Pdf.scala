@@ -184,10 +184,10 @@ trait TextLayerRenderParameters extends js.Object {
 
 object TextLayerRenderParameters {
   def apply(
-      textContent: TextContent,
-      container: HTMLElement,
-      viewport: PDFPageViewport,
-      textDivs: js.Array[HTMLElement] = js.Array[HTMLElement]()
+    textContent: TextContent,
+    container: HTMLElement,
+    viewport: PDFPageViewport,
+    textDivs: js.Array[HTMLElement] = js.Array[HTMLElement]()
   ): TextLayerRenderParameters = {
     js.Dynamic
       .literal(textContent = textContent,
@@ -277,11 +277,11 @@ trait AnnotationLayerParameters extends js.Object {
 
 object AnnotationLayerParameters {
   def apply(
-      viewport: PDFPageViewport,
-      div: HTMLElement,
-      page: PDFPageProxy,
-      annotations: js.Array[Annotation],
-      linkService: LinkService = SimpleLinkService()
+    viewport: PDFPageViewport,
+    div: HTMLElement,
+    page: PDFPageProxy,
+    annotations: js.Array[Annotation],
+    linkService: LinkService = SimpleLinkService()
   ): AnnotationLayerParameters = {
     js.Dynamic
       .literal(viewport = viewport,
