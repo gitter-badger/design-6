@@ -87,7 +87,7 @@ object Toolbar {
       <.div(^.cls := "editor-toolbar flex padding-all-small items-center",
         <.div(^.cls := "btn-group flex items-center",
           props.attachmentButton,
-
+          <.span(^.cls := "divider margin-horizontal-small", "-------"),
           MarkButtonBar(props.value, props.onChange)(),
           <.span(^.cls := "divider margin-horizontal-small", "-------"),
           AlignButtonBar(props.value, props.onChange)(),
