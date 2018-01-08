@@ -51,12 +51,12 @@ object Slate {
     def setBlock(props: js.Object): Change = js.native // linter:ignore UnusedParameter
     def unwrapBlock(block: String): Change = js.native // linter:ignore UnusedParameter
     def wrapBlock(block: String): Change = js.native // linter:ignore UnusedParameter
-    def insertInlineAtRange(range: Range, properties: js.Object): Change =
-      js.native // linter:ignore UnusedParameter
-    def wrapInlineAtRange(range: Range, properties: js.Object): Change =
-      js.native // linter:ignore UnusedParameter
-    def moveOffsetsTo(anchorOffset: Int, focusOffset: Int): Change =
-      js.native // linter:ignore UnusedParameter
+    def insertInlineAtRange(range: Range, properties: js.Object): Change = // linter:ignore UnusedParameter
+      js.native
+    def wrapInlineAtRange(range: Range, properties: js.Object): Change = // linter:ignore UnusedParameter
+      js.native
+    def moveOffsetsTo(anchorOffset: Int, focusOffset: Int): Change = // linter:ignore UnusedParameter
+      js.native
     def deselect(): Change = js.native
     def extendToStartOf(node: Node): Change = js.native // linter:ignore UnusedParameter
   }
@@ -84,9 +84,10 @@ object Slate {
     val nodes: ImmutableList[Node] = js.native
     val text: String = js.native
 
-    def getClosest(key: String,
-                   @JSName("match") find: js.Function1[Node, Boolean]): js.UndefOr[Node] =
-      js.native // linter:ignore UnusedParameter
+    def getClosest(
+      key: String, // linter:ignore UnusedParameter
+      @JSName("match") find: js.Function1[Node, Boolean]) // linter:ignore UnusedParameter
+      : js.UndefOr[Node] = js.native
     def getTexts(): ImmutableList[Text] = js.native
   }
 
