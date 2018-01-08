@@ -20,29 +20,29 @@ import japgolly.scalajs.react.vdom.html_<^._
 // scalastyle:on underscore.import
 
 final case class Popover(
-    toggler: TagMod,
-    disableToggler: Boolean = false,
-    hasCloseButton: Boolean = false,
-    // Set it to `true` if you want to calculate the popover position dynamically when it's shown.
-    // It's used to fix the problem where the absolute positioning popover is displayed under some layers
-    dynamicPosition: Boolean = false,
-    verticalOffset: Double = 0,
-    horizontalOffset: Double = 0,
-    placement: Popover.Placement = Popover.Placement.Default,
-    size: Popover.Size = Popover.Size.Default,
-    classes: String = "",
-    popoverBodyClasses: String = "",
-    key: String = "",
-    trigger: Popover.Trigger = Popover.Trigger.Click,
-    hideWhenClickInside: Boolean = true,
-    //set to false if you don't want to hide popover on click event (both outside and inside)
-    //this is a workaround when inside the popover have a dropdown that content exceeds the popover body area
-    hideWhenClick: Boolean = true,
-    status: Popover.Status = Popover.Status.Hidden,
-    unmountWhenHide: Boolean = false,
-    onStatusChange: Popover.Status => Callback = _ => Callback.empty
+  toggler: TagMod,
+  disableToggler: Boolean = false,
+  hasCloseButton: Boolean = false,
+  // Set it to `true` if you want to calculate the popover position dynamically when it's shown.
+  // It's used to fix the problem where the absolute positioning popover is displayed under some layers
+  dynamicPosition: Boolean = false,
+  verticalOffset: Double = 0,
+  horizontalOffset: Double = 0,
+  placement: Popover.Placement = Popover.Placement.Default,
+  size: Popover.Size = Popover.Size.Default,
+  classes: String = "",
+  popoverBodyClasses: String = "",
+  key: String = "",
+  trigger: Popover.Trigger = Popover.Trigger.Click,
+  hideWhenClickInside: Boolean = true,
+  //set to false if you don't want to hide popover on click event (both outside and inside)
+  //this is a workaround when inside the popover have a dropdown that content exceeds the popover body area
+  hideWhenClick: Boolean = true,
+  status: Popover.Status = Popover.Status.Hidden,
+  unmountWhenHide: Boolean = false,
+  onStatusChange: Popover.Status => Callback = _ => Callback.empty
 )(
-    val children: Popover.RenderProps => TagMod // display state => component
+  val children: Popover.RenderProps => TagMod // display state => component
 ) {
   def apply(): ScalaComponent.Unmounted[_, _, _] = Popover.component.withKey(key)(this)
 }

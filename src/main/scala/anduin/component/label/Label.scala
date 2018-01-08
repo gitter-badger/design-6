@@ -12,9 +12,9 @@ import japgolly.scalajs.react.vdom.html_<^._
 // scalastyle:on underscore.import
 
 final case class Label(
-    label: String,
-    labelType: Label.LabelType = Label.Default,
-    keyOpt: Option[String] = None
+  label: String,
+  labelType: Label.LabelType = Label.Default,
+  keyOpt: Option[String] = None
 ) {
   def apply(): Unmounted[_, _, _] = {
     val c = Label.component

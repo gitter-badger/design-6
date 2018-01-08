@@ -11,11 +11,11 @@ import anduin.component.button.ProgressButton
 // scalastyle:on underscore.import
 
 final case class CommonConfirmModal(
-    displayInfo: TagMod,
-    onConfirm: Callback => Callback,
-    onClose: Callback,
-    confirmBtnLabel: String = "Confirm",
-    confirmBtnExtraClasses: String = ""
+  displayInfo: TagMod,
+  onConfirm: Callback => Callback,
+  onClose: Callback,
+  confirmBtnLabel: String = "Confirm",
+  confirmBtnExtraClasses: String = ""
 ) {
   def apply(): ScalaComponent.Unmounted[_, _, _] = CommonConfirmModal.component(this)
 }
@@ -25,7 +25,7 @@ object CommonConfirmModal {
   private val ComponentName = this.getClass.getSimpleName
 
   private case class State(
-      confirmBtnStatus: ProgressButton.Status
+    confirmBtnStatus: ProgressButton.Status
   )
 
   private case class Backend(scope: BackendScope[CommonConfirmModal, State]) {

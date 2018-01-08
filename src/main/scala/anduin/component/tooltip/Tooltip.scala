@@ -15,13 +15,13 @@ import japgolly.scalajs.react.vdom.html_<^._
 // scalastyle:on underscore.import
 
 final case class Tooltip(
-    tip: String,
-    placement: Tooltip.Placement = Tooltip.Placement.Top,
-    containerClasses: String = "",
-    tipClasses: String = "",
-    status: Tooltip.Status = Tooltip.Status.Default,
-    offset: Double = 5,
-    size: Tooltip.Size = Tooltip.Size.Default
+  tip: String,
+  placement: Tooltip.Placement = Tooltip.Placement.Top,
+  containerClasses: String = "",
+  tipClasses: String = "",
+  status: Tooltip.Status = Tooltip.Status.Default,
+  offset: Double = 5,
+  size: Tooltip.Size = Tooltip.Size.Default
 ) {
   def apply(children: VdomNode*): ScalaComponent.Unmounted[_, _, _] =
     Tooltip.component(this)(children: _*)

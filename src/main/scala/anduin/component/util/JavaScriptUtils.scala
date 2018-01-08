@@ -48,8 +48,8 @@ object JavaScriptUtils {
     * @return Callback
     */
   def openURL(
-      url: String,
-      target: String = "_self"
+    url: String,
+    target: String = "_self"
   ): Callback = {
     Callback(
       dom.window.open(url, target)

@@ -29,13 +29,13 @@ object Calendar {
   private val ShortDayNames = Array("Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat")
 
   case class Props(
-      date: LocalDate,
-      minDate: Option[LocalDate],
-      maxDate: Option[LocalDate],
-      yearRange: Int,
-      shown: Boolean,
-      onDayChange: LocalDate => Callback,
-      onHideCalendar: LocalDate => Callback // final date => Callback
+    date: LocalDate,
+    minDate: Option[LocalDate],
+    maxDate: Option[LocalDate],
+    yearRange: Int,
+    shown: Boolean,
+    onDayChange: LocalDate => Callback,
+    onHideCalendar: LocalDate => Callback // final date => Callback
   )
 
   case class State(date: LocalDate)
@@ -334,13 +334,13 @@ object Calendar {
     .build
 
   def apply(
-      date: LocalDate = ZonedDateTime.now(ZoneOffset.UTC).toLocalDate,
-      minDate: Option[LocalDate] = None,
-      maxDate: Option[LocalDate] = None,
-      yearRange: Int = 10,
-      shown: Boolean = false,
-      onDayChange: LocalDate => Callback = _ => Callback.empty,
-      onHideCalendar: LocalDate => Callback = _ => Callback.empty
+    date: LocalDate = ZonedDateTime.now(ZoneOffset.UTC).toLocalDate,
+    minDate: Option[LocalDate] = None,
+    maxDate: Option[LocalDate] = None,
+    yearRange: Int = 10,
+    shown: Boolean = false,
+    onDayChange: LocalDate => Callback = _ => Callback.empty,
+    onHideCalendar: LocalDate => Callback = _ => Callback.empty
   ): ScalaComponent.Unmounted[_, _, _] = component(
     Props(
       date = date,

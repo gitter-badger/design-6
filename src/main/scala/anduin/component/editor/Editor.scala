@@ -25,14 +25,14 @@ private[editor] object Editor {
   type DecorateNodeFn = js.Function1[Node, js.Array[js.Object]]
 
   def apply(
-      placeholder: String,
-      value: Value,
-      readOnly: Boolean,
-      onChange: Change => Callback,
-      onKeyDown: (KeyboardEvent, Change) => Callback,
-      renderNode: RenderNodeProps => RenderOutput,
-      renderMark: RenderMarkProps => RenderOutput,
-      decorateNodeOpt: Option[Node => js.Array[js.Object]] = None
+    placeholder: String,
+    value: Value,
+    readOnly: Boolean,
+    onChange: Change => Callback,
+    onKeyDown: (KeyboardEvent, Change) => Callback,
+    renderNode: RenderNodeProps => RenderOutput,
+    renderMark: RenderMarkProps => RenderOutput,
+    decorateNodeOpt: Option[Node => js.Array[js.Object]] = None
   ): UnmountedWithRawType[_, _, _] = {
     component(
       new Props(
@@ -51,23 +51,23 @@ private[editor] object Editor {
 
   // See https://docs.slatejs.org/slate-react/editor
   final class Props(
-      val placeholder: String,
-      val value: Value,
-      val readOnly: Boolean,
-      val onChange: js.UndefOr[js.Function1[Change, Unit]] = js.undefined,
-      val onKeyDown: js.UndefOr[js.Function2[KeyboardEvent, Change, Unit]] = js.undefined,
-      val renderNode: js.UndefOr[js.Function1[RenderNodeProps, RenderOutput]] = js.undefined,
-      val renderMark: js.UndefOr[js.Function1[RenderMarkProps, RenderOutput]] = js.undefined,
-      val decorateNode: js.UndefOr[DecorateNodeFn] = js.undefined
+    val placeholder: String,
+    val value: Value,
+    val readOnly: Boolean,
+    val onChange: js.UndefOr[js.Function1[Change, Unit]] = js.undefined,
+    val onKeyDown: js.UndefOr[js.Function2[KeyboardEvent, Change, Unit]] = js.undefined,
+    val renderNode: js.UndefOr[js.Function1[RenderNodeProps, RenderOutput]] = js.undefined,
+    val renderMark: js.UndefOr[js.Function1[RenderMarkProps, RenderOutput]] = js.undefined,
+    val decorateNode: js.UndefOr[DecorateNodeFn] = js.undefined
   ) extends js.Object
 
   final class RenderMarkProps(
-      val mark: Mark,
-      val children: js.Object
+    val mark: Mark,
+    val children: js.Object
   ) extends js.Object
 
   final class RenderNodeProps(
-      val node: Node,
-      val children: js.Object
+    val node: Node,
+    val children: js.Object
   ) extends js.Object
 }

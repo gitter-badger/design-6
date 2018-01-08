@@ -11,22 +11,22 @@ import japgolly.scalajs.react.vdom.html_<^._
 
 // scalastyle:off parameter.number
 final case class OpenModalButton(
-    buttonLabel: String,
-    buttonClasses: String = "",
-    disabled: Boolean = false,
-    tip: String = "",
-    modalTitle: String = "",
-    modalClasses: String = "",
-    modalBody: Callback => VdomElement = _ => <.span(),
-    modalHeader: Option[Modal.ModalHeaderRenderer] = None,
-    overlayCloseable: Boolean = true,
-    closeOnEscape: Boolean = true,
-    isOpen: Boolean = false,
-    onBeforeShowing: Callback = Callback.empty,
-    onAfterHiding: Callback = Callback.empty,
-    showCloseBtn: Boolean = true,
-    // Add key when we want to distinguish between different button
-    keyOpt: Option[String] = None
+  buttonLabel: String,
+  buttonClasses: String = "",
+  disabled: Boolean = false,
+  tip: String = "",
+  modalTitle: String = "",
+  modalClasses: String = "",
+  modalBody: Callback => VdomElement = _ => <.span(),
+  modalHeader: Option[Modal.ModalHeaderRenderer] = None,
+  overlayCloseable: Boolean = true,
+  closeOnEscape: Boolean = true,
+  isOpen: Boolean = false,
+  onBeforeShowing: Callback = Callback.empty,
+  onAfterHiding: Callback = Callback.empty,
+  showCloseBtn: Boolean = true,
+  // Add key when we want to distinguish between different button
+  keyOpt: Option[String] = None
 ) {
   def apply(children: VdomNode*): ScalaComponent.Unmounted[_, _, _] = {
     val ctorType =

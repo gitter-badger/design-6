@@ -33,19 +33,19 @@ import japgolly.scalajs.react.vdom.html_<^._
   */
 // scalastyle:off multiple.string.literals
 final case class ProgressButton(
-    status: ProgressButton.Status = ProgressButton.Status.Default,
-    labels: ProgressButton.Status => String,
-    classMap: ProgressButton.Status => String = {
-      case ProgressButton.Status.Default  => "-primary"
-      case ProgressButton.Status.Loading  => "-loading"
-      case ProgressButton.Status.Disabled => "disabled"
-      case ProgressButton.Status.Success  => "-success"
-      case ProgressButton.Status.Error    => "-danger"
-    },
-    extraClasses: String = "",
-    submitButton: Boolean = false,
-    onClick: Callback = Callback.empty,
-    extraTagMods: Seq[TagMod] = Seq.empty
+  status: ProgressButton.Status = ProgressButton.Status.Default,
+  labels: ProgressButton.Status => String,
+  classMap: ProgressButton.Status => String = {
+    case ProgressButton.Status.Default  => "-primary"
+    case ProgressButton.Status.Loading  => "-loading"
+    case ProgressButton.Status.Disabled => "disabled"
+    case ProgressButton.Status.Success  => "-success"
+    case ProgressButton.Status.Error    => "-danger"
+  },
+  extraClasses: String = "",
+  submitButton: Boolean = false,
+  onClick: Callback = Callback.empty,
+  extraTagMods: Seq[TagMod] = Seq.empty
 ) {
   def apply(children: VdomNode*): ScalaComponent.Unmounted[_, _, _] = {
     ProgressButton.component(this)(children: _*)

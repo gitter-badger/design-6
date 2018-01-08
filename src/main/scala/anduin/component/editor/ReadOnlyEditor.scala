@@ -17,8 +17,8 @@ import anduin.scalajs.slate.Slate._
 // scalastyle:on underscore.import
 
 final case class ReadOnlyEditor(
-    html: String,
-    maxLengthOpt: Option[Int] = None
+  html: String,
+  maxLengthOpt: Option[Int] = None
 ) {
   def apply(): ScalaComponent.Unmounted[_, _, _] = ReadOnlyEditor.component(this)
 }

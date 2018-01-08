@@ -12,9 +12,9 @@ import japgolly.scalajs.react.vdom.html_<^._
 // scalastyle:on underscore.import
 
 private[editor] final case class LinkModal(
-    value: Value,
-    onAddLink: String => Callback,
-    onClose: Callback
+  value: Value,
+  onAddLink: String => Callback,
+  onClose: Callback
 ) {
   def apply(): ScalaComponent.Unmounted[_, _, _] = LinkModal.component(this)
 }

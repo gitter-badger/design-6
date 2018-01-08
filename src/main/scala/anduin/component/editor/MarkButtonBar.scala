@@ -11,8 +11,8 @@ import japgolly.scalajs.react.vdom.html_<^._
 // scalastyle:on underscore.import
 
 private[editor] final case class MarkButtonBar(
-    value: Value,
-    onChange: Change => Callback
+  value: Value,
+  onChange: Change => Callback
 ) {
   def apply(): ScalaComponent.Unmounted[_, _, _] = MarkButtonBar.component(this)
 }

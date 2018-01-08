@@ -20,11 +20,11 @@ import japgolly.scalajs.react.vdom.html_<^._
 // scalastyle:on underscore.import
 
 final case class Toolbar(
-    value: Value,
-    onChange: Change => Callback,
-    onSelectFilesOpt: Option[FileList => Callback],
-    shareDocsFromWorkspaceButton: Option[TagMod],
-    showAttachmentIcon: Boolean
+  value: Value,
+  onChange: Change => Callback,
+  onSelectFilesOpt: Option[FileList => Callback],
+  shareDocsFromWorkspaceButton: Option[TagMod],
+  showAttachmentIcon: Boolean
 ) {
   def apply(children: VdomNode*): ScalaComponent.Unmounted[_, _, _] =
     Toolbar.component(this)(children: _*)

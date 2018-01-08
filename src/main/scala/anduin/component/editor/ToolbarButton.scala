@@ -10,10 +10,10 @@ import japgolly.scalajs.react.vdom.html_<^._
 // scalastyle:on underscore.import
 
 private[editor] final case class ToolbarButton(
-    key: String,
-    tip: String,
-    active: Boolean,
-    onClick: Callback
+  key: String,
+  tip: String,
+  active: Boolean,
+  onClick: Callback
 ) {
   def apply(children: VdomNode*): ScalaComponent.Unmounted[_, _, _] = {
     ToolbarButton.component.withKey(key)(this)(children: _*)

@@ -16,11 +16,11 @@ import org.scalajs.dom.raw._
 // scalastyle:off number.of.methods public.methods.have.type multiple.string.literals file.size.limit line.size.limit
 object Iconv2 {
   def apply(
-      classNames: String,
-      additionalClass: String,
-      svgContent: VdomTagOf[SVGElement],
-      keyOpt: Option[String] = None,
-      viewBox: String = DefaultViewBox
+    classNames: String,
+    additionalClass: String,
+    svgContent: VdomTagOf[SVGElement],
+    keyOpt: Option[String] = None,
+    viewBox: String = DefaultViewBox
   ): VdomNode = {
     SvgTags.svg(
       SvgAttrAndStyles.xmlns := "http://www.w3.org/2000/svg",

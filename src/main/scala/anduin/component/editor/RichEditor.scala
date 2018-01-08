@@ -20,10 +20,10 @@ import anduin.scalajs.slate.Slate._
 // scalastyle:on underscore.import
 
 final case class RichEditor(
-    placeholder: String,
-    value: Value,
-    onChange: Change => Callback,
-    readOnly: Boolean
+  placeholder: String,
+  value: Value,
+  onChange: Change => Callback,
+  readOnly: Boolean
 ) {
   def apply(): ScalaComponent.Unmounted[_, _, _] = RichEditor.component(this)
 }

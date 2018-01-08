@@ -30,11 +30,11 @@ object Tab {
                          lazyloadContent: Boolean = false)
 
   private case class Props(
-      panels: Seq[Panel],
-      activeIndex: Int,
-      isVertical: Boolean,
-      additionalTabHeaderClasses: String = "",
-      additionalTabContentClasses: String = ""
+    panels: Seq[Panel],
+    activeIndex: Int,
+    isVertical: Boolean,
+    additionalTabHeaderClasses: String = "",
+    additionalTabContentClasses: String = ""
   )
   private case class State(activeIndex: Int, isVertical: Boolean = false)
 
@@ -118,10 +118,10 @@ object Tab {
     .build
 
   def apply(
-      activeIndex: Int = 0,
-      isVertical: Boolean = false,
-      additionalTabHeaderClasses: String = "",
-      additionalTabContentClasses: String = ""
+    activeIndex: Int = 0,
+    isVertical: Boolean = false,
+    additionalTabHeaderClasses: String = "",
+    additionalTabContentClasses: String = ""
   )(panels: Panel*): ScalaComponent.Unmounted[_, _, _] = {
     component(
       Props(panels,
