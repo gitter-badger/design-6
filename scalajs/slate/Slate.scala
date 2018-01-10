@@ -86,7 +86,8 @@ object Slate {
 
     def getClosest(
       key: String, // linter:ignore UnusedParameter
-      @JSName("match") find: js.Function1[Node, Boolean]) // linter:ignore UnusedParameter
+      @JSName("match") find: js.Function1[Node, Boolean]
+    ) // linter:ignore UnusedParameter
       : js.UndefOr[Node] = js.native
     def getTexts(): ImmutableList[Text] = js.native
   }

@@ -79,8 +79,10 @@ trait PDFPromise[T] extends js.Object {
 
   // Because "then" is a reserved keyword, we need to name the method as `then` or use @JSGlobal
   @JSName("then")
-  def andThen(onResolve: js.Function1[T, _], // linter:ignore UnusedParameter
-              onReject: js.Function1[js.Any, _] = ???) // linter:ignore UnusedParameter
+  def andThen(
+    onResolve: js.Function1[T, _], // linter:ignore UnusedParameter
+    onReject: js.Function1[js.Any, _] = ???
+  ) // linter:ignore UnusedParameter
     : PDFPromise[T] = js.native
 }
 
@@ -191,10 +193,7 @@ object TextLayerRenderParameters {
     textDivs: js.Array[HTMLElement] = js.Array[HTMLElement]()
   ): TextLayerRenderParameters = {
     js.Dynamic
-      .literal(textContent = textContent,
-               container = container,
-               viewport = viewport,
-               textDivs = textDivs)
+      .literal(textContent = textContent, container = container, viewport = viewport, textDivs = textDivs)
       .asInstanceOf[TextLayerRenderParameters]
   }
 }
@@ -285,11 +284,7 @@ object AnnotationLayerParameters {
     linkService: LinkService = SimpleLinkService()
   ): AnnotationLayerParameters = {
     js.Dynamic
-      .literal(viewport = viewport,
-               div = div,
-               page = page,
-               annotations = annotations,
-               linkService = linkService)
+      .literal(viewport = viewport, div = div, page = page, annotations = annotations, linkService = linkService)
       .asInstanceOf[AnnotationLayerParameters]
   }
 }
