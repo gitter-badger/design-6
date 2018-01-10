@@ -56,7 +56,8 @@ private[editor] object AlignButtonBar {
                         textAlign = align,
                         originalType = props.value.blocks.first().nodeType
                       )
-                    ))
+                    )
+                  )
                 props.onChange(change)
               }
             )(icon)

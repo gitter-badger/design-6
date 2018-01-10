@@ -46,9 +46,11 @@ private[editor] object ShortcutModal {
       ),
       <.ul(
         ^.cls := "list universal-keys",
-        <.li(^.cls := "item flex items-center",
-             <.span(^.cls := "key padding-horizontal-normal", "Enter / Return"),
-             <.span(^.cls := "margin-left-large", "New Line"))
+        <.li(
+          ^.cls := "item flex items-center",
+          <.span(^.cls := "key padding-horizontal-normal", "Enter / Return"),
+          <.span(^.cls := "margin-left-large", "New Line")
+        )
       )
     )
   }

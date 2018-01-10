@@ -99,7 +99,8 @@ object Modal {
         onRequestClose,
         showCloseBtn,
         renderHeader
-      ))
+      )
+    )
   }
   // scalastyle:on parameter.number
 }

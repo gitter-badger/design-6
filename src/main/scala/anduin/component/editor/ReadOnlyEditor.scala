@@ -64,7 +64,8 @@ object ReadOnlyEditor {
                     anchorOffset = link.index,
                     focusKey = textItem.key,
                     focusOffset = link.lastIndex
-                  ))
+                  )
+                )
                 val inline = js.Dynamic.literal(
                   `type` = "link",
                   data = js.Dynamic.literal(href = link.url)

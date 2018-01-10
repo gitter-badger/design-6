@@ -90,9 +90,8 @@ object Tooltip {
               )
 
               element.renderIntoDOM(tipNode)
-              tipNode.setAttribute(
-                "class",
-                s"tip ${props.tipClasses} ${props.status.className} ${props.size.className}")
+              tipNode
+                .setAttribute("class", s"tip ${props.tipClasses} ${props.status.className} ${props.size.className}")
             }
             _ <- updatePosition
             _ <- scope.modState(_.copy(over = true))
@@ -138,32 +137,27 @@ object Tooltip {
           Callback {
             val (top, left) = props.placement match {
               case Placement.Top =>
-                (rect.top - tipNode.clientHeight - props.offset,
-                 rect.left + rect.width / 2 - tipNode.clientWidth / 2)
+                (rect.top - tipNode.clientHeight - props.offset, rect.left + rect.width / 2 - tipNode.clientWidth / 2)
               case Placement.TopLeft =>
                 (rect.top - tipNode.clientHeight - props.offset, rect.left)
               case Placement.TopRight =>
-                (rect.top - tipNode.clientHeight - props.offset,
-                 rect.left + rect.width - tipNode.clientWidth)
+                (rect.top - tipNode.clientHeight - props.offset, rect.left + rect.width - tipNode.clientWidth)
               case Placement.Bottom =>
-                (rect.top + rect.height + props.offset,
-                 rect.left + rect.width / 2 - tipNode.clientWidth / 2)
+                (rect.top + rect.height + props.offset, rect.left + rect.width / 2 - tipNode.clientWidth / 2)
               case Placement.BottomLeft =>
                 (rect.top + rect.height + props.offset, rect.left)
               case Placement.BottomRight =>
-                (rect.top + rect.height + props.offset,
-                 rect.left + rect.width - tipNode.clientWidth)
+                (rect.top + rect.height + props.offset, rect.left + rect.width - tipNode.clientWidth)
               case Placement.Left =>
-                (rect.top + rect.height / 2 - tipNode.clientHeight / 2,
-                 rect.left - tipNode.clientWidth - props.offset)
+                (rect.top + rect.height / 2 - tipNode.clientHeight / 2, rect.left - tipNode.clientWidth - props.offset)
               case Placement.Right =>
-                (rect.top + rect.height / 2 - tipNode.clientHeight / 2,
-                 rect.left + rect.width + props.offset)
+                (rect.top + rect.height / 2 - tipNode.clientHeight / 2, rect.left + rect.width + props.offset)
             }
 
             tipNode.setAttribute(
               "style",
-              s"top: ${top + document.body.scrollTop}px; left: ${left + document.body.scrollLeft}px")
+              s"top: ${top + document.body.scrollTop}px; left: ${left + document.body.scrollLeft}px"
+            )
           }
         }
       } yield ()

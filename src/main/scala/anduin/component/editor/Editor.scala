@@ -46,7 +46,8 @@ private[editor] object Editor {
         renderNode = js.defined { renderNode },
         renderMark = js.defined { renderMark },
         decorateNode = decorateNodeOpt.fold[js.UndefOr[DecorateNodeFn]](js.undefined)(js.defined(_))
-      ))
+      )
+    )
   }
 
   // See https://docs.slatejs.org/slate-react/editor

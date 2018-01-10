@@ -204,7 +204,9 @@ object Popover {
             _.copy(
               status = if (props.unmountWhenHide) Status.Unmounted else Status.Hidden,
               leaveTogglerTimeOpt = None
-            )))
+            )
+          )
+        )
       } yield ()
     }
 
@@ -219,8 +221,7 @@ object Popover {
               case Placement.TopLeft =>
                 (rect.top - bodyRef.clientHeight, rect.left + rect.width - bodyRef.clientWidth)
               case Placement.Top =>
-                (rect.top - bodyRef.clientHeight,
-                 rect.left + 0.5 * rect.width - 0.5 * bodyRef.clientWidth)
+                (rect.top - bodyRef.clientHeight, rect.left + 0.5 * rect.width - 0.5 * bodyRef.clientWidth)
               case Placement.TopRight => (rect.top - bodyRef.clientHeight, rect.left)
 
               case Placement.RightTop =>
@@ -238,8 +239,7 @@ object Popover {
               case Placement.LeftTop =>
                 (rect.top + rect.height - bodyRef.clientHeight, rect.left - bodyRef.clientWidth)
               case Placement.Left =>
-                (rect.top + 0.5 * rect.height - 0.5 * bodyRef.clientHeight,
-                 rect.left - bodyRef.clientWidth)
+                (rect.top + 0.5 * rect.height - 0.5 * bodyRef.clientHeight, rect.left - bodyRef.clientWidth)
               case Placement.LeftBottom => (rect.top, rect.left - bodyRef.clientWidth)
             }
             val offsetTop = top + props.verticalOffset + document.body.scrollTop
@@ -307,7 +307,8 @@ object Popover {
                   ^.onClick --> hide,
                   Icon.cross("close-button", isSolid = true)
                 )
-              )),
+              )
+            ),
             props.children(RenderProps(state.status == Status.Displayed, changeStatus))
           )
         }

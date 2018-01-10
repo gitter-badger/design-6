@@ -7,12 +7,7 @@ import scala.scalajs.js
 import org.scalajs.dom.Element
 import org.scalajs.dom.raw.NodeList
 
-import anduin.component.editor.renderer.{
-  ImageRenderer,
-  LinkRenderer,
-  MarkRenderer,
-  TextAlignRenderer
-}
+import anduin.component.editor.renderer.{ImageRenderer, LinkRenderer, MarkRenderer, TextAlignRenderer}
 import anduin.scalajs.slate.Slate.Value
 
 // scalastyle:off underscore.import
@@ -85,7 +80,8 @@ object Serializer {
               js.Dynamic.literal(
                 textAlign = textAlign,
                 originalType = tpe
-              )),
+              )
+            ),
             nodes = next(ele.childNodes)
           )
         }
@@ -140,7 +136,8 @@ object Serializer {
                 source = ele.getAttribute("src"),
                 width = ele.getAttribute("width"),
                 height = ele.getAttribute("height")
-              )),
+              )
+            ),
             nodes = next(ele.childNodes)
           )
         } else {
@@ -184,7 +181,9 @@ object Serializer {
         linkHandler,
         imageHandler,
         markHandler
-      )))
+      )
+    )
+  )
 
   private def createChildren(children: js.Object) =
     PropsChildren.fromRawProps(js.Dynamic.literal(children = children))

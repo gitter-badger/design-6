@@ -64,7 +64,8 @@ object Toolbar {
             js.Dynamic.literal(
               `type` = LinkNode.nodeType,
               data = js.Dynamic.literal(href = standardLink)
-            ))
+            )
+          )
           change.collapseToEnd()
           props.onChange(change)
         }
@@ -84,8 +85,10 @@ object Toolbar {
     // scalastyle:off method.length multiple.string.literals
     def render(props: Toolbar, children: PropsChildren): VdomElement = {
       val hasLink = hasLinks(props.value)
-      <.div(^.cls := "editor-toolbar flex padding-all-small items-center",
-        <.div(^.cls := "btn-group flex items-center",
+      <.div(
+        ^.cls := "editor-toolbar flex padding-all-small items-center",
+        <.div(
+          ^.cls := "btn-group flex items-center",
           props.attachmentButton,
           <.span(^.cls := "divider margin-horizontal-small", "-------"),
           MarkButtonBar(props.value, props.onChange)(),

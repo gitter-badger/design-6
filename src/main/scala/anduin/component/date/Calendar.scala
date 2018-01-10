@@ -95,8 +95,7 @@ object Calendar {
       val daysInFeb = if (isLeapYear(year)) 29 else 28
       month match {
         case Month.FEBRUARY => daysInFeb
-        case Month.JANUARY | Month.MARCH | Month.MAY | Month.JULY | Month.AUGUST | Month.OCTOBER |
-            Month.DECEMBER =>
+        case Month.JANUARY | Month.MARCH | Month.MAY | Month.JULY | Month.AUGUST | Month.OCTOBER | Month.DECEMBER =>
           31
         case _ => 30
       }
@@ -214,9 +213,7 @@ object Calendar {
       * month value is zero-index
       */
     // scalastyle:off multiple.string.literals
-    private def renderCalendar(date: LocalDate,
-                               minDate: Option[LocalDate],
-                               maxDate: Option[LocalDate]) = {
+    private def renderCalendar(date: LocalDate, minDate: Option[LocalDate], maxDate: Option[LocalDate]) = {
       val daysInMonth = getDaysInMonth(date.getYear, date.getMonth)
 
       // Note: -1 for the month because JsDate is 0-based, and LocalDate is 1-based
@@ -273,8 +270,7 @@ object Calendar {
                       "datepicker-day-today" -> (now == dayModel),
                       "datepicker-day-disabled" -> isDisabled
                     ),
-                    TagMod.when(dayInMonth)(
-                      <.button(d, ^.tpe := "button", ^.onClick ==> onDayChange(dayModel)))
+                    TagMod.when(dayInMonth)(<.button(d, ^.tpe := "button", ^.onClick ==> onDayChange(dayModel)))
                   )
               }
             )
@@ -300,15 +296,9 @@ object Calendar {
             // The select to choose a year
             renderYears(state.date.getYear, props.yearRange),
             // The button to go to the previous month
-            <.button("Previous month",
-                     ^.cls := "datepicker-prev",
-                     ^.tpe := "button",
-                     ^.onClick ==> goToPrevMonth),
+            <.button("Previous month", ^.cls := "datepicker-prev", ^.tpe := "button", ^.onClick ==> goToPrevMonth),
             // The button to go to the next month
-            <.button("Next month",
-                     ^.cls := "datepicker-next",
-                     ^.tpe := "button",
-                     ^.onClick ==> goToNextMonth)
+            <.button("Next month", ^.cls := "datepicker-next", ^.tpe := "button", ^.onClick ==> goToNextMonth)
           ),
           renderCalendar(state.date, props.minDate, props.maxDate)
         )

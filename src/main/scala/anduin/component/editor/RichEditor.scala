@@ -5,12 +5,7 @@ package anduin.component.editor
 import org.scalajs.dom.KeyboardEvent
 
 import anduin.component.editor.Editor.{RenderMarkProps, RenderNodeProps}
-import anduin.component.editor.renderer.{
-  ImageRenderer,
-  LinkRenderer,
-  MarkRenderer,
-  TextAlignRenderer
-}
+import anduin.component.editor.renderer.{ImageRenderer, LinkRenderer, MarkRenderer, TextAlignRenderer}
 
 // scalastyle:off underscore.import
 import japgolly.scalajs.react._

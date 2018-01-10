@@ -20,14 +20,16 @@ object Tab {
   final case class Header(children: TagMod*)
   final case class Content(children: TagMod*)
 
-  final case class Panel(header: Header,
-                         active: Boolean = false,
-                         headerClass: String = "",
-                         content: Content = Content(),
-                         target: String = JavaScriptUtils.voidMethod,
-                         onClick: Option[ClickPanelHandler] = None,
-                         enabled: Boolean = true,
-                         lazyloadContent: Boolean = false)
+  final case class Panel(
+    header: Header,
+    active: Boolean = false,
+    headerClass: String = "",
+    content: Content = Content(),
+    target: String = JavaScriptUtils.voidMethod,
+    onClick: Option[ClickPanelHandler] = None,
+    enabled: Boolean = true,
+    lazyloadContent: Boolean = false
+  )
 
   private case class Props(
     panels: Seq[Panel],
@@ -91,11 +93,11 @@ object Tab {
                     "tab-panel" -> true,
                     "active" -> (index == state.activeIndex)
                   ),
-                  TagMod.when(!item.lazyloadContent || index == state.activeIndex)(
-                    TagMod(item.content.children: _*))
+                  TagMod.when(!item.lazyloadContent || index == state.activeIndex)(TagMod(item.content.children: _*))
                 )
             }
-          ))
+          )
+        )
       )
     }
   }
@@ -123,11 +125,6 @@ object Tab {
     additionalTabHeaderClasses: String = "",
     additionalTabContentClasses: String = ""
   )(panels: Panel*): ScalaComponent.Unmounted[_, _, _] = {
-    component(
-      Props(panels,
-            activeIndex,
-            isVertical,
-            additionalTabHeaderClasses,
-            additionalTabContentClasses))
+    component(Props(panels, activeIndex, isVertical, additionalTabHeaderClasses, additionalTabContentClasses))
   }
 }

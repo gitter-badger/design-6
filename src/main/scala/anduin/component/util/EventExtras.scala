@@ -18,6 +18,5 @@ object EventExtras {
 
   @js.native
   @JSGlobal("Event")
-  class EventWithType(val typeArg: String, val init: js.UndefOr[EventInit] = js.undefined)
-      extends dom.Event
+  class EventWithType(val typeArg: String, val init: js.UndefOr[EventInit] = js.undefined) extends dom.Event
 }
