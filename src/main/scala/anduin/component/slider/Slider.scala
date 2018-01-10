@@ -18,14 +18,8 @@ object Slider {
     JsComponent[Props, Children.Varargs, Null](ReactSlick.RawComponent)
   }
 
-  def apply(
-    dots: Boolean = false
-  )(children: ChildArg*): JsComponent.Unmounted[_, _] = {
-    component(
-      new Props(
-        dots = dots
-      )
-    )(children: _*)
+  def apply(props: Props)(children: ChildArg*): JsComponent.Unmounted[_, _] = {
+    component(props)(children: _*)
   }
 
   // See https://github.com/akiran/react-slick
