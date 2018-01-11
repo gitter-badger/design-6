@@ -20,7 +20,7 @@ object JsDateFormatterUtils {
   final val CreatedAtDatePattern = "hh:mm A" // 07:40 AM
   final val LongDatePattern = "MMM DD YYYY" // Dec 12 2015
   final val SuperLongDatePattern = "YYYY-MM-DD hh:mm:ss" // 2016-10-19 12:40:30
-  final val LongDatePattern1 = "MMM Do, YYYY" // May 15th, 2016
+  final val LongDatePattern1 = "MMM D, YYYY" // May 1, 2016
 
   def format(date: ZonedDateTime, pattern: String): String = date.format(pattern)
   def format(instant: Instant, pattern: String): String = instant.format(pattern)
