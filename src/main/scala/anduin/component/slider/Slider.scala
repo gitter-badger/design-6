@@ -10,6 +10,7 @@ import anduin.scalajs.slick.ReactSlick
 
 // scalastyle:off underscore.import
 import japgolly.scalajs.react._
+import japgolly.scalajs.react.vdom.html_<^._
 // scalastyle:on underscore.import
 
 object Slider {
@@ -24,6 +25,10 @@ object Slider {
 
   // See https://github.com/akiran/react-slick
   final class Props(
-    val dots: Boolean = false
+    val arrows: Boolean = true,
+    val dots: Boolean = false,
+    val dotsClass: String = "slick-dots",
+    val className: String = "",
+    val customPaging: js.Function1[Int, raw.ReactElement] = (i: Int) => <.button(i + 1).rawElement
   ) extends js.Object
 }
