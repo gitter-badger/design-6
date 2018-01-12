@@ -81,9 +81,8 @@ trait PDFPromise[T] extends js.Object {
   @JSName("then")
   def andThen(
     onResolve: js.Function1[T, _], // linter:ignore UnusedParameter
-    onReject: js.Function1[js.Any, _] = ???
-  ) // linter:ignore UnusedParameter
-    : PDFPromise[T] = js.native
+    onReject: js.Function1[js.Any, _] = ??? // linter:ignore UnusedParameter
+  ): PDFPromise[T] = js.native
 }
 
 @js.native
