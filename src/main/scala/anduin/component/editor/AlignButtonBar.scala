@@ -30,8 +30,14 @@ private[editor] object AlignButtonBar {
     }
 
     private def getAlign(value: Value) = {
-      val data = value.blocks.filter(block => block.nodeType == TextAlignNode.nodeType).first().data
-      DataUtil.value(data, "textAlign")
+      value.blocks
+        .filter(block => block.nodeType == TextAlignNode.nodeType)
+        .first()
+        .toOption
+        .map { block =>
+          DataUtil.value(block.data, "textAlign")
+        }
+        .getOrElse("")
     }
 
     def render(props: AlignButtonBar): VdomElement = {
@@ -47,6 +53,12 @@ private[editor] object AlignButtonBar {
               tip = tip,
               active = hasAlign(props.value) && getAlign(props.value) == align,
               onClick = {
+                val originalType: String = props.value.blocks
+                  .first()
+                  .toOption
+                  .map(_.nodeType)
+                  .getOrElse(ParagraphNode.nodeType)
+
                 val change = props.value
                   .change()
                   .setBlock(
@@ -54,7 +66,7 @@ private[editor] object AlignButtonBar {
                       `type` = TextAlignNode.nodeType,
                       data = js.Dynamic.literal(
                         textAlign = align,
-                        originalType = props.value.blocks.first().nodeType
+                        originalType = originalType
                       )
                     )
                   )
