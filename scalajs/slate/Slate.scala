@@ -84,10 +84,7 @@ object Slate {
     val nodes: ImmutableList[Node] = js.native
     val text: String = js.native
 
-    def getClosest(
-      key: String, // linter:ignore UnusedParameter
-      @JSName("match") find: js.Function1[Node, Boolean] // linter:ignore UnusedParameter
-    ): js.UndefOr[Node] = js.native
+    def getClosest(key: String, @JSName("match") find: js.Function1[Node, Boolean]): js.UndefOr[Node] = js.native // linter:ignore UnusedParameter
     def getTexts(): ImmutableList[Text] = js.native
   }
 
@@ -95,6 +92,7 @@ object Slate {
   @JSImport("slate", "Inline")
   @js.native
   final class Inline(
+    val data: Data = js.native,
     @JSName("type") val inlineType: String = js.native // link, hashtag, for example
   ) extends js.Object
 
