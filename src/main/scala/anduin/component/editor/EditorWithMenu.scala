@@ -84,6 +84,7 @@ object EditorWithMenu {
           <.a(
             Tachyons.color.white.link.link,
             ^.href := state.hrefOpt.getOrElse(""),
+            ^.target := "_blank",
             "Open link"
           )
         )
