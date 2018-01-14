@@ -2,7 +2,7 @@
 
 package anduin.component.editor
 
-import org.scalajs.dom.raw.HTMLElement
+  import org.scalajs.dom.raw.HTMLElement
 import org.scalajs.dom.window
 
 import anduin.stylesheet.tachyons.Tachyons
@@ -31,12 +31,11 @@ object EditorWithMenu {
   private case class Backend(scope: BackendScope[EditorWithMenu, State]) {
 
     private var containerRef: HTMLElement = _ // scalastyle:ignore
-    //private var menuRef: HTMLElement = _ // scalastyle:ignore
 
     private def onChange(props: EditorWithMenu)(change: Change) = {
       change.value
         .inlines
-        .filter(inline => inline.inlineType == LinkNode.nodeType)
+        .filter(_.inlineType == LinkNode.nodeType)
         .first()
         .toOption
         .fold {
@@ -61,12 +60,22 @@ object EditorWithMenu {
     def render(props: EditorWithMenu, state: State): VdomElement = {
       <.div.ref(containerRef = _)(
         Tachyons.position.relative,
-        RichEditor(
-          placeholder = props.placeholder,
-          value = props.value,
-          onChange = onChange(props),
-          readOnly = false
-        )(),
+
+        ClickOutside(
+          // Set the negative offset here because we want to treat clicking as inside of container
+          // if user click inside the menu
+          offsetBottom = 30,
+          onClickOutside = Callback.when(state.hrefOpt.nonEmpty) {
+            scope.modState(_.copy(hrefOpt = None))
+          }
+        )(
+          RichEditor(
+            placeholder = props.placeholder,
+            value = props.value,
+            onChange = onChange(props),
+            readOnly = false
+          )()
+        ),
 
         <.div(
           ^.classSet(
@@ -80,7 +89,7 @@ object EditorWithMenu {
           ),
           ^.top := s"${state.top}px",
           ^.left := s"${state.left}px",
-          ^.transform := "translate(-50%, -100%)",
+          ^.transform := "translate(-50%, 100%)",
           <.a(
             Tachyons.color.white.link.link,
             ^.href := state.hrefOpt.getOrElse(""),
