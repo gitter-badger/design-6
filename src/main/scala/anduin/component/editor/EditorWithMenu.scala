@@ -62,8 +62,6 @@ object EditorWithMenu {
         Tachyons.position.relative,
 
         ClickOutside(
-          // Set the negative offset here because we want to treat clicking as inside of container
-          // if user click inside the menu
           offsetBottom = 30,
           onClickOutside = Callback.when(state.hrefOpt.nonEmpty) {
             scope.modState(_.copy(hrefOpt = None))
@@ -85,11 +83,13 @@ object EditorWithMenu {
               .borderRadius.r3
               .padding.vertical1.padding.horizontal3
               .value -> true,
-            Tachyons.display.none.value -> state.hrefOpt.isEmpty
+            Tachyons.opacity.zero.value -> state.hrefOpt.isEmpty,
+            Tachyons.opacity.opacity100.value -> state.hrefOpt.nonEmpty
           ),
           ^.top := s"${state.top}px",
           ^.left := s"${state.left}px",
           ^.transform := "translate(-50%, 100%)",
+          ^.transition := "opacity 0.75s",
           <.a(
             Tachyons.color.white.link.link,
             ^.href := state.hrefOpt.getOrElse(""),
