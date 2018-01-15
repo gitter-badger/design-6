@@ -32,6 +32,10 @@ object EditorWithMenu {
 
     private var containerRef: HTMLElement = _ // scalastyle:ignore
 
+    private def hide(props: EditorWithMenu, change: Change) = {
+      scope.modState(_.copy(hrefOpt = None), props.onChange(change))
+    }
+
     private def onChange(props: EditorWithMenu)(change: Change) = {
       change.value
         .inlines
@@ -39,20 +43,27 @@ object EditorWithMenu {
         .first()
         .toOption
         .fold {
-          scope.modState(_.copy(hrefOpt = None), props.onChange(change))
+          hide(props, change)
         } { inline =>
           val href = DataUtil.value(inline.data, "href")
           if (href.isEmpty) {
-            scope.modState(_.copy(hrefOpt = None), props.onChange(change))
+            hide(props, change)
           } else {
-            // Get the bounding area of current selection
-            val rect = window.getSelection().getRangeAt(0).getBoundingClientRect()
-            val containerRect = containerRef.getBoundingClientRect()
+            val selection = window.getSelection()
 
-            val top = rect.top - containerRect.top
-            val left = rect.left - containerRect.left + 0.5 * rect.width
+            // Do not show the menu if user select a text
+            if (selection.toString.nonEmpty) {
+              hide(props, change)
+            } else {
+              // Get the bounding area of current selection
+              val rect = selection.getRangeAt(0).getBoundingClientRect()
+              val containerRect = containerRef.getBoundingClientRect()
 
-            scope.modState(_.copy(hrefOpt = Some(href), top = top, left = left), props.onChange(change))
+              val top = rect.top - containerRect.top
+              val left = rect.left - containerRect.left + 0.5 * rect.width
+
+              scope.modState(_.copy(hrefOpt = Some(href), top = top, left = left), props.onChange(change))
+            }
           }
         }
     }

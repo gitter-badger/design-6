@@ -48,8 +48,6 @@ private[editor] object ClickOutside {
     .stateless
     .renderBackendWithChildren[Backend]
     .configure(
-      // `useCapture = true` means that the event will be handled from the document down to the event target
-      // before the bubbling phase
       EventListener[MouseEvent].install("click", _.backend.onWindowClick, _ => dom.window)
     )
     .build
