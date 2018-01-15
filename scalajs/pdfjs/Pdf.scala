@@ -79,10 +79,7 @@ trait PDFPromise[T] extends js.Object {
 
   // Because "then" is a reserved keyword, we need to name the method as `then` or use @JSGlobal
   @JSName("then")
-  def andThen(
-    onResolve: js.Function1[T, _], // linter:ignore UnusedParameter
-    onReject: js.Function1[js.Any, _] = ??? // linter:ignore UnusedParameter
-  ): PDFPromise[T] = js.native
+  def andThen(onResolve: js.Function1[T, _], onReject: js.Function1[js.Any, _] = ???): PDFPromise[T] = js.native // linter:ignore UnusedParameter
 }
 
 @js.native
