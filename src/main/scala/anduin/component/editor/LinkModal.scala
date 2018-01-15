@@ -81,7 +81,17 @@ private[editor] object LinkModal {
 
   private val component = ScalaComponent
     .builder[LinkModal](ComponentName)
-    .initialState(State())
+    .initialStateFromProps { props =>
+      val href = props.value
+        .inlines
+        .filter(_.inlineType == LinkNode.nodeType)
+        .first()
+        .toOption
+        .fold("") { inline =>
+          DataUtil.value(inline.data, "href")
+        }
+      State(href)
+    }
     .renderBackend[Backend]
     .componentDidMount(_.backend.focus)
     .build
