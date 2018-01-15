@@ -95,6 +95,7 @@ object Slate {
   @JSImport("slate", "Inline")
   @js.native
   final class Inline(
+    val data: Data = js.native,
     @JSName("type") val inlineType: String = js.native // link, hashtag, for example
   ) extends js.Object
 
