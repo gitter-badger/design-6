@@ -2,7 +2,7 @@
 
 package anduin.component.editor
 
-import anduin.component.icon.Icon
+import anduin.component.icon.{Icon, Iconv2}
 import anduin.scalajs.slate.Slate.{Change, Value}
 
 // scalastyle:off underscore.import
@@ -91,7 +91,7 @@ private[editor] object BlockButtonBar {
     def render(props: BlockButtonBar): VdomElement = {
       <.div(
         List(
-          (BlockQuoteNode, Icon.speechBubble(), "Quote"), // TODO: Change the icon
+          (BlockQuoteNode, Iconv2.blockquote(), "Quote"),
           (UnorderedListNode, Icon.bulletPoint(), "Bulleted List"),
           (OrderedListNode, Icon.orderedList(), "Numbered List")
         ).toVdomArray {
