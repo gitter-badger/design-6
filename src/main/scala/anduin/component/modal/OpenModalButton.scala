@@ -3,6 +3,7 @@
 package anduin.component.modal
 
 import anduin.component.util.JavaScriptUtils
+import anduin.scalajs.react.hammer.ReactHammer
 
 // scalastyle:off underscore.import
 import japgolly.scalajs.react._
@@ -10,7 +11,8 @@ import japgolly.scalajs.react.vdom.html_<^._
 // scalastyle:on underscore.import
 
 // scalastyle:off parameter.number
-final case class OpenModalButton(
+final case class
+OpenModalButton(
   buttonLabel: String,
   buttonClasses: String = "",
   disabled: Boolean = false,
@@ -25,6 +27,8 @@ final case class OpenModalButton(
   onBeforeShowing: Callback = Callback.empty,
   onAfterHiding: Callback = Callback.empty,
   showCloseBtn: Boolean = true,
+  // If it is on mobile we use tap instead of click
+  isOnMobile: Boolean = false,
   // Add key when we want to distinguish between different button
   keyOpt: Option[String] = None
 ) {
@@ -57,6 +61,19 @@ object OpenModalButton {
       } yield ()
     }
 
+    private def show(e: ReactHammer.Event): Callback = {
+      for {
+        _ <- e.srcEvent.stopPropagationCB
+        props <- scope.props
+        _ <- Callback.unless(props.disabled) {
+          for {
+            _ <- props.onBeforeShowing
+            _ <- scope.modState(_.copy(isOpen = true))
+          } yield ()
+        }
+      } yield ()
+    }
+
     private def hide = {
       for {
         props <- scope.props
@@ -67,23 +84,32 @@ object OpenModalButton {
 
     def render(props: OpenModalButton, state: State, children: PropsChildren): VdomElement = {
       <.span(
-        <.a(
-          ^.href := JavaScriptUtils.voidMethod,
-          ^.classSet(
-            s"dib ${props.buttonClasses}" -> true,
-            "disabled" -> props.disabled
-          ),
-          ^.onClick ==> show,
-          ^.onTouchStart ==> show,
-          TagMod.when(props.tip.nonEmpty) {
-            TagMod(
-              TagMod.when(state.over)(VdomAttr("data-tip") := props.tip),
-              ^.onMouseEnter --> Callback.when(!state.over)(scope.modState(_.copy(over = true))),
-              ^.onMouseLeave --> Callback.when(state.over)(scope.modState(_.copy(over = false)))
-            )
-          },
-          props.buttonLabel,
-          children
+        ReactHammer(
+          onTap = (e: ReactHammer.Event) => Callback.when(
+            props.isOnMobile
+          ) {
+            show(e)
+          }
+        )(
+          <.a(
+            ^.href := JavaScriptUtils.voidMethod,
+            ^.classSet(
+              s"dib ${props.buttonClasses}" -> true,
+              "disabled" -> props.disabled
+            ),
+            TagMod.when(!props.isOnMobile) {
+              ^.onClick ==> show
+            },
+            TagMod.when(props.tip.nonEmpty) {
+              TagMod(
+                TagMod.when(state.over)(VdomAttr("data-tip") := props.tip),
+                ^.onMouseEnter --> Callback.when(!state.over)(scope.modState(_.copy(over = true))),
+                ^.onMouseLeave --> Callback.when(state.over)(scope.modState(_.copy(over = false)))
+              )
+            },
+            props.buttonLabel,
+            children
+          )
         ),
         TagMod.unless(props.disabled) {
           Modal(
