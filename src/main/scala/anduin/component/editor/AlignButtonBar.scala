@@ -53,8 +53,7 @@ private[editor] object AlignButtonBar {
               tip = tip,
               active = hasAlign(props.value) && getAlign(props.value) == align,
               onClick = {
-                val originalType: String = props.value
-                  .blocks
+                val originalType: String = props.value.blocks
                   .first()
                   .toOption
                   .map(_.nodeType)

@@ -44,7 +44,8 @@ private[editor] object ClickOutside {
     }
   }
 
-  private val component = ScalaComponent.builder[ClickOutside](ComponentName)
+  private val component = ScalaComponent
+    .builder[ClickOutside](ComponentName)
     .stateless
     .renderBackendWithChildren[Backend]
     .configure(
