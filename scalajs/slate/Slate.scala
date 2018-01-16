@@ -85,7 +85,8 @@ object Slate {
     val nodes: ImmutableList[Node] = js.native
     val text: String = js.native
 
-    def getClosest(key: String, @JSName("match") find: js.Function1[Node, Boolean]): js.UndefOr[Node] = js.native // linter:ignore UnusedParameter
+    def getClosest(key: String, @JSName("match") find: js.Function1[Node, Boolean]): js.UndefOr[Node] =
+      js.native // linter:ignore UnusedParameter
     def getTexts(): ImmutableList[Text] = js.native
   }
 

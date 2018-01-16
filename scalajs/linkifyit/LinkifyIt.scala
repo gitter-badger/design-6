@@ -27,5 +27,6 @@ trait MatchingItem extends js.Object {
 @JSImport("linkify-it", JSImport.Namespace, "LinkifyIt")
 object LinkifyIt extends js.Object {
 
-  def apply(schemas: js.Object = new js.Object(), options: js.Object = new js.Object()): LinkifyIt = js.native // linter:ignore UnusedParameter
+  def apply(schemas: js.Object = new js.Object(), options: js.Object = new js.Object()): LinkifyIt =
+    js.native // linter:ignore UnusedParameter
 }
