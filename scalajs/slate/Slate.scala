@@ -27,6 +27,7 @@ object Slate {
     def hasRedos: Boolean = js.native
     def isExpanded: Boolean = js.native
     val document: Document = js.native
+    def isBlurred: Boolean = js.native
   }
 
   // See https://docs.slatejs.org/slate-core/document
@@ -92,6 +93,7 @@ object Slate {
   @JSImport("slate", "Inline")
   @js.native
   final class Inline(
+    val data: Data = js.native,
     @JSName("type") val inlineType: String = js.native // link, hashtag, for example
   ) extends js.Object
 
