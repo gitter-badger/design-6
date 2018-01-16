@@ -28,7 +28,8 @@ object Tab {
     target: String = JavaScriptUtils.voidMethod,
     onClick: Option[ClickPanelHandler] = None,
     enabled: Boolean = true,
-    lazyloadContent: Boolean = false
+    lazyloadContent: Boolean = false,
+    hide: Boolean = false
   )
 
   private case class Props(
@@ -65,21 +66,23 @@ object Tab {
           ^.cls := s"tab-nav $verticalTab ${props.additionalTabHeaderClasses}",
           props.panels.zipWithIndex.toTagMod {
             case (item, index) =>
-              <.li(
-                ^.classSet(
-                  s"tab-item pointer ${item.headerClass}" -> true,
-                  "-active" -> (index == state.activeIndex),
-                  "disabled" -> !item.enabled
-                ),
-                TagMod.when(item.target == JavaScriptUtils.voidMethod && item.enabled) {
-                  ^.onClick ==> onClickTab(item, index)
-                },
-                <.a(
-                  ^.cls := "link",
-                  ^.href := item.target,
-                  TagMod(item.header.children: _*)
+              TagMod.unless(item.hide) {
+                <.li(
+                  ^.classSet(
+                    s"tab-item pointer ${item.headerClass}" -> true,
+                    "-active" -> (index == state.activeIndex),
+                    "disabled" -> !item.enabled
+                  ),
+                  TagMod.when(item.target == JavaScriptUtils.voidMethod && item.enabled) {
+                    ^.onClick ==> onClickTab(item, index)
+                  },
+                  <.a(
+                    ^.cls := "link",
+                    ^.href := item.target,
+                    TagMod(item.header.children: _*)
+                  )
                 )
-              )
+              }
           }
         ),
         TagMod.when(props.panels.nonEmpty)(
