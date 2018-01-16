@@ -28,6 +28,8 @@ object Slider {
     val arrows: Boolean = true,
     val dots: Boolean = false,
     val dotsClass: String = "slick-dots",
+    val centerMode: Boolean = false,
+    val centerPadding: String = "50px",
     val className: String = "",
     val customPaging: js.Function1[Int, raw.ReactElement] = (i: Int) => <.button(i + 1).rawElement
   ) extends js.Object
