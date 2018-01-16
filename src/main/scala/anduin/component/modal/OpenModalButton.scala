@@ -11,7 +11,8 @@ import japgolly.scalajs.react.vdom.html_<^._
 // scalastyle:on underscore.import
 
 // scalastyle:off parameter.number
-final case class OpenModalButton(
+final case class
+OpenModalButton(
   buttonLabel: String,
   buttonClasses: String = "",
   disabled: Boolean = false,
@@ -84,7 +85,11 @@ object OpenModalButton {
     def render(props: OpenModalButton, state: State, children: PropsChildren): VdomElement = {
       <.span(
         ReactHammer(
-          onTap = (e: ReactHammer.Event) => show(e)
+          onTap = (e: ReactHammer.Event) => Callback.when(
+            props.isOnMobile
+          ) {
+            show(e)
+          }
         )(
           <.a(
             ^.href := JavaScriptUtils.voidMethod,
@@ -92,7 +97,7 @@ object OpenModalButton {
               s"dib ${props.buttonClasses}" -> true,
               "disabled" -> props.disabled
             ),
-            TagMod.when(props.isOnMobile) {
+            TagMod.when(!props.isOnMobile) {
               ^.onClick ==> show
             },
             TagMod.when(props.tip.nonEmpty) {
