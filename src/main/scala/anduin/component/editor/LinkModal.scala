@@ -2,8 +2,6 @@
 
 package anduin.component.editor
 
-import org.scalajs.dom.raw.HTMLInputElement
-
 import anduin.scalajs.slate.Slate.Value
 
 // scalastyle:off underscore.import
@@ -27,19 +25,12 @@ private[editor] object LinkModal {
 
   private case class Backend(scope: BackendScope[LinkModal, State]) {
 
-    private var linkRef: HTMLInputElement = _ // scalastyle:ignore
-
-    def focus: Callback = {
-      Callback {
-        linkRef.focus()
-      }
-    }
-
     def render(props: LinkModal, state: State): VdomElement = {
       <.div(
         <.div(
           ^.cls := "modal-body",
-          <.input.ref(linkRef = _)(
+          <.input(
+            ^.autoFocus := true,
             ^.cls := "text-field",
             ^.tpe := "text",
             ^.placeholder := "Insert the link",
@@ -81,8 +72,17 @@ private[editor] object LinkModal {
 
   private val component = ScalaComponent
     .builder[LinkModal](ComponentName)
-    .initialState(State())
+    .initialStateFromProps { props =>
+      val href = props.value
+        .inlines
+        .filter(_.inlineType == LinkNode.nodeType)
+        .first()
+        .toOption
+        .fold("") { inline =>
+          DataUtil.value(inline.data, "href")
+        }
+      State(href)
+    }
     .renderBackend[Backend]
-    .componentDidMount(_.backend.focus)
     .build
 }
