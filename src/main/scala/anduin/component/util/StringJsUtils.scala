@@ -17,4 +17,16 @@ object StringJsUtils {
   def truncate(name: String, maxLength: Int = 40): String = {
     if (name.length > maxLength) s"${name.substring(0, maxLength)} ..." else name
   }
+
+  def splitBySpaces(s: String): Array[String] = {
+    s.split("\\s+")
+  }
+
+  def splitWords(s: String): List[String] = {
+    splitBySpaces(s).map(_.trim).filter(_.nonEmpty).toList
+  }
+
+  def truncateWordBased(s: String, maxNumWord: Int = 15): String = {
+    splitWords(s).slice(0, maxNumWord).mkString(" ")
+  }
 }
