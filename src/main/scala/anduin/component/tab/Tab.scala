@@ -68,6 +68,7 @@ object Tab {
             case (item, index) =>
               TagMod.unless(item.hide) {
                 <.li(
+                  ^.key := index,
                   ^.classSet(
                     s"tab-item pointer ${item.headerClass}" -> true,
                     "-active" -> (index == state.activeIndex),
@@ -110,14 +111,20 @@ object Tab {
     .initialStateFromProps { props =>
       // Determine the active tab index if it is set
       val index = props.panels.indexWhere(_.active)
-      val activeIndex = if (index < 0) props.activeIndex else index
+      val activeIndex = if (index < 0) Math.max(props.activeIndex, 0) else index
       State(activeIndex, props.isVertical)
     }
     .renderBackend[Backend]
     .componentWillReceiveProps { scope =>
       val nextActiveIndex = scope.nextProps.panels.indexWhere(_.active)
-      Callback.when(nextActiveIndex >= 0 && nextActiveIndex != scope.state.activeIndex) {
+      if (nextActiveIndex >= 0 && nextActiveIndex != scope.state.activeIndex) {
+        // nextActiveIndex is a valid value
         scope.modState(_.copy(activeIndex = nextActiveIndex))
+      } else {
+        // If the current active index is out of range for the new list of panels, reset to 0
+        Callback.when(scope.state.activeIndex >= scope.nextProps.panels.size) {
+          scope.modState(_.copy(activeIndex = 0))
+        }
       }
     }
     .build
