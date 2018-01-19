@@ -48,7 +48,8 @@ object CheckMark {
     }
   }
 
-  private val component = ScalaComponent.builder[CheckMark](ComponentName)
+  private val component = ScalaComponent
+    .builder[CheckMark](ComponentName)
     .stateless
     .renderBackendWithChildren[Backend]
     .build
