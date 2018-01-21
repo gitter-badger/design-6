@@ -2,6 +2,7 @@
 
 package anduin.component.modal
 
+import anduin.component.tooltip.Tooltip
 import anduin.component.util.JavaScriptUtils
 import anduin.scalajs.react.hammer.ReactHammer
 
@@ -100,14 +101,11 @@ object OpenModalButton {
             TagMod.when(!props.isOnMobile) {
               ^.onClick ==> show
             },
-            TagMod.when(props.tip.nonEmpty) {
-              TagMod(
-                TagMod.when(state.over)(VdomAttr("data-tip") := props.tip),
-                ^.onMouseEnter --> Callback.when(!state.over)(scope.modState(_.copy(over = true))),
-                ^.onMouseLeave --> Callback.when(state.over)(scope.modState(_.copy(over = false)))
-              )
+            if (props.tip.nonEmpty) {
+              Tooltip(tip = props.tip)(props.buttonLabel)
+            } else {
+              props.buttonLabel
             },
-            props.buttonLabel,
             children
           )
         ),
