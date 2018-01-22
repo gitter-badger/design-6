@@ -10,4 +10,10 @@ object ReactSlick {
   @JSImport("react-slick", JSImport.Default)
   @js.native
   object RawComponent extends js.Object
+
+  @js.native
+  trait RawComponent extends js.Object {
+    def slickPrev(): Unit = js.native
+    def slickNext(): Unit = js.native
+  }
 }
