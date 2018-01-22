@@ -4,7 +4,7 @@ package anduin.component.slider
 
 import scala.scalajs.js
 
-import japgolly.scalajs.react.CtorType.ChildArg
+import japgolly.scalajs.react.component.Js.UnmountedWithRawType
 
 import anduin.scalajs.slick.ReactSlick
 
@@ -15,11 +15,11 @@ import japgolly.scalajs.react.vdom.html_<^._
 
 object Slider {
 
-  private val component: JsComponent[Props, Null, CtorType.PropsAndChildren] = {
-    JsComponent[Props, Children.Varargs, Null](ReactSlick.RawComponent)
+  val component = {
+    JsComponent[Props, Children.Varargs, Null](ReactSlick.RawComponent).addFacade[ReactSlick.RawComponent]
   }
 
-  def apply(props: Props)(children: ChildArg*): JsComponent.Unmounted[_, _] = {
+  def apply(props: Props)(children: VdomNode*): UnmountedWithRawType[_, _, _] = {
     component(props)(children: _*)
   }
 
