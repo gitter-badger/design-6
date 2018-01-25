@@ -6,7 +6,7 @@ import scala.scalajs.js
 import scala.scalajs.js.annotation.{JSImport, JSName}
 import scala.scalajs.js.|
 
-import org.scalajs.dom.Element
+import org.scalajs.dom.{Element, Node}
 import org.scalajs.dom.raw.NodeList
 
 import anduin.scalajs.slate.Slate.{Data, Value}
@@ -28,7 +28,8 @@ object HtmlSerializer {
   }
 
   final class Options(
-    val rules: js.UndefOr[js.Array[Rule]] = js.undefined
+    val rules: js.UndefOr[js.Array[Rule]] = js.undefined,
+    val parseHtml: js.UndefOr[js.Function1[String, Node]] = js.undefined
   ) extends js.Object
 
   final class Rule(
