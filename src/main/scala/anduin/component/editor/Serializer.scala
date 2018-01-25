@@ -5,9 +5,10 @@ package anduin.component.editor
 import scala.scalajs.js
 
 import org.scalajs.dom.Element
-import org.scalajs.dom.raw.NodeList
+import org.scalajs.dom.raw.{DOMParser, NodeList}
 
 import anduin.component.editor.renderer.{ImageRenderer, LinkRenderer, MarkRenderer, TextAlignRenderer}
+import anduin.component.util.NodeListSeq
 import anduin.scalajs.slate.Slate.Value
 
 // scalastyle:off underscore.import
@@ -173,7 +174,7 @@ object Serializer {
 
   private val htmlSerializer = new HtmlSerializer(
     new Options(
-      js.Array(
+      rules = js.Array(
         // The order of rules are important
         // We need to put the text alignment before block rule
         textAlignmentHandler,
@@ -181,7 +182,22 @@ object Serializer {
         linkHandler,
         imageHandler,
         markHandler
-      )
+      ),
+      parseHtml = js.defined { (html: String) =>
+        val parsed = new DOMParser().parseFromString(html, "text/html")
+        val body = parsed.querySelector("body")
+
+        // List of tags which will be removed from the body
+        // TODO: Use Slate's schema (https://docs.slatejs.org/guides/schemas)
+        val removedTags = List("meta", "link", "style")
+        removedTags.foreach { tag =>
+          NodeListSeq(body.querySelectorAll(tag)).foreach { node =>
+            node.parentNode.removeChild(node)
+          }
+        }
+
+        body
+      }
     )
   )
 
@@ -190,8 +206,7 @@ object Serializer {
 
   def deserialize(rawHtml: String): Value = {
     val trim = rawHtml
-    // Reduce the number of new lines
-      .replaceAll("(\n)+", "\n")
+      .replaceAll("(\n)+", "\n") // Reduce the number of new lines
       // We have to remove spaces between tags. Otherwise, it can't render the nested blocks
       // See
       // - Working version: https://jsfiddle.net/oj53q1n2/10/
