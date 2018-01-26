@@ -16,7 +16,9 @@ object ReactIntersectionObserver {
     val isIntersecting: Boolean = js.native
   }
 
+  // See https://github.com/researchgate/react-intersection-observer#options
   final class Props(
+    val disabled: Boolean = false,
     val onChange: js.UndefOr[js.Function1[IntersectionObserverEntry, Unit]] = js.undefined
   ) extends js.Object
 }
