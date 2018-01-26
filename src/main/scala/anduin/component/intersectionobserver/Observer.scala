@@ -19,10 +19,12 @@ object Observer {
   val component = JsComponent[Props, Children.Varargs, Null](ReactIntersectionObserver.RawComponent)
 
   def apply(
+    disabled: Boolean = false,
     onChange: IntersectionObserverEntry => Callback = _ => Callback.empty
   )(children: VdomElement*): UnmountedWithRawType[_, _, _] = {
     component(
       new Props(
+        disabled = disabled,
         onChange = js.defined { e =>
           onChange(e).runNow()
         }
