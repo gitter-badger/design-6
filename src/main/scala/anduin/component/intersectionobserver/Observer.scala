@@ -6,6 +6,7 @@ import scala.scalajs.js
 
 import japgolly.scalajs.react.component.Js.UnmountedWithRawType
 
+import anduin.scalajs.intersectionobserver.IntersectionObserver
 import anduin.scalajs.reactintersectionobserver.ReactIntersectionObserver
 import anduin.scalajs.reactintersectionobserver.ReactIntersectionObserver.{IntersectionObserverEntry, Props}
 
@@ -15,6 +16,7 @@ import japgolly.scalajs.react.vdom.html_<^._
 // scalastyle:on underscore.import
 
 object Observer {
+  val intersectionObserverPolyfill = IntersectionObserver
 
   val component = JsComponent[Props, Children.Varargs, Null](ReactIntersectionObserver.RawComponent)
 
