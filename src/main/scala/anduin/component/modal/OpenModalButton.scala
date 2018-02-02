@@ -17,6 +17,7 @@ final case class OpenModalButton(
   buttonClasses: String = "",
   disabled: Boolean = false,
   tip: String = "",
+  tipPlacement: Tooltip.Placement = Tooltip.Placement.Top,
   modalTitle: String = "",
   modalClasses: String = "",
   modalBody: Callback => VdomElement = _ => <.span(),
@@ -102,11 +103,15 @@ object OpenModalButton {
               ^.onClick ==> show
             },
             if (props.tip.nonEmpty) {
-              Tooltip(tip = props.tip)(props.buttonLabel)
+              Tooltip(tip = props.tip, placement = props.tipPlacement)(props.buttonLabel)
             } else {
               props.buttonLabel
             },
-            children
+            if (props.buttonLabel.isEmpty && props.tip.nonEmpty) {
+              Tooltip(tip = props.tip, placement = props.tipPlacement)(children)
+            } else {
+              children
+            }
           )
         ),
         TagMod.unless(props.disabled) {
