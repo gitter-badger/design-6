@@ -28,6 +28,8 @@ object Modal {
     title: String,
     body: Callback => VdomElement,
     isOpen: Boolean,
+    overlayStyles: Map[String, String],
+    contentStyles: Map[String, String],
     overlayClassName: String,
     modalClassName: String,
     shouldCloseOnOverlayClick: Boolean,
@@ -42,8 +44,14 @@ object Modal {
     .builder[Props](ComponentName)
     .stateless
     .render_P { props =>
+      val style = ReactModal.style(
+        overlay = props.overlayStyles,
+        content = props.contentStyles
+      )
+
       ReactModal(
         isOpen = props.isOpen,
+        style = js.defined(style),
         className = s"modal ${props.modalClassName}",
         overlayClassName = s"modal-wrapper modal-overlay open ${props.overlayClassName}",
         onAfterOpen = props.onAfterOpen,
@@ -77,6 +85,8 @@ object Modal {
   def apply(
     title: String,
     isOpen: Boolean = true,
+    overlayStyles: Map[String, String] = Map.empty,
+    contentStyles: Map[String, String] = Map.empty,
     overlayClassName: String = "",
     modalClassName: String = "",
     shouldCloseOnOverlayClick: Boolean = true,
@@ -91,6 +101,8 @@ object Modal {
         title,
         body,
         isOpen,
+        overlayStyles,
+        contentStyles,
         overlayClassName,
         modalClassName,
         shouldCloseOnOverlayClick,
