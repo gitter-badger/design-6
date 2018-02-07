@@ -3,10 +3,8 @@
 package anduin.component.tooltip
 
 import japgolly.scalajs.react.extra.{EventListener, OnUnmount}
-import japgolly.scalajs.react.vdom.Exports.VdomTagOf
 import org.scalajs.dom
 import org.scalajs.dom.document
-import org.scalajs.dom.html.Span
 import org.scalajs.dom.raw.HTMLElement
 
 // scalastyle:off underscore.import
@@ -133,30 +131,32 @@ object Tooltip {
         props <- scope.props
         _ <- Callback.when(props.tip.nonEmpty) {
           val rect = targetRef.getBoundingClientRect()
+          val top = rect.top + document.documentElement.scrollTop + document.body.scrollTop
+          val left = rect.left + document.documentElement.scrollLeft + document.body.scrollLeft
 
           Callback {
-            val (top, left) = props.placement match {
+            val (tipTop, tipLeft) = props.placement match {
               case Placement.Top =>
-                (rect.top - tipNode.clientHeight - props.offset, rect.left + rect.width / 2 - tipNode.clientWidth / 2)
+                (top - tipNode.clientHeight - props.offset, left + rect.width / 2 - tipNode.clientWidth / 2)
               case Placement.TopLeft =>
-                (rect.top - tipNode.clientHeight - props.offset, rect.left)
+                (top - tipNode.clientHeight - props.offset, left)
               case Placement.TopRight =>
-                (rect.top - tipNode.clientHeight - props.offset, rect.left + rect.width - tipNode.clientWidth)
+                (top - tipNode.clientHeight - props.offset, left + rect.width - tipNode.clientWidth)
               case Placement.Bottom =>
-                (rect.top + rect.height + props.offset, rect.left + rect.width / 2 - tipNode.clientWidth / 2)
+                (top + rect.height + props.offset, left + rect.width / 2 - tipNode.clientWidth / 2)
               case Placement.BottomLeft =>
-                (rect.top + rect.height + props.offset, rect.left)
+                (top + rect.height + props.offset, left)
               case Placement.BottomRight =>
-                (rect.top + rect.height + props.offset, rect.left + rect.width - tipNode.clientWidth)
+                (top + rect.height + props.offset, left + rect.width - tipNode.clientWidth)
               case Placement.Left =>
-                (rect.top + rect.height / 2 - tipNode.clientHeight / 2, rect.left - tipNode.clientWidth - props.offset)
+                (top + rect.height / 2 - tipNode.clientHeight / 2, left - tipNode.clientWidth - props.offset)
               case Placement.Right =>
-                (rect.top + rect.height / 2 - tipNode.clientHeight / 2, rect.left + rect.width + props.offset)
+                (top + rect.height / 2 - tipNode.clientHeight / 2, left + rect.width + props.offset)
             }
 
             tipNode.setAttribute(
               "style",
-              s"top: ${top + document.body.scrollTop}px; left: ${left + document.body.scrollLeft}px"
+              s"top: ${tipTop}px; left: ${tipLeft}px"
             )
           }
         }
@@ -178,7 +178,7 @@ object Tooltip {
       } yield ()
     }
 
-    def render(props: Tooltip, children: PropsChildren): VdomTagOf[Span] = {
+    def render(props: Tooltip, children: PropsChildren): VdomElement = {
       <.span.ref(targetRef = _)(
         ^.classSet(
           props.containerClasses -> props.containerClasses.nonEmpty
