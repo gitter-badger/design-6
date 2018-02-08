@@ -48,7 +48,7 @@ object Label {
   private case class Backend(scope: BackendScope[Label, _]) {
 
     def render(props: Label): VdomElement = {
-      <.span(^.cls := s"label ${props.labelType.className}", props.label)
+      <.span(^.cls := s"at-label ${props.labelType.className}", props.label)
     }
   }
 
