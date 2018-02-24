@@ -3,12 +3,11 @@
 package anduin.component.modal
 
 import scala.scalajs.js
-
 import japgolly.scalajs.react.vdom.VdomElement
-
 import anduin.component.icon.Icon
 import anduin.component.util.ComponentUtils
 import anduin.scalajs.react.modal.ReactModal
+import org.scalajs.dom.raw.Element
 
 // scalastyle:off underscore.import
 import japgolly.scalajs.react._
@@ -16,6 +15,10 @@ import japgolly.scalajs.react.vdom.html_<^._
 // scalastyle:on underscore.import
 
 object Modal {
+
+  def setAppElement(appElement: Element): Unit = {
+    ReactModal.RawComponent.setAppElement(appElement)
+  }
 
   val ComponentName: String = ComponentUtils.name(this)
 
