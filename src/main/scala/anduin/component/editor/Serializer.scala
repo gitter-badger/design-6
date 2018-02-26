@@ -44,14 +44,14 @@ object Serializer {
     deserialize = (ele: Element, next: js.Function1[NodeList, NodeList]) => {
       BlockTags.get(ele.tagName.toLowerCase).fold[DeserializeOutputType](()) { tpe =>
         new RuleDeserializeOutput(
-          kind = "block",
+          `object` = "block",
           tpe = tpe,
           nodes = next(ele.childNodes)
         )
       }
     },
     serialize = (obj: RuleSerializeInput, children: js.Object) => {
-      val res: SerializeOutputType = if (obj.kind != "block") {
+      val res: SerializeOutputType = if (obj.`object` != "block") {
         ()
       } else {
         obj.tpe match {
@@ -75,7 +75,7 @@ object Serializer {
           ()
         } else {
           new RuleDeserializeOutput(
-            kind = "block",
+            `object` = "block",
             tpe = TextAlignNode.nodeType,
             data = js.defined(
               js.Dynamic.literal(
@@ -89,7 +89,7 @@ object Serializer {
       }
     },
     serialize = (obj: RuleSerializeInput, children: js.Object) => {
-      val res: SerializeOutputType = if (obj.kind != "block" || obj.tpe != TextAlignNode.nodeType) {
+      val res: SerializeOutputType = if (obj.`object` != "block" || obj.tpe != TextAlignNode.nodeType) {
         ()
       } else {
         TextAlignRenderer(obj.data, children)
@@ -104,7 +104,7 @@ object Serializer {
         ()
       } else {
         new RuleDeserializeOutput(
-          kind = "inline",
+          `object` = "inline",
           tpe = LinkNode.nodeType,
           data = js.defined(js.Dynamic.literal(href = ele.getAttribute("href"))),
           nodes = next(ele.childNodes)
@@ -112,7 +112,7 @@ object Serializer {
       }
     },
     serialize = (obj: RuleSerializeInput, children: js.Object) => {
-      val res: SerializeOutputType = if (obj.kind != "inline" || obj.tpe != LinkNode.nodeType) {
+      val res: SerializeOutputType = if (obj.`object` != "inline" || obj.tpe != LinkNode.nodeType) {
         ()
       } else {
         LinkRenderer(obj.data, children)
@@ -129,7 +129,7 @@ object Serializer {
         val source = ele.getAttribute("src")
         if (source != null && (source.startsWith("http://") || source.startsWith("https://"))) {
           new RuleDeserializeOutput(
-            kind = "inline",
+            `object` = "inline",
             tpe = ImageNode.nodeType,
             isVoid = true,
             data = js.defined(
@@ -147,7 +147,7 @@ object Serializer {
       }
     },
     serialize = (obj: RuleSerializeInput, _: js.Object) => {
-      val res: SerializeOutputType = if (obj.kind != "inline" || obj.tpe != ImageNode.nodeType) {
+      val res: SerializeOutputType = if (obj.`object` != "inline" || obj.tpe != ImageNode.nodeType) {
         ()
       } else {
         ImageRenderer(obj.data)
@@ -160,14 +160,14 @@ object Serializer {
     deserialize = (ele: Element, next: js.Function1[NodeList, NodeList]) => {
       MarkTags.get(ele.tagName.toLowerCase).fold[DeserializeOutputType](()) { nodeType =>
         new RuleDeserializeOutput(
-          kind = "mark",
+          `object` = "mark",
           tpe = nodeType,
           nodes = next(ele.childNodes)
         )
       }
     },
     serialize = (obj: RuleSerializeInput, children: js.Object) => {
-      val res: SerializeOutputType = if (obj.kind != "mark") () else MarkRenderer(obj.tpe, children)
+      val res: SerializeOutputType = if (obj.`object` != "mark") () else MarkRenderer(obj.tpe, children)
       res
     }
   )
