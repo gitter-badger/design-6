@@ -38,14 +38,14 @@ object HtmlSerializer {
   ) extends js.Object
 
   final class RuleSerializeInput(
-    val kind: String,
+    val `object`: String,
     @JSName("type") val tpe: String,
     val data: Data
   ) extends js.Object
 
   final class RuleDeserializeOutput(
     // Can be either `block`, `inline`, `mark` or `text`
-    val kind: String,
+    val `object`: String,
     val data: js.UndefOr[js.Object] = js.undefined,
     @JSName("type") val tpe: String,
     val nodes: NodeList,
