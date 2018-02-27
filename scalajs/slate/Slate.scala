@@ -28,6 +28,7 @@ object Slate {
     def isExpanded: Boolean = js.native
     val document: Document = js.native
     def isBlurred: Boolean = js.native
+    def toJSON(): js.Object = js.native
   }
 
   // See https://docs.slatejs.org/slate-core/document
@@ -79,7 +80,7 @@ object Slate {
   @js.native
   trait Node extends js.Object {
     val key: String = js.native
-    val kind: String = js.native
+    val `object`: String = js.native
     val data: Data = js.native
     @JSName("type") val nodeType: String = js.native
     val nodes: ImmutableList[Node] = js.native
