@@ -52,7 +52,7 @@ object EditorWithMenu {
             val selection = window.getSelection()
 
             // Do not show the menu if user select a text
-            if (selection.toString.nonEmpty) {
+            if (selection.rangeCount == 0 || scalajs.js.isUndefined(containerRef) || containerRef == null) { // scalastyle:ignore null
               hide(props, change)
             } else {
               // Get the bounding area of current selection
