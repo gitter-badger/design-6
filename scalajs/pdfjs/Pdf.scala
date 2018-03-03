@@ -18,25 +18,30 @@ object PdfWorkerUrl {
   // The path to PDF parsing worker
   def pdfWorkerUrl(productionBuild: Boolean): String =
     if (productionBuild) {
-      "/web/gondor/js/pdfjs/pdf-1.8.188.worker.min.js"
+      "/web/gondor/js/pdfjs/pdf-2.0.402.worker.min.js"
     } else {
-      "/web/gondor/js/pdfjs/pdf-1.8.188.worker.js"
+      "/web/gondor/js/pdfjs/pdf-2.0.402.worker.js"
     }
 }
 
 @JSImport("pdfjs-dist", "PDFJS", "PDFJS")
 @js.native
 object PDFJS extends js.Object {
+  val GlobalWorkerOptions: GlobalWorkerOptions = js.native
   var disableWorker: Boolean = js.native // scalastyle:ignore var.field
-  var workerSrc: String = js.native // scalastyle:ignore var.field
   var PasswordResponses: PDFPasswordResponses = js.native // scalastyle:ignore var.field
-  val AnnotationLayer: PDFAnnotationLayer = js.native // scalastyle:ignore var.field
+  val AnnotationLayer: PDFAnnotationLayer = js.native
   def getDocument(url: String | ArrayBuffer): PDFDocumentLoadingTask = // linter:ignore UnusedParameter
     js.native
   def getPage(number: Double): PDFPromise[PDFPageProxy] = js.native // linter:ignore UnusedParameter
 
   def renderTextLayer(renderParameters: TextLayerRenderParameters): TextLayerRenderTask = // linter:ignore UnusedParameter
     js.native
+}
+
+@js.native
+trait GlobalWorkerOptions extends js.Object {
+  var workerSrc: String = js.native // scalastyle:ignore var.field
 }
 
 @js.native
