@@ -2,7 +2,7 @@
 
 package anduin.component.util
 
-import org.threeten.bp.{Instant, LocalDate, LocalDateTime, ZonedDateTime}
+import java.time.{Instant, LocalDate, LocalDateTime, ZonedDateTime}
 
 import anduin.scalajs.moment.Moment
 

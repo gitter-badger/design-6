@@ -4,7 +4,7 @@ package anduin.component.util
 
 import scala.scalajs.js.{Date => JsDate}
 
-import org.threeten.bp.{Duration, Instant, LocalDate, ZonedDateTime}
+import java.time.{Duration, Instant, LocalDate, ZonedDateTime}
 
 import anduin.scalajs.moment.{Date, Moment}
 

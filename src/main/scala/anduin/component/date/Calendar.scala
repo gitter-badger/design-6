@@ -9,8 +9,8 @@ import org.scalajs.dom
 import org.scalajs.dom.ext.KeyCode
 import org.scalajs.dom.html.Div
 import org.scalajs.dom.{KeyboardEvent, MouseEvent, html}
-import org.threeten.bp.format.TextStyle
-import org.threeten.bp.{LocalDate, Month, ZoneOffset, ZonedDateTime}
+import java.time.format.TextStyle
+import java.time.{LocalDate, Month, ZoneOffset, ZonedDateTime}
 
 // scalastyle:off underscore.import
 import japgolly.scalajs.react._
@@ -259,8 +259,8 @@ object Calendar {
                     date.withDayOfMonth(daysInMonth).plusDays(d.toLong - daysInMonth)
                   }
                   val dayInMonth = d > 0 && d <= daysInMonth
-                  val isDisabled = (minDate.nonEmpty && dayModel < minDate.getOrElse(now)) ||
-                    (maxDate.nonEmpty && dayModel > maxDate.getOrElse(now))
+                  val isDisabled = (minDate.nonEmpty && dayModel.compareTo(minDate.getOrElse(now)) < 0) ||
+                    (maxDate.nonEmpty && dayModel.compareTo(maxDate.getOrElse(now)) > 0)
 
                   <.td(
                     ^.key := s"day-$d",
