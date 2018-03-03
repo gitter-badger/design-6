@@ -4,7 +4,6 @@ package anduin.scalajs.moment
 
 // https://github.com/widok/scala-js-momentjs
 
-import scala.collection.immutable
 import scala.scalajs.js
 import scala.scalajs.js.annotation.JSImport
 
