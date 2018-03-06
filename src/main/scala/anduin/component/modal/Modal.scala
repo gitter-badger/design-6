@@ -31,7 +31,7 @@ object Modal {
     title: String,
     body: Callback => VdomElement,
     isOpen: Boolean,
-    overlayStyles: Map[String, String],
+    overlayStyles: ModalZIndex,
     contentStyles: Map[String, String],
     overlayClassName: String,
     modalClassName: String,
@@ -48,7 +48,7 @@ object Modal {
     .stateless
     .render_P { props =>
       val style = ReactModal.style(
-        overlay = props.overlayStyles,
+        overlay = props.overlayStyles.overlayStyles,
         content = props.contentStyles
       )
 
@@ -88,7 +88,7 @@ object Modal {
   def apply(
     title: String,
     isOpen: Boolean = true,
-    overlayStyles: Map[String, String] = Map.empty,
+    overlayStyles: ModalZIndex = ModalZIndex.DefaultModal,
     contentStyles: Map[String, String] = Map.empty,
     overlayClassName: String = "",
     modalClassName: String = "",
