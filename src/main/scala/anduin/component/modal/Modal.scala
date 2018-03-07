@@ -3,7 +3,9 @@
 package anduin.component.modal
 
 import scala.scalajs.js
+
 import japgolly.scalajs.react.vdom.VdomElement
+
 import anduin.component.icon.Icon
 import anduin.component.util.ComponentUtils
 import anduin.scalajs.react.modal.ReactModal
@@ -31,7 +33,7 @@ object Modal {
     title: String,
     body: Callback => VdomElement,
     isOpen: Boolean,
-    overlayStyles: ModalZIndex,
+    overlayStyles: Map[String, String],
     contentStyles: Map[String, String],
     overlayClassName: String,
     modalClassName: String,
@@ -48,7 +50,7 @@ object Modal {
     .stateless
     .render_P { props =>
       val style = ReactModal.style(
-        overlay = props.overlayStyles.overlayStyles,
+        overlay = props.overlayStyles,
         content = props.contentStyles
       )
 
@@ -88,7 +90,7 @@ object Modal {
   def apply(
     title: String,
     isOpen: Boolean = true,
-    overlayStyles: ModalZIndex = ModalZIndex.DefaultModal,
+    overlayStyles: Map[String, String] = Map.empty,
     contentStyles: Map[String, String] = Map.empty,
     overlayClassName: String = "",
     modalClassName: String = "",
