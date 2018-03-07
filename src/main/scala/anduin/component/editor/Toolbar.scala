@@ -8,8 +8,10 @@ import org.scalajs.dom.window
 
 import anduin.component.icon.{Icon, Iconv2}
 import anduin.component.modal.OpenModalButton
+import anduin.component.popover.Popover
 import anduin.component.util.JavaScriptUtils
 import anduin.scalajs.slate.Slate.{Change, Value}
+import anduin.stylesheet.tachyons.Tachyons
 
 // scalastyle:off underscore.import
 import japgolly.scalajs.react._
@@ -21,8 +23,9 @@ final case class Toolbar(
   onChange: Change => Callback,
   attachmentButton: TagMod
 ) {
-  def apply(children: VdomNode*): ScalaComponent.Unmounted[_, _, _] =
+  def apply(children: VdomNode*): VdomElement = {
     Toolbar.component(this)(children: _*)
+  }
 }
 
 object Toolbar {
@@ -91,12 +94,6 @@ object Toolbar {
           ^.cls := "btn-group flex items-center",
           props.attachmentButton,
           <.span(^.cls := "divider margin-horizontal-small", "-------"),
-          MarkButtonBar(props.value, props.onChange)(),
-          <.span(^.cls := "divider margin-horizontal-small", "-------"),
-          AlignButtonBar(props.value, props.onChange)(),
-          <.span(^.cls := "divider margin-horizontal-small", "-------"),
-          BlockButtonBar(props.value, props.onChange)(),
-          <.span(^.cls := "divider margin-horizontal-small", "-------"),
           // Undo button
           <.span(
             ^.cls := "tooltip -top",
@@ -148,7 +145,35 @@ object Toolbar {
               ^.onClick --> onRemoveLink,
               Iconv2.unlink()
             )
-          )
+          ),
+          <.span(^.cls := "divider margin-horizontal-small", "-------"),
+          Popover(
+            toggler = <.span(
+              ^.cls := "tooltip -top",
+              VdomAttr("data-tip") := "Formatting options",
+              <.a(
+                ^.cls := "btn -plain -icon-only",
+                ^.href := JavaScriptUtils.voidMethod,
+                Iconv2.format()
+              )
+            ),
+            key = "format-popover",
+            status = Popover.Status.Displayed,
+            popoverBodyClasses = "format-popover",
+            verticalOffset = -10,
+            placement = Popover.Placement.Top,
+            hideWhenClick = false
+          )(
+            _ =>
+              <.div(
+                Tachyons.flexbox.flex,
+                MarkButtonBar(props.value, props.onChange)(),
+                <.span(^.cls := "divider margin-horizontal-small", "-------"),
+                AlignButtonBar(props.value, props.onChange)(),
+                <.span(^.cls := "divider margin-horizontal-small", "-------"),
+                BlockButtonBar(props.value, props.onChange)()
+            )
+          )()
         ),
         <.div(
           ^.cls := "flex margin-left-auto",

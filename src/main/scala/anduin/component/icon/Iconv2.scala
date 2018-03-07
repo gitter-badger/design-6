@@ -713,6 +713,14 @@ object Iconv2 {
     searchTextContent
   )
 
+  def format(additionalClass: String = ""): VdomNode = apply(
+    "format",
+    additionalClass,
+    svgPathVal(
+      svgDVal := "M13.93,14.67L13.93,14.67l-4.99-14l-0.01,0C8.79,0.28,8.43,0,8,0\n\t\t\tS7.21,0.28,7.07,0.67l-0.01,0l-5,14l0.01,0C2.03,14.77,2,14.88,2,15c0,0.55,0.45,1,1,1c0.43,0,0.79-0.28,0.93-0.67l0.01,0L5.49,11\n\t\t\th5.02l1.55,4.34l0.01,0C12.21,15.72,12.57,16,13,16c0.55,0,1-0.45,1-1C14,14.88,13.97,14.77,13.93,14.67z M6.2,9L8,3.97L9.8,9H6.2z"
+    )
+  )
+
   def bold(additionalClass: String = ""): VdomNode = apply(
     "bold",
     additionalClass,

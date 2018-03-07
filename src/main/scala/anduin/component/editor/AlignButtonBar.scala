@@ -6,6 +6,7 @@ import scala.scalajs.js
 
 import anduin.component.icon.Iconv2
 import anduin.scalajs.slate.Slate.{Change, Value}
+import anduin.stylesheet.tachyons.Tachyons
 
 // scalastyle:off underscore.import
 import japgolly.scalajs.react._
@@ -16,7 +17,7 @@ private[editor] final case class AlignButtonBar(
   value: Value,
   onChange: Change => Callback
 ) {
-  def apply(): ScalaComponent.Unmounted[_, _, _] = AlignButtonBar.component(this)
+  def apply(): VdomElement = AlignButtonBar.component(this)
 }
 
 private[editor] object AlignButtonBar {
@@ -42,6 +43,7 @@ private[editor] object AlignButtonBar {
 
     def render(props: AlignButtonBar): VdomElement = {
       <.div(
+        Tachyons.flexbox.flex,
         List(
           ("left", Iconv2.leftAlign(), "Align Left"),
           ("center", Iconv2.centerAlign(), "Align Center"),

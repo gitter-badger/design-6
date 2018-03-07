@@ -4,6 +4,7 @@ package anduin.component.editor
 
 import anduin.component.icon.{Icon, Iconv2}
 import anduin.scalajs.slate.Slate.{Change, Value}
+import anduin.stylesheet.tachyons.Tachyons
 
 // scalastyle:off underscore.import
 import japgolly.scalajs.react._
@@ -14,7 +15,7 @@ private[editor] final case class BlockButtonBar(
   value: Value,
   onChange: Change => Callback
 ) {
-  def apply(): ScalaComponent.Unmounted[_, _, _] = BlockButtonBar.component(this)
+  def apply(): VdomElement = BlockButtonBar.component(this)
 }
 
 private[editor] object BlockButtonBar {
@@ -90,6 +91,7 @@ private[editor] object BlockButtonBar {
 
     def render(props: BlockButtonBar): VdomElement = {
       <.div(
+        Tachyons.flexbox.flex,
         List(
           (BlockQuoteNode, Iconv2.blockquote(), "Quote"),
           (UnorderedListNode, Icon.bulletPoint(), "Bulleted List"),
