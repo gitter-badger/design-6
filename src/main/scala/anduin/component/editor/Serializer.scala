@@ -39,6 +39,12 @@ object Serializer {
 
   private final val TextAlignmentTags = Map("div" -> DivNode.nodeType) ++ BlockTags
 
+  private final val BlockQuoteAttrs = TagMod(
+    ^.borderLeft := "2px solid #bfccd6",
+    ^.margin := "0px",
+    ^.padding := "10px"
+  )
+
   // See https://docs.slatejs.org/walkthroughs/saving-and-loading-html-content
   private val blockHandler = new Rule(
     deserialize = (ele: Element, next: js.Function1[NodeList, NodeList]) => {
@@ -57,7 +63,7 @@ object Serializer {
         obj.tpe match {
           case CodeNode.nodeType          => <.pre(<.code(createChildren(children))).rawElement
           case ParagraphNode.nodeType     => <.p(createChildren(children)).rawElement
-          case BlockQuoteNode.nodeType    => <.blockquote(createChildren(children)).rawElement
+          case BlockQuoteNode.nodeType    => <.blockquote(BlockQuoteAttrs, createChildren(children)).rawElement
           case ListItemNode.nodeType      => <.li(createChildren(children)).rawElement
           case UnorderedListNode.nodeType => <.ul(createChildren(children)).rawElement
           case OrderedListNode.nodeType   => <.ol(createChildren(children)).rawElement
