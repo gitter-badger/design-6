@@ -34,7 +34,9 @@ object Toolbar {
 
   private final val isMac = window.navigator.userAgent.matches(".*(Mac|iPod|iPhone|iPad).*")
 
-  private case class Backend(scope: BackendScope[Toolbar, _]) {
+  private case class State(formatActive: Boolean = true)
+
+  private case class Backend(scope: BackendScope[Toolbar, State]) {
 
     private def hasLinks(value: Value) = {
       value.inlines.some(inline => inline.inlineType == LinkNode.nodeType)
@@ -86,7 +88,7 @@ object Toolbar {
     }
 
     // scalastyle:off method.length multiple.string.literals
-    def render(props: Toolbar, children: PropsChildren): VdomElement = {
+    def render(props: Toolbar, state: State, children: PropsChildren): VdomElement = {
       val hasLink = hasLinks(props.value)
       <.div(
         ^.cls := "editor-toolbar flex padding-all-small items-center",
@@ -152,8 +154,12 @@ object Toolbar {
               ^.cls := "tooltip -top",
               VdomAttr("data-tip") := "Formatting options",
               <.a(
-                ^.cls := "btn -plain -icon-only",
+                ^.classSet(
+                  "btn -plain -icon-only" -> true,
+                  "-selected" -> state.formatActive
+                ),
                 ^.href := JavaScriptUtils.voidMethod,
+                ^.onClick --> scope.modState(_.copy(formatActive = !state.formatActive)),
                 Iconv2.format()
               )
             ),
@@ -197,7 +203,7 @@ object Toolbar {
 
   private val component = ScalaComponent
     .builder[Toolbar](ComponentName)
-    .stateless
+    .initialState(State())
     .renderBackendWithChildren[Backend]
     .build
 }
