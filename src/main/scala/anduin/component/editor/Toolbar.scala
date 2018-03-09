@@ -8,8 +8,10 @@ import org.scalajs.dom.window
 
 import anduin.component.icon.{Icon, Iconv2}
 import anduin.component.modal.OpenModalButton
+import anduin.component.popover.Popover
 import anduin.component.util.JavaScriptUtils
 import anduin.scalajs.slate.Slate.{Change, Value}
+import anduin.stylesheet.tachyons.Tachyons
 
 // scalastyle:off underscore.import
 import japgolly.scalajs.react._
@@ -21,8 +23,9 @@ final case class Toolbar(
   onChange: Change => Callback,
   attachmentButton: TagMod
 ) {
-  def apply(children: VdomNode*): ScalaComponent.Unmounted[_, _, _] =
+  def apply(children: VdomNode*): VdomElement = {
     Toolbar.component(this)(children: _*)
+  }
 }
 
 object Toolbar {
@@ -31,7 +34,9 @@ object Toolbar {
 
   private final val isMac = window.navigator.userAgent.matches(".*(Mac|iPod|iPhone|iPad).*")
 
-  private case class Backend(scope: BackendScope[Toolbar, _]) {
+  private case class State(formatActive: Boolean = true)
+
+  private case class Backend(scope: BackendScope[Toolbar, State]) {
 
     private def hasLinks(value: Value) = {
       value.inlines.some(inline => inline.inlineType == LinkNode.nodeType)
@@ -83,19 +88,13 @@ object Toolbar {
     }
 
     // scalastyle:off method.length multiple.string.literals
-    def render(props: Toolbar, children: PropsChildren): VdomElement = {
+    def render(props: Toolbar, state: State, children: PropsChildren): VdomElement = {
       val hasLink = hasLinks(props.value)
       <.div(
         ^.cls := "editor-toolbar flex padding-all-small items-center",
         <.div(
           ^.cls := "btn-group flex items-center",
           props.attachmentButton,
-          <.span(^.cls := "divider margin-horizontal-small", "-------"),
-          MarkButtonBar(props.value, props.onChange)(),
-          <.span(^.cls := "divider margin-horizontal-small", "-------"),
-          AlignButtonBar(props.value, props.onChange)(),
-          <.span(^.cls := "divider margin-horizontal-small", "-------"),
-          BlockButtonBar(props.value, props.onChange)(),
           <.span(^.cls := "divider margin-horizontal-small", "-------"),
           // Undo button
           <.span(
@@ -148,7 +147,39 @@ object Toolbar {
               ^.onClick --> onRemoveLink,
               Iconv2.unlink()
             )
-          )
+          ),
+          <.span(^.cls := "divider margin-horizontal-small", "-------"),
+          Popover(
+            toggler = <.span(
+              ^.cls := "tooltip -top",
+              VdomAttr("data-tip") := "Formatting options",
+              <.a(
+                ^.classSet(
+                  "btn -plain -icon-only" -> true,
+                  "-selected" -> state.formatActive
+                ),
+                ^.href := JavaScriptUtils.voidMethod,
+                ^.onClick --> scope.modState(_.copy(formatActive = !state.formatActive)),
+                Iconv2.format()
+              )
+            ),
+            key = "format-popover",
+            status = Popover.Status.Displayed,
+            popoverBodyClasses = "format-popover",
+            verticalOffset = -10,
+            placement = Popover.Placement.Top,
+            hideWhenClick = false
+          )(
+            _ =>
+              <.div(
+                Tachyons.flexbox.flex,
+                MarkButtonBar(props.value, props.onChange)(),
+                <.span(^.cls := "divider margin-horizontal-small", "-------"),
+                AlignButtonBar(props.value, props.onChange)(),
+                <.span(^.cls := "divider margin-horizontal-small", "-------"),
+                BlockButtonBar(props.value, props.onChange)()
+            )
+          )()
         ),
         <.div(
           ^.cls := "flex margin-left-auto",
@@ -172,7 +203,7 @@ object Toolbar {
 
   private val component = ScalaComponent
     .builder[Toolbar](ComponentName)
-    .stateless
+    .initialState(State())
     .renderBackendWithChildren[Backend]
     .build
 }
