@@ -268,14 +268,14 @@ object Popover {
     }
 
     def render(props: Popover, state: State): VdomTagOf[Div] = {
-      <.div.ref(wrapperRef = _)(
+      <.div.withRef(wrapperRef)(
         ^.classSet(
           "popover-wrapper" -> true,
           "-dynamic" -> props.dynamicPosition,
           props.classes -> props.classes.nonEmpty
         ),
         // Element for toggling the popover
-        <.div.ref(togglerRef = _)(
+        <.div.withRef(togglerRef)(
           props.toggler,
           // Show or hide the popover when clicking or moving the mouse over on the toggle element
           ^.onClick ==> onClickToggler,
@@ -288,7 +288,7 @@ object Popover {
         ),
         // Popover's body
         TagMod.when(state.status != Status.Unmounted) {
-          <.div.ref(bodyRef = _)(
+          <.div.withRef(bodyRef)(
             ^.classSet(
               "popover" -> true,
               "popover-in" -> (state.status == Status.Displayed),

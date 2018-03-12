@@ -286,7 +286,7 @@ object Calendar {
           "datepicker-inner" -> true,
           "datepicker-hidden" -> !props.shown
         )
-      ).ref(innerElementRef = _)(
+      ).withRef(innerElementRef)(
         <.div(
           ^.cls := "datepicker-calendar",
           <.div(

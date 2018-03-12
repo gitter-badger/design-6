@@ -69,7 +69,7 @@ object EditorWithMenu {
     }
 
     def render(props: EditorWithMenu, state: State): VdomElement = {
-      <.div.ref(containerRef = _)(
+      <.div.withRef(containerRef)(
         Tachyons.position.relative,
 
         ClickOutside(

@@ -186,7 +186,7 @@ object Tooltip {
     }
 
     def render(props: Tooltip, children: PropsChildren): VdomElement = {
-      <.span.ref(targetRef = _)(
+      <.span.withRef(targetRef)(
         ^.classSet(
           props.containerClasses -> props.containerClasses.nonEmpty
         ),
