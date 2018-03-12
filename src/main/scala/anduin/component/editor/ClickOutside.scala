@@ -32,7 +32,7 @@ private[editor] object ClickOutside {
     def onWindowClick(e: MouseEvent): Callback = {
       for {
         props <- scope.props
-        node <- scope.getDOMNode.map(_.asElement)
+        node <- scope.getDOMNode.asElement.map(_.asElement)
         rect = node.getBoundingClientRect()
         (x, y) = (e.clientX, e.clientY)
         (top, left, width, height) = (rect.top, rect.left, rect.width, rect.height)
