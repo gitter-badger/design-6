@@ -91,12 +91,12 @@ object Toolbar {
     def render(props: Toolbar, state: State, children: PropsChildren): VdomElement = {
       val hasLink = hasLinks(props.value)
       <.div(
-        ^.cls := "editor-toolbar flex padding-all-small items-center",
+        ^.cls := "editor-toolbar flex pa1 items-center",
         TagMod.when(state.formatActive)(^.marginTop := "45px"),
         <.div(
           ^.cls := "btn-group flex items-center",
           props.attachmentButton,
-          <.span(^.cls := "divider margin-horizontal-small", "-------"),
+          <.span(^.cls := "divider mh1", "-------"),
           // Undo button
           <.span(
             ^.cls := "tooltip -top",
@@ -125,7 +125,7 @@ object Toolbar {
               Iconv2.redo()
             )
           ),
-          <.span(^.cls := "divider margin-horizontal-small", "-------"),
+          <.span(^.cls := "divider mh1", "-------"),
           <.span(
             ^.cls := "tooltip -top",
             VdomAttr("data-tip") := "Insert Link",
@@ -149,7 +149,7 @@ object Toolbar {
               Iconv2.unlink()
             )
           ),
-          <.span(^.cls := "divider margin-horizontal-small", "-------"),
+          <.span(^.cls := "divider mh1", "-------"),
           Popover(
             toggler = <.span(
               ^.cls := "tooltip -top",
@@ -175,15 +175,15 @@ object Toolbar {
               <.div(
                 Tachyons.flexbox.flex,
                 MarkButtonBar(props.value, props.onChange)(),
-                <.span(^.cls := "divider margin-horizontal-small", "-------"),
+                <.span(^.cls := "divider mh1", "-------"),
                 AlignButtonBar(props.value, props.onChange)(),
-                <.span(^.cls := "divider margin-horizontal-small", "-------"),
+                <.span(^.cls := "divider mh1", "-------"),
                 BlockButtonBar(props.value, props.onChange)()
             )
           )()
         ),
         <.div(
-          ^.cls := "flex margin-left-auto",
+          ^.cls := "flex ml-auto",
           <.span(
             ^.cls := "tooltip -top",
             VdomAttr("data-tip") := "Keyboard Shortcuts",

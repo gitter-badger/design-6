@@ -45,7 +45,7 @@ private[editor] object LinkModal {
         <.div(
           ^.cls := "modal-footer flex items-center justify-between",
           <.div(
-            ^.cls := "btn-group margin-left-auto",
+            ^.cls := "btn-group ml-auto",
             <.button(
               ^.cls := "btn",
               ^.tpe := "button",

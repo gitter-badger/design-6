@@ -18,7 +18,7 @@ private[editor] object ShortcutModal {
   // scalastyle:off multiple.string.literals
   private def render(props: ShortcutModal): VdomElement = {
     val cmdKey = if (props.isMac) <.span(^.cls := "key", "⌘") else <.span(^.cls := "key", "Ctrl")
-    val operator = <.span(^.cls := "operator margin-horizontal-small", "+")
+    val operator = <.span(^.cls := "operator mh1", "+")
 
     val shortcuts = List(
       ("B", "Bold"),
@@ -40,7 +40,7 @@ private[editor] object ShortcutModal {
               cmdKey,
               operator,
               <.span(^.cls := "key", key),
-              <.span(^.cls := "margin-left-large", description)
+              <.span(^.cls := "ml3", description)
             )
         }
       ),
@@ -48,8 +48,8 @@ private[editor] object ShortcutModal {
         ^.cls := "list universal-keys",
         <.li(
           ^.cls := "item flex items-center",
-          <.span(^.cls := "key padding-horizontal-normal", "Enter / Return"),
-          <.span(^.cls := "margin-left-large", "New Line")
+          <.span(^.cls := "key ph2", "Enter / Return"),
+          <.span(^.cls := "ml3", "New Line")
         )
       )
     )
