@@ -20,7 +20,7 @@ final case class RichEditor(
   onChange: Change => Callback,
   readOnly: Boolean
 ) {
-  def apply(): ScalaComponent.Unmounted[_, _, _] = RichEditor.component(this)
+  def apply(): VdomElement = RichEditor.component(this)
 }
 
 object RichEditor {
@@ -64,7 +64,6 @@ object RichEditor {
       }
     }
 
-    // scalastyle:off cyclomatic.complexity
     private def renderNode(props: RenderNodeProps) = {
       val data = props.node.data
       val children = PropsChildren.fromRawProps(props)
@@ -80,7 +79,6 @@ object RichEditor {
         case TextAlignNode.nodeType     => TextAlignRenderer(data, props.children)
       }
     }
-    // scalastyle:on cyclomatic.complexity
 
     def render(props: RichEditor): VdomElement = {
       <.div(

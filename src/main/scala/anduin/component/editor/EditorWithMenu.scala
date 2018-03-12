@@ -2,7 +2,7 @@
 
 package anduin.component.editor
 
-  import org.scalajs.dom.raw.HTMLElement
+import org.scalajs.dom.raw.HTMLElement
 import org.scalajs.dom.window
 
 import anduin.stylesheet.tachyons.Tachyons
@@ -19,7 +19,7 @@ final case class EditorWithMenu(
   value: Value,
   onChange: Change => Callback
 ) {
-  def apply(): ScalaComponent.Unmounted[_, _, _] = EditorWithMenu.component(this)
+  def apply(): VdomElement = EditorWithMenu.component(this)
 }
 
 object EditorWithMenu {
