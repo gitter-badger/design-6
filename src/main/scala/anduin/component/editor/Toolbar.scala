@@ -92,6 +92,7 @@ object Toolbar {
       val hasLink = hasLinks(props.value)
       <.div(
         ^.cls := "editor-toolbar flex padding-all-small items-center",
+        TagMod.when(state.formatActive)(^.marginTop := "45px"),
         <.div(
           ^.cls := "btn-group flex items-center",
           props.attachmentButton,
