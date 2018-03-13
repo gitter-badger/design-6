@@ -24,6 +24,20 @@ private[editor] object MarkButtonBar {
 
   private case class Backend(scope: BackendScope[MarkButtonBar, _]) {
 
+    private def toggleMark(markNode: MarkNode) = {
+      for {
+        props <- scope.props
+        value = props.value
+        change = value.change()
+        newChange = if (value.isFocused) {
+          change.toggleMark(markNode.nodeType)
+        } else {
+          change.focus().toggleMark(markNode.nodeType)
+        }
+        _ <- props.onChange(newChange)
+      } yield ()
+    }
+
     def render(props: MarkButtonBar): VdomElement = {
       <.div(
         Tachyons.flexbox.flex,
@@ -38,10 +52,7 @@ private[editor] object MarkButtonBar {
               key = markNode.nodeType,
               tip = tip,
               active = props.value.activeMarks.some(item => item.markType == markNode.nodeType),
-              onClick = {
-                val change = props.value.change().toggleMark(markNode.nodeType)
-                props.onChange(change)
-              }
+              onClick = toggleMark(markNode)
             )(icon)
         }
       )
