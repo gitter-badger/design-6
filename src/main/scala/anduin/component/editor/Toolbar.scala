@@ -34,7 +34,7 @@ object Toolbar {
 
   private final val isMac = window.navigator.userAgent.matches(".*(Mac|iPod|iPhone|iPad).*")
 
-  private case class State(formatActive: Boolean = true)
+  private case class State(formatActive: Boolean = false)
 
   private case class Backend(scope: BackendScope[Toolbar, State]) {
 
@@ -165,7 +165,7 @@ object Toolbar {
               )
             ),
             key = "format-popover",
-            status = Popover.Status.Displayed,
+            status = Popover.Status.Hidden,
             popoverBodyClasses = "format-popover",
             verticalOffset = -10,
             placement = Popover.Placement.Top,
