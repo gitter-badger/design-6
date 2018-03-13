@@ -19,10 +19,17 @@ final case class Tooltip(
   tipClasses: String = "",
   status: Tooltip.Status = Tooltip.Status.Default,
   offset: Double = 5,
-  size: Tooltip.Size = Tooltip.Size.Default
+  size: Tooltip.Size = Tooltip.Size.Default,
+  keyOpt: Option[String] = None
 ) {
-  def apply(children: VdomNode*): ScalaComponent.Unmounted[_, _, _] =
-    Tooltip.component(this)(children: _*)
+  def apply(children: VdomNode*): ScalaComponent.Unmounted[_, _, _] = {
+    val component = Tooltip.component
+    keyOpt.fold {
+      component(this)(children: _*)
+    } {
+      component.withKey(_)(this)(children: _*)
+    }
+  }
 }
 
 object Tooltip {
