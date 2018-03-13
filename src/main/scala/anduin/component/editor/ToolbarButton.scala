@@ -15,7 +15,7 @@ private[editor] final case class ToolbarButton(
   active: Boolean,
   onClick: Callback
 ) {
-  def apply(children: VdomNode*): ScalaComponent.Unmounted[_, _, _] = {
+  def apply(children: VdomNode*): VdomElement = {
     ToolbarButton.component.withKey(key)(this)(children: _*)
   }
 }
@@ -38,7 +38,7 @@ private[editor] object ToolbarButton {
             "-selected" -> props.active
           ),
           ^.href := JavaScriptUtils.voidMethod,
-          ^.onClick ==> { (e: ReactEvent) ⇒
+          ^.onMouseDown ==> { (e: ReactEvent) ⇒
             e.preventDefault()
             props.onClick
           },
