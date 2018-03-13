@@ -26,6 +26,7 @@ object Slate {
     def hasUndos: Boolean = js.native
     def hasRedos: Boolean = js.native
     def isExpanded: Boolean = js.native
+    def isFocused: Boolean = js.native
     val document: Document = js.native
     def isBlurred: Boolean = js.native
     def toJSON(): js.Object = js.native
@@ -41,13 +42,16 @@ object Slate {
   @js.native
   final class Change(val value: Value) extends js.Object {
     def addMark(mark: String): Change = js.native // linter:ignore UnusedParameter
+    def removeMark(mark: String): Change = js.native // linter:ignore UnusedParameter
     def toggleMark(mark: String): Change = js.native // linter:ignore UnusedParameter
+    def focus(): Change = js.native
     def undo(): Change = js.native
     def redo(): Change = js.native
     def collapseToEnd(): Change = js.native
     def unwrapInline(inlineType: String): Change = js.native // linter:ignore UnusedParameter
     def wrapInline(props: js.Object): Change = js.native // linter:ignore UnusedParameter
     def insertText(text: String): Change = js.native // linter:ignore UnusedParameter
+    def insertFragment(document: Document): Change = js.native // linter:ignore UnusedParameter
     def extend(num: Int): Change = js.native // linter:ignore UnusedParameter
     def setBlock(block: String): Change = js.native // linter:ignore UnusedParameter
     def setBlock(props: js.Object): Change = js.native // linter:ignore UnusedParameter
