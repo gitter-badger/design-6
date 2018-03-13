@@ -30,7 +30,7 @@ object EditorWithMenu {
 
   private case class Backend(scope: BackendScope[EditorWithMenu, State]) {
 
-    private var containerRef: HTMLElement = _ // scalastyle:ignore
+    private val containerRef = Ref[HTMLElement]
 
     private def hide(props: EditorWithMenu, change: Change) = {
       scope.modState(_.copy(hrefOpt = None), props.onChange(change))
@@ -57,12 +57,13 @@ object EditorWithMenu {
             } else {
               // Get the bounding area of current selection
               val rect = selection.getRangeAt(0).getBoundingClientRect()
-              val containerRect = containerRef.getBoundingClientRect()
 
-              val top = rect.top - containerRect.top
-              val left = rect.left - containerRect.left + 0.5 * rect.width
-
-              scope.modState(_.copy(hrefOpt = Some(href), top = top, left = left), props.onChange(change))
+              for {
+                containerRect <- containerRef.map(_.getBoundingClientRect()).get
+                top = rect.top - containerRect.top
+                left = rect.left - containerRect.left + 0.5 * rect.width
+                newState <- scope.modState(_.copy(hrefOpt = Some(href), top = top, left = left), props.onChange(change))
+              } yield newState
             }
           }
         }

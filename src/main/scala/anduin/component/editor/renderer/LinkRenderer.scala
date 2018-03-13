@@ -16,7 +16,7 @@ import anduin.scalajs.slate.Slate._
 
 private[editor] object LinkRenderer {
 
-  def apply(data: Data, children: js.Object): raw.ReactElement = {
+  def apply(data: Data, children: js.Object): raw.React.Element = {
     val href = DataUtil.value(data, "href")
     <.a(^.href := href, PropsChildren.fromRawProps(js.Dynamic.literal(children = children))).rawElement
   }

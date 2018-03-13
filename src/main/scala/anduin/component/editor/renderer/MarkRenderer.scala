@@ -16,7 +16,7 @@ import anduin.component.editor._
 
 private[editor] object MarkRenderer {
 
-  def apply(markType: String, children: js.Object): raw.ReactElement = {
+  def apply(markType: String, children: js.Object): raw.React.Element = {
     val childrenEle = PropsChildren.fromRawProps(js.Dynamic.literal(children = children))
     markType match {
       case BoldNode.nodeType          => <.strong(childrenEle).rawElement
@@ -26,5 +26,5 @@ private[editor] object MarkRenderer {
     }
   }
 
-  def apply(mark: Mark, children: js.Object): raw.ReactElement = apply(mark.markType, children)
+  def apply(mark: Mark, children: js.Object): raw.React.Element = apply(mark.markType, children)
 }

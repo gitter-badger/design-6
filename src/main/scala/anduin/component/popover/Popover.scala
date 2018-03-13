@@ -8,7 +8,6 @@ import japgolly.scalajs.react.extra.{EventListener, OnUnmount}
 import japgolly.scalajs.react.vdom.Exports.VdomTagOf
 import org.scalajs.dom
 import org.scalajs.dom.document
-import org.scalajs.dom.html.Div
 import org.scalajs.dom.raw.{HTMLElement, MouseEvent}
 
 import anduin.component.icon.Icon
@@ -117,9 +116,9 @@ object Popover {
 
   case class Backend(scope: BackendScope[Popover, State]) extends OnUnmount {
 
-    private var bodyRef: HTMLElement = _ // scalastyle:ignore
-    private var togglerRef: HTMLElement = _ // scalastyle:ignore
-    private var wrapperRef: HTMLElement = _ // scalastyle:ignore
+    private val bodyRef = Ref[HTMLElement]
+    private val togglerRef = Ref[HTMLElement]
+    private val wrapperRef = Ref[HTMLElement]
 
     /**
       * Hide the popover if user click outside of its body
@@ -130,16 +129,18 @@ object Popover {
         state <- scope.state
         // Check if first to save some calculations/checks performed in `isInside`
         _ <- Callback.when(state.status == Status.Displayed) {
-          val insideToggler = EventUtils.clickInside(e, togglerRef)
-          val insideBody = EventUtils.clickInside(e, bodyRef)
-
-          // Hide the popover if
-          Callback.when(
-            props.hideWhenClick && (
-              (!insideToggler && !insideBody) || // user click outside of both toggler and popover's body
-                (insideBody && props.hideWhenClickInside) // or user click inside the popover's body
-            )
-          )(hide)
+          for {
+            togglerElem <- togglerRef.get
+            bodyElem <- bodyRef.get
+            insideToggler = EventUtils.clickInside(e, togglerElem)
+            insideBody = EventUtils.clickInside(e, bodyElem)
+            _ <- Callback.when(
+              props.hideWhenClick && (
+                (!insideToggler && !insideBody) || // user click outside of both toggler and popover's body
+                  (insideBody && props.hideWhenClickInside) // or user click inside the popover's body
+              )
+            )(hide)
+          } yield ()
         }
       } yield ()
     }
@@ -148,11 +149,13 @@ object Popover {
       for {
         state <- scope.state
         props <- scope.props
+        togglerElem <- togglerRef.get
+        bodyElem <- bodyRef.get
         _ <- Callback.when(
           props.trigger == Trigger.Hover &&
             state.leaveTogglerTimeOpt.nonEmpty &&
-            !EventUtils.clickInside(e, togglerRef) &&
-            !EventUtils.clickInside(e, bodyRef)
+            !EventUtils.clickInside(e, togglerElem) &&
+            !EventUtils.clickInside(e, bodyElem)
         ) {
           Callback.traverseOption(state.leaveTogglerTimeOpt) { leaveTime =>
             val duration = Date.now() - leaveTime
@@ -215,37 +218,40 @@ object Popover {
       for {
         props <- scope.props
         _ <- Callback.when(props.dynamicPosition) {
-          Callback {
-            val rect = wrapperRef.getBoundingClientRect()
+          for {
+            bodyElem <- bodyRef.get
+            wrapperElem <- wrapperRef.get
+          } yield {
+            val rect = wrapperElem.getBoundingClientRect()
             val (top, left) = props.placement match {
               case Placement.TopLeft =>
-                (rect.top - bodyRef.clientHeight, rect.left + rect.width - bodyRef.clientWidth)
+                (rect.top - bodyElem.clientHeight, rect.left + rect.width - bodyElem.clientWidth)
               case Placement.Top =>
-                (rect.top - bodyRef.clientHeight, rect.left + 0.5 * rect.width - 0.5 * bodyRef.clientWidth)
-              case Placement.TopRight => (rect.top - bodyRef.clientHeight, rect.left)
+                (rect.top - bodyElem.clientHeight, rect.left + 0.5 * rect.width - 0.5 * bodyElem.clientWidth)
+              case Placement.TopRight => (rect.top - bodyElem.clientHeight, rect.left)
 
               case Placement.RightTop =>
-                (rect.top + rect.height - bodyRef.clientHeight, rect.left + rect.width)
+                (rect.top + rect.height - bodyElem.clientHeight, rect.left + rect.width)
               case Placement.Right =>
-                (rect.top + 0.5 * rect.height - 0.5 * bodyRef.clientHeight, rect.left + rect.width)
+                (rect.top + 0.5 * rect.height - 0.5 * bodyElem.clientHeight, rect.left + rect.width)
               case Placement.RightBottom => (rect.top, rect.left + rect.width)
 
               case Placement.BottomRight => (rect.top + rect.height, rect.left)
               case Placement.Bottom | Placement.Default =>
-                (rect.top + rect.height, rect.left + 0.5 * rect.width - 0.5 * bodyRef.clientWidth)
+                (rect.top + rect.height, rect.left + 0.5 * rect.width - 0.5 * bodyElem.clientWidth)
               case Placement.BottomLeft =>
-                (rect.top + rect.height, rect.left + rect.width - bodyRef.clientWidth)
+                (rect.top + rect.height, rect.left + rect.width - bodyElem.clientWidth)
 
               case Placement.LeftTop =>
-                (rect.top + rect.height - bodyRef.clientHeight, rect.left - bodyRef.clientWidth)
+                (rect.top + rect.height - bodyElem.clientHeight, rect.left - bodyElem.clientWidth)
               case Placement.Left =>
-                (rect.top + 0.5 * rect.height - 0.5 * bodyRef.clientHeight, rect.left - bodyRef.clientWidth)
-              case Placement.LeftBottom => (rect.top, rect.left - bodyRef.clientWidth)
+                (rect.top + 0.5 * rect.height - 0.5 * bodyElem.clientHeight, rect.left - bodyElem.clientWidth)
+              case Placement.LeftBottom => (rect.top, rect.left - bodyElem.clientWidth)
             }
             val offsetTop = top + props.verticalOffset + document.body.scrollTop
             val offsetLeft = left + props.horizontalOffset + document.body.scrollLeft
 
-            bodyRef.setAttribute("style", s"top: ${offsetTop}px; left: ${offsetLeft}px;")
+            bodyElem.setAttribute("style", s"top: ${offsetTop}px; left: ${offsetLeft}px;")
           }
         }
       } yield ()
@@ -267,7 +273,7 @@ object Popover {
       } yield ()
     }
 
-    def render(props: Popover, state: State): VdomTagOf[Div] = {
+    def render(props: Popover, state: State): VdomTagOf[HTMLElement] = {
       <.div.withRef(wrapperRef)(
         ^.classSet(
           "popover-wrapper" -> true,

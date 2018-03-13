@@ -2,15 +2,16 @@
 package com.anduin.stargazer.client.component.date
 
 import java.util.Locale
-import scala.scalajs.js.{Date => JsDate}
 
+import scala.scalajs.js.{Date => JsDate}
 import japgolly.scalajs.react.extra.{EventListener, OnUnmount}
 import org.scalajs.dom
 import org.scalajs.dom.ext.KeyCode
-import org.scalajs.dom.html.Div
-import org.scalajs.dom.{KeyboardEvent, MouseEvent, html}
+import org.scalajs.dom.{KeyboardEvent, MouseEvent}
 import java.time.format.TextStyle
 import java.time.{LocalDate, Month, ZoneOffset, ZonedDateTime}
+
+import org.scalajs.dom.raw.HTMLElement
 
 // scalastyle:off underscore.import
 import japgolly.scalajs.react._
@@ -41,7 +42,7 @@ object Calendar {
   case class State(date: LocalDate)
 
   case class Backend(scope: BackendScope[Props, State]) extends OnUnmount {
-    private var innerElementRef: html.Element = _ // scalastyle:ignore
+    private val innerElementRef = Ref[HTMLElement]
 
     /**
       * Close the picker if user press the Escape key
@@ -62,10 +63,10 @@ object Calendar {
       */
     def onMouseDown(e: MouseEvent): Callback = {
       // Determine if user click inside or outside the picker area
-      val rect = innerElementRef.getBoundingClientRect()
-      val inside = (e.clientY >= rect.top && e.clientY <= rect.top + rect.height) &&
-        (e.clientX >= rect.left && e.clientX <= rect.left + rect.width)
       for {
+        rect <- innerElementRef.map(_.getBoundingClientRect()).get
+        inside = (e.clientY >= rect.top && e.clientY <= rect.top + rect.height) &&
+          (e.clientX >= rect.left && e.clientX <= rect.left + rect.width)
         props <- scope.props
         state <- scope.state
         res <- Callback.when(!inside && props.shown) {
@@ -280,7 +281,7 @@ object Calendar {
     }
     // scalastyle:on multiple.string.literals
 
-    def render(props: Props, state: State): VdomTagOf[Div] = {
+    def render(props: Props, state: State): VdomTagOf[HTMLElement] = {
       <.div(
         ^.classSet(
           "datepicker-inner" -> true,

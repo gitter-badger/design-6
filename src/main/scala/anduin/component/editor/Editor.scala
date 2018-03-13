@@ -6,7 +6,7 @@ import scala.scalajs.js
 import scala.scalajs.js.|
 
 import japgolly.scalajs.react.component.Js.UnmountedWithRawType
-import japgolly.scalajs.react.raw.ReactElement
+import japgolly.scalajs.react.raw.React.Element
 import org.scalajs.dom.KeyboardEvent
 
 import anduin.scalajs.slate.SlateReact
@@ -21,7 +21,7 @@ private[editor] object Editor {
 
   private val component = JsComponent[Props, Children.None, Null](SlateReact.EditorComponent)
 
-  type RenderOutput = ReactElement | Null
+  type RenderOutput = Element | Null
   type DecorateNodeFn = js.Function1[Node, js.Array[js.Object]]
 
   def apply(

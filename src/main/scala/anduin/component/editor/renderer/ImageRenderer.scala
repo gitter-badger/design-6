@@ -14,7 +14,7 @@ import anduin.scalajs.slate.Slate._
 
 private[editor] object ImageRenderer {
 
-  def apply(data: Data): raw.ReactElement = {
+  def apply(data: Data): raw.React.Element = {
     val source = DataUtil.value(data, "source")
     val width = DataUtil.value(data, "width")
     val height = DataUtil.value(data, "height")

@@ -78,7 +78,7 @@ object Tooltip {
   private case class Backend(scope: BackendScope[Tooltip, State]) extends OnUnmount {
 
     private val tipNode = document.createElement("div")
-    private var targetRef: HTMLElement = _ // scalastyle:ignore
+    private val targetRef = Ref[HTMLElement]
 
     private def onMouseOver = {
       for {
@@ -133,42 +133,47 @@ object Tooltip {
       } yield ()
     }
 
-    private def updatePosition = {
+    // scalastyle:off cyclomatic.complexity multiple.string.literals
+    private def updatePosition() = {
       for {
         props <- scope.props
         _ <- Callback.when(props.tip.nonEmpty) {
-          val rect = targetRef.getBoundingClientRect()
-          val top = rect.top + document.documentElement.scrollTop + document.body.scrollTop
-          val left = rect.left + document.documentElement.scrollLeft + document.body.scrollLeft
+          for {
+            rectOpt <- targetRef.map(_.getBoundingClientRect()).get.asCallback
+          } yield {
+            rectOpt.fold({}) { rect =>
+              val top = rect.top + document.documentElement.scrollTop + document.body.scrollTop
+              val left = rect.left + document.documentElement.scrollLeft + document.body.scrollLeft
 
-          Callback {
-            val (tipTop, tipLeft) = props.placement match {
-              case Placement.Top =>
-                (top - tipNode.clientHeight - props.offset, left + rect.width / 2 - tipNode.clientWidth / 2)
-              case Placement.TopLeft =>
-                (top - tipNode.clientHeight - props.offset, left)
-              case Placement.TopRight =>
-                (top - tipNode.clientHeight - props.offset, left + rect.width - tipNode.clientWidth)
-              case Placement.Bottom =>
-                (top + rect.height + props.offset, left + rect.width / 2 - tipNode.clientWidth / 2)
-              case Placement.BottomLeft =>
-                (top + rect.height + props.offset, left)
-              case Placement.BottomRight =>
-                (top + rect.height + props.offset, left + rect.width - tipNode.clientWidth)
-              case Placement.Left =>
-                (top + rect.height / 2 - tipNode.clientHeight / 2, left - tipNode.clientWidth - props.offset)
-              case Placement.Right =>
-                (top + rect.height / 2 - tipNode.clientHeight / 2, left + rect.width + props.offset)
+              val (tipTop, tipLeft) = props.placement match {
+                case Placement.Top =>
+                  (top - tipNode.clientHeight - props.offset, left + rect.width / 2 - tipNode.clientWidth / 2)
+                case Placement.TopLeft =>
+                  (top - tipNode.clientHeight - props.offset, left)
+                case Placement.TopRight =>
+                  (top - tipNode.clientHeight - props.offset, left + rect.width - tipNode.clientWidth)
+                case Placement.Bottom =>
+                  (top + rect.height + props.offset, left + rect.width / 2 - tipNode.clientWidth / 2)
+                case Placement.BottomLeft =>
+                  (top + rect.height + props.offset, left)
+                case Placement.BottomRight =>
+                  (top + rect.height + props.offset, left + rect.width - tipNode.clientWidth)
+                case Placement.Left =>
+                  (top + rect.height / 2 - tipNode.clientHeight / 2, left - tipNode.clientWidth - props.offset)
+                case Placement.Right =>
+                  (top + rect.height / 2 - tipNode.clientHeight / 2, left + rect.width + props.offset)
+              }
+
+              tipNode.setAttribute(
+                "style",
+                s"top: ${tipTop}px; left: ${tipLeft}px"
+              )
             }
-
-            tipNode.setAttribute(
-              "style",
-              s"top: ${tipTop}px; left: ${tipLeft}px"
-            )
           }
         }
       } yield ()
     }
+    // scalastyle:on cyclomatic.complexity multiple.string.literals
 
     private def onMouseOut = {
       for {

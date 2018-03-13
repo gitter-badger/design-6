@@ -15,7 +15,7 @@ import anduin.scalajs.slate.Slate._
 
 private[editor] object TextAlignRenderer {
 
-  def apply(data: Data, children: js.Object): raw.ReactElement = {
+  def apply(data: Data, children: js.Object): raw.React.Element = {
     val childrenEle = PropsChildren.fromRawProps(js.Dynamic.literal(children = children))
     val textAlign = DataUtil.value(data, "textAlign")
     val textAlignAttr = TagMod.when(textAlign.nonEmpty)(^.textAlign := textAlign)
