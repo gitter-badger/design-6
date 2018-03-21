@@ -43,7 +43,7 @@ object Label {
     override val className: String = "-danger"
   }
 
-  private final val ComponentName = ComponentUtils.name(this)
+  private val ComponentName = ComponentUtils.name(this)
 
   private case class Backend(scope: BackendScope[Label, _]) {
 

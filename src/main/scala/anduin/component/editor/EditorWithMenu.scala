@@ -24,7 +24,7 @@ final case class EditorWithMenu(
 
 object EditorWithMenu {
 
-  private final val ComponentName = this.getClass.getSimpleName
+  private val ComponentName = this.getClass.getSimpleName
 
   private case class State(hrefOpt: Option[String] = None, top: Double = -9999, left: Double = 0)
 

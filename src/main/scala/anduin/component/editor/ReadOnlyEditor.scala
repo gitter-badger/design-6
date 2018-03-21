@@ -25,7 +25,7 @@ final case class ReadOnlyEditor(
 
 object ReadOnlyEditor {
 
-  private final val ComponentName = this.getClass.getSimpleName
+  private val ComponentName = this.getClass.getSimpleName
 
   private val linkFinder = LinkifyIt().tlds(Tlds.TLDS)
 

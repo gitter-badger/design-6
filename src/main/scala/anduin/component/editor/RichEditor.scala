@@ -25,7 +25,7 @@ final case class RichEditor(
 
 object RichEditor {
 
-  private final val ComponentName = this.getClass.getSimpleName
+  private val ComponentName = this.getClass.getSimpleName
 
   private case class Backend(scope: BackendScope[RichEditor, _]) {
 

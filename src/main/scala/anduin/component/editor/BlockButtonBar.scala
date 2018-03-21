@@ -22,7 +22,7 @@ private[editor] object BlockButtonBar {
 
   private val ComponentName = this.getClass.getSimpleName
 
-  private final val DefaultNodeType = ParagraphNode.nodeType
+  private val DefaultNodeType = ParagraphNode.nodeType
 
   private case class Backend(scope: BackendScope[BlockButtonBar, _]) {
 

@@ -32,7 +32,7 @@ object Toolbar {
 
   private val ComponentName = this.getClass.getSimpleName
 
-  private final val isMac = window.navigator.userAgent.matches(".*(Mac|iPod|iPhone|iPad).*")
+  private val isMac = window.navigator.userAgent.matches(".*(Mac|iPod|iPhone|iPad).*")
 
   private case class State(formatActive: Boolean = false)
 

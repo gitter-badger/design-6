@@ -97,7 +97,7 @@ object Popover {
   // Hide the popover if the time counted from the moment user move mouse out of toggler
   // exceed this number of milliseconds.
   // We need it to support using multiple popovers on the same page
-  private final val AutoHideDurationMs = 60
+  private val AutoHideDurationMs = 60
 
   sealed trait Status
   object Status {

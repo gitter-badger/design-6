@@ -9,7 +9,7 @@ import org.scalajs.dom.raw.{ClientRect, Element}
 object EventUtils {
 
   // `0` indicates a left-click
-  private final val LeftButton = 0
+  private val LeftButton = 0
 
   def leftButtonClicked(e: MouseEvent): Boolean = {
     e.button == LeftButton

@@ -6,7 +6,7 @@ import org.scalajs.dom.Element
 
 private[editor] object StyleParser {
 
-  private final val TextAlignProperty = "text-align:"
+  private val TextAlignProperty = "text-align:"
 
   /**
     * Parse the text alignment from given element

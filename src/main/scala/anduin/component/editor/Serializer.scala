@@ -21,7 +21,7 @@ import anduin.scalajs.slate.HtmlSerializer._
 // scalastyle:off multiple.string.literals
 object Serializer {
 
-  private final val BlockTags = Map(
+  private val BlockTags = Map(
     "blockquote" -> BlockQuoteNode.nodeType,
     "p" -> ParagraphNode.nodeType,
     "pre" -> CodeNode.nodeType,
@@ -30,16 +30,16 @@ object Serializer {
     "ol" -> OrderedListNode.nodeType
   )
 
-  private final val MarkTags = Map(
+  private val MarkTags = Map(
     "strong" -> BoldNode.nodeType,
     "em" -> ItalicNode.nodeType,
     "u" -> UnderlineNode.nodeType,
     "del" -> StrikeThroughNode.nodeType
   )
 
-  private final val TextAlignmentTags = Map("div" -> DivNode.nodeType) ++ BlockTags
+  private val TextAlignmentTags = Map("div" -> DivNode.nodeType) ++ BlockTags
 
-  private final val BlockQuoteAttrs = TagMod(
+  private val BlockQuoteAttrs = TagMod(
     ^.borderLeft := "2px solid #bfccd6",
     ^.margin := "0px",
     ^.padding := "10px"

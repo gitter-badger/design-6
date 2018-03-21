@@ -16,19 +16,19 @@ import anduin.component.util.DateUtils._
   */
 object JsDateFormatterUtils {
 
-  final val DefaultPattern = "" // 2016-11-01T15:33:50+07:00
-  final val CreatedAtDatePattern = "hh:mm A" // 07:40 AM
-  final val LongDatePattern = "MMM DD YYYY" // Dec 12 2015
-  final val SuperLongDatePattern = "YYYY-MM-DD hh:mm:ss" // 2016-10-19 12:40:30
-  final val LongDatePattern1 = "MMM D, YYYY" // May 1, 2016
+  val DefaultPattern = "" // 2016-11-01T15:33:50+07:00
+  val CreatedAtDatePattern = "hh:mm A" // 07:40 AM
+  val LongDatePattern = "MMM DD YYYY" // Dec 12 2015
+  val SuperLongDatePattern = "YYYY-MM-DD hh:mm:ss" // 2016-10-19 12:40:30
+  val LongDatePattern1 = "MMM D, YYYY" // May 1, 2016
 
   def format(date: ZonedDateTime, pattern: String): String = date.format(pattern)
   def format(instant: Instant, pattern: String): String = instant.format(pattern)
 
-  private final val FourDigitZeroPaddingFormatter = "%04d" // return "1992" or "0082"
-  private final val TwoDigitZeroPaddingFormatter = "%02d" // return "11" or "02"
-  private final val LocalDatePattern = "YYYY-MM-DD"
-  private final val LocalDateTimePattern = "YYYY-MM-DD hh:mm:ss"
+  private val FourDigitZeroPaddingFormatter = "%04d" // return "1992" or "0082"
+  private val TwoDigitZeroPaddingFormatter = "%02d" // return "11" or "02"
+  private val LocalDatePattern = "YYYY-MM-DD"
+  private val LocalDateTimePattern = "YYYY-MM-DD hh:mm:ss"
 
   def format(date: LocalDate, pattern: String): String = {
     val yearStr = FourDigitZeroPaddingFormatter.format(date.getYear)

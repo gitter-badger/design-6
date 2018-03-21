@@ -38,7 +38,7 @@ object Iconv2 {
   private val svgPolygonVal = SvgTags.polygon()
   private val svgDVal = SvgAttrAndStyles.d // linter:ignore UndesirableTypeInference
   private val svgPointsVal = SvgAttrAndStyles.points // linter:ignore UndesirableTypeInference
-  private final val DefaultViewBox = "0 0 16 16"
+  private val DefaultViewBox = "0 0 16 16"
 
   //SVG CONTENT
   private val bellSVGContent = svgPathVal(

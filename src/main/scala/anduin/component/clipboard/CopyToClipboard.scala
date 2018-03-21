@@ -22,7 +22,7 @@ object CopyToClipboard {
 
   private val componentName = this.getClass.getSimpleName
 
-  private final val CopyCommand = "copy"
+  private val CopyCommand = "copy"
 
   private case class State(copied: Boolean)
 
