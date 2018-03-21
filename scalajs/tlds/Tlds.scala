@@ -8,7 +8,7 @@ import scala.scalajs.js
 // scalastyle:off file.size.limit
 object Tlds {
 
-  final val TLDS = js.Array[String](
+  val TLDS = js.Array[String](
     "aaa",
     "aarp",
     "abarth",
