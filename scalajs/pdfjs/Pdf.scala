@@ -18,9 +18,9 @@ object PdfWorkerUrl {
   // The path to PDF parsing worker
   def pdfWorkerUrl(productionBuild: Boolean): String =
     if (productionBuild) {
-      "/web/gondor/js/pdfjs/pdf-2.0.451.worker.min.js"
+      "/web/gondor/js/pdfjs/pdf-2.0.402.worker.min.js"
     } else {
-      "/web/gondor/js/pdfjs/pdf-2.0.451.worker.js"
+      "/web/gondor/js/pdfjs/pdf-2.0.402.worker.js"
     }
 }
 
