@@ -2,6 +2,7 @@
 
 package anduin.component.icon
 
+import japgolly.scalajs.react.vdom.all.svg
 import japgolly.scalajs.react.vdom.{SvgAttrAndStyles, SvgTags, VdomNode}
 
 // scalastyle:off underscore.import
@@ -1204,6 +1205,19 @@ object Iconv2 {
     additionalClass,
     circleTickSVGContent
   )
+
+  def scala: VdomNode = {
+    svg.svg(
+      SvgAttrAndStyles.xmlns := "http://www.w3.org/2000/svg",
+      ^.cls := "icon-svg at-icon",
+      SvgAttrAndStyles.viewBox := "0 0 8 8",
+      SvgTags.circle(
+        SvgAttrAndStyles.r := "4",
+        SvgAttrAndStyles.cx := "4",
+        SvgAttrAndStyles.cy := "4"
+      )
+    )
+  }
 }
 
 // scalastyle:on number.of.methods public.methods.have.type multiple.string.literals file.size.limit line.size.limit
