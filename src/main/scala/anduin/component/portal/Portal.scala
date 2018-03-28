@@ -11,7 +11,8 @@ import japgolly.scalajs.react.vdom.html_<^._
 // scalastyle:on underscore.import
 
 final case class Portal(
-  detachOnUnmount: Boolean = true
+  detachOnUnmount: Boolean = true,
+  nodeClasses: String = ""
 ) {
   def apply(children: VdomNode*): VdomElement = {
     Portal.component(this)(children: _*)
@@ -22,7 +23,7 @@ object Portal {
 
   private val ComponentName = this.getClass.getSimpleName
 
-  private case class Backend(scope: BackendScope[Portal, _]) {
+  case class Backend(scope: BackendScope[Portal, _]) {
 
     private var node: Element = _ // scalastyle:ignore
 
@@ -39,19 +40,35 @@ object Portal {
       }
     }
 
-    def render(children: PropsChildren): VdomNode = {
+    def getNode: Element = {
+      node
+    }
+
+    def render(props: Portal, children: PropsChildren): VdomNode = {
       if (node == null) { // scalastyle:ignore
         node = dom.document.createElement("div")
+        node.setAttribute("class", props.nodeClasses)
         dom.document.body.appendChild(node)
       }
       ReactPortal(children, node)
     }
   }
 
-  private val component = ScalaComponent
+  val component = ScalaComponent
     .builder[Portal](ComponentName)
     .stateless
     .renderBackendWithChildren[Backend]
     .componentWillUnmount(_.backend.componentWillUnmount)
+    .componentWillReceiveProps { scope =>
+      val oldClasses = scope.currentProps.nodeClasses
+      val newClasses = scope.nextProps.nodeClasses
+      Callback.when(newClasses != oldClasses) {
+        Callback {
+          val node = scope.backend.getNode
+          oldClasses.split(" ").foreach(node.classList.remove)
+          newClasses.split(" ").foreach(node.classList.add)
+        }
+      }
+    }
     .build
 }
