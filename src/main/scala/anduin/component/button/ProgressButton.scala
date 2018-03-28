@@ -2,8 +2,6 @@
 
 package anduin.component.button
 
-import org.scalajs.dom.html.Button
-
 import anduin.stylesheet.tachyons.Tachyons
 
 // scalastyle:off underscore.import
@@ -83,7 +81,7 @@ object ProgressButton {
     }
 
     // scalastyle:off multiple.string.literals
-    def render(props: ProgressButton, state: State, children: PropsChildren): VdomTagOf[Button] = {
+    def render(props: ProgressButton, state: State, children: PropsChildren): VdomElement = {
       val buttonType = if (props.submitButton) "submit" else "button"
 
       <.button(
