@@ -47,9 +47,9 @@ object Portal {
     def render(props: Portal, children: PropsChildren): VdomNode = {
       if (node == null) { // scalastyle:ignore
         node = dom.document.createElement("div")
-        node.setAttribute("class", props.nodeClasses)
         dom.document.body.appendChild(node)
       }
+      node.setAttribute("class", props.nodeClasses)
       ReactPortal(children, node)
     }
   }
@@ -59,16 +59,5 @@ object Portal {
     .stateless
     .renderBackendWithChildren[Backend]
     .componentWillUnmount(_.backend.componentWillUnmount)
-    .componentWillReceiveProps { scope =>
-      val oldClasses = scope.currentProps.nodeClasses
-      val newClasses = scope.nextProps.nodeClasses
-      Callback.when(newClasses != oldClasses) {
-        Callback {
-          val node = scope.backend.getNode
-          oldClasses.split(" ").foreach(node.classList.remove)
-          newClasses.split(" ").foreach(node.classList.add)
-        }
-      }
-    }
     .build
 }
