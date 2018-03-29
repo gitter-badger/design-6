@@ -91,7 +91,7 @@ object EditorWithMenu {
           ^.classSet(
             Tachyons
               .position.absolute.zIndex.z9999
-              .color.white.backgroundColor.black
+              .color.white.backgroundColor.darkGrayDarken
               .borderRadius.r3
               .padding.vertical1.padding.horizontal3
               .value -> true,
