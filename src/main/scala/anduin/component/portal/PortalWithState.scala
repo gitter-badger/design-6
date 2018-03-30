@@ -4,7 +4,8 @@ package anduin.component.portal
 
 import japgolly.scalajs.react.extra.{EventListener, OnUnmount}
 import org.scalajs.dom
-import org.scalajs.dom.raw.MouseEvent
+import org.scalajs.dom.ext.KeyCode
+import org.scalajs.dom.raw.{KeyboardEvent, MouseEvent}
 
 import anduin.component.util.EventUtils
 
@@ -16,6 +17,7 @@ import japgolly.scalajs.react.vdom.html_<^._
 final case class PortalWithState(
   nodeClasses: String = "",
   onOpen: Callback = Callback.empty,
+  onClose: Callback = Callback.empty,
   closeOnEsc: Boolean = true,
   closeOnOutsideClick: Boolean = true,
   children: PortalWithState.RenderChildren => VdomNode
@@ -55,9 +57,10 @@ object PortalWithState {
 
     private def closePortal = {
       for {
+        props <- scope.props
         state <- scope.state
         _ <- Callback.when(state.active) {
-          scope.modState(_.copy(active = false))
+          scope.modState(_.copy(active = false), props.onClose)
         }
       } yield ()
     }
@@ -90,6 +93,15 @@ object PortalWithState {
       } yield ()
     }
 
+    def onDocumentKeydown(e: KeyboardEvent): Callback = {
+      for {
+        state <- scope.state
+        _ <- Callback.when(e.keyCode == KeyCode.Escape && state.active) {
+          closePortal
+        }
+      } yield ()
+    }
+
     def render(props: PortalWithState, state: State): VdomNode = {
       props.children(
         RenderChildren(
@@ -107,7 +119,8 @@ object PortalWithState {
     .initialState(State())
     .renderBackend[Backend]
     .configure(
-      EventListener[MouseEvent].install("click", _.backend.onDocumentClick, _ => dom.document)
+      EventListener[MouseEvent].install("click", _.backend.onDocumentClick, _ => dom.document),
+      EventListener[KeyboardEvent].install("keydown", _.backend.onDocumentKeydown, _ => dom.document)
     )
     .build
 }
