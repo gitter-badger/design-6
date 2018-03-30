@@ -2,6 +2,12 @@
 
 package anduin.component.portal
 
+import japgolly.scalajs.react.extra.{EventListener, OnUnmount}
+import org.scalajs.dom
+import org.scalajs.dom.raw.MouseEvent
+
+import anduin.component.util.EventUtils
+
 // scalastyle:off underscore.import
 import japgolly.scalajs.react._
 import japgolly.scalajs.react.vdom.html_<^._
@@ -9,7 +15,9 @@ import japgolly.scalajs.react.vdom.html_<^._
 
 final case class PortalWithState(
   nodeClasses: String = "",
-  onOpen: Callback,
+  onOpen: Callback = Callback.empty,
+  closeOnEsc: Boolean = true,
+  closeOnOutsideClick: Boolean = true,
   children: PortalWithState.RenderChildren => VdomNode
 ) {
   def apply(): VdomElement = {
@@ -30,7 +38,9 @@ object PortalWithState {
 
   case class State(active: Boolean = false)
 
-  case class Backend(scope: BackendScope[PortalWithState, State]) {
+  case class Backend(scope: BackendScope[PortalWithState, State]) extends OnUnmount {
+
+    private val portalRef = Ref.toScalaComponent(Portal.component)
 
     private def openPortal(e: ReactEvent) = {
       for {
@@ -56,10 +66,28 @@ object PortalWithState {
       if (!state.active) {
         EmptyVdom
       } else {
-        Portal(
-          nodeClasses = props.nodeClasses
-        )(children)
+        portalRef
+          .component(
+            Portal(
+              nodeClasses = props.nodeClasses
+            )
+          )(children)
+          .vdomElement
       }
+    }
+
+    def onDocumentClick(e: MouseEvent): Callback = {
+      for {
+        props <- scope.props
+        state <- scope.state
+        portal <- portalRef.get
+        _ <- Callback.when(props.closeOnOutsideClick && state.active) {
+          val node = portal.backend.getNode
+          Callback.when(Option(node).nonEmpty && !EventUtils.clickInside(e, node) && EventUtils.leftButtonClicked(e)) {
+            closePortal
+          }
+        }
+      } yield ()
     }
 
     def render(props: PortalWithState, state: State): VdomNode = {
@@ -78,5 +106,8 @@ object PortalWithState {
     .builder[PortalWithState](ComponentName)
     .initialState(State())
     .renderBackend[Backend]
+    .configure(
+      EventListener[MouseEvent].install("click", _.backend.onDocumentClick, _ => dom.document)
+    )
     .build
 }
