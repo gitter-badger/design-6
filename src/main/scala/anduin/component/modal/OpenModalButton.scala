@@ -20,7 +20,7 @@ final case class OpenModalButton(
   tipPlacement: Tooltip.Placement = Tooltip.Placement.Top,
   modalTitle: String = "",
   modalClasses: String = "",
-  modalBody: Callback => VdomElement = _ => <.span(),
+  modalBody: Callback => VdomNode = _ => EmptyVdom,
   modalHeader: Option[Modal.ModalHeaderRenderer] = None,
   overlayCloseable: Boolean = true,
   closeOnEscape: Boolean = true,
@@ -33,7 +33,7 @@ final case class OpenModalButton(
   // Add key when we want to distinguish between different button
   keyOpt: Option[String] = None
 ) {
-  def apply(children: VdomNode*): ScalaComponent.Unmounted[_, _, _] = {
+  def apply(children: VdomNode*): VdomElement = {
     val ctorType =
       keyOpt.map(OpenModalButton.component.withKey(_)).getOrElse(OpenModalButton.component.ctor)
     ctorType(this)(children: _*)

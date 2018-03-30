@@ -31,7 +31,7 @@ object Modal {
 
   final case class Props(
     title: String,
-    body: Callback => VdomElement,
+    body: Callback => VdomNode,
     isOpen: Boolean,
     overlayStyles: Map[String, String],
     contentStyles: Map[String, String],
@@ -100,7 +100,7 @@ object Modal {
     onRequestClose: Callback = Callback.empty,
     showCloseBtn: Boolean = true,
     renderHeader: Option[ModalHeaderRenderer] = None
-  )(body: Callback => VdomElement): ScalaComponent.Unmounted[Props, Unit, Unit] = {
+  )(body: Callback => VdomNode): ScalaComponent.Unmounted[Props, Unit, Unit] = {
     component(
       Props(
         title,
