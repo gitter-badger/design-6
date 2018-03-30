@@ -9,7 +9,8 @@ import japgolly.scalajs.react.vdom.html_<^._
 
 final case class PortalWithState(
   nodeClasses: String = "",
-  children: PortalWithState.RenderChildren => VdomElement
+  onOpen: Callback,
+  children: PortalWithState.RenderChildren => VdomNode
 ) {
   def apply(): VdomElement = {
     PortalWithState.component(this)
@@ -33,10 +34,11 @@ object PortalWithState {
 
     private def openPortal(e: ReactEvent) = {
       for {
+        props <- scope.props
         state <- scope.state
         _ <- Callback.when(!state.active) {
           e.nativeEvent.stopImmediatePropagation()
-          scope.modState(_.copy(active = true))
+          scope.modState(_.copy(active = true), props.onOpen)
         }
       } yield ()
     }
@@ -60,7 +62,7 @@ object PortalWithState {
       }
     }
 
-    def render(props: PortalWithState, state: State): VdomElement = {
+    def render(props: PortalWithState, state: State): VdomNode = {
       props.children(
         RenderChildren(
           openPortal,

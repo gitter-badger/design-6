@@ -2,7 +2,7 @@
 
 package anduin.component.portal
 
-//import org.scalajs.dom.document
+import org.scalajs.dom.document
 import org.scalajs.dom.raw.HTMLElement
 
 // scalastyle:off underscore.import
@@ -46,60 +46,52 @@ object Popover {
 
   private val ComponentName = this.getClass.getSimpleName
 
-  private case class State(isOpen: Boolean = false)
-
-  private case class Backend(scope: BackendScope[Popover, State]) {
+  private case class Backend(scope: BackendScope[Popover, _]) {
 
     private val targetRef = Ref[HTMLElement]
-    //private val portalRef = Ref.toScalaComponent(Portal.component)
+    private val portalRef = Ref[HTMLElement]
 
     // scalastyle:off cyclomatic.complexity
-//    private def onClickTarget = {
-//      for {
-//        props <- scope.props
-//        state <- scope.state
-//        target <- targetRef.get
-//        portal <- portalRef.get
-//        _ <- scope.modState(
-//          _.copy(isOpen = !state.isOpen),
-//          Callback.when(!state.isOpen) {
-//            Callback {
-//              val rect = target.getBoundingClientRect()
-//              val content = portal.backend.getNode
-//              val (top, left) = props.position match {
-//                case PositionTopLeft => (rect.top - content.clientHeight, rect.left)
-//                case PositionTop =>
-//                  (rect.top - content.clientHeight, rect.left + 0.5 * rect.width - 0.5 * content.clientWidth)
-//                case PositionTopRight => (rect.top - content.clientHeight, rect.left + rect.width - content.clientWidth)
-//
-//                case PositionRightTop => (rect.top, rect.left + rect.width)
-//                case PositionRight =>
-//                  (rect.top + 0.5 * rect.height - 0.5 * content.clientHeight, rect.left + rect.width)
-//                case PositionRightBottom => (rect.top + rect.height - content.clientHeight, rect.left + rect.width)
-//
-//                case PositionBottomRight => (rect.top + rect.height, rect.left + rect.width - content.clientWidth)
-//                case PositionBottom =>
-//                  (rect.top + rect.height, rect.left + 0.5 * rect.width - 0.5 * content.clientWidth)
-//                case PositionBottomLeft => (rect.top + rect.height, rect.left)
-//
-//                case PositionLeftTop => (rect.top, rect.left - content.clientWidth)
-//                case PositionLeft =>
-//                  (rect.top + 0.5 * rect.height - 0.5 * content.clientHeight, rect.left - content.clientWidth)
-//                case PositionLeftBottom =>
-//                  (rect.top + rect.height - content.clientHeight, rect.left - content.clientWidth)
-//              }
-//              val offsetTop = top + props.verticalOffset + document.body.scrollTop
-//              val offsetLeft = left + props.horizontalOffset + document.body.scrollLeft
-//              content.setAttribute("style", s"top: ${offsetTop}px; left: ${offsetLeft}px")
-//            }
-//          }
-//        )
-//      } yield ()
-//    }
+    private def onOpenPortal = {
+      for {
+        props <- scope.props
+        target <- targetRef.get
+        content <- portalRef.get
+        _ <- Callback {
+          val rect = target.getBoundingClientRect()
+          val (top, left) = props.position match {
+            case PositionTopLeft => (rect.top - content.clientHeight, rect.left)
+            case PositionTop =>
+              (rect.top - content.clientHeight, rect.left + 0.5 * rect.width - 0.5 * content.clientWidth)
+            case PositionTopRight => (rect.top - content.clientHeight, rect.left + rect.width - content.clientWidth)
+
+            case PositionRightTop => (rect.top, rect.left + rect.width)
+            case PositionRight =>
+              (rect.top + 0.5 * rect.height - 0.5 * content.clientHeight, rect.left + rect.width)
+            case PositionRightBottom => (rect.top + rect.height - content.clientHeight, rect.left + rect.width)
+
+            case PositionBottomRight => (rect.top + rect.height, rect.left + rect.width - content.clientWidth)
+            case PositionBottom =>
+              (rect.top + rect.height, rect.left + 0.5 * rect.width - 0.5 * content.clientWidth)
+            case PositionBottomLeft => (rect.top + rect.height, rect.left)
+
+            case PositionLeftTop => (rect.top, rect.left - content.clientWidth)
+            case PositionLeft =>
+              (rect.top + 0.5 * rect.height - 0.5 * content.clientHeight, rect.left - content.clientWidth)
+            case PositionLeftBottom =>
+              (rect.top + rect.height - content.clientHeight, rect.left - content.clientWidth)
+          }
+          val offsetTop = top + props.verticalOffset + document.body.scrollTop
+          val offsetLeft = left + props.horizontalOffset + document.body.scrollLeft
+          content.setAttribute("style", s"top: ${offsetTop}px; left: ${offsetLeft}px")
+        }
+      } yield ()
+    }
     // scalastyle:on cyclomatic.complexity
 
     def render(props: Popover): VdomElement = {
       PortalWithState(
+        onOpen = onOpenPortal,
         children = renderChildren =>
           <.div(
             <.div.withRef(targetRef)(
@@ -107,7 +99,7 @@ object Popover {
               props.target
             ),
             renderChildren.portal(
-              <.div(
+              <.div.withRef(portalRef)(
                 ^.classSet(
                   "at-popover" -> true,
                   props.position.className -> true,
@@ -123,7 +115,7 @@ object Popover {
 
   private val component = ScalaComponent
     .builder[Popover](ComponentName)
-    .initialState(State())
+    .stateless
     .renderBackend[Backend]
     .build
 }
