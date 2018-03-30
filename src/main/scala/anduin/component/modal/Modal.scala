@@ -4,8 +4,6 @@ package anduin.component.modal
 
 import scala.scalajs.js
 
-import japgolly.scalajs.react.vdom.VdomElement
-
 import anduin.component.icon.Icon
 import anduin.component.util.ComponentUtils
 import anduin.scalajs.react.modal.ReactModal
@@ -27,7 +25,7 @@ object Modal {
   type ModalHeaderRenderer = (
     String, // The title
     Callback // The callback of closing modal
-  ) => VdomElement
+  ) => VdomNode
 
   final case class Props(
     title: String,
@@ -67,7 +65,7 @@ object Modal {
         contentLabel = props.title,
         shouldCloseOnEsc = props.shouldCloseOnEscape
       )(
-        props.renderHeader.fold[VdomElement](
+        props.renderHeader.fold[VdomNode](
           <.div(
             ^.cls := "modal-header",
             <.h3(^.cls := "title fw-600", props.title),
