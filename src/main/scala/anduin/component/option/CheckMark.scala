@@ -33,7 +33,12 @@ object CheckMark {
           "-disabled" -> props.disabled,
           "-selected" -> props.selected
         ),
-        ^.onClick --> props.onClick,
+        ^.onClick ==> { (e: ReactEventFromHtml) =>
+          for {
+            _ ← e.stopPropagationCB
+            _ ← props.onClick
+          } yield ()
+        },
         TagMod.when(props.selected)(
           <.span(
             ^.classSet(
