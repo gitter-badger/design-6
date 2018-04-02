@@ -20,7 +20,7 @@ final case class PortalWithState(
   onClose: Callback = Callback.empty,
   closeOnEsc: Boolean = true,
   closeOnOutsideClick: Boolean = true,
-  children: PortalWithState.RenderChildren => VdomNode
+  renderChildren: PortalWithState.RenderChildren => VdomNode
 ) {
   def apply(): VdomElement = {
     PortalWithState.component(this)
@@ -103,7 +103,7 @@ object PortalWithState {
     }
 
     def render(props: PortalWithState, state: State): VdomNode = {
-      props.children(
+      props.renderChildren(
         RenderChildren(
           openPortal,
           closePortal,
