@@ -11,6 +11,7 @@ import japgolly.scalajs.react.vdom.html_<^._
 // scalastyle:on underscore.import
 
 final case class Popover(
+  popoverClassName: String = "",
   position: Popover.Position = Popover.PositionBottom,
   verticalOffset: Double = 0,
   horizontalOffset: Double = 0,
@@ -98,6 +99,7 @@ object Popover {
                 ^.classSet(
                   "at-popover" -> true,
                   props.position.className -> true,
+                  props.popoverClassName -> true,
                   "-show" -> renderer.isOpen
                 ),
                 props.renderContent(renderer.closePortal)
