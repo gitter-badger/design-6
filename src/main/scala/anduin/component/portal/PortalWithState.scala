@@ -5,7 +5,7 @@ package anduin.component.portal
 import japgolly.scalajs.react.extra.{EventListener, OnUnmount}
 import org.scalajs.dom
 import org.scalajs.dom.ext.KeyCode
-import org.scalajs.dom.raw.{KeyboardEvent, MouseEvent}
+import org.scalajs.dom.raw.{KeyboardEvent, MouseEvent, Node}
 
 import anduin.component.util.EventUtils
 
@@ -86,7 +86,12 @@ object PortalWithState {
         portal <- portalRef.get
         _ <- Callback.when(props.closeOnOutsideClick && state.active) {
           val node = portal.backend.getNode
-          Callback.when(Option(node).nonEmpty && !EventUtils.clickInside(e, node) && EventUtils.leftButtonClicked(e)) {
+          val clickInside = e.target match {
+            case t: Node => node.contains(t)
+            case _       => false
+          }
+
+          Callback.when(Option(node).nonEmpty && !clickInside && EventUtils.leftButtonClicked(e)) {
             closePortal
           }
         }
