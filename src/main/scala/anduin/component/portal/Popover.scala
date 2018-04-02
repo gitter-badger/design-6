@@ -100,7 +100,8 @@ object Popover {
                   "at-popover" -> true,
                   props.position.className -> true,
                   props.popoverClassName -> true,
-                  "-show" -> renderer.isOpen
+                  "-show" -> (renderer.status == PortalWithState.StatusOpen),
+                  "-hide" -> (renderer.status == PortalWithState.StatusHide)
                 ),
                 props.renderContent(renderer.closePortal)
               )

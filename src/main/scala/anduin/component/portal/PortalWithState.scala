@@ -29,16 +29,21 @@ final case class PortalWithState(
 
 object PortalWithState {
 
+  sealed trait Status
+  case object StatusOpen extends Status
+  case object StatusClose extends Status
+  case object StatusHide extends Status
+
   case class RenderChildren(
     openPortal: ReactEvent => Callback,
     closePortal: Callback,
     portal: VdomElement => VdomNode,
-    isOpen: Boolean
+    status: Status
   )
 
   private val ComponentName = this.getClass.getSimpleName
 
-  case class State(active: Boolean = false)
+  case class State(status: Status = StatusClose)
 
   case class Backend(scope: BackendScope[PortalWithState, State]) extends OnUnmount {
 
@@ -48,9 +53,9 @@ object PortalWithState {
       for {
         props <- scope.props
         state <- scope.state
-        _ <- Callback.when(!state.active) {
+        _ <- Callback.when(state.status != StatusOpen) {
           e.nativeEvent.stopImmediatePropagation()
-          scope.modState(_.copy(active = true), props.onOpen)
+          scope.modState(_.copy(status = StatusOpen), props.onOpen)
         }
       } yield ()
     }
@@ -59,14 +64,14 @@ object PortalWithState {
       for {
         props <- scope.props
         state <- scope.state
-        _ <- Callback.when(state.active) {
-          scope.modState(_.copy(active = false), props.onClose)
+        _ <- Callback.when(state.status != StatusClose) {
+          scope.modState(_.copy(status = StatusClose), props.onClose)
         }
       } yield ()
     }
 
     private def wrapPortal(props: PortalWithState, state: State)(children: VdomElement) = {
-      if (!state.active) {
+      if (state.status == StatusClose) {
         EmptyVdom
       } else {
         portalRef
@@ -84,15 +89,18 @@ object PortalWithState {
         props <- scope.props
         state <- scope.state
         portal <- portalRef.get
-        _ <- Callback.when(props.closeOnOutsideClick && state.active) {
+        _ <- Callback.when(props.closeOnOutsideClick && state.status == StatusOpen) {
           val node = portal.backend.getNode
-          val clickInside = e.target match {
-            case t: Node => node.contains(t)
-            case _       => false
-          }
-
-          Callback.when(Option(node).nonEmpty && !clickInside && EventUtils.leftButtonClicked(e)) {
-            closePortal
+          Callback.when(Option(node).nonEmpty && EventUtils.leftButtonClicked(e)) {
+            val clickInside = e.target match {
+              case t: Node => node.contains(t)
+              case _       => false
+            }
+            if (clickInside) {
+              scope.modState(_.copy(status = StatusHide))
+            } else {
+              closePortal
+            }
           }
         }
       } yield ()
@@ -101,7 +109,7 @@ object PortalWithState {
     def onDocumentKeydown(e: KeyboardEvent): Callback = {
       for {
         state <- scope.state
-        _ <- Callback.when(e.keyCode == KeyCode.Escape && state.active) {
+        _ <- Callback.when(e.keyCode == KeyCode.Escape && state.status == StatusOpen) {
           closePortal
         }
       } yield ()
@@ -113,7 +121,7 @@ object PortalWithState {
           openPortal,
           closePortal,
           wrapPortal(props, state),
-          state.active
+          state.status
         )
       )
     }
