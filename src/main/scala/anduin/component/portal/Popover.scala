@@ -59,27 +59,23 @@ object Popover {
         content <- portalRef.get
         _ <- Callback {
           val rect = target.getBoundingClientRect()
+          val (h, w) = (content.clientHeight, content.clientWidth)
           val (top, left) = props.position match {
-            case PositionTopLeft => (rect.top - content.clientHeight, rect.left)
-            case PositionTop =>
-              (rect.top - content.clientHeight, rect.left + 0.5 * rect.width - 0.5 * content.clientWidth)
-            case PositionTopRight => (rect.top - content.clientHeight, rect.left + rect.width - content.clientWidth)
+            case PositionTopLeft  => (rect.top - h, rect.left)
+            case PositionTop      => (rect.top - h, rect.left + 0.5 * rect.width - 0.5 * w)
+            case PositionTopRight => (rect.top - h, rect.left + rect.width - w)
 
-            case PositionRightTop => (rect.top, rect.left + rect.width)
-            case PositionRight =>
-              (rect.top + 0.5 * rect.height - 0.5 * content.clientHeight, rect.left + rect.width)
-            case PositionRightBottom => (rect.top + rect.height - content.clientHeight, rect.left + rect.width)
+            case PositionRightTop    => (rect.top, rect.left + rect.width)
+            case PositionRight       => (rect.top + 0.5 * rect.height - 0.5 * h, rect.left + rect.width)
+            case PositionRightBottom => (rect.top + rect.height - h, rect.left + rect.width)
 
-            case PositionBottomRight => (rect.top + rect.height, rect.left + rect.width - content.clientWidth)
-            case PositionBottom =>
-              (rect.top + rect.height, rect.left + 0.5 * rect.width - 0.5 * content.clientWidth)
-            case PositionBottomLeft => (rect.top + rect.height, rect.left)
+            case PositionBottomRight => (rect.top + rect.height, rect.left + rect.width - w)
+            case PositionBottom      => (rect.top + rect.height, rect.left + 0.5 * rect.width - 0.5 * w)
+            case PositionBottomLeft  => (rect.top + rect.height, rect.left)
 
-            case PositionLeftTop => (rect.top, rect.left - content.clientWidth)
-            case PositionLeft =>
-              (rect.top + 0.5 * rect.height - 0.5 * content.clientHeight, rect.left - content.clientWidth)
-            case PositionLeftBottom =>
-              (rect.top + rect.height - content.clientHeight, rect.left - content.clientWidth)
+            case PositionLeftTop    => (rect.top, rect.left - w)
+            case PositionLeft       => (rect.top + 0.5 * rect.height - 0.5 * h, rect.left - w)
+            case PositionLeftBottom => (rect.top + rect.height - h, rect.left - w)
           }
           val offsetTop = top + props.verticalOffset + document.body.scrollTop
           val offsetLeft = left + props.horizontalOffset + document.body.scrollLeft
