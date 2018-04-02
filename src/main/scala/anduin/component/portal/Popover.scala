@@ -14,7 +14,7 @@ final case class Popover(
   position: Popover.Position = Popover.PositionBottom,
   verticalOffset: Double = 0,
   horizontalOffset: Double = 0,
-  target: VdomElement,
+  renderTarget: (ReactEvent => Callback) => VdomElement,
   renderContent: Callback => VdomElement
 ) {
   def apply(): VdomElement = {
@@ -91,8 +91,7 @@ object Popover {
         renderChildren = renderer =>
           <.div(
             <.div.withRef(targetRef)(
-              ^.onClick ==> renderer.openPortal,
-              props.target
+              props.renderTarget(renderer.openPortal)
             ),
             renderer.portal(
               <.div.withRef(portalRef)(
