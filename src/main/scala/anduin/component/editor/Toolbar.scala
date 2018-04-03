@@ -7,6 +7,7 @@ import scala.scalajs.js
 import org.scalajs.dom.window
 
 import anduin.component.icon.{Icon, Iconv2}
+import anduin.component.menu.VerticalDivider
 import anduin.component.modal.OpenModalButton
 import anduin.component.portal.{Popover, PortalWithState}
 import anduin.component.util.JavaScriptUtils
@@ -93,7 +94,7 @@ object Toolbar {
         <.div(
           ^.cls := "btn-group flex items-center",
           props.attachmentButton,
-          <.span(^.cls := "divider mh1", "-------"),
+          VerticalDivider(),
           // Undo button
           <.span(
             ^.cls := "tooltip -top",
@@ -122,7 +123,7 @@ object Toolbar {
               Iconv2.redo()
             )
           ),
-          <.span(^.cls := "divider mh1", "-------"),
+          VerticalDivider(),
           <.span(
             ^.cls := "tooltip -top",
             VdomAttr("data-tip") := "Insert Link",
@@ -146,7 +147,7 @@ object Toolbar {
               Iconv2.unlink()
             )
           ),
-          <.span(^.cls := "divider mh1", "-------"),
+          VerticalDivider(),
           Popover(
             position = Popover.PositionBottom,
             popoverClassName = "format-popover",
@@ -167,11 +168,11 @@ object Toolbar {
             ),
             renderContent = _ =>
               <.div(
-                Tachyons.flexbox.flex,
+                Tachyons.flexbox.flex.flexbox.itemsCenter,
                 MarkButtonBar(props.value, props.onChange)(),
-                <.span(^.cls := "divider mh1", "-------"),
+                VerticalDivider(),
                 AlignButtonBar(props.value, props.onChange)(),
-                <.span(^.cls := "divider mh1", "-------"),
+                VerticalDivider(),
                 BlockButtonBar(props.value, props.onChange)()
             )
           )()
