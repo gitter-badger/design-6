@@ -8,7 +8,7 @@ import org.scalajs.dom.window
 
 import anduin.component.icon.{Icon, Iconv2}
 import anduin.component.modal.OpenModalButton
-import anduin.component.portal.Popover
+import anduin.component.portal.{Popover, PortalWithState}
 import anduin.component.util.JavaScriptUtils
 import anduin.scalajs.slate.Slate.{Change, Value}
 import anduin.stylesheet.tachyons.Tachyons
@@ -34,9 +34,7 @@ object Toolbar {
 
   private val isMac = window.navigator.userAgent.matches(".*(Mac|iPod|iPhone|iPad).*")
 
-  private case class State(formatActive: Boolean = false)
-
-  private case class Backend(scope: BackendScope[Toolbar, State]) {
+  private case class Backend(scope: BackendScope[Toolbar, _]) {
 
     private def hasLinks(value: Value) = {
       value.inlines.some(inline => inline.inlineType == LinkNode.nodeType)
@@ -88,11 +86,10 @@ object Toolbar {
     }
 
     // scalastyle:off method.length multiple.string.literals
-    def render(props: Toolbar, state: State, children: PropsChildren): VdomElement = {
+    def render(props: Toolbar, children: PropsChildren): VdomElement = {
       val hasLink = hasLinks(props.value)
       <.div(
         ^.cls := "editor-toolbar flex pa1 items-center",
-        TagMod.when(state.formatActive)(^.marginTop := "45px"),
         <.div(
           ^.cls := "btn-group flex items-center",
           props.attachmentButton,
@@ -154,14 +151,14 @@ object Toolbar {
             position = Popover.PositionBottom,
             popoverClassName = "format-popover",
             verticalOffset = 8,
-            renderTarget = open =>
+            renderTarget = (open, status) =>
               <.span(
                 ^.cls := "tooltip -top",
                 VdomAttr("data-tip") := "Formatting options",
                 <.a(
                   ^.classSet(
                     "btn -plain -icon-only" -> true,
-                    "-selected" -> state.formatActive
+                    "-selected" -> (status == PortalWithState.StatusOpen)
                   ),
                   ^.href := JavaScriptUtils.voidMethod,
                   ^.onClick --> open,
@@ -201,7 +198,7 @@ object Toolbar {
 
   private val component = ScalaComponent
     .builder[Toolbar](ComponentName)
-    .initialState(State())
+    .stateless
     .renderBackendWithChildren[Backend]
     .build
 }
