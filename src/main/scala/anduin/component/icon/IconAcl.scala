@@ -5,6 +5,7 @@ package anduin.component.icon
 import japgolly.scalajs.react.vdom.HtmlAttrs
 
 import anduin.component.util.ComponentUtils
+import anduin.stylesheet.tachyons.Tachyons
 
 // scalastyle:off underscore.import
 import japgolly.scalajs.react._
@@ -13,7 +14,8 @@ import japgolly.scalajs.react.vdom.svg_<^._
 
 final case class IconAcl(
   name: IconAcl.Name,
-  size: IconAcl.Size = IconAcl.SizeMedium
+  size: IconAcl.Size = IconAcl.SizeMedium,
+  isBlock: Boolean = false
 ) {
   def apply(): VdomElement = IconAcl.component(this)
 }
@@ -27,6 +29,7 @@ object IconAcl {
     def render(props: IconAcl): VdomElement = {
       <.svg(
         HtmlAttrs.cls := "at-icon",
+        if (props.isBlock) Tachyons.display.block else Tachyons.verticalAlign.top,
         ^.xmlns := "http://www.w3.org/2000/svg",
         ^.viewBox := "0 0 16 16",
         ^.width := props.size.value,

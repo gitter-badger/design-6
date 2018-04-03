@@ -8,4 +8,7 @@ private[tachyons] final case class LineHeight(classes: List[String] = List.empty
   def solid: Tachyons = new Tachyons(classes :+ "lh-solid")
   def title: Tachyons = new Tachyons(classes :+ "lh-title")
   def copy: Tachyons = new Tachyons(classes :+ "lh-copy")
+
+  def l1: Tachyons = new Tachyons(classes :+ "lh-1")
+  def l2: Tachyons = new Tachyons(classes :+ "lh-2")
 }
