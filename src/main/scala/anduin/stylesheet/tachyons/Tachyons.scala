@@ -19,7 +19,7 @@ class Tachyons(val classes: List[String]) {
   def borderRadius: BorderRadius = BorderRadius(classes)
   def borderStyle: BorderStyle = BorderStyle(classes)
   def borderWidth: BorderWidth = BorderWidth(classes)
-  def boxShadow: BoxShadow = BoxShadow(classes)
+  def shadow: Shadow = Shadow(classes)
   def boxSizing: BoxSizing = BoxSizing(classes)
   def clear: Clear = Clear(classes)
   def code: Code = Code(classes)
