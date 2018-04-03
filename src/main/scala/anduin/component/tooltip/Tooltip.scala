@@ -13,7 +13,7 @@ import japgolly.scalajs.react.vdom.html_<^._
 // scalastyle:on underscore.import
 
 final case class Tooltip(
-  tip: String,
+  tip: TagMod,
   placement: Tooltip.Placement = Tooltip.Placement.Top,
   containerClasses: String = "",
   tipClasses: String = "",
@@ -84,7 +84,7 @@ object Tooltip {
       for {
         props <- scope.props
         state <- scope.state
-        _ <- Callback.when(!state.over && props.tip.nonEmpty) {
+        _ <- Callback.when(!state.over) {
           for {
             _ <- Callback {
               document.body.appendChild(tipNode)
@@ -112,7 +112,7 @@ object Tooltip {
       for {
         props <- scope.props
         state <- scope.state
-        _ <- Callback.when(state.over && props.tip.nonEmpty) {
+        _ <- Callback.when(state.over) {
           Callback {
             tipNode.classList.add("hide")
           }
@@ -125,7 +125,7 @@ object Tooltip {
       for {
         props <- scope.props
         state <- scope.state
-        _ <- Callback.when(state.over && props.tip.nonEmpty) {
+        _ <- Callback.when(state.over) {
           Callback {
             document.body.removeChild(tipNode)
           }
@@ -137,7 +137,7 @@ object Tooltip {
     private def updatePosition() = {
       for {
         props <- scope.props
-        _ <- Callback.when(props.tip.nonEmpty) {
+        _ <- {
           for {
             rectOpt <- targetRef.map(_.getBoundingClientRect()).get.asCallback
           } yield {
@@ -179,7 +179,7 @@ object Tooltip {
       for {
         props <- scope.props
         state <- scope.state
-        _ <- Callback.when(state.over && props.tip.nonEmpty) {
+        _ <- Callback.when(state.over) {
           for {
             _ <- Callback {
               document.body.removeChild(tipNode)
