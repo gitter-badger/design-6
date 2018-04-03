@@ -2,7 +2,7 @@
 
 package anduin.stylesheet.tachyons
 
-// See gondor/webResources/src/main/assets/stylesheets/vendors/tachyons-4.9.1/_focus.css
+// See /vendors/tachyons-4.9.1/_focus.css
 private[tachyons] final case class Focus(classes: List[String] = List.empty) {
   def shadowPrimary: Tachyons = new Tachyons(classes :+ "focus-shadow-primary")
 }
