@@ -19,7 +19,7 @@ final case class RichEditor(
   value: Value,
   onChange: Change => Callback,
   readOnly: Boolean,
-  renderEditor: Callback => VdomElement
+  renderWrapper: Callback => VdomElement = _ => <.div()
 ) {
   def apply(): VdomElement = RichEditor.component(this)
 }
@@ -93,19 +93,21 @@ object RichEditor {
       res.toCallback
     }
 
-    def render(props: RichEditor): TagMod = {
-      props.renderEditor(focus())(
-        <.div(
-          ^.cls := "editor",
-          editorRef.component(
-            Editor.props(
-              placeholder = props.placeholder,
-              value = props.value,
-              readOnly = props.readOnly,
-              onChange = props.onChange,
-              onKeyDown = onKeyDown,
-              renderNode = renderNode,
-              renderMark = (props: RenderMarkProps) => MarkRenderer(props.mark, props.children)
+    def render(props: RichEditor): VdomElement = {
+      <.div(
+        props.renderWrapper(focus)(
+          <.div(
+            ^.cls := "editor",
+            editorRef.component(
+              Editor.props(
+                placeholder = props.placeholder,
+                value = props.value,
+                readOnly = props.readOnly,
+                onChange = props.onChange,
+                onKeyDown = onKeyDown,
+                renderNode = renderNode,
+                renderMark = (props: RenderMarkProps) => MarkRenderer(props.mark, props.children)
+              )
             )
           )
         )

@@ -17,7 +17,8 @@ import anduin.scalajs.slate.Slate._
 final case class EditorWithMenu(
   placeholder: String,
   value: Value,
-  onChange: Change => Callback
+  onChange: Change => Callback,
+  renderWrapper: Callback => VdomElement
 ) {
   def apply(): VdomElement = EditorWithMenu.component(this)
 }
@@ -83,7 +84,8 @@ object EditorWithMenu {
             placeholder = props.placeholder,
             value = props.value,
             onChange = onChange(props),
-            readOnly = false
+            readOnly = false,
+            renderWrapper = props.renderWrapper
           )()
         ),
 
