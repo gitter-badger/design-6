@@ -12,8 +12,8 @@ private[tachyons] final case class BorderWidth(classes: List[String] = List.empt
   def w4: Tachyons = new Tachyons(classes :+ "bw4")
   def w5: Tachyons = new Tachyons(classes :+ "bw5")
 
-  def top0: Tachyons = new Tachyons(classes :+ ".bt-0")
-  def right0: Tachyons = new Tachyons(classes :+ ".br-0")
-  def bottom0: Tachyons = new Tachyons(classes :+ ".bb-0")
-  def left0: Tachyons = new Tachyons(classes :+ ".bl-0")
+  def top0: Tachyons = new Tachyons(classes :+ "bt-0")
+  def right0: Tachyons = new Tachyons(classes :+ "br-0")
+  def bottom0: Tachyons = new Tachyons(classes :+ "bb-0")
+  def left0: Tachyons = new Tachyons(classes :+ "bl-0")
 }
