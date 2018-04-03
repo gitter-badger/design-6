@@ -8,7 +8,7 @@ import org.scalajs.dom.window
 
 import anduin.component.icon.{Icon, Iconv2}
 import anduin.component.modal.OpenModalButton
-import anduin.component.popover.Popover
+import anduin.component.portal.Popover
 import anduin.component.util.JavaScriptUtils
 import anduin.scalajs.slate.Slate.{Change, Value}
 import anduin.stylesheet.tachyons.Tachyons
@@ -151,27 +151,24 @@ object Toolbar {
           ),
           <.span(^.cls := "divider mh1", "-------"),
           Popover(
-            toggler = <.span(
-              ^.cls := "tooltip -top",
-              VdomAttr("data-tip") := "Formatting options",
-              <.a(
-                ^.classSet(
-                  "btn -plain -icon-only" -> true,
-                  "-selected" -> state.formatActive
-                ),
-                ^.href := JavaScriptUtils.voidMethod,
-                ^.onClick --> scope.modState(_.copy(formatActive = !state.formatActive)),
-                Iconv2.format()
-              )
+            position = Popover.PositionBottom,
+            popoverClassName = "format-popover",
+            verticalOffset = 8,
+            renderTarget = open =>
+              <.span(
+                ^.cls := "tooltip -top",
+                VdomAttr("data-tip") := "Formatting options",
+                <.a(
+                  ^.classSet(
+                    "btn -plain -icon-only" -> true,
+                    "-selected" -> state.formatActive
+                  ),
+                  ^.href := JavaScriptUtils.voidMethod,
+                  ^.onClick ==> open,
+                  Iconv2.format()
+                )
             ),
-            key = "format-popover",
-            status = Popover.Status.Hidden,
-            popoverBodyClasses = "format-popover",
-            verticalOffset = -10,
-            placement = Popover.Placement.Top,
-            hideWhenClick = false
-          )(
-            _ =>
+            renderContent = _ =>
               <.div(
                 Tachyons.flexbox.flex,
                 MarkButtonBar(props.value, props.onChange)(),
