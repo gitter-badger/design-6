@@ -10,4 +10,9 @@ object SlateReact {
   @JSImport("slate-react", "Editor")
   @js.native
   object EditorComponent extends js.Object
+
+  @js.native
+  trait EditorComponent extends js.Object {
+    def focus(): Unit = js.native
+  }
 }
