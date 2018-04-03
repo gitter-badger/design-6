@@ -2,11 +2,11 @@
 
 package anduin.stylesheet.tachyons
 
-// See https://github.com/tachyons-css/tachyons/blob/master/src/_line-height.css
+// See /stargazer/gondor/webResources/src/main/assets/stylesheets/vendors/tachyons-4.9.1/_line-height.css
 private[tachyons] final case class LineHeight(classes: List[String] = List.empty) {
-
-  def solid: Tachyons = new Tachyons(classes :+ "lh-solid")
-  def title: Tachyons = new Tachyons(classes :+ "lh-title")
+  def l1: Tachyons = new Tachyons(classes :+ "lh-1")
+  def l2: Tachyons = new Tachyons(classes :+ "lh-2")
+  def l3: Tachyons = new Tachyons(classes :+ "lh-3")
   def copy: Tachyons = new Tachyons(classes :+ "lh-copy")
 
   def l1: Tachyons = new Tachyons(classes :+ "lh-1")
