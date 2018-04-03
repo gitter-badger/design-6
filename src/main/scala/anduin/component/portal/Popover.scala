@@ -15,7 +15,7 @@ final case class Popover(
   position: Popover.Position = Popover.PositionBottom,
   verticalOffset: Double = 0,
   horizontalOffset: Double = 0,
-  renderTarget: (ReactEvent => Callback) => VdomElement,
+  renderTarget: Callback => VdomElement,
   renderContent: Callback => VdomElement
 ) {
   def apply(): VdomElement = {

@@ -35,7 +35,7 @@ object PortalWithState {
   case object StatusHide extends Status
 
   case class RenderChildren(
-    openPortal: ReactEvent => Callback,
+    openPortal: Callback,
     closePortal: Callback,
     portal: VdomElement => VdomNode,
     status: Status
@@ -49,12 +49,14 @@ object PortalWithState {
 
     private val portalRef = Ref.toScalaComponent(Portal.component)
 
-    private def openPortal(e: ReactEvent) = {
+    private var shouldCloseOpt: Option[Boolean] = None // scalastyle:off var.field
+
+    private def openPortal = {
       for {
         props <- scope.props
         state <- scope.state
         _ <- Callback.when(state.status != StatusOpen) {
-          e.nativeEvent.stopImmediatePropagation()
+          this.shouldCloseOpt = Some(false)
           scope.modState(_.copy(status = StatusOpen), props.onOpen)
         }
       } yield ()
@@ -89,7 +91,14 @@ object PortalWithState {
         props <- scope.props
         state <- scope.state
         portal <- portalRef.get
-        _ <- Callback.when(props.closeOnOutsideClick && state.status == StatusOpen) {
+        _ <- Callback {
+          if (this.shouldCloseOpt.isEmpty) {
+            this.shouldCloseOpt = Some(true)
+          }
+        }
+        _ <- Callback.when(
+          this.shouldCloseOpt.contains(true) && props.closeOnOutsideClick && state.status == StatusOpen
+        ) {
           val node = portal.backend.getNode
           Callback.when(Option(node).nonEmpty && EventUtils.leftButtonClicked(e)) {
             val clickInside = e.target match {
@@ -102,6 +111,9 @@ object PortalWithState {
               closePortal
             }
           }
+        }
+        _ <- Callback {
+          this.shouldCloseOpt = None
         }
       } yield ()
     }

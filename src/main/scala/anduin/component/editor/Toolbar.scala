@@ -164,7 +164,7 @@ object Toolbar {
                     "-selected" -> state.formatActive
                   ),
                   ^.href := JavaScriptUtils.voidMethod,
-                  ^.onClick ==> open,
+                  ^.onClick --> open,
                   Iconv2.format()
                 )
             ),
