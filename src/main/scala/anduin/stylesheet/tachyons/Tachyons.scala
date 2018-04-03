@@ -29,6 +29,7 @@ class Tachyons(val classes: List[String]) {
   def display: Display = Display(classes)
   def flexbox: Flexbox = Flexbox(classes)
   def float: Float = Float(classes)
+  def focus: Focus = Focus(classes)
   def fontFamily: FontFamily = FontFamily(classes)
   def fontSize: FontSize = FontSize(classes)
   def fontStyle: FontStyle = FontStyle(classes)
