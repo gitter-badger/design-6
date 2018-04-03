@@ -18,7 +18,8 @@ final case class RichEditor(
   placeholder: String,
   value: Value,
   onChange: Change => Callback,
-  readOnly: Boolean
+  readOnly: Boolean,
+  renderEditor: Callback => VdomElement
 ) {
   def apply(): VdomElement = RichEditor.component(this)
 }
@@ -28,6 +29,8 @@ object RichEditor {
   private val ComponentName = this.getClass.getSimpleName
 
   private case class Backend(scope: BackendScope[RichEditor, _]) {
+
+    private val editorRef = Ref.toJsComponent(Editor.component)
 
     private def onKeyDown(e: KeyboardEvent, change: Change) = {
       Callback.when(e.metaKey) {
@@ -80,18 +83,32 @@ object RichEditor {
       }
     }
 
-    def render(props: RichEditor): VdomElement = {
-      <.div(
-        ^.cls := "editor",
-        Editor(
-          placeholder = props.placeholder,
-          value = props.value,
-          readOnly = props.readOnly,
-          onChange = props.onChange,
-          onKeyDown = onKeyDown,
-          renderNode = renderNode,
-          renderMark = (props: RenderMarkProps) => MarkRenderer(props.mark, props.children)
-        )()
+    private def focus() = {
+      val res = for {
+        editor <- editorRef.get
+        _ <- Callback {
+          editor.raw.focus()
+        }
+      } yield ()
+      res.toCallback
+    }
+
+    def render(props: RichEditor): TagMod = {
+      props.renderEditor(focus())(
+        <.div(
+          ^.cls := "editor",
+          editorRef.component(
+            Editor.props(
+              placeholder = props.placeholder,
+              value = props.value,
+              readOnly = props.readOnly,
+              onChange = props.onChange,
+              onKeyDown = onKeyDown,
+              renderNode = renderNode,
+              renderMark = (props: RenderMarkProps) => MarkRenderer(props.mark, props.children)
+            )
+          )
+        )
       )
     }
   }

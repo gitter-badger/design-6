@@ -5,7 +5,6 @@ package anduin.component.editor
 import scala.scalajs.js
 import scala.scalajs.js.|
 
-import japgolly.scalajs.react.component.Js.UnmountedWithRawType
 import japgolly.scalajs.react.raw.React.Element
 import org.scalajs.dom.KeyboardEvent
 
@@ -19,12 +18,13 @@ import anduin.scalajs.slate.Slate._
 
 private[editor] object Editor {
 
-  private val component = JsComponent[Props, Children.None, Null](SlateReact.EditorComponent)
+  val component =
+    JsComponent[Props, Children.None, Null](SlateReact.EditorComponent).addFacade[SlateReact.EditorComponent]
 
   type RenderOutput = Element | Null
   type DecorateNodeFn = js.Function1[Node, js.Array[js.Object]]
 
-  def apply(
+  def props(
     placeholder: String,
     value: Value,
     readOnly: Boolean,
@@ -33,20 +33,18 @@ private[editor] object Editor {
     renderNode: RenderNodeProps => RenderOutput,
     renderMark: RenderMarkProps => RenderOutput,
     decorateNodeOpt: Option[Node => js.Array[js.Object]] = None
-  ): UnmountedWithRawType[_, _, _] = {
-    component(
-      new Props(
-        placeholder = placeholder,
-        value = value,
-        readOnly = readOnly,
-        onChange = js.defined { onChange(_).runNow() },
-        onKeyDown = js.defined { (e: KeyboardEvent, c: Change) =>
-          onKeyDown(e, c).runNow()
-        },
-        renderNode = js.defined { renderNode },
-        renderMark = js.defined { renderMark },
-        decorateNode = decorateNodeOpt.fold[js.UndefOr[DecorateNodeFn]](js.undefined)(js.defined(_))
-      )
+  ): Props = {
+    new Props(
+      placeholder = placeholder,
+      value = value,
+      readOnly = readOnly,
+      onChange = js.defined { onChange(_).runNow() },
+      onKeyDown = js.defined { (e: KeyboardEvent, c: Change) =>
+        onKeyDown(e, c).runNow()
+      },
+      renderNode = js.defined { renderNode },
+      renderMark = js.defined { renderMark },
+      decorateNode = decorateNodeOpt.fold[js.UndefOr[DecorateNodeFn]](js.undefined)(js.defined(_))
     )
   }
 
