@@ -15,6 +15,9 @@ final case class Popover(
   position: Popover.Position = Popover.PositionBottom,
   verticalOffset: Double = 0,
   horizontalOffset: Double = 0,
+  closeOnEsc: Boolean = true,
+  closeOnInsideClick: Boolean = true,
+  closeOnOutsideClick: Boolean = true,
   renderTarget: (Callback, PortalWithState.Status) => VdomElement,
   renderContent: Callback => VdomElement
 ) {
@@ -89,6 +92,9 @@ object Popover {
     def render(props: Popover): VdomElement = {
       PortalWithState(
         onOpen = onOpenPortal,
+        closeOnEsc = props.closeOnEsc,
+        closeOnInsideClick = props.closeOnInsideClick,
+        closeOnOutsideClick = props.closeOnOutsideClick,
         renderChildren = renderer =>
           <.div(
             <.div.withRef(targetRef)(

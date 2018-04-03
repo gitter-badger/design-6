@@ -19,6 +19,7 @@ final case class PortalWithState(
   onOpen: Callback = Callback.empty,
   onClose: Callback = Callback.empty,
   closeOnEsc: Boolean = true,
+  closeOnInsideClick: Boolean = true,
   closeOnOutsideClick: Boolean = true,
   renderChildren: PortalWithState.RenderChildren => VdomNode
 ) {
@@ -96,20 +97,19 @@ object PortalWithState {
             this.shouldCloseOpt = Some(true)
           }
         }
+        node = portal.backend.getNode
         _ <- Callback.when(
-          this.shouldCloseOpt.contains(true) && props.closeOnOutsideClick && state.status == StatusOpen
+          this.shouldCloseOpt.contains(true) && state.status == StatusOpen
+            && Option(node).nonEmpty && EventUtils.leftButtonClicked(e)
         ) {
-          val node = portal.backend.getNode
-          Callback.when(Option(node).nonEmpty && EventUtils.leftButtonClicked(e)) {
-            val clickInside = e.target match {
-              case t: Node => node.contains(t)
-              case _       => false
-            }
-            if (clickInside) {
-              scope.modState(_.copy(status = StatusHide))
-            } else {
-              closePortal
-            }
+          val clickInside = e.target match {
+            case t: Node => node.contains(t)
+            case _       => false
+          }
+          if (clickInside) {
+            Callback.when(props.closeOnInsideClick)(scope.modState(_.copy(status = StatusHide)))
+          } else {
+            Callback.when(props.closeOnOutsideClick)(closePortal)
           }
         }
         _ <- Callback {
