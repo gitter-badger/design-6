@@ -44,7 +44,6 @@ class Tachyons(val classes: List[String]) {
   def listing: Listing = Listing(classes)
   def margin: Margin = Margin(classes)
   def maxWidth: MaxWidth = MaxWidth(classes)
-  def negativeMargin: NegativeMargin = NegativeMargin(classes)
   def opacity: Opacity = Opacity(classes)
   def outline: Outline = Outline(classes)
   def overflow: Overflow = Overflow(classes)
