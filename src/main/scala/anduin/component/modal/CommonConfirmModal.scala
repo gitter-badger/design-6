@@ -35,26 +35,29 @@ object CommonConfirmModal {
         <.div(^.cls := "modal-body", props.displayInfo),
         <.div(
           ^.cls := "modal-footer",
-          <.button(
-            ^.cls := "btn",
-            ^.onClick --> props.onClose,
-            "Cancel"
-          ),
-          ProgressButton(
-            status = state.confirmBtnStatus,
-            extraClasses = props.confirmBtnExtraClasses,
-            labels = {
-              case ProgressButton.Status.Loading => "Confirming"
-              case ProgressButton.Status.Success => "Done"
-              case ProgressButton.Status.Error   => "Failed to confirm, please try again"
-              case ProgressButton.Status.Default | ProgressButton.Status.Disabled =>
-                props.confirmBtnLabel
-            },
-            onClick = for {
-              _ <- scope.modState(_.copy(confirmBtnStatus = ProgressButton.Status.Loading))
-              _ <- props.onConfirm(props.onClose)
-            } yield ()
-          )()
+          <.div(
+            ^.cls := "btn-group ml-auto",
+            <.button(
+              ^.cls := "btn",
+              ^.onClick --> props.onClose,
+              "Cancel"
+            ),
+            ProgressButton(
+              status = state.confirmBtnStatus,
+              extraClasses = props.confirmBtnExtraClasses,
+              labels = {
+                case ProgressButton.Status.Loading => "Confirming"
+                case ProgressButton.Status.Success => "Done"
+                case ProgressButton.Status.Error   => "Failed to confirm, please try again"
+                case ProgressButton.Status.Default | ProgressButton.Status.Disabled =>
+                  props.confirmBtnLabel
+              },
+              onClick = for {
+                _ <- scope.modState(_.copy(confirmBtnStatus = ProgressButton.Status.Loading))
+                _ <- props.onConfirm(props.onClose)
+              } yield ()
+            )()
+          )
         )
       )
     }

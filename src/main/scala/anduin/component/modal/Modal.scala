@@ -4,7 +4,7 @@ package anduin.component.modal
 
 import scala.scalajs.js
 
-import anduin.component.icon.Icon
+import anduin.component.icon.IconAcl
 import anduin.component.util.ComponentUtils
 import anduin.scalajs.react.modal.ReactModal
 import org.scalajs.dom.raw.Element
@@ -56,7 +56,7 @@ object Modal {
         isOpen = props.isOpen,
         style = js.defined(style),
         className = s"modal ${props.modalClassName}",
-        overlayClassName = s"modal-wrapper modal-overlay open ${props.overlayClassName}",
+        overlayClassName = s"modal-wrapper modal-overlay -open ${props.overlayClassName}",
         onAfterOpen = props.onAfterOpen,
         onRequestClose = js.defined { _ =>
           props.onRequestClose
@@ -68,14 +68,9 @@ object Modal {
         props.renderHeader.fold[VdomNode](
           <.div(
             ^.cls := "modal-header",
-            <.h4(^.cls := "title", props.title),
+            <.h3(^.cls := "title", props.title),
             TagMod.when(props.showCloseBtn) {
-              <.button(
-                ^.cls := "btn -plain -close border-radius-round tc",
-                ^.title := "Close this dialog",
-                ^.onClick --> props.onRequestClose,
-                Icon.cross()
-              )
+              <.div(^.cls := "close", ^.onClick --> props.onRequestClose, IconAcl(name = IconAcl.NameCross)())
             }
           )
         )(_(props.title, props.onRequestClose)),
