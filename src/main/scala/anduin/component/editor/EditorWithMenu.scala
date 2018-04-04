@@ -18,7 +18,7 @@ final case class EditorWithMenu(
   placeholder: String,
   value: Value,
   onChange: Change => Callback,
-  renderWrapper: Callback => VdomElement
+  renderWrapper: (Callback, VdomElement) => VdomElement
 ) {
   def apply(): VdomElement = EditorWithMenu.component(this)
 }

@@ -19,7 +19,7 @@ final case class RichEditor(
   value: Value,
   onChange: Change => Callback,
   readOnly: Boolean,
-  renderWrapper: Callback => VdomElement = _ => <.div()
+  renderWrapper: (Callback, VdomElement) => VdomElement = (_, editor: VdomElement) => editor
 ) {
   def apply(): VdomElement = RichEditor.component(this)
 }
@@ -84,30 +84,23 @@ object RichEditor {
     }
 
     private def focus() = {
-      val res = for {
-        editor <- editorRef.get
-        _ <- Callback {
-          editor.raw.focus()
-        }
-      } yield ()
-      res.toCallback
+      editorRef.get.map(_.raw.focus()).toCallback
     }
 
     def render(props: RichEditor): VdomElement = {
-      <.div(
-        props.renderWrapper(focus)(
-          <.div(
-            ^.cls := "editor",
-            editorRef.component(
-              Editor.props(
-                placeholder = props.placeholder,
-                value = props.value,
-                readOnly = props.readOnly,
-                onChange = props.onChange,
-                onKeyDown = onKeyDown,
-                renderNode = renderNode,
-                renderMark = (props: RenderMarkProps) => MarkRenderer(props.mark, props.children)
-              )
+      props.renderWrapper(
+        focus(),
+        <.div(
+          ^.cls := "editor",
+          editorRef.component(
+            Editor.props(
+              placeholder = props.placeholder,
+              value = props.value,
+              readOnly = props.readOnly,
+              onChange = props.onChange,
+              onKeyDown = onKeyDown,
+              renderNode = renderNode,
+              renderMark = (props: RenderMarkProps) => MarkRenderer(props.mark, props.children)
             )
           )
         )
