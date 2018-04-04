@@ -11,6 +11,7 @@ class Tachyons(val classes: List[String]) {
 
   def value: String = classes.mkString(" ").trim
 
+  def active: Active = Active(classes)
   def backgroundColor: BackgroundColor = BackgroundColor(classes)
   def backgroundPosition: BackgroundPosition = BackgroundPosition(classes)
   def backgroundSize: BackgroundSize = BackgroundSize(classes)
@@ -24,6 +25,7 @@ class Tachyons(val classes: List[String]) {
   def code: Code = Code(classes)
   def color: Color = Color(classes)
   def coordinate: Coordinate = Coordinate(classes)
+  def cursor: Cursor = Cursor(classes)
   def debugGrid: DebugGrid = DebugGrid(classes)
   def display: Display = Display(classes)
   def flexbox: Flexbox = Flexbox(classes)
@@ -68,6 +70,5 @@ class Tachyons(val classes: List[String]) {
 // scalastyle:on number.of.methods
 
 object Tachyons extends Tachyons(classes = List.empty) {
-
   implicit def convertToTagMod(builder: Tachyons): TagMod = ^.cls := builder.value
 }
