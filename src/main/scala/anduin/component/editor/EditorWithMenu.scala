@@ -93,7 +93,7 @@ object EditorWithMenu {
               .position.absolute.zIndex.z9999
               .color.white.backgroundColor.darkGrayDarken
               .borderRadius.r3
-              .padding.vertical1.padding.horizontal3
+              .padding.vertical1.padding.horizontal4
               .value -> true,
             Tachyons.opacity.zero.value -> state.hrefOpt.isEmpty,
             Tachyons.opacity.opacity100.value -> state.hrefOpt.nonEmpty
