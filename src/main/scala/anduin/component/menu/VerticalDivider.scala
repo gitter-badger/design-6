@@ -2,11 +2,11 @@
 
 package anduin.component.menu
 
-import anduin.stylesheet.tachyons.Tachyons
-
 // scalastyle:off underscore.import
 import japgolly.scalajs.react._
 import japgolly.scalajs.react.vdom.html_<^._
+
+import anduin.stylesheet.tachyons.Tachyons
 // scalastyle:on underscore.import
 
 object VerticalDivider {

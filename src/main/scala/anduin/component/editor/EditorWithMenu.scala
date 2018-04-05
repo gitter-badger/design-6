@@ -105,7 +105,8 @@ object EditorWithMenu {
           ^.transform := "translate(-50%, 100%)",
           ^.transition := "opacity 0.75s",
           <.a(
-            Tachyons.color.white.link.link,
+            ^.cls := "link",
+            Tachyons.color.white,
             ^.href := state.hrefOpt.getOrElse(""),
             ^.target := "_blank",
             "Open link"
