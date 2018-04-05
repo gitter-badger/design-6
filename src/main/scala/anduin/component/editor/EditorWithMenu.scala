@@ -5,7 +5,7 @@ package anduin.component.editor
 import org.scalajs.dom.raw.HTMLElement
 import org.scalajs.dom.window
 
-import anduin.stylesheet.tachyons.Tachyons
+import anduin.style.Style
 
 // scalastyle:off underscore.import
 import japgolly.scalajs.react._
@@ -72,7 +72,7 @@ object EditorWithMenu {
 
     def render(props: EditorWithMenu, state: State): VdomElement = {
       <.div.withRef(containerRef)(
-        Tachyons.position.relative,
+        Style.position.relative,
 
         ClickOutside(
           offsetBottom = 30,
@@ -91,14 +91,14 @@ object EditorWithMenu {
 
         <.div(
           ^.classSet(
-            Tachyons
+            Style
               .position.absolute.zIndex.z9999
               .color.white.backgroundColor.darkGrayDarken
               .borderRadius.r3
               .padding.vertical1.padding.horizontal4
               .value -> true,
-            Tachyons.opacity.zero.value -> state.hrefOpt.isEmpty,
-            Tachyons.opacity.opacity100.value -> state.hrefOpt.nonEmpty
+            Style.opacity.zero.value -> state.hrefOpt.isEmpty,
+            Style.opacity.opacity100.value -> state.hrefOpt.nonEmpty
           ),
           ^.top := s"${state.top}px",
           ^.left := s"${state.left}px",
@@ -106,7 +106,7 @@ object EditorWithMenu {
           ^.transition := "opacity 0.75s",
           <.a(
             ^.cls := "link",
-            Tachyons.color.white,
+            Style.color.white,
             ^.href := state.hrefOpt.getOrElse(""),
             ^.target := "_blank",
             "Open link"

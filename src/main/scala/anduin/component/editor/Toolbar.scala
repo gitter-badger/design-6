@@ -12,7 +12,7 @@ import anduin.component.modal.OpenModalButton
 import anduin.component.portal.{Popover, PortalWithState}
 import anduin.component.util.JavaScriptUtils
 import anduin.scalajs.slate.Slate.{Change, Value}
-import anduin.stylesheet.tachyons.Tachyons
+import anduin.style.Style
 
 // scalastyle:off underscore.import
 import japgolly.scalajs.react._
@@ -168,7 +168,7 @@ object Toolbar {
             ),
             renderContent = _ =>
               <.div(
-                Tachyons.flexbox.flex.flexbox.itemsCenter,
+                Style.flexbox.flex.flexbox.itemsCenter,
                 MarkButtonBar(props.value, props.onChange)(),
                 VerticalDivider(),
                 AlignButtonBar(props.value, props.onChange)(),

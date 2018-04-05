@@ -6,7 +6,7 @@ package anduin.component.button
 import japgolly.scalajs.react._
 import japgolly.scalajs.react.vdom.html_<^._
 
-import anduin.stylesheet.tachyons.Tachyons
+import anduin.style.Style
 // scalastyle:on underscore.import
 
 /**
@@ -95,7 +95,7 @@ object ProgressButton {
         ^.disabled := ((props.status == Status.Loading) || (props.status == Status.Disabled) || (props.status == Status.Success)),
         TagMod.when(props.status == Status.Loading)(
           <.div(
-            ^.cls := s"${Tachyons.margin.right1} loader-inline",
+            ^.cls := s"${Style.margin.right1} loader-inline",
             <.span(^.cls := "item"),
             <.span(^.cls := "item"),
             <.span(^.cls := "item")

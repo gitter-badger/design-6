@@ -6,7 +6,7 @@ package anduin.component.menu
 import japgolly.scalajs.react._
 import japgolly.scalajs.react.vdom.html_<^._
 
-import anduin.stylesheet.tachyons.Tachyons
+import anduin.style.Style
 // scalastyle:on underscore.import
 
 object VerticalDivider {
@@ -16,7 +16,7 @@ object VerticalDivider {
   def apply(): VdomElement = {
     ScalaComponent.static(ComponentName)(
       <.div(
-        Tachyons.typography.truncate.backgroundColor.grayLighten.margin.horizontal1,
+        Style.typography.truncate.backgroundColor.grayLighten.margin.horizontal1,
         ^.width := "1px",
         ^.height := "20px"
       )

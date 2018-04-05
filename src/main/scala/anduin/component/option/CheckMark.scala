@@ -3,7 +3,7 @@
 package anduin.component.option
 
 import anduin.component.icon.Iconv2
-import anduin.stylesheet.tachyons.Tachyons
+import anduin.style.Style
 
 // scalastyle:off underscore.import
 import japgolly.scalajs.react._
@@ -38,7 +38,7 @@ object CheckMark {
           <.span(
             ^.classSet(
               "at-icon" -> true,
-              Tachyons.flexbox.flex.flexbox.justifyCenter.flexbox.itemsCenter.borderRadius.pill.color.white.value -> true
+              Style.flexbox.flex.flexbox.justifyCenter.flexbox.itemsCenter.borderRadius.pill.color.white.value -> true
             ),
             Iconv2.checkmark()
           )

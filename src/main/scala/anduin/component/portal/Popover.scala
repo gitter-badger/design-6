@@ -5,7 +5,7 @@ package anduin.component.portal
 import org.scalajs.dom.document
 import org.scalajs.dom.raw.HTMLElement
 
-import anduin.stylesheet.tachyons.Tachyons
+import anduin.style.Style
 
 // scalastyle:off underscore.import
 import japgolly.scalajs.react._
@@ -13,7 +13,7 @@ import japgolly.scalajs.react.vdom.html_<^._
 // scalastyle:on underscore.import
 
 final case class Popover(
-  popoverClassName: String = Tachyons.padding.all2.value,
+  popoverClassName: String = Style.padding.all2.value,
   position: Popover.Position = Popover.PositionBottom,
   verticalOffset: Double = 0,
   horizontalOffset: Double = 0,

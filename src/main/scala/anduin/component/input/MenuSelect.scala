@@ -4,7 +4,7 @@ package anduin.component.input
 
 import anduin.component.icon.Iconv2
 import anduin.component.util.ComponentUtils
-import anduin.stylesheet.tachyons.Tachyons
+import anduin.style.Style
 
 // scalastyle:off underscore.import
 import japgolly.scalajs.react._
@@ -29,7 +29,7 @@ class MenuSelect[I] {
   private case class Backend(scope: BackendScope[Props, _]) {
     def render(props: Props, children: PropsChildren): VdomElement = {
       <.div(
-        Tachyons.border.all.borderRadius.r2,
+        Style.border.all.borderRadius.r2,
         ^.cls := "at-b--light-gray",
         <.ul(
           ^.cls := "at-menu -divider -custom-height -clickable -light-active",
@@ -41,10 +41,10 @@ class MenuSelect[I] {
               ^.onClick --> props.selectItem(id),
               ^.role := "button",
               ^.tabIndex := 0,
-              <.div(Tachyons.flexbox.grow1, props.renderItem(id)),
+              <.div(Style.flexbox.grow1, props.renderItem(id)),
               TagMod.when(isSelected)(
                 <.div(
-                  Tachyons.flexbox.grow0.padding.right2,
+                  Style.flexbox.grow0.padding.right2,
                   ^.cls := "at-green",
                   Iconv2.checkmark("db")
                 )
@@ -53,7 +53,7 @@ class MenuSelect[I] {
           })
         ),
         TagMod.unless(children.isEmpty)(
-          <.div(Tachyons.border.top, ^.cls := "at-b--light-gray", children)
+          <.div(Style.border.top, ^.cls := "at-b--light-gray", children)
         )
       )
     }

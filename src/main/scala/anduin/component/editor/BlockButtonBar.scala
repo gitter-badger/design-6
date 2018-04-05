@@ -4,7 +4,7 @@ package anduin.component.editor
 
 import anduin.component.icon.{Icon, Iconv2}
 import anduin.scalajs.slate.Slate.{Change, Value}
-import anduin.stylesheet.tachyons.Tachyons
+import anduin.style.Style
 
 // scalastyle:off underscore.import
 import japgolly.scalajs.react._
@@ -91,7 +91,7 @@ private[editor] object BlockButtonBar {
 
     def render(props: BlockButtonBar): VdomElement = {
       <.div(
-        Tachyons.flexbox.flex,
+        Style.flexbox.flex,
         List(
           (BlockQuoteNode, Iconv2.blockquote(), "Quote"),
           (UnorderedListNode, Icon.bulletPoint(), "Bulleted List"),
