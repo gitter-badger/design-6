@@ -30,7 +30,7 @@ class MenuSelect[I] {
     def render(props: Props, children: PropsChildren): VdomElement = {
       <.div(
         Style.border.all.borderRadius.r2,
-        ^.cls := "at-b--light-gray",
+        ^.cls := "at-b--gray-2",
         <.ul(
           ^.cls := "at-menu -divider -custom-height -clickable -light-active",
           props.items.toVdomArray(id => {
@@ -53,7 +53,7 @@ class MenuSelect[I] {
           })
         ),
         TagMod.unless(children.isEmpty)(
-          <.div(Style.border.top, ^.cls := "at-b--light-gray", children)
+          <.div(Style.border.top, ^.cls := "at-b--gray-2", children)
         )
       )
     }

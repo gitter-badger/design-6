@@ -6,5 +6,5 @@ package anduin.style
 private[style] final case class Table(classes: List[String] = List.empty) {
 
   def collapse: Style = new Style(classes :+ "collapse")
-  def stripedLightGray: Style = new Style(classes :+ "striped--light-gray")
+  def stripedGray2: Style = new Style(classes :+ "striped--gray-2")
 }

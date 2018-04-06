@@ -31,7 +31,7 @@ class Style(val classes: List[String]) {
   def fontStyle: FontStyle = FontStyle(classes)
   def fontWeight: FontWeight = FontWeight(classes)
   def height: Height = Height(classes)
-  def hover: Hover = Hover(classes)
+  def focus: Focus = Focus(classes)
   def letterSpacing: LetterSpacing = LetterSpacing(classes)
   def lineHeight: LineHeight = LineHeight(classes)
   // TODO: replace with List component

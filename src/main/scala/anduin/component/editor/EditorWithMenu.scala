@@ -93,7 +93,7 @@ object EditorWithMenu {
           ^.classSet(
             Style
               .position.absolute.zIndex.z9999
-              .color.white.backgroundColor.darkGrayDarken
+              .color.white.backgroundColor.gray9
               .borderRadius.r3
               .padding.vertical1.padding.horizontal4
               .value -> true,

@@ -16,7 +16,7 @@ object VerticalDivider {
   def apply(): VdomElement = {
     ScalaComponent.static(ComponentName)(
       <.div(
-        Style.typography.truncate.backgroundColor.grayLighten.margin.horizontal1,
+        Style.typography.truncate.backgroundColor.gray4.margin.horizontal1,
         ^.width := "1px",
         ^.height := "20px"
       )
