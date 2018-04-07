@@ -68,7 +68,7 @@ object Modal {
         props.renderHeader.fold[VdomNode](
           <.div(
             ^.cls := "modal-header",
-            <.h3(^.cls := "title fw-600", props.title),
+            <.h4(^.cls := "title", props.title),
             TagMod.when(props.showCloseBtn) {
               <.button(
                 ^.cls := "btn -plain -close border-radius-round tc",
