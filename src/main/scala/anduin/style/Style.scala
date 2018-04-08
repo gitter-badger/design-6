@@ -25,6 +25,7 @@ class Style(val classes: List[String]) {
   def cursor: Cursor = Cursor(classes)
   def debugGrid: DebugGrid = DebugGrid(classes)
   def display: Display = Display(classes)
+  def disabled: Disabled = Disabled(classes)
   def flexbox: Flexbox = Flexbox(classes)
   def fontFamily: FontFamily = FontFamily(classes)
   def fontSize: FontSize = FontSize(classes)
