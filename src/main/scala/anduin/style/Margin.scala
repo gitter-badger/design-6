@@ -68,5 +68,7 @@ private[style] final case class Margin(classes: List[String] = List.empty) {
   def horizontal5: Style = new Style(classes :+ "mh5")
   def horizontal6: Style = new Style(classes :+ "mh6")
   def horizontal7: Style = new Style(classes :+ "mh7")
+
+  def horizontalAuto: Style = new Style(classes :+ "mh-auto")
 }
 // scalastyle:on number.of.methods
