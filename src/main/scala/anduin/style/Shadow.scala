@@ -2,10 +2,15 @@
 
 package anduin.style
 
-// See /vendors/tachyons-4.9.1/_shadow.css
 private[style] final case class Shadow(classes: List[String] = List.empty) {
-  def s1: Style = new Style(classes :+ "shadow-1")
-  def s2: Style = new Style(classes :+ "shadow-2")
-  def s3: Style = new Style(classes :+ "shadow-3")
-  def s4: Style = new Style(classes :+ "shadow-4")
+  def size1: Style = new Style(classes :+ "shadow-1")
+  def size2: Style = new Style(classes :+ "shadow-2")
+  def size3: Style = new Style(classes :+ "shadow-3")
+  def size4: Style = new Style(classes :+ "shadow-4")
+
+  def borderGray4S: Style = new Style(classes :+ "shadow-border-gray-4s")
+  def borderPrimary5S: Style = new Style(classes :+ "shadow-border-primary-5s")
+  def borderSuccess5S: Style = new Style(classes :+ "shadow-border-success-5s")
+  def borderWarning5S: Style = new Style(classes :+ "shadow-border-warning-5s")
+  def borderDanger5S: Style = new Style(classes :+ "shadow-border-danger-5s")
 }

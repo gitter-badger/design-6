@@ -81,42 +81,8 @@ private[style] final case class Active(classes: List[String] = List.empty) {
   def backgroundDanger2: Style = new Style(classes :+ "active-bg--danger-2")
   def backgroundDanger1: Style = new Style(classes :+ "active-bg--danger-1")
 
-  // Border Color
+  /* Shadow */
 
-  def borderGray9: Style = new Style(classes :+ "active-b--gray-9")
-  def borderGray8: Style = new Style(classes :+ "active-b--gray-8")
-  def borderGray7: Style = new Style(classes :+ "active-b--gray-7")
-  def borderGray6: Style = new Style(classes :+ "active-b--gray-6")
-  def borderGray5: Style = new Style(classes :+ "active-b--gray-5")
-  def borderGray4: Style = new Style(classes :+ "active-b--gray-4")
-  def borderGray3: Style = new Style(classes :+ "active-b--gray-3")
-  def borderGray2: Style = new Style(classes :+ "active-b--gray-2")
-  def borderGray1: Style = new Style(classes :+ "active-b--gray-1")
-
-  def borderWhite: Style = new Style(classes :+ "active-b--white")
-
-  def borderPrimary5: Style = new Style(classes :+ "active-b--primary-5")
-  def borderPrimary4: Style = new Style(classes :+ "active-b--primary-4")
-  def borderPrimary3: Style = new Style(classes :+ "active-b--primary-3")
-  def borderPrimary2: Style = new Style(classes :+ "active-b--primary-2")
-  def borderPrimary1: Style = new Style(classes :+ "active-b--primary-1")
-
-  def borderSuccess5: Style = new Style(classes :+ "active-b--success-5")
-  def borderSuccess4: Style = new Style(classes :+ "active-b--success-4")
-  def borderSuccess3: Style = new Style(classes :+ "active-b--success-3")
-  def borderSuccess2: Style = new Style(classes :+ "active-b--success-2")
-  def borderSuccess1: Style = new Style(classes :+ "active-b--success-1")
-
-  def borderWarning5: Style = new Style(classes :+ "active-b--warning-5")
-  def borderWarning4: Style = new Style(classes :+ "active-b--warning-4")
-  def borderWarning3: Style = new Style(classes :+ "active-b--warning-3")
-  def borderWarning2: Style = new Style(classes :+ "active-b--warning-2")
-  def borderWarning1: Style = new Style(classes :+ "active-b--warning-1")
-
-  def borderDanger5: Style = new Style(classes :+ "active-b--danger-5")
-  def borderDanger4: Style = new Style(classes :+ "active-b--danger-4")
-  def borderDanger3: Style = new Style(classes :+ "active-b--danger-3")
-  def borderDanger2: Style = new Style(classes :+ "active-b--danger-2")
-  def borderDanger1: Style = new Style(classes :+ "active-b--danger-1")
+  def shadowBorderGray4: Style = new Style(classes :+ "active-s-b--gray-4s")
 }
 // scalastyle:on number.of.methods
