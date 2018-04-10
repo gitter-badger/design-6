@@ -84,5 +84,9 @@ private[style] final case class Active(classes: List[String] = List.empty) {
   /* Shadow */
 
   def shadowBorderGray4: Style = new Style(classes :+ "active-s-b--gray-4s")
+  def shadowBorderPrimary5s: Style = new Style(classes :+ "active-s-b--primary-5s")
+  def shadowBorderSuccess5s: Style = new Style(classes :+ "active-s-b--success-5s")
+  def shadowBorderWarning5s: Style = new Style(classes :+ "active-s-b--warning-5s")
+  def shadowBorderDanger5s: Style = new Style(classes :+ "active-s-b--danger-5s")
 }
 // scalastyle:on number.of.methods

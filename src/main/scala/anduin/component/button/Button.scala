@@ -12,9 +12,10 @@ import japgolly.scalajs.react.vdom.html_<^._
 
 final case class Button(
   tpe: Button.Tpe = Button.TpeDefault,
-  color: Button.Color = Button.ColorGray,
+  color: Button.Color = Button.ColorWhite,
   size: Button.Size = Button.SizeMedium,
   onClick: Callback = Callback.empty,
+  isMinimal: Boolean = false,
   isDisabled: Boolean = false, // if tpe != link
   href: String = "" // if tpe == link
 ) {
@@ -27,39 +28,45 @@ object Button {
 
   private final val ComponentName = ComponentUtils.name(this)
 
-  sealed trait Color { val style: TagMod }
-  case object ColorNone extends Color {
-    val base: TagMod =
-      Style.color.gray8.hover.backgroundWhite.hover.colorPrimary4.active.backgroundGray2.active.colorPrimary4
-    val activeShadow: TagMod = Style.hover.shadowBorderGray4.active.shadowBorderGray4
-    val style: TagMod = TagMod(base, activeShadow)
+  sealed trait Color {
+    val minimal: TagMod
+    val full: TagMod
+    val shared: TagMod
   }
-  case object ColorGray extends Color {
-    private val standby = Style.backgroundColor.gray1.shadow.borderGray4S
-    val style: TagMod = TagMod(ColorNone.base, standby)
+  case object ColorWhite extends Color {
+    val minimal: TagMod = Style.color.gray8.hover.shadowBorderGray4.active.shadowBorderGray4
+    val full: TagMod = TagMod(minimal, Style.backgroundColor.gray1.shadow.borderGray4s)
+    private val sharedHover = Style.hover.colorPrimary4.hover.backgroundWhite
+    private val sharedActive = Style.active.colorPrimary4.active.backgroundGray2
+    val shared: TagMod = TagMod(sharedHover, sharedActive)
   }
-  private case object ColorCommon {
-    val style: TagMod = Style.color.white.shadow.size2
+  private case object ColorBase {
+    val minimal: TagMod = Style.hover.colorWhite.active.colorWhite
+    val full: TagMod = Style.color.white.shadow.size2
   }
   case object ColorPrimary extends Color {
-    private val standby = Style.backgroundColor.primary4.shadow.borderPrimary5S
-    private val active = Style.hover.backgroundPrimary3.active.backgroundPrimary5
-    val style: TagMod = TagMod(ColorCommon.style, standby, active)
+    private val selfMinimal = Style.color.primary4.hover.shadowBorderPrimary5s.active.shadowBorderPrimary5s
+    val minimal: TagMod = TagMod(ColorBase.minimal, selfMinimal)
+    val full: TagMod = TagMod(ColorBase.full, Style.backgroundColor.primary4.shadow.borderPrimary5s)
+    val shared: TagMod = Style.hover.backgroundPrimary3.active.backgroundPrimary5
   }
   case object ColorSuccess extends Color {
-    private val standby = Style.backgroundColor.success4.shadow.borderSuccess5S
-    private val active = Style.hover.backgroundSuccess3.active.backgroundSuccess5
-    val style: TagMod = TagMod(ColorCommon.style, standby, active)
+    private val selfMinimal = Style.color.success4.hover.shadowBorderSuccess5s.active.shadowBorderSuccess5s
+    val minimal: TagMod = TagMod(ColorBase.minimal, selfMinimal)
+    val full: TagMod = TagMod(ColorBase.full, Style.backgroundColor.success4.shadow.borderSuccess5s)
+    val shared: TagMod = Style.hover.backgroundSuccess3.active.backgroundSuccess5
   }
   case object ColorWarning extends Color {
-    private val standby = Style.backgroundColor.warning4.shadow.borderWarning5S
-    private val active = Style.hover.backgroundWarning3.active.backgroundWarning5
-    val style: TagMod = TagMod(ColorCommon.style, standby, active)
+    private val selfMinimal = Style.color.warning4.hover.shadowBorderWarning5s.active.shadowBorderWarning5s
+    val minimal: TagMod = TagMod(ColorBase.minimal, selfMinimal)
+    val full: TagMod = TagMod(ColorBase.full, Style.backgroundColor.warning4.shadow.borderWarning5s)
+    val shared: TagMod = Style.hover.backgroundWarning3.active.backgroundWarning5
   }
   case object ColorDanger extends Color {
-    private val standby = Style.backgroundColor.danger4.shadow.borderDanger5S
-    private val active = Style.hover.backgroundDanger3.active.backgroundDanger5
-    val style: TagMod = TagMod(ColorCommon.style, standby, active)
+    private val selfMinimal = Style.color.danger4.hover.shadowBorderDanger5s.active.shadowBorderDanger5s
+    val minimal: TagMod = TagMod(ColorBase.minimal, selfMinimal)
+    val full: TagMod = TagMod(ColorBase.full, Style.backgroundColor.danger4.shadow.borderDanger5s)
+    val shared: TagMod = Style.hover.backgroundDanger3.active.backgroundDanger5
   }
 
   sealed trait Tpe { val value: String }
@@ -95,7 +102,8 @@ object Button {
         Style.flexbox.flex,
         // specific styles
         props.size.style,
-        props.color.style,
+        if (props.isMinimal) props.color.minimal else props.color.full,
+        props.color.shared,
         // behaviours
         ^.onClick ==> onClick,
         children
