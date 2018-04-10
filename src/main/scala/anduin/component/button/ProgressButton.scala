@@ -95,7 +95,7 @@ object ProgressButton {
         ^.disabled := ((props.status == Status.Loading) || (props.status == Status.Disabled) || (props.status == Status.Success)),
         TagMod.when(props.status == Status.Loading)(
           <.div(
-            ^.cls := s"${Style.margin.right1} loader-inline",
+            ^.cls := s"${Style.margin.right4} loader-inline",
             <.span(^.cls := "item"),
             <.span(^.cls := "item"),
             <.span(^.cls := "item")
