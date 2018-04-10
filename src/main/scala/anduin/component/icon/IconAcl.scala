@@ -48,6 +48,7 @@ object IconAcl {
   sealed trait Size { val value: String }
   case object SizeMedium extends Size { val value = "16" }
   case object SizeLarge extends Size { val value = "32" }
+  case class DynamicSize(value: String) extends Size
 
   sealed trait Name { val path: String }
   // format: off

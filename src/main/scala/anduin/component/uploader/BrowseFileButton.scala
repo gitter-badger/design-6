@@ -22,7 +22,8 @@ final case class BrowseFileButton(
   classes: String = "",
   tip: String = "",
   onBrowse: FileList => Callback = _ => Callback.empty,
-  keyOpt: Option[String] = None
+  keyOpt: Option[String] = None,
+  acceptFileTypes: Option[String] = None
 ) {
   def apply(children: VdomNode*): ScalaComponent.Unmounted[_, _, _] = {
     val component =
@@ -57,6 +58,9 @@ object BrowseFileButton {
         <.input(
           ^.cls := "input",
           ^.tpe := "file",
+          props.acceptFileTypes.whenDefined { acceptFileTypes =>
+            ^.accept := acceptFileTypes
+          },
           ^.multiple := props.multiple,
           if (props.disabled) {
             ^.disabled := true
