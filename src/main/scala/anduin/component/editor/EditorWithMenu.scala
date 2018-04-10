@@ -95,7 +95,7 @@ object EditorWithMenu {
               .position.absolute.zIndex.z9999
               .color.white.backgroundColor.gray9
               .borderRadius.r3
-              .padding.vertical1.padding.horizontal4
+              .padding.ver4.padding.hor16
               .value -> true,
             Style.opacity.zero.value -> state.hrefOpt.isEmpty,
             Style.opacity.opacity100.value -> state.hrefOpt.nonEmpty

@@ -13,7 +13,7 @@ import japgolly.scalajs.react.vdom.html_<^._
 // scalastyle:on underscore.import
 
 final case class Popover(
-  popoverClassName: String = Style.padding.all2.value,
+  popoverClassName: String = Style.padding.all8.value,
   position: Popover.Position = Popover.PositionBottom,
   verticalOffset: Double = 0,
   horizontalOffset: Double = 0,

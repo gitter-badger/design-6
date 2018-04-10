@@ -44,7 +44,7 @@ class MenuSelect[I] {
               <.div(Style.flexbox.grow1, props.renderItem(id)),
               TagMod.when(isSelected)(
                 <.div(
-                  Style.flexbox.grow0.padding.right2,
+                  Style.flexbox.grow0.padding.right8,
                   ^.cls := "at-green",
                   Iconv2.checkmark("db")
                 )
