@@ -20,7 +20,7 @@ final case class Popover(
   closeOnEsc: Boolean = true,
   closeOnInsideClick: Boolean = true,
   closeOnOutsideClick: Boolean = true,
-  renderTarget: (Callback, PortalWithState.Status) => VdomElement,
+  renderTarget: (Callback, Status) => VdomElement,
   renderContent: Callback => VdomElement
 ) {
   def apply(): VdomElement = {
@@ -108,8 +108,8 @@ object Popover {
                   "at-popover" -> true,
                   props.position.className -> true,
                   props.popoverClassName -> true,
-                  "-show" -> (renderer.status == PortalWithState.StatusOpen),
-                  "-hide" -> (renderer.status == PortalWithState.StatusHide)
+                  "-show" -> (renderer.status == StatusOpen),
+                  "-hide" -> (renderer.status == StatusHide)
                 ),
                 props.renderContent(renderer.closePortal)
               )

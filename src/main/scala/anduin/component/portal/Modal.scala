@@ -17,10 +17,12 @@ final case class Modal(
   size: Modal.Size = Modal.SizeDefault,
   closeOnEsc: Boolean = true,
   closeOnOutsideClick: Boolean = true,
-  renderTarget: (Callback, PortalWithState.Status) => VdomElement,
+  renderTarget: (Callback, Status) => VdomElement,
   renderHeader: Option[Modal.HeaderRenderer] = None,
   renderContent: Callback => VdomElement,
-  renderFooter: Option[(Callback => VdomNode)] = None
+  renderFooter: Option[(Callback => VdomNode)] = None,
+  onOpen: Callback = Callback.empty,
+  onClose: Callback = Callback.empty
 ) {
   def apply(): VdomElement = {
     Modal.component(this)
@@ -60,6 +62,8 @@ object Modal {
         closeOnEsc = props.closeOnEsc,
         closeOnOutsideClick = props.closeOnOutsideClick,
         isPortalClicked = (target, _) => isPortalClicked(target),
+        onOpen = props.onOpen,
+        onClose = props.onClose,
         renderChildren = renderer => {
           <.div(
             props.renderTarget(renderer.openPortal, renderer.status),
@@ -68,8 +72,8 @@ object Modal {
                 ^.classSet(
                   "modal-wrapper modal-overlay -open" -> true,
                   props.size.className -> true,
-                  "-open" -> (renderer.status == PortalWithState.StatusOpen),
-                  "-hide" -> (renderer.status == PortalWithState.StatusHide)
+                  "-open" -> (renderer.status == StatusOpen),
+                  "-hide" -> (renderer.status == StatusHide)
                 ),
                 <.div.withRef(modalRef)(
                   ^.cls := "modal",
