@@ -18,7 +18,7 @@ final case class Modal(
   closeOnEsc: Boolean = true,
   closeOnOutsideClick: Boolean = true,
   renderTarget: (Callback, Status) => VdomElement,
-  renderHeader: Option[Modal.HeaderRenderer] = None,
+  renderHeader: Option[(String, Callback) => VdomNode] = None, // (title, closing callback) => header
   renderContent: Callback => VdomElement,
   renderFooter: Option[(Callback => VdomNode)] = None,
   onOpen: Callback = Callback.empty,
@@ -30,11 +30,6 @@ final case class Modal(
 }
 
 object Modal {
-
-  type HeaderRenderer = (
-    String, // The title
-    Callback // The callback of closing modal
-  ) => VdomNode
 
   private val ComponentName = this.getClass.getSimpleName
 
@@ -70,7 +65,7 @@ object Modal {
             renderer.portal(
               <.div(
                 ^.classSet(
-                  "modal-wrapper modal-overlay -open" -> true,
+                  "modal-wrapper modal-overlay" -> true,
                   props.size.className -> true,
                   "-open" -> (renderer.status == StatusOpen),
                   "-hide" -> (renderer.status == StatusHide)
