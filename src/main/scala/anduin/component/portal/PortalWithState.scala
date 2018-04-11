@@ -19,7 +19,7 @@ final case class PortalWithState(
   onOpen: Callback = Callback.empty,
   onClose: Callback = Callback.empty,
   closeOnEsc: Boolean = true,
-  closeOnInsideClick: Boolean = true,
+  closeOnInsideClick: Boolean = false,
   closeOnOutsideClick: Boolean = true,
   renderChildren: PortalWithState.RenderChildren => VdomNode
 ) {
