@@ -2,6 +2,8 @@
 
 package anduin.component.portal
 
+import org.scalajs.dom.raw.{Element, HTMLElement}
+
 import anduin.component.icon.IconAcl
 
 // scalastyle:off underscore.import
@@ -42,22 +44,32 @@ object Modal {
 
   private case class Backend(scope: BackendScope[Modal, _]) {
 
+    private val modalRef = Ref[HTMLElement]
+
+    private def isPortalClicked(target: Element) = {
+      val t = for {
+        modal <- modalRef.get
+      } yield !target.contains(modal)
+      t.asCallback.map(_.getOrElse(false))
+    }
+
     def render(props: Modal): VdomElement = {
       PortalWithState(
         closeOnEsc = props.closeOnEsc,
         closeOnOutsideClick = props.closeOnOutsideClick,
+        isPortalClicked = (target, _) => isPortalClicked(target),
         renderChildren = renderer => {
           <.div(
             props.renderTarget(renderer.openPortal, renderer.status),
             renderer.portal(
               <.div(
                 ^.classSet(
-                  "modal-wrapper modal-overlay" -> true,
+                  "modal-wrapper modal-overlay -open" -> true,
                   props.size.className -> true,
                   "-open" -> (renderer.status == PortalWithState.StatusOpen),
                   "-hide" -> (renderer.status == PortalWithState.StatusHide)
                 ),
-                <.div(
+                <.div.withRef(modalRef)(
                   ^.cls := "modal",
                   props.renderHeader.fold[VdomNode] {
                     <.div(
