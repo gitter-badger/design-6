@@ -16,6 +16,7 @@ import japgolly.scalajs.react.vdom.html_<^._
 
 final case class PortalWithState(
   nodeClasses: String = "",
+  isOpen: Boolean = false,
   onOpen: Callback = Callback.empty,
   onClose: Callback = Callback.empty,
   closeOnEsc: Boolean = true,
@@ -147,7 +148,10 @@ object PortalWithState {
 
   val component = ScalaComponent
     .builder[PortalWithState](ComponentName)
-    .initialState(State())
+    .initialStateFromProps { props =>
+      val status = if (props.isOpen) StatusOpen else StatusClose
+      State(status = status)
+    }
     .renderBackend[Backend]
     .configure(
       EventListener[MouseEvent].install("click", _.backend.onDocumentClick, _ => dom.document),

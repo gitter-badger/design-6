@@ -13,6 +13,7 @@ import japgolly.scalajs.react.vdom.html_<^._
 
 final case class Modal(
   title: String,
+  isOpen: Boolean = false,
   size: Modal.Size = Modal.SizeDefault,
   closeOnEsc: Boolean = true,
   closeOnOutsideClick: Boolean = true,
@@ -55,6 +56,7 @@ object Modal {
 
     def render(props: Modal): VdomElement = {
       PortalWithState(
+        isOpen = props.isOpen,
         closeOnEsc = props.closeOnEsc,
         closeOnOutsideClick = props.closeOnOutsideClick,
         isPortalClicked = (target, _) => isPortalClicked(target),
