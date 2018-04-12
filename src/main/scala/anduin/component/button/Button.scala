@@ -76,9 +76,9 @@ object Button {
   case object TpeReset extends Tpe { val value = "reset" }
 
   sealed trait Size { val style: TagMod }
-  case object SizeLarge extends Size { val style: TagMod = Style.padding.ver12.padding.hor16 }
-  case object SizeMedium extends Size { val style: TagMod = Style.padding.ver8.padding.hor16 }
-  case object SizeSmall extends Size { val style: TagMod = Style.padding.ver4.padding.hor8 }
+  case object SizeLarge extends Size { val style: TagMod = Style.padding.ver12.padding.hor16.fontSize.size5 }
+  case object SizeMedium extends Size { val style: TagMod = Style.padding.ver8.padding.hor16.fontSize.size6 }
+  case object SizeSmall extends Size { val style: TagMod = Style.padding.ver4.padding.hor8.fontSize.size7 }
 
   private case class Backend(scope: BackendScope[Button, _]) {
 
