@@ -5,7 +5,7 @@ package anduin.component.portal
 import japgolly.scalajs.react.extra.{EventListener, OnUnmount}
 import org.scalajs.dom
 import org.scalajs.dom.ext.KeyCode
-import org.scalajs.dom.raw.{KeyboardEvent, MouseEvent, Node}
+import org.scalajs.dom.raw.{Element, KeyboardEvent, MouseEvent}
 
 import anduin.component.util.EventUtils
 
@@ -16,11 +16,16 @@ import japgolly.scalajs.react.vdom.html_<^._
 
 final case class PortalWithState(
   nodeClasses: String = "",
+  isOpen: Boolean = false,
   onOpen: Callback = Callback.empty,
   onClose: Callback = Callback.empty,
   closeOnEsc: Boolean = true,
-  closeOnInsideClick: Boolean = true,
+  closeOnInsideClick: Boolean = false,
   closeOnOutsideClick: Boolean = true,
+  // A callback to check if user click inside the portal
+  // The first parameter presents the node which is clicked
+  // The second parameter presents the portal node
+  isPortalClicked: (Element, Element) => CallbackTo[Boolean] = (target, portal) => CallbackTo(target.contains(portal)),
   renderChildren: PortalWithState.RenderChildren => VdomNode
 ) {
   def apply(): VdomElement = {
@@ -29,11 +34,6 @@ final case class PortalWithState(
 }
 
 object PortalWithState {
-
-  sealed trait Status
-  case object StatusOpen extends Status
-  case object StatusClose extends Status
-  case object StatusHide extends Status
 
   case class RenderChildren(
     openPortal: Callback,
@@ -103,13 +103,15 @@ object PortalWithState {
             && Option(node).nonEmpty && EventUtils.leftButtonClicked(e)
         ) {
           val clickInside = e.target match {
-            case t: Node => node.contains(t)
-            case _       => false
+            case t: Element => props.isPortalClicked(t, node)
+            case _          => CallbackTo(false)
           }
-          if (clickInside) {
-            Callback.when(props.closeOnInsideClick)(scope.modState(_.copy(status = StatusHide)))
-          } else {
-            Callback.when(props.closeOnOutsideClick)(closePortal)
+          clickInside.flatMap { isInside =>
+            if (isInside) {
+              Callback.when(props.closeOnInsideClick)(scope.modState(_.copy(status = StatusHide)))
+            } else {
+              Callback.when(props.closeOnOutsideClick)(closePortal)
+            }
           }
         }
         _ <- Callback {
@@ -141,7 +143,10 @@ object PortalWithState {
 
   val component = ScalaComponent
     .builder[PortalWithState](ComponentName)
-    .initialState(State())
+    .initialStateFromProps { props =>
+      val status = if (props.isOpen) StatusOpen else StatusClose
+      State(status = status)
+    }
     .renderBackend[Backend]
     .configure(
       EventListener[MouseEvent].install("click", _.backend.onDocumentClick, _ => dom.document),

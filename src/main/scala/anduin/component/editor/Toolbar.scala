@@ -9,7 +9,7 @@ import org.scalajs.dom.window
 import anduin.component.icon.{Icon, Iconv2}
 import anduin.component.menu.VerticalDivider
 import anduin.component.modal.OpenModalButton
-import anduin.component.portal.{Popover, PortalWithState}
+import anduin.component.portal.{Popover, StatusOpen}
 import anduin.component.util.JavaScriptUtils
 import anduin.scalajs.slate.Slate.{Change, Value}
 import anduin.style.Style
@@ -159,7 +159,7 @@ object Toolbar {
                 <.a(
                   ^.classSet(
                     "btn -plain -icon-only" -> true,
-                    "-selected" -> (status == PortalWithState.StatusOpen)
+                    "-selected" -> (status == StatusOpen)
                   ),
                   ^.href := JavaScriptUtils.voidMethod,
                   ^.onClick --> open,
