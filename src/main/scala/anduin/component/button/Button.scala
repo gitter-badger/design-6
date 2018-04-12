@@ -16,6 +16,7 @@ final case class Button(
   size: Button.Size = Button.SizeMedium,
   onClick: Callback = Callback.empty,
   isMinimal: Boolean = false,
+  isFullWidth: Boolean = false,
   isDisabled: Boolean = false, // if tpe != link
   href: String = "" // if tpe == link
 ) {
@@ -100,6 +101,10 @@ object Button {
         Style.disabled.shadowBorderGray4,
         // help with usage with icon
         Style.flexbox.flex,
+        Style.width.percent100.flexbox.justifyCenter
+          .when(props.isFullWidth),
+        // since it has flex (block level) anyway
+        Style.width.percent100,
         // specific styles
         props.size.style,
         if (props.isMinimal) props.color.minimal else props.color.full,
