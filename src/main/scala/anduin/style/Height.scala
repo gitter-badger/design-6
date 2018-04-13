@@ -2,18 +2,17 @@
 
 package anduin.style
 
-// See https://github.com/tachyons-css/tachyons/blob/master/src/_heights.css
 private[style] final case class Height(classes: List[String] = List.empty) {
+  def px16: Style = new Style(classes :+ "h1")
+  def px32: Style = new Style(classes :+ "h2")
+  def px64: Style = new Style(classes :+ "h3")
+  def px128: Style = new Style(classes :+ "h4")
+  def px256: Style = new Style(classes :+ "h5")
 
-  def size1: Style = new Style(classes :+ "h1")
-  def size2: Style = new Style(classes :+ "h2")
-  def size3: Style = new Style(classes :+ "h3")
-  def size4: Style = new Style(classes :+ "h4")
-  def size5: Style = new Style(classes :+ "h5")
-
-  def percent100: Style = new Style(classes :+ "h-100")
-  def screenPercent100: Style = new Style(classes :+ "vh-100")
-  def minScreenHeight100: Style = new Style(classes :+ "min-vh-100")
+  def pc100: Style = new Style(classes :+ "h-100")
+  def minPc100: Style = new Style(classes :+ "min-h-100")
+  def vh100: Style = new Style(classes :+ "vh-100")
+  def minVh100: Style = new Style(classes :+ "min-vh-100")
 
   def auto: Style = new Style(classes :+ "h-auto")
   def inherit: Style = new Style(classes :+ "h-inherit")

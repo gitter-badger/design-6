@@ -2,7 +2,6 @@
 
 package anduin.style
 
-// See https://github.com/tachyons-css/tachyons/blob/master/src/_flexbox.css
 // scalastyle:off number.of.methods
 private[style] final case class Flexbox(classes: List[String] = List.empty) {
 

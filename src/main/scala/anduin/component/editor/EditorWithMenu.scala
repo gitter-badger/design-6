@@ -92,13 +92,13 @@ object EditorWithMenu {
         <.div(
           ^.classSet(
             Style
-              .position.absolute.zIndex.z9999
+              .position.absolute.zIndex.idx9999
               .color.white.backgroundColor.gray9
-              .borderRadius.r3
+              .borderRadius.px8
               .padding.ver4.padding.hor16
               .value -> true,
-            Style.opacity.zero.value -> state.hrefOpt.isEmpty,
-            Style.opacity.opacity100.value -> state.hrefOpt.nonEmpty
+            Style.opacity.pc0.value -> state.hrefOpt.isEmpty,
+            Style.opacity.pc100.value -> state.hrefOpt.nonEmpty
           ),
           ^.top := s"${state.top}px",
           ^.left := s"${state.left}px",

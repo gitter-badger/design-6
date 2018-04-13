@@ -2,14 +2,12 @@
 
 package anduin.style
 
-// See https://github.com/tachyons-css/tachyons/blob/master/src/_font-weight.css
 private[style] final case class FontWeight(classes: List[String] = List.empty) {
-
-  def size100: Style = new Style(classes :+ "fw1")
-  def size200: Style = new Style(classes :+ "fw2")
-  def size300: Style = new Style(classes :+ "fw3")
-  def size400: Style = new Style(classes :+ "fw4")
-  def size500: Style = new Style(classes :+ "fw5")
-  def size600: Style = new Style(classes :+ "fw6")
-  def size700: Style = new Style(classes :+ "fw7")
+  def thin: Style = new Style(classes :+ "fw1")
+  def extraLight: Style = new Style(classes :+ "fw2")
+  def light: Style = new Style(classes :+ "fw3")
+  def normal: Style = new Style(classes :+ "fw4")
+  def medium: Style = new Style(classes :+ "fw5")
+  def semiBold: Style = new Style(classes :+ "fw6")
+  def bold: Style = new Style(classes :+ "fw7")
 }

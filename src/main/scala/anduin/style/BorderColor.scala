@@ -2,7 +2,6 @@
 
 package anduin.style
 
-// See https://github.com/tachyons-css/tachyons/blob/master/src/_border-colors.css
 // scalastyle:off number.of.methods
 private[style] final case class BorderColor(classes: List[String] = List.empty) {
 

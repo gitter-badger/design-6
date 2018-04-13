@@ -43,7 +43,7 @@ object Button {
   }
   private case object ColorBase {
     val minimal: TagMod = Style.hover.colorWhite.active.colorWhite
-    val full: TagMod = Style.color.white.shadow.size2
+    val full: TagMod = Style.color.white.shadow.blur1Dark
   }
   case object ColorPrimary extends Color {
     private val selfMinimal = Style.color.primary4.hover.shadowBorderPrimary5s.active.shadowBorderPrimary5s
@@ -77,12 +77,12 @@ object Button {
   case object TpeReset extends Tpe { val value = "reset" }
 
   sealed trait Size { val style: TagMod }
-  case object SizeLarge extends Size { val style: TagMod = Style.padding.ver12.padding.hor16.fontSize.size5 }
-  case object SizeMedium extends Size { val style: TagMod = Style.padding.ver8.padding.hor16.fontSize.size6 }
-  case object SizeSmall extends Size { val style: TagMod = Style.padding.ver4.padding.hor8.fontSize.size7 }
+  case object SizeLarge extends Size { val style: TagMod = Style.padding.ver12.padding.hor16.fontSize.px16 }
+  case object SizeMedium extends Size { val style: TagMod = Style.padding.ver8.padding.hor16.fontSize.px14 }
+  case object SizeSmall extends Size { val style: TagMod = Style.padding.ver4.padding.hor8.fontSize.px12 }
 
   private val commonStyles = TagMod(
-    Style.lineHeight.size1.fontWeight.size500.borderRadius.r1,
+    Style.lineHeight.px16.fontWeight.medium.borderRadius.px2,
     Style.focus.outline.transition.allWithOutline,
     // disabled styles
     Style.disabled.colorGray6.disabled.backgroundGray2,
@@ -107,7 +107,7 @@ object Button {
         commonStyles,
         // specific styles
         TagMod.when(props.isFullWidth) {
-          Style.width.percent100.flexbox.justifyCenter
+          Style.width.pc100.flexbox.justifyCenter
         },
         props.size.style,
         if (props.isMinimal) props.color.minimal else props.color.full,

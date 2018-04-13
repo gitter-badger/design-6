@@ -29,7 +29,7 @@ class MenuSelect[I] {
   private case class Backend(scope: BackendScope[Props, _]) {
     def render(props: Props, children: PropsChildren): VdomElement = {
       <.div(
-        Style.border.all.borderRadius.r2,
+        Style.border.all.borderRadius.px4,
         ^.cls := "at-b--gray-2",
         <.ul(
           ^.cls := "at-menu -divider -custom-height -clickable -light-active",
