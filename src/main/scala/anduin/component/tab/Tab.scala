@@ -70,7 +70,7 @@ object Tab {
                 <.li(
                   ^.key := index,
                   ^.classSet(
-                    s"tab-item pointer ${item.headerClass}" -> true,
+                    s"tab-item cursor-pointer ${item.headerClass}" -> true,
                     "-active" -> (index == state.activeIndex),
                     "disabled" -> !item.enabled
                   ),
