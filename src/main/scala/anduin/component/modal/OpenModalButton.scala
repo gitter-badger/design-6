@@ -22,6 +22,7 @@ final case class OpenModalButton(
   modalClasses: String = "",
   modalBody: Callback => VdomNode = _ => EmptyVdom,
   modalHeader: Option[Modal.ModalHeaderRenderer] = None,
+  modalStyle: Map[String, String] = Map.empty,
   overlayCloseable: Boolean = true,
   closeOnEscape: Boolean = true,
   isOpen: Boolean = false,
@@ -123,7 +124,8 @@ object OpenModalButton {
             shouldCloseOnEscape = props.closeOnEscape,
             onRequestClose = hide,
             showCloseBtn = props.showCloseBtn,
-            renderHeader = props.modalHeader
+            renderHeader = props.modalHeader,
+            contentStyles = props.modalStyle
           )(props.modalBody)
         }
       )
