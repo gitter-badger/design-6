@@ -27,6 +27,7 @@ class Style(val classes: List[String]) {
   def display: Display = Display(classes)
   def disabled: Disabled = Disabled(classes)
   def flexbox: Flexbox = Flexbox(classes)
+  def focus: Focus = Focus(classes)
   def fontFamily: FontFamily = FontFamily(classes)
   def fontSize: FontSize = FontSize(classes)
   def fontStyle: FontStyle = FontStyle(classes)
@@ -50,6 +51,7 @@ class Style(val classes: List[String]) {
   def textTransform: TextTransform = TextTransform(classes)
   // TODO: only usage is Truncate, which should be a component
   def typography: Typography = Typography(classes)
+  def transition: Transition = Transition(classes)
   // TODO: reconsider these usages
   def utilities: Utilities = Utilities(classes)
   def verticalAlign: VerticalAlign = VerticalAlign(classes)
