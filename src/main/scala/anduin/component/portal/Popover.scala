@@ -3,7 +3,7 @@
 package anduin.component.portal
 
 import org.scalajs.dom.document
-import org.scalajs.dom.raw.HTMLElement
+import org.scalajs.dom.raw.Element
 
 import anduin.style.Style
 
@@ -20,6 +20,7 @@ final case class Popover(
   closeOnEsc: Boolean = true,
   closeOnInsideClick: Boolean = true,
   closeOnOutsideClick: Boolean = true,
+  isPortalClicked: (Element, Element) => CallbackTo[Boolean] = PortalWithState.IsPortalClicked,
   renderTarget: (Callback, Status) => VdomElement,
   renderContent: Callback => VdomElement
 ) {
@@ -54,8 +55,8 @@ object Popover {
 
   private case class Backend(scope: BackendScope[Popover, _]) {
 
-    private val targetRef = Ref[HTMLElement]
-    private val portalRef = Ref[HTMLElement]
+    private val targetRef = Ref[Element]
+    private val portalRef = Ref[Element]
 
     // scalastyle:off cyclomatic.complexity
     private def onOpenPortal = {
@@ -97,6 +98,7 @@ object Popover {
         closeOnEsc = props.closeOnEsc,
         closeOnInsideClick = props.closeOnInsideClick,
         closeOnOutsideClick = props.closeOnOutsideClick,
+        isPortalClicked = props.isPortalClicked,
         renderChildren = renderer =>
           <.div(
             <.div.withRef(targetRef)(
