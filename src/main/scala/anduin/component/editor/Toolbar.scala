@@ -4,6 +4,7 @@ package anduin.component.editor
 
 import scala.scalajs.js
 
+import org.scalajs.dom.raw.Element
 import org.scalajs.dom.window
 
 import anduin.component.icon.{Icon, Iconv2}
@@ -20,6 +21,7 @@ import japgolly.scalajs.react.vdom.html_<^._
 // scalastyle:on underscore.import
 
 final case class Toolbar(
+  editorRef: () => CallbackOption[Element],
   value: Value,
   onChange: Change => Callback,
   attachmentButton: TagMod
@@ -151,6 +153,14 @@ object Toolbar {
           Popover(
             position = Popover.PositionBottom,
             popoverClassName = "format-popover",
+            closeOnInsideClick = false,
+            isPortalClicked = (target, portal) => {
+              if (portal.contains(target)) {
+                CallbackTo(true)
+              } else {
+                props.editorRef().map(_.contains(target)).getOrElse(false)
+              }
+            },
             verticalOffset = 8,
             renderTarget = (open, status) =>
               <.span(
