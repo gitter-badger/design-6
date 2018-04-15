@@ -25,7 +25,7 @@ final case class PortalWithState(
   // A callback to check if user click inside the portal
   // The first parameter presents the node which is clicked
   // The second parameter presents the portal node
-  isPortalClicked: (Element, Element) => CallbackTo[Boolean] = (target, portal) => CallbackTo(target.contains(portal)),
+  isPortalClicked: (Element, Element) => CallbackTo[Boolean] = PortalWithState.IsPortalClicked,
   renderChildren: PortalWithState.RenderChildren => VdomNode
 ) {
   def apply(): VdomElement = {
@@ -41,6 +41,8 @@ object PortalWithState {
     portal: VdomElement => VdomNode,
     status: Status
   )
+
+  val IsPortalClicked = (target: Element, portal: Element) => CallbackTo(portal.contains(target))
 
   private val ComponentName = this.getClass.getSimpleName
 
