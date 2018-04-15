@@ -2,11 +2,11 @@
 
 package anduin.component.button
 
+import anduin.component.loader.InlineLoader
+
 // scalastyle:off underscore.import
 import japgolly.scalajs.react._
 import japgolly.scalajs.react.vdom.html_<^._
-
-import anduin.style.Style
 // scalastyle:on underscore.import
 
 /**
@@ -47,9 +47,8 @@ final case class ProgressButton(
   onClick: Callback = Callback.empty,
   extraTagMods: Seq[TagMod] = Seq.empty
 ) {
-  def apply(children: VdomNode*): ScalaComponent.Unmounted[_, _, _] = {
-    ProgressButton.component(this)(children: _*)
-  }
+
+  def apply(children: VdomNode*): VdomElement = ProgressButton.component(this)(children: _*)
 }
 // scalastyle:on multiple.string.literals
 
@@ -94,12 +93,7 @@ object ProgressButton {
         ^.onClick ==> onClick,
         ^.disabled := ((props.status == Status.Loading) || (props.status == Status.Disabled) || (props.status == Status.Success)),
         TagMod.when(props.status == Status.Loading)(
-          <.div(
-            ^.cls := s"${Style.margin.right4} loader-inline",
-            <.span(^.cls := "item"),
-            <.span(^.cls := "item"),
-            <.span(^.cls := "item")
-          )
+          InlineLoader()
         ),
         TagMod(props.extraTagMods: _*),
         props.labels(props.status),

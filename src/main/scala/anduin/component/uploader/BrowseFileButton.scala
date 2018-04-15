@@ -25,7 +25,8 @@ final case class BrowseFileButton(
   keyOpt: Option[String] = None,
   acceptFileTypes: Option[String] = None
 ) {
-  def apply(children: VdomNode*): ScalaComponent.Unmounted[_, _, _] = {
+
+  def apply(children: VdomNode*): VdomElement = {
     val component =
       keyOpt.map(BrowseFileButton.component.withKey(_)).getOrElse(BrowseFileButton.component.ctor)
     component(this)(children: _*)
