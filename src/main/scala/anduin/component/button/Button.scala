@@ -81,16 +81,6 @@ object Button {
   case object SizeMedium extends Size { val style: TagMod = Style.padding.ver8.padding.hor16.fontSize.px14 }
   case object SizeSmall extends Size { val style: TagMod = Style.padding.ver4.padding.hor8.fontSize.px12 }
 
-  private val commonStyles = TagMod(
-    Style.lineHeight.px16.fontWeight.medium.borderRadius.px2,
-    Style.focus.outline.transition.allWithOutline,
-    // disabled styles
-    Style.disabled.colorGray6.disabled.backgroundGray2,
-    Style.disabled.shadowBorderGray4,
-    // help with usage with icon
-    Style.flexbox.flex
-  )
-
   private case class Backend(scope: BackendScope[Button, _]) {
 
     private def onClick(e: ReactEventFromHtml) = {
@@ -104,12 +94,20 @@ object Button {
 
     def render(props: Button, children: PropsChildren): VdomElement = {
       val commonMods = TagMod(
-        commonStyles,
-        // specific styles
+        // common styles
+        Style.lineHeight.px16.fontWeight.medium.borderRadius.px2,
+        Style.flexbox.flex.focus.outline.transition.allWithOutline,
+        // disabled styles
+        Style.disabled.colorGray6,
+        TagMod.when(!props.isMinimal) {
+          Style.disabled.backgroundGray2.disabled.shadowBorderGray4
+        },
+        // size and minimal styles
         TagMod.when(props.isFullWidth) {
           Style.width.pc100.flexbox.justifyCenter
         },
         props.size.style,
+        // color styles
         if (props.isMinimal) props.color.minimal else props.color.full,
         props.color.shared,
         // behaviours
