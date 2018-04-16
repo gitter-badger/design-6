@@ -50,7 +50,7 @@ object PortalWithState {
 
   case class Backend(scope: BackendScope[PortalWithState, State]) extends OnUnmount {
 
-    private val portalRef = Ref.toScalaComponent(Portal.component)
+    private val portalRef = Ref.toScalaComponent(LegacyPortal.component)
 
     private var shouldCloseOpt: Option[Boolean] = None // scalastyle:off var.field
 
@@ -81,7 +81,7 @@ object PortalWithState {
       } else {
         portalRef
           .component(
-            Portal(
+            LegacyPortal(
               nodeClasses = props.nodeClasses
             )
           )(children)

@@ -52,19 +52,17 @@ object LegacyPortal {
     }
 
     private def renderPortal() = {
-      scope.props.flatMap { props =>
-        if (node == null) { // scalastyle:ignore
-          node = dom.document.createElement("div")
-          dom.document.body.appendChild(node)
-        }
-
-        for {
-          children <- scope.propsChildren
-          _ <- Callback {
-            ReactDom.renderSubtreeIntoContainer(component.raw, children.raw, node)
-          }
-        } yield ()
+      if (node == null) { // scalastyle:ignore
+        node = dom.document.createElement("div")
+        dom.document.body.appendChild(node)
       }
+
+      for {
+        children <- scope.propsChildren
+        _ <- Callback {
+          ReactDom.renderSubtreeIntoContainer(scope.raw, children.rawNode, node)
+        }
+      } yield ()
     }
 
     def getNode: Element = {

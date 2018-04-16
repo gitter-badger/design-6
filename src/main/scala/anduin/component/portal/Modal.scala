@@ -17,7 +17,7 @@ final case class Modal(
   size: Modal.Size = Modal.SizeDefault,
   closeOnEsc: Boolean = true,
   closeOnOutsideClick: Boolean = true,
-  renderTarget: (Callback, Status) => VdomElement,
+  renderTarget: (Callback, Status) => VdomNode,
   renderHeader: Option[(String, Callback) => VdomNode] = None, // (title, closing callback) => header
   renderContent: Callback => VdomElement,
   renderFooter: Option[(Callback => VdomNode)] = None,
