@@ -2,8 +2,8 @@
 
 package anduin.component.modal
 
+import anduin.component.button.Button
 import anduin.component.tooltip.Tooltip
-import anduin.component.util.JavaScriptUtils
 import anduin.scalajs.react.hammer.ReactHammer
 
 // scalastyle:off underscore.import
@@ -14,7 +14,8 @@ import japgolly.scalajs.react.vdom.html_<^._
 // scalastyle:off parameter.number
 final case class OpenModalButton(
   buttonLabel: String,
-  buttonClasses: String = "",
+  buttonClasses: String = "flex items-center",
+  buttonColor: Button.Color = Button.ColorPrimary,
   disabled: Boolean = false,
   tip: String = "",
   tipPlacement: Tooltip.Placement = Tooltip.Placement.Top,
@@ -50,9 +51,8 @@ object OpenModalButton {
 
   private case class Backend(scope: BackendScope[OpenModalButton, State]) {
 
-    private def show(e: ReactEventFromHtml): Callback = {
+    private def show(): Callback = {
       for {
-        _ <- e.stopPropagationCB
         props <- scope.props
         _ <- Callback.unless(props.disabled) {
           for {
@@ -94,25 +94,23 @@ object OpenModalButton {
               show(e)
           }
         )(
-          <.a(
-            ^.href := JavaScriptUtils.voidMethod,
-            ^.classSet(
-              s"dib ${props.buttonClasses}" -> true,
-              "disabled" -> props.disabled
-            ),
-            TagMod.when(!props.isOnMobile) {
-              ^.onClick ==> show
-            },
-            if (props.tip.nonEmpty) {
-              Tooltip(tip = props.tip, placement = props.tipPlacement)(props.buttonLabel)
-            } else {
-              props.buttonLabel
-            },
-            if (props.buttonLabel.isEmpty && props.tip.nonEmpty) {
-              Tooltip(tip = props.tip, placement = props.tipPlacement)(children)
-            } else {
-              children
-            }
+          <.span(
+            Button(
+              onClick = show,
+              isDisabled = props.disabled,
+              color = props.buttonColor
+            )(
+              if (props.tip.nonEmpty) {
+                Tooltip(tip = props.tip, placement = props.tipPlacement)(props.buttonLabel)
+              } else {
+                props.buttonLabel
+              },
+              if (props.buttonLabel.isEmpty && props.tip.nonEmpty) {
+                Tooltip(tip = props.tip, placement = props.tipPlacement)(children)
+              } else {
+                children
+              }
+            )
           )
         ),
         TagMod.unless(props.disabled) {
