@@ -6,6 +6,7 @@ import org.scalajs.dom.KeyboardEvent
 
 import anduin.component.editor.Editor.{RenderMarkProps, RenderNodeProps}
 import anduin.component.editor.renderer.{ImageRenderer, LinkRenderer, MarkRenderer, TextAlignRenderer}
+import anduin.style.Style
 
 // scalastyle:off underscore.import
 import japgolly.scalajs.react._
@@ -72,7 +73,7 @@ object RichEditor {
       val children = PropsChildren.fromRawProps(props)
       props.node.nodeType match {
         case BlockQuoteNode.nodeType    => <.blockquote(children).rawElement
-        case ParagraphNode.nodeType     => <.p(children).rawElement
+        case ParagraphNode.nodeType     => <.p(Style.margin.bottom12, children).rawElement
         case CodeNode.nodeType          => <.pre(<.code(children)).rawElement
         case OrderedListNode.nodeType   => <.ol(children).rawElement
         case UnorderedListNode.nodeType => <.ul(children).rawElement

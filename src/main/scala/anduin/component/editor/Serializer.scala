@@ -10,6 +10,7 @@ import org.scalajs.dom.raw.{DOMParser, NodeList}
 import anduin.component.editor.renderer.{ImageRenderer, LinkRenderer, MarkRenderer, TextAlignRenderer}
 import anduin.component.util.NodeListSeq
 import anduin.scalajs.slate.Slate.Value
+import anduin.style.Style
 
 // scalastyle:off underscore.import
 import japgolly.scalajs.react._
@@ -62,7 +63,7 @@ object Serializer {
       } else {
         obj.tpe match {
           case CodeNode.nodeType          => <.pre(<.code(createChildren(children))).rawElement
-          case ParagraphNode.nodeType     => <.p(createChildren(children)).rawElement
+          case ParagraphNode.nodeType     => <.p(Style.margin.bottom12, createChildren(children)).rawElement
           case BlockQuoteNode.nodeType    => <.blockquote(BlockQuoteAttrs, createChildren(children)).rawElement
           case ListItemNode.nodeType      => <.li(createChildren(children)).rawElement
           case UnorderedListNode.nodeType => <.ul(createChildren(children)).rawElement
