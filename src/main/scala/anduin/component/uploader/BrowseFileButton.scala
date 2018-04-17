@@ -5,6 +5,7 @@ package anduin.component.uploader
 import japgolly.scalajs.react.vdom.Exports.VdomTagOf
 import org.scalajs.dom.FileList
 import org.scalajs.dom.html.Anchor
+import org.scalajs.dom.raw.HTMLInputElement
 
 import anduin.component.util.JavaScriptUtils
 
@@ -22,6 +23,7 @@ final case class BrowseFileButton(
   classes: String = "",
   tip: String = "",
   onBrowse: FileList => Callback = _ => Callback.empty,
+  onChange: Ref[HTMLInputElement, HTMLInputElement] => Callback = _ => Callback.empty,
   keyOpt: Option[String] = None,
   acceptFileTypes: Option[String] = None
 ) {
@@ -39,11 +41,14 @@ object BrowseFileButton {
 
   private case class Backend(scope: BackendScope[BrowseFileButton, _]) {
 
+    private val inputRef = Ref[HTMLInputElement]
+
     private def onBrowseFiles(e: ReactEventFromInput) = {
       for {
         _ <- e.preventDefaultCB
         props <- scope.props
         _ <- props.onBrowse(e.target.files)
+        _ <- props.onChange(inputRef)
       } yield ()
     }
 
@@ -56,7 +61,7 @@ object BrowseFileButton {
         ^.href := JavaScriptUtils.voidMethod,
         TagMod.when(props.tip.nonEmpty)(VdomAttr("data-tip") := props.tip),
         children,
-        <.input(
+        <.input.withRef(inputRef)(
           ^.cls := "input",
           ^.tpe := "file",
           props.acceptFileTypes.whenDefined { acceptFileTypes =>
