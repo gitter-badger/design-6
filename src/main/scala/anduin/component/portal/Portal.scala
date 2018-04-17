@@ -10,10 +10,7 @@ import japgolly.scalajs.react._
 import japgolly.scalajs.react.vdom.html_<^._
 // scalastyle:on underscore.import
 
-final case class Portal(
-  detachOnUnmount: Boolean = true,
-  nodeClasses: String = ""
-) {
+final case class Portal(status: Status) {
   def apply(children: VdomNode*): VdomElement = {
     Portal.component(this)(children: _*)
   }
@@ -29,28 +26,27 @@ object Portal {
 
     def componentWillUnmount: Callback = {
       scope.props.flatMap { props =>
-        Callback.when(props.detachOnUnmount) {
-          Callback {
-            if (this.node != null) {
-              dom.document.body.removeChild(this.node)
-            }
-            this.node = null // scalastyle:ignore
+        Callback {
+          if (node != null) {
+            dom.document.body.removeChild(node)
           }
+          node = null // scalastyle:ignore
         }
       }
     }
 
-    def getNode: Element = {
-      node
-    }
+    def getNode: Element = node
 
     def render(props: Portal, children: PropsChildren): VdomNode = {
       if (node == null) { // scalastyle:ignore
         node = dom.document.createElement("div")
         dom.document.body.appendChild(node)
       }
-      node.setAttribute("class", props.nodeClasses)
-      ReactPortal(children, node)
+      if (props.status != StatusClose) {
+        ReactPortal(children, node)
+      } else {
+        EmptyVdom
+      }
     }
   }
 

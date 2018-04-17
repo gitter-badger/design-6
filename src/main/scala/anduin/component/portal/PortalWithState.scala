@@ -15,7 +15,6 @@ import japgolly.scalajs.react.vdom.html_<^._
 // scalastyle:on underscore.import
 
 final case class PortalWithState(
-  nodeClasses: String = "",
   isOpen: Boolean = false,
   onOpen: Callback = Callback.empty,
   onClose: Callback = Callback.empty,
@@ -59,7 +58,7 @@ object PortalWithState {
         props <- scope.props
         state <- scope.state
         _ <- Callback.when(state.status != StatusOpen) {
-          this.shouldCloseOpt = Some(false)
+          shouldCloseOpt = Some(false)
           scope.modState(_.copy(status = StatusOpen), props.onOpen)
         }
       } yield ()
@@ -75,18 +74,10 @@ object PortalWithState {
       } yield ()
     }
 
-    private def wrapPortal(props: PortalWithState, state: State)(children: VdomElement) = {
-      if (state.status == StatusClose) {
-        EmptyVdom
-      } else {
-        portalRef
-          .component(
-            LegacyPortal(
-              nodeClasses = props.nodeClasses
-            )
-          )(children)
-          .vdomElement
-      }
+    private def wrapPortal(state: State)(children: VdomElement) = {
+      portalRef
+        .component(LegacyPortal(status = state.status))(children)
+        .vdomElement
     }
 
     def onDocumentClick(e: MouseEvent): Callback = {
@@ -95,13 +86,13 @@ object PortalWithState {
         state <- scope.state
         portal <- portalRef.get
         _ <- Callback {
-          if (this.shouldCloseOpt.isEmpty) {
-            this.shouldCloseOpt = Some(true)
+          if (shouldCloseOpt.isEmpty) {
+            shouldCloseOpt = Some(true)
           }
         }
         node = portal.backend.getNode
         _ <- Callback.when(
-          this.shouldCloseOpt.contains(true) && state.status == StatusOpen
+          shouldCloseOpt.contains(true) && state.status == StatusOpen
             && Option(node).nonEmpty && EventUtils.leftButtonClicked(e)
         ) {
           val clickInside = e.target match {
@@ -117,7 +108,7 @@ object PortalWithState {
           }
         }
         _ <- Callback {
-          this.shouldCloseOpt = None
+          shouldCloseOpt = None
         }
       } yield ()
     }
@@ -136,7 +127,7 @@ object PortalWithState {
         RenderChildren(
           openPortal,
           closePortal,
-          wrapPortal(props, state),
+          wrapPortal(state),
           state.status
         )
       )
