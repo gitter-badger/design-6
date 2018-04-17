@@ -2,8 +2,9 @@
 
 package anduin.component.portal
 
+import japgolly.scalajs.react.extra.{EventListener, OnUnmount}
 import org.scalajs.dom
-import org.scalajs.dom.raw.Element
+import org.scalajs.dom.raw.{Element, HashChangeEvent}
 
 import anduin.scalajs.react.ReactDom
 import anduin.style.Style
@@ -25,7 +26,7 @@ object LegacyPortal {
 
   private val HideClass = Style.display.none.value
 
-  case class Backend(scope: BackendScope[LegacyPortal, _]) {
+  case class Backend(scope: BackendScope[LegacyPortal, _]) extends OnUnmount {
 
     private var node: Element = _ // scalastyle:ignore
 
@@ -33,24 +34,10 @@ object LegacyPortal {
 
     def componentDidUpdate(): Callback = renderPortal()
 
-//    def componentWillUnmount(): Callback = {
-//      println("componentWillUnmount")
-//      scope.props.flatMap { props =>
-//        Callback {
-//          if (node != null) {
-//            ReactDOM.unmountComponentAtNode(node)
-//            dom.document.body.removeChild(node)
-//          }
-//          node = null // scalastyle:ignore
-//        }
-//      }
-//    }
-
     private def renderPortal() = {
       for {
         props <- scope.props
         children <- scope.propsChildren
-        _ <- Callback.log(s"props.status --> ${props.status}")
         _ <- Callback {
           if (props.status != StatusClose) {
             if (node == null) { // scalastyle:ignore
@@ -73,15 +60,29 @@ object LegacyPortal {
     }
 
     def getNode: Element = node
+
+    def onWindowHashchange(e: HashChangeEvent): Callback = {
+      Callback.when(e.newURL != e.oldURL) {
+        Callback {
+          if (node != null) {
+            ReactDOM.unmountComponentAtNode(node)
+            dom.document.body.removeChild(node)
+          }
+          node = null // scalastyle:ignore
+        }
+      }
+    }
   }
 
   val component = ScalaComponent
     .builder[LegacyPortal](ComponentName)
     .stateless
     .backend(Backend(_))
-    .renderC((_, _) => EmptyVdom)
+    .renderC((_, _) => <.div())
     .componentDidMount(_.backend.componentDidMount())
     .componentDidUpdate(_.backend.componentDidUpdate())
-    //.componentWillUnmount(_.backend.componentWillUnmount())
+    .configure(
+      EventListener[HashChangeEvent].install("hashchange", _.backend.onWindowHashchange, _ => dom.window)
+    )
     .build
 }
