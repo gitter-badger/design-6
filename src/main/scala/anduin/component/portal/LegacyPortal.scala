@@ -24,7 +24,7 @@ object LegacyPortal {
 
   private val ComponentName = this.getClass.getSimpleName
 
-  private val HideClass = Style.display.none.value
+  private val HideClass = Style.opacity.pc0.value
 
   case class Backend(scope: BackendScope[LegacyPortal, _]) extends OnUnmount {
 
@@ -78,7 +78,7 @@ object LegacyPortal {
     .builder[LegacyPortal](ComponentName)
     .stateless
     .backend(Backend(_))
-    .renderC((_, _) => <.div())
+    .renderC((_, _) => EmptyVdom)
     .componentDidMount(_.backend.componentDidMount())
     .componentDidUpdate(_.backend.componentDidUpdate())
     .configure(

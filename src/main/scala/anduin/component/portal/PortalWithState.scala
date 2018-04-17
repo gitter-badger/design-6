@@ -2,7 +2,10 @@
 
 package anduin.component.portal
 
-import japgolly.scalajs.react.extra.{EventListener, OnUnmount}
+import scala.concurrent.duration.FiniteDuration
+import scala.concurrent.duration
+
+import japgolly.scalajs.react.extra.{EventListener, OnUnmount, TimerSupport}
 import org.scalajs.dom
 import org.scalajs.dom.ext.KeyCode
 import org.scalajs.dom.raw.{Element, KeyboardEvent, MouseEvent}
@@ -47,7 +50,7 @@ object PortalWithState {
 
   case class State(status: Status = StatusClose)
 
-  case class Backend(scope: BackendScope[PortalWithState, State]) extends OnUnmount {
+  case class Backend(scope: BackendScope[PortalWithState, State]) extends OnUnmount with TimerSupport {
 
     private val portalRef = Ref.toScalaComponent(LegacyPortal.component)
 
@@ -59,7 +62,7 @@ object PortalWithState {
         state <- scope.state
         _ <- Callback.when(state.status != StatusOpen) {
           shouldCloseOpt = Some(false)
-          scope.modState(_.copy(status = StatusOpen), props.onOpen)
+          scope.modState(_.copy(status = StatusOpen), setTimeout(props.onOpen, FiniteDuration(0, duration.SECONDS)))
         }
       } yield ()
     }
@@ -74,10 +77,8 @@ object PortalWithState {
       } yield ()
     }
 
-    private def wrapPortal(state: State)(children: VdomElement) = {
-      portalRef
-        .component(LegacyPortal(status = state.status))(children)
-        .vdomElement
+    private def renderPortal(state: State)(children: VdomElement) = {
+      portalRef.component(LegacyPortal(status = state.status))(children)
     }
 
     def onDocumentClick(e: MouseEvent): Callback = {
@@ -127,7 +128,7 @@ object PortalWithState {
         RenderChildren(
           openPortal,
           closePortal,
-          wrapPortal(state),
+          renderPortal(state),
           state.status
         )
       )
@@ -143,7 +144,8 @@ object PortalWithState {
     .renderBackend[Backend]
     .configure(
       EventListener[MouseEvent].install("click", _.backend.onDocumentClick, _ => dom.document),
-      EventListener[KeyboardEvent].install("keydown", _.backend.onDocumentKeydown, _ => dom.document)
+      EventListener[KeyboardEvent].install("keydown", _.backend.onDocumentKeydown, _ => dom.document),
+      TimerSupport.install
     )
     .build
 }
