@@ -24,7 +24,7 @@ object LegacyPortal {
 
   private val ComponentName = this.getClass.getSimpleName
 
-  private val HideClass = Style.opacity.pc0.value
+  private val HideClass = Style.display.none.value
 
   case class Backend(scope: BackendScope[LegacyPortal, _]) extends OnUnmount {
 
