@@ -88,5 +88,8 @@ private[style] final case class Hover(classes: List[String] = List.empty) {
   def shadowBorderSuccess5s: Style = new Style(classes :+ "hover-s-b--success-5s")
   def shadowBorderWarning5s: Style = new Style(classes :+ "hover-s-b--warning-5s")
   def shadowBorderDanger5s: Style = new Style(classes :+ "hover-s-b--danger-5s")
+
+  /* Underline */
+  def underline: Style = new Style(classes :+ "underline-hover")
 }
 // scalastyle:on number.of.methods

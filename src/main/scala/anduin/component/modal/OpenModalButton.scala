@@ -16,6 +16,9 @@ final case class OpenModalButton(
   buttonLabel: String,
   buttonClasses: String = "flex items-center",
   buttonColor: Button.Color = Button.ColorPrimary,
+  buttonTpe: Button.Tpe = Button.TpeDefault,
+  isMinimal: Boolean = false,
+  isLink: Boolean = false,
   disabled: Boolean = false,
   tip: String = "",
   tipPlacement: Tooltip.Placement = Tooltip.Placement.Top,
@@ -98,7 +101,9 @@ object OpenModalButton {
             Button(
               onClick = show,
               isDisabled = props.disabled,
-              color = props.buttonColor
+              color = props.buttonColor,
+              isMinimal = props.isMinimal,
+              isLink = props.isLink
             )(
               if (props.tip.nonEmpty) {
                 Tooltip(tip = props.tip, placement = props.tipPlacement)(props.buttonLabel)

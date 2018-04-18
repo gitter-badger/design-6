@@ -18,6 +18,7 @@ final case class Button(
   isMinimal: Boolean = false,
   isFullWidth: Boolean = false,
   isDisabled: Boolean = false, // if tpe != link
+  isLink: Boolean = false,
   href: String = "" // if tpe == link
 ) {
   def apply(children: VdomNode*): VdomElement = {
@@ -106,10 +107,16 @@ object Button {
         TagMod.when(props.isFullWidth) {
           Style.width.pc100.flexbox.justifyCenter
         },
-        props.size.style,
+        if (props.isLink) {
+          Style.color.primary4.hover.underline
+        } else {
+          TagMod(
+            props.size.style,
+            props.color.shared
+          )
+        },
         // color styles
-        if (props.isMinimal) props.color.minimal else props.color.full,
-        props.color.shared,
+        if (props.isMinimal) props.color.minimal else if (props.isLink) "" else props.color.full,
         // behaviours
         ^.onClick ==> onClick,
         children
