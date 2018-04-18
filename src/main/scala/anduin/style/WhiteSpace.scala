@@ -6,4 +6,5 @@ private[style] final case class WhiteSpace(classes: List[String] = List.empty) {
   def normal: Style = new Style(classes :+ "ws-normal")
   def noWrap: Style = new Style(classes :+ "nowrap")
   def pre: Style = new Style(classes :+ "pre")
+  def preWrap: Style = new Style(classes :+ "pre-wrap")
 }
