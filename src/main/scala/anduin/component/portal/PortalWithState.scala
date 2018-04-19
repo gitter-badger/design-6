@@ -28,7 +28,8 @@ final case class PortalWithState(
   // The first parameter presents the node which is clicked
   // The second parameter presents the portal node
   isPortalClicked: (Element, Element) => CallbackTo[Boolean] = PortalWithState.IsPortalClicked,
-  renderChildren: PortalWithState.RenderChildren => VdomNode
+  renderTarget: (Callback, Status) => VdomNode,
+  renderContent: (Callback, Status) => VdomNode
 ) {
   def apply(): VdomElement = {
     PortalWithState.component(this)
@@ -36,13 +37,6 @@ final case class PortalWithState(
 }
 
 object PortalWithState {
-
-  case class RenderChildren(
-    openPortal: Callback,
-    closePortal: Callback,
-    portal: VdomElement => VdomNode,
-    status: Status
-  )
 
   val IsPortalClicked = (target: Element, portal: Element) => CallbackTo(portal.contains(target))
 
@@ -62,6 +56,11 @@ object PortalWithState {
         state <- scope.state
         _ <- Callback.when(state.status != StatusOpen) {
           shouldCloseOpt = Some(false)
+          // When the status is open, the portal is rendered.
+          // But `ReactDom.renderSubtreeIntoContainer` used in `LegacyPortal` is async, we have to use
+          // `setTimeout(..., 0)` to ensure that the rendering process is done completely.
+          // Hence, `props.onOpen` is able to access the element inside the portal without any problems.
+          // Notice that we don't need this if use `Portal`.
           scope.modState(_.copy(status = StatusOpen), setTimeout(props.onOpen, FiniteDuration(0, duration.SECONDS)))
         }
       } yield ()
@@ -75,10 +74,6 @@ object PortalWithState {
           scope.modState(_.copy(status = StatusClose), props.onClose)
         }
       } yield ()
-    }
-
-    private def renderPortal(state: State)(children: VdomElement) = {
-      portalRef.component(LegacyPortal(status = state.status))(children)
     }
 
     def onDocumentClick(e: MouseEvent): Callback = {
@@ -123,13 +118,15 @@ object PortalWithState {
       } yield ()
     }
 
-    def render(props: PortalWithState, state: State): VdomNode = {
-      props.renderChildren(
-        RenderChildren(
-          openPortal,
-          closePortal,
-          renderPortal(state),
-          state.status
+    def render(props: PortalWithState, state: State): VdomArray = {
+      // We don't need to wrap a `div` here because the portal's `render` actually doesn't render anything
+      VdomArray(
+        props.renderTarget(openPortal, state.status),
+        portalRef.component(
+          LegacyPortal(
+            status = state.status,
+            children = props.renderContent
+          )
         )
       )
     }

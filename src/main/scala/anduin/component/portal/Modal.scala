@@ -59,36 +59,32 @@ object Modal {
         isPortalClicked = (target, _) => isPortalClicked(target),
         onOpen = props.onOpen,
         onClose = props.onClose,
-        renderChildren = renderer => {
+        renderTarget = props.renderTarget,
+        renderContent = (close, status) => {
           <.div(
-            props.renderTarget(renderer.openPortal, renderer.status),
-            renderer.portal(
-              <.div(
-                ^.classSet(
-                  "modal-wrapper modal-overlay" -> true,
-                  props.size.className -> true,
-                  "-open" -> (renderer.status == StatusOpen),
-                  "-hide" -> (renderer.status == StatusHide)
-                ),
-                <.div.withRef(modalRef)(
-                  ^.cls := "modal",
-                  props.renderHeader.fold[VdomNode] {
-                    <.div(
-                      ^.cls := "modal-header",
-                      <.h3(^.cls := "title", props.title),
-                      <.div(
-                        ^.cls := "close",
-                        ^.onClick --> renderer.closePortal,
-                        IconAcl(name = IconAcl.NameCross)()
-                      )
-                    )
-                  }(_(props.title, renderer.closePortal)),
-                  <.div(^.cls := "modal-body", props.renderContent(renderer.closePortal)),
-                  props.renderFooter.fold(EmptyVdom) { footer =>
-                    <.div(^.cls := "modal-footer", footer(renderer.closePortal))
-                  }
+            ^.classSet(
+              "modal-wrapper modal-overlay" -> true,
+              props.size.className -> true,
+              "-open" -> (status == StatusOpen),
+              "-hide" -> (status == StatusHide)
+            ),
+            <.div.withRef(modalRef)(
+              ^.cls := "modal",
+              props.renderHeader.fold[VdomNode] {
+                <.div(
+                  ^.cls := "modal-header",
+                  <.h3(^.cls := "title", props.title),
+                  <.div(
+                    ^.cls := "close",
+                    ^.onClick --> close,
+                    IconAcl(name = IconAcl.NameCross)()
+                  )
                 )
-              )
+              }(_(props.title, close)),
+              <.div(^.cls := "modal-body", props.renderContent(close)),
+              props.renderFooter.fold(EmptyVdom) { footer =>
+                <.div(^.cls := "modal-footer", footer(close))
+              }
             )
           )
         }

@@ -99,24 +99,23 @@ object Popover {
         closeOnInsideClick = props.closeOnInsideClick,
         closeOnOutsideClick = props.closeOnOutsideClick,
         isPortalClicked = props.isPortalClicked,
-        renderChildren = renderer =>
-          <.div(
-            <.div.withRef(targetRef)(
-              props.renderTarget(renderer.openPortal, renderer.status)
+        renderTarget = (open, status) => {
+          <.div.withRef(targetRef)(
+            props.renderTarget(open, status)
+          )
+        },
+        renderContent = (close, status) => {
+          <.div.withRef(portalRef)(
+            ^.classSet(
+              "at-popover" -> true,
+              props.position.className -> true,
+              props.popoverClassName -> true,
+              "-show" -> (status == StatusOpen),
+              "-hide" -> (status == StatusHide)
             ),
-            renderer.portal(
-              <.div.withRef(portalRef)(
-                ^.classSet(
-                  "at-popover" -> true,
-                  props.position.className -> true,
-                  props.popoverClassName -> true,
-                  "-show" -> (renderer.status == StatusOpen),
-                  "-hide" -> (renderer.status == StatusHide)
-                ),
-                props.renderContent(renderer.closePortal)
-              )
-            )
-        )
+            props.renderContent(close)
+          )
+        }
       )()
     }
   }

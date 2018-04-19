@@ -7,24 +7,24 @@ import org.scalajs.dom
 import org.scalajs.dom.raw.{Element, HashChangeEvent}
 
 import anduin.scalajs.react.ReactDom
-import anduin.style.Style
 
 // scalastyle:off underscore.import
 import japgolly.scalajs.react._
 import japgolly.scalajs.react.vdom.html_<^._
 // scalastyle:on underscore.import
 
-final case class LegacyPortal(status: Status) {
-  def apply(children: VdomNode*): VdomElement = {
-    LegacyPortal.component(this)(children: _*)
+final case class LegacyPortal(
+  status: Status,
+  children: (Callback, Status) => VdomNode
+) {
+  def apply(): VdomElement = {
+    LegacyPortal.component(this)
   }
 }
 
 object LegacyPortal {
 
   private val ComponentName = this.getClass.getSimpleName
-
-  private val HideClass = Style.display.none.value
 
   case class Backend(scope: BackendScope[LegacyPortal, _]) extends OnUnmount {
 
@@ -34,42 +34,46 @@ object LegacyPortal {
 
     def componentDidUpdate(): Callback = renderPortal()
 
+    def render(): VdomNode = EmptyVdom
+
     private def renderPortal() = {
       for {
         props <- scope.props
-        children <- scope.propsChildren
-        _ <- Callback {
+        children = props.children(unmountNode(), props.status)
+        _ <- {
           if (props.status != StatusClose) {
             if (node == null) { // scalastyle:ignore
               node = dom.document.createElement("div")
               dom.document.body.appendChild(node)
             }
-            if (node.classList.contains(HideClass)) {
-              node.classList.remove(HideClass)
-            }
 
-            ReactDom.renderSubtreeIntoContainer(scope.raw, children.rawNode, node)
-          } else {
-            if (node != null) {
-              // Hide the node
-              node.classList.add(HideClass)
+            Callback {
+              ReactDom.renderSubtreeIntoContainer(scope.raw, children.rawNode, node)
             }
+          } else {
+            unmountNode()
           }
         }
       } yield ()
     }
 
+    private def unmountNode() = {
+      Callback {
+        if (node != null) {
+          ReactDOM.unmountComponentAtNode(node)
+          dom.document.body.removeChild(node)
+        }
+        node = null // scalastyle:ignore
+      }
+    }
+
     def getNode: Element = node
 
+    // We don't unmount the component automatically when the parent node is unmounted.
+    // Instead, the component is unmounted when user switch to other page
     def onWindowHashchange(e: HashChangeEvent): Callback = {
       Callback.when(e.newURL != e.oldURL) {
-        Callback {
-          if (node != null) {
-            ReactDOM.unmountComponentAtNode(node)
-            dom.document.body.removeChild(node)
-          }
-          node = null // scalastyle:ignore
-        }
+        unmountNode()
       }
     }
   }
@@ -77,8 +81,7 @@ object LegacyPortal {
   val component = ScalaComponent
     .builder[LegacyPortal](ComponentName)
     .stateless
-    .backend(Backend(_))
-    .renderC((_, _) => EmptyVdom)
+    .renderBackend[Backend]
     .componentDidMount(_.backend.componentDidMount())
     .componentDidUpdate(_.backend.componentDidUpdate())
     .configure(
