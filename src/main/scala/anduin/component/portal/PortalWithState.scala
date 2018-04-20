@@ -42,9 +42,9 @@ object PortalWithState {
 
   private val ComponentName = this.getClass.getSimpleName
 
-  case class State(status: Status = StatusClose)
+  private case class State(status: Status = StatusClose)
 
-  case class Backend(scope: BackendScope[PortalWithState, State]) extends OnUnmount with TimerSupport {
+  private case class Backend(scope: BackendScope[PortalWithState, State]) extends OnUnmount with TimerSupport {
 
     private val portalRef = Ref.toScalaComponent(LegacyPortal.component)
 
@@ -132,7 +132,7 @@ object PortalWithState {
     }
   }
 
-  val component = ScalaComponent
+  private val component = ScalaComponent
     .builder[PortalWithState](ComponentName)
     .initialStateFromProps { props =>
       val status = if (props.isOpen) StatusOpen else StatusClose

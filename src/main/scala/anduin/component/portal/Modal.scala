@@ -20,7 +20,6 @@ final case class Modal(
   renderTarget: (Callback, Status) => VdomNode,
   renderHeader: Option[(String, Callback) => VdomNode] = None, // (title, closing callback) => header
   renderContent: Callback => VdomElement,
-  renderFooter: Option[(Callback => VdomNode)] = None,
   onOpen: Callback = Callback.empty,
   onClose: Callback = Callback.empty
 ) {
@@ -81,10 +80,7 @@ object Modal {
                   )
                 )
               }(_(props.title, close)),
-              <.div(^.cls := "modal-body", props.renderContent(close)),
-              props.renderFooter.fold(EmptyVdom) { footer =>
-                <.div(^.cls := "modal-footer", footer(close))
-              }
+              props.renderContent(close)
             )
           )
         }
