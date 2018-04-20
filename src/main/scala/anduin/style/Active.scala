@@ -7,15 +7,15 @@ private[style] final case class Active(classes: List[String] = List.empty) {
 
   // Color
 
-  def colorGray9: Style = new Style(classes :+ "active-c--gray9")
-  def colorGray8: Style = new Style(classes :+ "active-c--gray8")
-  def colorGray7: Style = new Style(classes :+ "active-c--gray7")
-  def colorGray6: Style = new Style(classes :+ "active-c--gray6")
-  def colorGray5: Style = new Style(classes :+ "active-c--gray5")
-  def colorGray4: Style = new Style(classes :+ "active-c--gray4")
-  def colorGray3: Style = new Style(classes :+ "active-c--gray3")
-  def colorGray2: Style = new Style(classes :+ "active-c--gray2")
-  def colorGray1: Style = new Style(classes :+ "active-c--gray1")
+  def colorGray9: Style = new Style(classes :+ "active-c--gray-9")
+  def colorGray8: Style = new Style(classes :+ "active-c--gray-8")
+  def colorGray7: Style = new Style(classes :+ "active-c--gray-7")
+  def colorGray6: Style = new Style(classes :+ "active-c--gray-6")
+  def colorGray5: Style = new Style(classes :+ "active-c--gray-5")
+  def colorGray4: Style = new Style(classes :+ "active-c--gray-4")
+  def colorGray3: Style = new Style(classes :+ "active-c--gray-3")
+  def colorGray2: Style = new Style(classes :+ "active-c--gray-2")
+  def colorGray1: Style = new Style(classes :+ "active-c--gray-1")
 
   def colorWhite: Style = new Style(classes :+ "active-c--white")
 

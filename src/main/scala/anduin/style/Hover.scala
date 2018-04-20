@@ -7,15 +7,15 @@ private[style] final case class Hover(classes: List[String] = List.empty) {
 
   // Color
 
-  def colorGray9: Style = new Style(classes :+ "hover-c--gray9")
-  def colorGray8: Style = new Style(classes :+ "hover-c--gray8")
-  def colorGray7: Style = new Style(classes :+ "hover-c--gray7")
-  def colorGray6: Style = new Style(classes :+ "hover-c--gray6")
-  def colorGray5: Style = new Style(classes :+ "hover-c--gray5")
-  def colorGray4: Style = new Style(classes :+ "hover-c--gray4")
-  def colorGray3: Style = new Style(classes :+ "hover-c--gray3")
-  def colorGray2: Style = new Style(classes :+ "hover-c--gray2")
-  def colorGray1: Style = new Style(classes :+ "hover-c--gray1")
+  def colorGray9: Style = new Style(classes :+ "hover-c--gray-9")
+  def colorGray8: Style = new Style(classes :+ "hover-c--gray-8")
+  def colorGray7: Style = new Style(classes :+ "hover-c--gray-7")
+  def colorGray6: Style = new Style(classes :+ "hover-c--gray-6")
+  def colorGray5: Style = new Style(classes :+ "hover-c--gray-5")
+  def colorGray4: Style = new Style(classes :+ "hover-c--gray-4")
+  def colorGray3: Style = new Style(classes :+ "hover-c--gray-3")
+  def colorGray2: Style = new Style(classes :+ "hover-c--gray-2")
+  def colorGray1: Style = new Style(classes :+ "hover-c--gray-1")
 
   def colorWhite: Style = new Style(classes :+ "hover-c--white")
 

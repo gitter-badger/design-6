@@ -4,7 +4,7 @@ package anduin.style
 
 private[style] final case class Disabled(classes: List[String] = List.empty) {
   // Color
-  def colorGray6: Style = new Style(classes :+ "disabled-c--gray6")
+  def colorGray6: Style = new Style(classes :+ "disabled-c--gray-6")
   // Background Color
   def backgroundGray2: Style = new Style(classes :+ "disabled-bg--gray-2")
   // Border Color

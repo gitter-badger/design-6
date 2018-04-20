@@ -5,15 +5,15 @@ package anduin.style
 // scalastyle:off number.of.methods
 private[style] final case class Color(classes: List[String] = List.empty) {
 
-  def gray9: Style = new Style(classes :+ "c--gray9")
-  def gray8: Style = new Style(classes :+ "c--gray8")
-  def gray7: Style = new Style(classes :+ "c--gray7")
-  def gray6: Style = new Style(classes :+ "c--gray6")
-  def gray5: Style = new Style(classes :+ "c--gray5")
-  def gray4: Style = new Style(classes :+ "c--gray4")
-  def gray3: Style = new Style(classes :+ "c--gray3")
-  def gray2: Style = new Style(classes :+ "c--gray2")
-  def gray1: Style = new Style(classes :+ "c--gray1")
+  def gray9: Style = new Style(classes :+ "c--gray-9")
+  def gray8: Style = new Style(classes :+ "c--gray-8")
+  def gray7: Style = new Style(classes :+ "c--gray-7")
+  def gray6: Style = new Style(classes :+ "c--gray-6")
+  def gray5: Style = new Style(classes :+ "c--gray-5")
+  def gray4: Style = new Style(classes :+ "c--gray-4")
+  def gray3: Style = new Style(classes :+ "c--gray-3")
+  def gray2: Style = new Style(classes :+ "c--gray-2")
+  def gray1: Style = new Style(classes :+ "c--gray-1")
 
   def white: Style = new Style(classes :+ "c--white")
 
