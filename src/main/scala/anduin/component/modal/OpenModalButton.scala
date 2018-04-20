@@ -92,7 +92,8 @@ object OpenModalButton {
         isDisabled = props.disabled,
         color = props.buttonColor,
         style = props.buttonStyle,
-        size = props.buttonSize
+        size = props.buttonSize,
+        tpe = props.buttonTpe
       )(
         children
       )
