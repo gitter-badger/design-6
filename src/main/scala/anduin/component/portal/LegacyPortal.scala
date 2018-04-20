@@ -15,7 +15,8 @@ import japgolly.scalajs.react.vdom.html_<^._
 
 final case class LegacyPortal(
   status: Status,
-  children: (Callback, Status) => VdomNode
+  children: (Callback, Status) => VdomNode,
+  onClose: Callback
 ) {
   def apply(): VdomElement = {
     LegacyPortal.component(this)
@@ -39,7 +40,7 @@ object LegacyPortal {
     private def renderPortal() = {
       for {
         props <- scope.props
-        children = props.children(unmountNode(), props.status)
+        children = props.children(unmountNode() >> props.onClose, props.status)
         _ <- {
           if (props.status != StatusClose) {
             if (node == null) { // scalastyle:ignore
@@ -73,7 +74,9 @@ object LegacyPortal {
     // Instead, the component is unmounted when user switch to other page
     def onWindowHashchange(e: HashChangeEvent): Callback = {
       Callback.when(e.newURL != e.oldURL) {
-        unmountNode()
+        // After unmounting the portal, we also need to run `props.onClose` which updates status of `PortalWithState`.
+        // It ensures that the portal won't be shown again.
+        unmountNode() >> scope.props.flatMap(_.onClose)
       }
     }
   }

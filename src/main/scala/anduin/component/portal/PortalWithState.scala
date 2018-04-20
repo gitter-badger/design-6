@@ -125,7 +125,8 @@ object PortalWithState {
         portalRef.component(
           LegacyPortal(
             status = state.status,
-            children = props.renderContent
+            children = props.renderContent,
+            onClose = closePortal
           )
         )
       )
