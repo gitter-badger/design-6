@@ -13,12 +13,10 @@ import japgolly.scalajs.react.vdom.html_<^._
 
 // scalastyle:off parameter.number
 final case class OpenModalButton(
-  buttonLabel: String,
   buttonClasses: String = "flex items-center",
-  buttonColor: Button.Color = Button.ColorPrimary,
+  buttonColor: Button.Color = Button.ColorWhite,
   buttonTpe: Button.Tpe = Button.TpeDefault,
-  isMinimal: Boolean = false,
-  isLink: Boolean = false,
+  buttonStyle: Button.Style = Button.StyleFull,
   disabled: Boolean = false,
   tip: String = "",
   tipPlacement: Tooltip.Placement = Tooltip.Placement.Top,
@@ -88,6 +86,15 @@ object OpenModalButton {
     }
 
     def render(props: OpenModalButton, state: State, children: PropsChildren): VdomElement = {
+      val renderBtn = Button(
+        onClick = show,
+        isDisabled = props.disabled,
+        color = props.buttonColor,
+        style = props.buttonStyle
+      )(
+        children
+      )
+
       <.span(
         ReactHammer(
           onTap = (e: ReactHammer.Event) =>
@@ -98,24 +105,11 @@ object OpenModalButton {
           }
         )(
           <.span(
-            Button(
-              onClick = show,
-              isDisabled = props.disabled,
-              color = props.buttonColor,
-              isMinimal = props.isMinimal,
-              isLink = props.isLink
-            )(
-              if (props.tip.nonEmpty) {
-                Tooltip(tip = props.tip, placement = props.tipPlacement)(props.buttonLabel)
-              } else {
-                props.buttonLabel
-              },
-              if (props.buttonLabel.isEmpty && props.tip.nonEmpty) {
-                Tooltip(tip = props.tip, placement = props.tipPlacement)(children)
-              } else {
-                children
-              }
-            )
+            if (props.tip.nonEmpty) {
+              Tooltip(tip = props.tip, placement = props.tipPlacement)(renderBtn)
+            } else {
+              renderBtn
+            }
           )
         ),
         TagMod.unless(props.disabled) {

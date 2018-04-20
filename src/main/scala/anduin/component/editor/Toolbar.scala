@@ -130,7 +130,6 @@ object Toolbar {
             ^.cls := "tooltip -top",
             VdomAttr("data-tip") := "Insert Link",
             OpenModalButton(
-              buttonLabel = "",
               buttonClasses = "btn -plain -icon-only",
               modalTitle = "Add a link",
               modalBody = LinkModal(props.value, onAddLink, _)()
@@ -193,7 +192,6 @@ object Toolbar {
             ^.cls := "tooltip -top",
             VdomAttr("data-tip") := "Keyboard Shortcuts",
             OpenModalButton(
-              buttonLabel = "",
               buttonClasses = "btn -plain -icon-only",
               modalTitle = "Keyboard Shortcuts",
               modalClasses = "editor-hotkeys-dialog",

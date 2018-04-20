@@ -15,10 +15,9 @@ final case class Button(
   color: Button.Color = Button.ColorWhite,
   size: Button.Size = Button.SizeMedium,
   onClick: Callback = Callback.empty,
-  isMinimal: Boolean = false,
+  style: Button.Style = Button.StyleFull,
   isFullWidth: Boolean = false,
   isDisabled: Boolean = false, // if tpe != link
-  isLink: Boolean = false,
   href: String = "" // if tpe == link
 ) {
   def apply(children: VdomNode*): VdomElement = {
@@ -31,11 +30,13 @@ object Button {
   private final val ComponentName = ComponentUtils.name(this)
 
   sealed trait Color {
+    val link: TagMod
     val minimal: TagMod
     val full: TagMod
     val shared: TagMod
   }
   case object ColorWhite extends Color {
+    val link: TagMod = Style.color.primary4.hover.underline
     val minimal: TagMod = Style.color.gray8.hover.shadowBorderGray4.active.shadowBorderGray4
     val full: TagMod = TagMod(minimal, Style.backgroundColor.gray1.shadow.borderGray4s)
     private val sharedHover = Style.hover.colorPrimary4.hover.backgroundWhite
@@ -43,28 +44,33 @@ object Button {
     val shared: TagMod = TagMod(sharedHover, sharedActive)
   }
   private case object ColorBase {
+    val link: TagMod = Style.color.primary4.hover.underline
     val minimal: TagMod = Style.hover.colorWhite.active.colorWhite
     val full: TagMod = Style.color.white.shadow.blur1Dark
   }
   case object ColorPrimary extends Color {
+    val link: TagMod = Style.color.primary4.hover.underline
     private val selfMinimal = Style.color.primary4.hover.shadowBorderPrimary5s.active.shadowBorderPrimary5s
     val minimal: TagMod = TagMod(ColorBase.minimal, selfMinimal)
     val full: TagMod = TagMod(ColorBase.full, Style.backgroundColor.primary4.shadow.borderPrimary5s)
     val shared: TagMod = Style.hover.backgroundPrimary3.active.backgroundPrimary5
   }
   case object ColorSuccess extends Color {
+    val link: TagMod = Style.color.success4.hover.underline
     private val selfMinimal = Style.color.success4.hover.shadowBorderSuccess5s.active.shadowBorderSuccess5s
     val minimal: TagMod = TagMod(ColorBase.minimal, selfMinimal)
     val full: TagMod = TagMod(ColorBase.full, Style.backgroundColor.success4.shadow.borderSuccess5s)
     val shared: TagMod = Style.hover.backgroundSuccess3.active.backgroundSuccess5
   }
   case object ColorWarning extends Color {
+    val link: TagMod = Style.color.warning4.hover.underline
     private val selfMinimal = Style.color.warning4.hover.shadowBorderWarning5s.active.shadowBorderWarning5s
     val minimal: TagMod = TagMod(ColorBase.minimal, selfMinimal)
     val full: TagMod = TagMod(ColorBase.full, Style.backgroundColor.warning4.shadow.borderWarning5s)
     val shared: TagMod = Style.hover.backgroundWarning3.active.backgroundWarning5
   }
   case object ColorDanger extends Color {
+    val link: TagMod = Style.color.danger4.hover.underline
     private val selfMinimal = Style.color.danger4.hover.shadowBorderDanger5s.active.shadowBorderDanger5s
     val minimal: TagMod = TagMod(ColorBase.minimal, selfMinimal)
     val full: TagMod = TagMod(ColorBase.full, Style.backgroundColor.danger4.shadow.borderDanger5s)
@@ -77,10 +83,16 @@ object Button {
   case object TpeSubmit extends Tpe { val value = "submit" }
   case object TpeReset extends Tpe { val value = "reset" }
 
+  sealed trait Style
+  case object StyleFull extends Style
+  case object StyleLink extends Style
+  case object StyleMinimal extends Style
+
   sealed trait Size { val style: TagMod }
   case object SizeLarge extends Size { val style: TagMod = Style.padding.ver12.padding.hor16.fontSize.px16 }
   case object SizeMedium extends Size { val style: TagMod = Style.padding.ver8.padding.hor16.fontSize.px14 }
   case object SizeSmall extends Size { val style: TagMod = Style.padding.ver4.padding.hor8.fontSize.px12 }
+  case object SizeIcon extends Size { val style: TagMod = Style.padding.all8.fontSize.px14 }
 
   private case class Backend(scope: BackendScope[Button, _]) {
 
@@ -95,28 +107,28 @@ object Button {
 
     def render(props: Button, children: PropsChildren): VdomElement = {
       val commonMods = TagMod(
-        // common styles
-        Style.lineHeight.px16.fontWeight.medium.borderRadius.px2,
-        Style.flexbox.flex.focus.outline.transition.allWithOutline,
+        // color styles
+        props.style match {
+          case StyleLink    => props.color.link
+          case StyleMinimal => props.color.minimal
+          case _            => props.color.full
+        },
         // disabled styles
         Style.disabled.colorGray6,
-        TagMod.when(!props.isMinimal) {
+        TagMod.when(props.style == StyleFull) {
           Style.disabled.backgroundGray2.disabled.shadowBorderGray4
         },
-        // size and minimal styles
-        TagMod.when(props.isFullWidth) {
-          Style.width.pc100.flexbox.justifyCenter
-        },
-        if (props.isLink) {
-          Style.color.primary4.hover.underline
-        } else {
-          TagMod(
-            props.size.style,
-            props.color.shared
-          )
-        },
-        // color styles
-        if (props.isMinimal) props.color.minimal else if (props.isLink) "" else props.color.full,
+        // common styles for StyleMinimal and StyleFull
+        TagMod(
+          Style.lineHeight.px16.fontWeight.medium.borderRadius.px2,
+          Style.flexbox.inlineFlex.focus.outline.transition.allWithOutline,
+          // size and minimal styles
+          TagMod.when(props.isFullWidth) {
+            Style.width.pc100.flexbox.justifyCenter
+          },
+          props.size.style,
+          props.color.shared
+        ).when(props.style != StyleLink),
         // behaviours
         ^.onClick ==> onClick,
         children
