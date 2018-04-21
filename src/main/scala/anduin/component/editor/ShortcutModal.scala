@@ -4,6 +4,8 @@ package anduin.component.editor
 
 import japgolly.scalajs.react.component.ScalaFn.Unmounted
 
+import anduin.style.Style
+
 // scalastyle:off underscore.import
 import japgolly.scalajs.react._
 import japgolly.scalajs.react.vdom.html_<^._
@@ -18,7 +20,7 @@ private[editor] object ShortcutModal {
   // scalastyle:off multiple.string.literals
   private def render(props: ShortcutModal): VdomElement = {
     val cmdKey = if (props.isMac) <.span(^.cls := "key", "⌘") else <.span(^.cls := "key", "Ctrl")
-    val operator = <.span(^.cls := "operator mh1", "+")
+    val operator = <.span(^.cls := "operator", Style.margin.hor4, "+")
 
     val shortcuts = List(
       ("B", "Bold"),
@@ -40,7 +42,7 @@ private[editor] object ShortcutModal {
               cmdKey,
               operator,
               <.span(^.cls := "key", key),
-              <.span(^.cls := "ml3", description)
+              <.span(Style.margin.left12, description)
             )
         }
       ),
@@ -49,7 +51,7 @@ private[editor] object ShortcutModal {
         <.li(
           ^.cls := "item flex items-center",
           <.span(^.cls := "key ph2", "Enter / Return"),
-          <.span(^.cls := "ml3", "New Line")
+          <.span(Style.margin.left12, "New Line")
         )
       )
     )
