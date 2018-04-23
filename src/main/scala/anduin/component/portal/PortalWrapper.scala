@@ -23,7 +23,7 @@ private[portal] final case class PortalWrapper(
   // The first parameter presents the node which is clicked
   // The second parameter presents the portal node
   isPortalClicked: (Element, Element) => CallbackTo[Boolean] = PortalWrapper.IsPortalClicked,
-  renderTarget: (Callback, Status) => VdomNode,
+  renderTarget: (Callback, Callback, Status) => VdomNode,
   renderContent: (Callback, Status) => VdomNode
 ) {
   def apply(): VdomElement = {
@@ -69,7 +69,7 @@ private[portal] object PortalWrapper {
     def render(props: PortalWrapper, state: State): VdomArray = {
       // We don't need to wrap a `div` here because the portal's `render` actually doesn't render anything
       VdomArray(
-        props.renderTarget(openPortal, state.status),
+        props.renderTarget(openPortal, closePortal, state.status),
         LegacyPortal(
           status = state.status,
           children = props.renderContent,

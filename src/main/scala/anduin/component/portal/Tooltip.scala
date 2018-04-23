@@ -11,27 +11,24 @@ import japgolly.scalajs.react._
 import japgolly.scalajs.react.vdom.html_<^._
 // scalastyle:on underscore.import
 
-final case class Popover(
-  popoverClassName: String = Style.padding.all8.value,
+final case class Tooltip(
+  tooltipClassName: String = Style.padding.all8.value,
   position: Position = PositionBottom,
   verticalOffset: Double = 0,
   horizontalOffset: Double = 0,
-  closeOnEsc: Boolean = true,
-  closeOnOutsideClick: Boolean = true,
-  isPortalClicked: (Element, Element) => CallbackTo[Boolean] = PortalWrapper.IsPortalClicked,
-  renderTarget: (Callback, Status) => VdomElement,
-  renderContent: Callback => VdomElement
+  renderTarget: (Callback, Status) => VdomNode,
+  renderContent: Callback => VdomNode
 ) {
   def apply(): VdomElement = {
-    Popover.component(this)
+    Tooltip.component(this)
   }
 }
 
-object Popover {
+object Tooltip {
 
   private val ComponentName = this.getClass.getSimpleName
 
-  private case class Backend(scope: BackendScope[Popover, _]) {
+  private case class Backend(scope: BackendScope[Tooltip, _]) {
 
     private val targetRef = Ref[Element]
     private val portalRef = Ref[Element]
@@ -47,24 +44,23 @@ object Popover {
       } yield ()
     }
 
-    def render(props: Popover): VdomElement = {
+    def render(props: Tooltip): VdomElement = {
       PortalWrapper(
         onOpen = onOpenPortal,
-        closeOnEsc = props.closeOnEsc,
-        closeOnOutsideClick = props.closeOnOutsideClick,
-        isPortalClicked = props.isPortalClicked,
-        renderTarget = (open, _, status) => {
+        renderTarget = (open, close, status) => {
           <.div.withRef(targetRef)(
+            ^.onMouseOver --> open,
+            ^.onMouseOut --> close,
             props.renderTarget(open, status)
           )
         },
-        renderContent = (close, status) => {
+        renderContent = (close, _) => {
           <.div.withRef(portalRef)(
+            Style.position.absolute,
             ^.classSet(
-              "at-popover" -> true,
+              "at-tooltip" -> true,
               props.position.className -> true,
-              props.popoverClassName -> true,
-              "-show" -> (status == StatusOpen)
+              props.tooltipClassName -> true
             ),
             props.renderContent(close)
           )
@@ -74,7 +70,7 @@ object Popover {
   }
 
   private val component = ScalaComponent
-    .builder[Popover](ComponentName)
+    .builder[Tooltip](ComponentName)
     .stateless
     .renderBackend[Backend]
     .build
