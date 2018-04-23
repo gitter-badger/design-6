@@ -5,7 +5,7 @@ package anduin.component.portal
 import scala.concurrent.duration
 import scala.concurrent.duration.FiniteDuration
 
-import japgolly.scalajs.react.extra.{OnUnmount, TimerSupport}
+import japgolly.scalajs.react.extra.TimerSupport
 import org.scalajs.dom.raw.Element
 
 // scalastyle:off underscore.import
@@ -39,9 +39,7 @@ object PortalWithState {
 
   private case class State(status: Status = StatusClose)
 
-  private case class Backend(scope: BackendScope[PortalWithState, State]) extends OnUnmount with TimerSupport {
-
-    private val portalRef = Ref.toScalaComponent(LegacyPortal.component)
+  private case class Backend(scope: BackendScope[PortalWithState, State]) extends TimerSupport {
 
     private def openPortal = {
       for {
@@ -72,15 +70,13 @@ object PortalWithState {
       // We don't need to wrap a `div` here because the portal's `render` actually doesn't render anything
       VdomArray(
         props.renderTarget(openPortal, state.status),
-        portalRef.component(
-          LegacyPortal(
-            status = state.status,
-            children = props.renderContent,
-            closeOnOutsideClick = props.closeOnOutsideClick,
-            isPortalClicked = props.isPortalClicked,
-            onClose = closePortal
-          )
-        )
+        LegacyPortal(
+          status = state.status,
+          children = props.renderContent,
+          closeOnOutsideClick = props.closeOnOutsideClick,
+          isPortalClicked = props.isPortalClicked,
+          onClose = closePortal
+        )()
       )
     }
   }

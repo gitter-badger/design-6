@@ -31,7 +31,7 @@ object LegacyPortal {
 
   private val ComponentName = this.getClass.getSimpleName
 
-  case class Backend(scope: BackendScope[LegacyPortal, _]) extends OnUnmount {
+  private case class Backend(scope: BackendScope[LegacyPortal, _]) extends OnUnmount {
 
     private var node: Element = _ // scalastyle:ignore
     private var shouldCloseOpt: Option[Boolean] = None // scalastyle:off var.field
@@ -122,8 +122,6 @@ object LegacyPortal {
       Callback(removeEventHandlers()) >> unmountNode() >> props.onClose
     }
 
-    def getNode: Element = node
-
     // We don't unmount the component automatically when the parent node is unmounted.
     // Instead, the component is unmounted when user switch to other page
     def onWindowHashchange(e: HashChangeEvent): Callback = {
@@ -135,7 +133,7 @@ object LegacyPortal {
     }
   }
 
-  val component = ScalaComponent
+  private val component = ScalaComponent
     .builder[LegacyPortal](ComponentName)
     .stateless
     .renderBackend[Backend]

@@ -20,7 +20,7 @@ object Portal {
 
   private val ComponentName = this.getClass.getSimpleName
 
-  case class Backend(scope: BackendScope[Portal, _]) {
+  private case class Backend(scope: BackendScope[Portal, _]) {
 
     private var node: Element = _ // scalastyle:ignore
 
@@ -35,8 +35,6 @@ object Portal {
       }
     }
 
-    def getNode: Element = node
-
     def render(props: Portal, children: PropsChildren): VdomNode = {
       if (node == null) { // scalastyle:ignore
         node = dom.document.createElement("div")
@@ -50,7 +48,7 @@ object Portal {
     }
   }
 
-  val component = ScalaComponent
+  private val component = ScalaComponent
     .builder[Portal](ComponentName)
     .stateless
     .renderBackendWithChildren[Backend]
