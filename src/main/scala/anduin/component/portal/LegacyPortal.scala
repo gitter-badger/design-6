@@ -15,7 +15,7 @@ import japgolly.scalajs.react._
 import japgolly.scalajs.react.vdom.html_<^._
 // scalastyle:on underscore.import
 
-final case class LegacyPortal(
+private[portal] final case class LegacyPortal(
   status: Status,
   children: (Callback, Status) => VdomNode,
   closeOnOutsideClick: Boolean = true,
@@ -27,7 +27,7 @@ final case class LegacyPortal(
   }
 }
 
-object LegacyPortal {
+private[portal] object LegacyPortal {
 
   private val ComponentName = this.getClass.getSimpleName
 

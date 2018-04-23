@@ -19,7 +19,7 @@ final case class Popover(
   horizontalOffset: Double = 0,
   closeOnEsc: Boolean = true,
   closeOnOutsideClick: Boolean = true,
-  isPortalClicked: (Element, Element) => CallbackTo[Boolean] = PortalWithState.IsPortalClicked,
+  isPortalClicked: (Element, Element) => CallbackTo[Boolean] = PortalWrapper.IsPortalClicked,
   renderTarget: (Callback, Status) => VdomElement,
   renderContent: Callback => VdomElement
 ) {
@@ -92,7 +92,7 @@ object Popover {
     // scalastyle:on cyclomatic.complexity
 
     def render(props: Popover): VdomElement = {
-      PortalWithState(
+      PortalWrapper(
         onOpen = onOpenPortal,
         closeOnEsc = props.closeOnEsc,
         closeOnOutsideClick = props.closeOnOutsideClick,

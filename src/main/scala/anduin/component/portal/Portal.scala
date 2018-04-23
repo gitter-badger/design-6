@@ -10,13 +10,13 @@ import japgolly.scalajs.react._
 import japgolly.scalajs.react.vdom.html_<^._
 // scalastyle:on underscore.import
 
-final case class Portal(status: Status) {
+private[portal] final case class Portal(status: Status) {
   def apply(children: VdomNode*): VdomElement = {
     Portal.component(this)(children: _*)
   }
 }
 
-object Portal {
+private[portal] object Portal {
 
   private val ComponentName = this.getClass.getSimpleName
 

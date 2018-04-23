@@ -13,7 +13,7 @@ import japgolly.scalajs.react._
 import japgolly.scalajs.react.vdom.html_<^._
 // scalastyle:on underscore.import
 
-final case class PortalWithState(
+private[portal] final case class PortalWrapper(
   isOpen: Boolean = false,
   onOpen: Callback = Callback.empty,
   onClose: Callback = Callback.empty,
@@ -22,16 +22,16 @@ final case class PortalWithState(
   // A callback to check if user click inside the portal
   // The first parameter presents the node which is clicked
   // The second parameter presents the portal node
-  isPortalClicked: (Element, Element) => CallbackTo[Boolean] = PortalWithState.IsPortalClicked,
+  isPortalClicked: (Element, Element) => CallbackTo[Boolean] = PortalWrapper.IsPortalClicked,
   renderTarget: (Callback, Status) => VdomNode,
   renderContent: (Callback, Status) => VdomNode
 ) {
   def apply(): VdomElement = {
-    PortalWithState.component(this)
+    PortalWrapper.component(this)
   }
 }
 
-object PortalWithState {
+private[portal] object PortalWrapper {
 
   val IsPortalClicked = (target: Element, portal: Element) => CallbackTo(portal.contains(target))
 
@@ -39,7 +39,7 @@ object PortalWithState {
 
   private case class State(status: Status = StatusClose)
 
-  private case class Backend(scope: BackendScope[PortalWithState, State]) extends TimerSupport {
+  private case class Backend(scope: BackendScope[PortalWrapper, State]) extends TimerSupport {
 
     private def openPortal = {
       for {
@@ -66,7 +66,7 @@ object PortalWithState {
       } yield ()
     }
 
-    def render(props: PortalWithState, state: State): VdomArray = {
+    def render(props: PortalWrapper, state: State): VdomArray = {
       // We don't need to wrap a `div` here because the portal's `render` actually doesn't render anything
       VdomArray(
         props.renderTarget(openPortal, state.status),
@@ -82,7 +82,7 @@ object PortalWithState {
   }
 
   private val component = ScalaComponent
-    .builder[PortalWithState](ComponentName)
+    .builder[PortalWrapper](ComponentName)
     .initialStateFromProps { props =>
       val status = if (props.isOpen) StatusOpen else StatusClose
       State(status = status)

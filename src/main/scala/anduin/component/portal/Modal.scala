@@ -51,7 +51,7 @@ object Modal {
     }
 
     def render(props: Modal): VdomElement = {
-      PortalWithState(
+      PortalWrapper(
         isOpen = props.isOpen,
         closeOnEsc = props.closeOnEsc,
         closeOnOutsideClick = props.closeOnOutsideClick,
