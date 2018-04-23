@@ -10,7 +10,7 @@ import org.scalajs.dom.window
 import anduin.component.icon.{Icon, Iconv2}
 import anduin.component.menu.VerticalDivider
 import anduin.component.modal.OpenModalButton
-import anduin.component.portal.{Popover, StatusOpen}
+import anduin.component.portal.{Popover, PositionBottom, StatusOpen}
 import anduin.component.util.JavaScriptUtils
 import anduin.scalajs.slate.Slate.{Change, Value}
 import anduin.style.Style
@@ -150,7 +150,7 @@ object Toolbar {
           ),
           VerticalDivider(),
           Popover(
-            position = Popover.PositionBottom,
+            position = PositionBottom,
             popoverClassName = "format-popover",
             isPortalClicked = (target, portal) => {
               if (portal.contains(target)) {
