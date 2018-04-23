@@ -64,8 +64,7 @@ object Modal {
             ^.classSet(
               "modal-wrapper modal-overlay" -> true,
               props.size.className -> true,
-              "-open" -> (status == StatusOpen),
-              "-hide" -> (status == StatusHide)
+              "-open" -> (status == StatusOpen)
             ),
             <.div.withRef(modalRef)(
               ^.cls := "modal",

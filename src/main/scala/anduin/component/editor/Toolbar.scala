@@ -152,7 +152,6 @@ object Toolbar {
           Popover(
             position = Popover.PositionBottom,
             popoverClassName = "format-popover",
-            closeOnInsideClick = false,
             isPortalClicked = (target, portal) => {
               if (portal.contains(target)) {
                 CallbackTo(true)
@@ -161,7 +160,7 @@ object Toolbar {
               }
             },
             verticalOffset = 8,
-            renderTarget = (open, status) =>
+            renderTarget = (open, status) => {
               <.span(
                 ^.cls := "tooltip -top",
                 VdomAttr("data-tip") := "Formatting options",
@@ -174,8 +173,9 @@ object Toolbar {
                   ^.onClick --> open,
                   Iconv2.format()
                 )
-            ),
-            renderContent = _ =>
+              )
+            },
+            renderContent = _ => {
               <.div(
                 Style.flexbox.flex.flexbox.itemsCenter,
                 MarkButtonBar(props.value, props.onChange)(),
@@ -183,7 +183,8 @@ object Toolbar {
                 AlignButtonBar(props.value, props.onChange)(),
                 VerticalDivider(),
                 BlockButtonBar(props.value, props.onChange)()
-            )
+              )
+            }
           )()
         ),
         <.div(

@@ -18,7 +18,6 @@ final case class Popover(
   verticalOffset: Double = 0,
   horizontalOffset: Double = 0,
   closeOnEsc: Boolean = true,
-  closeOnInsideClick: Boolean = true,
   closeOnOutsideClick: Boolean = true,
   isPortalClicked: (Element, Element) => CallbackTo[Boolean] = PortalWithState.IsPortalClicked,
   renderTarget: (Callback, Status) => VdomElement,
@@ -96,7 +95,6 @@ object Popover {
       PortalWithState(
         onOpen = onOpenPortal,
         closeOnEsc = props.closeOnEsc,
-        closeOnInsideClick = props.closeOnInsideClick,
         closeOnOutsideClick = props.closeOnOutsideClick,
         isPortalClicked = props.isPortalClicked,
         renderTarget = (open, status) => {
@@ -110,8 +108,7 @@ object Popover {
               "at-popover" -> true,
               props.position.className -> true,
               props.popoverClassName -> true,
-              "-show" -> (status == StatusOpen),
-              "-hide" -> (status == StatusHide)
+              "-show" -> (status == StatusOpen)
             ),
             props.renderContent(close)
           )

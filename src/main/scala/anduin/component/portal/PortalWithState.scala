@@ -22,7 +22,6 @@ final case class PortalWithState(
   onOpen: Callback = Callback.empty,
   onClose: Callback = Callback.empty,
   closeOnEsc: Boolean = true,
-  closeOnInsideClick: Boolean = false,
   closeOnOutsideClick: Boolean = true,
   // A callback to check if user click inside the portal
   // The first parameter presents the node which is clicked
@@ -96,11 +95,7 @@ object PortalWithState {
             case _          => CallbackTo(false)
           }
           clickInside.flatMap { isInside =>
-            if (isInside) {
-              Callback.when(props.closeOnInsideClick)(scope.modState(_.copy(status = StatusHide)))
-            } else {
-              Callback.when(props.closeOnOutsideClick)(closePortal)
-            }
+            Callback.when(!isInside && props.closeOnOutsideClick)(closePortal)
           }
         }
         _ <- Callback {
