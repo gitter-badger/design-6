@@ -4,8 +4,10 @@ package anduin.component.portal
 
 import japgolly.scalajs.react.extra.{EventListener, OnUnmount}
 import org.scalajs.dom
-import org.scalajs.dom.raw.{Element, HashChangeEvent}
+import org.scalajs.dom.ext.KeyCode
+import org.scalajs.dom.raw.{Element, HashChangeEvent, KeyboardEvent, MouseEvent}
 
+import anduin.component.util.EventUtils
 import anduin.scalajs.react.ReactDom
 
 // scalastyle:off underscore.import
@@ -16,6 +18,8 @@ import japgolly.scalajs.react.vdom.html_<^._
 final case class LegacyPortal(
   status: Status,
   children: (Callback, Status) => VdomNode,
+  closeOnOutsideClick: Boolean = true,
+  isPortalClicked: (Element, Element) => CallbackTo[Boolean],
   onClose: Callback
 ) {
   def apply(): VdomElement = {
@@ -30,8 +34,13 @@ object LegacyPortal {
   case class Backend(scope: BackendScope[LegacyPortal, _]) extends OnUnmount {
 
     private var node: Element = _ // scalastyle:ignore
+    private var shouldCloseOpt: Option[Boolean] = None // scalastyle:off var.field
 
-    def componentDidMount(): Callback = renderPortal()
+    def componentDidMount(): Callback = {
+      dom.document.addEventListener("click", onDocumentClick)
+      dom.document.addEventListener("keydown", onDocumentKeydown)
+      renderPortal()
+    }
 
     def componentDidUpdate(): Callback = renderPortal()
 
@@ -40,22 +49,24 @@ object LegacyPortal {
     private def renderPortal() = {
       for {
         props <- scope.props
-        children = props.children(unmountNode() >> props.onClose, props.status)
-        _ <- {
-          if (props.status != StatusClose) {
-            if (node == null) { // scalastyle:ignore
-              node = dom.document.createElement("div")
-              dom.document.body.appendChild(node)
-            }
+        children = props.children(destroy(props), props.status)
+        _ <- Callback.when(props.status != StatusClose) {
+          if (node == null) { // scalastyle:ignore
+            node = dom.document.createElement("div")
+            dom.document.body.appendChild(node)
+          }
+          shouldCloseOpt = Some(false)
 
-            Callback {
-              ReactDom.renderSubtreeIntoContainer(scope.raw, children.rawNode, node)
-            }
-          } else {
-            unmountNode()
+          Callback {
+            ReactDom.renderSubtreeIntoContainer(scope.raw, children.rawNode, node)
           }
         }
       } yield ()
+    }
+
+    private def removeEventHandlers() = {
+      dom.document.removeEventListener("click", onDocumentClick)
+      dom.document.removeEventListener("keydown", onDocumentKeydown)
     }
 
     private def unmountNode() = {
@@ -66,6 +77,49 @@ object LegacyPortal {
         }
         node = null // scalastyle:ignore
       }
+    }
+
+    private def onDocumentClick(e: MouseEvent): Unit = {
+      val cb = for {
+        props <- scope.props
+        _ <- Callback {
+          if (shouldCloseOpt.isEmpty) {
+            shouldCloseOpt = Some(true)
+          }
+        }
+        _ <- Callback.when(
+          shouldCloseOpt.contains(true) && props.status == StatusOpen
+            && Option(node).nonEmpty && EventUtils.leftButtonClicked(e)
+        ) {
+          val clickInside = e.target match {
+            case t: Element => props.isPortalClicked(t, node)
+            case _          => CallbackTo(false)
+          }
+          clickInside.flatMap { isInside =>
+            Callback.when(!isInside && props.closeOnOutsideClick)(destroy(props))
+          }
+        }
+        _ <- Callback {
+          shouldCloseOpt = None
+        }
+      } yield ()
+
+      cb.runNow()
+    }
+
+    private def onDocumentKeydown(e: KeyboardEvent): Unit = {
+      val cb = for {
+        props <- scope.props
+        _ <- Callback.when(e.keyCode == KeyCode.Escape && props.status == StatusOpen) {
+          destroy(props)
+        }
+      } yield ()
+
+      cb.runNow()
+    }
+
+    private def destroy(props: LegacyPortal) = {
+      Callback(removeEventHandlers()) >> unmountNode() >> props.onClose
     }
 
     def getNode: Element = node

@@ -2,15 +2,11 @@
 
 package anduin.component.portal
 
-import scala.concurrent.duration.FiniteDuration
 import scala.concurrent.duration
+import scala.concurrent.duration.FiniteDuration
 
-import japgolly.scalajs.react.extra.{EventListener, OnUnmount, TimerSupport}
-import org.scalajs.dom
-import org.scalajs.dom.ext.KeyCode
-import org.scalajs.dom.raw.{Element, KeyboardEvent, MouseEvent}
-
-import anduin.component.util.EventUtils
+import japgolly.scalajs.react.extra.{OnUnmount, TimerSupport}
+import org.scalajs.dom.raw.Element
 
 // scalastyle:off underscore.import
 import japgolly.scalajs.react._
@@ -47,14 +43,11 @@ object PortalWithState {
 
     private val portalRef = Ref.toScalaComponent(LegacyPortal.component)
 
-    private var shouldCloseOpt: Option[Boolean] = None // scalastyle:off var.field
-
     private def openPortal = {
       for {
         props <- scope.props
         state <- scope.state
         _ <- Callback.when(state.status != StatusOpen) {
-          shouldCloseOpt = Some(false)
           // When the status is open, the portal is rendered.
           // But `ReactDom.renderSubtreeIntoContainer` used in `LegacyPortal` is async, we have to use
           // `setTimeout(..., 0)` to ensure that the rendering process is done completely.
@@ -75,44 +68,6 @@ object PortalWithState {
       } yield ()
     }
 
-    def onDocumentClick(e: MouseEvent): Callback = {
-      for {
-        props <- scope.props
-        state <- scope.state
-        portal <- portalRef.get
-        _ <- Callback {
-          if (shouldCloseOpt.isEmpty) {
-            shouldCloseOpt = Some(true)
-          }
-        }
-        node = portal.backend.getNode
-        _ <- Callback.when(
-          shouldCloseOpt.contains(true) && state.status == StatusOpen
-            && Option(node).nonEmpty && EventUtils.leftButtonClicked(e)
-        ) {
-          val clickInside = e.target match {
-            case t: Element => props.isPortalClicked(t, node)
-            case _          => CallbackTo(false)
-          }
-          clickInside.flatMap { isInside =>
-            Callback.when(!isInside && props.closeOnOutsideClick)(closePortal)
-          }
-        }
-        _ <- Callback {
-          shouldCloseOpt = None
-        }
-      } yield ()
-    }
-
-    def onDocumentKeydown(e: KeyboardEvent): Callback = {
-      for {
-        state <- scope.state
-        _ <- Callback.when(e.keyCode == KeyCode.Escape && state.status == StatusOpen) {
-          closePortal
-        }
-      } yield ()
-    }
-
     def render(props: PortalWithState, state: State): VdomArray = {
       // We don't need to wrap a `div` here because the portal's `render` actually doesn't render anything
       VdomArray(
@@ -121,6 +76,8 @@ object PortalWithState {
           LegacyPortal(
             status = state.status,
             children = props.renderContent,
+            closeOnOutsideClick = props.closeOnOutsideClick,
+            isPortalClicked = props.isPortalClicked,
             onClose = closePortal
           )
         )
@@ -136,8 +93,6 @@ object PortalWithState {
     }
     .renderBackend[Backend]
     .configure(
-      EventListener[MouseEvent].install("click", _.backend.onDocumentClick, _ => dom.document),
-      EventListener[KeyboardEvent].install("keydown", _.backend.onDocumentKeydown, _ => dom.document),
       TimerSupport.install
     )
     .build
