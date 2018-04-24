@@ -2,22 +2,22 @@
 
 package anduin.component.modal
 
+import anduin.component.button.ProgressButton
+import anduin.component.portal.{ModalBody, ModalFooter}
+
 // scalastyle:off underscore.import
 import japgolly.scalajs.react._
 import japgolly.scalajs.react.vdom.html_<^._
-import org.scalajs.dom.html.Div
-
-import anduin.component.button.ProgressButton
 // scalastyle:on underscore.import
 
 final case class CommonConfirmModal(
-  displayInfo: TagMod,
+  displayInfo: VdomNode,
   onConfirm: Callback => Callback,
   onClose: Callback,
   confirmBtnLabel: String = "Confirm",
   confirmBtnExtraClasses: String = ""
 ) {
-  def apply(): ScalaComponent.Unmounted[_, _, _] = CommonConfirmModal.component(this)
+  def apply(): VdomElement = CommonConfirmModal.component(this)
 }
 
 object CommonConfirmModal {
@@ -30,11 +30,10 @@ object CommonConfirmModal {
 
   private case class Backend(scope: BackendScope[CommonConfirmModal, State]) {
 
-    def render(props: CommonConfirmModal, state: State): VdomTagOf[Div] = {
-      <.div(
-        <.div(^.cls := "modal-body", props.displayInfo),
-        <.div(
-          ^.cls := "modal-footer",
+    def render(props: CommonConfirmModal, state: State): VdomArray = {
+      VdomArray(
+        ModalBody(props.displayInfo),
+        ModalFooter(
           <.div(
             ^.cls := "btn-group ml-auto",
             <.button(

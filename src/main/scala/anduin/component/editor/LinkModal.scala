@@ -2,6 +2,7 @@
 
 package anduin.component.editor
 
+import anduin.component.portal.{ModalBody, ModalFooter}
 import anduin.scalajs.slate.Slate.Value
 
 // scalastyle:off underscore.import
@@ -25,10 +26,9 @@ private[editor] object LinkModal {
 
   private case class Backend(scope: BackendScope[LinkModal, State]) {
 
-    def render(props: LinkModal, state: State): VdomElement = {
-      <.div(
-        <.div(
-          ^.cls := "modal-body",
+    def render(props: LinkModal, state: State): VdomArray = {
+      VdomArray(
+        ModalBody(
           <.input(
             ^.autoFocus := true,
             ^.cls := "text-field",
@@ -42,8 +42,7 @@ private[editor] object LinkModal {
             }
           )
         ),
-        <.div(
-          ^.cls := "modal-footer",
+        ModalFooter(
           <.div(
             ^.cls := "btn-group ml-auto",
             <.button(
