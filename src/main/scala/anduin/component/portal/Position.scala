@@ -6,27 +6,24 @@ import org.scalajs.dom.document
 import org.scalajs.dom.raw.Element
 
 // Position
-sealed trait Position {
-  def className: String
-}
-case object PositionTopLeft extends Position { val className = "-top-left" }
-case object PositionTop extends Position { val className = "-top" }
-case object PositionTopRight extends Position { val className = "-top-right" }
+sealed trait Position
+case object PositionTopLeft extends Position
+case object PositionTop extends Position
+case object PositionTopRight extends Position
 
-case object PositionRightTop extends Position { val className = "-right-top" }
-case object PositionRight extends Position { val className = "-right" }
-case object PositionRightBottom extends Position { val className = "-right-bottom" }
+case object PositionRightTop extends Position
+case object PositionRight extends Position
+case object PositionRightBottom extends Position
 
-case object PositionBottomLeft extends Position { val className = "-bottom-left" }
-case object PositionBottom extends Position { val className = "-bottom" }
-case object PositionBottomRight extends Position { val className = "-bottom-right" }
+case object PositionBottomLeft extends Position
+case object PositionBottom extends Position
+case object PositionBottomRight extends Position
 
-case object PositionLeftTop extends Position { val className = "-left-top" }
-case object PositionLeft extends Position { val className = "-left" }
-case object PositionLeftBottom extends Position { val className = "-left-bottom" }
+case object PositionLeftTop extends Position
+case object PositionLeft extends Position
+case object PositionLeftBottom extends Position
 
 object Position {
-
   // scalastyle:off cyclomatic.complexity
   def calculate(
     position: Position,

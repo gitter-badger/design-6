@@ -62,7 +62,6 @@ object Popover {
           <.div.withRef(portalRef)(
             ^.classSet(
               "at-popover" -> true,
-              props.position.className -> true,
               props.popoverClassName -> true,
               "-show" -> (status == StatusOpen)
             ),
