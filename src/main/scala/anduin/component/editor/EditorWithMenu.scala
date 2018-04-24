@@ -63,7 +63,7 @@ object EditorWithMenu {
                 containerRect <- containerRef.map(_.getBoundingClientRect()).get
                 top = rect.top - containerRect.top
                 left = rect.left - containerRect.left + 0.5 * rect.width
-                newState <- scope.modState(_.copy(hrefOpt = Some(href), top = top, left = left), props.onChange(change))
+                newState <- scope.modState(_.copy(hrefOpt = Option(href), top = top, left = left), props.onChange(change))
               } yield newState
             }
           }

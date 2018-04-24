@@ -263,7 +263,7 @@ object Popover {
     }
 
     private def onMouseLeaveToggler = {
-      scope.modState(_.copy(leaveTogglerTimeOpt = Some(Date.now())))
+      scope.modState(_.copy(leaveTogglerTimeOpt = Option(Date.now())))
     }
 
     private def onMouseOverToggler = {
