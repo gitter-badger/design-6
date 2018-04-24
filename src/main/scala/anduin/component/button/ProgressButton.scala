@@ -3,6 +3,7 @@
 package anduin.component.button
 
 import anduin.component.loader.InlineLoader
+import anduin.style.Style
 
 // scalastyle:off underscore.import
 import japgolly.scalajs.react._
@@ -93,7 +94,7 @@ object ProgressButton {
         ^.onClick ==> onClick,
         ^.disabled := ((props.status == Status.Loading) || (props.status == Status.Disabled) || (props.status == Status.Success)),
         TagMod.when(props.status == Status.Loading)(
-          InlineLoader("mr1")
+          InlineLoader(Style.margin.right4.value)
         ),
         TagMod(props.extraTagMods: _*),
         props.labels(props.status),
