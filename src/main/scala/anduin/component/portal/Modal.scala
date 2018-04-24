@@ -19,7 +19,7 @@ final case class Modal(
   closeOnOutsideClick: Boolean = true,
   renderTarget: (Callback, Status) => VdomNode,
   renderHeader: Option[(String, Callback) => VdomNode] = None, // (title, closing callback) => header
-  renderContent: Callback => VdomElement,
+  renderContent: Callback => VdomNode,
   onOpen: Callback = Callback.empty,
   onClose: Callback = Callback.empty
 ) {
@@ -58,7 +58,7 @@ object Modal {
         isPortalClicked = (target, _) => isPortalClicked(target),
         onOpen = props.onOpen,
         onClose = props.onClose,
-        renderTarget = props.renderTarget,
+        renderTarget = (open, _, status) => props.renderTarget(open, status),
         renderContent = (close, status) => {
           <.div(
             ^.classSet(
