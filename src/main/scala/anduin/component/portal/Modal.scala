@@ -69,8 +69,7 @@ object Modal {
             <.div.withRef(modalRef)(
               ^.cls := "modal",
               props.renderHeader.fold[VdomNode] {
-                <.div(
-                  ^.cls := "modal-header",
+                ModalHeader()(
                   <.h3(^.cls := "title", props.title),
                   <.div(
                     ^.cls := "close",
