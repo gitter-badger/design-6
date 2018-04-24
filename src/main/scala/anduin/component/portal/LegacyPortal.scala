@@ -15,7 +15,7 @@ import japgolly.scalajs.react._
 import japgolly.scalajs.react.vdom.html_<^._
 // scalastyle:on underscore.import
 
-private[portal] final case class LegacyPortal(
+final case class LegacyPortal(
   status: Status,
   children: (Callback, Status) => VdomNode,
   closeOnOutsideClick: Boolean = true,
@@ -27,11 +27,11 @@ private[portal] final case class LegacyPortal(
   }
 }
 
-private[portal] object LegacyPortal {
+object LegacyPortal {
 
   private val ComponentName = this.getClass.getSimpleName
 
-  private case class Backend(scope: BackendScope[LegacyPortal, _]) extends OnUnmount {
+  case class Backend(scope: BackendScope[LegacyPortal, _]) extends OnUnmount {
 
     private var node: Element = _ // scalastyle:ignore
     private var shouldCloseOpt: Option[Boolean] = None // scalastyle:off var.field
@@ -118,7 +118,7 @@ private[portal] object LegacyPortal {
       cb.runNow()
     }
 
-    private def destroy(props: LegacyPortal) = {
+    def destroy(props: LegacyPortal): Callback = {
       Callback(removeEventHandlers()) >> unmountNode() >> props.onClose
     }
 
@@ -133,7 +133,7 @@ private[portal] object LegacyPortal {
     }
   }
 
-  private val component = ScalaComponent
+  val component = ScalaComponent
     .builder[LegacyPortal](ComponentName)
     .stateless
     .renderBackend[Backend]

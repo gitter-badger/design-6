@@ -41,6 +41,8 @@ private[portal] object PortalWrapper {
 
   private case class Backend(scope: BackendScope[PortalWrapper, State]) extends TimerSupport {
 
+    private val portalRef = Ref.toScalaComponent(LegacyPortal.component)
+
     private def openPortal = {
       for {
         props <- scope.props
@@ -66,17 +68,26 @@ private[portal] object PortalWrapper {
       } yield ()
     }
 
+    private def destroyPortal() = {
+      for {
+        portal <- portalRef.get
+        _ <- portal.backend.destroy(portal.props)
+      } yield ()
+    }
+
     def render(props: PortalWrapper, state: State): VdomArray = {
       // We don't need to wrap a `div` here because the portal's `render` actually doesn't render anything
       VdomArray(
-        props.renderTarget(openPortal, closePortal, state.status),
-        LegacyPortal(
-          status = state.status,
-          children = props.renderContent,
-          closeOnOutsideClick = props.closeOnOutsideClick,
-          isPortalClicked = props.isPortalClicked,
-          onClose = closePortal
-        )()
+        props.renderTarget(openPortal, destroyPortal, state.status),
+        portalRef.component(
+          LegacyPortal(
+            status = state.status,
+            children = props.renderContent,
+            closeOnOutsideClick = props.closeOnOutsideClick,
+            isPortalClicked = props.isPortalClicked,
+            onClose = closePortal
+          )
+        )
       )
     }
   }
