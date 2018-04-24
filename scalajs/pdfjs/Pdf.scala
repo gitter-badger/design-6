@@ -332,7 +332,7 @@ object MetadataProperty {
       val dateToParse = dateWithoutPrefix.replace("'", "")
 
       try {
-        Some(Moment(dateToParse, DateFormat))
+        Option(Moment(dateToParse, DateFormat))
       } catch {
         case _: Throwable => None
       }
