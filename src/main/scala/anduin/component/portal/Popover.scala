@@ -60,6 +60,7 @@ object Popover {
         },
         renderContent = (close, status) => {
           <.div.withRef(portalRef)(
+            Position.styles,
             ^.classSet(
               "at-popover" -> true,
               props.popoverClassName -> true,

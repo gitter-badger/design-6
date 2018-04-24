@@ -87,7 +87,8 @@ object Tooltip {
         },
         renderContent = (_, _) => {
           <.div.withRef(portalRef)(
-            Style.position.absolute.zIndex.idx9999,
+            Position.styles,
+            Style.zIndex.idx9999,
             Style.backgroundColor.gray9.color.white.shadow.blur8,
             Style.padding.ver4.padding.hor8.borderRadius.px4,
             // tip

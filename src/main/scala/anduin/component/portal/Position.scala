@@ -2,11 +2,15 @@
 
 package anduin.component.portal
 
+import japgolly.scalajs.react.vdom.TagMod
 import org.scalajs.dom.document
 import org.scalajs.dom.raw.Element
 
+import anduin.style.Style
+
 // Position
 sealed trait Position
+
 case object PositionTopLeft extends Position
 case object PositionTop extends Position
 case object PositionTopRight extends Position
@@ -24,6 +28,9 @@ case object PositionLeft extends Position
 case object PositionLeftBottom extends Position
 
 object Position {
+  // these are required styles for all consumer of Position (eg: Popover, Tooltip)
+  val styles: TagMod = Style.position.absolute.opacity.pc0.coordinate.top0
+
   // scalastyle:off cyclomatic.complexity
   def calculate(
     position: Position,
@@ -53,7 +60,8 @@ object Position {
     }
     val offsetTop = top + verticalOffset + document.body.scrollTop
     val offsetLeft = left + horizontalOffset + document.body.scrollLeft
-    content.setAttribute("style", s"top: ${offsetTop}px; left: ${offsetLeft}px")
+    val style = s"opacity: 1; top: ${offsetTop}px; left: ${offsetLeft}px"
+    content.setAttribute("style", style)
   }
   // scalastyle:on cyclomatic.complexity
 }
