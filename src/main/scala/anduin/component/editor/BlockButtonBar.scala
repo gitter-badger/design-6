@@ -2,7 +2,7 @@
 
 package anduin.component.editor
 
-import anduin.component.icon.{Icon, Iconv2}
+import anduin.component.icon.{IconAcl, Iconv2}
 import anduin.scalajs.slate.Slate.{Change, Value}
 import anduin.style.Style
 
@@ -94,8 +94,8 @@ private[editor] object BlockButtonBar {
         Style.flexbox.flex,
         List(
           (BlockQuoteNode, Iconv2.blockquote(), "Quote"),
-          (UnorderedListNode, Icon.bulletPoint(), "Bulleted List"),
-          (OrderedListNode, Icon.orderedList(), "Numbered List")
+          (UnorderedListNode, IconAcl(name = IconAcl.NameListBullet)(), "Bulleted List"),
+          (OrderedListNode, IconAcl(name = IconAcl.NameListNumber)(), "Numbered List")
         ).toVdomArray {
           case (blockNode, icon, tip) =>
             ToolbarButton(

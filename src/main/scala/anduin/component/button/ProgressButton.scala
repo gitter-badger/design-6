@@ -37,11 +37,12 @@ final case class ProgressButton(
   status: ProgressButton.Status = ProgressButton.Status.Default,
   labels: ProgressButton.Status => String,
   classMap: ProgressButton.Status => String = {
-    case ProgressButton.Status.Default  => "-primary"
-    case ProgressButton.Status.Loading  => "-loading"
-    case ProgressButton.Status.Disabled => "disabled"
-    case ProgressButton.Status.Success  => "-success"
-    case ProgressButton.Status.Error    => "-danger"
+    case ProgressButton.Status.Default => Style.backgroundColor.primary4.shadow.borderPrimary5s.toString
+    case ProgressButton.Status.Loading =>
+      Style.backgroundColor.primary3.shadow.borderPrimary5s.flexbox.flex.flexbox.itemsCenter.toString
+    case ProgressButton.Status.Disabled => Style.disabled.backgroundGray2.disabled.shadowBorderGray4.toString
+    case ProgressButton.Status.Success  => Style.backgroundColor.success4.shadow.borderSuccess5s.toString
+    case ProgressButton.Status.Error    => Style.backgroundColor.danger4.shadow.borderDanger5s.toString
   },
   extraClasses: String = "",
   submitButton: Boolean = false,
@@ -87,7 +88,11 @@ object ProgressButton {
       <.button(
         ^.tpe := buttonType,
         ^.classSet(
-          "btn progress-button" -> true,
+          Style.padding.ver8.padding.hor16.fontSize.px14.toString -> true,
+          Style.lineHeight.px16.fontWeight.medium.borderRadius.px2.toString -> true,
+          Style.flexbox.flex.focus.outline.transition.allWithOutline.toString -> true,
+          Style.color.white.shadow.blur1Dark.disabled.colorGray6.toString -> true,
+          "progress-button" -> true,
           props.classMap(props.status) -> true,
           state.extraClasses -> state.extraClasses.nonEmpty
         ),

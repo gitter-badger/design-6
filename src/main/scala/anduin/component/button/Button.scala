@@ -15,9 +15,11 @@ final case class Button(
   color: Button.Color = Button.ColorWhite,
   size: Button.Size = Button.SizeMedium,
   onClick: Callback = Callback.empty,
+  onTouchEnd: Callback = Callback.empty,
   style: Button.Style = Button.StyleFull,
   isFullWidth: Boolean = false,
   isDisabled: Boolean = false, // if tpe != link
+  isSelected: Boolean = false,
   href: String = "" // if tpe == link
 ) {
   def apply(children: VdomNode*): VdomElement = {
@@ -34,6 +36,7 @@ object Button {
     val minimal: TagMod
     val full: TagMod
     val shared: TagMod
+    val selected: TagMod
   }
   case object ColorWhite extends Color {
     val link: TagMod = Style.color.primary4.hover.underline
@@ -42,9 +45,9 @@ object Button {
     private val sharedHover = Style.hover.colorPrimary4.hover.backgroundWhite
     private val sharedActive = Style.active.colorPrimary4.active.backgroundGray2
     val shared: TagMod = TagMod(sharedHover, sharedActive)
+    val selected: TagMod = Style.color.primary4.borderColor.gray4
   }
   private case object ColorBase {
-    val link: TagMod = Style.color.primary4.hover.underline
     val minimal: TagMod = Style.hover.colorWhite.active.colorWhite
     val full: TagMod = Style.color.white.shadow.blur1Dark
   }
@@ -54,6 +57,7 @@ object Button {
     val minimal: TagMod = TagMod(ColorBase.minimal, selfMinimal)
     val full: TagMod = TagMod(ColorBase.full, Style.backgroundColor.primary4.shadow.borderPrimary5s)
     val shared: TagMod = Style.hover.backgroundPrimary3.active.backgroundPrimary5
+    val selected: TagMod = Style.color.primary4.backgroundColor.primary5.shadow.borderPrimary5s
   }
   case object ColorSuccess extends Color {
     val link: TagMod = Style.color.success4.hover.underline
@@ -61,6 +65,7 @@ object Button {
     val minimal: TagMod = TagMod(ColorBase.minimal, selfMinimal)
     val full: TagMod = TagMod(ColorBase.full, Style.backgroundColor.success4.shadow.borderSuccess5s)
     val shared: TagMod = Style.hover.backgroundSuccess3.active.backgroundSuccess5
+    val selected: TagMod = Style.color.success4.backgroundColor.success5.shadow.borderSuccess5s
   }
   case object ColorWarning extends Color {
     val link: TagMod = Style.color.warning4.hover.underline
@@ -68,6 +73,7 @@ object Button {
     val minimal: TagMod = TagMod(ColorBase.minimal, selfMinimal)
     val full: TagMod = TagMod(ColorBase.full, Style.backgroundColor.warning4.shadow.borderWarning5s)
     val shared: TagMod = Style.hover.backgroundWarning3.active.backgroundWarning5
+    val selected: TagMod = Style.color.warning4.backgroundColor.warning5.shadow.borderWarning5s
   }
   case object ColorDanger extends Color {
     val link: TagMod = Style.color.danger4.hover.underline
@@ -75,6 +81,7 @@ object Button {
     val minimal: TagMod = TagMod(ColorBase.minimal, selfMinimal)
     val full: TagMod = TagMod(ColorBase.full, Style.backgroundColor.danger4.shadow.borderDanger5s)
     val shared: TagMod = Style.hover.backgroundDanger3.active.backgroundDanger5
+    val selected: TagMod = Style.color.danger4.backgroundColor.danger5.shadow.borderDanger5s
   }
 
   sealed trait Tpe { val value: String }
@@ -105,6 +112,15 @@ object Button {
       } yield ()
     }
 
+    private def onTouchEnd(e: ReactEventFromHtml) = {
+      for {
+        _ <- e.preventDefaultCB
+        _ <- e.stopPropagationCB
+        props <- scope.props
+        _ <- props.onTouchEnd
+      } yield ()
+    }
+
     def render(props: Button, children: PropsChildren): VdomElement = {
       val commonMods = TagMod(
         // color styles
@@ -118,19 +134,27 @@ object Button {
         TagMod.when(props.style == StyleFull) {
           Style.disabled.backgroundGray2.disabled.shadowBorderGray4
         },
+        TagMod.when(props.style == StyleLink) {
+          Style.flexbox.flex.flexbox.itemsCenter
+        },
         // common styles for StyleMinimal and StyleFull
         TagMod(
           Style.lineHeight.px16.fontWeight.medium.borderRadius.px2,
-          Style.flexbox.inlineFlex.focus.outline.transition.allWithOutline,
+          Style.flexbox.flex.focus.outline.transition.allWithOutline,
           // size and minimal styles
           TagMod.when(props.isFullWidth) {
             Style.width.pc100.flexbox.justifyCenter
           },
           props.size.style,
-          props.color.shared
+          if (props.isSelected) {
+            props.color.selected
+          } else {
+            props.color.shared
+          }
         ).when(props.style != StyleLink),
         // behaviours
         ^.onClick ==> onClick,
+        ^.onTouchEnd ==> onTouchEnd,
         children
       )
       props.tpe match {

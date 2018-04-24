@@ -10,7 +10,8 @@ import org.scalajs.dom
 import org.scalajs.dom.document
 import org.scalajs.dom.raw.{HTMLElement, MouseEvent}
 
-import anduin.component.icon.Icon
+import anduin.component.button.Button
+import anduin.component.icon.IconAcl
 import anduin.component.util.{EventUtils, JavaScriptUtils}
 
 // scalastyle:off underscore.import
@@ -306,13 +307,13 @@ object Popover {
             ),
             TagMod.when(props.trigger == Trigger.Hover)(^.onMouseLeave --> hide),
             TagMod.when(props.hasCloseButton)(
-              <.div(
-                ^.cls := "close-button-align",
-                <.a(
-                  ^.href := JavaScriptUtils.voidMethod,
-                  ^.onClick --> hide,
-                  Icon.cross("close-button", isSolid = true)
-                )
+              Button(
+                tpe = Button.TpeLink,
+                style = Button.StyleLink,
+                href = JavaScriptUtils.voidMethod,
+                onClick = hide
+              )(
+                IconAcl(name = IconAcl.NameCross)()
               )
             ),
             props.children(RenderProps(state.status == Status.Displayed, changeStatus))

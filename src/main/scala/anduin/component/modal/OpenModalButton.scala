@@ -17,6 +17,7 @@ final case class OpenModalButton(
   buttonColor: Button.Color = Button.ColorWhite,
   buttonTpe: Button.Tpe = Button.TpeDefault,
   buttonStyle: Button.Style = Button.StyleFull,
+  buttonSize: Button.Size = Button.SizeMedium,
   disabled: Boolean = false,
   tip: String = "",
   tipPlacement: Tooltip.Placement = Tooltip.Placement.Top,
@@ -90,7 +91,8 @@ object OpenModalButton {
         onClick = show,
         isDisabled = props.disabled,
         color = props.buttonColor,
-        style = props.buttonStyle
+        style = props.buttonStyle,
+        size = props.buttonSize
       )(
         children
       )

@@ -7,11 +7,11 @@ import scala.scalajs.js
 import org.scalajs.dom.raw.Element
 import org.scalajs.dom.window
 
-import anduin.component.icon.{Icon, Iconv2}
+import anduin.component.button.Button
+import anduin.component.icon.{IconAcl, Iconv2}
 import anduin.component.menu.VerticalDivider
 import anduin.component.modal.OpenModalButton
 import anduin.component.portal.{Popover, PositionBottom, StatusOpen}
-import anduin.component.util.JavaScriptUtils
 import anduin.scalajs.slate.Slate.{Change, Value}
 import anduin.style.Style
 
@@ -101,28 +101,26 @@ object Toolbar {
           <.span(
             ^.cls := "tooltip -top",
             VdomAttr("data-tip") := "Undo",
-            <.a(
-              ^.classSet(
-                "btn -plain -icon-only" -> true,
-                "disabled" -> !props.value.hasUndos
-              ),
-              ^.href := JavaScriptUtils.voidMethod,
-              ^.onClick --> props.onChange(props.value.change().undo()),
-              Iconv2.undo()
+            Button(
+              style = Button.StyleMinimal,
+              size = Button.SizeIcon,
+              onClick = props.onChange(props.value.change().undo()),
+              isDisabled = !props.value.hasUndos
+            )(
+              IconAcl(name = IconAcl.NameUndo)()
             )
           ),
           // Redo button
           <.span(
             ^.cls := "tooltip -top",
             VdomAttr("data-tip") := "Redo",
-            <.a(
-              ^.classSet(
-                "btn -plain -icon-only" -> true,
-                "disabled" -> props.value.hasRedos
-              ),
-              ^.href := JavaScriptUtils.voidMethod,
-              ^.onClick --> props.onChange(props.value.change().redo()),
-              Iconv2.redo()
+            Button(
+              style = Button.StyleMinimal,
+              size = Button.SizeIcon,
+              onClick = props.onChange(props.value.change().redo()),
+              isDisabled = props.value.hasRedos
+            )(
+              IconAcl(name = IconAcl.NameRedo)()
             )
           ),
           VerticalDivider(),
@@ -130,22 +128,24 @@ object Toolbar {
             ^.cls := "tooltip -top",
             VdomAttr("data-tip") := "Insert Link",
             OpenModalButton(
-              buttonClasses = "btn -plain -icon-only",
+              buttonStyle = Button.StyleMinimal,
+              buttonSize = Button.SizeIcon,
               modalTitle = "Add a link",
               modalBody = LinkModal(props.value, onAddLink, _)()
-            )(Iconv2.link())
+            )(
+              IconAcl(name = IconAcl.NameLink)()
+            )
           ),
           <.span(
             ^.cls := "tooltip -top",
             VdomAttr("data-tip") := "Remove Link",
-            <.a(
-              ^.classSet(
-                "btn -plain -icon-only" -> true,
-                "disabled" -> !hasLink
-              ),
-              ^.href := JavaScriptUtils.voidMethod,
-              ^.onClick --> onRemoveLink,
-              Iconv2.unlink()
+            Button(
+              style = Button.StyleMinimal,
+              size = Button.SizeIcon,
+              onClick = onRemoveLink,
+              isDisabled = !hasLink
+            )(
+              IconAcl(name = IconAcl.NameUnlink)()
             )
           ),
           VerticalDivider(),
@@ -164,13 +164,12 @@ object Toolbar {
               <.span(
                 ^.cls := "tooltip -top",
                 VdomAttr("data-tip") := "Formatting options",
-                <.a(
-                  ^.classSet(
-                    "btn -plain -icon-only" -> true,
-                    "-selected" -> (status == StatusOpen)
-                  ),
-                  ^.href := JavaScriptUtils.voidMethod,
-                  ^.onClick --> open,
+                Button(
+                  style = Button.StyleMinimal,
+                  size = Button.SizeIcon,
+                  onClick = open,
+                  isSelected = (status == StatusOpen)
+                )(
                   Iconv2.format()
                 )
               )
@@ -193,11 +192,14 @@ object Toolbar {
             ^.cls := "tooltip -top",
             VdomAttr("data-tip") := "Keyboard Shortcuts",
             OpenModalButton(
-              buttonClasses = "btn -plain -icon-only",
+              buttonStyle = Button.StyleMinimal,
+              buttonSize = Button.SizeIcon,
               modalTitle = "Keyboard Shortcuts",
               modalClasses = "editor-hotkeys-dialog",
               modalBody = _ => ShortcutModal(isMac)()
-            )(Icon.info())
+            )(
+              IconAcl(name = IconAcl.NameInfo)()
+            )
           ),
           children
         )
