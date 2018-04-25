@@ -2,8 +2,7 @@
 
 package anduin.component.editor
 
-import japgolly.scalajs.react.component.ScalaFn.Unmounted
-
+import anduin.component.portal.ModalBody
 import anduin.style.Style
 
 // scalastyle:off underscore.import
@@ -12,7 +11,7 @@ import japgolly.scalajs.react.vdom.html_<^._
 // scalastyle:on underscore.import
 
 private[editor] final case class ShortcutModal(isMac: Boolean) {
-  def apply(): Unmounted[ShortcutModal] = ShortcutModal.component(this)
+  def apply(): VdomElement = ShortcutModal.component(this)
 }
 
 private[editor] object ShortcutModal {
@@ -30,8 +29,7 @@ private[editor] object ShortcutModal {
       ("Y", "Redo")
     )
 
-    <.div(
-      ^.cls := "modal-body",
+    ModalBody(
       <.ul(
         ^.cls := "list os-specific-keys flex",
         shortcuts.toVdomArray {
