@@ -148,10 +148,8 @@ object Button {
             props.size.style
           )
         ),
-        // onClick
-        // - isDisable: need investigation why `disabled` attribute does not prevent onClick
-        // - onClick.isEmpty: allow default behaviour if onClick is not defined
-        //   eg: TpeSubmit and TpeReset
+        // onClick.isEmpty: allow default behaviour if onClick is not defined
+        // eg: TpeSubmit and TpeReset
         TagMod.when(!props.isDisabled && !props.onClick.isEmpty_?) { ^.onClick ==> onClick },
         // content
         children
