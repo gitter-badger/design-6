@@ -13,6 +13,7 @@ import japgolly.scalajs.react.vdom.html_<^._
 
 final case class Tooltip(
   position: Position = PositionBottom,
+  isDisabled: Boolean = false,
   renderTarget: () => VdomNode,
   renderContent: () => VdomNode
 ) {
@@ -75,41 +76,45 @@ object Tooltip {
       } yield ()
     }
 
-    def render(props: Tooltip): VdomElement = {
-      PortalWrapper(
-        onOpen = onOpenPortal,
-        renderTarget = (open, close, _) => {
-          <.div.withRef(targetRef)(
-            ^.onMouseOver --> open,
-            ^.onMouseOut --> close,
-            props.renderTarget()
-          )
-        },
-        renderContent = (_, _) => {
-          <.div.withRef(portalRef)(
-            Position.styles,
-            Style.zIndex.idx9999,
-            Style.backgroundColor.gray9.color.white.shadow.blur8,
-            Style.padding.ver4.padding.hor8.borderRadius.px4,
-            // tip
-            <.div(
-              Style.position.absolute.zIndex.idx0,
-              Style.backgroundColor.gray9,
-              ^.transform := "rotate(45deg)",
-              ^.width := tipSizePx,
-              ^.height := tipSizePx,
-              ^.margin := "auto",
-              getTipMod(props.position)
-            ),
-            // content
-            <.span(
-              // ensure content is always over tip
-              Style.position.relative.zIndex.idx1,
-              props.renderContent()
+    def render(props: Tooltip): VdomNode = {
+      if (props.isDisabled) {
+        props.renderTarget()
+      } else {
+        PortalWrapper(
+          onOpen = onOpenPortal,
+          renderTarget = (open, close, _) => {
+            <.div.withRef(targetRef)(
+              ^.onMouseOver --> open,
+              ^.onMouseOut --> close,
+              props.renderTarget()
             )
-          )
-        }
-      )()
+          },
+          renderContent = (_, _) => {
+            <.div.withRef(portalRef)(
+              Position.styles,
+              Style.zIndex.idx9999,
+              Style.backgroundColor.gray9.color.white.shadow.blur8,
+              Style.padding.ver4.padding.hor8.borderRadius.px4,
+              // tip
+              <.div(
+                Style.position.absolute.zIndex.idx0,
+                Style.backgroundColor.gray9,
+                ^.transform := "rotate(45deg)",
+                ^.width := tipSizePx,
+                ^.height := tipSizePx,
+                ^.margin := "auto",
+                getTipMod(props.position)
+              ),
+              // content
+              <.span(
+                // ensure content is always over tip
+                Style.position.relative.zIndex.idx1,
+                props.renderContent()
+              )
+            )
+          }
+        )()
+      }
     }
   }
 
