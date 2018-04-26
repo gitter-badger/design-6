@@ -151,7 +151,6 @@ object Toolbar {
           VerticalDivider(),
           Popover(
             position = PositionBottom,
-            popoverClassName = "format-popover",
             isPortalClicked = (target, portal) => {
               if (portal.contains(target)) {
                 CallbackTo(true)
@@ -160,7 +159,7 @@ object Toolbar {
               }
             },
             verticalOffset = 8,
-            renderTarget = (open, status) => {
+            renderTarget = (open, _, status) => {
               <.span(
                 ^.cls := "tooltip -top",
                 VdomAttr("data-tip") := "Formatting options",
@@ -168,7 +167,7 @@ object Toolbar {
                   style = Button.StyleMinimal,
                   size = Button.SizeIcon,
                   onClick = open,
-                  isSelected = (status == StatusOpen)
+                  isSelected = status == StatusOpen
                 )(
                   Iconv2.format()
                 )

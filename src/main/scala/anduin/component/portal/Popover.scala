@@ -12,14 +12,13 @@ import japgolly.scalajs.react.vdom.html_<^._
 // scalastyle:on underscore.import
 
 final case class Popover(
-  popoverClassName: String = Style.padding.all8.value,
   position: Position = PositionBottom,
   verticalOffset: Double = 0,
   horizontalOffset: Double = 0,
   closeOnEsc: Boolean = true,
   closeOnOutsideClick: Boolean = true,
   isPortalClicked: (Element, Element) => CallbackTo[Boolean] = PortalWrapper.IsPortalClicked,
-  renderTarget: (Callback, Status) => VdomElement,
+  renderTarget: (Callback, Callback, Status) => VdomElement,
   renderContent: Callback => VdomElement
 ) {
   def apply(): VdomElement = {
@@ -53,19 +52,17 @@ object Popover {
         closeOnEsc = props.closeOnEsc,
         closeOnOutsideClick = props.closeOnOutsideClick,
         isPortalClicked = props.isPortalClicked,
-        renderTarget = (open, _, status) => {
+        renderTarget = (open, close, status) => {
           <.div.withRef(targetRef)(
-            props.renderTarget(open, status)
+            props.renderTarget(open, close, status)
           )
         },
-        renderContent = (close, status) => {
+        renderContent = (close, _) => {
           <.div.withRef(portalRef)(
             Position.styles,
-            ^.classSet(
-              "at-popover" -> true,
-              props.popoverClassName -> true,
-              "-show" -> (status == StatusOpen)
-            ),
+            Style.zIndex.idx999,
+            Style.backgroundColor.white.borderRadius.px4.shadow.blur8,
+            Style.border.all.borderColor.gray4.borderWidth.px1,
             props.renderContent(close)
           )
         }
