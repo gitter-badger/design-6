@@ -60,7 +60,7 @@ object Button {
     val link: TagMod = TagMod(ColorBase.link, Style.color.primary4)
     val minimal: TagMod = TagMod(interact, ColorBase.minimal, selfMinimal)
     val full: TagMod = TagMod(interact, ColorBase.full, Style.backgroundColor.primary4.shadow.borderPrimary5s)
-    val selected: TagMod = Style.backgroundColor.primary5.shadow.borderPrimary5s
+    val selected: TagMod = TagMod(ColorBase.selected, Style.backgroundColor.primary5.shadow.borderPrimary5s)
   }
   case object ColorSuccess extends Color {
     private val interact = Style.hover.backgroundSuccess3.active.backgroundSuccess5
@@ -69,7 +69,7 @@ object Button {
     val link: TagMod = TagMod(ColorBase.link, Style.color.success4)
     val minimal: TagMod = TagMod(interact, ColorBase.minimal, selfMinimal)
     val full: TagMod = TagMod(interact, ColorBase.full, Style.backgroundColor.success4.shadow.borderSuccess5s)
-    val selected: TagMod = Style.backgroundColor.success5.shadow.borderSuccess5s
+    val selected: TagMod = TagMod(ColorBase.selected, Style.backgroundColor.success5.shadow.borderSuccess5s)
   }
   case object ColorWarning extends Color {
     private val interact = Style.hover.backgroundWarning3.active.backgroundWarning5
@@ -78,7 +78,7 @@ object Button {
     val link: TagMod = TagMod(ColorBase.link, Style.color.warning4)
     val minimal: TagMod = TagMod(interact, ColorBase.minimal, selfMinimal)
     val full: TagMod = TagMod(interact, ColorBase.full, Style.backgroundColor.warning4.shadow.borderWarning5s)
-    val selected: TagMod = Style.backgroundColor.warning5.shadow.borderWarning5s
+    val selected: TagMod = TagMod(ColorBase.selected, Style.backgroundColor.warning5.shadow.borderWarning5s)
   }
   case object ColorDanger extends Color {
     private val interact = Style.hover.backgroundDanger3.active.backgroundDanger5
@@ -87,7 +87,7 @@ object Button {
     val link: TagMod = TagMod(ColorBase.link, Style.color.danger4)
     val minimal: TagMod = TagMod(interact, ColorBase.minimal, selfMinimal)
     val full: TagMod = TagMod(interact, ColorBase.full, Style.backgroundColor.danger4.shadow.borderDanger5s)
-    val selected: TagMod = Style.backgroundColor.danger5.shadow.borderDanger5s
+    val selected: TagMod = TagMod(ColorBase.selected, Style.backgroundColor.danger5.shadow.borderDanger5s)
   }
 
   sealed trait Tpe { val value: String }
