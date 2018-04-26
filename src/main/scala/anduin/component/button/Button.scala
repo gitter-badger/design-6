@@ -153,8 +153,12 @@ object Button {
           }
         ).when(props.style != StyleLink),
         // behaviours
-        ^.onClick ==> onClick,
-        ^.onTouchEnd ==> onTouchEnd,
+        TagMod.when(!props.isDisabled)(
+          TagMod(
+            ^.onClick ==> onClick,
+            ^.onTouchEnd ==> onTouchEnd
+          )
+        ),
         children
       )
       props.tpe match {
