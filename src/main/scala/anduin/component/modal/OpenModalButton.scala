@@ -16,7 +16,7 @@ final case class OpenModalButton(
   buttonClasses: String = "flex items-center",
   buttonColor: Button.Color = Button.ColorWhite,
   buttonTpe: Button.Tpe = Button.TpeDefault,
-  buttonStyle: Button.Style = Button.StyleFull,
+  buttonStyle: Button.Style = Button.StyleLink,
   buttonSize: Button.Size = Button.SizeMedium,
   disabled: Boolean = false,
   tip: String = "",
