@@ -83,7 +83,7 @@ private[style] final case class Hover(classes: List[String] = List.empty) {
 
   /* Shadow */
 
-  def shadowBorderGray4: Style = new Style(classes :+ "hover-s-b--gray-4s")
+  def shadowBorderGray4s: Style = new Style(classes :+ "hover-s-b--gray-4s")
   def shadowBorderPrimary5s: Style = new Style(classes :+ "hover-s-b--primary-5s")
   def shadowBorderSuccess5s: Style = new Style(classes :+ "hover-s-b--success-5s")
   def shadowBorderWarning5s: Style = new Style(classes :+ "hover-s-b--warning-5s")
