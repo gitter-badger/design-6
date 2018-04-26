@@ -40,7 +40,7 @@ object Button {
   }
   case object ColorWhite extends Color {
     val link: TagMod = Style.color.primary4.hover.underline
-    val minimal: TagMod = Style.color.gray8.hover.shadowBorderGray4.active.shadowBorderGray4
+    val minimal: TagMod = Style.color.gray8.hover.shadowBorderGray4s.active.shadowBorderGray4s
     val full: TagMod = TagMod(minimal, Style.backgroundColor.gray1.shadow.borderGray4s)
     private val sharedHover = Style.hover.colorPrimary4.hover.backgroundWhite
     private val sharedActive = Style.active.colorPrimary4.active.backgroundGray2
