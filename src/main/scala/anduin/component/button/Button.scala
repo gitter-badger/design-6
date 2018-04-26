@@ -125,7 +125,7 @@ object Button {
         // ===
         TagMod.when(props.style == StyleLink)(
           TagMod(
-            Style.flexbox.inlineFlex,
+            Style.flexbox.inlineFlex.flexbox.itemsCenter,
             props.color.link
           )
         ),

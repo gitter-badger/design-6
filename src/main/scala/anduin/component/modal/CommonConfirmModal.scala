@@ -2,8 +2,9 @@
 
 package anduin.component.modal
 
-import anduin.component.button.ProgressButton
+import anduin.component.button.{Button, ProgressButton}
 import anduin.component.portal.{ModalBody, ModalFooter}
+import anduin.style.Style
 
 // scalastyle:off underscore.import
 import japgolly.scalajs.react._
@@ -36,10 +37,13 @@ object CommonConfirmModal {
         ModalFooter(
           <.div(
             ^.cls := "btn-group ml-auto",
-            <.button(
-              ^.cls := "btn",
-              ^.onClick --> props.onClose,
-              "Cancel"
+            <.span(
+              Style.margin.right4,
+              Button(
+                onClick = props.onClose
+              )(
+                "Cancel"
+              )
             ),
             ProgressButton(
               status = state.confirmBtnStatus,
