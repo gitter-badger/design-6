@@ -157,8 +157,10 @@ object Button {
         children
       )
       props.tpe match {
-        case TpeLink => <.a(^.href := props.href, mods) // link that looks like a button
-        case _       => <.button(^.tpe := props.tpe.value, ^.disabled := props.isDisabled, mods) // real button
+        // link that looks like a button
+        case TpeLink => <.a(^.href := props.href, mods)
+        // real button
+        case _ => <.button(^.tpe := props.tpe.value, ^.disabled := props.isDisabled, mods)
       }
     }
   }
