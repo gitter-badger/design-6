@@ -15,7 +15,6 @@ final case class Button(
   color: Button.Color = Button.ColorWhite,
   size: Button.Size = Button.SizeMedium,
   onClick: Callback = Callback.empty,
-  onTouchEnd: Callback = Callback.empty,
   style: Button.Style = Button.StyleFull,
   isFullWidth: Boolean = false,
   isDisabled: Boolean = false, // if tpe != link
@@ -112,15 +111,6 @@ object Button {
       } yield ()
     }
 
-    private def onTouchEnd(e: ReactEventFromHtml) = {
-      for {
-        _ <- e.preventDefaultCB
-        _ <- e.stopPropagationCB
-        props <- scope.props
-        _ <- props.onTouchEnd
-      } yield ()
-    }
-
     def render(props: Button, children: PropsChildren): VdomElement = {
       val commonMods = TagMod(
         // color styles
@@ -154,10 +144,7 @@ object Button {
         ).when(props.style != StyleLink),
         // behaviours
         TagMod.when(!props.isDisabled)(
-          TagMod(
-            ^.onClick ==> onClick,
-            ^.onTouchEnd ==> onTouchEnd
-          )
+          ^.onClick ==> onClick
         ),
         children
       )
