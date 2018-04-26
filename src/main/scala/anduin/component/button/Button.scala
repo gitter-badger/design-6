@@ -34,53 +34,60 @@ object Button {
     val link: TagMod
     val minimal: TagMod
     val full: TagMod
-    val shared: TagMod
     val selected: TagMod
   }
   case object ColorWhite extends Color {
+    private val interactHover = Style.hover.colorPrimary4.hover.backgroundWhite
+    private val interactActive = Style.active.colorPrimary4.active.backgroundGray2
+    private val interact = TagMod(interactHover, interactActive)
+
     val link: TagMod = Style.color.primary4.hover.underline
-    val minimal: TagMod = Style.color.gray8.hover.shadowBorderGray4s.active.shadowBorderGray4s
+    val minimal: TagMod = TagMod(interact, Style.color.gray8.hover.shadowBorderGray4s.active.shadowBorderGray4s)
     val full: TagMod = TagMod(minimal, Style.backgroundColor.gray1.shadow.borderGray4s)
-    private val sharedHover = Style.hover.colorPrimary4.hover.backgroundWhite
-    private val sharedActive = Style.active.colorPrimary4.active.backgroundGray2
-    val shared: TagMod = TagMod(sharedHover, sharedActive)
-    val selected: TagMod = Style.color.primary4.borderColor.gray4
+    val selected: TagMod = Style.color.primary4.backgroundColor.gray2.shadow.borderGray4s
   }
+  // ColorBase provides the common styles for Accent Color: from Primary to Danger
   private case object ColorBase {
+    val link: TagMod = Style.hover.underline
     val minimal: TagMod = Style.hover.colorWhite.active.colorWhite
     val full: TagMod = Style.color.white.shadow.blur1Dark
+    val selected: TagMod = Style.color.white
   }
   case object ColorPrimary extends Color {
-    val link: TagMod = Style.color.primary4.hover.underline
+    private val interact = Style.hover.backgroundPrimary3.active.backgroundPrimary5
     private val selfMinimal = Style.color.primary4.hover.shadowBorderPrimary5s.active.shadowBorderPrimary5s
-    val minimal: TagMod = TagMod(ColorBase.minimal, selfMinimal)
-    val full: TagMod = TagMod(ColorBase.full, Style.backgroundColor.primary4.shadow.borderPrimary5s)
-    val shared: TagMod = Style.hover.backgroundPrimary3.active.backgroundPrimary5
-    val selected: TagMod = Style.color.primary4.backgroundColor.primary5.shadow.borderPrimary5s
+
+    val link: TagMod = TagMod(ColorBase.link, Style.color.primary4)
+    val minimal: TagMod = TagMod(interact, ColorBase.minimal, selfMinimal)
+    val full: TagMod = TagMod(interact, ColorBase.full, Style.backgroundColor.primary4.shadow.borderPrimary5s)
+    val selected: TagMod = Style.backgroundColor.primary5.shadow.borderPrimary5s
   }
   case object ColorSuccess extends Color {
-    val link: TagMod = Style.color.success4.hover.underline
+    private val interact = Style.hover.backgroundSuccess3.active.backgroundSuccess5
     private val selfMinimal = Style.color.success4.hover.shadowBorderSuccess5s.active.shadowBorderSuccess5s
-    val minimal: TagMod = TagMod(ColorBase.minimal, selfMinimal)
-    val full: TagMod = TagMod(ColorBase.full, Style.backgroundColor.success4.shadow.borderSuccess5s)
-    val shared: TagMod = Style.hover.backgroundSuccess3.active.backgroundSuccess5
-    val selected: TagMod = Style.color.success4.backgroundColor.success5.shadow.borderSuccess5s
+
+    val link: TagMod = TagMod(ColorBase.link, Style.color.success4)
+    val minimal: TagMod = TagMod(interact, ColorBase.minimal, selfMinimal)
+    val full: TagMod = TagMod(interact, ColorBase.full, Style.backgroundColor.success4.shadow.borderSuccess5s)
+    val selected: TagMod = Style.backgroundColor.success5.shadow.borderSuccess5s
   }
   case object ColorWarning extends Color {
-    val link: TagMod = Style.color.warning4.hover.underline
+    private val interact = Style.hover.backgroundWarning3.active.backgroundWarning5
     private val selfMinimal = Style.color.warning4.hover.shadowBorderWarning5s.active.shadowBorderWarning5s
-    val minimal: TagMod = TagMod(ColorBase.minimal, selfMinimal)
-    val full: TagMod = TagMod(ColorBase.full, Style.backgroundColor.warning4.shadow.borderWarning5s)
-    val shared: TagMod = Style.hover.backgroundWarning3.active.backgroundWarning5
-    val selected: TagMod = Style.color.warning4.backgroundColor.warning5.shadow.borderWarning5s
+
+    val link: TagMod = TagMod(ColorBase.link, Style.color.warning4)
+    val minimal: TagMod = TagMod(interact, ColorBase.minimal, selfMinimal)
+    val full: TagMod = TagMod(interact, ColorBase.full, Style.backgroundColor.warning4.shadow.borderWarning5s)
+    val selected: TagMod = Style.backgroundColor.warning5.shadow.borderWarning5s
   }
   case object ColorDanger extends Color {
-    val link: TagMod = Style.color.danger4.hover.underline
+    private val interact = Style.hover.backgroundDanger3.active.backgroundDanger5
     private val selfMinimal = Style.color.danger4.hover.shadowBorderDanger5s.active.shadowBorderDanger5s
-    val minimal: TagMod = TagMod(ColorBase.minimal, selfMinimal)
-    val full: TagMod = TagMod(ColorBase.full, Style.backgroundColor.danger4.shadow.borderDanger5s)
-    val shared: TagMod = Style.hover.backgroundDanger3.active.backgroundDanger5
-    val selected: TagMod = Style.color.danger4.backgroundColor.danger5.shadow.borderDanger5s
+
+    val link: TagMod = TagMod(ColorBase.link, Style.color.danger4)
+    val minimal: TagMod = TagMod(interact, ColorBase.minimal, selfMinimal)
+    val full: TagMod = TagMod(interact, ColorBase.full, Style.backgroundColor.danger4.shadow.borderDanger5s)
+    val selected: TagMod = Style.backgroundColor.danger5.shadow.borderDanger5s
   }
 
   sealed trait Tpe { val value: String }
@@ -112,49 +119,46 @@ object Button {
     }
 
     def render(props: Button, children: PropsChildren): VdomElement = {
-      val commonMods = TagMod(
-        // color styles
-        props.style match {
-          case StyleLink    => props.color.link
-          case StyleMinimal => props.color.minimal
-          case _            => props.color.full
-        },
-        // disabled styles
+      val mods = TagMod(
+        // common styles for all Style
         Style.disabled.colorGray6,
+        // ===
+        TagMod.when(props.style == StyleLink)(
+          TagMod(
+            Style.flexbox.inlineFlex,
+            props.color.link
+          )
+        ),
         TagMod.when(props.style == StyleFull) {
           Style.disabled.backgroundGray2.disabled.shadowBorderGray4
         },
-        TagMod.when(props.style == StyleLink) {
-          Style.flexbox.flex.flexbox.itemsCenter
-        },
         // common styles for StyleMinimal and StyleFull
-        TagMod(
-          Style.lineHeight.px16.fontWeight.medium.borderRadius.px2,
-          Style.flexbox.flex.focus.outline.transition.allWithOutline,
-          // size and minimal styles
-          TagMod.when(props.isFullWidth) {
-            Style.width.pc100.flexbox.justifyCenter
-          },
-          props.size.style,
-          if (props.isSelected) {
-            props.color.selected
-          } else {
-            props.color.shared
-          }
-        ).when(props.style != StyleLink),
-        // behaviours
-        TagMod.when(!props.isDisabled)(
-          ^.onClick ==> onClick
+        TagMod.when(props.style == StyleMinimal || props.style == StyleFull)(
+          TagMod(
+            if (props.isSelected) { props.color.selected } else {
+              props.style match {
+                case StyleFull    => props.color.full
+                case StyleMinimal => props.color.minimal
+                case _            => TagMod.empty // No StyleLink here
+              }
+            },
+            Style.lineHeight.px16.fontWeight.medium.borderRadius.px2,
+            Style.flexbox.flex.focus.outline.transition.allWithOutline,
+            TagMod.when(props.isFullWidth) { Style.width.pc100.flexbox.justifyCenter },
+            props.size.style
+          )
         ),
+        // onClick
+        // - isDisable: need investigation why `disabled` attribute does not prevent onClick
+        // - onClick.isEmpty: allow default behaviour if onClick is not defined
+        //   eg: TpeSubmit and TpeReset
+        TagMod.when(!props.isDisabled && !props.onClick.isEmpty_?) { ^.onClick ==> onClick },
+        // content
         children
       )
       props.tpe match {
-        // link that looks like a button
-        case TpeLink => <.a(^.href := props.href, commonMods)
-        // real button
-        case _ =>
-          val tpe = props.tpe.value
-          <.button(^.tpe := tpe, ^.disabled := props.isDisabled, commonMods)
+        case TpeLink => <.a(^.href := props.href, mods) // link that looks like a button
+        case _       => <.button(^.tpe := props.tpe.value, ^.disabled := props.isDisabled, mods) // real button
       }
     }
   }
