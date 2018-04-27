@@ -2,7 +2,8 @@
 
 package anduin.component.editor
 
-import anduin.component.portal.{ModalBody, ModalFooter}
+import anduin.component.button.Button
+import anduin.component.portal.{ModalBody, ModalFooterWCancel}
 import anduin.scalajs.slate.Slate.Value
 
 // scalastyle:off underscore.import
@@ -42,27 +43,17 @@ private[editor] object LinkModal {
             }
           )
         ),
-        ModalFooter(
+        ModalFooterWCancel(cancel = props.onClose)(
           <.div(
-            ^.cls := "btn-group ml-auto",
-            <.button(
-              ^.cls := "btn",
-              ^.tpe := "button",
-              ^.onClick --> props.onClose,
-              "Cancel"
-            ),
-            <.button(
-              ^.cls := "btn -primary",
-              ^.tpe := "button",
-              ^.disabled := state.link.isEmpty,
-              ^.onClick --> {
-                for {
-                  _ <- props.onClose
-                  _ <- props.onAddLink(state.link)
-                } yield ()
-              },
-              "Add"
-            )
+            Button(
+              color = Button.ColorPrimary,
+              isDisabled = state.link.isEmpty,
+              onClick = {
+              for {
+                _ <- props.onClose
+                _ <- props.onAddLink(state.link)
+              } yield ()
+            })("Add")
           )
         )
       )

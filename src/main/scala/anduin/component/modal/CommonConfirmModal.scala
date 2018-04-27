@@ -3,8 +3,7 @@
 package anduin.component.modal
 
 import anduin.component.button.{Button, ProgressButton}
-import anduin.component.portal.{ModalBody, ModalFooter}
-import anduin.style.Style
+import anduin.component.portal.{ModalBody, ModalFooterWCancel}
 
 // scalastyle:off underscore.import
 import japgolly.scalajs.react._
@@ -15,8 +14,7 @@ final case class CommonConfirmModal(
   displayInfo: VdomNode,
   onConfirm: Callback => Callback,
   onClose: Callback,
-  confirmBtnLabel: String = "Confirm",
-  confirmBtnExtraClasses: String = ""
+  confirmBtnLabel: String = "Confirm"
 ) {
   def apply(): VdomElement = CommonConfirmModal.component(this)
 }
@@ -34,33 +32,22 @@ object CommonConfirmModal {
     def render(props: CommonConfirmModal, state: State): VdomArray = {
       VdomArray(
         ModalBody(props.displayInfo),
-        ModalFooter(
-          <.div(
-            ^.cls := "btn-group ml-auto",
-            <.span(
-              Style.margin.right4,
-              Button(
-                onClick = props.onClose
-              )(
-                "Cancel"
-              )
-            ),
-            ProgressButton(
-              status = state.confirmBtnStatus,
-              extraClasses = props.confirmBtnExtraClasses,
-              labels = {
-                case ProgressButton.Status.Loading => "Confirming"
-                case ProgressButton.Status.Success => "Done"
-                case ProgressButton.Status.Error   => "Failed to confirm, please try again"
-                case ProgressButton.Status.Default | ProgressButton.Status.Disabled =>
-                  props.confirmBtnLabel
-              },
-              onClick = for {
-                _ <- scope.modState(_.copy(confirmBtnStatus = ProgressButton.Status.Loading))
-                _ <- props.onConfirm(props.onClose)
-              } yield ()
-            )()
-          )
+        ModalFooterWCancel(cancel = props.onClose)(
+          ProgressButton(
+            color = Button.ColorPrimary,
+            status = state.confirmBtnStatus,
+            labels = {
+              case ProgressButton.Status.Loading => "Confirming"
+              case ProgressButton.Status.Success => "Done"
+              case ProgressButton.Status.Error   => "Failed to confirm, please try again"
+              case ProgressButton.Status.Default | ProgressButton.Status.Disabled =>
+                props.confirmBtnLabel
+            },
+            onClick = for {
+              _ <- scope.modState(_.copy(confirmBtnStatus = ProgressButton.Status.Loading))
+              _ <- props.onConfirm(props.onClose)
+            } yield ()
+          )()
         )
       )
     }

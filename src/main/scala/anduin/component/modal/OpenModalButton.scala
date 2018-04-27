@@ -18,6 +18,7 @@ final case class OpenModalButton(
   buttonTpe: Button.Tpe = Button.TpeDefault,
   buttonStyle: Button.Style = Button.StyleLink,
   buttonSize: Button.Size = Button.SizeMedium,
+  buttonIsFullWidth: Boolean = false,
   disabled: Boolean = false,
   tip: String = "",
   tipPlacement: Tooltip.Placement = Tooltip.Placement.Top,
@@ -90,6 +91,7 @@ object OpenModalButton {
       val renderBtn = Button(
         onClick = show,
         isDisabled = props.disabled,
+        isFullWidth = props.buttonIsFullWidth,
         color = props.buttonColor,
         style = props.buttonStyle,
         size = props.buttonSize,
@@ -99,21 +101,12 @@ object OpenModalButton {
       )
 
       <.span(
-        ReactHammer(
-          onTap = (e: ReactHammer.Event) =>
-            Callback.when(
-              props.isOnMobile
-            ) {
-              show(e)
-          }
-        )(
-          <.span(
-            if (props.tip.nonEmpty) {
-              Tooltip(tip = props.tip, placement = props.tipPlacement)(renderBtn)
-            } else {
-              renderBtn
-            }
-          )
+        ReactHammer(onTap = (e: ReactHammer.Event) => Callback.when(props.isOnMobile) { show(e) })(
+          <.span(if (props.tip.nonEmpty) {
+            Tooltip(tip = props.tip, placement = props.tipPlacement)(renderBtn)
+          } else {
+            renderBtn
+          })
         ),
         TagMod.unless(props.disabled) {
           Modal(
