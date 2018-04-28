@@ -45,7 +45,7 @@ object ProgressButton {
         tpe = props.tpe,
         color = props.color,
         onClick = props.onClick,
-        isDisabled = props.status == Status.Disabled || props.isDisabled,
+        isDisabled = props.status == Status.Disabled || props.status == Status.Loading || props.isDisabled,
         isFullWidth = props.isFullWidth
       )(
         <.div(
