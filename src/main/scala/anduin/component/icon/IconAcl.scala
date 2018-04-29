@@ -2,7 +2,6 @@
 
 package anduin.component.icon
 
-import anduin.component.util.ComponentUtils
 import anduin.style.Style
 
 // scalastyle:off underscore.import
@@ -20,7 +19,7 @@ final case class IconAcl(
 // scalastyle:off  multiple number.of.methods number.of.types file.size.limit line.size.limit
 object IconAcl {
 
-  val ComponentName: String = ComponentUtils.name(this)
+  private val ComponentName = this.getClass.getSimpleName
 
   private case class Backend(scope: BackendScope[IconAcl, _]) {
     def render(props: IconAcl): VdomElement = {
