@@ -29,7 +29,7 @@ case object PositionLeftBottom extends Position
 
 object Position {
   // these are required styles for all consumer of Position (eg: Popover, Tooltip)
-  val styles: TagMod = Style.position.absolute.opacity.pc0.coordinate.top0
+  val styles: TagMod = Style.position.fixed.opacity.pc0.coordinate.top0
 
   // scalastyle:off cyclomatic.complexity
   def calculate(
