@@ -69,7 +69,7 @@ private[portal] object PortalWrapper {
       } yield ()
     }
 
-    private def destroyPortal() = {
+    private def destroyPortal = {
       for {
         portal <- portalRef.get
         _ <- portal.backend.destroy(portal.props)
