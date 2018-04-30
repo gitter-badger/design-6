@@ -124,10 +124,7 @@ object Button {
         Style.disabled.colorGray6,
         // ===
         TagMod.when(props.style == StyleLink)(
-          TagMod(
-            Style.flexbox.inlineFlex,
-            props.color.link
-          )
+          TagMod(Style.flexbox.inlineFlex, props.color.link)
         ),
         TagMod.when(props.style == StyleFull) {
           Style.disabled.backgroundGray2.disabled.shadowBorderGray4
