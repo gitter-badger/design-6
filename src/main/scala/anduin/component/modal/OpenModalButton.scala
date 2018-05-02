@@ -15,7 +15,7 @@ import japgolly.scalajs.react.vdom.html_<^._
 final case class OpenModalButton(
   buttonClasses: String = "flex items-center",
   buttonColor: Button.Color = Button.ColorWhite,
-  buttonTpe: Button.Tpe = Button.TpeDefault,
+  buttonTpe: Button.Tpe = Button.TpeButton,
   buttonStyle: Button.Style = Button.StyleLink,
   buttonSize: Button.Size = Button.SizeMedium,
   buttonIsFullWidth: Boolean = false,

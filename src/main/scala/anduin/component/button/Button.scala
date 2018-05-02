@@ -10,7 +10,7 @@ import japgolly.scalajs.react.vdom.html_<^._
 // scalastyle:on underscore.import
 
 final case class Button(
-  tpe: Button.Tpe = Button.TpeDefault,
+  tpe: Button.Tpe = Button.TpeButton,
   color: Button.Color = Button.ColorWhite,
   size: Button.Size = Button.SizeMedium,
   onClick: Callback = Callback.empty,
@@ -91,7 +91,7 @@ object Button {
 
   sealed trait Tpe { val value: String }
   case object TpeLink extends Tpe { val value = "link" }
-  case object TpeDefault extends Tpe { val value = "button" }
+  case object TpeButton extends Tpe { val value = "button" }
   case object TpeSubmit extends Tpe { val value = "submit" }
   case object TpeReset extends Tpe { val value = "reset" }
 
@@ -120,7 +120,7 @@ object Button {
     def render(props: Button, children: PropsChildren): VdomElement = {
       val mods = TagMod(
         // common styles for all Style
-        Style.disabled.colorGray6,
+        Style.disabled.colorGray6.whiteSpace.noWrap,
         // ===
         TagMod.when(props.style == StyleLink)(
           TagMod(Style.flexbox.inlineFlex, props.color.link)
