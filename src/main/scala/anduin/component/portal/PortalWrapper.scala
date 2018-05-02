@@ -69,16 +69,16 @@ private[portal] object PortalWrapper {
       } yield ()
     }
 
-    private def destroyPortal() = {
+    private def destroyPortal = {
       for {
         portal <- portalRef.get
         _ <- portal.backend.destroy(portal.props)
       } yield ()
     }
 
-    def render(props: PortalWrapper, state: State): VdomArray = {
+    def render(props: PortalWrapper, state: State): VdomElement = {
       // We don't need to wrap a `div` here because the portal's `render` actually doesn't render anything
-      VdomArray(
+      ReactFragment(
         props.renderTarget(openPortal, destroyPortal, state.status),
         portalRef.component(
           LegacyPortal(
