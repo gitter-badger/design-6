@@ -120,7 +120,7 @@ object Button {
     def render(props: Button, children: PropsChildren): VdomElement = {
       val mods = TagMod(
         // common styles for all Style
-        Style.disabled.colorGray6,
+        Style.disabled.colorGray6.whiteSpace.noWrap,
         // ===
         TagMod.when(props.style == StyleLink)(
           TagMod(Style.flexbox.inlineFlex, props.color.link)
