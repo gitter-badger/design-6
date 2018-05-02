@@ -2,8 +2,8 @@
 package com.anduin.stargazer.client.component.date
 
 import java.util.Locale
-
 import scala.scalajs.js.{Date => JsDate}
+
 import japgolly.scalajs.react.extra.{EventListener, OnUnmount}
 import org.scalajs.dom
 import org.scalajs.dom.ext.KeyCode
@@ -12,6 +12,8 @@ import java.time.format.TextStyle
 import java.time.{LocalDate, Month, ZoneOffset, ZonedDateTime}
 
 import org.scalajs.dom.raw.HTMLElement
+
+import anduin.component.button.Button
 
 // scalastyle:off underscore.import
 import japgolly.scalajs.react._
@@ -131,9 +133,8 @@ object Calendar {
     /**
       * Choose a particular day
       */
-    private def onDayChange(date: LocalDate)(e: ReactEvent) = {
+    private def onDayChange(date: LocalDate)() = {
       for {
-        _ <- e.stopPropagationCB
         props <- scope.props
         _ <- scope.modState(_.copy(date = date))
         _ <- props.onHideCalendar(date)
@@ -271,7 +272,9 @@ object Calendar {
                       "datepicker-day-today" -> (now == dayModel),
                       "datepicker-day-disabled" -> isDisabled
                     ),
-                    TagMod.when(dayInMonth)(<.button(d, ^.tpe := "button", ^.onClick ==> onDayChange(dayModel)))
+                    TagMod.when(dayInMonth)(
+                      Button(onClick = onDayChange(dayModel))(d)
+                    )
                   )
               }
             )
