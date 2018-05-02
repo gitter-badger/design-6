@@ -2,7 +2,6 @@
 
 package anduin.component.button
 
-import anduin.component.util.ComponentUtils
 import anduin.style.Style
 
 // scalastyle:off underscore.import
@@ -28,7 +27,7 @@ final case class Button(
 
 object Button {
 
-  private final val ComponentName = ComponentUtils.name(this)
+  private val ComponentName = this.getClass.getSimpleName
 
   sealed trait Color {
     val link: TagMod
