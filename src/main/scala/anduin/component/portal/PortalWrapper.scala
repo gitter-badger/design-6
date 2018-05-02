@@ -100,6 +100,12 @@ private[portal] object PortalWrapper {
       State(status = status)
     }
     .renderBackend[Backend]
+    .componentWillReceiveProps { scope =>
+      Callback.when(scope.nextProps.isOpen != scope.currentProps.isOpen) {
+        val status = if (scope.nextProps.isOpen) StatusOpen else StatusClose
+        scope.modState(_.copy(status = status))
+      }
+    }
     .configure(
       TimerSupport.install
     )
