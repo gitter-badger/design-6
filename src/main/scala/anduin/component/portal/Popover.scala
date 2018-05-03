@@ -18,8 +18,8 @@ final case class Popover(
   closeOnEsc: Boolean = true,
   closeOnOutsideClick: Boolean = true,
   isPortalClicked: (Element, Element, Element) => CallbackTo[Boolean] = Popover.IsPortalClicked,
-  renderTarget: (Callback, Callback, Status) => VdomElement,
-  renderContent: Callback => VdomElement
+  renderTarget: (Callback, Callback, Status) => VdomNode,
+  renderContent: Callback => VdomNode
 ) {
   def apply(): VdomElement = {
     Popover.component(this)
@@ -68,13 +68,18 @@ object Popover {
           )
         },
         renderContent = (close, _) => {
-          <.div.withRef(portalRef)(
-            Position.styles,
-            Style.zIndex.idx999,
-            Style.backgroundColor.white.borderRadius.px4.shadow.blur8,
-            Style.border.all.borderColor.gray4.borderWidth.px1,
-            props.renderContent(close)
-          )
+          val content = props.renderContent(close)
+          if (content == EmptyVdom) {
+            EmptyVdom
+          } else {
+            <.div.withRef(portalRef)(
+              Position.styles,
+              Style.zIndex.idx999,
+              Style.backgroundColor.white.borderRadius.px4.shadow.blur8,
+              Style.border.all.borderColor.gray4.borderWidth.px1,
+              content
+            )
+          }
         }
       )()
     }
