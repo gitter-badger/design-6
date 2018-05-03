@@ -34,7 +34,7 @@ private[portal] final case class PortalWrapper(
 private[portal] object PortalWrapper {
 
   val IsPortalClicked: (Element, Element) => CallbackTo[Boolean] =
-    (target: Element, portal: Element) => CallbackTo(portal.contains(target))
+    (target: Element, portal: Element) => CallbackTo(target.contains(portal))
 
   private val ComponentName = this.getClass.getSimpleName
 

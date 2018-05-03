@@ -151,12 +151,11 @@ object Toolbar {
           VerticalDivider(),
           Popover(
             position = PositionBottom,
-            isPortalClicked = (target, portal) => {
-              if (portal.contains(target)) {
-                CallbackTo(true)
-              } else {
-                props.editorRef().map(_.contains(target)).getOrElse(false)
-              }
+            isPortalClicked = (clickedTarget, target, portal) => {
+              Popover.IsPortalClicked(clickedTarget, target, portal) || props
+                .editorRef()
+                .map(_.contains(clickedTarget))
+                .getOrElse(false)
             },
             verticalOffset = 8,
             renderTarget = (open, _, status) => {

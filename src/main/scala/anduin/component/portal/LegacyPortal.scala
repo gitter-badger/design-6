@@ -34,7 +34,6 @@ object LegacyPortal {
   case class Backend(scope: BackendScope[LegacyPortal, _]) extends OnUnmount {
 
     private var node: Element = _ // scalastyle:ignore
-    private var shouldCloseOpt: Option[Boolean] = None // scalastyle:off var.field
 
     def componentDidMount(): Callback = {
       dom.document.addEventListener("click", onDocumentClick)
@@ -55,7 +54,6 @@ object LegacyPortal {
             node = dom.document.createElement("div")
             dom.document.body.appendChild(node)
           }
-          shouldCloseOpt = Some(false)
 
           Callback {
             ReactDom.renderSubtreeIntoContainer(scope.raw, children.rawNode, node)
@@ -82,15 +80,7 @@ object LegacyPortal {
     private def onDocumentClick(e: MouseEvent): Unit = {
       val cb = for {
         props <- scope.props
-        _ <- Callback {
-          if (shouldCloseOpt.isEmpty) {
-            shouldCloseOpt = Some(true)
-          }
-        }
-        _ <- Callback.when(
-          shouldCloseOpt.contains(true) && props.status == StatusOpen
-            && Option(node).nonEmpty && EventUtils.leftButtonClicked(e)
-        ) {
+        _ <- Callback.when(props.status == StatusOpen && Option(node).nonEmpty && EventUtils.leftButtonClicked(e)) {
           val clickInside = e.target match {
             case t: Element => props.isPortalClicked(t, node)
             case _          => CallbackTo(false)
@@ -98,9 +88,6 @@ object LegacyPortal {
           clickInside.flatMap { isInside =>
             Callback.when(!isInside && props.closeOnOutsideClick)(destroy(props))
           }
-        }
-        _ <- Callback {
-          shouldCloseOpt = None
         }
       } yield ()
 

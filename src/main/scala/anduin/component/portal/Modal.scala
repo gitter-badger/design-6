@@ -15,18 +15,15 @@ final case class Modal(
   title: String,
   size: Modal.Size = Modal.SizeSmall,
   isOpen: Boolean = false,
-  // ===
   isClosable: Boolean = true,
   isClosableOnEsc: Boolean = true,
   isClosableOnOutsideClick: Boolean = true,
-  // ===
   // (open callback) => target Vdom
   renderTarget: (Callback) => VdomNode,
   // (title, close callback, isCloseable) => header Vdom
   renderHeader: (String, Boolean, Callback) => VdomNode = Modal.defaultRenderHeader,
   // (close callback) => content Vdom
   renderContent: Callback => VdomNode,
-  // ===
   onOpen: Callback = Callback.empty,
   onClose: Callback = Callback.empty
 ) {
@@ -50,10 +47,10 @@ object Modal {
 
     private val modalRef = Ref[HTMLElement]
 
-    private def isPortalClicked(target: Element) = {
+    private def isPortalClicked(clickedTarget: Element) = {
       val t = for {
         modal <- modalRef.get
-      } yield !target.contains(modal)
+      } yield !clickedTarget.contains(modal)
       t.asCallback.map(_.getOrElse(false))
     }
 
@@ -62,7 +59,7 @@ object Modal {
         isOpen = props.isOpen,
         closeOnEsc = props.isClosable && props.isClosableOnEsc,
         closeOnOutsideClick = props.isClosable && props.isClosableOnOutsideClick,
-        isPortalClicked = (target, _) => isPortalClicked(target),
+        isPortalClicked = (clickedTarget, _) => isPortalClicked(clickedTarget),
         onOpen = props.onOpen,
         onClose = props.onClose,
         renderTarget = (open, _, _) => props.renderTarget(open),

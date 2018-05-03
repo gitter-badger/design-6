@@ -17,7 +17,7 @@ final case class Popover(
   horizontalOffset: Double = 0,
   closeOnEsc: Boolean = true,
   closeOnOutsideClick: Boolean = true,
-  isPortalClicked: (Element, Element) => CallbackTo[Boolean] = PortalWrapper.IsPortalClicked,
+  isPortalClicked: (Element, Element, Element) => CallbackTo[Boolean] = Popover.IsPortalClicked,
   renderTarget: (Callback, Callback, Status) => VdomElement,
   renderContent: Callback => VdomElement
 ) {
@@ -29,6 +29,10 @@ final case class Popover(
 object Popover {
 
   private val ComponentName = this.getClass.getSimpleName
+
+  val IsPortalClicked = (clickedTarget: Element, target: Element, portal: Element) => {
+    CallbackTo(target.contains(clickedTarget) || portal.contains(clickedTarget))
+  }
 
   private case class Backend(scope: BackendScope[Popover, _]) {
 
@@ -51,7 +55,13 @@ object Popover {
         onOpen = onOpenPortal,
         closeOnEsc = props.closeOnEsc,
         closeOnOutsideClick = props.closeOnOutsideClick,
-        isPortalClicked = props.isPortalClicked,
+        isPortalClicked = (clickedTarget, portal) => {
+          targetRef.get.asCallback.flatMap { target =>
+            target.fold(CallbackTo(false)) { t =>
+              props.isPortalClicked(clickedTarget, t, portal)
+            }
+          }
+        },
         renderTarget = (open, close, status) => {
           <.div.withRef(targetRef)(
             props.renderTarget(open, close, status)
