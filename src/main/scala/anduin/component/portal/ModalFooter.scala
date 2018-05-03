@@ -2,6 +2,8 @@
 
 package anduin.component.portal
 
+import anduin.style.Style
+
 // scalastyle:off underscore.import
 import japgolly.scalajs.react._
 import japgolly.scalajs.react.vdom.html_<^._
@@ -19,7 +21,7 @@ object ModalFooter {
     .builder[Unit](ComponentName)
     .stateless
     .render_C { children =>
-      <.div(^.cls := "modal-footer", children)
+      <.div(Style.padding.hor20.padding.bottom20, children)
     }
     .build
 }

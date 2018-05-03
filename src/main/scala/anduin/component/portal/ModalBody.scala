@@ -5,6 +5,8 @@ package anduin.component.portal
 // scalastyle:off underscore.import
 import japgolly.scalajs.react._
 import japgolly.scalajs.react.vdom.html_<^._
+
+import anduin.style.Style
 // scalastyle:on underscore.import
 
 object ModalBody {
@@ -19,7 +21,7 @@ object ModalBody {
     .builder[Unit](ComponentName)
     .stateless
     .render_C { children =>
-      <.div(^.cls := "modal-body", children)
+      <.div(Style.padding.all20, children)
     }
     .build
 }

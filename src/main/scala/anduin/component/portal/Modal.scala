@@ -4,7 +4,7 @@ package anduin.component.portal
 
 import org.scalajs.dom.raw.{Element, HTMLElement}
 
-import anduin.component.icon.IconAcl
+import anduin.style.Style
 
 // scalastyle:off underscore.import
 import japgolly.scalajs.react._
@@ -13,31 +13,38 @@ import japgolly.scalajs.react.vdom.html_<^._
 
 final case class Modal(
   title: String,
+  size: Modal.Size = Modal.SizeSmall,
   isOpen: Boolean = false,
-  size: Modal.Size = Modal.SizeDefault,
-  closeOnEsc: Boolean = true,
-  closeOnOutsideClick: Boolean = true,
-  renderTarget: (Callback, Status) => VdomNode,
-  renderHeader: Option[(String, Callback) => VdomNode] = None, // (title, closing callback) => header
+  // ===
+  isClosable: Boolean = true,
+  isClosableOnEsc: Boolean = true,
+  isClosableOnOutsideClick: Boolean = true,
+  // ===
+  // (open callback) => target Vdom
+  renderTarget: (Callback) => VdomNode,
+  // (title, close callback, isCloseable) => header Vdom
+  renderHeader: (String, Boolean, Callback) => VdomNode = Modal.defaultRenderHeader,
+  // (close callback) => content Vdom
   renderContent: Callback => VdomNode,
+  // ===
   onOpen: Callback = Callback.empty,
   onClose: Callback = Callback.empty
 ) {
-  def apply(): VdomElement = {
-    Modal.component(this)
-  }
+  def apply(): VdomElement = Modal.component(this)
 }
 
 object Modal {
 
   private val ComponentName = this.getClass.getSimpleName
 
-  sealed trait Size {
-    def className: String
-  }
-  case object SizeDefault extends Size { val className = "" }
-  case object SizeMedium extends Size { val className = "-medium" }
-  case object SizeLarge extends Size { val className = "-large" }
+  private def defaultRenderHeader(title: String, isClosable: Boolean, close: Callback) =
+    ModalHeader(title = title, isClosable = isClosable, close = close)()
+
+  sealed trait Size { val style: TagMod }
+  case object SizeSmall extends Size { val style: TagMod = ^.width := "480px" }
+  case object SizeMedium extends Size { val style: TagMod = ^.width := "960px" }
+  case object SizeLarge extends Size { val style: TagMod = ^.width := "1160px" }
+  case object SizeFull extends Size { val style: TagMod = Style.width.pc100.height.pc100 }
 
   private case class Backend(scope: BackendScope[Modal, _]) {
 
@@ -53,31 +60,21 @@ object Modal {
     def render(props: Modal): VdomElement = {
       PortalWrapper(
         isOpen = props.isOpen,
-        closeOnEsc = props.closeOnEsc,
-        closeOnOutsideClick = props.closeOnOutsideClick,
+        closeOnEsc = props.isClosable && props.isClosableOnEsc,
+        closeOnOutsideClick = props.isClosable && props.isClosableOnOutsideClick,
         isPortalClicked = (target, _) => isPortalClicked(target),
         onOpen = props.onOpen,
         onClose = props.onClose,
-        renderTarget = (open, _, status) => props.renderTarget(open, status),
-        renderContent = (close, status) => {
+        renderTarget = (open, _, _) => props.renderTarget(open),
+        renderContent = (close, _) => {
           <.div(
-            ^.classSet(
-              "modal-wrapper modal-overlay" -> true,
-              props.size.className -> true,
-              "-open" -> (status == StatusOpen)
-            ),
+            Style.position.fixed.coordinate.fill.zIndex.idx999,
+            ^.background := "rgba(48, 64, 77, 0.9)",
+            TagMod.when(props.size != SizeFull) { Style.overflow.autoY.padding.ver32 },
             <.div.withRef(modalRef)(
-              ^.cls := "modal",
-              props.renderHeader.fold[VdomNode] {
-                ModalHeader(
-                  <.h3(^.cls := "title", props.title),
-                  <.div(
-                    ^.cls := "close",
-                    ^.onClick --> close,
-                    IconAcl(name = IconAcl.NameCross)()
-                  )
-                )
-              }(_(props.title, close)),
+              Style.backgroundColor.gray1.borderRadius.px2.overflow.hidden.margin.horAuto,
+              props.size.style,
+              props.renderHeader(props.title, props.isClosable, close),
               props.renderContent(close)
             )
           )
