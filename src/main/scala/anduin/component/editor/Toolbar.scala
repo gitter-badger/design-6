@@ -172,7 +172,7 @@ object Toolbar {
                 )
               )
             },
-            renderContent = _ => {
+            renderContent = (_, _) => {
               <.div(
                 Style.flexbox.flex.flexbox.itemsCenter,
                 MarkButtonBar(props.value, props.onChange)(),

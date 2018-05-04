@@ -18,8 +18,10 @@ final case class Popover(
   closeOnEsc: Boolean = true,
   closeOnOutsideClick: Boolean = true,
   isPortalClicked: (Element, Element, Element) => CallbackTo[Boolean] = Popover.IsPortalClicked,
+  // (open, close, status) => target Vdom
   renderTarget: (Callback, Callback, Status) => VdomNode,
-  renderContent: Callback => VdomNode
+  // (close, update position) => content Vdom
+  renderContent: (Callback, Callback) => VdomNode
 ) {
   def apply(): VdomElement = {
     Popover.component(this)
@@ -39,7 +41,7 @@ object Popover {
     private val targetRef = Ref[Element]
     private val portalRef = Ref[Element]
 
-    private def onOpenPortal = {
+    private def updatePosition = {
       for {
         props <- scope.props
         target <- targetRef.get
@@ -52,7 +54,7 @@ object Popover {
 
     def render(props: Popover): VdomElement = {
       PortalWrapper(
-        onOpen = onOpenPortal,
+        onOpen = updatePosition,
         closeOnEsc = props.closeOnEsc,
         closeOnOutsideClick = props.closeOnOutsideClick,
         isPortalClicked = (clickedTarget, portal) => {
@@ -68,7 +70,7 @@ object Popover {
           )
         },
         renderContent = (close, _) => {
-          val content = props.renderContent(close)
+          val content = props.renderContent(close, updatePosition)
           if (content == EmptyVdom) {
             EmptyVdom
           } else {
