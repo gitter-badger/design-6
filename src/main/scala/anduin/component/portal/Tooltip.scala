@@ -13,13 +13,12 @@ import japgolly.scalajs.react.vdom.html_<^._
 
 final case class Tooltip(
   position: Position = PositionBottom,
-  isDisabled: Boolean = false,
   renderTarget: () => VdomNode,
-  renderContent: () => VdomNode
+  targetTag: HtmlTag = <.div,
+  renderContent: () => VdomNode,
+  isDisabled: Boolean = false
 ) {
-  def apply(): VdomElement = {
-    Tooltip.component(this)
-  }
+  def apply(): VdomElement = { Tooltip.component(this) }
 }
 
 object Tooltip {
@@ -37,18 +36,14 @@ object Tooltip {
     val posi = tipSizePx
     val zero = "0px"
     val (top, right, bottom, left) = position match {
-      case PositionTopLeft     => (auto, auto, nega, posi)
-      case PositionTop         => (auto, zero, nega, zero)
-      case PositionTopRight    => (auto, posi, nega, auto)
-      case PositionRightTop    => (posi, auto, auto, nega)
-      case PositionRight       => (zero, auto, zero, nega)
-      case PositionRightBottom => (auto, auto, posi, nega)
-      case PositionBottomRight => (nega, auto, auto, posi)
-      case PositionBottom      => (nega, zero, auto, zero)
-      case PositionBottomLeft  => (nega, posi, auto, auto)
-      case PositionLeftTop     => (posi, nega, auto, auto)
-      case PositionLeft        => (zero, nega, zero, auto)
-      case PositionLeftBottom  => (auto, nega, posi, auto)
+      case PositionTopLeft                                        => (auto, auto, nega, posi)
+      case PositionTop                                            => (auto, zero, nega, zero)
+      case PositionTopRight                                       => (auto, posi, nega, auto)
+      case PositionRightTop | PositionRight | PositionRightBottom => (zero, auto, zero, nega)
+      case PositionBottomLeft                                     => (nega, auto, auto, posi)
+      case PositionBottom                                         => (nega, zero, auto, zero)
+      case PositionBottomRight                                    => (nega, posi, auto, auto)
+      case PositionLeftTop | PositionLeft | PositionLeftBottom    => (zero, nega, zero, auto)
     }
     TagMod(^.top := top, ^.right := right, ^.bottom := bottom, ^.left := left)
   }
@@ -57,13 +52,13 @@ object Tooltip {
   private case class Backend(scope: BackendScope[Tooltip, _]) {
 
     private val targetRef = Ref[Element]
-    private val portalRef = Ref[Element]
+    private val contentRef = Ref[Element]
 
     private def onOpenPortal = {
       for {
         props <- scope.props
         target <- targetRef.get
-        content <- portalRef.get
+        content <- contentRef.get
         _ <- Callback {
           val (verOff, horOff): (Double, Double) = props.position match {
             case PositionTopLeft | PositionTop | PositionTopRight          => (-tipSize, 0)
@@ -77,40 +72,32 @@ object Tooltip {
     }
 
     def render(props: Tooltip): VdomNode = {
+      val target = props.renderTarget()
+
       if (props.isDisabled) {
-        props.renderTarget()
+        // it is intentional to render targetTag wrapper here to keep the
+        // HTML result consistent with the other case
+        props.targetTag(target)
       } else {
         PortalWrapper(
           onOpen = onOpenPortal,
           renderTarget = (open, close, _) => {
-            <.div.withRef(targetRef)(
-              ^.onMouseOver --> open,
-              ^.onMouseOut --> close,
-              props.renderTarget()
-            )
+            props.targetTag.withRef(targetRef)(^.onMouseOver --> open, ^.onMouseOut --> close, target)
           },
           renderContent = (_, _) => {
-            <.div.withRef(portalRef)(
+            <.div.withRef(contentRef)(
               Position.styles,
-              Style.zIndex.idx9999,
-              Style.backgroundColor.gray9.color.white.shadow.blur8,
+              Style.zIndex.idx9999.backgroundColor.gray9.color.white.shadow.blur8,
               Style.padding.ver4.padding.hor8.borderRadius.px4,
               // tip
               <.div(
-                Style.position.absolute.zIndex.idx0,
-                Style.backgroundColor.gray9,
-                ^.transform := "rotate(45deg)",
-                ^.width := tipSizePx,
-                ^.height := tipSizePx,
-                ^.margin := "auto",
+                Style.position.absolute.zIndex.idx0.backgroundColor.gray9.margin.allAuto,
+                TagMod(^.transform := "rotate(45deg)", ^.width := tipSizePx, ^.height := tipSizePx),
                 getTipMod(props.position)
               ),
               // content
-              <.span(
-                // ensure content is always over tip
-                Style.position.relative.zIndex.idx1,
-                props.renderContent()
-              )
+              // - relative position to ensure content is always over tip
+              <.div(Style.position.relative.zIndex.idx1, props.renderContent())
             )
           }
         )()
