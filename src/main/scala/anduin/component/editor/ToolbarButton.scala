@@ -2,7 +2,7 @@
 
 package anduin.component.editor
 
-import anduin.component.button.Button
+import anduin.component.button.{Button, ButtonStyle}
 
 // scalastyle:off underscore.import
 import japgolly.scalajs.react._
@@ -33,8 +33,8 @@ private[editor] object ToolbarButton {
         ),
         TagMod.when(props.tip.nonEmpty)(VdomAttr("data-tip") := props.tip),
         Button(
-          style = Button.StyleMinimal,
-          size = Button.SizeIcon,
+          style = ButtonStyle.StyleMinimal,
+          size = ButtonStyle.SizeIcon,
           isSelected = props.active,
           onClick = props.onClick
         )(

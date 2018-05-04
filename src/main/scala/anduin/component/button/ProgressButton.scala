@@ -15,7 +15,7 @@ final case class ProgressButton(
   labels: ProgressButton.Status => String,
   // passing through
   onClick: Callback = Callback.empty,
-  color: Button.Color = Button.ColorWhite,
+  color: ButtonStyle.Color = ButtonStyle.ColorWhite,
   tpe: Button.Tpe = Button.TpeButton,
   isDisabled: Boolean = false,
   isFullWidth: Boolean = false

@@ -2,7 +2,7 @@
 
 package anduin.component.portal
 
-import anduin.component.button.Button
+import anduin.component.button.{Button, ButtonStyle}
 import anduin.component.icon.IconAcl
 import anduin.style.Style
 
@@ -37,8 +37,8 @@ object ModalHeader {
             Style.flexbox.flex.flexbox.itemsCenter.height.pc100, // center vertical
             ^.right := "12px",
             Button(
-              style = Button.StyleMinimal,
-              size = Button.SizeIcon,
+              style = ButtonStyle.StyleMinimal,
+              size = ButtonStyle.SizeIcon,
               onClick = props.close
             )(IconAcl(name = IconAcl.NameCross)())
           )

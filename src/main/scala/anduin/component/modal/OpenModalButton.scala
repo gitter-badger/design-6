@@ -2,7 +2,7 @@
 
 package anduin.component.modal
 
-import anduin.component.button.Button
+import anduin.component.button.{Button, ButtonStyle}
 import anduin.component.tooltip.Tooltip
 import anduin.scalajs.react.hammer.ReactHammer
 
@@ -14,10 +14,10 @@ import japgolly.scalajs.react.vdom.html_<^._
 // scalastyle:off parameter.number
 final case class OpenModalButton(
   buttonClasses: String = "flex items-center",
-  buttonColor: Button.Color = Button.ColorWhite,
+  buttonColor: ButtonStyle.Color = ButtonStyle.ColorWhite,
   buttonTpe: Button.Tpe = Button.TpeButton,
-  buttonStyle: Button.Style = Button.StyleLink,
-  buttonSize: Button.Size = Button.SizeMedium,
+  buttonStyle: ButtonStyle.Style = ButtonStyle.StyleLink,
+  buttonSize: ButtonStyle.Size = ButtonStyle.SizeMedium,
   buttonIsFullWidth: Boolean = false,
   disabled: Boolean = false,
   tip: String = "",

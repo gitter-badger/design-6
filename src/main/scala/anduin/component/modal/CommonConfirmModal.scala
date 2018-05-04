@@ -2,7 +2,7 @@
 
 package anduin.component.modal
 
-import anduin.component.button.{Button, ProgressButton}
+import anduin.component.button.{ButtonStyle, ProgressButton}
 import anduin.component.portal.{ModalBody, ModalFooterWCancel}
 
 // scalastyle:off underscore.import
@@ -34,7 +34,7 @@ object CommonConfirmModal {
         ModalBody(props.displayInfo),
         ModalFooterWCancel(cancel = props.onClose)(
           ProgressButton(
-            color = Button.ColorPrimary,
+            color = ButtonStyle.ColorPrimary,
             status = state.confirmBtnStatus,
             labels = {
               case ProgressButton.Status.Loading => "Confirming"

@@ -7,7 +7,7 @@ import scala.scalajs.js
 import org.scalajs.dom.raw.Element
 import org.scalajs.dom.window
 
-import anduin.component.button.Button
+import anduin.component.button.{Button, ButtonStyle}
 import anduin.component.icon.{IconAcl, Iconv2}
 import anduin.component.menu.VerticalDivider
 import anduin.component.modal.OpenModalButton
@@ -102,8 +102,8 @@ object Toolbar {
             ^.cls := "tooltip -top",
             VdomAttr("data-tip") := "Undo",
             Button(
-              style = Button.StyleMinimal,
-              size = Button.SizeIcon,
+              style = ButtonStyle.StyleMinimal,
+              size = ButtonStyle.SizeIcon,
               onClick = props.onChange(props.value.change().undo()),
               isDisabled = !props.value.hasUndos
             )(
@@ -115,8 +115,8 @@ object Toolbar {
             ^.cls := "tooltip -top",
             VdomAttr("data-tip") := "Redo",
             Button(
-              style = Button.StyleMinimal,
-              size = Button.SizeIcon,
+              style = ButtonStyle.StyleMinimal,
+              size = ButtonStyle.SizeIcon,
               onClick = props.onChange(props.value.change().redo()),
               isDisabled = props.value.hasRedos
             )(
@@ -128,8 +128,8 @@ object Toolbar {
             ^.cls := "tooltip -top",
             VdomAttr("data-tip") := "Insert Link",
             OpenModalButton(
-              buttonStyle = Button.StyleMinimal,
-              buttonSize = Button.SizeIcon,
+              buttonStyle = ButtonStyle.StyleMinimal,
+              buttonSize = ButtonStyle.SizeIcon,
               modalTitle = "Add a link",
               modalBody = LinkModal(props.value, onAddLink, _)()
             )(
@@ -140,8 +140,8 @@ object Toolbar {
             ^.cls := "tooltip -top",
             VdomAttr("data-tip") := "Remove Link",
             Button(
-              style = Button.StyleMinimal,
-              size = Button.SizeIcon,
+              style = ButtonStyle.StyleMinimal,
+              size = ButtonStyle.SizeIcon,
               onClick = onRemoveLink,
               isDisabled = !hasLink
             )(
@@ -164,8 +164,8 @@ object Toolbar {
                 ^.cls := "tooltip -top",
                 VdomAttr("data-tip") := "Formatting options",
                 Button(
-                  style = Button.StyleMinimal,
-                  size = Button.SizeIcon,
+                  style = ButtonStyle.StyleMinimal,
+                  size = ButtonStyle.SizeIcon,
                   onClick = open,
                   isSelected = status == StatusOpen
                 )(
@@ -191,8 +191,8 @@ object Toolbar {
             ^.cls := "tooltip -top",
             VdomAttr("data-tip") := "Keyboard Shortcuts",
             OpenModalButton(
-              buttonStyle = Button.StyleMinimal,
-              buttonSize = Button.SizeIcon,
+              buttonStyle = ButtonStyle.StyleMinimal,
+              buttonSize = ButtonStyle.SizeIcon,
               modalTitle = "Keyboard Shortcuts",
               modalClasses = "editor-hotkeys-dialog",
               modalBody = _ => ShortcutModal(isMac)()

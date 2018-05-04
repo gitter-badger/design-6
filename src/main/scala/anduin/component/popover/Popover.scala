@@ -10,7 +10,7 @@ import org.scalajs.dom
 import org.scalajs.dom.document
 import org.scalajs.dom.raw.{HTMLElement, MouseEvent}
 
-import anduin.component.button.Button
+import anduin.component.button.{Button, ButtonStyle}
 import anduin.component.icon.IconAcl
 import anduin.component.util.{EventUtils, JavaScriptUtils}
 
@@ -309,7 +309,7 @@ object Popover {
             TagMod.when(props.hasCloseButton)(
               Button(
                 tpe = Button.TpeLink,
-                style = Button.StyleLink,
+                style = ButtonStyle.StyleLink,
                 href = JavaScriptUtils.voidMethod,
                 onClick = hide
               )(
