@@ -57,7 +57,13 @@ object FileInputButton {
         val behaviours = TagMod(^.accept := props.acceptTypes, ^.multiple := props.isMultiple, ^.onChange ==> onChange)
         val input = <.input(^.tpe := "file", inputStyles, behaviours)
         // now use the fake div for styling
-        val styles = ButtonStyle.getStyles(props.color, props.size, props.style, props.isSelected, props.isFullWidth)
+        val styles = ButtonStyle.getStyles(
+          color = props.color,
+          size = props.size,
+          style = props.style,
+          isSelected = props.isSelected,
+          isFullWidth = props.isFullWidth
+        )
         <.div(Style.position.relative, styles, children, input)
       }
     }
