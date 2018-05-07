@@ -52,7 +52,13 @@ object Button {
         ^.onClick ==> onClick
       }
       // common for <button> and <a>
-      val styles = ButtonStyle.getStyles(props.color, props.size, props.style, props.isFullWidth, props.isSelected)
+      val styles = ButtonStyle.getStyles(
+        color = props.color,
+        size = props.size,
+        style = props.style,
+        isSelected = props.isSelected,
+        isFullWidth = props.isFullWidth
+      )
       val commonMods = TagMod(styles, onClickMod, children)
       props.tpe match {
         // link that looks like a button
