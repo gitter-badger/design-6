@@ -158,7 +158,7 @@ object Toolbar {
                 .getOrElse(false)
             },
             verticalOffset = 8,
-            renderTarget = (open, _, status) => {
+            renderTarget = (open, _, _, status) => {
               <.span(
                 ^.cls := "tooltip -top",
                 VdomAttr("data-tip") := "Formatting options",
