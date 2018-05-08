@@ -12,7 +12,8 @@ import org.scalajs.dom.raw.{HTMLElement, MouseEvent}
 
 import anduin.component.button.{Button, ButtonStyle}
 import anduin.component.icon.IconAcl
-import anduin.component.util.{EventUtils, JavaScriptUtils}
+import anduin.component.util.EventUtils
+import anduin.style.Style
 
 // scalastyle:off underscore.import
 import japgolly.scalajs.react._
@@ -307,13 +308,14 @@ object Popover {
             ),
             TagMod.when(props.trigger == Trigger.Hover)(^.onMouseLeave --> hide),
             TagMod.when(props.hasCloseButton)(
-              Button(
-                tpe = Button.TpeLink,
-                style = ButtonStyle.StyleLink,
-                href = JavaScriptUtils.voidMethod,
-                onClick = hide
-              )(
-                IconAcl(name = IconAcl.NameCross)()
+              <.div(
+                Style.position.absolute.coordinate.top0.coordinate.right0.margin.top16.margin.right16,
+                Button(
+                  style = ButtonStyle.StyleLink,
+                  onClick = hide
+                )(
+                  IconAcl(name = IconAcl.NameCross)()
+                )
               )
             ),
             props.children(RenderProps(state.status == Status.Displayed, changeStatus))
