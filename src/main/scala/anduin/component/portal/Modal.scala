@@ -19,7 +19,7 @@ final case class Modal(
   isClosableOnEsc: Boolean = true,
   isClosableOnOutsideClick: Boolean = true,
   // (open callback) => target Vdom
-  renderTarget: (Callback) => VdomNode,
+  renderTarget: Callback => VdomNode,
   // (title, close callback, isCloseable) => header Vdom
   renderHeader: (String, Boolean, Callback) => VdomNode = Modal.defaultRenderHeader,
   // (close callback) => content Vdom
