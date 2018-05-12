@@ -33,7 +33,7 @@ object CheckMark {
           "-disabled" -> props.disabled,
           "-selected" -> props.selected
         ),
-        ^.onClick ==> { (e: ReactEventFromHtml) =>
+        ^.onClick ==> { e: ReactEventFromHtml =>
           for {
             _ ← e.stopPropagationCB
             _ ← props.onClick
