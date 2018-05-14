@@ -16,15 +16,16 @@ import anduin.scalajs.moment.{Date, Moment}
 
 object PdfWorkerUrl {
   // The path to PDF parsing worker
-  def pdfWorkerUrl(productionBuild: Boolean): String =
+  def pdfWorkerUrl(productionBuild: Boolean): String = {
     if (productionBuild) {
-      "/web/gondor/js/pdfjs/pdf-2.0.402.worker.min.js"
+      "/web/gondor/pdf.worker.min.js"
     } else {
-      "/web/gondor/js/pdfjs/pdf-2.0.402.worker.js"
+      "/web/gondor/pdf.worker.js"
     }
+  }
 }
 
-@JSImport("pdfjs-dist", "PDFJS", "PDFJS")
+@JSImport("pdfjs-dist", JSImport.Default)
 @js.native
 object PDFJS extends js.Object {
   val GlobalWorkerOptions: GlobalWorkerOptions = js.native
