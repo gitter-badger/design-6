@@ -82,7 +82,7 @@ object Tooltip {
         PortalWrapper(
           onOpen = onOpenPortal,
           renderTarget = (open, close, _) => {
-            props.targetTag.withRef(targetRef)(^.onMouseOver --> open, ^.onMouseOut --> close, target)
+            props.targetTag.withRef(targetRef)(^.onMouseEnter --> open, ^.onMouseLeave --> close, target)
           },
           renderContent = (_, _) => {
             <.div.withRef(contentRef)(
