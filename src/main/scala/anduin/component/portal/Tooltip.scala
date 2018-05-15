@@ -12,7 +12,7 @@ import japgolly.scalajs.react.vdom.html_<^._
 // scalastyle:on underscore.import
 
 final case class Tooltip(
-  position: Position = PositionBottom,
+  position: Position = PositionTop,
   renderTarget: () => VdomNode,
   targetTag: HtmlTag = <.div,
   renderContent: () => VdomNode,
