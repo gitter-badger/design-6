@@ -16,7 +16,8 @@ case class Table[R](
   columns: List[Table.Column[R]],
   sortColumn: Option[Int] = None,
   sortIsAsc: Boolean = true,
-  headIsSticky: Boolean = false
+  headIsSticky: Boolean = false,
+  footer: VdomNode = EmptyVdom
 ) {
   def apply(): VdomElement = component(this)
 
@@ -103,16 +104,22 @@ object Table {
           })
       })
 
-      <.tbody(rows.toTagMod(row => {
-        val columns = props.columns.toTagMod(column => {
-          val cell = column.render(row)
-          if (cell.isEmpty) { EmptyVdom } else {
-            val span = TagMod(^.rowSpan := cell.rowSpan, ^.colSpan := cell.colSpan)
-            <.td(Style.padding.all12, span, cell.content)
-          }
-        })
-        <.tr(Style.hover.backgroundGray1, border, columns)
-      }))
+      <.tbody(
+        rows.toTagMod(row => {
+          val columns = props.columns.toTagMod(column => {
+            val cell = column.render(row)
+            if (cell.isEmpty) { EmptyVdom } else {
+              val span = TagMod(^.rowSpan := cell.rowSpan, ^.colSpan := cell.colSpan)
+              <.td(Style.padding.all12, span, cell.content)
+            }
+          })
+          <.tr(Style.hover.backgroundGray1, border, columns)
+        }),
+        TagMod.when(props.footer != EmptyVdom) {
+          val cell = <.td(Style.padding.all12, props.footer, ^.colSpan := props.columns.size)
+          <.tr(border, cell)
+        }
+      )
     }
 
     def render(props: Table[R], state: State): VdomElement = {
