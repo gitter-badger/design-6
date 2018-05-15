@@ -105,9 +105,10 @@ object ButtonStyle {
       TagMod( // This TagMod wrapper is only for grouping purpose
         Style.lineHeight.px16.fontWeight.medium.borderRadius.px2,
         Style.flexbox.flex.focus.outline.transition.allWithOutline,
-        TagMod.when(isFullWidth) { Style.width.pc100.flexbox.justifyCenter },
+        Style.flexbox.justifyCenter,
         size.style
       )
-    )
+    ),
+    TagMod.when(isFullWidth) { Style.width.pc100 }
   )
 }
