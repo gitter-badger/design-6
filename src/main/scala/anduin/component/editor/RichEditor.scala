@@ -68,6 +68,7 @@ object RichEditor {
       }
     }
 
+    // scalastyle:off cyclomatic.complexity
     private def renderNode(props: RenderNodeProps) = {
       val data = props.node.data
       val children = PropsChildren.fromRawProps(props)
@@ -78,11 +79,13 @@ object RichEditor {
         case OrderedListNode.nodeType   => <.ol(children).rawElement
         case UnorderedListNode.nodeType => <.ul(children).rawElement
         case ListItemNode.nodeType      => <.li(children).rawElement
+        case DivNode.nodeType           => <.div(children).rawElement
         case LinkNode.nodeType          => LinkRenderer(data, props.children)
         case ImageNode.nodeType         => ImageRenderer(data)
         case TextAlignNode.nodeType     => TextAlignRenderer(data, props.children)
       }
     }
+    // scalastyle:on cyclomatic.complexity
 
     private def focus() = {
       editorRef.get.map(_.raw.focus()).toCallback

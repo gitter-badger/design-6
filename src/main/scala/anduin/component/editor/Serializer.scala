@@ -4,7 +4,7 @@ package anduin.component.editor
 
 import scala.scalajs.js
 
-import org.scalajs.dom.Element
+import org.scalajs.dom.{Element, Node}
 import org.scalajs.dom.raw.{DOMParser, NodeList}
 
 import anduin.component.editor.renderer.{ImageRenderer, LinkRenderer, MarkRenderer, TextAlignRenderer}
@@ -28,7 +28,8 @@ object Serializer {
     "pre" -> CodeNode.nodeType,
     "li" -> ListItemNode.nodeType,
     "ul" -> UnorderedListNode.nodeType,
-    "ol" -> OrderedListNode.nodeType
+    "ol" -> OrderedListNode.nodeType,
+    "div" -> DivNode.nodeType
   )
 
   private val MarkTags = Map(
@@ -38,7 +39,7 @@ object Serializer {
     "del" -> StrikeThroughNode.nodeType
   )
 
-  private val TextAlignmentTags = Map("div" -> DivNode.nodeType) ++ BlockTags
+  private val TextAlignmentTags = BlockTags
 
   private val BlockQuoteAttrs = TagMod(
     ^.borderLeft := "2px solid #bfccd6",
@@ -68,6 +69,7 @@ object Serializer {
           case ListItemNode.nodeType      => <.li(createChildren(children)).rawElement
           case UnorderedListNode.nodeType => <.ul(createChildren(children)).rawElement
           case OrderedListNode.nodeType   => <.ol(createChildren(children)).rawElement
+          case DivNode.nodeType           => <.div(createChildren(children)).rawElement
         }
       }
       res
@@ -179,18 +181,50 @@ object Serializer {
     }
   )
 
+  private val spanHandler = new Rule(
+    deserialize = (ele: Element, _: js.Function1[NodeList, NodeList]) => {
+      val childNodes = (0 until ele.childNodes.length).map(ele.childNodes.apply)
+      val blockNodesCount = childNodes.count(isBlockNode)
+      if (blockNodesCount > 0 && blockNodesCount < ele.childNodes.length) {
+        childNodes.foldLeft(Option.empty[Node]) { (adjacentTextNodeOpt, oldNode) =>
+          if (isBlockNode(oldNode)) {
+            None
+          } else {
+            val adjacentTextNode = adjacentTextNodeOpt.fold[Node] {
+              val newNode = ele.ownerDocument.createElement("p")
+              ele.replaceChild(newNode, oldNode)
+              newNode
+            } { adjacentTextNode =>
+              ele.removeChild(oldNode)
+              adjacentTextNode
+            }
+            adjacentTextNode.appendChild(oldNode)
+            Some(adjacentTextNode)
+          }
+        }
+      }
+      ()
+    },
+    serialize = (_: RuleSerializeInput, _: js.Object) => ()
+  )
+
+  private def isBlockNode(node: Node) = {
+    BlockTags.contains(node.nodeName.toLowerCase)
+  }
+
   private val htmlSerializer = new HtmlSerializer(
     new Options(
       rules = js.Array(
         // The order of rules are important
         // We need to put the text alignment before block rule
+        spanHandler,
         textAlignmentHandler,
         blockHandler,
         linkHandler,
         imageHandler,
         markHandler
       ),
-      parseHtml = js.defined { (html: String) =>
+      parseHtml = js.defined { html: String =>
         val parsed = new DOMParser().parseFromString(html, "text/html")
         val body = parsed.querySelector("body")
 
