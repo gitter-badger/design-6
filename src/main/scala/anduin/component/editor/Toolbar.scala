@@ -11,7 +11,7 @@ import anduin.component.button.{Button, ButtonStyle}
 import anduin.component.icon.{IconAcl, Iconv2}
 import anduin.component.menu.VerticalDivider
 import anduin.component.modal.OpenModalButton
-import anduin.component.portal.{Popover, PositionBottom, StatusOpen}
+import anduin.component.portal.{Modal, Popover, PositionBottom, StatusOpen}
 import anduin.scalajs.slate.Slate.{Change, Value}
 import anduin.style.Style
 
@@ -189,15 +189,22 @@ object Toolbar {
           <.span(
             ^.cls := "tooltip -top",
             VdomAttr("data-tip") := "Keyboard Shortcuts",
-            OpenModalButton(
-              buttonStyle = ButtonStyle.StyleMinimal,
-              buttonSize = ButtonStyle.SizeIcon,
-              modalTitle = "Keyboard Shortcuts",
-              modalClasses = "editor-hotkeys-dialog",
-              modalBody = _ => ShortcutModal(isMac)()
-            )(
-              IconAcl(name = IconAcl.NameInfo)()
-            )
+            Modal(
+              title = "Keyboard Shortcuts",
+              renderTarget = open => {
+                Button(
+                  onClick = open,
+                  size = ButtonStyle.SizeIcon,
+                  style = ButtonStyle.StyleMinimal
+                )(IconAcl(name = IconAcl.NameInfo)())
+              },
+              renderContent = _ => {
+                <.div(
+                  ^.cls := "editor-hotkeys-dialog",
+                  ShortcutModal(isMac)()
+                )
+              }
+            )()
           ),
           children
         )
