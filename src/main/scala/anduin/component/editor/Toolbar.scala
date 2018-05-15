@@ -10,7 +10,6 @@ import org.scalajs.dom.window
 import anduin.component.button.{Button, ButtonStyle}
 import anduin.component.icon.{IconAcl, Iconv2}
 import anduin.component.menu.VerticalDivider
-import anduin.component.modal.OpenModalButton
 import anduin.component.portal.{Modal, Popover, PositionBottom, StatusOpen}
 import anduin.scalajs.slate.Slate.{Change, Value}
 import anduin.style.Style
@@ -127,14 +126,17 @@ object Toolbar {
           <.span(
             ^.cls := "tooltip -top",
             VdomAttr("data-tip") := "Insert Link",
-            OpenModalButton(
-              buttonStyle = ButtonStyle.StyleMinimal,
-              buttonSize = ButtonStyle.SizeIcon,
-              modalTitle = "Add a link",
-              modalBody = LinkModal(props.value, onAddLink, _)()
-            )(
-              IconAcl(name = IconAcl.NameLink)()
-            )
+            Modal(
+              title = "Add a link",
+              renderTarget = open => {
+                Button(
+                  onClick = open,
+                  size = ButtonStyle.SizeIcon,
+                  style = ButtonStyle.StyleMinimal
+                )(IconAcl(name = IconAcl.NameLink)())
+              },
+              renderContent = LinkModal(props.value, onAddLink, _)()
+            )()
           ),
           <.span(
             ^.cls := "tooltip -top",
