@@ -12,7 +12,7 @@ import japgolly.scalajs.react.vdom.html_<^._
 // scalastyle:on underscore.import
 
 final case class Tooltip(
-  position: Position = PositionBottom,
+  position: Position = PositionTop,
   renderTarget: () => VdomNode,
   targetTag: HtmlTag = <.div,
   renderContent: () => VdomNode,
@@ -82,7 +82,7 @@ object Tooltip {
         PortalWrapper(
           onOpen = onOpenPortal,
           renderTarget = (open, close, _) => {
-            props.targetTag.withRef(targetRef)(^.onMouseOver --> open, ^.onMouseOut --> close, target)
+            props.targetTag.withRef(targetRef)(^.onMouseEnter --> open, ^.onMouseLeave --> close, target)
           },
           renderContent = (_, _) => {
             <.div.withRef(contentRef)(
