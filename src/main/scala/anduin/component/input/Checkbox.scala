@@ -54,7 +54,7 @@ object Checkbox {
 
     private def renderLabel(props: Checkbox, children: PropsChildren) = {
       <.span(
-        Style.margin.left8.fontWeight.medium,
+        Style.margin.left8,
         TagMod.when(props.isDisabled) { Style.color.gray6 },
         children
       )
