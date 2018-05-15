@@ -17,7 +17,8 @@ final case class Button(
   // Specific behaviours for Button
   tpe: Button.Tpe = Button.TpeButton,
   onClick: Callback = Callback.empty,
-  href: String = "" // if tpe == link
+  href: String = "", // if tpe == link
+  target: String = "" // if tpe == link
 ) {
   def apply(children: VdomNode*): VdomElement = {
     Button.component(this)(children: _*)
@@ -62,7 +63,7 @@ object Button {
       val commonMods = TagMod(styles, onClickMod, children)
       props.tpe match {
         // link that looks like a button
-        case TpeLink => <.a(^.href := props.href, commonMods)
+        case TpeLink => <.a(^.href := props.href, ^.target := props.target, commonMods)
         // real button
         case _ => <.button(^.tpe := props.tpe.value, ^.disabled := props.isDisabled, commonMods)
       }
