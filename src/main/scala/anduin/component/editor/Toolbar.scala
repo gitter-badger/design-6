@@ -134,7 +134,7 @@ object Toolbar {
                     onClick = open,
                     size = ButtonStyle.SizeIcon,
                     style = ButtonStyle.StyleMinimal
-                  )(IconAcl(name = IconAcl.NameLink)())
+                  )(IconAcl(IconAcl.NameLink)())
                 },
                 renderContent = LinkModal(props.value, onAddLink, _)()
               )()
@@ -201,7 +201,7 @@ object Toolbar {
                     onClick = open,
                     size = ButtonStyle.SizeIcon,
                     style = ButtonStyle.StyleMinimal
-                  )(IconAcl(name = IconAcl.NameInfo)())
+                  )(IconAcl(IconAcl.NameInfo)())
                 },
                 renderContent = _ => {
                   <.div(
