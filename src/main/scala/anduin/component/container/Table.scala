@@ -11,35 +11,61 @@ import japgolly.scalajs.react._
 import japgolly.scalajs.react.vdom.html_<^._
 // scalastyle:on underscore.import
 
-case class Table[R](
-  rows: List[R],
-  columns: List[Table.Column[R]],
-  sortColumn: Option[Int] = None,
-  sortIsAsc: Boolean = true,
-  headIsSticky: Boolean = false,
-  footer: VdomNode = EmptyVdom
-) {
-  def apply(): VdomElement = component(this)
-
+class Table[R] {
   private val component = ScalaComponent
-    .builder[Table[R]](this.getClass.getSimpleName)
+    .builder[Table.Props[R]](this.getClass.getSimpleName)
     .initialStateFromProps(p => Table.State(sortColumn = p.sortColumn, sortIsAsc = p.sortIsAsc))
     .renderBackend[Table.Backend[R]]
     .build
+
+  def apply(
+    rows: List[R],
+    columns: List[Table.Column[R]],
+    sortColumn: Option[Int] = None,
+    sortIsAsc: Boolean = true,
+    headIsSticky: Boolean = false,
+    footer: VdomNode = EmptyVdom
+  )(): VdomElement = {
+    val props = Table.Props(rows, columns, sortColumn, sortIsAsc, headIsSticky, footer)
+    component(props)
+  }
 }
 
 object Table {
 
-  case class Cell(content: VdomNode = EmptyVdom, rowSpan: Int = 1, colSpan: Int = 1, isEmpty: Boolean = false)
-  type sortFn[R] = (R, R) => Boolean
-  case class Sort[R](asc: sortFn[R], desc: sortFn[R])
-  case class Column[R](head: VdomNode = "", render: R => Cell, sort: Option[Sort[R]] = None, width: String = "")
+  case class Cell(
+    content: VdomNode = EmptyVdom,
+    rowSpan: Int = 1,
+    colSpan: Int = 1,
+    isEmpty: Boolean = false
+  )
+  case class Sort[R](
+    asc: (R, R) => Boolean,
+    desc: (R, R) => Boolean
+  )
+  case class Column[R](
+    head: VdomNode = "",
+    render: R => Cell,
+    sort: Option[Sort[R]] = None,
+    width: String = ""
+  )
+  private case class Props[R](
+    rows: List[R],
+    columns: List[Table.Column[R]],
+    sortColumn: Option[Int],
+    sortIsAsc: Boolean,
+    headIsSticky: Boolean,
+    footer: VdomNode
+  )
 
-  private case class State(sortColumn: Option[Int], sortIsAsc: Boolean)
+  private case class State(
+    sortColumn: Option[Int],
+    sortIsAsc: Boolean
+  )
 
   private val border = Style.border.all.borderWidth.px1.borderColor.gray3
 
-  private class Backend[R](scope: BackendScope[Table[R], State]) {
+  private class Backend[R](scope: BackendScope[Props[R], State]) {
 
     private def renderSortButton(iconName: IconAcl.Name, isSelected: Boolean, onClick: Callback): VdomElement = {
       <.span(
@@ -73,7 +99,7 @@ object Table {
       }
     }
 
-    private def renderHead(props: Table[R], state: State): VdomElement = {
+    private def renderHead(props: Props[R], state: State): VdomElement = {
       val columns = props.columns.zipWithIndex.toTagMod {
         case (column, index) =>
           <.th(
@@ -91,7 +117,7 @@ object Table {
       <.thead(Style.backgroundColor.gray1, <.tr(border, columns))
     }
 
-    private def renderBody(props: Table[R], state: State): VdomElement = {
+    private def renderBody(props: Props[R], state: State): VdomElement = {
       // sort if required
       val rows: List[R] = state.sortColumn.fold(props.rows)(columnIndex => {
         // if sort column does not have "sort" then just leave as is
@@ -122,7 +148,7 @@ object Table {
       )
     }
 
-    def render(props: Table[R], state: State): VdomElement = {
+    def render(props: Props[R], state: State): VdomElement = {
       val styles = TagMod(Style.width.pc100.backgroundColor.white, ^.borderCollapse := "collapse")
       val head = renderHead(props, state)
       val body = renderBody(props, state)
