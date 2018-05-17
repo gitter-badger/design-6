@@ -10,16 +10,8 @@ import anduin.style.Style
 // scalastyle:on underscore.import
 
 object VerticalDivider {
-
-  private val ComponentName = this.getClass.getSimpleName
-
-  def apply(): VdomElement = {
-    ScalaComponent.static(ComponentName)(
-      <.div(
-        Style.typography.truncate.backgroundColor.gray4.margin.hor4,
-        ^.width := "1px",
-        ^.height := "20px"
-      )
-    )()
-  }
+  private val component = ScalaComponent.static(this.getClass.getSimpleName)(
+    <.div(Style.typography.truncate.backgroundColor.gray4.margin.hor4, ^.width := "1px", ^.height := "20px")
+  )()
+  def apply(): VdomElement = component
 }
