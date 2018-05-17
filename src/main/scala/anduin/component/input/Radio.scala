@@ -43,7 +43,7 @@ object Radio {
 
     private def renderLabel(props: Radio[V], children: PropsChildren) = {
       <.span(
-        Style.margin.left8.fontWeight.medium,
+        Style.margin.left8,
         TagMod.when(props.isDisabled) { Style.color.gray6 },
         children
       )
