@@ -36,7 +36,7 @@ object Popover {
     CallbackTo(target.contains(clickedTarget) || portal.contains(clickedTarget))
   }
 
-  private case class Backend(scope: BackendScope[Popover, _]) {
+  private class Backend(scope: BackendScope[Popover, _]) {
 
     private val targetRef = Ref[Element]
     private val portalRef = Ref[Element]

@@ -20,7 +20,7 @@ private[portal] object Portal {
 
   private val ComponentName = this.getClass.getSimpleName
 
-  private case class Backend(scope: BackendScope[Portal, _]) {
+  private class Backend(scope: BackendScope[Portal, _]) {
 
     private var node: Element = _ // scalastyle:ignore
 

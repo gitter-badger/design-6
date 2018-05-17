@@ -21,7 +21,7 @@ object IconAcl {
 
   private val ComponentName = this.getClass.getSimpleName
 
-  private case class Backend(scope: BackendScope[IconAcl, _]) {
+  private class Backend() {
     def render(props: IconAcl): VdomElement = {
       <.svg(
         // style

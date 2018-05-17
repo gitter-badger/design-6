@@ -22,7 +22,7 @@ private[editor] object MarkButtonBar {
 
   private val ComponentName = this.getClass.getSimpleName
 
-  private case class Backend(scope: BackendScope[MarkButtonBar, _]) {
+  private class Backend(scope: BackendScope[MarkButtonBar, _]) {
 
     private def toggleMark(markNode: MarkNode) = {
       for {

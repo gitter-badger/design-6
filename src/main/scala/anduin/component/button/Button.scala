@@ -35,7 +35,7 @@ object Button {
   case object TpeSubmit extends Tpe { val value = "submit" }
   case object TpeReset extends Tpe { val value = "reset" }
 
-  private case class Backend(scope: BackendScope[Button, _]) {
+  private class Backend(scope: BackendScope[Button, _]) {
 
     private def onClick(e: ReactEventFromHtml) = {
       for {

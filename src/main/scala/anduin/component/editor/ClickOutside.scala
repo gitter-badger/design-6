@@ -23,7 +23,7 @@ private[editor] object ClickOutside {
 
   private val ComponentName = this.getClass.getSimpleName
 
-  private case class Backend(scope: BackendScope[ClickOutside, _]) extends OnUnmount {
+  private class Backend(scope: BackendScope[ClickOutside, _]) extends OnUnmount {
 
     def render(children: PropsChildren): VdomNode = {
       ReactFragment(children)

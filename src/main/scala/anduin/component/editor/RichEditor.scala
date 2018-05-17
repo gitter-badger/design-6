@@ -29,7 +29,7 @@ object RichEditor {
 
   private val ComponentName = this.getClass.getSimpleName
 
-  private case class Backend(scope: BackendScope[RichEditor, _]) {
+  private class Backend(scope: BackendScope[RichEditor, _]) {
 
     private val editorRef = Ref.toJsComponent(Editor.component)
 

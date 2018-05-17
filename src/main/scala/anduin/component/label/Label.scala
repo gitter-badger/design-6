@@ -45,7 +45,7 @@ object Label {
 
   private val ComponentName = ComponentUtils.name(this)
 
-  private case class Backend(scope: BackendScope[Label, _]) {
+  private class Backend() {
 
     def render(props: Label): VdomElement = {
       <.span(^.cls := s"at-label ${props.labelType.className}", props.label)

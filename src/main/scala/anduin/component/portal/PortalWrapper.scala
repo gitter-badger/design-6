@@ -40,7 +40,7 @@ private[portal] object PortalWrapper {
 
   private case class State(status: Status = StatusClose)
 
-  private case class Backend(scope: BackendScope[PortalWrapper, State]) extends TimerSupport {
+  private class Backend(scope: BackendScope[PortalWrapper, State]) extends TimerSupport {
 
     private val portalRef = Ref.toScalaComponent(LegacyPortal.component)
 

@@ -31,7 +31,7 @@ object ReadOnlyEditor {
 
   private case class State(value: Value)
 
-  private case class Backend(scope: BackendScope[ReadOnlyEditor, State]) {
+  private class Backend(scope: BackendScope[ReadOnlyEditor, State]) {
 
     def render(state: State): VdomElement = {
       <.div(

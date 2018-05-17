@@ -24,7 +24,7 @@ private[editor] object ToolbarButton {
 
   private val ComponentName = this.getClass.getSimpleName
 
-  private case class Backend(scope: BackendScope[ToolbarButton, _]) {
+  private class Backend() {
 
     def render(props: ToolbarButton, children: PropsChildren): VdomElement = {
       <.span(

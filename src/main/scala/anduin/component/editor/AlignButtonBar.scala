@@ -24,7 +24,7 @@ private[editor] object AlignButtonBar {
 
   private val ComponentName = this.getClass.getSimpleName
 
-  private case class Backend(scope: BackendScope[AlignButtonBar, _]) {
+  private class Backend() {
 
     private def hasAlign(value: Value) = {
       value.blocks.some(block => block.nodeType == TextAlignNode.nodeType)

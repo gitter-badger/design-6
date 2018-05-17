@@ -26,7 +26,7 @@ object CopyToClipboard {
 
   private case class State(copied: Boolean)
 
-  private case class Backend(scope: BackendScope[CopyToClipboard, State]) {
+  private class Backend(scope: BackendScope[CopyToClipboard, State]) {
 
     private def copyToClipboard = {
       for {

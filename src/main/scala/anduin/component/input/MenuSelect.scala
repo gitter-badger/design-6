@@ -26,7 +26,7 @@ class MenuSelect[I] {
 
   val ComponentName: String = ComponentUtils.name(this)
 
-  private case class Backend(scope: BackendScope[Props, _]) {
+  private class Backend() {
     def render(props: Props, children: PropsChildren): VdomElement = {
       <.div(
         Style.border.all.borderRadius.px4,

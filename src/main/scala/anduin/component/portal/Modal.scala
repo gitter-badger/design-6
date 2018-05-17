@@ -43,7 +43,7 @@ object Modal {
   case object SizeLarge extends Size { val style: TagMod = ^.width := "1160px" }
   case object SizeFull extends Size { val style: TagMod = Style.width.pc100.height.pc100 }
 
-  private case class Backend(scope: BackendScope[Modal, _]) {
+  private class Backend() {
 
     private val modalRef = Ref[HTMLElement]
 

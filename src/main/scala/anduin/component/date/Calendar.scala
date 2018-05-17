@@ -43,7 +43,7 @@ object Calendar {
 
   case class State(date: LocalDate)
 
-  case class Backend(scope: BackendScope[Props, State]) extends OnUnmount {
+  class Backend(scope: BackendScope[Props, State]) extends OnUnmount {
     private val innerElementRef = Ref[HTMLElement]
 
     /**

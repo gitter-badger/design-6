@@ -116,7 +116,7 @@ object Popover {
 
   case class State(status: Status, leaveTogglerTimeOpt: Option[Double])
 
-  case class Backend(scope: BackendScope[Popover, State]) extends OnUnmount {
+  class Backend(scope: BackendScope[Popover, State]) extends OnUnmount {
 
     private val bodyRef = Ref[HTMLElement]
     private val togglerRef = Ref[HTMLElement]

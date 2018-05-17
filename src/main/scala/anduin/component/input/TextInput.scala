@@ -87,7 +87,7 @@ object TextInput {
 
   // ===
 
-  private case class Backend(scope: BackendScope[TextInput, _]) {
+  private class Backend(scope: BackendScope[TextInput, _]) {
 
     private def onChange(e: ReactEventFromInput) = {
       for {

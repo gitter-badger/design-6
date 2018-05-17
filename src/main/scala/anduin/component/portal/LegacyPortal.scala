@@ -31,7 +31,7 @@ object LegacyPortal {
 
   private val ComponentName = this.getClass.getSimpleName
 
-  case class Backend(scope: BackendScope[LegacyPortal, _]) extends OnUnmount {
+  class Backend(scope: BackendScope[LegacyPortal, _]) extends OnUnmount {
 
     private var node: Element = _ // scalastyle:ignore
 

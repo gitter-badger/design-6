@@ -25,7 +25,7 @@ private[editor] object LinkModal {
 
   private case class State(link: String = "")
 
-  private case class Backend(scope: BackendScope[LinkModal, State]) {
+  private class Backend(scope: BackendScope[LinkModal, State]) {
 
     def render(props: LinkModal, state: State): VdomArray = {
       VdomArray(

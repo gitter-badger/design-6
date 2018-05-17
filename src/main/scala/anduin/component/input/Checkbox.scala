@@ -42,7 +42,7 @@ object Checkbox {
     )
   }
 
-  private case class Backend(scope: BackendScope[Checkbox, _]) {
+  private class Backend() {
     def render(props: Checkbox, children: PropsChildren): VdomElement = {
       <.label(
         Style.flexbox.flex.flexbox.itemsCenter.cursor.pointer.position.relative,

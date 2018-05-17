@@ -22,7 +22,7 @@ object Collapse {
 
   private case class State(toggled: Boolean = true)
 
-  private case class Backend(scope: BackendScope[Collapse, State]) {
+  private class Backend(scope: BackendScope[Collapse, State]) {
 
     private def toggle = {
       scope.modState { state =>

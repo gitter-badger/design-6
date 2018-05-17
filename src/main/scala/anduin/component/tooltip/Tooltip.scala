@@ -75,7 +75,7 @@ object Tooltip {
 
   private case class State(over: Boolean)
 
-  private case class Backend(scope: BackendScope[Tooltip, State]) extends OnUnmount {
+  private class Backend(scope: BackendScope[Tooltip, State]) extends OnUnmount {
 
     private val tipNode = document.createElement("div")
     private val targetRef = Ref[HTMLElement]

@@ -52,7 +52,7 @@ object OpenModalButton {
 
   private case class State(isOpen: Boolean, over: Boolean)
 
-  private case class Backend(scope: BackendScope[OpenModalButton, State]) {
+  private class Backend(scope: BackendScope[OpenModalButton, State]) {
 
     private def show(): Callback = {
       for {

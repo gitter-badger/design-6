@@ -33,7 +33,7 @@ object FileInputButton {
 
   private val ComponentName = this.getClass.getSimpleName
 
-  private case class Backend(scope: BackendScope[FileInputButton, _]) {
+  private class Backend(scope: BackendScope[FileInputButton, _]) {
 
     private def onChange(e: ReactEventFromInput): Callback = {
       for {

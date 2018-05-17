@@ -41,7 +41,7 @@ object Tab {
   )
   private case class State(activeIndex: Int, isVertical: Boolean = false)
 
-  private case class Backend(t: BackendScope[Props, State]) {
+  private class Backend(t: BackendScope[Props, State]) {
 
     def onClickTab(panel: Panel, index: Int)(evt: ReactEventFromHtml): Callback = {
       for {

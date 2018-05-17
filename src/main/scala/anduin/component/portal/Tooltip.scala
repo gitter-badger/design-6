@@ -49,7 +49,7 @@ object Tooltip {
   }
   // scalastyle:on cyclomatic.complexity
 
-  private case class Backend(scope: BackendScope[Tooltip, _]) {
+  private class Backend(scope: BackendScope[Tooltip, _]) {
 
     private val targetRef = Ref[Element]
     private val contentRef = Ref[Element]

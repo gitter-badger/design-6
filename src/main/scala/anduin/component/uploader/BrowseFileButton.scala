@@ -39,7 +39,7 @@ object BrowseFileButton {
 
   private val ComponentName = this.getClass.getSimpleName
 
-  private case class Backend(scope: BackendScope[BrowseFileButton, _]) {
+  private class Backend(scope: BackendScope[BrowseFileButton, _]) {
 
     private val inputRef = Ref[HTMLInputElement]
 

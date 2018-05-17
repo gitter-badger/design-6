@@ -24,7 +24,7 @@ private[editor] object BlockButtonBar {
 
   private val DefaultNodeType = ParagraphNode.nodeType
 
-  private case class Backend(scope: BackendScope[BlockButtonBar, _]) {
+  private class Backend(scope: BackendScope[BlockButtonBar, _]) {
 
     private def hasBlock(value: Value, blockNode: NodeType) = {
       value.blocks.some(item => item.nodeType == blockNode.nodeType)

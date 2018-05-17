@@ -36,7 +36,7 @@ object MenuItem {
   case object Danger extends Color { val style: TagMod = Style.color.danger4.hover.backgroundDanger4 }
   case object Success extends Color { val style: TagMod = Style.color.success4.hover.backgroundSuccess4 }
 
-  private case class Backend(scope: BackendScope[MenuItem, _]) {
+  private class Backend(scope: BackendScope[MenuItem, _]) {
 
     private def onClick(e: ReactEventFromHtml) = {
       for {

@@ -27,7 +27,7 @@ object CommonConfirmModal {
     confirmBtnStatus: ProgressButton.Status
   )
 
-  private case class Backend(scope: BackendScope[CommonConfirmModal, State]) {
+  private class Backend(scope: BackendScope[CommonConfirmModal, State]) {
 
     def render(props: CommonConfirmModal, state: State): VdomArray = {
       VdomArray(

@@ -25,7 +25,7 @@ object ModalHeader {
 
   private val ComponentName = this.getClass.getSimpleName
 
-  private case class Backend(scope: BackendScope[ModalHeader, _]) {
+  private class Backend() {
     def render(props: ModalHeader): VdomElement = {
       <.div(
         Style.backgroundColor.white.padding.ver16.position.relative,

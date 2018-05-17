@@ -37,7 +37,7 @@ object Toolbar {
 
   private val isMac = window.navigator.userAgent.matches(".*(Mac|iPod|iPhone|iPad).*")
 
-  private case class Backend(scope: BackendScope[Toolbar, _]) {
+  private class Backend(scope: BackendScope[Toolbar, _]) {
 
     private def hasLinks(value: Value) = {
       value.inlines.some(inline => inline.inlineType == LinkNode.nodeType)
