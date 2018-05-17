@@ -16,7 +16,7 @@ private[editor] final case class ClickOutside(
   offsetBottom: Double = 0,
   onClickOutside: Callback
 ) {
-  def apply(children: VdomNode*): ScalaComponent.Unmounted[_, _, _] = ClickOutside.component(this)(children: _*)
+  def apply(children: VdomNode*): VdomElement = ClickOutside.component(this)(children: _*)
 }
 
 private[editor] object ClickOutside {
@@ -25,8 +25,8 @@ private[editor] object ClickOutside {
 
   private case class Backend(scope: BackendScope[ClickOutside, _]) extends OnUnmount {
 
-    def render(children: PropsChildren): VdomElement = {
-      <.div(children)
+    def render(children: PropsChildren): VdomNode = {
+      ReactFragment(children)
     }
 
     def onWindowClick(e: MouseEvent): Callback = {
