@@ -71,7 +71,7 @@ object TextInput {
   private val borderStyles = Style.border.all.borderWidth.px1.borderRadius.px2
 
   private val inputStyles = TagMod(
-    Style.display.block.width.pc100.padding.hor12,
+    Style.display.block.width.pc100.padding.hor12.backgroundColor.white,
     Style.focus.shadow.focus.border.transition.allWithShadow,
     Style.disabled.backgroundGray2.disabled.colorGray6,
     borderStyles
@@ -100,14 +100,15 @@ object TextInput {
       val height = TagMod.when(props.tpe != TpeArea) { props.size.height }
       val commonStyles = TagMod(props.size.font, props.tpe.styles, height)
       val contextIsDefined = props.context != EmptyVdom
+      val tag: VdomTag = if (props.tpe == TpeArea) <.textarea else <.input
 
-      val input = <.input(
+      val input = tag(
         // styles
         TagMod(commonStyles, inputStyles, props.status.styles),
         TagMod.when(contextIsDefined) { Style.borderRadius.right },
         TagMod.when(props.isReadOnly) { Style.backgroundColor.gray1 },
         // behaviours
-        ^.tpe := "text",
+        TagMod.when(props.tpe != TpeArea) { ^.tpe := "text" },
         ^.disabled := props.isDisabled,
         ^.readOnly := props.isReadOnly,
         ^.onChange ==> onChange,
