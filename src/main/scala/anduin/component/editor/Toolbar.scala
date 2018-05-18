@@ -190,7 +190,7 @@ object Toolbar {
           )()
         ),
         <.div(
-          ^.cls := "flex ml-auto",
+          ^.cls := "flex m-la",
           Tooltip(
             targetTag = <.span,
             renderTarget = () => {

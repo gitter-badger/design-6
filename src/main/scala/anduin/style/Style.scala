@@ -52,8 +52,6 @@ class Style(val classes: List[String]) {
   // TODO: only usage is Truncate, which should be a component
   def typography: Typography = Typography(classes)
   def transition: Transition = Transition(classes)
-  // TODO: reconsider these usages
-  def utilities: Utilities = Utilities(classes)
   def verticalAlign: VerticalAlign = VerticalAlign(classes)
   def whiteSpace: WhiteSpace = WhiteSpace(classes)
   def width: Width = Width(classes)

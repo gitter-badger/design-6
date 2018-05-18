@@ -13,6 +13,7 @@ private[style] final case class Margin(classes: List[String] = List.empty) {
   def all20: Style = new Style(classes :+ "ma5")
   def all24: Style = new Style(classes :+ "ma6")
   def all32: Style = new Style(classes :+ "ma7")
+  def allAuto: Style = new Style(classes :+ "m-aa")
 
   def left0: Style = new Style(classes :+ "ml0")
   def left4: Style = new Style(classes :+ "ml1")
@@ -22,6 +23,7 @@ private[style] final case class Margin(classes: List[String] = List.empty) {
   def left20: Style = new Style(classes :+ "ml5")
   def left24: Style = new Style(classes :+ "ml6")
   def left32: Style = new Style(classes :+ "ml7")
+  def leftAuto: Style = new Style(classes :+ "m-la")
 
   def right0: Style = new Style(classes :+ "mr0")
   def right4: Style = new Style(classes :+ "mr1")
@@ -31,6 +33,7 @@ private[style] final case class Margin(classes: List[String] = List.empty) {
   def right20: Style = new Style(classes :+ "mr5")
   def right24: Style = new Style(classes :+ "mr6")
   def right32: Style = new Style(classes :+ "mr7")
+  def rightAuto: Style = new Style(classes :+ "m-ra")
 
   def bottom0: Style = new Style(classes :+ "mb0")
   def bottom4: Style = new Style(classes :+ "mb1")
@@ -58,6 +61,7 @@ private[style] final case class Margin(classes: List[String] = List.empty) {
   def ver20: Style = new Style(classes :+ "mv5")
   def ver24: Style = new Style(classes :+ "mv6")
   def ver32: Style = new Style(classes :+ "mv7")
+  def verAuto: Style = new Style(classes :+ "m-va")
 
   def hor0: Style = new Style(classes :+ "mh0")
   def hor4: Style = new Style(classes :+ "mh1")
@@ -67,9 +71,7 @@ private[style] final case class Margin(classes: List[String] = List.empty) {
   def hor20: Style = new Style(classes :+ "mh5")
   def hor24: Style = new Style(classes :+ "mh6")
   def hor32: Style = new Style(classes :+ "mh7")
+  def horAuto: Style = new Style(classes :+ "m-ha")
 
-  def horAuto: Style = new Style(classes :+ "mh-auto")
-  def verAuto: Style = new Style(classes :+ "mv-auto")
-  def allAuto: Style = new Style(classes :+ "ma-auto")
 }
 // scalastyle:on number.of.methods
