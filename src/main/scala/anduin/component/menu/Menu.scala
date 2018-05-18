@@ -9,19 +9,18 @@ import japgolly.scalajs.react.vdom.html_<^._
 
 import anduin.style.Style
 
+case class Menu() {
+  def apply(children: VdomNode*): VdomElement =
+    Menu.component(children: _*)
+}
+
 object Menu {
-
-  def apply(children: VdomNode*): VdomElement = {
-    component(children: _*)
-  }
-
-  private val ComponentName = this.getClass.getSimpleName
+  private def render(children: PropsChildren): VdomElement =
+    <.div(Style.margin.ver8, ^.minWidth := "180px", children)
 
   private val component = ScalaComponent
-    .builder[Unit](ComponentName)
+    .builder[Unit](this.getClass.getSimpleName)
     .stateless
-    .render_C { children =>
-      <.div(Style.margin.ver8, ^.minWidth := "180px", children)
-    }
+    .render_C(render)
     .build
 }
