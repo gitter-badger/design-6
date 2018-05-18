@@ -7,6 +7,7 @@ private[style] final case class Disabled(classes: List[String] = List.empty) {
   def colorGray6: Style = new Style(classes :+ "disabled-c--gray-6")
   // Background Color
   def backgroundGray2: Style = new Style(classes :+ "disabled-bg--gray-2")
+  def backgroundNone: Style = new Style(classes :+ "disabled-bg--gray-none")
   // Border Color
   def borderGray4: Style = new Style(classes :+ "disabled-b--gray-4")
   // Shadow
