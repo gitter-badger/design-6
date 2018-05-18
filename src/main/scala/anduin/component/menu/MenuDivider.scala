@@ -9,9 +9,12 @@ import japgolly.scalajs.react.vdom.html_<^._
 
 import anduin.style.Style
 
+case class MenuDivider() {
+  def apply(): VdomElement = MenuDivider.component()
+}
+
 object MenuDivider {
-  private val component = ScalaComponent.static(this.getClass.getSimpleName)(
+  private def render =
     <.div(Style.backgroundColor.gray4.flexbox.flex.margin.ver8.width.pc100, ^.height := "1px")
-  )()
-  def apply(): VdomElement = component
+  private val component = ScalaComponent.static(this.getClass.getSimpleName)(render)
 }
