@@ -5,71 +5,82 @@ package anduin.component.menu
 // scalastyle:off underscore.import
 import japgolly.scalajs.react._
 import japgolly.scalajs.react.vdom.html_<^._
+
+import anduin.component.icon.IconAcl
 // scalastyle:on underscore.import
 
 import anduin.style.Style
 
 final case class MenuItem(
-  color: MenuItem.Color = MenuItem.Default,
-  isDisabled: Boolean = false,
-  openIn: MenuItem.OpenIn = MenuItem.ThisTab,
+  // common
+  isSelected: Boolean = false,
+  onClick: Callback = Callback.empty,
+  color: MenuItem.Color = MenuItem.ColorNeutral,
+  // link
   url: String = "",
-  onClick: Callback = Callback.empty
+  openIn: MenuItem.OpenIn = MenuItem.OpenInThisTab,
+  // button
+  isDisabled: Boolean = false
 ) {
-  def apply(children: VdomNode*): VdomElement = {
-    MenuItem.component(this)(children: _*)
-  }
+  def apply(children: VdomNode*): VdomElement = MenuItem.component(this)(children: _*)
 }
 
 object MenuItem {
 
-  private val ComponentName = this.getClass.getSimpleName
+  type Props = MenuItem
 
   sealed trait OpenIn { val value: String }
-  case object NewTab extends OpenIn { val value = "_blank" }
-  case object ThisTab extends OpenIn { val value = "_self" }
+  case object OpenInNewTab extends OpenIn { val value = "_blank" }
+  case object OpenInThisTab extends OpenIn { val value = "_self" }
 
-  sealed trait Color { val style: TagMod }
-  case object Default extends Color { val style: TagMod = Style.color.gray8.hover.backgroundPrimary4 }
-  case object Primary extends Color { val style: TagMod = Style.color.primary4.hover.backgroundPrimary4 }
-  case object Warning extends Color { val style: TagMod = Style.color.warning4.hover.backgroundWarning4 }
-  case object Danger extends Color { val style: TagMod = Style.color.danger4.hover.backgroundDanger4 }
-  case object Success extends Color { val style: TagMod = Style.color.success4.hover.backgroundSuccess4 }
+  sealed trait Color { val styles: Style }
+  case object ColorNeutral extends Color {
+    val styles: Style = Style.color.gray8.hover.backgroundPrimary4.active.backgroundPrimary5
+  }
+  case object ColorPrimary extends Color {
+    val styles: Style = Style.color.primary5.hover.backgroundPrimary4.active.backgroundPrimary5
+  }
+  case object ColorSuccess extends Color {
+    val styles: Style = Style.color.success5.hover.backgroundSuccess4.active.backgroundSuccess5
+  }
+  case object ColorWarning extends Color {
+    val styles: Style = Style.color.warning5.hover.backgroundWarning4.active.backgroundWarning5
+  }
+  case object ColorDanger extends Color {
+    val styles: Style = Style.color.danger5.hover.backgroundDanger4.active.backgroundDanger5
+  }
 
-  private class Backend(scope: BackendScope[MenuItem, _]) {
-
-    private def onClick(e: ReactEventFromHtml) = {
-      for {
-        _ <- e.preventDefaultCB
-        props <- scope.props
-        _ <- props.onClick
-      } yield ()
-    }
-
-    def render(props: MenuItem, children: PropsChildren): VdomElement = {
-      val styles = TagMod(
-        Style.flexbox.flex.padding.ver8.padding.hor12.hover.underlineNone.lineHeight.px16.hover.colorWhite,
-        TagMod.when(!props.isDisabled)(props.color.style),
-        TagMod.when(props.isDisabled)(Style.color.gray6.cursor.notAllowed)
+  def render(props: Props, children: PropsChildren): VdomElement = {
+    val commonMods = TagMod(
+      // common styles
+      Style.flexbox.flex.flexbox.itemsCenter.padding.ver8.padding.hor16.lineHeight.px16,
+      Style.hover.colorWhite.disabled.colorGray6.disabled.backgroundNone,
+      props.color.styles,
+      // behaviour
+      TagMod.when(!props.isDisabled) { ^.onClick --> props.onClick },
+      // content
+      children,
+      TagMod.when(props.isSelected) { <.span(Style.margin.leftAuto, IconAcl(name = IconAcl.NameCheck)()) }
+    )
+    if (props.url.nonEmpty) {
+      <.a(
+        Style.hover.underlineNone,
+        ^.href := props.url,
+        ^.target := props.openIn.value,
+        commonMods
       )
-
-      val onClickMod = TagMod.when(!props.isDisabled && !props.onClick.isEmpty_?) {
-        ^.onClick ==> onClick
-      }
-
-      val commonMods = TagMod(styles, onClickMod, children)
-
-      if (props.url.nonEmpty && !props.isDisabled) {
-        <.a(^.href := props.url, ^.target := props.openIn.value, commonMods)
-      } else {
-        <.button(commonMods)
-      }
+    } else {
+      <.button(
+        ^.tpe := "button",
+        ^.disabled := props.isDisabled,
+        commonMods
+      )
     }
   }
 
   private val component = ScalaComponent
-    .builder[MenuItem](ComponentName)
+    .builder[MenuItem](this.getClass.getSimpleName)
     .stateless
-    .renderBackendWithChildren[Backend]
+    .render_PC(render)
     .build
 }
