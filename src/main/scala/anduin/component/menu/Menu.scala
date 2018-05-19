@@ -9,19 +9,22 @@ import japgolly.scalajs.react.vdom.html_<^._
 
 import anduin.style.Style
 
-object Menu {
+case class Menu() {
+  def apply(children: VdomNode*): VdomElement = Menu.component(children: _*)
+}
 
-  def apply(children: VdomNode*): VdomElement = {
-    component(children: _*)
+object Menu {
+  private def render(children: PropsChildren): VdomElement = {
+    <.div(
+      Style.margin.ver8.overflow.autoY.overflow.hiddenX,
+      TagMod(^.maxWidth := "320px", ^.maxHeight := "480px", ^.minWidth := "192px"),
+      children
+    )
   }
 
-  private val ComponentName = this.getClass.getSimpleName
-
   private val component = ScalaComponent
-    .builder[Unit](ComponentName)
+    .builder[Unit](this.getClass.getSimpleName)
     .stateless
-    .render_C { children =>
-      <.div(Style.margin.ver8, ^.minWidth := "180px", children)
-    }
+    .render_C(render)
     .build
 }
