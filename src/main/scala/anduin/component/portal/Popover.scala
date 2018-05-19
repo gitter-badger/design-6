@@ -77,7 +77,7 @@ object Popover {
             <.div.withRef(portalRef)(
               Position.styles,
               Style.zIndex.idx999,
-              Style.backgroundColor.white.borderRadius.px4.shadow.blur8,
+              Style.backgroundColor.white.borderRadius.px2.shadow.blur8,
               Style.border.all.borderColor.gray4.borderWidth.px1,
               content
             )
