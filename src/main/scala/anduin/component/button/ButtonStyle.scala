@@ -91,6 +91,10 @@ object ButtonStyle {
   ): TagMod = TagMod(
     // Common styles for StyleLink, StyleFull and StyleMinimal
     Style.disabled.colorGray6.whiteSpace.noWrap,
+    // - "a" has something like min-width 100% by browser's default.
+    // - Meanwhile "button" has content-based width.
+    // Use this to enforce always 100% width for more consistency
+    TagMod.when(isFullWidth) { Style.width.pc100 },
     if (isSelected) { color.selected } else {
       style match {
         case StyleFull    => color.full
@@ -104,11 +108,10 @@ object ButtonStyle {
     TagMod.when(style == StyleMinimal || style == StyleFull)(
       TagMod( // This TagMod wrapper is only for grouping purpose
         Style.lineHeight.px16.fontWeight.medium.borderRadius.px2,
-        Style.flexbox.flex.focus.outline.transition.allWithOutline,
-        Style.flexbox.justifyCenter,
+        Style.flexbox.flex.flexbox.justifyCenter,
+        Style.focus.outline.transition.allWithOutline,
         size.style
       )
-    ),
-    TagMod.when(isFullWidth) { Style.width.pc100 }
+    )
   )
 }
