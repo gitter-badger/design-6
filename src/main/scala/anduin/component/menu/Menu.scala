@@ -17,7 +17,7 @@ object Menu {
   private def render(children: PropsChildren): VdomElement = {
     <.div(
       Style.margin.ver8.overflow.autoY.overflow.hiddenX,
-      TagMod(^.maxWidth := "320px", ^.maxHeight := "480px", ^.minWidth := "192px"),
+      TagMod(^.maxWidth := "640px", ^.maxHeight := "480px", ^.minWidth := "192px"),
       children
     )
   }
