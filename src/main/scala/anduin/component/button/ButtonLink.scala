@@ -5,6 +5,8 @@ package anduin.component.button
 // scalastyle:off underscore.import
 import japgolly.scalajs.react._
 import japgolly.scalajs.react.vdom.html_<^._
+
+import anduin.style.Style
 // scalastyle:on underscore.import
 
 final case class ButtonLink(
@@ -37,6 +39,7 @@ object ButtonLink {
       isSelected = props.isSelected,
       isFullWidth = props.isFullWidth
     ),
+    Style.hover.underlineNone,
     // behaviours
     ^.href := props.href,
     ^.target := props.target,
