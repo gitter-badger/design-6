@@ -81,12 +81,15 @@ private[style] final case class Active(classes: List[String] = List.empty) {
   def backgroundDanger2: Style = new Style(classes :+ "active-bg--danger-2")
   def backgroundDanger1: Style = new Style(classes :+ "active-bg--danger-1")
 
-  /* Shadow */
+  // border
+  def borderGray4: Style = new Style(classes :+ "a-bcg4")
+  def borderPrimary5: Style = new Style(classes :+ "a-bcp5")
+  def borderSuccess5: Style = new Style(classes :+ "a-bcs5")
+  def borderWarning5: Style = new Style(classes :+ "a-bcw5")
+  def borderDanger5: Style = new Style(classes :+ "a-bcr5")
 
-  def shadowBorderGray4s: Style = new Style(classes :+ "active-s-b--gray-4s")
-  def shadowBorderPrimary5s: Style = new Style(classes :+ "active-s-b--primary-5s")
-  def shadowBorderSuccess5s: Style = new Style(classes :+ "active-s-b--success-5s")
-  def shadowBorderWarning5s: Style = new Style(classes :+ "active-s-b--warning-5s")
-  def shadowBorderDanger5s: Style = new Style(classes :+ "active-s-b--danger-5s")
+  // shadow
+  def shadow1Light: Style = new Style(classes :+ "a-s1l")
+  def shadow1Dark: Style = new Style(classes :+ "a-s1d")
 }
 // scalastyle:on number.of.methods

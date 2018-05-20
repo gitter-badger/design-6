@@ -37,7 +37,7 @@ object TextInput {
 
   trait Size { val height: TagMod; val font: TagMod }
   case object SizeMedium extends Size { val height: TagMod = Style.height.px32; val font: TagMod = Style.fontSize.px14 }
-  case object SizeLarge extends Size { val height: TagMod = ^.height := "40px"; val font: TagMod = Style.fontSize.px16 }
+  case object SizeLarge extends Size { val height: TagMod = Style.height.px40; val font: TagMod = Style.fontSize.px16 }
 
   // ===
 

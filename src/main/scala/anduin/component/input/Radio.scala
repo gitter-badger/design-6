@@ -60,7 +60,7 @@ object Radio {
         // styles
         if (props.isChecked) ButtonStyle.ColorPrimary.full else ButtonStyle.ColorWhite.full,
         Style.focus.outline.transition.allWithOutline.borderRadius.pc100,
-        Style.disabled.backgroundGray2.disabled.shadowBorderGray4,
+        Style.disabled.backgroundGray2.disabled.borderGray4.disabled.shadowNone,
         size
       )
     }

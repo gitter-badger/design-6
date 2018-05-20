@@ -80,7 +80,7 @@ object Checkbox {
         ^.height := sizePx,
         if (props.isChecked) ButtonStyle.ColorPrimary.full else ButtonStyle.ColorWhite.full,
         Style.focus.outline.transition.allWithOutline.borderRadius.px2.cursor.pointer,
-        Style.disabled.backgroundGray2.disabled.shadowBorderGray4
+        Style.disabled.backgroundGray2.disabled.borderGray4.disabled.shadowNone
       )
     }
   }

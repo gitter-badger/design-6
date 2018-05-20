@@ -81,15 +81,19 @@ private[style] final case class Hover(classes: List[String] = List.empty) {
   def backgroundDanger2: Style = new Style(classes :+ "hover-bg--danger-2")
   def backgroundDanger1: Style = new Style(classes :+ "hover-bg--danger-1")
 
-  /* Shadow */
+  // border
+  def borderAll: Style = new Style(classes :+ "hv-ba")
+  def borderGray4: Style = new Style(classes :+ "hv-bcg4")
+  def borderPrimary5: Style = new Style(classes :+ "hv-bcp5")
+  def borderSuccess5: Style = new Style(classes :+ "hv-bcs5")
+  def borderWarning5: Style = new Style(classes :+ "hv-bcw5")
+  def borderDanger5: Style = new Style(classes :+ "hv-bcr5")
 
-  def shadowBorderGray4s: Style = new Style(classes :+ "hover-s-b--gray-4s")
-  def shadowBorderPrimary5s: Style = new Style(classes :+ "hover-s-b--primary-5s")
-  def shadowBorderSuccess5s: Style = new Style(classes :+ "hover-s-b--success-5s")
-  def shadowBorderWarning5s: Style = new Style(classes :+ "hover-s-b--warning-5s")
-  def shadowBorderDanger5s: Style = new Style(classes :+ "hover-s-b--danger-5s")
+  // shadow
+  def shadow1Light: Style = new Style(classes :+ "hv-s1l")
+  def shadow1Dark: Style = new Style(classes :+ "hv-s1d")
 
-  /* Text Decoration */
+  // Text Decoration
   def underlineNone: Style = new Style(classes :+ "non-underline-hover")
   def underline: Style = new Style(classes :+ "underline-hover")
 }
