@@ -33,28 +33,32 @@ object MenuItem {
   case object OpenInNewTab extends OpenIn { val value = "_blank" }
   case object OpenInThisTab extends OpenIn { val value = "_self" }
 
-  sealed trait Color { val styles: Style }
+  sealed trait Color { val styles: TagMod }
+  case object ColorGray extends Color {
+    val styles: TagMod = Style.color.gray8.hover.backgroundGray2.active.backgroundGray3
+  }
   case object ColorNeutral extends Color {
-    val styles: Style = Style.color.gray8.hover.backgroundPrimary4.active.backgroundPrimary5
+    private[MenuItem] val color = Style.hover.colorWhite.active.colorWhite
+    private[MenuItem] val bg = Style.hover.backgroundPrimary4.active.backgroundPrimary5
+    val styles = TagMod(Style.color.gray8, color, bg)
   }
   case object ColorPrimary extends Color {
-    val styles: Style = Style.color.primary5.hover.backgroundPrimary4.active.backgroundPrimary5
+    val styles = TagMod(ColorNeutral.color, Style.color.primary5, ColorNeutral.bg)
   }
   case object ColorSuccess extends Color {
-    val styles: Style = Style.color.success5.hover.backgroundSuccess4.active.backgroundSuccess5
+    val styles = TagMod(ColorNeutral.color, Style.color.success5.hover.backgroundSuccess4.active.backgroundSuccess5)
   }
   case object ColorWarning extends Color {
-    val styles: Style = Style.color.warning5.hover.backgroundWarning4.active.backgroundWarning5
+    val styles = TagMod(ColorNeutral.color, Style.color.warning5.hover.backgroundWarning4.active.backgroundWarning5)
   }
   case object ColorDanger extends Color {
-    val styles: Style = Style.color.danger5.hover.backgroundDanger4.active.backgroundDanger5
+    val styles = TagMod(ColorNeutral.color, Style.color.danger5.hover.backgroundDanger4.active.backgroundDanger5)
   }
 
   def render(props: Props, children: PropsChildren): VdomElement = {
     val commonMods = TagMod(
       // common styles
       Style.flexbox.flex.flexbox.itemsCenter.padding.ver8.padding.hor16.lineHeight.px16,
-      Style.hover.colorWhite.disabled.colorGray6.disabled.backgroundNone,
       props.color.styles,
       // behaviour
       TagMod.when(!props.isDisabled) { ^.onClick --> props.onClick },
@@ -71,6 +75,8 @@ object MenuItem {
       )
     } else {
       <.button(
+        Style.width.pc100.textAlign.left,
+        Style.disabled.colorGray6.disabled.backgroundNone,
         ^.tpe := "button",
         ^.disabled := props.isDisabled,
         commonMods
