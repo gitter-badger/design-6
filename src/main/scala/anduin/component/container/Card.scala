@@ -2,40 +2,28 @@
 
 package anduin.component.container
 
-import japgolly.scalajs.react.component.Scala.Unmounted
-
-import anduin.component.util.ComponentUtils
-
 // scalastyle:off underscore.import
 import japgolly.scalajs.react._
 import japgolly.scalajs.react.vdom.html_<^._
+
+import anduin.style.Style
 // scalastyle:on underscore.import
 
-final case class Card(
-  content: VdomElement
-) {
-  def apply(): Unmounted[_, _, _] = Card.component(this)
+final case class Card() {
+  def apply(children: VdomNode*): VdomElement = Card.component(this)(children: _*)
 }
 
 object Card {
 
-  private val ComponentName = ComponentUtils.name(this)
-
-  private type Props = Card
-
-  private case class Backend(scope: BackendScope[Props, _]) {
-
-    def render(props: Props): VdomElement = {
+  private val component = ScalaComponent
+    .builder[Card](this.getClass.getSimpleName)
+    .stateless
+    .render_C { children =>
       <.div(
-        ^.cls := "card",
-        props.content
+        Style.backgroundColor.white.borderRadius.px2.padding.all16,
+        Style.border.all.borderColor.gray4.borderWidth.px1,
+        children
       )
     }
-  }
-
-  private val component = ScalaComponent
-    .builder[Props](ComponentName)
-    .stateless
-    .renderBackend[Backend]
     .build
 }
