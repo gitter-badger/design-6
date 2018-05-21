@@ -59,7 +59,7 @@ object Radio {
         ^.onChange --> props.onChange(props.value),
         // styles
         if (props.isChecked) ButtonStyle.ColorPrimary.full else ButtonStyle.ColorWhite.full,
-        Style.focus.outline.transition.allWithOutline.borderRadius.pc100,
+        Style.focus.outline.transition.allWithOutline.borderRadius.pc100.border.all,
         Style.disabled.backgroundGray2.disabled.borderGray4.disabled.shadowNone,
         size
       )
