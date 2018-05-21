@@ -61,7 +61,6 @@ object TextInput {
   }
   case object StatusInvalid extends Status {
     override val styles: Style = Style.borderColor.danger4
-    override val icon: Option[VdomNode] = Option(renderIcon(IconAcl.NameCross, Style.color.danger4))
   }
 
   // === Predefined styles
