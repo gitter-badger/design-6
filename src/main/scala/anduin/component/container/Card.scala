@@ -21,7 +21,7 @@ object Card {
     .render_C { children =>
       <.div(
         Style.backgroundColor.white.borderRadius.px2.padding.all16,
-        Style.border.all.borderColor.gray4.borderWidth.px1,
+        Style.border.all.borderColor.gray3.borderWidth.px1,
         children
       )
     }
