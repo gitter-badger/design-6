@@ -33,7 +33,9 @@ class Dropdown[T] {
     onChange: T => Callback,
     isDisabled: Boolean = false,
     // ===
-    position: Position = PositionBottomLeft
+    position: Position = PositionBottomLeft,
+    footer: VdomNode = EmptyVdom,
+    header: VdomNode = EmptyVdom
   ) {
     def apply(): VdomElement = component(this)
   }
@@ -61,13 +63,21 @@ class Dropdown[T] {
     )(props.renderValue(props.value), icon)
   }
 
-  private def renderContent(props: Props, close: Callback): VdomElement = {
-    val content = if (props.options.nonEmpty) {
+  private def renderContent(props: Props, close: Callback): VdomNode = {
+    val options = Menu()(if (props.options.nonEmpty) {
       props.options.toVdomArray { renderOption(props, close, _) }
     } else {
       renderOptionGroups(props, close)
-    }
-    Menu()(content)
+    })
+    val header = renderBoxIfExisted(props.header)
+    val footer = renderBoxIfExisted(props.footer)
+    ReactFragment(header, options, footer)
+  }
+
+  // the box for header and footer
+  private val boxStyles = Style.backgroundColor.gray1.padding.ver8.padding.hor16.border.top.borderColor.gray3
+  private def renderBoxIfExisted(content: VdomNode): VdomNode = {
+    if (content == EmptyVdom) EmptyVdom else <.div(boxStyles, content)
   }
 
   private def renderOptionGroups(props: Props, close: Callback): VdomNode = {
