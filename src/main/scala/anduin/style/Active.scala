@@ -86,7 +86,7 @@ private[style] final case class Active(classes: List[String] = List.empty) {
   def borderPrimary5: Style = new Style(classes :+ "a-bcp5")
   def borderSuccess5: Style = new Style(classes :+ "a-bcs5")
   def borderWarning5: Style = new Style(classes :+ "a-bcw5")
-  def borderDanger5: Style = new Style(classes :+ "a-bcr5")
+  def borderDanger5: Style = new Style(classes :+ "a-bcd5")
 
   // shadow
   def shadow1Light: Style = new Style(classes :+ "a-s1l")

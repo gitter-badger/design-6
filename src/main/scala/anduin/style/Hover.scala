@@ -87,7 +87,7 @@ private[style] final case class Hover(classes: List[String] = List.empty) {
   def borderPrimary5: Style = new Style(classes :+ "hv-bcp5")
   def borderSuccess5: Style = new Style(classes :+ "hv-bcs5")
   def borderWarning5: Style = new Style(classes :+ "hv-bcw5")
-  def borderDanger5: Style = new Style(classes :+ "hv-bcr5")
+  def borderDanger5: Style = new Style(classes :+ "hv-bcd5")
 
   // shadow
   def shadow1Light: Style = new Style(classes :+ "hv-s1l")
