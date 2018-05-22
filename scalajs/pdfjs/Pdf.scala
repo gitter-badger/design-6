@@ -7,8 +7,8 @@ import scala.scalajs.js.annotation.{JSImport, JSName}
 import scala.scalajs.js.typedarray.ArrayBuffer
 import scala.scalajs.js.{UndefOr, |}
 
-import org.scalajs.dom.CanvasRenderingContext2D
-import org.scalajs.dom.raw.{HTMLCanvasElement, HTMLElement}
+import org.scalajs.dom.raw.HTMLCanvasElement
+import org.scalajs.dom.{CanvasRenderingContext2D, Element}
 
 import anduin.scalajs.moment.{Date, Moment}
 
@@ -183,17 +183,17 @@ trait TextItem extends js.Object {
 @js.native
 trait TextLayerRenderParameters extends js.Object {
   val textContent: TextContent = js.native
-  val container: HTMLElement = js.native
+  val container: Element = js.native
   val viewport: PDFPageViewport = js.native
-  val textDivs: js.Array[HTMLElement] = js.native
+  val textDivs: js.Array[Element] = js.native
 }
 
 object TextLayerRenderParameters {
   def apply(
     textContent: TextContent,
-    container: HTMLElement,
+    container: Element,
     viewport: PDFPageViewport,
-    textDivs: js.Array[HTMLElement] = js.Array[HTMLElement]()
+    textDivs: js.Array[Element] = js.Array[Element]()
   ): TextLayerRenderParameters = {
     js.Dynamic
       .literal(textContent = textContent, container = container, viewport = viewport, textDivs = textDivs)
@@ -272,7 +272,7 @@ object SimpleLinkService {
 @js.native
 trait AnnotationLayerParameters extends js.Object {
   val viewport: PDFPageViewport = js.native
-  val div: HTMLElement = js.native
+  val div: Element = js.native
   val page: PDFPageProxy = js.native
   val annotations: js.Array[Annotation] = js.native
   val linkService: LinkService = js.native
@@ -281,7 +281,7 @@ trait AnnotationLayerParameters extends js.Object {
 object AnnotationLayerParameters {
   def apply(
     viewport: PDFPageViewport,
-    div: HTMLElement,
+    div: Element,
     page: PDFPageProxy,
     annotations: js.Array[Annotation],
     linkService: LinkService = SimpleLinkService()
