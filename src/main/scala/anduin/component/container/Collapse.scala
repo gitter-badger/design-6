@@ -1,6 +1,6 @@
 // Copyright (C) 2014-2018 Anduin Transactions Inc.
 
-package anduin.component.toggle
+package anduin.component.container
 
 // scalastyle:off underscore.import
 import japgolly.scalajs.react._
@@ -11,27 +11,21 @@ final case class Collapse(
   renderTarget: (Callback, Boolean) => VdomNode,
   renderContent: Boolean => VdomNode
 ) {
-  def apply(): VdomElement = {
-    Collapse.component(this)
-  }
+  def apply(): VdomElement = Collapse.component(this)
 }
 
 object Collapse {
-
-  private val ComponentName = this.getClass.getSimpleName
 
   private case class State(toggled: Boolean = true)
 
   private class Backend(scope: BackendScope[Collapse, State]) {
 
-    private def toggle = {
-      scope.modState { state =>
-        state.copy(toggled = !state.toggled)
-      }
+    private def toggle = scope.modState { state =>
+      state.copy(toggled = !state.toggled)
     }
 
     def render(props: Collapse, state: State): VdomNode = {
-      VdomArray(
+      ReactFragment(
         props.renderTarget(toggle, state.toggled),
         props.renderContent(state.toggled)
       )
@@ -39,7 +33,7 @@ object Collapse {
   }
 
   private val component = ScalaComponent
-    .builder[Collapse](ComponentName)
+    .builder[Collapse](this.getClass.getSimpleName)
     .initialState(State())
     .renderBackend[Backend]
     .build
