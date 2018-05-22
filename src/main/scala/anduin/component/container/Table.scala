@@ -37,8 +37,14 @@ object Table {
     content: VdomNode = EmptyVdom,
     rowSpan: Int = 1,
     colSpan: Int = 1,
-    isEmpty: Boolean = false
+    isEmpty: Boolean = false,
+    align: CellAlign = CellAlignMiddle
   )
+  sealed trait CellAlign { val styles: Style }
+  case object CellAlignTop extends CellAlign { val styles: Style = Style.verticalAlign.top }
+  case object CellAlignMiddle extends CellAlign { val styles: Style = Style.verticalAlign.middle }
+  case object CellAlignBottom extends CellAlign { val styles: Style = Style.verticalAlign.bottom }
+
   case class Sort[R](
     asc: (R, R) => Boolean,
     desc: (R, R) => Boolean
@@ -136,7 +142,7 @@ object Table {
             val cell = column.render(row)
             if (cell.isEmpty) { EmptyVdom } else {
               val span = TagMod(^.rowSpan := cell.rowSpan, ^.colSpan := cell.colSpan)
-              <.td(Style.padding.all12, span, cell.content)
+              <.td(Style.padding.all12, cell.align.styles, span, cell.content)
             }
           })
           <.tr(Style.hover.backgroundGray1, border, columns)
