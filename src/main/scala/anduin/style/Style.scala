@@ -44,6 +44,7 @@ class Style(val classes: List[String]) {
   def overflow: Overflow = Overflow(classes)
   def padding: Padding = Padding(classes)
   def position: Position = Position(classes)
+  def pointerEvents: PointerEvents = PointerEvents(classes)
   def shadow: Shadow = Shadow(classes)
   // TODO: replace with Table component
   def table: Table = Table(classes)
