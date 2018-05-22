@@ -2,7 +2,7 @@
 
 package anduin.component.input
 
-import anduin.component.icon.Iconv2
+import anduin.component.icon.IconAcl
 import anduin.component.util.ComponentUtils
 import anduin.style.Style
 
@@ -46,7 +46,7 @@ class MenuSelect[I] {
                 <.div(
                   Style.flexbox.grow0.padding.right8,
                   ^.cls := "at-green",
-                  Iconv2.checkmark("db")
+                  IconAcl(name = IconAcl.NameCheck)()
                 )
               )
             )

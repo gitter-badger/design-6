@@ -2,7 +2,7 @@
 
 package anduin.component.option
 
-import anduin.component.icon.Iconv2
+import anduin.component.icon.IconAcl
 import anduin.style.Style
 
 // scalastyle:off underscore.import
@@ -45,7 +45,7 @@ object CheckMark {
               "at-icon" -> true,
               Style.flexbox.flex.flexbox.justifyCenter.flexbox.itemsCenter.borderRadius.pill.color.white.value -> true
             ),
-            Iconv2.checkmark()
+            IconAcl(name = IconAcl.NameCheck)()
           )
         ),
         children
