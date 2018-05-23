@@ -22,8 +22,9 @@ object Tab {
   case class Panel(title: VdomNode, renderContent: () => VdomNode)
 
   sealed trait Style
-  case object StyleMinimal extends Style
   case object StyleFull extends Style
+  // case object StyleMinimal extends Style
+  // -> Currently we only support StyleFull. Will support StyleMinimal later
 
   // === Backend
 
@@ -37,8 +38,8 @@ object Tab {
 
     def render(props: Props, state: State): VdomElement = {
       props.style match {
-        case StyleFull    => TabFull(props.panels, state.active, setActive)()
-        case StyleMinimal => TabFull(props.panels, state.active, setActive)()
+        case StyleFull => TabFull(props.panels, state.active, setActive)()
+        // case StyleMinimal => TabFull(props.panels, state.active, setActive)()
       }
     }
   }
