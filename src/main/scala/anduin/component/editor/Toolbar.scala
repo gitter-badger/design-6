@@ -8,7 +8,7 @@ import org.scalajs.dom.raw.Element
 import org.scalajs.dom.window
 
 import anduin.component.button.{Button, ButtonStyle}
-import anduin.component.icon.{IconAcl, Iconv2}
+import anduin.component.icon.IconAcl
 import anduin.component.menu.VerticalDivider
 import anduin.scalajs.slate.Slate.{Change, Value}
 import anduin.style.Style
@@ -172,7 +172,7 @@ object Toolbar {
                     size = ButtonStyle.SizeIcon,
                     onClick = open,
                     isSelected = status == StatusOpen
-                  )(Iconv2.format())
+                  )(IconAcl(name = IconAcl.NameFormat)())
                 },
                 renderContent = () => "Formatting options"
               )()

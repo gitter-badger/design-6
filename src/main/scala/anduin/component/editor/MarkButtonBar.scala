@@ -2,7 +2,7 @@
 
 package anduin.component.editor
 
-import anduin.component.icon.Iconv2
+import anduin.component.icon.IconAcl
 import anduin.scalajs.slate.Slate.{Change, Value}
 import anduin.style.Style
 
@@ -42,10 +42,10 @@ private[editor] object MarkButtonBar {
       <.div(
         Style.flexbox.flex,
         List(
-          (BoldNode, Iconv2.bold(), "Bold"),
-          (ItalicNode, Iconv2.italic(), "Italic"),
-          (UnderlineNode, Iconv2.underline(), "Underline"),
-          (StrikeThroughNode, Iconv2.strikethrough(), "Strikethrough")
+          (BoldNode, IconAcl(name = IconAcl.NameBold)(), "Bold"),
+          (ItalicNode, IconAcl(name = IconAcl.NameItalic)(), "Italic"),
+          (UnderlineNode, IconAcl(name = IconAcl.NameUnderline)(), "Underline"),
+          (StrikeThroughNode, IconAcl(name = IconAcl.NameStrikeThrough)(), "Strikethrough")
         ).toVdomArray {
           case (markNode, icon, tip) =>
             ToolbarButton(
