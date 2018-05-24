@@ -107,7 +107,7 @@ object ButtonStyle {
     TagMod.when(style == StyleFull) {
       Style.border.all.disabled.backgroundGray2.disabled.borderGray4.disabled.shadowNone
     },
-    TagMod.when(style == StyleMinimal) { Style.hover.borderAll },
+    TagMod.when(style == StyleMinimal) { Style.border.all.borderColor.transparent },
     TagMod(
       Style.lineHeight.px16.fontWeight.medium.borderRadius.px2,
       Style.flexbox.flex.flexbox.justifyCenter.flexbox.itemsCenter,
