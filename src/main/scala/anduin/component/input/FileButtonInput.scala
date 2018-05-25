@@ -12,7 +12,7 @@ import japgolly.scalajs.react._
 import japgolly.scalajs.react.vdom.html_<^._
 // scalastyle:on underscore.import
 
-final case class FileInputButton(
+final case class FileButtonInput(
   color: ButtonStyle.Color = ButtonStyle.ColorWhite,
   size: ButtonStyle.Size = ButtonStyle.SizeMedium,
   style: ButtonStyle.Style = ButtonStyle.StyleFull,
@@ -26,15 +26,15 @@ final case class FileInputButton(
   isMultiple: Boolean = false
 ) {
   def apply(children: VdomNode*): VdomElement = {
-    FileInputButton.component(this)(children: _*)
+    FileButtonInput.component(this)(children: _*)
   }
 }
 
-object FileInputButton {
+object FileButtonInput {
 
   private val ComponentName = this.getClass.getSimpleName
 
-  private class Backend(scope: BackendScope[FileInputButton, _]) {
+  private class Backend(scope: BackendScope[FileButtonInput, _]) {
 
     private def onChange(e: ReactEventFromInput): Callback = {
       for {
@@ -44,7 +44,7 @@ object FileInputButton {
       } yield ()
     }
 
-    def render(props: FileInputButton, children: PropsChildren): VdomElement = {
+    def render(props: FileButtonInput, children: PropsChildren): VdomElement = {
       if (props.isDisabled) {
         // when disabled we simply swap it with a disabled Button with
         // corresponding styles. This is because the actual input and the
@@ -70,7 +70,7 @@ object FileInputButton {
   }
 
   private val component = ScalaComponent
-    .builder[FileInputButton](ComponentName)
+    .builder[FileButtonInput](ComponentName)
     .stateless
     .renderBackendWithChildren[Backend]
     .build
