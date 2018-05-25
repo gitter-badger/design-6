@@ -155,14 +155,14 @@ object Toolbar {
           )(),
           VerticalDivider(),
           Popover(
-            position = PositionBottom,
+            position = PositionTop,
+            verticalOffset = -8,
             isPortalClicked = (clickedTarget, target, portal) => {
               Popover.IsPortalClicked(clickedTarget, target, portal) || props
                 .editorRef()
                 .map(_.contains(clickedTarget))
                 .getOrElse(false)
             },
-            verticalOffset = 8,
             renderTarget = (open, _, _, status) => {
               Tooltip(
                 targetTag = <.span,
@@ -179,7 +179,7 @@ object Toolbar {
             },
             renderContent = (_, _) => {
               <.div(
-                Style.flexbox.flex.flexbox.itemsCenter,
+                Style.flexbox.flex.flexbox.itemsCenter.padding.all4,
                 MarkButtonBar(props.value, props.onChange)(),
                 VerticalDivider(),
                 AlignButtonBar(props.value, props.onChange)(),

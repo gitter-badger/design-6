@@ -15,7 +15,7 @@ import japgolly.scalajs.react.vdom.html_<^._
 final case class Checkbox(
   isChecked: Boolean,
   isDisabled: Boolean = false,
-  onChange: Callback = Callback.empty
+  onChange: Boolean => Callback = _ => Callback.empty
 ) {
   def apply(children: VdomNode*): VdomElement = {
     Checkbox.component(this)(children: _*)
@@ -42,7 +42,7 @@ object Checkbox {
     )
   }
 
-  private class Backend() {
+  private class Backend(scope: BackendScope[Checkbox, _]) {
     def render(props: Checkbox, children: PropsChildren): VdomElement = {
       <.label(
         Style.flexbox.flex.flexbox.itemsCenter.cursor.pointer.position.relative,
@@ -74,7 +74,7 @@ object Checkbox {
         ^.tpe := "checkbox",
         ^.disabled := props.isDisabled,
         ^.checked := props.isChecked,
-        ^.onChange --> props.onChange,
+        ^.onChange ==> onChange,
         // styles
         ^.width := sizePx,
         ^.height := sizePx,
@@ -82,6 +82,13 @@ object Checkbox {
         Style.focus.outline.transition.allWithOutline.borderRadius.px2.border.all.cursor.pointer,
         Style.disabled.backgroundGray2.disabled.borderGray4.disabled.shadowNone
       )
+    }
+
+    private def onChange(e: ReactEventFromInput) = {
+      for {
+        props <- scope.props
+        _ <- props.onChange(e.target.checked)
+      } yield ()
     }
   }
 

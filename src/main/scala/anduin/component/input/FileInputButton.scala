@@ -21,6 +21,7 @@ final case class FileInputButton(
   isDisabled: Boolean = false,
   // Specific behaviours for FileButton
   onChange: FileList => Callback,
+  shouldClearAfterChanged: Boolean = false,
   acceptTypes: String = "",
   isMultiple: Boolean = false
 ) {
@@ -37,10 +38,9 @@ object FileInputButton {
 
     private def onChange(e: ReactEventFromInput): Callback = {
       for {
-        _ <- e.preventDefaultCB
-        _ <- e.stopPropagationCB
         props <- scope.props
         _ <- props.onChange(e.target.files)
+        _ <- Callback { e.target.value = "" }.when(props.shouldClearAfterChanged)
       } yield ()
     }
 
