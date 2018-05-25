@@ -27,4 +27,6 @@ private[style] final case class Width(classes: List[String] = List.empty) {
   def pcTwoRd: Style = new Style(classes :+ "w-two-thirds")
 
   def auto: Style = new Style(classes :+ "w-auto")
+  def minContent: Style = new Style(classes :+ "w-min")
+  def maxContent: Style = new Style(classes :+ "w-max")
 }
