@@ -94,7 +94,9 @@ object ButtonStyle {
     // - "a" has something like min-width 100% by browser's default.
     // - Meanwhile "button" has content-based width.
     // Use this to enforce always 100% width for more consistency
-    if (isFullWidth) Style.width.pc100 else Style.width.maxContent,
+    TagMod.when(size != SizeIcon) {
+      if (isFullWidth) Style.width.pc100 else Style.width.maxContent
+    },
     if (isSelected) { TagMod(Style.border.all, color.selected) } else {
       style match {
         case StyleFull    => color.full
