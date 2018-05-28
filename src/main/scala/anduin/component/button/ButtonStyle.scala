@@ -89,9 +89,6 @@ object ButtonStyle {
     isSelected: Boolean,
     isFullWidth: Boolean
   ): TagMod = TagMod(
-    // Apply styling from size prop
-    size.style,
-    TagMod.when(size != SizeIcon) { if (isFullWidth) Style.width.pc100 else Style.width.maxContent },
     // Apply style from color prop
     //   Note: Don't do customization here. If you need to customize, do it all
     //   at once in the bottom section
@@ -103,16 +100,21 @@ object ButtonStyle {
       }
     },
     // Common styles for StyleLink, StyleFull and StyleMinimal
-    Style.disabled.colorGray6.whiteSpace.noWrap,
+    Style.disabled.colorGray6.flexbox.itemsCenter,
     // Specific styles for each Style
-    TagMod.when(style == StyleLink) { Style.flexbox.inlineFlex.hover.underline },
+    TagMod.when(style == StyleLink) { Style.flexbox.inlineFlex.hover.underline.textAlign.left },
     TagMod.when(style == StyleFull) { Style.disabled.backgroundGray2.disabled.borderGray4.disabled.shadowNone },
     TagMod.when(style == StyleMinimal && !isSelected) { Style.borderColor.transparent },
     TagMod.when(style == StyleMinimal || style == StyleFull) {
       TagMod(
-        Style.lineHeight.px16.fontWeight.medium.borderRadius.px2,
-        Style.flexbox.flex.flexbox.justifyCenter.flexbox.itemsCenter,
-        Style.focus.outline.transition.allWithOutline.border.all
+        Style.lineHeight.px16.fontWeight.medium.borderRadius.px2.whiteSpace.noWrap,
+        Style.flexbox.flex.flexbox.justifyCenter,
+        Style.focus.outline.transition.allWithOutline.border.all,
+        // Apply styling from size prop
+        size.style,
+        TagMod.when(size != SizeIcon) {
+          if (isFullWidth) Style.width.pc100 else Style.width.maxContent
+        }
       )
     }
   )
