@@ -2,6 +2,7 @@
 
 package anduin.component.container
 
+import anduin.component.button.{Button, ButtonStyle}
 import anduin.component.icon.IconAcl
 import anduin.style.Style
 
@@ -12,7 +13,8 @@ import japgolly.scalajs.react.vdom.html_<^._
 
 final case class Well(
   color: Well.Color = Well.ColorNeutral,
-  title: String = ""
+  title: String = "",
+  close: Callback = Callback.empty
 ) {
   def apply(children: VdomNode*): VdomElement = {
     Well.component(this)(children: _*)
@@ -30,6 +32,7 @@ object Well {
     private[Well] val iconName = IconAcl.NameBookmark
     private[Well] val iconColor = Style.color.gray7
     private[Well] val bg = Style.backgroundColor.gray2
+    private[Well] val close = Style.backgroundColor.gray3
   }
   case object ColorPrimary extends Color {
     private[Well] val iconName = IconAcl.NameInfoCircle
@@ -52,27 +55,40 @@ object Well {
     private[Well] val bg = Style.backgroundColor.danger1
   }
 
-  def render(props: Well, children: PropsChildren): VdomElement = {
+  private def renderClose(props: Well): VdomNode = {
+    if (props.close == Callback.empty) {
+      EmptyVdom
+    } else {
+      val button = Button(
+        onClick = props.close,
+        style = ButtonStyle.StyleMinimal,
+        size = ButtonStyle.SizeIcon
+      )(IconAcl(name = IconAcl.NameCross)())
+      <.div(^.padding := "6px 6px 0 0", button)
+    }
+  }
+
+  private def renderIcon(props: Well): VdomElement = {
+    <.div(
+      ^.padding := "14px 0 0 12px",
+      props.color.iconColor,
+      IconAcl(name = props.color.iconName)()
+    )
+  }
+
+  private def render(props: Well, children: PropsChildren): VdomElement = {
     <.div(
       props.color.bg,
-      Style.borderRadius.px2.padding.all12.flexbox.flex,
+      Style.borderRadius.px2.flexbox.flex,
+      <.div(Style.flexbox.none, renderIcon(props)),
       <.div(
-        // - Manually pushed this down a little bit to align nicely with 20px
-        //   content on the right, in case there is only 1 line
-        // - We can't use itemsCenter here because the we want the icon to
-        //   always stay on top left
-        ^.paddingTop := "2px",
-        props.color.iconColor,
-        Style.flexbox.none.margin.right8,
-        IconAcl(name = props.color.iconName)()
-      ),
-      <.div(
-        Style.flexbox.fixed,
+        Style.flexbox.fixed.padding.ver12.padding.hor8,
         TagMod.when(props.title.nonEmpty) {
           <.h4(Style.margin.bottom4.color.gray7, props.title)
         },
         children
-      )
+      ),
+      <.div(Style.flexbox.none, renderClose(props))
     )
   }
 
