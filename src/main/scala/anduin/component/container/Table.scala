@@ -38,7 +38,7 @@ object Table {
     rowSpan: Int = 1,
     colSpan: Int = 1,
     isEmpty: Boolean = false,
-    align: CellAlign = CellAlignMiddle
+    align: CellAlign = CellAlignTop
   )
   sealed trait CellAlign { val styles: Style }
   case object CellAlignTop extends CellAlign { val styles: Style = Style.verticalAlign.top }
