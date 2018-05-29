@@ -89,32 +89,31 @@ object ButtonStyle {
     isSelected: Boolean,
     isFullWidth: Boolean
   ): TagMod = TagMod(
-    // Common styles for StyleLink, StyleFull and StyleMinimal
-    Style.disabled.colorGray6.whiteSpace.noWrap,
-    // - "a" has something like min-width 100% by browser's default.
-    // - Meanwhile "button" has content-based width.
-    // Use this to enforce always 100% width for more consistency
-    TagMod.when(size != SizeIcon) {
-      if (isFullWidth) Style.width.pc100 else Style.width.maxContent
-    },
-    if (isSelected) { TagMod(Style.border.all, color.selected) } else {
+    // Apply styling from size prop
+    size.style,
+    TagMod.when(size != SizeIcon) { if (isFullWidth) Style.width.pc100 else Style.width.maxContent },
+    // Apply style from color prop
+    //   Note: Don't do customization here. If you need to customize, do it all
+    //   at once in the bottom section
+    if (isSelected) { color.selected } else {
       style match {
         case StyleFull    => color.full
         case StyleMinimal => color.minimal
         case StyleLink    => color.link
       }
     },
+    // Common styles for StyleLink, StyleFull and StyleMinimal
+    Style.disabled.colorGray6.whiteSpace.noWrap,
     // Specific styles for each Style
     TagMod.when(style == StyleLink) { Style.flexbox.inlineFlex.hover.underline },
-    TagMod.when(style == StyleFull) {
-      Style.border.all.disabled.backgroundGray2.disabled.borderGray4.disabled.shadowNone
-    },
-    TagMod.when(style == StyleMinimal) { Style.border.all.borderColor.transparent },
-    TagMod(
-      Style.lineHeight.px16.fontWeight.medium.borderRadius.px2,
-      Style.flexbox.flex.flexbox.justifyCenter.flexbox.itemsCenter,
-      Style.focus.outline.transition.allWithOutline,
-      size.style
-    ).when(style == StyleMinimal || style == StyleFull)
+    TagMod.when(style == StyleFull) { Style.disabled.backgroundGray2.disabled.borderGray4.disabled.shadowNone },
+    TagMod.when(style == StyleMinimal && !isSelected) { Style.borderColor.transparent },
+    TagMod.when(style == StyleMinimal || style == StyleFull) {
+      TagMod(
+        Style.lineHeight.px16.fontWeight.medium.borderRadius.px2,
+        Style.flexbox.flex.flexbox.justifyCenter.flexbox.itemsCenter,
+        Style.focus.outline.transition.allWithOutline.border.all
+      )
+    }
   )
 }
