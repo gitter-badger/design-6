@@ -29,8 +29,8 @@ object CommonConfirmModal {
 
   private class Backend(scope: BackendScope[CommonConfirmModal, State]) {
 
-    def render(props: CommonConfirmModal, state: State): VdomArray = {
-      VdomArray(
+    def render(props: CommonConfirmModal, state: State): VdomElement = {
+      ReactFragment(
         ModalBody(props.displayInfo),
         ModalFooterWCancel(cancel = props.onClose)(
           ProgressButton(

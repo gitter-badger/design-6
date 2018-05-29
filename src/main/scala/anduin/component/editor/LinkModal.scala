@@ -27,8 +27,8 @@ private[editor] object LinkModal {
 
   private class Backend(scope: BackendScope[LinkModal, State]) {
 
-    def render(props: LinkModal, state: State): VdomArray = {
-      VdomArray(
+    def render(props: LinkModal, state: State): VdomElement = {
+      ReactFragment(
         ModalBody(
           <.input(
             ^.autoFocus := true,
