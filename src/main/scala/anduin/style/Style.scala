@@ -12,6 +12,7 @@ class Style(val classes: List[String]) {
   def value: String = classes.mkString(" ").trim
 
   def active: Active = Active(classes)
+  def animation: Animation = Animation(classes)
   def backgroundColor: BackgroundColor = BackgroundColor(classes)
   def backgroundPosition: BackgroundPosition = BackgroundPosition(classes)
   def backgroundSize: BackgroundSize = BackgroundSize(classes)
