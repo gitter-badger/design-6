@@ -45,10 +45,7 @@ private[editor] object LinkModal {
         ),
         ModalFooterWCancel(cancel = props.onClose)(
           <.div(
-            Button(
-              color = ButtonStyle.ColorPrimary,
-              isDisabled = state.link.isEmpty,
-              onClick = {
+            Button(color = ButtonStyle.ColorPrimary, isDisabled = state.link.isEmpty, onClick = {
               for {
                 _ <- props.onClose
                 _ <- props.onAddLink(state.link)
@@ -63,8 +60,7 @@ private[editor] object LinkModal {
   private val component = ScalaComponent
     .builder[LinkModal](ComponentName)
     .initialStateFromProps { props =>
-      val href = props.value
-        .inlines
+      val href = props.value.inlines
         .filter(_.inlineType == LinkNode.nodeType)
         .first()
         .toOption

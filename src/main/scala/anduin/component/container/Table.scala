@@ -140,7 +140,9 @@ object Table {
         rows.toTagMod(row => {
           val columns = props.columns.toTagMod(column => {
             val cell = column.render(row)
-            if (cell.isEmpty) { EmptyVdom } else {
+            if (cell.isEmpty) {
+              EmptyVdom
+            } else {
               val span = TagMod(^.rowSpan := cell.rowSpan, ^.colSpan := cell.colSpan)
               <.td(Style.padding.all12, cell.align.styles, span, cell.content)
             }
