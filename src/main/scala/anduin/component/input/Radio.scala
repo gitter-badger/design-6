@@ -28,7 +28,7 @@ final case class Radio[V](
 
 object Radio {
 
-  private val size = TagMod(^.width := "20px", ^.height := "20px")
+  private val size = TagMod(^.minWidth := "20px", ^.height := "20px")
 
   private case class Backend[V](scope: BackendScope[Radio[V], _]) {
 
