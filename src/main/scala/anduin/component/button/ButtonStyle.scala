@@ -92,7 +92,9 @@ object ButtonStyle {
     // Apply style from color prop
     //   Note: Don't do customization here. If you need to customize, do it all
     //   at once in the bottom section
-    if (isSelected) { color.selected } else {
+    if (isSelected) {
+      color.selected
+    } else {
       style match {
         case StyleFull    => color.full
         case StyleMinimal => color.minimal

@@ -38,8 +38,7 @@ object EditorWithMenu {
     }
 
     private def onChange(props: EditorWithMenu)(change: Change) = {
-      change.value
-        .inlines
+      change.value.inlines
         .filter(_.inlineType == LinkNode.nodeType)
         .first()
         .toOption
@@ -63,7 +62,8 @@ object EditorWithMenu {
                 containerRect <- containerRef.map(_.getBoundingClientRect()).get
                 top = rect.top - containerRect.top
                 left = rect.left - containerRect.left + 0.5 * rect.width
-                newState <- scope.modState(_.copy(hrefOpt = Option(href), top = top, left = left), props.onChange(change))
+                newState <- scope
+                  .modState(_.copy(hrefOpt = Option(href), top = top, left = left), props.onChange(change))
               } yield newState
             }
           }
@@ -73,7 +73,6 @@ object EditorWithMenu {
     def render(props: EditorWithMenu, state: State): VdomElement = {
       <.div.withRef(containerRef)(
         Style.position.relative,
-
         ClickOutside(
           offsetBottom = 30,
           onClickOutside = Callback.when(state.hrefOpt.nonEmpty) {
@@ -88,15 +87,9 @@ object EditorWithMenu {
             renderWrapper = props.renderWrapper
           )()
         ),
-
         <.div(
           ^.classSet(
-            Style
-              .position.absolute.zIndex.idx9999
-              .color.white.backgroundColor.gray9
-              .borderRadius.px8
-              .padding.ver4.padding.hor16
-              .value -> true,
+            Style.position.absolute.zIndex.idx9999.color.white.backgroundColor.gray9.borderRadius.px8.padding.ver4.padding.hor16.value -> true,
             Style.opacity.pc0.value -> state.hrefOpt.isEmpty,
             Style.opacity.pc100.value -> state.hrefOpt.nonEmpty
           ),
