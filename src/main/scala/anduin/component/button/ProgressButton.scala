@@ -18,7 +18,8 @@ final case class ProgressButton(
   color: ButtonStyle.Color = ButtonStyle.ColorWhite,
   tpe: Button.Tpe = Button.TpeButton,
   isDisabled: Boolean = false,
-  isFullWidth: Boolean = false
+  isFullWidth: Boolean = false,
+  style: ButtonStyle.Style = ButtonStyle.StyleFull
 ) {
   def apply(): VdomElement = {
     ProgressButton.component(this)
@@ -44,6 +45,7 @@ object ProgressButton {
       Button(
         tpe = props.tpe,
         color = props.color,
+        style = props.style,
         onClick = props.onClick,
         isDisabled = props.status == Status.Disabled || props.status == Status.Loading || props.isDisabled,
         isFullWidth = props.isFullWidth
