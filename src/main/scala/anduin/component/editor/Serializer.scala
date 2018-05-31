@@ -9,6 +9,7 @@ import org.scalajs.dom.raw.{DOMParser, NodeList}
 
 import anduin.component.editor.renderer.{ImageRenderer, LinkRenderer, MarkRenderer, TextAlignRenderer}
 import anduin.component.util.NodeListSeq
+import anduin.scalajs.caja.Caja
 import anduin.scalajs.slate.Slate.Value
 import anduin.style.Style
 
@@ -255,7 +256,7 @@ object Serializer {
       .replaceAll(">\\s+<", "><")
       .trim
 
-    htmlSerializer.deserialize(trim)
+    htmlSerializer.deserialize(Caja.htmlSanitize(trim))
   }
 
   def serialize(value: Value): String = {
