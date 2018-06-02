@@ -19,7 +19,11 @@ object Tab {
 
   // === Props
 
-  case class Panel(title: VdomNode, renderContent: () => VdomNode)
+  case class Panel(
+    title: VdomNode,
+    renderContent: () => VdomNode = () => EmptyVdom,
+    renderContent_S: (Int => Callback) => VdomNode = _ => EmptyVdom
+  )
 
   sealed trait Style
   case object StyleFull extends Style
@@ -37,8 +41,14 @@ object Tab {
     private def setActive(index: Int) = scope.setState { State(index) }
 
     def render(props: Props, state: State): VdomElement = {
+      val panel = props.panels(state.active)
+      val content = ReactFragment(
+        panel.renderContent(),
+        panel.renderContent_S(setActive)
+      )
+      val titles = props.panels.map(_.title).zipWithIndex
       props.style match {
-        case StyleFull => TabFull(props.panels, state.active, setActive)()
+        case StyleFull => TabFull(titles, content, state.active, setActive)()
         // case StyleMinimal => TabFull(props.panels, state.active, setActive)()
       }
     }

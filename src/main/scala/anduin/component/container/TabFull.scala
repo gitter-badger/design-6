@@ -10,7 +10,8 @@ import japgolly.scalajs.react.vdom.html_<^._
 // scalastyle:on underscore.import
 
 private[container] final case class TabFull(
-  panels: List[Tab.Panel],
+  titles: List[(VdomNode, Int)],
+  content: VdomNode,
   active: Int,
   setActive: Int => Callback
 ) {
@@ -48,7 +49,7 @@ private[container] object TabFull {
         ^.marginBottom := "-1px",
         Style.flexbox.inlineFlex.lineHeight.px16.fontWeight.medium,
         Style.borderRadius.px2.borderRadius.top.border.all.borderColor.gray3,
-        props.panels.map(_.title).zipWithIndex.toTagMod { renderButton(props) }
+        props.titles.toTagMod { renderButton(props) }
       )
     )
   }
@@ -57,7 +58,7 @@ private[container] object TabFull {
     <.div(
       Style.backgroundColor.white.padding.all16.borderRadius.px2.borderRadius.bottom,
       Style.border.left.border.bottom.border.right.borderColor.gray3,
-      props.panels(props.active).renderContent()
+      props.content
     )
   }
 
