@@ -10,17 +10,18 @@ import japgolly.scalajs.react.vdom.html_<^._
 // scalastyle:on underscore.import
 
 object Table {
-  sealed trait CellAlign { val styles: TagMod }
-  case object CellAlignTop extends CellAlign { val styles: TagMod = Style.verticalAlign.top }
-  case object CellAlignMiddle extends CellAlign { val styles: TagMod = Style.verticalAlign.middle }
-  case object CellAlignBottom extends CellAlign { val styles: TagMod = Style.verticalAlign.bottom }
+  sealed trait Align { val styles: TagMod }
+  case object AlignInherit extends  Align { val styles: TagMod = Style.verticalAlign.inherit }
+  case object AlignTop extends Align { val styles: TagMod = Style.verticalAlign.top }
+  case object AlignMiddle extends Align { val styles: TagMod = Style.verticalAlign.middle }
+  case object AlignBottom extends Align { val styles: TagMod = Style.verticalAlign.bottom }
 
   case class Cell(
     content: VdomNode = EmptyVdom,
     rowSpan: Int = 1,
     colSpan: Int = 1,
     isEmpty: Boolean = false,
-    align: CellAlign = CellAlignTop
+    align: Align = AlignInherit
   )
 
   case class Column[T](
@@ -69,6 +70,7 @@ class Table[T] {
     headIsSticky: Boolean = false,
     // body
     rows: List[T] = List.empty,
+    align: Table.Align = Table.AlignMiddle,
     getKey: T => String = (any: Any) => any.toString,
     footer: VdomNode = EmptyVdom
   ) {
@@ -97,7 +99,7 @@ class Table[T] {
 
       val styles = TagMod(
         Style.width.pc100.backgroundColor.white.table.collapse,
-        TagMod.when(props.columns.exists(_.width.nonEmpty)) { Style.table.fixed }
+        TagMod.when(props.columns.count(_.width.isEmpty) < 2) { Style.table.fixed }
       )
 
       val head = Head(
@@ -111,6 +113,7 @@ class Table[T] {
 
       val body = Body(
         rows = props.rows,
+        align = props.align,
         getKey = props.getKey,
         footer = props.footer,
         // ==

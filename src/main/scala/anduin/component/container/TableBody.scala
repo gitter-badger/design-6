@@ -13,6 +13,7 @@ private[component] class TableBody[T] {
 
   case class Props(
     rows: List[T],
+    align: Table.Align,
     getKey: T => String,
     footer: VdomNode,
     // ==
@@ -58,7 +59,7 @@ private[component] class TableBody[T] {
       val cell = <.td(Style.padding.all12, props.footer, ^.colSpan := props.columns.size)
       <.tr(props.style.tr, cell)
     }
-    <.tbody(rows, footer)
+    <.tbody(props.align.styles, rows, footer)
   }
 
   private val component = ScalaComponent
