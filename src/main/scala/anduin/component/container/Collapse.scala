@@ -26,12 +26,6 @@ object Collapse {
 
   private class Backend(scope: BackendScope[Collapse, State]) {
 
-    def modStateFromProps: Callback = {
-      scope.modState { (_, props) =>
-        getStateFromProps(props)
-      }
-    }
-
     private def toggle = scope.modState { state =>
       state.copy(isExpanded = !state.isExpanded)
     }
@@ -43,8 +37,7 @@ object Collapse {
 
   private val component = ScalaComponent
     .builder[Props](this.getClass.getSimpleName)
-    .initialStateFromProps(this.getStateFromProps)
+    .initialStateFromProps(props => State(isExpanded = props.isExpanded))
     .renderBackend[Backend]
-    .componentWillReceiveProps(_.backend.modStateFromProps)
     .build
 }
