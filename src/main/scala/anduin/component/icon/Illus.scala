@@ -43,6 +43,7 @@ object Illus {
   case object Size32 extends Size { val value = "32" }
   case class SizeDynamic(value: String) extends Size
 
+  // scalastyle:off line.size.limit
   sealed trait Name { val content: String }
   case object NameDoc extends Name {
     val content: String =
@@ -169,4 +170,5 @@ object Illus {
         |  </defs>
       """.stripMargin
   }
+  // scalastyle:on line.size.limit
 }
