@@ -7,4 +7,5 @@ private[style] final case class Position(classes: List[String] = List.empty) {
   def absolute: Style = new Style(classes :+ "absolute")
   def static: Style = new Style(classes :+ "static")
   def relative: Style = new Style(classes :+ "relative")
+  def sticky: Style = new Style(classes :+ "ps-sk")
 }
