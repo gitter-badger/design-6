@@ -19,29 +19,25 @@ final case class IconAcl(
 // scalastyle:off  multiple number.of.methods number.of.types file.size.limit line.size.limit
 object IconAcl {
 
-  private val ComponentName = this.getClass.getSimpleName
-
-  private class Backend() {
-    def render(props: IconAcl): VdomElement = {
-      <.svg(
-        // style
-        Style.display.block, // https://codepen.io/dvkndn/pen/wmQmbm
-        ^.fill := "currentColor",
-        ^.fillRule := "evenodd",
-        // content
-        ^.xmlns := "http://www.w3.org/2000/svg",
-        ^.viewBox := "0 0 16 16",
-        ^.width := props.size.value,
-        ^.height := props.size.value,
-        <.path(^.d := props.name.path)
-      )
-    }
+  private def render(props: IconAcl): VdomElement = {
+    <.svg(
+      // style
+      Style.display.block, // https://codepen.io/dvkndn/pen/wmQmbm
+      ^.fill := "currentColor",
+      ^.fillRule := "evenodd",
+      // content
+      ^.xmlns := "http://www.w3.org/2000/svg",
+      ^.viewBox := "0 0 16 16",
+      ^.width := props.size.value,
+      ^.height := props.size.value,
+      <.path(^.d := props.name.path)
+    )
   }
 
   private val component = ScalaComponent
-    .builder[IconAcl](ComponentName)
+    .builder[IconAcl](this.getClass.getSimpleName)
     .stateless
-    .renderBackend[Backend]
+    .render_P(render)
     .build
 
   sealed trait Size { val value: String }
