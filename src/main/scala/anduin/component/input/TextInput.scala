@@ -12,8 +12,8 @@ import japgolly.scalajs.react.vdom.html_<^._
 
 final case class TextInput(
   value: String,
-  onChange: String => Callback,
   onFocus: Callback = Callback.empty,
+  onChange: String => Callback = _ => Callback.empty,
   placeholder: String = "",
   context: VdomNode = EmptyVdom,
   // ===
