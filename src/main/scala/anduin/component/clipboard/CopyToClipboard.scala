@@ -2,11 +2,9 @@
 
 package anduin.component.clipboard
 
-import japgolly.scalajs.react.vdom.TagOf
-import org.scalajs.dom.html.Span
 import org.scalajs.dom.{document, window}
 
-import anduin.component.util.JavaScriptUtils
+import anduin.component.portal.Tooltip
 
 // scalastyle:off underscore.import
 import japgolly.scalajs.react._
@@ -47,16 +45,21 @@ object CopyToClipboard {
       } yield ()
     }
 
-    def render(state: State, children: PropsChildren): TagOf[Span] = {
-      <.span(
+    def render(state: State, children: PropsChildren): VdomNode = {
+      <.div(
         ^.cls := "copy-clipboard",
-        <.a(
-          ^.cls := "tooltip -right",
-          VdomAttr("data-tip") := (if (state.copied) "Copied to clipboard" else "Click to copy"),
-          ^.onMouseOut --> scope.modState(_.copy(copied = false)),
-          ^.href := JavaScriptUtils.voidMethod,
-          ^.onClick --> copyToClipboard,
-          children
+        <.div(
+          Tooltip(
+            targetTag = <.div,
+            renderTarget = () => {
+              <.div(
+                ^.onMouseOut --> scope.modState(_.copy(copied = false)),
+                ^.onClick --> copyToClipboard,
+                children
+              )
+            },
+            renderContent = () => if (state.copied) "Copied to clipboard" else "Click to copy"
+          )()
         )
       )
     }

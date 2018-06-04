@@ -12,7 +12,7 @@ import japgolly.scalajs.react.vdom.html_<^._
 
 final case class TextInput(
   value: String,
-  onChange: String => Callback,
+  onChange: String => Callback = _ => Callback.empty,
   placeholder: String = "",
   context: VdomNode = EmptyVdom,
   // ===
