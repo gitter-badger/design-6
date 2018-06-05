@@ -13,7 +13,12 @@ import japgolly.scalajs.react.vdom.html_<^._
 
 final case class Tooltip(
   position: Position = PositionTop,
-  renderTarget: () => VdomNode,
+  trigger: VdomNode => (Callback, Callback, Status) => TagMod = t => (open, close, _) => TagMod(
+    ^.onMouseEnter --> open,
+    ^.onMouseLeave --> close,
+    t
+  ),
+  renderTarget: VdomNode,
   targetTag: HtmlTag = <.div,
   renderContent: () => VdomNode,
   isDisabled: Boolean = false
@@ -72,17 +77,15 @@ object Tooltip {
     }
 
     def render(props: Tooltip): VdomNode = {
-      val target = props.renderTarget()
-
       if (props.isDisabled) {
         // it is intentional to render targetTag wrapper here to keep the
         // HTML result consistent with the other case
-        props.targetTag(target)
+        props.targetTag(props.renderTarget)
       } else {
         PortalWrapper(
           onOpen = onOpenPortal,
-          renderTarget = (open, close, _) => {
-            props.targetTag.withRef(targetRef)(^.onMouseEnter --> open, ^.onMouseLeave --> close, target)
+          renderTarget = (open, close, status) => {
+            props.targetTag.withRef(targetRef)(props.trigger(props.renderTarget)(open, close, status))
           },
           renderContent = (_, _) => {
             <.div.withRef(contentRef)(

@@ -100,57 +100,49 @@ object Toolbar {
           // Undo button
           Tooltip(
             targetTag = <.span,
-            renderTarget = () => {
-              Button(
-                style = ButtonStyle.StyleMinimal,
-                size = ButtonStyle.SizeIcon,
-                onClick = props.onChange(props.value.change().undo()),
-                isDisabled = !props.value.hasUndos
-              )(IconAcl(IconAcl.NameUndo)())
-            },
+            renderTarget = Button(
+              style = ButtonStyle.StyleMinimal,
+              size = ButtonStyle.SizeIcon,
+              onClick = props.onChange(props.value.change().undo()),
+              isDisabled = !props.value.hasUndos
+            )(IconAcl(IconAcl.NameUndo)()),
             renderContent = () => "Undo"
           )(),
           // Redo button
           Tooltip(
             targetTag = <.span,
-            renderTarget = () => {
-              Button(
-                style = ButtonStyle.StyleMinimal,
-                size = ButtonStyle.SizeIcon,
-                onClick = props.onChange(props.value.change().redo()),
-                isDisabled = props.value.hasRedos
-              )(IconAcl(IconAcl.NameRedo)())
-            },
+            renderTarget = Button(
+              style = ButtonStyle.StyleMinimal,
+              size = ButtonStyle.SizeIcon,
+              onClick = props.onChange(props.value.change().redo()),
+              isDisabled = props.value.hasRedos
+            )(IconAcl(IconAcl.NameRedo)()),
             renderContent = () => "Redo"
           )(),
           VerticalDivider(),
           Tooltip(
             targetTag = <.span,
-            renderTarget = () => {
-              Modal(
-                title = "Add a link",
-                renderTarget = open => {
-                  Button(
-                    onClick = open,
-                    size = ButtonStyle.SizeIcon,
-                    style = ButtonStyle.StyleMinimal
-                  )(IconAcl(IconAcl.NameLink)())
-                },
-                renderContent = LinkModal(props.value, onAddLink, _)()
-              )()
-            },
+            renderTarget = Modal(
+              title = "Add a link",
+              renderTarget = open => {
+                Button(
+                  onClick = open,
+                  size = ButtonStyle.SizeIcon,
+                  style = ButtonStyle.StyleMinimal
+                )(IconAcl(IconAcl.NameLink)())
+              },
+              renderContent = LinkModal(props.value, onAddLink, _)()
+            )(),
             renderContent = () => "Insert Link"
           )(),
           Tooltip(
             targetTag = <.span,
-            renderTarget = () => {
-              Button(
-                style = ButtonStyle.StyleMinimal,
-                size = ButtonStyle.SizeIcon,
-                onClick = onRemoveLink,
-                isDisabled = !hasLink
-              )(IconAcl(IconAcl.NameUnlink)())
-            },
+            renderTarget = Button(
+              style = ButtonStyle.StyleMinimal,
+              size = ButtonStyle.SizeIcon,
+              onClick = onRemoveLink,
+              isDisabled = !hasLink
+            )(IconAcl(IconAcl.NameUnlink)()),
             renderContent = () => "Remove Link"
           )(),
           VerticalDivider(),
@@ -166,14 +158,12 @@ object Toolbar {
             renderTarget = (open, _, _, status) => {
               Tooltip(
                 targetTag = <.span,
-                renderTarget = () => {
-                  Button(
-                    style = ButtonStyle.StyleMinimal,
-                    size = ButtonStyle.SizeIcon,
-                    onClick = open,
-                    isSelected = status == StatusOpen
-                  )(IconAcl(name = IconAcl.NameFormat)())
-                },
+                renderTarget = Button(
+                  style = ButtonStyle.StyleMinimal,
+                  size = ButtonStyle.SizeIcon,
+                  onClick = open,
+                  isSelected = status == StatusOpen
+                )(IconAcl(name = IconAcl.NameFormat)()),
                 renderContent = () => "Formatting options"
               )()
             },
@@ -193,24 +183,22 @@ object Toolbar {
           ^.cls := "flex m-la",
           Tooltip(
             targetTag = <.span,
-            renderTarget = () => {
-              Modal(
-                title = "Keyboard Shortcuts",
-                renderTarget = open => {
-                  Button(
-                    onClick = open,
-                    size = ButtonStyle.SizeIcon,
-                    style = ButtonStyle.StyleMinimal
-                  )(IconAcl(IconAcl.NameInfo)())
-                },
-                renderContent = _ => {
-                  <.div(
-                    ^.cls := "editor-hotkeys-dialog",
-                    ShortcutModal(isMac)()
-                  )
-                }
-              )()
-            },
+            renderTarget = Modal(
+              title = "Keyboard Shortcuts",
+              renderTarget = open => {
+                Button(
+                  onClick = open,
+                  size = ButtonStyle.SizeIcon,
+                  style = ButtonStyle.StyleMinimal
+                )(IconAcl(IconAcl.NameInfo)())
+              },
+              renderContent = _ => {
+                <.div(
+                  ^.cls := "editor-hotkeys-dialog",
+                  ShortcutModal(isMac)()
+                )
+              }
+            )(),
             renderContent = () => "Keyboard Shortcuts"
           )(),
           children

@@ -4,7 +4,7 @@ package anduin.component.clipboard
 
 import org.scalajs.dom.{document, window}
 
-import anduin.component.portal.Tooltip
+import anduin.component.portal.{PositionRight, Tooltip}
 
 // scalastyle:off underscore.import
 import japgolly.scalajs.react._
@@ -26,7 +26,9 @@ object CopyToClipboard {
 
   private class Backend(scope: BackendScope[CopyToClipboard, State]) {
 
-    private def copyToClipboard = {
+    private def copyToClipboard(e: ReactMouseEventFromHtml) = {
+      e.preventDefault()
+
       for {
         node <- scope.getDOMNode.map(_.asElement)
         selection = window.getSelection()
@@ -45,23 +47,17 @@ object CopyToClipboard {
       } yield ()
     }
 
-    def render(state: State, children: PropsChildren): VdomNode = {
-      <.div(
-        ^.cls := "copy-clipboard",
-        <.div(
-          Tooltip(
-            targetTag = <.div,
-            renderTarget = () => {
-              <.div(
-                ^.onMouseOut --> scope.modState(_.copy(copied = false)),
-                ^.onClick --> copyToClipboard,
-                children
-              )
-            },
-            renderContent = () => if (state.copied) "Copied to clipboard" else "Click to copy"
-          )()
-        )
-      )
+    def render(state: State, children: PropsChildren): VdomElement = {
+      Tooltip(
+        position = PositionRight,
+        targetTag = <.span,
+        renderTarget = <.span(
+          //^.onMouseOut --> scope.modState(_.copy(copied = false)),
+          ^.onClick ==> copyToClipboard,
+          children
+        ),
+        renderContent = () => if (state.copied) "Copied to clipboard" else "Click to copy"
+      )()
     }
   }
 
