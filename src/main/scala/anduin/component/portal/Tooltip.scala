@@ -13,10 +13,11 @@ import japgolly.scalajs.react.vdom.html_<^._
 
 final case class Tooltip(
   position: Position = PositionTop,
-  trigger: VdomNode => (Callback, Callback, Status) => TagMod = t => (open, close, _) => TagMod(
-    ^.onMouseEnter --> open,
-    ^.onMouseLeave --> close,
-    t
+  trigger: (VdomNode, Callback, Callback, Status) => TagMod = (t, open, close, _) =>
+    TagMod(
+      ^.onMouseEnter --> open,
+      ^.onMouseLeave --> close,
+      t
   ),
   renderTarget: VdomNode,
   targetTag: HtmlTag = <.div,
@@ -84,8 +85,12 @@ object Tooltip {
       } else {
         PortalWrapper(
           onOpen = onOpenPortal,
+          isPortalClicked = (clickedTarget, tooltipEle) => {
+            CallbackTo(tooltipEle.contains(clickedTarget)) ||
+            targetRef.get.map(_.contains(clickedTarget)).getOrElse(false)
+          },
           renderTarget = (open, close, status) => {
-            props.targetTag.withRef(targetRef)(props.trigger(props.renderTarget)(open, close, status))
+            props.targetTag.withRef(targetRef)(props.trigger(props.renderTarget, open, close, status))
           },
           renderContent = (_, _) => {
             <.div.withRef(contentRef)(
