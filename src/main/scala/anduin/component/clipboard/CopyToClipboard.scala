@@ -12,13 +12,10 @@ import japgolly.scalajs.react.vdom.html_<^._
 // scalastyle:on underscore.import
 
 final case class CopyToClipboard() {
-  def apply(children: VdomNode*): ScalaComponent.Unmounted[_, _, _] =
-    CopyToClipboard.component(this)(children: _*)
+  def apply(children: VdomNode*): VdomElement = CopyToClipboard.component(this)(children: _*)
 }
 
 object CopyToClipboard {
-
-  private val componentName = this.getClass.getSimpleName
 
   private val CopyCommand = "copy"
 
@@ -26,9 +23,7 @@ object CopyToClipboard {
 
   private class Backend(scope: BackendScope[CopyToClipboard, State]) {
 
-    private def copyToClipboard(e: ReactMouseEventFromHtml) = {
-      e.preventDefault()
-
+    private def copyToClipboard = {
       for {
         node <- scope.getDOMNode.map(_.asElement)
         selection = window.getSelection()
@@ -51,18 +46,22 @@ object CopyToClipboard {
       Tooltip(
         position = PositionRight,
         targetTag = <.span,
-        renderTarget = <.span(
-          //^.onMouseOut --> scope.modState(_.copy(copied = false)),
-          ^.onClick ==> copyToClipboard,
-          children
-        ),
+        trigger = (target, open, close, _) => {
+          TagMod(
+            ^.onMouseEnter --> open,
+            ^.onMouseLeave --> scope.modState(_.copy(copied = false), close),
+            ^.onClick --> copyToClipboard,
+            target
+          )
+        },
+        renderTarget = ReactFragment(children),
         renderContent = () => if (state.copied) "Copied to clipboard" else "Click to copy"
       )()
     }
   }
 
   private val component = ScalaComponent
-    .builder[CopyToClipboard](componentName)
+    .builder[CopyToClipboard](this.getClass.getSimpleName)
     .initialState(
       State(copied = false)
     )
