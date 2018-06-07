@@ -23,7 +23,7 @@ final case class FileButtonInput(
   onChange: FileList => Callback,
   shouldClearAfterChanged: Boolean = false,
   acceptTypes: String = "",
-  isMultiple: Boolean = false
+  isMultiple: Boolean
 ) {
   def apply(children: VdomNode*): VdomElement = {
     FileButtonInput.component(this)(children: _*)
