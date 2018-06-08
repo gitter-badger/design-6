@@ -12,6 +12,7 @@ import japgolly.scalajs.react.vdom.html_<^._
 
 final case class TextInput(
   value: String,
+  onFocus: Callback = Callback.empty,
   onChange: String => Callback = _ => Callback.empty,
   placeholder: String = "",
   context: VdomNode = EmptyVdom,
@@ -111,6 +112,7 @@ object TextInput {
         ^.disabled := props.isDisabled,
         ^.readOnly := props.isReadOnly,
         ^.onChange ==> onChange,
+        ^.onFocus --> props.onFocus,
         ^.value := props.value,
         ^.placeholder := props.placeholder
       )
