@@ -17,6 +17,7 @@ object Slider {
 
   // scalastyle:off parameter.number
   def props(
+    currentSlide: Int = 0,
     arrows: Boolean = true,
     dots: Boolean = false,
     dotsClass: String = "slick-dots",
@@ -28,6 +29,7 @@ object Slider {
     beforeChange: (Int, Int) => Callback = (_: Int, _: Int) => Callback.empty
   ): Props = {
     new Props(
+      currentSlide = currentSlide,
       arrows = arrows,
       dots = dots,
       dotsClass = dotsClass,
@@ -47,6 +49,7 @@ object Slider {
 
   // See https://github.com/akiran/react-slick
   final class Props(
+    val currentSlide: Int,
     val arrows: Boolean,
     val dots: Boolean,
     val dotsClass: String,
