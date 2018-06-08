@@ -94,7 +94,7 @@ object Toolbar {
       <.div(
         ^.cls := "editor-toolbar flex pa1 items-center",
         <.div(
-          ^.cls := "btn-group flex items-center",
+          Style.flexbox.flex.flexbox.itemsCenter,
           props.attachmentButton,
           VerticalDivider(),
           // Undo button
