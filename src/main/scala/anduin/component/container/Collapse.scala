@@ -20,10 +20,6 @@ object Collapse {
 
   case class State(isExpanded: Boolean)
 
-  def getStateFromProps(props: Props): State = {
-    State(isExpanded = props.isExpanded)
-  }
-
   private class Backend(scope: BackendScope[Collapse, State]) {
 
     private def toggle = scope.modState { state =>
