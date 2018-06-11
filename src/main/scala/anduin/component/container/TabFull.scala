@@ -22,18 +22,27 @@ private[container] object TabFull {
 
   type Props = TabFull
 
+  private val activeStyles = TagMod(
+    Style.backgroundColor.white.color.gray8.borderRadius.px2.borderRadius.top,
+    ^.borderBottomColor := "transparent",
+    ^.borderTopColor := "var(--color-primary-4)",
+    ^.boxShadow := "var(--color-primary-4) 0 -1px 0 0"
+  )
+
+  private val normalStyles = TagMod(
+    Style.backgroundColor.gray1.color.gray7,
+    Style.hover.backgroundWhite.active.backgroundGray2
+  )
+
   private def renderButton(props: Props)(titleTup: (VdomNode, Int)): VdomElement = {
     val (title, index) = titleTup
     val isActive = props.active == index
     <.button(
       // === Styles
       Style.focus.outline.transition.allWithOutline.padding.hor16.padding.ver12,
-      if (isActive) {
-        TagMod(Style.backgroundColor.white.color.gray8, ^.boxShadow := "white 0px 1px 0 0")
-      } else {
-        Style.backgroundColor.gray1.color.gray7.hover.backgroundWhite.active.backgroundGray2
-      },
-      TagMod.when(index != 0) { Style.border.left.borderColor.gray3 },
+      Style.border.all.borderColor.gray3,
+      if (isActive) activeStyles else normalStyles,
+      TagMod.when(index != 0) { ^.marginLeft := "-1px" },
       // === Behaviours
       ^.tpe := "button",
       ^.onClick --> props.setActive(index),
@@ -44,20 +53,16 @@ private[container] object TabFull {
 
   private def renderHeader(props: Props): VdomElement = {
     <.header(
-      Style.border.bottom.borderColor.gray3,
-      <.div(
-        ^.marginBottom := "-1px",
-        Style.flexbox.inlineFlex.lineHeight.px16.fontWeight.medium,
-        Style.borderRadius.px2.borderRadius.top.border.all.borderColor.gray3,
-        props.titles.toTagMod { renderButton(props) }
-      )
+      ^.marginBottom := "-1px",
+      Style.flexbox.flex.lineHeight.px16.fontWeight.medium,
+      props.titles.toTagMod { renderButton(props) }
     )
   }
 
   private def renderContent(props: Props): VdomElement = {
     <.div(
       Style.backgroundColor.white.padding.all16.borderRadius.px2.borderRadius.bottom,
-      Style.border.left.border.bottom.border.right.borderColor.gray3,
+      Style.border.all.borderColor.gray3,
       props.content
     )
   }
