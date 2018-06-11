@@ -93,7 +93,7 @@ private[editor] object BlockButtonBar {
       <.div(
         Style.flexbox.flex,
         List(
-          (BlockQuoteNode, IconAcl(name = IconAcl.NameBlockQuote)(), "Quote"),
+          (BlockQuoteNode, IconAcl(name = IconAcl.NameCitation)(), "Quote"),
           (UnorderedListNode, IconAcl(name = IconAcl.NameListBullet)(), "Bulleted List"),
           (OrderedListNode, IconAcl(name = IconAcl.NameListNumber)(), "Numbered List")
         ).toVdomArray {

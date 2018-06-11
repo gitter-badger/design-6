@@ -163,7 +163,7 @@ object Toolbar {
                   size = ButtonStyle.SizeIcon,
                   onClick = open,
                   isSelected = status == StatusOpen
-                )(IconAcl(name = IconAcl.NameFormat)()),
+                )(IconAcl(name = IconAcl.NameTextStyle)()),
                 renderContent = () => "Formatting options"
               )()
             },

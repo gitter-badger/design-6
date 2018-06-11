@@ -35,22 +35,22 @@ object Well {
     private[Well] val close = Style.backgroundColor.gray3
   }
   case object ColorPrimary extends Color {
-    private[Well] val iconName = IconAcl.NameInfoCircle
+    private[Well] val iconName = IconAcl.NameInfo
     private[Well] val iconColor = Style.color.primary4
     private[Well] val bg = Style.backgroundColor.primary1
   }
   case object ColorSuccess extends Color {
-    private[Well] val iconName = IconAcl.NameInfoCircle
+    private[Well] val iconName = IconAcl.NameInfo
     private[Well] val iconColor = Style.color.success4
     private[Well] val bg = Style.backgroundColor.success1
   }
   case object ColorWarning extends Color {
-    private[Well] val iconName = IconAcl.NameWaring
+    private[Well] val iconName = IconAcl.NameWarning
     private[Well] val iconColor = Style.color.warning4
     private[Well] val bg = Style.backgroundColor.warning1
   }
   case object ColorDanger extends Color {
-    private[Well] val iconName = IconAcl.NameExclamationCircle
+    private[Well] val iconName = IconAcl.NameError
     private[Well] val iconColor = Style.color.danger4
     private[Well] val bg = Style.backgroundColor.danger1
   }
