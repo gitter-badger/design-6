@@ -10,7 +10,10 @@ import japgolly.scalajs.react.vdom.html_<^._
 final case class Tab(
   panels: List[Tab.Panel],
   defaultPanel: Int = 0,
-  style: Tab.Style = Tab.StyleFull
+  style: Tab.Style = Tab.StyleFull,
+  // Uncontrolled tab -> Let parent controls the state
+  active: Option[Int] = None,
+  setActive: Option[Int => Callback] = None
 ) {
   def apply(): VdomElement = Tab.component(this)
 }
@@ -38,18 +41,21 @@ object Tab {
 
   private class Backend(scope: BackendScope[Props, State]) {
 
-    private def setActive(index: Int) = scope.setState { State(index) }
+    private def selfSetActive(index: Int) = scope.setState { State(index) }
 
     def render(props: Props, state: State): VdomElement = {
-      val panel = props.panels(state.active)
+      // decide active based on whether this is an uncontrolled component or not
+      val active = props.active.getOrElse(state.active)
+      val setActive: Int => Callback = props.setActive.getOrElse(this.selfSetActive)
+
+      val panel = props.panels(active)
       val content = ReactFragment(
         panel.renderContent(),
         panel.renderContent_S(setActive)
       )
       val titles = props.panels.map(_.title).zipWithIndex
       props.style match {
-        case StyleFull => TabFull(titles, content, state.active, setActive)()
-        // case StyleMinimal => TabFull(props.panels, state.active, setActive)()
+        case StyleFull => TabFull(titles, content, active, setActive)()
       }
     }
   }

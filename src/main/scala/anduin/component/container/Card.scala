@@ -15,15 +15,19 @@ final case class Card() {
 
 object Card {
 
+  type Props = Card
+
+  private def render(children: PropsChildren): VdomElement = {
+    <.div(
+      Style.backgroundColor.white.borderRadius.px2.padding.all16,
+      Style.border.all.borderColor.gray3.borderWidth.px1,
+      children
+    )
+  }
+
   private val component = ScalaComponent
-    .builder[Card](this.getClass.getSimpleName)
+    .builder[Props](this.getClass.getSimpleName)
     .stateless
-    .render_C { children =>
-      <.div(
-        Style.backgroundColor.white.borderRadius.px2.padding.all16,
-        Style.border.all.borderColor.gray3.borderWidth.px1,
-        children
-      )
-    }
+    .render_C(render)
     .build
 }
