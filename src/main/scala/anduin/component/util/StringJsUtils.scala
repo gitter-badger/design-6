@@ -15,7 +15,7 @@ object StringJsUtils {
   }
 
   def truncate(name: String, maxLength: Int = 40): String = {
-    if (name.length > maxLength) s"${name.substring(0, maxLength)} ..." else name
+    if (name.length > maxLength) s"${name.substring(0, maxLength)}…" else name
   }
 
   def splitBySpaces(s: String): Array[String] = {

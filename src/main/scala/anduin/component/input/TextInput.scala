@@ -23,7 +23,8 @@ final case class TextInput(
   // ===
   isDisabled: Boolean = false,
   isRequired: Boolean = false,
-  isReadOnly: Boolean = false
+  isReadOnly: Boolean = false,
+  isAutoFocus: Boolean = false
 ) {
   def apply(): VdomElement = TextInput.component(this)
 }
@@ -114,7 +115,8 @@ object TextInput {
         ^.onChange ==> onChange,
         ^.onFocus --> props.onFocus,
         ^.value := props.value,
-        ^.placeholder := props.placeholder
+        ^.placeholder := props.placeholder,
+        ^.autoFocus := props.isAutoFocus
       )
       val context = TagMod.when(contextIsDefined) { <.div(commonStyles, contextStyles, props.context) }
       val icon = props.status.icon.whenDefined

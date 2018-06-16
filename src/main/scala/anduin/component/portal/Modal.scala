@@ -39,6 +39,7 @@ object Modal {
 
   sealed trait Size { val style: TagMod }
   case object SizeSmall extends Size { val style: TagMod = ^.width := "480px" }
+  case object Size720 extends Size { val style: TagMod = ^.width := "720px" }
   case object SizeMedium extends Size { val style: TagMod = ^.width := "960px" }
   case object SizeLarge extends Size { val style: TagMod = ^.width := "1160px" }
   case object SizeFull extends Size { val style: TagMod = Style.width.pc100.height.pc100 }
