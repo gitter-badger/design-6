@@ -34,10 +34,10 @@ private[component] class TableBody[T] {
       props
         .columns(columnIndex)
         .sortBy
-        .fold(props.rows)(sortBy => {
+        .fold(props.rows) { sortBy =>
           val sorted = props.rows.sortBy(sortBy)
           if (props.sortIsAsc) sorted else sorted.reverse
-        })
+        }
     })
   }
 

@@ -11,7 +11,7 @@ import japgolly.scalajs.react.vdom.html_<^._
 
 object Table {
   sealed trait Align { val styles: TagMod }
-  case object AlignInherit extends  Align { val styles: TagMod = Style.verticalAlign.inherit }
+  case object AlignInherit extends Align { val styles: TagMod = Style.verticalAlign.inherit }
   case object AlignTop extends Align { val styles: TagMod = Style.verticalAlign.top }
   case object AlignMiddle extends Align { val styles: TagMod = Style.verticalAlign.middle }
   case object AlignBottom extends Align { val styles: TagMod = Style.verticalAlign.bottom }
