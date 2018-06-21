@@ -5,15 +5,16 @@ package anduin.scalajs.d3
 import scala.scalajs.js
 import scala.scalajs.js.annotation.JSImport
 
-// import * as d3 from d3
+import org.scalajs.dom.raw.Element
+
 @JSImport("d3", JSImport.Namespace)
 @js.native
+// Provide the shortcuts to access sub-packages
 object D3 extends js.Object {
-  def axisBottom[T](scale: Scale[T]): Axis = js.native // linter:ignore UnusedParameter
-  def axisLeft[T](scale: Scale[T]): Axis = js.native // linter:ignore UnusedParameter
-  def event: Event = js.native
-  def select(selector: String): Selection = js.native // linter:ignore UnusedParameter
-  def scalePoint[T](): Scale[T] = js.native // linter:ignore UnusedParameter
-  def scaleTime(): Scale[js.Date] = js.native // linter:ignore UnusedParameter
-  def timeFormat(format: String): Format = js.native // linter:ignore UnusedParameter
+  // selection
+  def select(selector: String): Selection[Element] = js.native // linter:ignore UnusedParameter
+
+  // shape
+  def pie(): PieGenerator = js.native
+  def arc(): ArcGenerator = js.native
 }

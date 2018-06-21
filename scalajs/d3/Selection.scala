@@ -5,29 +5,49 @@ package anduin.scalajs.d3
 import org.scalajs.dom.raw.Element
 
 import scala.scalajs.js
+import scala.scalajs.js.annotation.JSImport
 
+@JSImport("d3-selection", JSImport.Namespace)
 @js.native
-trait Selection extends js.Object {
-  type T <: js.Object
-
-  def append(tag: String): Selection = js.native // linter:ignore UnusedParameter
-  def attr(name: String, value: String): Selection = js.native // linter:ignore UnusedParameter
-  def call(axis: Axis): Selection = js.native // linter:ignore UnusedParameter
-  def data(data: js.Array[T]): SelectionWithType[T] = js.native // linter:ignore UnusedParameter
-  def html(html: String): Selection = js.native // linter:ignore UnusedParameter
-  def node(): Element = js.native // linter:ignore UnusedParameter
-  def on(event: String, handler: js.Function2[js.Object, Int, Unit]): Selection = js.native // linter:ignore UnusedParameter
-  def selectAll(selector: String): Selection = js.native // linter:ignore UnusedParameter
-  def style(name: String, value: String): Selection = js.native // linter:ignore UnusedParameter
+object D3Selection extends js.Object {
+  def select(selector: String): Selection[Element] = js.native // linter:ignore UnusedParameter
 }
 
 @js.native
-trait SelectionWithType[U <: js.Object] extends Selection {
-  type T = U
+trait BaseDom[D, T <: BaseDom[D, T]] extends js.Object {
+  def attr(name: String, value: String): T = js.native // linter:ignore UnusedParameter
+  def attr[R](name: String, value: js.Function1[D, R]): T = js.native // linter:ignore UnusedParameter
+  def html(value: String): T = js.native // linter:ignore UnusedParameter
+  def style(name: String, value: String): T = js.native // linter:ignore UnusedParameter
+  def style[R](name: String, value: js.Function1[D, R]): T = js.native // linter:ignore UnusedParameter
+  def style[R](name: String, value: js.Function2[D, Int, R]): T = js.native // linter:ignore UnusedParameter
+  def text(value: String): T = js.native // linter:ignore UnusedParameter
+  def text[R](value: js.Function1[D, R]): T = js.native // linter:ignore UnusedParameter
+}
 
-  def attr(name: String, value: js.Function2[U, Int, String]): SelectionWithType[U] = js.native // linter:ignore UnusedParameter
-  def call(func: js.Function1[SelectionWithType[U], Unit]): SelectionWithType[U] = js.native // linter:ignore UnusedParameter
-  def each(func: js.ThisFunction0[Element, U]): Unit = js.native // linter:ignore UnusedParameter
-  def enter(): SelectionWithType[U] = js.native // linter:ignore UnusedParameter
-  def text(value: js.Function2[U, Int, String]): SelectionWithType[U] = js.native // linter:ignore UnusedParameter
+@js.native
+trait BaseSelection[D, T <: BaseSelection[D, T]] extends BaseDom[D, T] {
+  def append(`type`: String): T = js.native // linter:ignore UnusedParameter
+
+  def data(): js.Array[D] = js.native
+  def data[NewDatum <: D](data: js.Array[NewDatum]): Update[NewDatum] = js.native // linter:ignore UnusedParameter
+  def data[NewDatum <: D, R](data: js.Array[NewDatum], key: js.Function0[R]): Update[NewDatum] = // linter:ignore UnusedParameter
+    js.native
+}
+
+@js.native
+trait Selection[D] extends BaseSelection[D, Selection[D]] {
+  def select[U](selector: String): Selection[U] = js.native // linter:ignore UnusedParameter
+  def selectAll[U](selector: String): Selection[U] = js.native // linter:ignore UnusedParameter
+}
+
+@js.native
+trait Update[D] extends BaseSelection[D, Update[D]] {
+  def enter(): Enter[D] = js.native
+  def exit(): Selection[D] = js.native
+}
+
+@js.native
+trait Enter[D] extends js.Object {
+  def append(tagName: String): Selection[D] = js.native // linter:ignore UnusedParameter
 }
