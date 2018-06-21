@@ -47,5 +47,10 @@ private[style] final case class Flexbox(classes: List[String] = List.empty) {
   def order7: Style = new Style(classes :+ "order-7")
   def order8: Style = new Style(classes :+ "order-8")
   def orderLast: Style = new Style(classes :+ "order-last")
+
+  def basis25: Style = new Style(classes :+ "basis-25")
+  def basis40: Style = new Style(classes :+ "basis-40")
+  def basis50: Style = new Style(classes :+ "basis-50")
+  def basis60: Style = new Style(classes :+ "basis-60")
 }
 // scalastyle:on number.of.methods
