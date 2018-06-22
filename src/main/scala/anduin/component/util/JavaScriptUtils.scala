@@ -55,4 +55,14 @@ object JavaScriptUtils {
       dom.window.open(url, target)
     )
   }
+
+  /**
+    * Close current tab on a browser
+    * @return Callback
+    */
+  def closeTab(): Callback = {
+    Callback(
+      dom.window.close()
+    )
+  }
 }
