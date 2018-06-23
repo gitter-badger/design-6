@@ -68,7 +68,7 @@ object MenuItem {
     )
     if (props.url.nonEmpty) {
       <.a(
-        Style.hover.underlineNone,
+        Style.hover.underlineNone.hover.colorGray9,
         ^.href := props.url,
         ^.target := props.openIn.value,
         commonMods
