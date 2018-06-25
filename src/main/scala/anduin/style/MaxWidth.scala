@@ -13,6 +13,10 @@ private[style] final case class MaxWidth(classes: List[String] = List.empty) {
   def px1024: Style = new Style(classes :+ "mw8")
   def px1536: Style = new Style(classes :+ "mw9")
 
+  def pc15: Style = new Style(classes :+ "mw-15")
+  def pc25: Style = new Style(classes :+ "mw-25")
+  def pc50: Style = new Style(classes :+ "mw-50")
+  def pc70: Style = new Style(classes :+ "mw-70")
   def pc100: Style = new Style(classes :+ "mw-100")
   def none: Style = new Style(classes :+ "mw-none")
 }

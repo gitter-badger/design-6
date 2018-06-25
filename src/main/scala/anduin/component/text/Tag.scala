@@ -50,7 +50,7 @@ object Tag {
   def render(props: Props, children: PropsChildren): VdomElement = {
     <.div(
       if (props.isSolid) props.color.solid else props.color.normal,
-      Style.padding.hor8.borderRadius.px2,
+      Style.padding.hor8.borderRadius.px2.width.maxContent,
       Style.fontWeight.medium.fontSize.px12,
       children
     )

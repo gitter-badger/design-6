@@ -2,8 +2,8 @@
 
 package anduin.component.text
 
-import java.time.{LocalDate, ZonedDateTime}
 import java.time.format.DateTimeFormatter
+import java.time.{LocalDate, LocalDateTime}
 
 // scalastyle:off underscore.import
 import japgolly.scalajs.react._
@@ -11,7 +11,7 @@ import japgolly.scalajs.react.vdom.html_<^._
 // scalastyle:on underscore.import
 
 final case class DateTime(
-  value: ZonedDateTime,
+  value: LocalDateTime,
   date: DateTime.Date = DateTime.DateShort,
   dateIsRelative: Boolean = false,
   time: DateTime.Time = DateTime.TimeHM12
@@ -24,11 +24,15 @@ object DateTime {
   type Props = DateTime
   type DTF = DateTimeFormatter
 
+  // See the formats at https://docs.oracle.com/javase/8/docs/api/java/time/format/DateTimeFormatter.html
   sealed trait Date { val dtf: DTF }
+  case object DateFull extends Date { val dtf: DTF = DateTimeFormatter.ofPattern("MMM d, yyyy") }
   case object DateShort extends Date { val dtf: DTF = DateTimeFormatter.ofPattern("MMM d") }
+  case object DateLong extends Date { val dtf: DTF = DateTimeFormatter.ofPattern("MMMM d") }
 
   sealed trait Time { val dtf: DTF }
   case object TimeHM12 extends Time { val dtf: DTF = DateTimeFormatter.ofPattern("h:m a") }
+  case object TimeNone extends Time { val dtf: DTF = DateTimeFormatter.ofPattern("") }
 
   private val today = LocalDate.now()
   private val yesterday = today.minusDays(1)
@@ -45,11 +49,14 @@ object DateTime {
   }
 
   private def getTime(props: Props): String = {
-    props.value.format(props.time.dtf)
+    props.time match {
+      case TimeNone   => ""
+      case time: Time => s", ${props.value.format(time.dtf)}"
+    }
   }
 
   private def render(props: Props): VdomNode = {
-    s"${getDate(props)}, ${getTime(props)}"
+    s"${getDate(props)}${getTime(props)}"
   }
 
   private val component = ScalaComponent

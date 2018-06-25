@@ -10,7 +10,9 @@ import anduin.style.Style
 // scalastyle:on underscore.import
 
 final case class Card() {
-  def apply(children: VdomNode*): VdomElement = Card.component(this)(children: _*)
+  def apply(children: VdomNode*): VdomElement = {
+    Card.component(this)(children: _*)
+  }
 }
 
 object Card {
@@ -20,7 +22,7 @@ object Card {
   private def render(children: PropsChildren): VdomElement = {
     <.div(
       Style.backgroundColor.white.borderRadius.px2.padding.all16,
-      Style.border.all.borderColor.gray3.borderWidth.px1,
+      Style.shadow.blur1Light,
       children
     )
   }
