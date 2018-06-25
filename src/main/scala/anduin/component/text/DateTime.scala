@@ -24,7 +24,9 @@ object DateTime {
   type Props = DateTime
   type DTF = DateTimeFormatter
 
+  // See the formats at https://docs.oracle.com/javase/8/docs/api/java/time/format/DateTimeFormatter.html
   sealed trait Date { val dtf: DTF }
+  case object DateFull extends Date { val dtf: DTF = DateTimeFormatter.ofPattern("MMM d, yyyy") }
   case object DateShort extends Date { val dtf: DTF = DateTimeFormatter.ofPattern("MMM d") }
   case object DateLong extends Date { val dtf: DTF = DateTimeFormatter.ofPattern("MMMM d") }
 
