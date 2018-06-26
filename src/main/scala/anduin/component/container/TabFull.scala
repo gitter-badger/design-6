@@ -39,7 +39,7 @@ private[container] object TabFull {
     val isActive = props.active == index
     <.button(
       // === Styles
-      Style.focus.outline.transition.allWithOutline.padding.hor16.padding.ver12,
+      Style.focus.outline.transition.allWithOutline.padding.hor16.padding.ver12.margin.right8,
       Style.border.all.borderColor.gray3,
       if (isActive) activeStyles else normalStyles,
       TagMod.when(index != 0) { ^.marginLeft := "-1px" },
