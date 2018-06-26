@@ -23,33 +23,33 @@ object Tag {
   type Props = Tag
 
   sealed trait Color {
-    private[Tag] val normal: Style
-    private[Tag] val solid: Style
+    val clear: Style
+    val solid: Style
   }
   case object ColorWhite extends Color {
-    private[Tag] override val normal = Style.backgroundColor.gray3.color.gray7
-    private[Tag] override val solid = Style.backgroundColor.gray7.color.white
+    val clear: Style = Style.backgroundColor.gray3.color.gray7
+    val solid: Style = Style.backgroundColor.gray7.color.white
   }
   case object ColorPrimary extends Color {
-    private[Tag] override val normal = Style.backgroundColor.primary1.color.primary5
-    private[Tag] override val solid = Style.backgroundColor.primary4.color.white
+    val clear: Style = Style.backgroundColor.primary1.color.primary5
+    val solid: Style = Style.backgroundColor.primary4.color.white
   }
   case object ColorSuccess extends Color {
-    private[Tag] override val normal = Style.backgroundColor.success1.color.success5
-    private[Tag] override val solid = Style.backgroundColor.success4.color.white
+    val clear: Style = Style.backgroundColor.success1.color.success5
+    val solid: Style = Style.backgroundColor.success4.color.white
   }
   case object ColorWarning extends Color {
-    private[Tag] override val normal = Style.backgroundColor.warning1.color.warning5
-    private[Tag] override val solid = Style.backgroundColor.warning4.color.white
+    val clear: Style = Style.backgroundColor.warning1.color.warning5
+    val solid: Style = Style.backgroundColor.warning4.color.white
   }
   case object ColorDanger extends Color {
-    private[Tag] override val normal = Style.backgroundColor.danger1.color.danger5
-    private[Tag] override val solid = Style.backgroundColor.danger4.color.white
+    val clear: Style = Style.backgroundColor.danger1.color.danger5
+    val solid: Style = Style.backgroundColor.danger4.color.white
   }
 
   def render(props: Props, children: PropsChildren): VdomElement = {
     <.div(
-      if (props.isSolid) props.color.solid else props.color.normal,
+      if (props.isSolid) props.color.solid else props.color.clear,
       Style.padding.hor8.borderRadius.px2.width.maxContent,
       Style.fontWeight.medium.fontSize.px12,
       children
