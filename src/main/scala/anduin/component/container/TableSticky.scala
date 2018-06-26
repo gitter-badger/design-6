@@ -2,11 +2,15 @@
 
 package anduin.component.container
 
+import org.scalajs.dom.html
+import org.scalajs.dom.raw.DOMList
+
+import anduin.component.util.NodeListSeq
+import anduin.style.Style
+
 // scalastyle:off underscore.import
 import japgolly.scalajs.react._
 import japgolly.scalajs.react.vdom.html_<^._
-
-import anduin.style.Style
 // scalastyle:on underscore.import
 
 private[component] final case class TableSticky(
@@ -18,25 +22,60 @@ private[component] final case class TableSticky(
   def apply(): VdomElement = TableSticky.component(this)
 }
 
-private[component] object TableSticky {
+object TableSticky {
 
   type Props = TableSticky
 
-  private def render(props: Props): VdomElement = {
-    // To simplify implementation, sticky head requires (all - 1) columns to define width
-    if (props.widths.count(_.isEmpty) > 1) {
-      throw new RuntimeException("Sticky head requires all columns to have width defined")
+  private class Backend {
+
+    private val headTableRef = Ref[html.Table]
+    private val bodyTableRef = Ref[html.Table]
+
+    private def getThs(table: html.Table) = {
+      val collection = table.getElementsByTagName("th")
+      val domList = collection.asInstanceOf[DOMList[html.TableHeaderCell]]
+      NodeListSeq(domList)
     }
-    <.div(
-      <.table(Style.position.sticky.coordinate.top0.zIndex.idx1, props.styles, props.head),
-      // 36px is the height of head + 1px border. This will work for a long time
-      <.table(^.marginTop := "-37px", props.styles, props.head, props.body)
-    )
+
+    // this updates HeadTable > th's width to be the same with
+    // BodyTable > th's width
+    def updateWidths(): Callback = {
+      for {
+        body <- bodyTableRef.get
+        head <- headTableRef.get
+      } yield {
+        val bodyThs = getThs(body)
+        val widths = bodyThs.map(th => th.clientWidth).toList
+        val headThs = getThs(head)
+        headThs.zipWithIndex.foreach { tuple =>
+          val (th, index) = tuple
+          th.style.width = s"${widths(index)}px"
+        }
+      }
+    }
+
+    def render(props: Props): VdomElement = {
+      val headTable = <.table.withRef(headTableRef)(
+        Style.position.sticky.coordinate.top0.zIndex.idx1,
+        props.styles,
+        props.head
+      )
+      val bodyTable = <.table.withRef(bodyTableRef)(
+        // 36px is the height of head + 2*1px border.
+        // This will work for a long time
+        ^.marginTop := "-38px",
+        props.styles,
+        props.head,
+        props.body
+      )
+      <.div(headTable, bodyTable)
+    }
   }
 
   private val component = ScalaComponent
     .builder[Props](this.getClass.getSimpleName)
     .stateless
-    .render_P(render)
+    .renderBackend[Backend]
+    .componentDidMount(_.backend.updateWidths())
     .build
 }

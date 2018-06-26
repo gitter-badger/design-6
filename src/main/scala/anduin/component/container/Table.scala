@@ -11,24 +11,36 @@ import japgolly.scalajs.react.vdom.html_<^._
 
 object Table {
   sealed trait Align { val styles: TagMod }
-  case object AlignInherit extends Align { val styles: TagMod = Style.verticalAlign.inherit }
-  case object AlignTop extends Align { val styles: TagMod = Style.verticalAlign.top }
-  case object AlignMiddle extends Align { val styles: TagMod = Style.verticalAlign.middle }
-  case object AlignBottom extends Align { val styles: TagMod = Style.verticalAlign.bottom }
+  case object AlignInherit extends Align {
+    val styles: TagMod = Style.verticalAlign.inherit
+  }
+  case object AlignTop extends Align {
+    val styles: TagMod = Style.verticalAlign.top
+  }
+  case object AlignMiddle extends Align {
+    val styles: TagMod = Style.verticalAlign.middle
+  }
+  case object AlignBottom extends Align {
+    val styles: TagMod = Style.verticalAlign.bottom
+  }
 
   case class Cell(
     content: VdomNode = EmptyVdom,
     rowSpan: Int = 1,
     colSpan: Int = 1,
-    isEmpty: Boolean = false,
+    isNone: Boolean = false,
     align: Align = AlignInherit
   )
 
-  case class Column[T](
+  case class Column[A](
     head: VdomNode = "",
-    render: T => Cell,
-    // @TODO: String should be replaced by any type that can be ordered
-    sortBy: Option[T => String] = None,
+    render: A => Cell,
+    // This is bad, very bad.. the return of this should be generic, like:
+    // sortBy: Option[A => B], where:
+    // - B is order-able, and
+    // - The consumers don't need to define B if they don't need sort
+    sortByString: Option[A => String] = None,
+    sortByDouble: Option[A => Double] = None,
     width: String = ""
   )
 
@@ -50,28 +62,30 @@ object Table {
   }
 }
 
-class Table[T] {
+class Table[A] {
   private val component = ScalaComponent
     .builder[Props](this.getClass.getSimpleName)
-    .initialStateFromProps(p => State(sortColumn = p.sortColumn, sortIsAsc = p.sortIsAsc))
+    .initialStateFromProps { p =>
+      State(sortColumn = p.sortColumn, sortIsAsc = p.sortIsAsc)
+    }
     .renderBackend[Backend]
     .build
 
-  private val Head = (new TableHead[T])()
-  private val Body = (new TableBody[T])()
+  private val Head = (new TableHead[A])()
+  private val Body = (new TableBody[A])()
 
   case class Props(
     // common
-    columns: List[Table.Column[T]] = List.empty,
+    columns: List[Table.Column[A]] = List.empty,
     style: Table.Style = Table.StyleFull,
     // head
     sortColumn: Option[Int] = None,
     sortIsAsc: Boolean = true,
     headIsSticky: Boolean = false,
     // body
-    rows: List[T] = List.empty,
+    rows: List[A] = List.empty,
     align: Table.Align = Table.AlignMiddle,
-    getKey: T => String = (any: Any) => any.toString,
+    getKey: A => String = (any: Any) => any.toString,
     footer: VdomNode = EmptyVdom
   ) {
     def apply(): VdomElement = component(this)
@@ -99,7 +113,9 @@ class Table[T] {
 
       val styles = TagMod(
         Style.width.pc100.backgroundColor.white.table.collapse,
-        TagMod.when(props.columns.count(_.width.isEmpty) < 2) { Style.table.fixed }
+        TagMod.when(props.columns.count(_.width.isEmpty) < 2) {
+          Style.table.fixed
+        }
       )
 
       val head = Head(

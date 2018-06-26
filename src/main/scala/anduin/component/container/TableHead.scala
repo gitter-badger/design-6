@@ -10,10 +10,10 @@ import japgolly.scalajs.react._
 import japgolly.scalajs.react.vdom.html_<^._
 // scalastyle:on underscore.import
 
-private[component] class TableHead[T] {
+private[component] class TableHead[A] {
 
   case class Props(
-    columns: List[Table.Column[T]],
+    columns: List[Table.Column[A]],
     style: Table.Style,
     // ==
     sort: Int => Callback,
@@ -56,9 +56,12 @@ private[component] class TableHead[T] {
     Style.active.colorPrimary5.focus.outline.transition.allWithOutline
   )
 
-  private def renderColumn(props: Props)(colWithIndex: (Table.Column[T], Int)) = {
+  private def renderColumn(props: Props)(colWithIndex: (Table.Column[A], Int)) = {
     val (column, index) = colWithIndex
-    val button = if (column.sortBy.isDefined) {
+    // Note: This is bad, super bad. See the note at the definition of sortByInt
+    val sortable = column.sortByDouble.isDefined ||
+      column.sortByString.isDefined
+    val button = if (sortable) {
       <.button(
         buttonStyles,
         ^.tpe := "button",

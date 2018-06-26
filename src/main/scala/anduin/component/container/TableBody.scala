@@ -9,15 +9,15 @@ import japgolly.scalajs.react._
 import japgolly.scalajs.react.vdom.html_<^._
 // scalastyle:on underscore.import
 
-private[component] class TableBody[T] {
+private[component] class TableBody[A] {
 
   case class Props(
-    rows: List[T],
+    rows: List[A],
     align: Table.Align,
-    getKey: T => String,
+    getKey: A => String,
     footer: VdomNode,
     // ==
-    columns: List[Table.Column[T]],
+    columns: List[Table.Column[A]],
     style: Table.Style,
     // ==
     sortColumn: Option[Int],
@@ -28,17 +28,17 @@ private[component] class TableBody[T] {
 
   def apply(): Props.type = Props
 
-  private def getSortedRows(props: Props): List[T] = {
-    props.sortColumn.fold(props.rows)(columnIndex => {
-      // if sort column does not have "sort" then just leave as is
-      props
-        .columns(columnIndex)
-        .sortBy
-        .fold(props.rows) { sortBy =>
-          val sorted = props.rows.sortBy(sortBy)
-          if (props.sortIsAsc) sorted else sorted.reverse
-        }
-    })
+  private def getSortedRows(props: Props): List[A] = {
+    props.sortColumn.fold(props.rows) { columnIndex =>
+      val column = props.columns(columnIndex)
+      // This is bad, super bad. See the note in sortBy definition
+      val sorted = (column.sortByString, column.sortByDouble) match {
+        case (Some(sortBy), _) => props.rows.sortBy(sortBy)
+        case (_, Some(sortBy)) => props.rows.sortBy(sortBy)
+        case _                 => props.rows
+      }
+      if (props.sortIsAsc) sorted else sorted.reverse
+    }
   }
 
   private def render(props: Props): VdomElement = {
@@ -46,17 +46,23 @@ private[component] class TableBody[T] {
       val columns = props.columns.zipWithIndex.toVdomArray(columnTuple => {
         val (column, index) = columnTuple
         val cell = column.render(row)
-        if (cell.isEmpty) { EmptyVdom } else {
-          val span = TagMod(^.rowSpan := cell.rowSpan, ^.colSpan := cell.colSpan)
-          val colKey = ^.key := index
-          <.td(Style.padding.all12, cell.align.styles, colKey, span, cell.content)
+        if (cell.isNone) { EmptyVdom } else {
+          <.td(
+            Style.padding.all12,
+            cell.align.styles,
+            ^.key := index,
+            ^.rowSpan := cell.rowSpan,
+            ^.colSpan := cell.colSpan,
+            cell.content
+          )
         }
       })
       val rowKey = ^.key := props.getKey(row)
       <.tr(rowKey, Style.hover.backgroundGray1, props.style.tr, columns)
     })
     val footer = TagMod.when(props.footer != EmptyVdom) {
-      val cell = <.td(Style.padding.all12, props.footer, ^.colSpan := props.columns.size)
+      val span = ^.colSpan := props.columns.size
+      val cell = <.td(Style.padding.all12, props.footer, span)
       <.tr(props.style.tr, cell)
     }
     <.tbody(props.align.styles, rows, footer)
