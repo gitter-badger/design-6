@@ -15,64 +15,110 @@ object ButtonStyle {
     val selected: TagMod
   }
   case object ColorWhite extends Color {
-    private val interact = TagMod( // for minimal and full
+    // for minimal and full
+    private val interact = TagMod(
       Style.color.gray8.hover.colorPrimary4.active.colorPrimary4,
       Style.hover.backgroundWhite.active.backgroundGray2
     )
 
-    val link: TagMod = Style.color.primary4
-    val minimal = TagMod(interact, Style.hover.borderGray4.hover.shadow1Light.active.borderGray4.active.shadow1Light)
-    val full = TagMod(interact, Style.shadow.blur1Light.borderColor.gray4.backgroundColor.gray1)
-    val selected: TagMod = Style.borderColor.gray4.color.primary4.backgroundColor.gray2
+    val link: TagMod =
+      Style.color.primary4
+    val minimal = TagMod(
+      interact,
+      Style.hover.borderGray4.hover.shadow1Light,
+      Style.active.borderGray4.active.shadow1Light
+    )
+    val full = TagMod(
+      interact,
+      Style.shadow.blur1Light.borderColor.gray4.backgroundColor.gray1
+    )
+    val selected: TagMod =
+      Style.borderColor.gray4.color.primary4.backgroundColor.gray2
   }
-  // ColorAccentBase provides the common styles for Accent Color: from Primary to Danger
+  // ColorAccentBase provides the common styles for Accent Color:
+  // from Primary to Danger
   private case object ColorAccentBase {
-    val minimal: TagMod = Style.hover.colorWhite.hover.shadow1Dark.active.colorWhite.active.shadow1Dark
+    val minimal: TagMod = TagMod(
+      Style.hover.colorWhite.hover.shadow1Dark,
+      Style.active.colorWhite.active.shadow1Dark
+    )
     val full: TagMod = Style.color.white.shadow.blur1Dark
     val selected: TagMod = Style.color.white
   }
   case object ColorPrimary extends Color {
-    private val interact = Style.hover.backgroundPrimary3.active.backgroundPrimary5
-    private val selfMinimal = Style.color.primary4.hover.borderPrimary5.active.borderPrimary5
-
     val link: TagMod = Style.color.primary4
-    val minimal: TagMod = TagMod(interact, ColorAccentBase.minimal, selfMinimal)
-    val full: TagMod = TagMod(interact, ColorAccentBase.full, Style.backgroundColor.primary4.borderColor.primary5)
-    val selected: TagMod = TagMod(ColorAccentBase.selected, Style.backgroundColor.primary5.borderColor.primary5)
+
+    private val interact =
+      Style.hover.backgroundPrimary3.active.backgroundPrimary5
+    private val minimalSelf =
+      Style.color.primary4.hover.borderPrimary5.active.borderPrimary5
+    val minimal = TagMod(interact, ColorAccentBase.minimal, minimalSelf)
+
+    private val fullSelf = Style.backgroundColor.primary4.borderColor.primary5
+    val full = TagMod(interact, ColorAccentBase.full, fullSelf)
+
+    private val sltSelf = Style.backgroundColor.primary5.borderColor.primary5
+    val selected = TagMod(ColorAccentBase.selected, sltSelf)
   }
   case object ColorSuccess extends Color {
-    private val interact = Style.hover.backgroundSuccess3.active.backgroundSuccess5
-    private val selfMinimal = Style.color.success4.hover.borderSuccess5.active.borderSuccess5
-
     val link: TagMod = Style.color.success4
-    val minimal: TagMod = TagMod(interact, ColorAccentBase.minimal, selfMinimal)
-    val full: TagMod = TagMod(interact, ColorAccentBase.full, Style.backgroundColor.success4.borderColor.success5)
-    val selected: TagMod = TagMod(ColorAccentBase.selected, Style.backgroundColor.success5.borderColor.success5)
+
+    private val interact =
+      Style.hover.backgroundSuccess3.active.backgroundSuccess5
+    private val minimalSelf =
+      Style.color.success4.hover.borderSuccess5.active.borderSuccess5
+    val minimal = TagMod(interact, ColorAccentBase.minimal, minimalSelf)
+
+    private val fullSelf = Style.backgroundColor.success4.borderColor.success5
+    val full = TagMod(interact, ColorAccentBase.full, fullSelf)
+
+    private val sltSelf = Style.backgroundColor.success5.borderColor.success5
+    val selected = TagMod(ColorAccentBase.selected, sltSelf)
   }
   case object ColorWarning extends Color {
-    private val interact = Style.hover.backgroundWarning3.active.backgroundWarning5
-    private val selfMinimal = Style.color.warning4.hover.borderWarning5.active.borderWarning5
-
     val link: TagMod = Style.color.warning4
-    val minimal: TagMod = TagMod(interact, ColorAccentBase.minimal, selfMinimal)
-    val full: TagMod = TagMod(interact, ColorAccentBase.full, Style.backgroundColor.warning4.borderColor.warning5)
-    val selected: TagMod = TagMod(ColorAccentBase.selected, Style.backgroundColor.warning5.borderColor.warning5)
+
+    private val interact =
+      Style.hover.backgroundWarning3.active.backgroundWarning5
+    private val minimalSelf =
+      Style.color.warning4.hover.borderWarning5.active.borderWarning5
+    val minimal = TagMod(interact, ColorAccentBase.minimal, minimalSelf)
+
+    private val fullSelf = Style.backgroundColor.warning4.borderColor.warning5
+    val full = TagMod(interact, ColorAccentBase.full, fullSelf)
+
+    private val sltSelf = Style.backgroundColor.warning5.borderColor.warning5
+    val selected = TagMod(ColorAccentBase.selected, sltSelf)
   }
   case object ColorDanger extends Color {
-    private val interact = Style.hover.backgroundDanger3.active.backgroundDanger5
-    private val selfMinimal = Style.color.danger4.hover.borderDanger5.active.borderDanger5
-
     val link: TagMod = Style.color.danger4
-    val minimal: TagMod = TagMod(interact, ColorAccentBase.minimal, selfMinimal)
-    val full: TagMod = TagMod(interact, ColorAccentBase.full, Style.backgroundColor.danger4.borderColor.danger5)
-    val selected: TagMod = TagMod(ColorAccentBase.selected, Style.backgroundColor.danger5.borderColor.danger5)
+
+    private val interact =
+      Style.hover.backgroundDanger3.active.backgroundDanger5
+    private val selfMinimal =
+      Style.color.danger4.hover.borderDanger5.active.borderDanger5
+    val minimal = TagMod(interact, ColorAccentBase.minimal, selfMinimal)
+
+    private val fullSelf = Style.backgroundColor.danger4.borderColor.danger5
+    val full = TagMod(interact, ColorAccentBase.full, fullSelf)
+
+    private val sltSelf = Style.backgroundColor.danger5.borderColor.danger5
+    val selected = TagMod(ColorAccentBase.selected, sltSelf)
   }
 
   sealed trait Size { val style: TagMod }
-  case object SizeLarge extends Size { val style: TagMod = Style.height.px40.padding.hor16.fontSize.px16 }
-  case object SizeMedium extends Size { val style: TagMod = Style.height.px32.padding.hor12.fontSize.px14 }
-  case object SizeSmall extends Size { val style: TagMod = Style.height.px24.padding.hor8.fontSize.px12 }
-  case object SizeIcon extends Size { val style: TagMod = Style.height.px32.width.px32.fontSize.px14 }
+  case object SizeLarge extends Size {
+    val style: TagMod = Style.height.px40.padding.hor16.fontSize.px16
+  }
+  case object SizeMedium extends Size {
+    val style: TagMod = Style.height.px32.padding.hor12.fontSize.px14
+  }
+  case object SizeSmall extends Size {
+    val style: TagMod = Style.height.px24.padding.hor8.fontSize.px12
+  }
+  case object SizeIcon extends Size {
+    val style: TagMod = Style.height.px32.width.px32.fontSize.px14
+  }
 
   sealed trait Style
   case object StyleFull extends Style
@@ -104,19 +150,26 @@ object ButtonStyle {
     // Common styles for StyleLink, StyleFull and StyleMinimal
     Style.disabled.colorGray6.flexbox.itemsCenter,
     // Specific styles for each Style
-    TagMod.when(style == StyleLink) { Style.flexbox.inlineFlex.hover.underline.textAlign.left },
-    TagMod.when(style == StyleFull) { Style.disabled.backgroundGray2.disabled.borderGray4.disabled.shadowNone },
-    TagMod.when(style == StyleMinimal && !isSelected) { Style.borderColor.transparent },
+    TagMod.when(style == StyleLink) {
+      Style.flexbox.inlineFlex.hover.underline.textAlign.left
+    },
+    TagMod.when(style == StyleFull) {
+      Style.disabled.backgroundGray2.disabled.borderGray4.disabled.shadowNone
+    },
+    TagMod.when(style == StyleMinimal && !isSelected) {
+      Style.borderColor.transparent
+    },
     TagMod.when(style == StyleMinimal || style == StyleFull) {
       TagMod(
-        Style.lineHeight.px16.fontWeight.medium.borderRadius.px2.whiteSpace.noWrap,
+        Style.lineHeight.px16.fontWeight.medium.whiteSpace.noWrap,
+        Style.borderRadius.px2.border.all,
         Style.flexbox.flex.flexbox.justifyCenter,
-        Style.focus.outline.transition.allWithOutline.border.all,
+        Style.focus.outline.transition.allWithOutline,
         // Apply styling from size prop
-        size.style,
         TagMod.when(size != SizeIcon) {
           if (isFullWidth) Style.width.pc100 else Style.width.maxContent
-        }
+        },
+        size.style
       )
     }
   )
