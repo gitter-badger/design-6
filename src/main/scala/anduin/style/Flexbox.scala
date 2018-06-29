@@ -27,6 +27,7 @@ private[style] final case class Flexbox(classes: List[String] = List.empty) {
   def justifyCenter: Style = new Style(classes :+ "justify-center")
   def justifyBetween: Style = new Style(classes :+ "justify-between")
   def justifyAround: Style = new Style(classes :+ "justify-around")
+  def justifyEvenly: Style = new Style(classes :+ "justify-evenly")
 
   def auto: Style = new Style(classes :+ "flex-auto")
   def fixed: Style = new Style(classes :+ "flex-fixed")
