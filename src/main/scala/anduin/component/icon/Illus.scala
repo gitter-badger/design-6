@@ -57,6 +57,12 @@ object Illus {
         |  <path d="M10 13.5h3c.28 0 .5.23.5.5v5a.5.5 0 0 1-.5.5h-3a.5.5 0 0 1-.5-.5v-5c0-.27.22-.5.5-.5z" fill="#8ECCF5" fill-opacity=".3" stroke="#8ECCF5"/>
       """.stripMargin
   }
+  case object NameDocEmpty extends Name {
+    val content: String =
+      """
+        |<path d="M27 10h-7.11c-.5 0-.89-.5-.89-1.12V1M5 2.04C5 1.46 5.45 1 6 1h14l7 8.28v20.69c0 .57-.44 1.03-1 1.03H6c-.55 0-1-.47-1-1.03V2.04z" stroke="#A7B6C2" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="3 3"/>
+      """.stripMargin
+  }
   case object NameSlide extends Name {
     val content: String =
       """
