@@ -3,7 +3,7 @@
 package anduin.component.portal
 
 import anduin.component.button.{Button, ButtonStyle}
-import anduin.component.icon.IconAcl
+import anduin.component.icon.Icon
 import anduin.style.Style
 
 // scalastyle:off underscore.import
@@ -40,7 +40,7 @@ object ModalHeader {
               style = ButtonStyle.StyleMinimal,
               size = ButtonStyle.SizeIcon,
               onClick = props.close
-            )(IconAcl(name = IconAcl.NameCross)())
+            )(Icon(name = Icon.NameCross)())
           )
         }
       )

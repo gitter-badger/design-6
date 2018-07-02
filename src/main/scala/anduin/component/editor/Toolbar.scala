@@ -8,7 +8,7 @@ import org.scalajs.dom.raw.Element
 import org.scalajs.dom.window
 
 import anduin.component.button.{Button, ButtonStyle}
-import anduin.component.icon.IconAcl
+import anduin.component.icon.Icon
 import anduin.component.menu.VerticalDivider
 import anduin.scalajs.slate.Slate.{Change, Value}
 import anduin.style.Style
@@ -105,7 +105,7 @@ object Toolbar {
               size = ButtonStyle.SizeIcon,
               onClick = props.onChange(props.value.change().undo()),
               isDisabled = !props.value.hasUndos
-            )(IconAcl(IconAcl.NameUndo)()),
+            )(Icon(Icon.NameUndo)()),
             renderContent = () => "Undo"
           )(),
           // Redo button
@@ -116,7 +116,7 @@ object Toolbar {
               size = ButtonStyle.SizeIcon,
               onClick = props.onChange(props.value.change().redo()),
               isDisabled = props.value.hasRedos
-            )(IconAcl(IconAcl.NameRedo)()),
+            )(Icon(Icon.NameRedo)()),
             renderContent = () => "Redo"
           )(),
           VerticalDivider(),
@@ -129,7 +129,7 @@ object Toolbar {
                   onClick = open,
                   size = ButtonStyle.SizeIcon,
                   style = ButtonStyle.StyleMinimal
-                )(IconAcl(IconAcl.NameLink)())
+                )(Icon(Icon.NameLink)())
               },
               renderContent = LinkModal(props.value, onAddLink, _)()
             )(),
@@ -142,7 +142,7 @@ object Toolbar {
               size = ButtonStyle.SizeIcon,
               onClick = onRemoveLink,
               isDisabled = !hasLink
-            )(IconAcl(IconAcl.NameUnlink)()),
+            )(Icon(Icon.NameUnlink)()),
             renderContent = () => "Remove Link"
           )(),
           VerticalDivider(),
@@ -163,7 +163,7 @@ object Toolbar {
                   size = ButtonStyle.SizeIcon,
                   onClick = open,
                   isSelected = status == StatusOpen
-                )(IconAcl(name = IconAcl.NameTextStyle)()),
+                )(Icon(name = Icon.NameTextStyle)()),
                 renderContent = () => "Formatting options"
               )()
             },
@@ -190,7 +190,7 @@ object Toolbar {
                   onClick = open,
                   size = ButtonStyle.SizeIcon,
                   style = ButtonStyle.StyleMinimal
-                )(IconAcl(IconAcl.NameInfo)())
+                )(Icon(Icon.NameInfo)())
               },
               renderContent = _ => {
                 <.div(

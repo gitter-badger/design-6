@@ -2,7 +2,7 @@
 
 package anduin.component.input
 
-import anduin.component.icon.IconAcl
+import anduin.component.icon.Icon
 import anduin.style.Style
 
 // scalastyle:off underscore.import
@@ -47,19 +47,19 @@ object TextInput {
     val styles: Style = Style.borderColor.gray4
     val icon: Option[VdomNode] = None
   }
-  private def renderIcon(name: IconAcl.Name, color: TagMod) = {
+  private def renderIcon(name: Icon.Name, color: TagMod) = {
     val styles = TagMod(
       Style.position.absolute.coordinate.top0.coordinate.bottom0,
       Style.backgroundColor.white.margin.verAuto,
       TagMod(^.right := "8px", ^.height := "16px")
     )
-    <.div(styles, color, IconAcl(name = name)())
+    <.div(styles, color, Icon(name = name)())
   }
   case object StatusNone extends Status
   case object StatusBusy extends Status
   case object StatusValid extends Status {
     override val styles: Style = Style.borderColor.success4
-    override val icon: Option[VdomNode] = Option(renderIcon(IconAcl.NameCheck, Style.color.success4))
+    override val icon: Option[VdomNode] = Option(renderIcon(Icon.NameCheck, Style.color.success4))
   }
   case object StatusInvalid extends Status {
     override val styles: Style = Style.borderColor.danger4

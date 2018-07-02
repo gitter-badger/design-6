@@ -3,7 +3,7 @@
 package anduin.component.input
 
 import anduin.component.button.ButtonStyle
-import anduin.component.icon.IconAcl
+import anduin.component.icon.Icon
 import anduin.style.Style
 
 // scalastyle:off underscore.import
@@ -33,7 +33,7 @@ object NativeDropdown {
     Style.margin.verAuto.height.px16.pointerEvents.none,
     Style.position.absolute.coordinate.top0.coordinate.bottom0,
     ^.right := "8px",
-    IconAcl(name = IconAcl.NameCaretDown)()
+    Icon(name = Icon.NameCaretDown)()
   )
 
   private val selectStyles = ButtonStyle.getStyles(

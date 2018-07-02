@@ -4,7 +4,7 @@ package anduin.component.editor
 
 import scala.scalajs.js
 
-import anduin.component.icon.IconAcl
+import anduin.component.icon.Icon
 import anduin.scalajs.slate.Slate.{Change, Value}
 import anduin.style.Style
 
@@ -45,9 +45,9 @@ private[editor] object AlignButtonBar {
       <.div(
         Style.flexbox.flex,
         List(
-          ("left", IconAcl(name = IconAcl.NameAlignLeft)(), "Align Left"),
-          ("center", IconAcl(name = IconAcl.NameAlignCenter)(), "Align Center"),
-          ("right", IconAcl(name = IconAcl.NameAlignRight)(), "Align Right")
+          ("left", Icon(name = Icon.NameAlignLeft)(), "Align Left"),
+          ("center", Icon(name = Icon.NameAlignCenter)(), "Align Center"),
+          ("right", Icon(name = Icon.NameAlignRight)(), "Align Right")
         ).toVdomArray {
           case (align, icon, tip) =>
             ToolbarButton(

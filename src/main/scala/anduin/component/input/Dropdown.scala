@@ -3,7 +3,7 @@
 package anduin.component.input
 
 import anduin.component.button.Button
-import anduin.component.icon.IconAcl
+import anduin.component.icon.Icon
 import anduin.component.menu.{Menu, MenuDivider, MenuItem}
 import anduin.style.Style
 
@@ -53,7 +53,7 @@ class Dropdown[T] {
     val icon = <.span(
       // manually move it a little bit to the right for visual reason
       TagMod(Style.margin.leftAuto.position.relative, ^.right := "-4px"),
-      IconAcl(name = IconAcl.NameCaretDown)()
+      Icon(name = Icon.NameCaretDown)()
     )
     Button(
       onClick = if (status == StatusOpen) close else open,

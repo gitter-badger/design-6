@@ -11,7 +11,7 @@ import org.scalajs.dom.document
 import org.scalajs.dom.raw.{HTMLElement, MouseEvent}
 
 import anduin.component.button.{Button, ButtonStyle}
-import anduin.component.icon.IconAcl
+import anduin.component.icon.Icon
 import anduin.component.util.EventUtils
 import anduin.style.Style
 
@@ -314,7 +314,7 @@ object Popover {
                   style = ButtonStyle.StyleLink,
                   onClick = hide
                 )(
-                  IconAcl(name = IconAcl.NameCross)()
+                  Icon(name = Icon.NameCross)()
                 )
               )
             ),

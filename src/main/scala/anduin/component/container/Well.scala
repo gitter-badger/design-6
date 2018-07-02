@@ -3,7 +3,7 @@
 package anduin.component.container
 
 import anduin.component.button.{Button, ButtonStyle}
-import anduin.component.icon.IconAcl
+import anduin.component.icon.Icon
 import anduin.style.Style
 
 // scalastyle:off underscore.import
@@ -24,33 +24,33 @@ final case class Well(
 object Well {
 
   sealed trait Color {
-    private[Well] val iconName: IconAcl.Name
+    private[Well] val iconName: Icon.Name
     private[Well] val iconColor: Style
     private[Well] val bg: Style
   }
   case object ColorNeutral extends Color {
-    private[Well] val iconName = IconAcl.NameBookmark
+    private[Well] val iconName = Icon.NameBookmark
     private[Well] val iconColor = Style.color.gray7
     private[Well] val bg = Style.backgroundColor.gray2
     private[Well] val close = Style.backgroundColor.gray3
   }
   case object ColorPrimary extends Color {
-    private[Well] val iconName = IconAcl.NameInfo
+    private[Well] val iconName = Icon.NameInfo
     private[Well] val iconColor = Style.color.primary4
     private[Well] val bg = Style.backgroundColor.primary1
   }
   case object ColorSuccess extends Color {
-    private[Well] val iconName = IconAcl.NameInfo
+    private[Well] val iconName = Icon.NameInfo
     private[Well] val iconColor = Style.color.success4
     private[Well] val bg = Style.backgroundColor.success1
   }
   case object ColorWarning extends Color {
-    private[Well] val iconName = IconAcl.NameWarning
+    private[Well] val iconName = Icon.NameWarning
     private[Well] val iconColor = Style.color.warning4
     private[Well] val bg = Style.backgroundColor.warning1
   }
   case object ColorDanger extends Color {
-    private[Well] val iconName = IconAcl.NameError
+    private[Well] val iconName = Icon.NameError
     private[Well] val iconColor = Style.color.danger4
     private[Well] val bg = Style.backgroundColor.danger1
   }
@@ -63,7 +63,7 @@ object Well {
         onClick = props.close,
         style = ButtonStyle.StyleMinimal,
         size = ButtonStyle.SizeIcon
-      )(IconAcl(name = IconAcl.NameCross)())
+      )(Icon(name = Icon.NameCross)())
       <.div(^.padding := "6px 6px 0 0", button)
     }
   }
@@ -72,7 +72,7 @@ object Well {
     <.div(
       ^.padding := "14px 0 0 12px",
       props.color.iconColor,
-      IconAcl(name = props.color.iconName)()
+      Icon(name = props.color.iconName)()
     )
   }
 

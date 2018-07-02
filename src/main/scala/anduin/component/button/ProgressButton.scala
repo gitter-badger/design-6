@@ -53,7 +53,7 @@ object ProgressButton {
         <.div(
           Style.margin.right8,
           // hack to align
-          // @TODO: use IconAcl
+          // @TODO: use Icon
           ^.lineHeight := "1",
           TagMod.when(props.status != Status.Loading) { Style.display.none },
           InlineLoader()

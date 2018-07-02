@@ -6,7 +6,7 @@ package anduin.component.menu
 import japgolly.scalajs.react._
 import japgolly.scalajs.react.vdom.html_<^._
 
-import anduin.component.icon.IconAcl
+import anduin.component.icon.Icon
 // scalastyle:on underscore.import
 
 import anduin.style.Style
@@ -64,7 +64,7 @@ object MenuItem {
       TagMod.when(!props.isDisabled) { ^.onClick --> props.onClick },
       // content
       children,
-      TagMod.when(props.isSelected) { <.span(Style.margin.leftAuto, IconAcl(name = IconAcl.NameCheck)()) }
+      TagMod.when(props.isSelected) { <.span(Style.margin.leftAuto, Icon(name = Icon.NameCheck)()) }
     )
     if (props.url.nonEmpty) {
       <.a(

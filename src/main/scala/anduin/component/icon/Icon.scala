@@ -9,17 +9,17 @@ import japgolly.scalajs.react._
 import japgolly.scalajs.react.vdom.svg_<^._
 // scalastyle:on underscore.import
 
-final case class IconAcl(
-  name: IconAcl.Name,
-  size: IconAcl.Size = IconAcl.SizeMedium
+final case class Icon(
+  name: Icon.Name,
+  size: Icon.Size = Icon.SizeMedium
 ) {
-  def apply(): VdomElement = IconAcl.component(this)
+  def apply(): VdomElement = Icon.component(this)
 }
 
 // scalastyle:off  multiple number.of.methods number.of.types file.size.limit line.size.limit
-object IconAcl {
+object Icon {
 
-  type Props = IconAcl
+  type Props = Icon
 
   private def render(props: Props): VdomElement = {
     <.svg(

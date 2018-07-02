@@ -2,7 +2,7 @@
 
 package anduin.component.input
 
-import anduin.component.icon.IconAcl
+import anduin.component.icon.Icon
 import anduin.style.Style
 
 // scalastyle:off underscore.import
@@ -29,7 +29,7 @@ object RadioBox {
       Style.position.absolute.borderRadius.pc100.backgroundColor.white.color.success4,
       Style.flexbox.flex.flexbox.itemsCenter.flexbox.justifyCenter,
       TagMod(^.width := "20px", ^.height := "20px", ^.top := "-10px", ^.right := "-10px"),
-      IconAcl(name = IconAcl.NameCheckCircle)()
+      Icon(name = Icon.NameCheckCircle)()
     )
   }
 

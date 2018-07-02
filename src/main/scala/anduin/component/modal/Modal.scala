@@ -4,7 +4,7 @@ package anduin.component.modal
 
 import scala.scalajs.js
 
-import anduin.component.icon.IconAcl
+import anduin.component.icon.Icon
 import anduin.component.util.ComponentUtils
 import anduin.scalajs.react.modal.ReactModal
 import org.scalajs.dom.raw.Element
@@ -70,7 +70,7 @@ object Modal {
             ^.cls := "modal-header",
             <.h3(^.cls := "title", props.title),
             TagMod.when(props.showCloseBtn) {
-              <.div(^.cls := "close", ^.onClick --> props.onRequestClose, IconAcl(name = IconAcl.NameCross)())
+              <.div(^.cls := "close", ^.onClick --> props.onRequestClose, Icon(name = Icon.NameCross)())
             }
           )
         )(_(props.title, props.onRequestClose)),

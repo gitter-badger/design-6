@@ -2,7 +2,7 @@
 
 package anduin.component.container
 
-import anduin.component.icon.IconAcl
+import anduin.component.icon.Icon
 import anduin.style.Style
 
 // scalastyle:off underscore.import
@@ -28,11 +28,11 @@ private[component] class TableHead[A] {
   private def renderCaret(isDown: Boolean, isSelected: Boolean): VdomNode = {
     val pos = Style.position.absolute.coordinate.left0
     val shift = if (isDown) ^.bottom else ^.top
-    val icon = if (isDown) IconAcl.NameCaretDown else IconAcl.NameCaretUp
+    val icon = if (isDown) Icon.NameCaretDown else Icon.NameCaretUp
     <.div(
       TagMod(pos, shift := "-3px"),
       Style.color.primary4.when(isSelected),
-      IconAcl(name = icon)()
+      Icon(name = icon)()
     )
   }
 
