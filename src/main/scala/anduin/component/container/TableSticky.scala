@@ -16,8 +16,9 @@ import japgolly.scalajs.react.vdom.html_<^._
 private[component] final case class TableSticky(
   widths: List[String],
   styles: TagMod,
+  body: VdomElement,
   head: VdomElement,
-  body: VdomElement
+  headStickyOffset: Int
 ) {
   def apply(): VdomElement = TableSticky.component(this)
 }
@@ -56,7 +57,8 @@ object TableSticky {
 
     def render(props: Props): VdomElement = {
       val headTable = <.table.withRef(headTableRef)(
-        Style.position.sticky.coordinate.top0.zIndex.idx1,
+        Style.position.sticky.zIndex.idx1,
+        ^.top := s"${props.headStickyOffset.toString}px",
         props.styles,
         props.head
       )

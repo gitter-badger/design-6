@@ -82,6 +82,7 @@ class Table[A] {
     sortColumn: Option[Int] = None,
     sortIsAsc: Boolean = true,
     headIsSticky: Boolean = false,
+    headStickyOffset: Int = 0,
     // body
     rows: List[A] = List.empty,
     align: Table.Align = Table.AlignMiddle,
@@ -144,7 +145,7 @@ class Table[A] {
         <.table(styles, head, body)
       } else {
         val widths = props.columns.map(_.width)
-        TableSticky(widths, styles, head, body)()
+        TableSticky(widths, styles, body, head, props.headStickyOffset)()
       }
     }
 
