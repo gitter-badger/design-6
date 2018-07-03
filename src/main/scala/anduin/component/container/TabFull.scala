@@ -2,7 +2,7 @@
 
 package anduin.component.container
 
-import anduin.style.Style
+import anduin.style.{CssVar, Style}
 
 // scalastyle:off underscore.import
 import japgolly.scalajs.react._
@@ -25,8 +25,8 @@ private[container] object TabFull {
   private val activeStyles = TagMod(
     Style.backgroundColor.white.color.gray8.borderRadius.px2.borderRadius.top,
     ^.borderBottomColor := "transparent",
-    ^.borderTopColor := "var(--color-primary-4)",
-    ^.boxShadow := "var(--color-primary-4) 0 -1px 0 0"
+    ^.borderTopColor := CssVar.Color.primary4,
+    ^.boxShadow := s"${CssVar.Color.primary4} 0 -1px 0 0"
   )
 
   private val normalStyles = TagMod(
