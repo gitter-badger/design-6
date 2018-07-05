@@ -58,7 +58,7 @@ final case class ListLoader(props: PlaceholderProps) {
       sa.ry := "3",
       sa.width := "80",
       sa.height := "10"
-    ),
+    )
   )
   // scalastyle:on multiple.string.literals
 }
