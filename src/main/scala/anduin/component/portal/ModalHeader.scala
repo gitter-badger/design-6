@@ -30,7 +30,11 @@ object ModalHeader {
       <.div(
         Style.backgroundColor.white.padding.ver16.position.relative,
         Style.border.bottom.borderColor.gray3.borderWidth.px1,
-        <.h3(Style.fontWeight.medium.textAlign.center.color.gray7.margin.all4, props.title),
+        <.h3(Style.fontWeight.medium.textAlign.center.color.gray7.margin.all4,
+          ^.paddingLeft := "45px",
+          ^.paddingRight := "45px",
+          <.div(Style.typography.truncate2, props.title)
+        ),
         TagMod.when(props.isClosable) {
           <.div(
             Style.position.absolute.coordinate.top0.backgroundColor.white,

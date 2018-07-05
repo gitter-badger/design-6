@@ -36,7 +36,8 @@ object RadioBox {
   private val styles = TagMod(
     Style.display.block.textAlign.left.focus.outline.transition.allWithOutline,
     Style.border.all.borderWidth.px2.hover.borderGray3.active.borderGray5,
-    Style.borderRadius.px2.padding.all16.position.relative
+    Style.borderRadius.px2.padding.all16.position.relative,
+    Style.width.pc100.height.pc100
   )
 
   private def render(props: Props, children: PropsChildren): VdomElement = {
