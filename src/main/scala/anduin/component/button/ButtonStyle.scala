@@ -68,9 +68,9 @@ object ButtonStyle {
 
   sealed trait Size { val style: TagMod }
   case object SizeLarge extends Size { val style: TagMod = Style.height.px40.padding.hor16.fontSize.px16 }
-  case object SizeMedium extends Size { val style: TagMod = Style.height.px32.padding.hor12.fontSize.px14 }
+  case object SizeMedium extends Size { val style: TagMod = Style.height.px32.padding.hor12.fontSize.px13 }
   case object SizeSmall extends Size { val style: TagMod = Style.height.px24.padding.hor8.fontSize.px12 }
-  case object SizeIcon extends Size { val style: TagMod = Style.height.px32.width.px32.fontSize.px14 }
+  case object SizeIcon extends Size { val style: TagMod = Style.height.px32.width.px32.fontSize.px13 }
 
   sealed trait Style
   case object StyleFull extends Style
