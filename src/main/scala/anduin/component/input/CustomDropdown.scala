@@ -13,24 +13,24 @@ import japgolly.scalajs.react._
 import japgolly.scalajs.react.vdom.html_<^._
 // scalastyle:on underscore.import
 
-case class DropdownOption[T](
-  value: T,
+case class DropdownOption[A](
+  value: A,
   color: MenuItem.Color = MenuItem.ColorNeutral,
   isDisabled: Boolean = false
 )
 
-class Dropdown[T] {
+class CustomDropdown[A] {
 
   def apply(): Props.type = Props
 
   case class Props(
-    value: T,
-    renderValue: T => VdomNode,
+    value: A,
+    renderValue: A => VdomNode,
     // ===
-    options: List[DropdownOption[T]] = List.empty,
-    optionGroups: List[List[DropdownOption[T]]] = List.empty,
-    renderOption: T => VdomNode,
-    onChange: T => Callback,
+    options: List[DropdownOption[A]] = List.empty,
+    optionGroups: List[List[DropdownOption[A]]] = List.empty,
+    renderOption: A => VdomNode,
+    onChange: A => Callback,
     isDisabled: Boolean = false,
     // ===
     position: Position = PositionBottomLeft,
@@ -96,7 +96,7 @@ class Dropdown[T] {
     nodes.toVdomArray(node => node)
   }
 
-  private def renderOption(props: Props, close: Callback, option: DropdownOption[T]): VdomElement = {
+  private def renderOption(props: Props, close: Callback, option: DropdownOption[A]): VdomElement = {
     <.div(
       ^.key := option.value.toString,
       MenuItem(
