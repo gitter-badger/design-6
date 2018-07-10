@@ -11,7 +11,7 @@ import japgolly.scalajs.react.vdom.svg_<^._
 
 final case class Icon(
   name: Icon.Name,
-  size: Icon.Size = Icon.SizeMedium
+  size: Icon.Size = Icon.Size16
 ) {
   def apply(): VdomElement = Icon.component(this)
 }
@@ -43,8 +43,8 @@ object Icon {
     .build
 
   sealed trait Size { val value: String }
-  case object SizeMedium extends Size { val value = "16" }
-  case object SizeLarge extends Size { val value = "32" }
+  case object Size16 extends Size { val value = "16" }
+  case object Size32 extends Size { val value = "32" }
   case class SizeDynamic(value: String) extends Size
 
   sealed trait Name { val path: String }
