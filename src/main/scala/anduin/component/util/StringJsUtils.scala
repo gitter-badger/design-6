@@ -4,6 +4,9 @@ package anduin.component.util
 
 import japgolly.scalajs.react.vdom.TagMod
 
+import anduin.component.portal.{Position, PositionTop, Tooltip}
+import anduin.style.Style
+
 // scalastyle:off underscore.import
 import japgolly.scalajs.react.vdom.html_<^._
 // scalastyle:on underscore.import
@@ -28,5 +31,19 @@ object StringJsUtils {
 
   def truncateWordBased(s: String, maxNumWord: Int = 15): String = {
     splitWords(s).slice(0, maxNumWord).mkString(" ")
+  }
+
+  def truncateWithTooltip(string: String, maxLength: Int = 40, position: Position = PositionTop): VdomElement = {
+    if (string.length > maxLength) {
+      <.div(
+        Tooltip(
+          position = position,
+          renderTarget = <.span(Style.color.gray8, StringJsUtils.truncate(string, maxLength)),
+          renderContent = () => <.div(Style.maxWidth.px512.wordBreak.break, string)
+        )()
+      )
+    } else {
+      ReactFragment(string)
+    }
   }
 }
