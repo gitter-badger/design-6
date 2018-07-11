@@ -51,7 +51,7 @@ object Tag {
     <.div(
       if (props.isSolid) props.color.solid else props.color.clear,
       Style.padding.hor8.borderRadius.px2.width.maxContent,
-      Style.fontWeight.medium.fontSize.px12,
+      Style.fontWeight.medium.fontSize.px12.whiteSpace.noWrap,
       children
     )
   }
