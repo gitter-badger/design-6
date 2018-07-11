@@ -46,7 +46,8 @@ object Tab {
     def render(props: Props, state: State): VdomElement = {
       // decide active based on whether this is an uncontrolled component or not
       val active = props.active.getOrElse(state.active)
-      val setActive: Int => Callback = props.setActive.getOrElse(this.selfSetActive)
+      val setActive: Int => Callback =
+        props.setActive.getOrElse(this.selfSetActive)
 
       val panel = props.panels(active)
       val content = ReactFragment(

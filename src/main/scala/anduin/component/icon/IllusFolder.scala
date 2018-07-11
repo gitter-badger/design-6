@@ -4,6 +4,8 @@ package anduin.component.icon
 
 import anduin.style.{CssVar, Style}
 
+import japgolly.scalajs.react.vdom.{html_<^ => html}
+
 // scalastyle:off underscore.import
 import japgolly.scalajs.react._
 import japgolly.scalajs.react.vdom.svg_<^._
@@ -86,13 +88,13 @@ object IllusFolder {
   private val iconMods = TagMod(
     Style.height.pc100.position.absolute.coordinate.fill, // fill
     Style.flexbox.flex.flexbox.itemsCenter.flexbox.justifyCenter, // center
-    vdom.html_<^.^.paddingTop := "3px", // visual touch
+    html.^.paddingTop := "3px", // visual touch
     Style.color.gray9.opacity.pc50
   )
 
   private def renderIcon(props: Props): VdomElement = {
     val icon = Icon(name = props.icon, size = Icon.SizeDynamic("12"))()
-    vdom.html_<^.<.div(iconMods, icon)
+    html.<.div(iconMods, icon)
   }
 
   private val svgMods = TagMod(
@@ -103,7 +105,7 @@ object IllusFolder {
   )
 
   private def render(props: Props): VdomElement = {
-    vdom.html_<^.<.div(
+    html.<.div(
       Style.position.relative.width.maxContent,
       <.svg(
         svgMods,
