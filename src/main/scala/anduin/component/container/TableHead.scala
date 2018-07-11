@@ -46,7 +46,8 @@ private[component] class TableHead[A] {
   }
 
   private val textStyles = TagMod(
-    Style.fontSize.px12.fontWeight.medium.textTransform.uppercase.textAlign.left,
+    Style.fontSize.px12.fontWeight.medium,
+    Style.textTransform.uppercase.textAlign.left,
     Style.padding.ver8.padding.hor12.color.gray7
   )
 
@@ -56,11 +57,13 @@ private[component] class TableHead[A] {
     Style.active.colorPrimary5.focus.outline.transition.allWithOutline
   )
 
-  private def renderColumn(props: Props)(colWithIndex: (Table.Column[A], Int)) = {
+  private def renderColumn(props: Props)(
+    colWithIndex: (Table.Column[A], Int)
+  ) = {
     val (column, index) = colWithIndex
     // Note: This is bad, super bad. See the note at the definition of sortByInt
-    val sortable = column.sortByDouble.isDefined ||
-      column.sortByString.isDefined
+    val sortable =
+      column.sortByDouble.isDefined || column.sortByString.isDefined
     val button = if (sortable) {
       <.button(
         buttonStyles,
@@ -83,7 +86,11 @@ private[component] class TableHead[A] {
 
   private def render(props: Props): VdomElement = {
     val columns = props.columns.zipWithIndex.toVdomArray(renderColumn(props))
-    <.thead(props.style.thead, <.tr(props.style.tr, columns))
+    <.thead(
+      Style.whiteSpace.noWrap,
+      props.style.thead,
+      <.tr(props.style.tr, columns)
+    )
   }
 
   private val component = ScalaComponent
