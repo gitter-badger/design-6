@@ -2,6 +2,7 @@
 
 package anduin.component.portal
 
+import org.scalajs.dom
 import org.scalajs.dom.raw.{Element, HTMLElement}
 
 import anduin.style.Style
@@ -50,6 +51,8 @@ object Modal {
 
     private val modalRef = Ref[HTMLElement]
 
+    private val overflowHidden = Style.overflow.hidden.value
+
     private def isPortalClicked(clickedTarget: Element) = {
       val t = for {
         modal <- modalRef.get
@@ -63,8 +66,13 @@ object Modal {
         closeOnEsc = props.isClosable && props.isClosableOnEsc,
         closeOnOutsideClick = props.isClosable && props.isClosableOnOutsideClick,
         isPortalClicked = (clickedTarget, _) => isPortalClicked(clickedTarget),
-        onOpen = props.onOpen,
-        onClose = props.onClose,
+        onOpen = {
+          // Disable the scrolling on body when the modal is opened
+          Callback(dom.document.body.classList.add(overflowHidden)) >> props.onOpen
+        },
+        onClose = {
+          Callback(dom.document.body.classList.remove(overflowHidden)) >> props.onClose
+        },
         renderTarget = (open, _, _) => props.renderTarget(open),
         renderContent = (close, _) => {
           <.div(
