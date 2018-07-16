@@ -39,9 +39,7 @@ object EditorWithMenu {
 
     private def onChange(props: EditorWithMenu)(change: Change) = {
       change.value.inlines
-        .filter(_.inlineType == LinkNode.nodeType)
-        .first()
-        .toOption
+        .find(_.inlineType == LinkNode.nodeType)
         .fold {
           hide(props, change)
         } { inline =>

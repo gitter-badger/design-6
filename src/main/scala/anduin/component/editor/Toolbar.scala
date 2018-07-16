@@ -40,7 +40,7 @@ object Toolbar {
   private class Backend(scope: BackendScope[Toolbar, _]) {
 
     private def hasLinks(value: Value) = {
-      value.inlines.some(inline => inline.inlineType == LinkNode.nodeType)
+      value.inlines.exists(inline => inline.inlineType == LinkNode.nodeType)
     }
 
     private def onAddLink(link: String) = {

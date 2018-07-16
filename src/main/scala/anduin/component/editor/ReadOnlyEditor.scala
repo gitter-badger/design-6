@@ -50,7 +50,7 @@ object ReadOnlyEditor {
         state <- scope.state
         value = state.value
         change = value.change()
-        texts = value.document.getTexts().toArray()
+        texts = value.document.getTexts()
         _ <- {
           texts.foreach { textItem =>
             // Find links in text and turn them into real link nodes

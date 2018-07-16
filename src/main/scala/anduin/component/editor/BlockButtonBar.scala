@@ -27,7 +27,7 @@ private[editor] object BlockButtonBar {
   private class Backend(scope: BackendScope[BlockButtonBar, _]) {
 
     private def hasBlock(value: Value, blockNode: NodeType) = {
-      value.blocks.some(item => item.nodeType == blockNode.nodeType)
+      value.blocks.exists(item => item.nodeType == blockNode.nodeType)
     }
 
     // scalastyle:off cyclomatic.complexity
@@ -47,7 +47,7 @@ private[editor] object BlockButtonBar {
               }
               val isList = hasBlock(value, ListItemNode)
               val doc = value.document
-              val isType = value.blocks.some(block => {
+              val isType = value.blocks.exists(block => {
                 doc.getClosest(block.key, parent => parent.nodeType == nodeType.nodeType).isDefined
               })
               if (isList && isType) {

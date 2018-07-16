@@ -51,7 +51,7 @@ private[editor] object MarkButtonBar {
             ToolbarButton(
               key = markNode.nodeType,
               tip = tip,
-              active = props.value.activeMarks.some(item => item.markType == markNode.nodeType),
+              active = props.value.activeMarks.exists(item => item.markType == markNode.nodeType),
               onClick = toggleMark(markNode)
             )(icon)
         }

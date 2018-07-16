@@ -9,7 +9,6 @@ private[editor] object DataUtil {
   def value(data: Data, key: String, default: String = ""): String = {
     data
       .get(key)
-      .toOption
       .map { d =>
         val any: Any = d
         any match {

@@ -27,14 +27,12 @@ private[editor] object AlignButtonBar {
   private class Backend() {
 
     private def hasAlign(value: Value) = {
-      value.blocks.some(block => block.nodeType == TextAlignNode.nodeType)
+      value.blocks.exists(block => block.nodeType == TextAlignNode.nodeType)
     }
 
     private def getAlign(value: Value) = {
       value.blocks
-        .filter(block => block.nodeType == TextAlignNode.nodeType)
-        .first()
-        .toOption
+        .find(block => block.nodeType == TextAlignNode.nodeType)
         .map { block =>
           DataUtil.value(block.data, "textAlign")
         }
@@ -56,8 +54,7 @@ private[editor] object AlignButtonBar {
               active = hasAlign(props.value) && getAlign(props.value) == align,
               onClick = {
                 val originalType: String = props.value.blocks
-                  .first()
-                  .toOption
+                  .headOption
                   .map(_.nodeType)
                   .getOrElse(ParagraphNode.nodeType)
 

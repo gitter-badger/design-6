@@ -61,9 +61,7 @@ private[editor] object LinkModal {
     .builder[LinkModal](ComponentName)
     .initialStateFromProps { props =>
       val href = props.value.inlines
-        .filter(_.inlineType == LinkNode.nodeType)
-        .first()
-        .toOption
+        .find(_.inlineType == LinkNode.nodeType)
         .fold("") { inline =>
           DataUtil.value(inline.data, "href")
         }
