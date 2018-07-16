@@ -6,6 +6,9 @@ import scala.scalajs.js
 
 @js.native
 trait ImmutableSet[T <: js.Object] extends js.Object {
-  def some(predicate: js.Function1[T, Boolean]) // linter:ignore UnusedParameter
-    : Boolean = js.native
+  def toArray(): js.Array[T] = js.native
+}
+
+object ImmutableSet {
+  implicit def toSet[T <: js.Object](immutableSet: ImmutableSet[T]): Set[T] = immutableSet.toArray().toSet
 }

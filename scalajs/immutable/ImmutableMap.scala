@@ -6,5 +6,11 @@ import scala.scalajs.js
 
 @js.native
 trait ImmutableMap[K <: Any, V <: Any] extends js.Object {
-  def get(key: K): js.UndefOr[V] = js.native // linter:ignore UnusedParameter
+  def toArray(): js.Array[(K, V)] = js.native
+}
+
+object ImmutableMap {
+  implicit def toMap[K, V](immutableMap: ImmutableMap[K, V]): Map[K, V] = {
+    immutableMap.toArray().toMap
+  }
 }
