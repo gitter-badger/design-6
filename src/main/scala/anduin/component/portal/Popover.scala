@@ -4,6 +4,7 @@ package anduin.component.portal
 
 import org.scalajs.dom.raw.Element
 
+import anduin.scalajs.popper.{Popper, PopperOptions}
 import anduin.style.Style
 
 // scalastyle:off underscore.import
@@ -48,7 +49,8 @@ object Popover {
         target <- targetRef.get
         content <- portalRef.get
         _ <- Callback {
-          Position.calculate(props.position, target, content, props.verticalOffset, props.horizontalOffset)
+          // TODO: Destroy the Popper instance after closing the Popover
+          new Popper(target, content, new PopperOptions(placement = "bottom"))
         }
       } yield ()
     }
