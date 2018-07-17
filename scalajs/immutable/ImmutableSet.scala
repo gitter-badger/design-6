@@ -3,9 +3,11 @@
 package anduin.scalajs.immutable
 
 import scala.scalajs.js
+import scala.scalajs.js.annotation.JSImport
 
+@JSImport("immutable", "Set")
 @js.native
-trait ImmutableSet[T <: js.Object] extends js.Object {
+class ImmutableSet[T <: js.Object] extends js.Object {
   def toArray(): js.Array[T] = js.native
 }
 

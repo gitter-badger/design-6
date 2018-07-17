@@ -3,14 +3,21 @@
 package anduin.scalajs.immutable
 
 import scala.scalajs.js
+import scala.scalajs.js.annotation.JSImport
 
+@JSImport("immutable", "Map")
 @js.native
-trait ImmutableMap[K <: Any, V <: Any] extends js.Object {
-  def toArray(): js.Array[(K, V)] = js.native
+class ImmutableMap[K, V <: js.Object] extends js.Object {
+  def reduce[R](reducer: js.Function3[R, V, K, R], initialReduction: R): R = js.native
 }
 
 object ImmutableMap {
-  implicit def toMap[K, V](immutableMap: ImmutableMap[K, V]): Map[K, V] = {
-    immutableMap.toArray().toMap
+  implicit def toMap[K, V <: js.Object](immutableMap: ImmutableMap[K, V]): Map[K, V] = {
+    immutableMap.reduce[Map[K, V]](
+      (current, value, key) => {
+        current.updated(key, value)
+      },
+      Map()
+    )
   }
 }
