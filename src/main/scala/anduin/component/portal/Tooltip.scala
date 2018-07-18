@@ -2,6 +2,8 @@
 
 package anduin.component.portal
 
+import scala.scalajs.js
+
 import org.scalajs.dom.raw.Element
 
 import anduin.scalajs.popper.{Popper, PopperOptions}
@@ -69,13 +71,24 @@ object Tooltip {
         target <- targetRef.get
         content <- contentRef.get
         _ <- Callback {
-          popper = Some(new Popper(target, content, new PopperOptions(props.position.placement)))
+          val offset = props.position match {
+            case PositionTopLeft | PositionBottomLeft | PositionRightTop | PositionLeftTop         => s"-50%, $tipSizePx"
+            case PositionTop | PositionBottom | PositionRight | PositionLeft                       => s"0, $tipSizePx"
+            case PositionTopRight | PositionBottomRight | PositionRightBottom | PositionLeftBottom => s"50%, $tipSizePx"
+          }
+          val options = new PopperOptions(
+            placement = props.position.placement,
+            modifiers = js.Dynamic.literal(
+              offset = js.Dynamic.literal(enabled = true, offset = offset)
+            )
+          )
+          popper = Some(new Popper(target, content, options))
         }
       } yield ()
     }
 
     private def close: Callback = {
-      // Destroy the Popper instance after closing the Popover
+      // Destroy the Popper instance after closing the tooltip
       Callback.traverseOption(popper) { p =>
         Callback {
           p.destroy()
