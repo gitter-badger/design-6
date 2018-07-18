@@ -43,21 +43,32 @@ object Popover {
     private val targetRef = Ref[Element]
     private val portalRef = Ref[Element]
 
+    private var popper: Option[Popper] = None // scalastyle:ignore var.field
+
     private def updatePosition = {
       for {
         props <- scope.props
         target <- targetRef.get
         content <- portalRef.get
         _ <- Callback {
-          // TODO: Destroy the Popper instance after closing the Popover
-          new Popper(target, content, new PopperOptions(props.position.placement))
+          popper = Some(new Popper(target, content, new PopperOptions(props.position.placement)))
         }
       } yield ()
+    }
+
+    private def close: Callback = {
+      // Destroy the Popper instance after closing the Popover
+      Callback.traverseOption(popper) { p =>
+        Callback {
+          p.destroy()
+        }
+      }
     }
 
     def render(props: Popover): VdomElement = {
       PortalWrapper(
         onOpen = updatePosition,
+        onClose = close,
         closeOnEsc = props.closeOnEsc,
         closeOnOutsideClick = props.closeOnOutsideClick,
         isPortalClicked = (clickedTarget, portal) => {
