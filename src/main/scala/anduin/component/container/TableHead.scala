@@ -25,34 +25,25 @@ private[component] class TableHead[A] {
 
   def apply(): Props.type = Props
 
-  private def renderCaret(isDown: Boolean, isSelected: Boolean): VdomNode = {
-    val pos = Style.position.absolute.coordinate.left0
-    val shift = if (isDown) ^.bottom else ^.top
-    val icon = if (isDown) Icon.NameCaretDown else Icon.NameCaretUp
-    <.div(
-      TagMod(pos, shift := "-3px"),
-      Style.color.primary4.when(isSelected),
-      Icon(name = icon)()
-    )
+  private def renderSortIcon(index: Int, props: Props): VdomNode = {
+    val isSortingColumn = props.sortColumn.contains(index)
+    val icon = if (props.sortIsAsc) Icon.NameCaretDown else Icon.NameCaretUp
+    val spacing = Style.margin.left4
+
+    if (isSortingColumn) {
+      <.span(spacing, Style.color.primary4, Icon(name = icon)())
+    } else {
+      <.span(spacing, Style.color.gray4, Icon(name = Icon.NameCaretVertical)())
+    }
   }
 
-  private def renderCaretGroup(index: Int, props: Props): VdomNode = {
-    val isSortBy = props.sortColumn == Option(index)
-    <.div(
-      Style.width.px16.height.px16.position.relative,
-      renderCaret(isDown = true, isSortBy && props.sortIsAsc),
-      renderCaret(isDown = false, isSortBy && !props.sortIsAsc)
-    )
-  }
-
-  private val textStyles = TagMod(
-    Style.fontSize.px12.fontWeight.medium,
-    Style.textTransform.uppercase.textAlign.left,
-    Style.padding.ver8.padding.hor12.color.gray7
+  private val titleStyles = TagMod(
+    Style.fontSize.px12.fontWeight.semiBold,
+    Style.textAlign.left.color.gray6
   )
 
   private val buttonStyles = TagMod(
-    textStyles,
+    titleStyles,
     Style.flexbox.flex.flexbox.itemsCenter.width.pc100,
     Style.active.colorPrimary5.focus.outline.transition.allWithOutline
   )
@@ -61,19 +52,28 @@ private[component] class TableHead[A] {
     colWithIndex: (Table.Column[A], Int)
   ) = {
     val (column, index) = colWithIndex
+    val isSortBy = props.sortColumn == Option(index)
     // Note: This is bad, super bad. See the note at the definition of sortByInt
-    val sortable =
-      column.sortByDouble.isDefined || column.sortByString.isDefined
+    val sortable = column.sortByDouble.isDefined || column.sortByString.isDefined
     val button = if (sortable) {
       <.button(
         buttonStyles,
+        Style.padding.ver8.padding.right8.padding.left12,
         ^.tpe := "button",
         ^.onClick --> props.sort(index),
-        <.span(column.head),
-        <.span(Style.margin.left4, renderCaretGroup(index, props))
+        <.div(
+          Style.flexbox.fixed,
+          TagMod.when(isSortBy) { Style.color.gray8 },
+          column.head
+        ),
+        renderSortIcon(index, props)
       )
     } else {
-      <.div(textStyles, column.head)
+      <.div(
+        titleStyles,
+        Style.padding.ver8.padding.hor12,
+        column.head
+      )
     }
     <.th(
       Style.padding.all0, // because of current CSS
