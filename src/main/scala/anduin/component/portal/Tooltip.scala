@@ -4,6 +4,7 @@ package anduin.component.portal
 
 import org.scalajs.dom.raw.Element
 
+import anduin.scalajs.popper.{Popper, PopperOptions}
 import anduin.style.Style
 
 // scalastyle:off underscore.import
@@ -60,21 +61,26 @@ object Tooltip {
     private val targetRef = Ref[Element]
     private val contentRef = Ref[Element]
 
+    private var popper: Option[Popper] = None // scalastyle:ignore var.field
+
     private def onOpenPortal = {
       for {
         props <- scope.props
         target <- targetRef.get
         content <- contentRef.get
         _ <- Callback {
-          val (verOff, horOff): (Double, Double) = props.position match {
-            case PositionTopLeft | PositionTop | PositionTopRight          => (-tipSize, 0)
-            case PositionRightTop | PositionRight | PositionRightBottom    => (0, tipSize)
-            case PositionBottomRight | PositionBottom | PositionBottomLeft => (tipSize, 0)
-            case PositionLeftTop | PositionLeft | PositionLeftBottom       => (0, -tipSize)
-          }
-          Position.calculate(props.position, target, content, verOff, horOff)
+          popper = Some(new Popper(target, content, new PopperOptions(props.position.placement)))
         }
       } yield ()
+    }
+
+    private def close: Callback = {
+      // Destroy the Popper instance after closing the Popover
+      Callback.traverseOption(popper) { p =>
+        Callback {
+          p.destroy()
+        }
+      }
     }
 
     def render(props: Tooltip): VdomNode = {
@@ -85,6 +91,7 @@ object Tooltip {
       } else {
         PortalWrapper(
           onOpen = onOpenPortal,
+          onClose = close,
           isPortalClicked = (clickedTarget, tooltipEle) => {
             CallbackTo(tooltipEle.contains(clickedTarget)) ||
             targetRef.get.map(_.contains(clickedTarget)).getOrElse(false)
@@ -94,7 +101,6 @@ object Tooltip {
           },
           renderContent = (_, _) => {
             <.div.withRef(contentRef)(
-              Position.styles,
               Style.zIndex.idx9999.backgroundColor.gray9.color.white.shadow.blur8,
               Style.padding.ver4.padding.hor8.borderRadius.px4,
               // tip
