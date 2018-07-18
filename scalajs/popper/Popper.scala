@@ -7,7 +7,16 @@ import scala.scalajs.js.annotation.JSImport
 
 import org.scalajs.dom.raw.Element
 
-@JSImport("popper.js-lite", JSImport.Default, "Popper")
+// We have to import the popper from external resource instead of npm as
+// ```
+// @JSImport("popper.js-lite", JSImport.Default, "Popper")
+// ```
+// because at the time of writing this, the latest version on npm (2.0.0-rc.1)
+// has problem with `destroy()` method
+
+// The UMD version of popper can be downloaded from
+// https://unpkg.com/popper.js@1.14.3/dist/umd/popper.min.js
+@JSImport("./external/js/popper/popper-1.14.3.min.js", JSImport.Default, "Popper")
 @js.native
 class Popper(val reference: Element, val popper: Element, val options: PopperOptions) extends js.Object {
   def destroy(): Unit = js.native
