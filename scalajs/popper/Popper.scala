@@ -7,7 +7,7 @@ import scala.scalajs.js.annotation.JSImport
 
 import org.scalajs.dom.raw.Element
 
-@JSImport("popper.js", JSImport.Default, "Popper")
+@JSImport("popper.js-lite", JSImport.Default, "Popper")
 @js.native
 class Popper(val reference: Element, val popper: Element, val options: PopperOptions) extends js.Object {
   def destroy(): Unit = js.native
