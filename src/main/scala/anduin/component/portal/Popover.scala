@@ -50,7 +50,7 @@ object Popover {
         content <- portalRef.get
         _ <- Callback {
           // TODO: Destroy the Popper instance after closing the Popover
-          new Popper(target, content, new PopperOptions(placement = "bottom"))
+          new Popper(target, content, new PopperOptions(props.position.placement))
         }
       } yield ()
     }
