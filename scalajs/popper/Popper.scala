@@ -23,6 +23,10 @@ class Popper(val reference: Element, val popper: Element, val options: PopperOpt
   def update(): Unit = js.native
 }
 
+object Popper extends js.Object {
+  type ModifierFn = js.Function2[Data, js.Object, Data]
+}
+
 final class PopperOptions(
   // The placement can be
   // - auto
@@ -36,7 +40,9 @@ final class PopperOptions(
   val placement: String = "bottom",
   val positionFixed: Boolean = false,
   val onCreate: js.Function1[Data, Unit] = (_: Data) => (),
-  val onUpdate: js.Function1[Data, Unit] = (_: Data) => ()
+  val onUpdate: js.Function1[Data, Unit] = (_: Data) => (),
+  // TODO: I don't know why `js.UndefOr[js.Modifiers]` doesn't work
+  val modifiers: js.UndefOr[js.Object] = js.undefined
 ) extends js.Object
 
 // See https://github.com/FezVrasta/popper.js/blob/HEAD/docs/_includes/popper-documentation.md#dataObject
@@ -64,4 +70,17 @@ final class Offset(
   val left: Double,
   val width: Double,
   val height: Double
+) extends js.Object
+
+// Modifiers
+// See https://popper.js.org/popper-documentation.html#modifiers
+final class Modifiers(
+  val offset: js.UndefOr[OffsetModifier] = js.undefined
+) extends js.Object
+
+final class OffsetModifier(
+  val offset: String = "0",
+  val enabled: Boolean = true,
+  val order: Int = 200,
+  val fn: js.UndefOr[Popper.ModifierFn] = js.undefined
 ) extends js.Object
