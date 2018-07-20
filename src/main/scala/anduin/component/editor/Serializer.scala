@@ -55,7 +55,10 @@ object Serializer {
         new RuleDeserializeOutput(
           `object` = "block",
           tpe = tpe,
-          nodes = next(ele.childNodes)
+          nodes = next(ele.childNodes),
+          data = js.Dynamic.literal(
+            style = StyleParser.parseStyle(ele)
+          )
         )
       }
     },
@@ -63,14 +66,15 @@ object Serializer {
       val res: SerializeOutputType = if (obj.`object` != "block") {
         ()
       } else {
+        val styleTagMod = StyleParser.getStyleTagMod(obj.data)
         obj.tpe match {
-          case CodeNode.nodeType          => <.pre(<.code(createChildren(children))).rawElement
-          case ParagraphNode.nodeType     => <.p(Style.margin.bottom12, createChildren(children)).rawElement
-          case BlockQuoteNode.nodeType    => <.blockquote(BlockQuoteAttrs, createChildren(children)).rawElement
-          case ListItemNode.nodeType      => <.li(createChildren(children)).rawElement
-          case UnorderedListNode.nodeType => <.ul(createChildren(children)).rawElement
-          case OrderedListNode.nodeType   => <.ol(createChildren(children)).rawElement
-          case DivNode.nodeType           => <.div(createChildren(children)).rawElement
+          case CodeNode.nodeType          => <.pre(styleTagMod, <.code(createChildren(children))).rawElement
+          case ParagraphNode.nodeType     => <.p(styleTagMod, Style.margin.bottom12, createChildren(children)).rawElement
+          case BlockQuoteNode.nodeType    => <.blockquote(styleTagMod, BlockQuoteAttrs, createChildren(children)).rawElement
+          case ListItemNode.nodeType      => <.li(styleTagMod, createChildren(children)).rawElement
+          case UnorderedListNode.nodeType => <.ul(styleTagMod, createChildren(children)).rawElement
+          case OrderedListNode.nodeType   => <.ol(styleTagMod, createChildren(children)).rawElement
+          case DivNode.nodeType           => <.div(styleTagMod, createChildren(children)).rawElement
         }
       }
       res
@@ -90,7 +94,8 @@ object Serializer {
             data = js.defined(
               js.Dynamic.literal(
                 textAlign = textAlign,
-                originalType = tpe
+                originalType = tpe,
+                style = StyleParser.parseStyle(ele)
               )
             ),
             nodes = next(ele.childNodes)
@@ -116,7 +121,12 @@ object Serializer {
         new RuleDeserializeOutput(
           `object` = "inline",
           tpe = LinkNode.nodeType,
-          data = js.defined(js.Dynamic.literal(href = ele.getAttribute("href"))),
+          data = js.defined(
+            js.Dynamic.literal(
+              href = ele.getAttribute("href"),
+              style = StyleParser.parseStyle(ele)
+            )
+          ),
           nodes = next(ele.childNodes)
         )
       }
@@ -146,7 +156,8 @@ object Serializer {
               js.Dynamic.literal(
                 source = ele.getAttribute("src"),
                 width = ele.getAttribute("width"),
-                height = ele.getAttribute("height")
+                height = ele.getAttribute("height"),
+                style = StyleParser.parseStyle(ele)
               )
             ),
             nodes = next(ele.childNodes)
@@ -172,7 +183,10 @@ object Serializer {
         new RuleDeserializeOutput(
           `object` = "mark",
           tpe = nodeType,
-          nodes = next(ele.childNodes)
+          nodes = next(ele.childNodes),
+          data = js.Dynamic.literal(
+            style = StyleParser.parseStyle(ele)
+          )
         )
       }
     },
