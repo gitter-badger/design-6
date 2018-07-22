@@ -26,61 +26,69 @@ private[component] class TableHead[A] {
   def apply(): Props.type = Props
 
   private def renderSortIcon(index: Int, props: Props): VdomNode = {
-    val isSortingColumn = props.sortColumn.contains(index)
-    val icon = if (props.sortIsAsc) Icon.NameCaretDown else Icon.NameCaretUp
-    val spacing = Style.margin.left4
-
-    if (isSortingColumn) {
-      <.span(spacing, Style.color.primary4, Icon(name = icon)())
+    val (color, icon) = if (props.sortColumn.contains(index)) {
+      // Sorting by this column
+      val icon = if (props.sortIsAsc) Icon.NameCaretDown else Icon.NameCaretUp
+      (Style.color.primary4, icon)
     } else {
-      <.span(spacing, Style.color.gray4, Icon(name = Icon.NameCaretVertical)())
+      // Not sorting by this column
+      (Style.color.gray4, Icon.NameCaretVertical)
     }
+    val negativeMargin = ^.marginRight := "-4px"// visual touch
+    <.span(negativeMargin, color, Icon(name = icon)())
   }
 
-  private val titleStyles = TagMod(
+  private val titleCommonStyles = TagMod(
     Style.fontSize.px12.fontWeight.semiBold,
-    Style.textAlign.left.color.gray6
+    Style.textAlign.left.color.gray6,
+    Style.padding.ver8.padding.hor12
   )
 
-  private val buttonStyles = TagMod(
-    titleStyles,
+  private val titleButtonStyles = TagMod(
+    titleCommonStyles,
     Style.flexbox.flex.flexbox.itemsCenter.width.pc100,
     Style.active.colorPrimary5.focus.outline.transition.allWithOutline
   )
+
+  private def renderTitleButton(
+    props: Props,
+    column: Table.Column[A],
+    index: Int
+  ) = {
+    <.button(
+      titleButtonStyles,
+      ^.tpe := "button",
+      ^.onClick --> props.sort(index),
+      <.span(
+        Style.flexbox.fixed,
+        TagMod.when(props.sortColumn.contains(index)) {
+          Style.color.gray8
+        },
+        column.head
+      ),
+      renderSortIcon(index, props)
+    )
+  }
 
   private def renderColumn(props: Props)(
     colWithIndex: (Table.Column[A], Int)
   ) = {
     val (column, index) = colWithIndex
-    val isSortBy = props.sortColumn == Option(index)
-    // Note: This is bad, super bad. See the note at the definition of sortByInt
-    val sortable = column.sortByDouble.isDefined || column.sortByString.isDefined
-    val button = if (sortable) {
-      <.button(
-        buttonStyles,
-        Style.padding.ver8.padding.right8.padding.left12,
-        ^.tpe := "button",
-        ^.onClick --> props.sort(index),
-        <.div(
-          Style.flexbox.fixed,
-          TagMod.when(isSortBy) { Style.color.gray8 },
-          column.head
-        ),
-        renderSortIcon(index, props)
-      )
+    // Note: This is bad, super bad. See the note at the definition of
+    // sortByInt
+    val sortable =
+      column.sortByDouble.isDefined || column.sortByString.isDefined
+    val content = if (sortable) {
+      renderTitleButton(props, column, index)
     } else {
-      <.div(
-        titleStyles,
-        Style.padding.ver8.padding.hor12,
-        column.head
-      )
+      <.div(titleCommonStyles, column.head)
     }
     <.th(
       Style.padding.all0, // because of current CSS
       ^.key := index,
       TagMod.unless(column.width.isEmpty) { ^.width := column.width },
       props.style.th,
-      button
+      content
     )
   }
 
