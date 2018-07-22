@@ -2,6 +2,8 @@
 
 package anduin.component.container
 
+import org.scalajs.dom.html
+
 import anduin.style.Style
 
 // scalastyle:off underscore.import
@@ -13,6 +15,8 @@ private[component] class TableBody[A] {
 
   case class Props(
     rows: List[A],
+    // key, cells, row
+    renderRow: TableBody.RenderRow[A],
     align: Table.Align,
     getKey: A => String,
     footer: VdomNode,
@@ -41,24 +45,30 @@ private[component] class TableBody[A] {
     }
   }
 
+  private def renderCell(row: A)(
+    columnTuple: (Table.Column[A], Int)
+  ): VdomNode = {
+    val (column, index) = columnTuple
+    val cell = column.render(row)
+    if (cell.isNone) {
+      EmptyVdom
+    } else {
+      <.td(
+        Style.padding.all12,
+        cell.align.styles,
+        ^.key := index,
+        ^.rowSpan := cell.rowSpan,
+        ^.colSpan := cell.colSpan,
+        cell.content
+      )
+    }
+  }
+
   private def render(props: Props): VdomElement = {
     val rows = getSortedRows(props).toVdomArray(row => {
-      val columns = props.columns.zipWithIndex.toVdomArray(columnTuple => {
-        val (column, index) = columnTuple
-        val cell = column.render(row)
-        if (cell.isNone) { EmptyVdom } else {
-          <.td(
-            Style.padding.all12,
-            cell.align.styles,
-            ^.key := index,
-            ^.rowSpan := cell.rowSpan,
-            ^.colSpan := cell.colSpan,
-            cell.content
-          )
-        }
-      })
-      val rowKey = ^.key := props.getKey(row)
-      <.tr(rowKey, Style.hover.backgroundGray1, props.style.tr, columns)
+      val cells = props.columns.zipWithIndex.toVdomArray(renderCell(row))
+      val key = props.getKey(row)
+      props.renderRow(props.style.tr, key, cells, row)
     })
     val footer = TagMod.when(props.footer != EmptyVdom) {
       val span = ^.colSpan := props.columns.size
@@ -73,4 +83,16 @@ private[component] class TableBody[A] {
     .stateless
     .render_P(render)
     .build
+}
+
+private[component] object TableBody {
+  type Tr = vdom.TagOf[html.TableRow]
+  type RenderRow[A] = (TagMod, String, VdomArray, A) => Tr
+  def defaultRenderRow[A](style: TagMod, key: String, cells: VdomArray, row: A): Tr = {
+    // the default render does not need the row data. However, we still want
+    // to keep this method's signature
+    val _ = row
+
+    <.tr(^.key := key, Style.hover.backgroundGray1, style, cells)
+  }
 }
