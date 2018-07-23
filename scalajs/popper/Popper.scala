@@ -5,7 +5,7 @@ package anduin.scalajs.popper
 import scala.scalajs.js
 import scala.scalajs.js.annotation.JSImport
 
-import org.scalajs.dom.raw.Element
+import org.scalajs.dom.raw.{Element, HTMLElement}
 
 // We have to import the popper from external resource instead of npm as
 // ```
@@ -52,7 +52,7 @@ final class Data(
   val originalPlacement: String,
   val flipped: Boolean,
   val hide: Boolean,
-  val arrowElement: Element,
+  val arrowElement: HTMLElement,
   val styles: js.Object,
   val arrowStyles: js.Object,
   val boundaries: js.Object,
