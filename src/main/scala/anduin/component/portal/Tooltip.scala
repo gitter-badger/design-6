@@ -7,7 +7,7 @@ import scala.scalajs.js
 import org.scalajs.dom.raw.Element
 
 import anduin.scalajs.popper.{Popper, PopperOptions}
-import anduin.style.Style
+import anduin.style.{CssVar, Style}
 
 // scalastyle:off underscore.import
 import japgolly.scalajs.react._
@@ -36,27 +36,8 @@ object Tooltip {
 
   private val tipSize: Double = 12
   private val tipSizePx = s"${tipSize}px"
-
-  // top, right, bottom, left
-  // scalastyle:off cyclomatic.complexity
-  private def getTipMod(position: Position): TagMod = {
-    val auto = "auto"
-    val nega = s"-${tipSize / 2}px"
-    val posi = tipSizePx
-    val zero = "0px"
-    val (top, right, bottom, left) = position match {
-      case PositionTopLeft                                        => (auto, auto, nega, posi)
-      case PositionTop                                            => (auto, zero, nega, zero)
-      case PositionTopRight                                       => (auto, posi, nega, auto)
-      case PositionRightTop | PositionRight | PositionRightBottom => (zero, auto, zero, nega)
-      case PositionBottomLeft                                     => (nega, auto, auto, posi)
-      case PositionBottom                                         => (nega, zero, auto, zero)
-      case PositionBottomRight                                    => (nega, posi, auto, auto)
-      case PositionLeftTop | PositionLeft | PositionLeftBottom    => (zero, nega, zero, auto)
-    }
-    TagMod(^.top := top, ^.right := right, ^.bottom := bottom, ^.left := left)
-  }
-  // scalastyle:on cyclomatic.complexity
+  private val arrowSize = s"${tipSize / 2}px"
+  private val arrowClass = "js-tooltip-arrow"
 
   private class Backend(scope: BackendScope[Tooltip, _]) {
 
@@ -79,8 +60,12 @@ object Tooltip {
           val options = new PopperOptions(
             placement = props.position.placement,
             modifiers = js.Dynamic.literal(
+              arrow = js.Dynamic.literal(element = s".$arrowClass"),
               offset = js.Dynamic.literal(enabled = true, offset = offset)
-            )
+            ),
+            onCreate = data => {
+              data.instance.popper.domAsHtml.style.visibility = "visible"
+            }
           )
           popper = Some(new Popper(target, content, options))
         }
@@ -96,6 +81,7 @@ object Tooltip {
       }
     }
 
+    // scalastyle:off multiple.string.literals
     def render(props: Tooltip): VdomNode = {
       if (props.isDisabled) {
         // it is intentional to render targetTag wrapper here to keep the
@@ -125,9 +111,38 @@ object Tooltip {
               Style.padding.ver4.padding.hor8.borderRadius.px4,
               // tip
               <.div(
-                Style.position.absolute.zIndex.idx0.backgroundColor.gray9.margin.allAuto,
-                TagMod(^.transform := "rotate(45deg)", ^.width := tipSizePx, ^.height := tipSizePx),
-                getTipMod(props.position)
+                Style.position.absolute.borderColor.transparent,
+                ^.cls := arrowClass,
+                ^.width := "0",
+                ^.height := "0",
+                ^.borderWidth := arrowSize,
+                ^.borderStyle.solid,
+                props.position match {
+                  case PositionTopLeft | PositionTop | PositionTopRight =>
+                    TagMod(
+                      ^.bottom := s"-$arrowSize",
+                      ^.borderBottomWidth := "0",
+                      ^.borderTopColor := CssVar.Color.gray9
+                    )
+                  case PositionBottomLeft | PositionBottom | PositionBottomRight =>
+                    TagMod(
+                      ^.top := s"-$arrowSize",
+                      ^.borderTopWidth := "0",
+                      ^.borderBottomColor := CssVar.Color.gray9
+                    )
+                  case PositionRightTop | PositionRight | PositionRightBottom =>
+                    TagMod(
+                      ^.left := s"-$arrowSize",
+                      ^.borderLeftWidth := "0",
+                      ^.borderRightColor := CssVar.Color.gray9
+                    )
+                  case PositionLeftTop | PositionLeft | PositionLeftBottom =>
+                    TagMod(
+                      ^.right := s"-$arrowSize",
+                      ^.borderRightWidth := "0",
+                      ^.borderLeftColor := CssVar.Color.gray9
+                    )
+                }
               ),
               // content
               // - relative position to ensure content is always over tip
@@ -137,6 +152,7 @@ object Tooltip {
         )()
       }
     }
+    // scalastyle:on multiple.string.literals
   }
 
   private val component = ScalaComponent
