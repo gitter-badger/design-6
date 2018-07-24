@@ -12,5 +12,18 @@ class ImmutableList[T <: js.Object] extends js.Object {
 }
 
 object ImmutableList {
-  implicit def toList[T <: js.Object](immutableList: ImmutableList[T]): List[T] = immutableList.toArray().toList
+
+  @JSImport("immutable", "List")
+  @js.native
+  object ImmutableListStatic extends js.Object {
+    def apply[T <: js.Object](array: js.Array[T]): ImmutableList[T] = js.native // linter:ignore UnusedParameter
+  }
+
+  implicit def fromList[T <: js.Object](list: List[T]): ImmutableList[T] = {
+    ImmutableListStatic(js.Array(list: _*))
+  }
+
+  implicit def toList[T <: js.Object](immutableList: ImmutableList[T]): List[T] = {
+    immutableList.toArray().toList
+  }
 }

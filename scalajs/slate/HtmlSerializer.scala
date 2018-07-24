@@ -9,7 +9,7 @@ import scala.scalajs.js.|
 import org.scalajs.dom.{Element, Node}
 import org.scalajs.dom.raw.NodeList
 
-import anduin.scalajs.slate.Slate.{Data, Value}
+import anduin.scalajs.slate.Slate.{Data, Value, ValueJson}
 
 object HtmlSerializer {
 
@@ -23,9 +23,18 @@ object HtmlSerializer {
   final class HtmlSerializer(
     val options: js.UndefOr[Options] = js.undefined
   ) extends js.Object {
+
+    def deserialize(
+      html: String,
+      options: HtmlDeserializeOptions
+    ): ValueJson = js.native // linter:ignore UnusedParameter
+
     def deserialize(html: String): Value = js.native // linter:ignore UnusedParameter
+
     def serialize(value: Value): String = js.native // linter:ignore UnusedParameter
   }
+
+  final class HtmlDeserializeOptions(val toJSON: Boolean) extends js.Object
 
   final class Options(
     val rules: js.UndefOr[js.Array[Rule]] = js.undefined,

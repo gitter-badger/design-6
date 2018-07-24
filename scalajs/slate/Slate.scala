@@ -10,6 +10,11 @@ import anduin.scalajs.immutable.{ImmutableList, ImmutableMap, ImmutableSet}
 // scalastyle:off multiple.string.literals
 object Slate {
 
+  final class ValueJson(
+    val document: js.Object,
+    val `object`: String
+  ) extends js.Object
+
   // See https://docs.slatejs.org/slate-core/value
   @JSImport("slate", "Value")
   @js.native
@@ -36,6 +41,12 @@ object Slate {
   @JSImport("slate", "Document")
   @js.native
   final class Document extends Node
+
+  @JSImport("slate", "Document")
+  @js.native
+  object Document extends js.Object {
+    def fromJSON(attrs: js.Object): Document = js.native // linter:ignore UnusedParameter
+  }
 
   // See https://docs.slatejs.org/slate-core/change
   @JSImport("slate", "Change")
@@ -87,12 +98,16 @@ object Slate {
     val `object`: String = js.native
     val data: Data = js.native
     @JSName("type") val nodeType: String = js.native
-    val nodes: ImmutableList[Node] = js.native
+    val nodes: js.UndefOr[ImmutableList[Node]] = js.native
     val text: String = js.native
 
     def getClosest(key: String, @JSName("match") find: js.Function1[Node, Boolean]): js.UndefOr[Node] = // linter:ignore UnusedParameter
       js.native
     def getTexts(): ImmutableList[Text] = js.native
+
+    def set(key: String, value: js.Object): Node = js.native // linter:ignore UnusedParameter
+
+    def toJSON(): js.Object = js.native
   }
 
   // See https://docs.slatejs.org/slate-core/inline
@@ -112,6 +127,12 @@ object Slate {
   @JSImport("slate", "Block")
   @js.native
   final class Block extends Node
+
+  @JSImport("slate", "Block")
+  @js.native
+  object Block extends js.Object {
+    def fromJSON(attrs: js.Object): Document = js.native // linter:ignore UnusedParameter
+  }
 
   // See https://docs.slatejs.org/slate-core/range
   @JSImport("slate", "Range")
