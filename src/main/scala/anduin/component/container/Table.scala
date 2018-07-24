@@ -85,6 +85,8 @@ class Table[A] {
     headStickyOffset: Int = 0,
     // body
     rows: List[A] = List.empty,
+    // see in TableBody
+    renderRow: TableBody.RenderRow[A] = TableBody.defaultRenderRow[A],
     align: Table.Align = Table.AlignMiddle,
     getKey: A => String = (any: Any) => any.toString,
     footer: VdomNode = EmptyVdom
@@ -130,6 +132,7 @@ class Table[A] {
 
       val body = Body(
         rows = props.rows,
+        renderRow = props.renderRow,
         align = props.align,
         getKey = props.getKey,
         footer = props.footer,
