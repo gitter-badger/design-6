@@ -2,6 +2,8 @@
 
 package anduin.component.input
 
+import scala.scalajs.js
+
 import anduin.component.icon.Icon
 import anduin.style.Style
 
@@ -110,6 +112,8 @@ object TextInput {
         TagMod.when(props.isReadOnly) { Style.backgroundColor.gray1 },
         // behaviours
         TagMod.when(props.tpe != TpeArea) { ^.tpe := "text" },
+        //Override color on safari & iOS
+        TagMod.when(props.isDisabled) { ^.style := js.Dynamic.literal("-webkit-text-fill-color" -> "var(--color-gray-6)")},
         ^.disabled := props.isDisabled,
         ^.readOnly := props.isReadOnly,
         ^.onChange ==> onChange,
