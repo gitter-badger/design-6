@@ -10,4 +10,5 @@ private[style] final case class FontSize(classes: List[String] = List.empty) {
   def px16: Style = new Style(classes :+ "fs-16")
   def px13: Style = new Style(classes :+ "fs-13")
   def px12: Style = new Style(classes :+ "fs-12")
+  def px10: Style = new Style(classes :+ "fs-10")
 }
