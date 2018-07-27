@@ -10,7 +10,7 @@ import org.scalajs.dom.raw.{DOMParser, NodeList}
 import anduin.component.editor.renderer.{ImageRenderer, LinkRenderer, MarkRenderer, TextAlignRenderer}
 import anduin.component.editor.serializer.HtmlNormalizer
 import anduin.component.util.NodeListSeq
-import anduin.scalajs.caja.Caja
+import anduin.scalajs.caja.{Caja, URI}
 import anduin.scalajs.slate.Slate.Value
 import anduin.style.Style
 
@@ -234,6 +234,10 @@ object Serializer {
   private def createChildren(children: js.Object) =
     PropsChildren.fromRawProps(js.Dynamic.literal(children = children))
 
+  private val sanitizeUri: js.Function1[URI, String] = { uri =>
+    uri.toString
+  }
+
   def deserialize(rawHtml: String): Value = {
     val trim = rawHtml
       .replaceAll("(\n)+", "\n") // Reduce the number of new lines
@@ -246,7 +250,10 @@ object Serializer {
 
     HtmlNormalizer(
       htmlSerializer.deserialize(
-        Caja.htmlSanitize(trim),
+        Caja.htmlSanitize(
+          html = trim,
+          urlTransformer = sanitizeUri
+        ),
         new HtmlDeserializeOptions(toJSON = true)
       )
     )
