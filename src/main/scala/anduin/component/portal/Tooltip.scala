@@ -114,6 +114,13 @@ object Tooltip {
           },
           renderContent = (_, _) => {
             <.div.withRef(contentRef)(
+              // - The next 2 lines are to avoid laggy Tooltip because in the
+              //   first render Popper does not have the correct position yet
+              //   but we still need to render the tooltip element anyway to
+              //   have a correct width so Popper can calculate the position
+              // - Popper will override these styles with correct position
+              ^.visibility := "hidden",
+              Style.position.absolute.coordinate.top0.coordinate.left0,
               Style.zIndex.idx9999.backgroundColor.gray9.color.white.shadow.blur8,
               Style.padding.ver4.padding.hor8.borderRadius.px4,
               // tip
