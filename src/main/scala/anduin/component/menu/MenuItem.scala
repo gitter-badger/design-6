@@ -2,11 +2,11 @@
 
 package anduin.component.menu
 
+import anduin.component.icon.Icon
+
 // scalastyle:off underscore.import
 import japgolly.scalajs.react._
 import japgolly.scalajs.react.vdom.html_<^._
-
-import anduin.component.icon.Icon
 // scalastyle:on underscore.import
 
 import anduin.style.Style
@@ -29,9 +29,9 @@ object MenuItem {
 
   type Props = MenuItem
 
-  sealed trait OpenIn { val value: String }
-  case object OpenInNewTab extends OpenIn { val value = "_blank" }
-  case object OpenInThisTab extends OpenIn { val value = "_self" }
+  sealed trait OpenIn { val tag: TagMod }
+  case object OpenInNewTab extends OpenIn { val tag = ^.target.blank }
+  case object OpenInThisTab extends OpenIn { val tag = ^.target.self }
 
   sealed trait Color { val styles: TagMod }
   case object ColorGray extends Color {
@@ -55,7 +55,7 @@ object MenuItem {
     val styles = TagMod(ColorNeutral.color, Style.color.danger5.hover.backgroundDanger4.active.backgroundDanger5)
   }
 
-  def render(props: Props, children: PropsChildren): VdomElement = {
+  private def render(props: Props, children: PropsChildren): VdomElement = {
     val commonMods = TagMod(
       // common styles
       Style.flexbox.flex.flexbox.itemsCenter.padding.ver8.padding.hor16.lineHeight.px16,
@@ -70,7 +70,7 @@ object MenuItem {
       <.a(
         Style.hover.underlineNone.hover.colorGray9,
         ^.href := props.url,
-        ^.target := props.openIn.value,
+        props.openIn.tag,
         commonMods
       )
     } else {
