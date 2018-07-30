@@ -18,29 +18,34 @@ import anduin.scalajs.slate.Slate._
 
 private[editor] object LinkRenderer {
 
-  def apply(data: Data, children: js.Object): raw.React.Element = {
+  def apply(data: Data, children: js.Object, readOnly: Boolean): raw.React.Element = {
     val href = DataUtil.value(data, "href")
     val style = StyleParser.getStyleTagMod(data)
+    val link = <.a(style, ^.href := href, PropsChildren.fromRawProps(js.Dynamic.literal(children = children)))
 
-    Tooltip(
-      position = PositionBottom,
-      targetTag = <.span,
-      trigger = (t, open, _, _) => {
-        TagMod(
-          ^.onClick --> open,
-          t
-        )
-      },
-      renderTarget = <.a(style, ^.href := href, PropsChildren.fromRawProps(js.Dynamic.literal(children = children))),
-      renderContent = () => {
-        <.a(
-          ^.cls := "link",
-          Style.color.white,
-          ^.href := href,
-          ^.target.blank,
-          "Open link"
-        )
-      }
-    )().rawElement
+    if (readOnly) {
+      link.rawElement
+    } else {
+      Tooltip(
+        position = PositionBottom,
+        targetTag = <.span,
+        trigger = (t, open, _, _) => {
+          TagMod(
+            ^.onClick --> open,
+            t
+          )
+        },
+        renderTarget = link,
+        renderContent = () => {
+          <.a(
+            ^.cls := "link",
+            Style.color.white,
+            ^.href := href,
+            ^.target.blank,
+            "Open link"
+          )
+        }
+      )().rawElement
+    }
   }
 }

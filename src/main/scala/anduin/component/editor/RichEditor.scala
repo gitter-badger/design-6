@@ -69,7 +69,7 @@ object RichEditor {
     }
 
     // scalastyle:off cyclomatic.complexity
-    private def renderNode(props: RenderNodeProps) = {
+    private def renderNode(editor: RichEditor)(props: RenderNodeProps) = {
       val data = props.node.data
       val children = PropsChildren.fromRawProps(props)
       props.node.nodeType match {
@@ -80,7 +80,7 @@ object RichEditor {
         case UnorderedListNode.nodeType => <.ul(children).rawElement
         case ListItemNode.nodeType      => <.li(children).rawElement
         case DivNode.nodeType           => <.div(children).rawElement
-        case LinkNode.nodeType          => LinkRenderer(data, props.children)
+        case LinkNode.nodeType          => LinkRenderer(data, props.children, editor.readOnly)
         case ImageNode.nodeType         => ImageRenderer(data)
         case TextAlignNode.nodeType     => TextAlignRenderer(data, props.children)
       }
@@ -103,7 +103,7 @@ object RichEditor {
               readOnly = props.readOnly,
               onChange = props.onChange,
               onKeyDown = onKeyDown,
-              renderNode = renderNode,
+              renderNode = renderNode(props),
               renderMark = (props: RenderMarkProps) => MarkRenderer(props.mark, props.children)
             )
           )

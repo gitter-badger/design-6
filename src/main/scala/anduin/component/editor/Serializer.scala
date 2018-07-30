@@ -141,7 +141,7 @@ object Serializer {
       val res: SerializeOutputType = if (obj.`object` != "inline" || obj.tpe != LinkNode.nodeType) {
         ()
       } else {
-        LinkRenderer(obj.data, children)
+        LinkRenderer(obj.data, children, true)
       }
       res
     }
