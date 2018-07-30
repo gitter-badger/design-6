@@ -19,7 +19,7 @@ final case class ButtonLink(
   // Specific behaviours for ButtonLink
   onClick: Callback = Callback.empty, // link can still has onClick
   href: String = "",
-  target: String = ""
+  target: TagMod = TagMod.empty
 ) {
   def apply(children: VdomNode*): VdomElement = {
     ButtonLink.component(this)(children: _*)
@@ -42,7 +42,7 @@ object ButtonLink {
     Style.hover.underlineNone,
     // behaviours
     ^.href := props.href,
-    ^.target := props.target,
+    props.target,
     TagMod.when(!props.onClick.isEmpty_?) { ^.onClick --> props.onClick },
     // content
     children
