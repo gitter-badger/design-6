@@ -63,9 +63,7 @@ object Tooltip {
               arrow = js.Dynamic.literal(element = s".$arrowClass"),
               offset = js.Dynamic.literal(enabled = true, offset = offset)
             ),
-            onCreate = data => {
-              data.instance.popper.domAsHtml.style.visibility = "visible"
-            }
+            onCreate = _.instance.popper.domAsHtml.style.visibility = "visible"
           )
           popper = Some(new Popper(target, content, options))
         }
@@ -105,7 +103,7 @@ object Tooltip {
               //   but we still need to render the tooltip element anyway to
               //   have a correct width so Popper can calculate the position
               // - Popper will override these styles with correct position
-              ^.visibility := "hidden",
+              ^.visibility.hidden,
               Style.position.absolute.coordinate.top0.coordinate.left0,
               Style.zIndex.idx9999.backgroundColor.gray9.color.white.shadow.blur8,
               Style.padding.ver4.padding.hor8.borderRadius.px4,
