@@ -40,7 +40,7 @@ private[editor] object LinkRenderer {
           ButtonLink(
             style = ButtonStyle.StyleLink,
             href = href,
-            target = "_blank"
+            target = ^.target.blank
           )("Open link")
         }
       )().rawElement
