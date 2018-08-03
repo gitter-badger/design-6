@@ -40,7 +40,7 @@ object Well {
     private[Well] val bg = Style.backgroundColor.primary1
   }
   case object ColorSuccess extends Color {
-    private[Well] val iconName = Icon.NameInfo
+    private[Well] val iconName = Icon.NameCheck
     private[Well] val iconColor = Style.color.success4
     private[Well] val bg = Style.backgroundColor.success1
   }
