@@ -43,6 +43,12 @@ private[style] final case class Active(classes: List[String] = List.empty) {
   def colorDanger2: Style = new Style(classes :+ "active-c--danger-2")
   def colorDanger1: Style = new Style(classes :+ "active-c--danger-1")
 
+  def colorPurple5: Style = new Style(classes :+ "active-c--purple-5")
+  def colorPurple4: Style = new Style(classes :+ "active-c--purple-4")
+  def colorPurple3: Style = new Style(classes :+ "active-c--purple-3")
+  def colorPurple2: Style = new Style(classes :+ "active-c--purple-2")
+  def colorPurple1: Style = new Style(classes :+ "active-c--purple-1")
+
   // Background Color
 
   def backgroundGray9: Style = new Style(classes :+ "active-bg--gray-9")
@@ -81,6 +87,12 @@ private[style] final case class Active(classes: List[String] = List.empty) {
   def backgroundDanger2: Style = new Style(classes :+ "active-bg--danger-2")
   def backgroundDanger1: Style = new Style(classes :+ "active-bg--danger-1")
 
+  def backgroundPurple5: Style = new Style(classes :+ "active-bg--purple-5")
+  def backgroundPurple4: Style = new Style(classes :+ "active-bg--purple-4")
+  def backgroundPurple3: Style = new Style(classes :+ "active-bg--purple-3")
+  def backgroundPurple2: Style = new Style(classes :+ "active-bg--purple-2")
+  def backgroundPurple1: Style = new Style(classes :+ "active-bg--purple-1")
+
   // border
   def borderGray4: Style = new Style(classes :+ "a-bcg4")
   def borderGray5: Style = new Style(classes :+ "a-bcg5")
@@ -88,6 +100,7 @@ private[style] final case class Active(classes: List[String] = List.empty) {
   def borderSuccess5: Style = new Style(classes :+ "a-bcs5")
   def borderWarning5: Style = new Style(classes :+ "a-bcw5")
   def borderDanger5: Style = new Style(classes :+ "a-bcd5")
+  def borderPurple5: Style = new Style(classes :+ "a-bcp5")
 
   // shadow
   def shadow1Light: Style = new Style(classes :+ "a-s1l")

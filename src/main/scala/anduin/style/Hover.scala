@@ -43,6 +43,12 @@ private[style] final case class Hover(classes: List[String] = List.empty) {
   def colorDanger2: Style = new Style(classes :+ "hover-c--danger-2")
   def colorDanger1: Style = new Style(classes :+ "hover-c--danger-1")
 
+  def colorPurple5: Style = new Style(classes :+ "hover-c--purple-5")
+  def colorPurple4: Style = new Style(classes :+ "hover-c--purple-4")
+  def colorPurple3: Style = new Style(classes :+ "hover-c--purple-3")
+  def colorPurple2: Style = new Style(classes :+ "hover-c--purple-2")
+  def colorPurple1: Style = new Style(classes :+ "hover-c--purple-1")
+
   // Background Color
 
   def backgroundGray9: Style = new Style(classes :+ "hover-bg--gray-9")
@@ -81,6 +87,12 @@ private[style] final case class Hover(classes: List[String] = List.empty) {
   def backgroundDanger2: Style = new Style(classes :+ "hover-bg--danger-2")
   def backgroundDanger1: Style = new Style(classes :+ "hover-bg--danger-1")
 
+  def backgroundPurple5: Style = new Style(classes :+ "hover-bg--purple-5")
+  def backgroundPurple4: Style = new Style(classes :+ "hover-bg--purple-4")
+  def backgroundPurple3: Style = new Style(classes :+ "hover-bg--purple-3")
+  def backgroundPurple2: Style = new Style(classes :+ "hover-bg--purple-2")
+  def backgroundPurple1: Style = new Style(classes :+ "hover-bg--purple-1")
+
   // border
   def borderAll: Style = new Style(classes :+ "hv-ba")
   def borderGray3: Style = new Style(classes :+ "hv-bcg3")
@@ -90,6 +102,7 @@ private[style] final case class Hover(classes: List[String] = List.empty) {
   def borderSuccess5: Style = new Style(classes :+ "hv-bcs5")
   def borderWarning5: Style = new Style(classes :+ "hv-bcw5")
   def borderDanger5: Style = new Style(classes :+ "hv-bcd5")
+  def borderPurple5: Style = new Style(classes :+ "hv-bcp5")
 
   // shadow
   def shadow1Light: Style = new Style(classes :+ "hv-s1l")

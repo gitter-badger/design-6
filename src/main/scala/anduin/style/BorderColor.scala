@@ -41,6 +41,12 @@ private[style] final case class BorderColor(classes: List[String] = List.empty) 
   def danger2: Style = new Style(classes :+ "b--danger-2")
   def danger1: Style = new Style(classes :+ "b--danger-1")
 
+  def purple5: Style = new Style(classes :+ "b--purple-5")
+  def purple4: Style = new Style(classes :+ "b--purple-4")
+  def purple3: Style = new Style(classes :+ "b--purple-3")
+  def purple2: Style = new Style(classes :+ "b--purple-2")
+  def purple1: Style = new Style(classes :+ "b--purple-1")
+
   def transparent: Style = new Style(classes :+ "b--transparent")
   def inherit: Style = new Style(classes :+ "b--inherit")
 }

@@ -66,6 +66,15 @@ object ButtonStyle {
     val selected = TagMod(ColorAccentBase.selected, Style.backgroundColor.danger5.borderColor.danger5)
   }
 
+  case object ColorPurple extends Color {
+    private val interact = Style.hover.backgroundPurple3.active.backgroundPrimary5
+    val link: TagMod = Style.color.purple4
+    val minimal =
+      TagMod(interact, ColorAccentBase.minimal, Style.color.purple4.hover.borderPurple5.active.borderPurple5)
+    val full = TagMod(interact, ColorAccentBase.full, Style.backgroundColor.purple4.borderColor.purple5)
+    val selected = TagMod(ColorAccentBase.selected, Style.backgroundColor.purple5.borderColor.purple5)
+  }
+
   sealed trait Size { val style: TagMod }
   case object SizeLarge extends Size { val style: TagMod = Style.height.px40.padding.hor16.fontSize.px16 }
   case object SizeMedium extends Size { val style: TagMod = Style.height.px32.padding.hor12.fontSize.px13 }

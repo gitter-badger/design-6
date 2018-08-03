@@ -46,6 +46,10 @@ object Tag {
     val clear: Style = Style.backgroundColor.danger1.color.danger5
     val solid: Style = Style.backgroundColor.danger4.color.white
   }
+  case object ColorPurple extends Color {
+    val clear: Style = Style.backgroundColor.purple1.color.purple5
+    val solid: Style = Style.backgroundColor.purple4.color.white
+  }
 
   def render(props: Props, children: PropsChildren): VdomElement = {
     <.div(
