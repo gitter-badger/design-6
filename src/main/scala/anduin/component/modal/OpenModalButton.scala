@@ -89,7 +89,7 @@ object OpenModalButton {
 
     def render(props: OpenModalButton, state: State, children: PropsChildren): VdomElement = {
       val renderBtn = Button(
-        onClick = show,
+        onClick = show(),
         isDisabled = props.disabled,
         isFullWidth = props.buttonIsFullWidth,
         color = props.buttonColor,
