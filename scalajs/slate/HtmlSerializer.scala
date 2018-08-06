@@ -27,11 +27,11 @@ object HtmlSerializer {
     def deserialize(
       html: String,
       options: HtmlDeserializeOptions
-    ): ValueJson = js.native // linter:ignore UnusedParameter
+    ): ValueJson = js.native
 
-    def deserialize(html: String): Value = js.native // linter:ignore UnusedParameter
+    def deserialize(html: String): Value = js.native
 
-    def serialize(value: Value): String = js.native // linter:ignore UnusedParameter
+    def serialize(value: Value): String = js.native
   }
 
   final class HtmlDeserializeOptions(val toJSON: Boolean) extends js.Object

@@ -19,14 +19,14 @@ object Slate {
   @JSImport("slate", "Value")
   @js.native
   object Value extends js.Object {
-    def fromJSON(json: js.Object): Value = js.native // linter:ignore UnusedParameter
+    def fromJSON(json: js.Object): Value = js.native
   }
 
   @js.native
   trait Value extends js.Object {
-    def activeMarks: ImmutableSet[Mark] = js.native // linter:ignore UnusedParameter
-    def blocks: ImmutableList[Block] = js.native // linter:ignore UnusedParameter
-    def inlines: ImmutableList[Inline] = js.native // linter:ignore UnusedParameter
+    def activeMarks: ImmutableSet[Mark] = js.native
+    def blocks: ImmutableList[Block] = js.native
+    def inlines: ImmutableList[Inline] = js.native
     def change(): Change = js.native
     def hasUndos: Boolean = js.native
     def hasRedos: Boolean = js.native
@@ -45,37 +45,37 @@ object Slate {
   @JSImport("slate", "Document")
   @js.native
   object Document extends js.Object {
-    def fromJSON(attrs: js.Object): Document = js.native // linter:ignore UnusedParameter
+    def fromJSON(attrs: js.Object): Document = js.native
   }
 
   // See https://docs.slatejs.org/slate-core/change
   @JSImport("slate", "Change")
   @js.native
   final class Change(val value: Value) extends js.Object {
-    def addMark(mark: String): Change = js.native // linter:ignore UnusedParameter
-    def removeMark(mark: String): Change = js.native // linter:ignore UnusedParameter
-    def toggleMark(mark: String): Change = js.native // linter:ignore UnusedParameter
+    def addMark(mark: String): Change = js.native
+    def removeMark(mark: String): Change = js.native
+    def toggleMark(mark: String): Change = js.native
     def focus(): Change = js.native
     def undo(): Change = js.native
     def redo(): Change = js.native
     def collapseToEnd(): Change = js.native
-    def unwrapInline(inlineType: String): Change = js.native // linter:ignore UnusedParameter
-    def wrapInline(props: js.Object): Change = js.native // linter:ignore UnusedParameter
-    def insertText(text: String): Change = js.native // linter:ignore UnusedParameter
-    def insertFragment(document: Document): Change = js.native // linter:ignore UnusedParameter
-    def extend(num: Int): Change = js.native // linter:ignore UnusedParameter
-    def setBlock(block: String): Change = js.native // linter:ignore UnusedParameter
-    def setBlock(props: js.Object): Change = js.native // linter:ignore UnusedParameter
-    def unwrapBlock(block: String): Change = js.native // linter:ignore UnusedParameter
-    def wrapBlock(block: String): Change = js.native // linter:ignore UnusedParameter
-    def insertInlineAtRange(range: Range, properties: js.Object): Change = // linter:ignore UnusedParameter
+    def unwrapInline(inlineType: String): Change = js.native
+    def wrapInline(props: js.Object): Change = js.native
+    def insertText(text: String): Change = js.native
+    def insertFragment(document: Document): Change = js.native
+    def extend(num: Int): Change = js.native
+    def setBlock(block: String): Change = js.native
+    def setBlock(props: js.Object): Change = js.native
+    def unwrapBlock(block: String): Change = js.native
+    def wrapBlock(block: String): Change = js.native
+    def insertInlineAtRange(range: Range, properties: js.Object): Change =
       js.native
-    def wrapInlineAtRange(range: Range, properties: js.Object): Change = // linter:ignore UnusedParameter
+    def wrapInlineAtRange(range: Range, properties: js.Object): Change =
       js.native
-    def moveOffsetsTo(anchorOffset: Int, focusOffset: Int): Change = // linter:ignore UnusedParameter
+    def moveOffsetsTo(anchorOffset: Int, focusOffset: Int): Change =
       js.native
     def deselect(): Change = js.native
-    def extendToStartOf(node: Node): Change = js.native // linter:ignore UnusedParameter
+    def extendToStartOf(node: Node): Change = js.native
   }
 
   final class WrapInlineProps(
@@ -101,11 +101,11 @@ object Slate {
     val nodes: js.UndefOr[ImmutableList[Node]] = js.native
     val text: String = js.native
 
-    def getClosest(key: String, @JSName("match") find: js.Function1[Node, Boolean]): js.UndefOr[Node] = // linter:ignore UnusedParameter
+    def getClosest(key: String, @JSName("match") find: js.Function1[Node, Boolean]): js.UndefOr[Node] =
       js.native
     def getTexts(): ImmutableList[Text] = js.native
 
-    def set(key: String, value: js.Object): Node = js.native // linter:ignore UnusedParameter
+    def set(key: String, value: js.Object): Node = js.native
 
     def toJSON(): js.Object = js.native
   }
@@ -131,14 +131,14 @@ object Slate {
   @JSImport("slate", "Block")
   @js.native
   object Block extends js.Object {
-    def fromJSON(attrs: js.Object): Document = js.native // linter:ignore UnusedParameter
+    def fromJSON(attrs: js.Object): Document = js.native
   }
 
   // See https://docs.slatejs.org/slate-core/range
   @JSImport("slate", "Range")
   @js.native
   object Range extends js.Object {
-    def create(properties: js.Object): Range = js.native // linter:ignore UnusedParameter
+    def create(properties: js.Object): Range = js.native
   }
 
   final class Range(

@@ -32,11 +32,11 @@ object PDFJS extends js.Object {
   var disableWorker: Boolean = js.native // scalastyle:ignore var.field
   var PasswordResponses: PDFPasswordResponses = js.native // scalastyle:ignore var.field
   val AnnotationLayer: PDFAnnotationLayer = js.native
-  def getDocument(url: String | ArrayBuffer): PDFDocumentLoadingTask = // linter:ignore UnusedParameter
+  def getDocument(url: String | ArrayBuffer): PDFDocumentLoadingTask =
     js.native
-  def getPage(number: Double): PDFPromise[PDFPageProxy] = js.native // linter:ignore UnusedParameter
+  def getPage(number: Double): PDFPromise[PDFPageProxy] = js.native
 
-  def renderTextLayer(renderParameters: TextLayerRenderParameters): TextLayerRenderTask = // linter:ignore UnusedParameter
+  def renderTextLayer(renderParameters: TextLayerRenderParameters): TextLayerRenderTask =
     js.native
 }
 
@@ -80,19 +80,19 @@ trait PDFDocumentLoadingTask extends js.Object {
 
 @js.native
 trait PDFPromise[T] extends js.Object {
-  def resolve(value: T): PDFPromise[T] = js.native // linter:ignore UnusedParameter
-  def reject(reason: String): Unit = js.native // linter:ignore UnusedParameter
+  def resolve(value: T): PDFPromise[T] = js.native
+  def reject(reason: String): Unit = js.native
 
   // Because "then" is a reserved keyword, we need to name the method as `then` or use @JSGlobal
   @JSName("then")
-  def andThen(onResolve: js.Function1[T, _], onReject: js.Function1[js.Any, _] = ???): PDFPromise[T] = // linter:ignore UnusedParameter
+  def andThen(onResolve: js.Function1[T, _], onReject: js.Function1[js.Any, _] = ???): PDFPromise[T] =
     js.native
 }
 
 @js.native
 trait PDFDocumentProxy extends js.Object {
   val numPages: Double = js.native
-  def getPage(number: Double): PDFPromise[PDFPageProxy] = js.native // linter:ignore UnusedParameter
+  def getPage(number: Double): PDFPromise[PDFPageProxy] = js.native
   def getMetadata(): PDFPromise[Metadata] = js.native
   def getDownloadInfo(): PDFPromise[DownloadInfo] = js.native
 }
@@ -104,13 +104,13 @@ trait DownloadInfo extends js.Object {
 
 @js.native
 trait PDFPageProxy extends js.Object {
-  def getViewport(scale: Double, rotate: Double = ???): PDFPageViewport = // linter:ignore UnusedParameter
+  def getViewport(scale: Double, rotate: Double = ???): PDFPageViewport =
     js.native
-  def render(params: PDFRenderParams): PDFRenderTask = js.native // linter:ignore UnusedParameter
-  def getTextContent(params: getTextContentParameters): PDFPromise[TextContent] = // linter:ignore UnusedParameter
+  def render(params: PDFRenderParams): PDFRenderTask = js.native
+  def getTextContent(params: getTextContentParameters): PDFPromise[TextContent] =
     js.native
   def cleanup(): Unit = js.native
-  def getAnnotations(params: GetAnnotationsParameters): PDFPromise[js.Array[Annotation]] = // linter:ignore UnusedParameter
+  def getAnnotations(params: GetAnnotationsParameters): PDFPromise[js.Array[Annotation]] =
     js.native
 }
 
@@ -140,7 +140,7 @@ object ViewPortCloneParams {
 trait PDFPageViewport extends js.Object {
   var width: Double = js.native // scalastyle:ignore var.field
   var height: Double = js.native // scalastyle:ignore var.field
-  def clone(params: ViewPortCloneParams): PDFPageViewport = // linter:ignore UnusedParameter
+  def clone(params: ViewPortCloneParams): PDFPageViewport =
     js.native
 }
 
@@ -224,18 +224,18 @@ object GetAnnotationsParameters {
 
 @js.native
 trait LinkService extends js.Object {
-  def getDestinationHash(destination: js.Any): String = js.native // linter:ignore UnusedParameter
-  def navigateTo(destination: js.Any): Unit = js.native // linter:ignore UnusedParameter
-  def getAnchorUrl(anchor: String): String = js.native // linter:ignore UnusedParameter
-  def executeNamedAction(action: String): Unit = js.native // linter:ignore UnusedParameter
+  def getDestinationHash(destination: js.Any): String = js.native
+  def navigateTo(destination: js.Any): Unit = js.native
+  def getAnchorUrl(anchor: String): String = js.native
+  def executeNamedAction(action: String): Unit = js.native
   def getPage(): Int = js.native
-  def setPage(page: Int): Unit = js.native // linter:ignore UnusedParameter
+  def setPage(page: Int): Unit = js.native
   def getRotation(): Int = js.native
-  def setRotation(rotation: Int): Unit = js.native // linter:ignore UnusedParameter
-  def setHash(hash: String): Unit = js.native // linter:ignore UnusedParameter
-  def onFileAttachmentAnnotation(options: FileAttachmentAnnotationOptions): Unit = // linter:ignore UnusedParameter
+  def setRotation(rotation: Int): Unit = js.native
+  def setHash(hash: String): Unit = js.native
+  def onFileAttachmentAnnotation(options: FileAttachmentAnnotationOptions): Unit =
     js.native
-  def cachePageRef(pageNum: Int, pageRef: js.Object): Unit = // linter:ignore UnusedParameter
+  def cachePageRef(pageNum: Int, pageRef: js.Object): Unit =
     js.native
 }
 
@@ -294,9 +294,9 @@ object AnnotationLayerParameters {
 
 @js.native
 trait PDFAnnotationLayer extends js.Object {
-  def render(parameters: AnnotationLayerParameters): Unit = // linter:ignore UnusedParameter
+  def render(parameters: AnnotationLayerParameters): Unit =
     js.native
-  def update(parameters: AnnotationLayerParameters): Unit = // linter:ignore UnusedParameter
+  def update(parameters: AnnotationLayerParameters): Unit =
     js.native
 }
 

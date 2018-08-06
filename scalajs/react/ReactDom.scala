@@ -15,8 +15,8 @@ object ReactDom extends ReactDom
 trait ReactDom extends js.Object {
   @JSName("unstable_renderSubtreeIntoContainer")
   def renderSubtreeIntoContainer(
-    parentComponent: js.Object, // linter:ignore UnusedParameter
-    component: Any, // linter:ignore UnusedParameter
-    container: Node // linter:ignore UnusedParameter
+    parentComponent: js.Object,
+    component: Any,
+    container: Node
   ): Unit = js.native
 }

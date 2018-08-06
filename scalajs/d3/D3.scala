@@ -12,7 +12,7 @@ import org.scalajs.dom.raw.Element
 // Provide the shortcuts to access sub-packages
 object D3 extends js.Object {
   // selection
-  def select(selector: String): Selection[Element] = js.native // linter:ignore UnusedParameter
+  def select(selector: String): Selection[Element] = js.native
 
   // shape
   def pie(): PieGenerator = js.native

@@ -11,6 +11,6 @@ import anduin.scalajs.slate.Slate.Value
 @JSImport("slate-plain-serializer", JSImport.Default, "Plain")
 @js.native
 object PlainSerializer extends js.Object {
-  def deserialize(str: String): Value = js.native // linter:ignore UnusedParameter
-  def serialize(value: Value): String = js.native // linter:ignore UnusedParameter
+  def deserialize(str: String): Value = js.native
+  def serialize(value: Value): String = js.native
 }

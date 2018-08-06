@@ -8,11 +8,11 @@ import scala.scalajs.js
 
 @js.native
 trait Setters[T] extends js.Object {
-  def add(time: Double, unit: String): T = js.native // linter:ignore UnusedParameter
-  def add(millis: Int): T = js.native // linter:ignore UnusedParameter
-  def add(duration: Duration): T = js.native // linter:ignore UnusedParameter
+  def add(time: Double, unit: String): T = js.native
+  def add(millis: Int): T = js.native
+  def add(duration: Duration): T = js.native
 
-  def subtract(time: Double, unit: String): T = js.native // linter:ignore UnusedParameter
-  def subtract(millis: Int): T = js.native // linter:ignore UnusedParameter
-  def subtract(duration: Duration): T = js.native // linter:ignore UnusedParameter
+  def subtract(time: Double, unit: String): T = js.native
+  def subtract(millis: Int): T = js.native
+  def subtract(duration: Duration): T = js.native
 }

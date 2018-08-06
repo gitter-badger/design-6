@@ -13,5 +13,5 @@ trait Duration extends js.Object with Getters with Setters[Duration] {
   def humanise(): String = js.native
 
   @JSName("humanize")
-  def humanise(withSuffix: Boolean): String = js.native // linter:ignore UnusedParameter
+  def humanise(withSuffix: Boolean): String = js.native
 }

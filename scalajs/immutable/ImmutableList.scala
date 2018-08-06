@@ -16,7 +16,7 @@ object ImmutableList {
   @JSImport("immutable", "List")
   @js.native
   object ImmutableListStatic extends js.Object {
-    def apply[T <: js.Object](array: js.Array[T]): ImmutableList[T] = js.native // linter:ignore UnusedParameter
+    def apply[T <: js.Object](array: js.Array[T]): ImmutableList[T] = js.native
   }
 
   implicit def fromList[T <: js.Object](list: List[T]): ImmutableList[T] = {
