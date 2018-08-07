@@ -66,15 +66,15 @@ object Modal {
         closeOnEsc = props.isClosable && props.isClosableOnEsc,
         closeOnOutsideClick = props.isClosable && props.isClosableOnOutsideClick,
         isPortalClicked = (clickedTarget, _) => isPortalClicked(clickedTarget),
-        onOpen = {
+        onOpen = props.onOpen,
+        onClose = props.onClose,
+        renderTarget = (open, _, _) => {
           // Disable the scrolling on body when the modal is opened
-          Callback(dom.document.body.classList.add(overflowHidden)) >> props.onOpen
+          val onOpen = Callback(dom.document.body.classList.add(overflowHidden)) >> open
+          props.renderTarget(onOpen)
         },
-        onClose = {
-          Callback(dom.document.body.classList.remove(overflowHidden)) >> props.onClose
-        },
-        renderTarget = (open, _, _) => props.renderTarget(open),
         renderContent = (close, _) => {
+          val onClose = Callback(dom.document.body.classList.remove(overflowHidden)) >> close
           <.div(
             Style.position.fixed.coordinate.fill.zIndex.idx999,
             props.renderOverlay,
@@ -83,8 +83,8 @@ object Modal {
             <.div.withRef(modalRef)(
               Style.backgroundColor.gray1.borderRadius.px2.overflow.hidden.margin.horAuto,
               props.size.style,
-              props.renderHeader(props.title, props.isClosable, close),
-              props.renderContent(close)
+              props.renderHeader(props.title, props.isClosable, onClose),
+              props.renderContent(onClose)
             )
           )
         }
