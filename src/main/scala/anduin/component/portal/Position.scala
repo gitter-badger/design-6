@@ -10,13 +10,13 @@ sealed trait Position {
 }
 
 case object PositionTopLeft extends Position {
-  override val placement: String = "top-end"
+  override val placement: String = "top-start"
 }
 case object PositionTop extends Position {
   override val placement: String = "top"
 }
 case object PositionTopRight extends Position {
-  override val placement: String = "top-start"
+  override val placement: String = "top-end"
 }
 
 case object PositionRightTop extends Position {
