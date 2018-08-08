@@ -61,9 +61,21 @@ object Tooltip {
             placement = props.position.placement,
             modifiers = js.Dynamic.literal(
               arrow = js.Dynamic.literal(element = s".$arrowClass"),
-              offset = js.Dynamic.literal(enabled = true, offset = offset)
+              offset = js.Dynamic.literal(offset = offset)
             ),
-            onCreate = _.instance.popper.domAsHtml.style.visibility = "visible"
+            onCreate = data => {
+              data.instance.popper.domAsHtml.style.visibility = "visible"
+              props.position match {
+                case PositionTopLeft | PositionTop | PositionTopRight =>
+                  data.arrowElement.style.bottom = s"-$arrowSize"
+                case PositionBottomLeft | PositionBottom | PositionBottomRight =>
+                  data.arrowElement.style.top = s"-$arrowSize"
+                case PositionRightTop | PositionRight | PositionRightBottom =>
+                  data.arrowElement.style.left = s"-$arrowSize"
+                case PositionLeftTop | PositionLeft | PositionLeftBottom =>
+                  data.arrowElement.style.right = s"-$arrowSize"
+              }
+            }
           )
           popper = Some(new Popper(target, content, options))
         }
@@ -118,25 +130,21 @@ object Tooltip {
                 props.position match {
                   case PositionTopLeft | PositionTop | PositionTopRight =>
                     TagMod(
-                      ^.bottom := s"-$arrowSize",
                       ^.borderBottomWidth := "0",
                       ^.borderTopColor := CssVar.Color.gray9
                     )
                   case PositionBottomLeft | PositionBottom | PositionBottomRight =>
                     TagMod(
-                      ^.top := s"-$arrowSize",
                       ^.borderTopWidth := "0",
                       ^.borderBottomColor := CssVar.Color.gray9
                     )
                   case PositionRightTop | PositionRight | PositionRightBottom =>
                     TagMod(
-                      ^.left := s"-$arrowSize",
                       ^.borderLeftWidth := "0",
                       ^.borderRightColor := CssVar.Color.gray9
                     )
                   case PositionLeftTop | PositionLeft | PositionLeftBottom =>
                     TagMod(
-                      ^.right := s"-$arrowSize",
                       ^.borderRightWidth := "0",
                       ^.borderLeftColor := CssVar.Color.gray9
                     )
