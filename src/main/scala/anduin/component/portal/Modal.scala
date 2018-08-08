@@ -36,7 +36,7 @@ object Modal {
 
   private val ComponentName = this.getClass.getSimpleName
 
-  private def defaultRenderHeader(title: String, isClosable: Boolean, close: Callback) =
+  def defaultRenderHeader(title: String, isClosable: Boolean, close: Callback): VdomNode =
     ModalHeader(title = title, isClosable = isClosable, close = close)()
 
   sealed trait Size { val style: TagMod }
