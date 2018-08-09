@@ -38,7 +38,10 @@ object Button {
 
     private def onClick(e: ReactEventFromHtml) = {
       for {
+        // @TODO: Try to not prevent default so we can take advantage of native
+        // functionality https://anduin.design/ui-guide/button#type
         _ <- e.preventDefaultCB
+        // @TODO: Try to not stop propagation. This is anti-pattern
         _ <- e.stopPropagationCB
         props <- scope.props
         _ <- props.onClick
@@ -57,8 +60,13 @@ object Button {
       // behaviours
       ^.tpe := props.tpe.value,
       ^.disabled := props.isDisabled,
-      TagMod.when(!props.isDisabled && !props.onClick.isEmpty_?) { ^.onClick ==> onClick },
       ^.autoFocus := props.autoFocus,
+      // The "isEmpty" check is to prevent "preventDefault" from being called
+      // if user ommited "onClicl" (e.g. They do want to use the native
+      // function, like click to trigger form's onSubmit)
+      TagMod.when(!props.isDisabled && !props.onClick.isEmpty_?) {
+        ^.onClick ==> onClick
+      },
       // content
       children
     )
