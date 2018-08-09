@@ -16,6 +16,7 @@ final case class Button(
   isSelected: Boolean = false,
   // Specific behaviours for Button
   tpe: Button.Tpe = Button.TpeButton,
+  autoFocus: Boolean = false,
   isDisabled: Boolean = false,
   onClick: Callback = Callback.empty
 ) {
@@ -57,6 +58,7 @@ object Button {
       ^.tpe := props.tpe.value,
       ^.disabled := props.isDisabled,
       TagMod.when(!props.isDisabled && !props.onClick.isEmpty_?) { ^.onClick ==> onClick },
+      ^.autoFocus := props.autoFocus,
       // content
       children
     )
