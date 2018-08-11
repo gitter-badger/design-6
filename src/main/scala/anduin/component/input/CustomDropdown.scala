@@ -2,7 +2,7 @@
 
 package anduin.component.input
 
-import anduin.component.button.Button
+import anduin.component.button.{Button, ButtonStyle}
 import anduin.component.icon.Icon
 import anduin.component.menu.{Menu, MenuDivider, MenuItem}
 import anduin.style.Style
@@ -35,7 +35,8 @@ class CustomDropdown[A] {
     // ===
     position: Position = PositionBottomLeft,
     footer: VdomNode = EmptyVdom,
-    header: VdomNode = EmptyVdom
+    header: VdomNode = EmptyVdom,
+    buttonStyle: ButtonStyle.Style = ButtonStyle.StyleFull
   ) {
     def apply(): VdomElement = component(this)
   }
@@ -59,7 +60,8 @@ class CustomDropdown[A] {
       onClick = if (status == StatusOpen) close else open,
       isSelected = status == StatusOpen,
       isFullWidth = true,
-      isDisabled = props.isDisabled
+      isDisabled = props.isDisabled,
+      style = props.buttonStyle
     )(props.renderValue(props.value), icon)
   }
 
