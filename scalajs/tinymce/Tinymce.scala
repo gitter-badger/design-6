@@ -27,7 +27,14 @@ class InitOptions(
   // The list of plugins already included in `tinymce-4.8.1.min.js` above
   // advlist,autolink,autoresize,autosave,contextmenu,hr,image,link,lists,paste,preview,
   // searchreplace,spellchecker,textcolor,table,wordcount
-  val plugins: Array[String] = Array(),
+  val plugins: Array[String] = Array(
+    "advlist autolink autoresize autosave contextmenu hr image link lists paste preview searchreplace",
+    "spellchecker textcolor table wordcount"
+  ),
+  val toolbar: String | Array[String] =
+    "undo redo | formatselect | bold italic underline | alignleft aligncenter alignright alignjustify | numlist bullist outdent indent",
+  val table_toolbar: String = "tableprops tabledelete | tableinsertrowbefore tableinsertrowafter tabledeleterow | "
+    + "tableinsertcolbefore tableinsertcolafter tabledeletecol",
   val skin: String = "lightgray",
   val skin_url: String,
   val theme: String = "modern",
