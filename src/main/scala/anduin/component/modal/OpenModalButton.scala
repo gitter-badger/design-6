@@ -104,9 +104,9 @@ object OpenModalButton {
         ReactHammer(onTap = (e: ReactHammer.Event) => Callback.when(props.isOnMobile) { show(e) })(
           <.span(if (props.tip.nonEmpty) {
             Tooltip(
-              position = props.tipPlacement,
               renderTarget = renderBtn,
-              renderContent = () => props.tip
+              renderContent = () => props.tip,
+              position = props.tipPlacement
             )()
           } else {
             renderBtn
