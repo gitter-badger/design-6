@@ -34,6 +34,7 @@ object Editor {
             new InitOptions(
               target = target,
               skin_url = "/web/gondor/tinymce/skins/lightgray",
+              content_css = "/web/gondor/tinymce/editor.css",
               setup = editor => {
                 rawEditor = Some(editor)
                 editor.on("init", _ => {
