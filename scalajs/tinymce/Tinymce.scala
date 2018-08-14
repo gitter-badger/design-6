@@ -31,6 +31,7 @@ class InitOptions(
     "advlist autolink autoresize autosave contextmenu hr image link lists paste preview searchreplace",
     "spellchecker textcolor table wordcount"
   ),
+  val content_css: String | Array[String] = "",
   val toolbar: String | Array[String] =
     "undo redo | formatselect | bold italic underline | alignleft aligncenter alignright alignjustify | numlist bullist outdent indent",
   val table_toolbar: String = "tableprops tabledelete | tableinsertrowbefore tableinsertrowafter tabledeleterow | "
