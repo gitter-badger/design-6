@@ -3,7 +3,7 @@
 package anduin.component.modal
 
 import anduin.component.button.{Button, ButtonStyle}
-import anduin.component.tooltip.Tooltip
+import anduin.component.portal.{Position, PositionTop, Tooltip}
 import anduin.scalajs.react.hammer.ReactHammer
 
 // scalastyle:off underscore.import
@@ -21,7 +21,7 @@ final case class OpenModalButton(
   buttonIsFullWidth: Boolean = false,
   disabled: Boolean = false,
   tip: String = "",
-  tipPlacement: Tooltip.Placement = Tooltip.Placement.Top,
+  tipPlacement: Position = PositionTop,
   modalTitle: String = "",
   modalClasses: String = "",
   modalBody: Callback => VdomNode = _ => EmptyVdom,
@@ -103,7 +103,11 @@ object OpenModalButton {
       <.span(
         ReactHammer(onTap = (e: ReactHammer.Event) => Callback.when(props.isOnMobile) { show(e) })(
           <.span(if (props.tip.nonEmpty) {
-            Tooltip(tip = props.tip, placement = props.tipPlacement)(renderBtn)
+            Tooltip(
+              position = props.tipPlacement,
+              renderTarget = renderBtn,
+              renderContent = () => props.tip
+            )()
           } else {
             renderBtn
           })
