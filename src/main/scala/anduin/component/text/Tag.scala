@@ -11,6 +11,7 @@ import japgolly.scalajs.react.vdom.html_<^._
 
 final case class Tag(
   color: Tag.Color = Tag.ColorWhite,
+  size: Tag.Size = Tag.SizeMedium,
   isSolid: Boolean = false
 ) {
   def apply(children: VdomNode*): VdomElement = {
@@ -51,11 +52,22 @@ object Tag {
     val solid: Style = Style.backgroundColor.purple4.color.white
   }
 
+  sealed trait Size {
+    val style: Style
+  }
+  case object SizeMedium extends Size {
+    val style: Style = Style.fontSize.px12.padding.hor8.lineHeight.px20
+  }
+  case object SizeSmall extends Size {
+    val style: Style = Style.fontSize.px10.padding.hor4.lineHeight.px16
+  }
+
   def render(props: Props, children: PropsChildren): VdomElement = {
     <.div(
       if (props.isSolid) props.color.solid else props.color.clear,
-      Style.padding.hor8.borderRadius.px2.width.maxContent,
-      Style.fontWeight.medium.fontSize.px12.whiteSpace.noWrap,
+      props.size.style,
+      Style.borderRadius.px2.width.maxContent,
+      Style.fontWeight.medium.whiteSpace.noWrap,
       children
     )
   }
