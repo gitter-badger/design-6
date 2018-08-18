@@ -34,6 +34,7 @@ object TableSticky {
 
     private def getThs(table: html.Table) = {
       val collection = table.getElementsByTagName("th")
+      @SuppressWarnings(Array("org.wartremover.warts.AsInstanceOf")) // scalastyle:ignore
       val domList = collection.asInstanceOf[DOMList[html.TableHeaderCell]]
       NodeListSeq(domList)
     }

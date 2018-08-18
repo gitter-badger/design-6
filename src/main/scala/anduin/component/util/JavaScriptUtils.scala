@@ -25,6 +25,7 @@ object JavaScriptUtils {
     * @return Callback
     */
   def download(url: String): Callback = {
+    @SuppressWarnings(Array("org.wartremover.warts.AsInstanceOf")) // scalastyle:ignore
     val frame = document.createElement("iframe").asInstanceOf[HTMLIFrameElement]
     frame.style.display = "none"
     frame.style.visibility = "hidden"
