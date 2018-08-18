@@ -52,6 +52,7 @@ trait PDFProgressData extends js.Object {
 }
 
 object PDFProgressData {
+  @SuppressWarnings(Array("org.wartremover.warts.AsInstanceOf")) // scalastyle:ignore
   def apply(loaded: Double, total: Double): PDFProgressData =
     js.Dynamic.literal(loaded = loaded, total = total).asInstanceOf[PDFProgressData]
 }
@@ -118,6 +119,7 @@ trait PDFPageProxy extends js.Object {
 trait getTextContentParameters extends js.Object
 
 object getTextContentParameters {
+  @SuppressWarnings(Array("org.wartremover.warts.AsInstanceOf")) // scalastyle:ignore
   def apply(normalizeWhitespace: Boolean = false): getTextContentParameters = {
     js.Dynamic
       .literal(normalizeWhitespace = normalizeWhitespace)
@@ -131,6 +133,7 @@ trait ViewPortCloneParams extends js.Object {
 }
 
 object ViewPortCloneParams {
+  @SuppressWarnings(Array("org.wartremover.warts.AsInstanceOf")) // scalastyle:ignore
   def apply(dontFlip: Boolean): ViewPortCloneParams = {
     js.Dynamic.literal(dontFlip = dontFlip).asInstanceOf[ViewPortCloneParams]
   }
@@ -151,6 +154,7 @@ trait PDFRenderParams extends js.Object {
 }
 
 object PDFRenderParams {
+  @SuppressWarnings(Array("org.wartremover.warts.AsInstanceOf")) // scalastyle:ignore
   def apply(canvasContext: CanvasRenderingContext2D, viewport: PDFPageViewport): PDFRenderParams = {
     js.Dynamic
       .literal(canvasContext = canvasContext, viewport = viewport)
@@ -158,6 +162,7 @@ object PDFRenderParams {
   }
 
   def apply(canvas: HTMLCanvasElement, viewport: PDFPageViewport): PDFRenderParams = {
+    @SuppressWarnings(Array("org.wartremover.warts.AsInstanceOf")) // scalastyle:ignore
     val canvasContext = canvas.getContext("2d").asInstanceOf[CanvasRenderingContext2D]
     this(canvasContext, viewport)
   }
@@ -189,6 +194,7 @@ trait TextLayerRenderParameters extends js.Object {
 }
 
 object TextLayerRenderParameters {
+  @SuppressWarnings(Array("org.wartremover.warts.AsInstanceOf")) // scalastyle:ignore
   def apply(
     textContent: TextContent,
     container: Element,
@@ -217,6 +223,7 @@ trait GetAnnotationsParameters extends js.Object {
 }
 
 object GetAnnotationsParameters {
+  @SuppressWarnings(Array("org.wartremover.warts.AsInstanceOf")) // scalastyle:ignore
   def apply(intent: String): GetAnnotationsParameters = {
     js.Dynamic.literal(intent = intent).asInstanceOf[GetAnnotationsParameters]
   }
@@ -250,6 +257,7 @@ trait FileAttachmentAnnotationOptions extends js.Object {
 // We can't use @ScalaJSDefined annotation (and extend from `LinkService`) here because it's deprecated
 // See https://www.scala-js.org/doc/interoperability/sjs-defined-js-classes.html
 object SimpleLinkService {
+  @SuppressWarnings(Array("org.wartremover.warts.AsInstanceOf")) // scalastyle:ignore
   def apply(): LinkService = {
     js.Dynamic
       .literal(
@@ -279,6 +287,7 @@ trait AnnotationLayerParameters extends js.Object {
 }
 
 object AnnotationLayerParameters {
+  @SuppressWarnings(Array("org.wartremover.warts.AsInstanceOf")) // scalastyle:ignore
   def apply(
     viewport: PDFPageViewport,
     div: Element,
