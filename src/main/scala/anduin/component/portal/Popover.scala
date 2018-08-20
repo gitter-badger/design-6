@@ -25,20 +25,18 @@ final case class Popover(
   // (close, update position) => content Vdom
   renderContent: (Callback, Callback) => VdomNode
 ) {
-  def apply(): VdomElement = {
-    Popover.component(this)
-  }
+  def apply(): VdomElement = Popover.component(this)
 }
 
 object Popover {
 
-  private val ComponentName = this.getClass.getSimpleName
+  private type Props = Popover
 
   val IsPortalClicked = (clickedTarget: Element, target: Element, portal: Element) => {
     CallbackTo(target.contains(clickedTarget) || portal.contains(clickedTarget))
   }
 
-  private class Backend(scope: BackendScope[Popover, _]) {
+  private class Backend(scope: BackendScope[Props, _]) {
 
     private val targetRef = Ref[Element]
     private val portalRef = Ref[Element]
@@ -65,7 +63,7 @@ object Popover {
       }
     }
 
-    def render(props: Popover): VdomElement = {
+    def render(props: Props): VdomElement = {
       PortalWrapper(
         onOpen = updatePosition,
         onClose = close,
@@ -101,7 +99,7 @@ object Popover {
   }
 
   private val component = ScalaComponent
-    .builder[Popover](ComponentName)
+    .builder[Props](this.getClass.getSimpleName)
     .stateless
     .renderBackend[Backend]
     .build
