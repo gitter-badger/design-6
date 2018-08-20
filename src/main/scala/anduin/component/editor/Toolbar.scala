@@ -155,13 +155,13 @@ object Toolbar {
                 .map(_.contains(clickedTarget))
                 .getOrElse(false)
             },
-            renderTarget = (open, _, _, status) => {
+            renderTarget = (toggle, _, status) => {
               Tooltip(
                 targetTag = <.span,
                 renderTarget = Button(
                   style = ButtonStyle.StyleMinimal,
                   size = ButtonStyle.SizeIcon,
-                  onClick = open,
+                  onClick = toggle,
                   isSelected = status == StatusOpen
                 )(Icon(name = Icon.NameTextStyle)()),
                 renderContent = () => "Formatting options"

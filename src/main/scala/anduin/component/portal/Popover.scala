@@ -20,8 +20,8 @@ final case class Popover(
   closeOnOutsideClick: Boolean = true,
   isPortalClicked: (Element, Element, Element) => CallbackTo[Boolean] = Popover.IsPortalClicked,
   targetTag: HtmlTag = <.div,
-  // (open, close, update position, status) => target Vdom
-  renderTarget: (Callback, Callback, Callback, Status) => VdomNode,
+  // (toggle, update position, status) => target Vdom
+  renderTarget: (Callback, Callback, Status) => VdomNode,
   // (close, update position) => content Vdom
   renderContent: (Callback, Callback) => VdomNode
 ) {
@@ -77,8 +77,9 @@ object Popover {
           }
         },
         renderTarget = (open, close, status) => {
+          val toggle = if (status == StatusOpen) close else open
           props.targetTag.withRef(targetRef)(
-            props.renderTarget(open, close, updatePosition, status)
+            props.renderTarget(toggle, updatePosition, status)
           )
         },
         renderContent = (close, _) => {
