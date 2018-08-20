@@ -15,8 +15,9 @@ import japgolly.scalajs.react.vdom.html_<^._
 final case class Modal(
   title: String = "",
   size: Modal.Size = Modal.Size480,
-  isOpen: Boolean = false,
   isClosable: Option[PortalUtils.isClosable] = PortalUtils.defaultIsClosable,
+  isOpened: Option[Boolean] = None,
+  defaultIsOpened: Boolean = false,
   // (open callback) => target Vdom
   renderTarget: Callback => VdomNode,
   // (close callback) => content Vdom
@@ -55,7 +56,7 @@ object Modal {
 
     def render(props: Modal): VdomElement = {
       PortalWrapper(
-        isOpen = props.isOpen,
+        isOpen = props.isOpened.isDefined || props.defaultIsOpened,
         closeOnEsc = props.isClosable.exists(_.onEsc),
         closeOnOutsideClick = props.isClosable.exists(_.onOutsideClick),
         isPortalClicked = (clickedTarget, _) => isPortalClicked(clickedTarget),
