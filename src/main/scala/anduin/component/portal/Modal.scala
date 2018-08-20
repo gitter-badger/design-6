@@ -13,14 +13,12 @@ import japgolly.scalajs.react.vdom.html_<^._
 // scalastyle:on underscore.import
 
 final case class Modal(
-  title: String,
+  title: String = "",
   size: Modal.Size = Modal.SizeSmall,
   isOpen: Boolean = false,
   isClosable: Option[PortalUtils.isClosable] = PortalUtils.defaultIsClosable,
   // (open callback) => target Vdom
   renderTarget: Callback => VdomNode,
-  // (title, close callback, isCloseable) => header Vdom
-  renderHeader: (String, Boolean, Callback) => VdomNode = Modal.defaultRenderHeader,
   // (close callback) => content Vdom
   renderContent: Callback => VdomNode,
   unsafeOverlayMod: TagMod = TagMod.empty,
@@ -33,9 +31,6 @@ final case class Modal(
 object Modal {
 
   private val ComponentName = this.getClass.getSimpleName
-
-  def defaultRenderHeader(title: String, isClosable: Boolean, close: Callback): VdomNode =
-    ModalHeader(title = title, isClosable = isClosable, close = close)()
 
   sealed trait Size { val style: TagMod }
   case object SizeSmall extends Size { val style: TagMod = ^.width := "480px" }
@@ -81,7 +76,9 @@ object Modal {
             <.div.withRef(modalRef)(
               Style.backgroundColor.gray1.borderRadius.px2.overflow.hidden.margin.horAuto,
               props.size.style,
-              props.renderHeader(props.title, props.isClosable.isDefined, onClose)(),
+              TagMod.when(props.title.nonEmpty) {
+                ModalHeader(props.title, props.isClosable.isDefined, onClose)()
+              },
               props.renderContent(onClose)
             )
           )
