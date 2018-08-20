@@ -45,12 +45,12 @@ class CustomDropdown[A] {
     Popover(
       position = props.position,
       verticalOffset = 4,
-      renderTarget = (toggle, _, status) => renderTarget(props, toggle, status),
+      renderTarget = (toggle, _, isOpened) => renderTarget(props, toggle, isOpened),
       renderContent = (close, _) => renderContent(props, close)
     )()
   }
 
-  private def renderTarget(props: Props, toggle: Callback, status: Status): VdomElement = {
+  private def renderTarget(props: Props, toggle: Callback, isOpened: Boolean): VdomElement = {
     val icon = <.span(
       // manually move it a little bit to the right for visual reason
       TagMod(Style.margin.leftAuto.position.relative, ^.right := "-4px"),
@@ -58,7 +58,7 @@ class CustomDropdown[A] {
     )
     Button(
       onClick = toggle,
-      isSelected = status == StatusOpen,
+      isSelected = isOpened,
       isFullWidth = true,
       isDisabled = props.isDisabled,
       style = props.buttonStyle
