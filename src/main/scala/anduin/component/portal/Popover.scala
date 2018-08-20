@@ -19,25 +19,23 @@ final case class Popover(
   isClosable: Option[PortalUtils.isClosable] = PortalUtils.defaultIsClosable,
   isPortalClicked: (Element, Element, Element) => CallbackTo[Boolean] = Popover.IsPortalClicked,
   targetTag: HtmlTag = <.div,
-  // (open, close, update position, status) => target Vdom
-  renderTarget: (Callback, Callback, Callback, Status) => VdomNode,
+  // (toggle, update position, isOpened) => target Vdom
+  renderTarget: (Callback, Callback, Boolean) => VdomNode,
   // (close, update position) => content Vdom
   renderContent: (Callback, Callback) => VdomNode
 ) {
-  def apply(): VdomElement = {
-    Popover.component(this)
-  }
+  def apply(): VdomElement = Popover.component(this)
 }
 
 object Popover {
 
-  private val ComponentName = this.getClass.getSimpleName
+  private type Props = Popover
 
   val IsPortalClicked = (clickedTarget: Element, target: Element, portal: Element) => {
     CallbackTo(target.contains(clickedTarget) || portal.contains(clickedTarget))
   }
 
-  private class Backend(scope: BackendScope[Popover, _]) {
+  private class Backend(scope: BackendScope[Props, _]) {
 
     private val targetRef = Ref[Element]
     private val portalRef = Ref[Element]
@@ -64,7 +62,7 @@ object Popover {
       }
     }
 
-    def render(props: Popover): VdomElement = {
+    def render(props: Props): VdomElement = {
       PortalWrapper(
         onOpen = updatePosition,
         onClose = close,
@@ -78,8 +76,10 @@ object Popover {
           }
         },
         renderTarget = (open, close, status) => {
+          val isOpened = status == StatusOpen
+          val toggle = if (isOpened) close else open
           props.targetTag.withRef(targetRef)(
-            props.renderTarget(open, close, updatePosition, status)
+            props.renderTarget(toggle, updatePosition, isOpened)
           )
         },
         renderContent = (close, _) => {
@@ -100,7 +100,7 @@ object Popover {
   }
 
   private val component = ScalaComponent
-    .builder[Popover](ComponentName)
+    .builder[Props](this.getClass.getSimpleName)
     .stateless
     .renderBackend[Backend]
     .build
