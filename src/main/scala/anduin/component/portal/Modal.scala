@@ -25,7 +25,7 @@ final case class Modal(
   renderHeader: (String, Boolean, Callback) => VdomNode = Modal.defaultRenderHeader,
   // (close callback) => content Vdom
   renderContent: Callback => VdomNode,
-  renderOverlay: TagMod = TagMod.empty,
+  unsafeOverlayMod: TagMod = TagMod.empty,
   onOpen: Callback = Callback.empty,
   onClose: Callback = Callback.empty
 ) {
@@ -77,7 +77,7 @@ object Modal {
           val onClose = Callback(dom.document.body.classList.remove(overflowHidden)) >> close
           <.div(
             Style.position.fixed.coordinate.fill.zIndex.idx999,
-            props.renderOverlay,
+            props.unsafeOverlayMod,
             ^.background := "rgba(48, 64, 77, 0.9)",
             TagMod.when(props.size != SizeFull) { Style.overflow.autoY.padding.ver32 },
             <.div.withRef(modalRef)(
