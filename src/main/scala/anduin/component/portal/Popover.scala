@@ -16,8 +16,7 @@ final case class Popover(
   position: Position = PositionBottom,
   verticalOffset: Double = 0,
   horizontalOffset: Double = 0,
-  closeOnEsc: Boolean = true,
-  closeOnOutsideClick: Boolean = true,
+  isClosable: Option[PortalUtils.isClosable] = PortalUtils.defaultIsClosable,
   isPortalClicked: (Element, Element, Element) => CallbackTo[Boolean] = Popover.IsPortalClicked,
   targetTag: HtmlTag = <.div,
   // (open, close, update position, status) => target Vdom
@@ -69,8 +68,8 @@ object Popover {
       PortalWrapper(
         onOpen = updatePosition,
         onClose = close,
-        closeOnEsc = props.closeOnEsc,
-        closeOnOutsideClick = props.closeOnOutsideClick,
+        closeOnEsc = props.isClosable.exists(_.onEsc),
+        closeOnOutsideClick = props.isClosable.exists(_.onOutsideClick),
         isPortalClicked = (clickedTarget, portal) => {
           targetRef.get.asCallback.flatMap { target =>
             target.fold(CallbackTo(false)) { t =>

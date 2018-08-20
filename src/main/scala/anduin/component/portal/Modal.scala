@@ -16,9 +16,7 @@ final case class Modal(
   title: String,
   size: Modal.Size = Modal.SizeSmall,
   isOpen: Boolean = false,
-  isClosable: Boolean = true,
-  isClosableOnEsc: Boolean = true,
-  isClosableOnOutsideClick: Boolean = true,
+  isClosable: Option[PortalUtils.isClosable] = PortalUtils.defaultIsClosable,
   // (open callback) => target Vdom
   renderTarget: Callback => VdomNode,
   // (title, close callback, isCloseable) => header Vdom
@@ -63,8 +61,8 @@ object Modal {
     def render(props: Modal): VdomElement = {
       PortalWrapper(
         isOpen = props.isOpen,
-        closeOnEsc = props.isClosable && props.isClosableOnEsc,
-        closeOnOutsideClick = props.isClosable && props.isClosableOnOutsideClick,
+        closeOnEsc = props.isClosable.exists(_.onEsc),
+        closeOnOutsideClick = props.isClosable.exists(_.onOutsideClick),
         isPortalClicked = (clickedTarget, _) => isPortalClicked(clickedTarget),
         onOpen = props.onOpen,
         onClose = props.onClose,
@@ -83,7 +81,7 @@ object Modal {
             <.div.withRef(modalRef)(
               Style.backgroundColor.gray1.borderRadius.px2.overflow.hidden.margin.horAuto,
               props.size.style,
-              props.renderHeader(props.title, props.isClosable, onClose),
+              props.renderHeader(props.title, props.isClosable.isDefined, onClose)(),
               props.renderContent(onClose)
             )
           )
