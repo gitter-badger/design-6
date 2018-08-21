@@ -29,7 +29,7 @@ private[editor] object ShortcutModal {
       ("Y", "Redo")
     )
 
-    ModalBody(
+    ModalBody()(
       <.ul(
         ^.cls := "list os-specific-keys flex",
         shortcuts.toVdomArray {

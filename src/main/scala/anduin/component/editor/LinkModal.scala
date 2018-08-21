@@ -29,7 +29,7 @@ private[editor] object LinkModal {
 
     def render(props: LinkModal, state: State): VdomElement = {
       ReactFragment(
-        ModalBody(
+        ModalBody()(
           <.input(
             ^.autoFocus := true,
             ^.cls := "text-field",

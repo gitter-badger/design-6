@@ -31,7 +31,7 @@ object CommonConfirmModal {
 
     def render(props: CommonConfirmModal, state: State): VdomElement = {
       ReactFragment(
-        ModalBody(props.displayInfo),
+        ModalBody()(props.displayInfo),
         ModalFooterWCancel(cancel = props.onClose)(
           ProgressButton(
             color = ButtonStyle.ColorPrimary,

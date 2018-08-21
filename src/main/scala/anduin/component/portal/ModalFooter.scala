@@ -9,19 +9,22 @@ import japgolly.scalajs.react._
 import japgolly.scalajs.react.vdom.html_<^._
 // scalastyle:on underscore.import
 
+final case class ModalFooter() {
+  def apply(children: VdomNode*): VdomElement =
+    ModalFooter.component(this)(children: _*)
+}
+
 object ModalFooter {
 
-  def apply(children: VdomNode*): VdomElement = {
-    component(children: _*)
+  private type Props = ModalFooter
+
+  private def render(children: PropsChildren) = {
+    <.div(Style.padding.hor20.padding.bottom20, children)
   }
 
-  private val ComponentName = this.getClass.getSimpleName
-
   private val component = ScalaComponent
-    .builder[Unit](ComponentName)
+    .builder[Props](this.getClass.getSimpleName)
     .stateless
-    .render_C { children =>
-      <.div(Style.padding.hor20.padding.bottom20, children)
-    }
+    .render_C(render)
     .build
 }

@@ -16,45 +16,52 @@ final case class ModalHeader(
   isClosable: Boolean = true,
   close: Callback
 ) {
-  def apply(): VdomElement = {
-    ModalHeader.component(this)
-  }
+  def apply(): VdomElement = ModalHeader.component(this)
 }
 
 object ModalHeader {
 
-  private val ComponentName = this.getClass.getSimpleName
+  private type Props = ModalHeader
 
-  private class Backend() {
-    def render(props: ModalHeader): VdomElement = {
-      <.div(
-        Style.backgroundColor.white.padding.ver16.position.relative,
-        Style.border.bottom.borderColor.gray3.borderWidth.px1,
-        <.h3(Style.fontWeight.medium.textAlign.center.color.gray7.margin.all4,
-          ^.paddingLeft := "45px",
-          ^.paddingRight := "45px",
-          <.div(Style.typography.truncate2, props.title)
-        ),
-        TagMod.when(props.isClosable) {
-          <.div(
-            Style.position.absolute.coordinate.top0.backgroundColor.white,
-            Style.flexbox.flex.flexbox.itemsCenter.height.pc100, // center vertical
-            ^.right := "12px",
-            Button(
-              style = ButtonStyle.StyleMinimal,
-              size = ButtonStyle.SizeIcon,
-              onClick = props.close
-            )(Icon(name = Icon.NameCross)())
-          )
-        }
-      )
-    }
+  private val containerStyles = TagMod(
+    Style.backgroundColor.white.padding.ver16.position.relative,
+    Style.border.bottom.borderColor.gray3.borderWidth.px1
+  )
+
+  private val titleStyles = TagMod(
+    Style.fontWeight.medium.textAlign.center.color.gray7.margin.all4,
+    ^.paddingLeft := "45px",
+    ^.paddingRight := "45px"
+  )
+
+  private val closeStyles = TagMod(
+    Style.position.absolute.coordinate.top0.backgroundColor.white,
+    Style.flexbox.flex.flexbox.itemsCenter.height.pc100, // center vertical
+    ^.right := "12px"
+  )
+
+  private def render(props: Props): VdomElement = {
+    <.div(
+      containerStyles,
+      <.h3(
+        titleStyles,
+        <.div(Style.typography.truncate2, props.title)
+      ),
+      TagMod.when(props.isClosable) {
+        val button = Button(
+          style = ButtonStyle.StyleMinimal,
+          size = ButtonStyle.SizeIcon,
+          autoFocus = true,
+          onClick = props.close
+        )(Icon(name = Icon.NameCross)())
+        <.div(closeStyles, button)
+      }
+    )
   }
 
   private val component = ScalaComponent
-    .builder[ModalHeader](ComponentName)
+    .builder[Props](this.getClass.getSimpleName)
     .stateless
-    .renderBackend[Backend]
+    .render_P(render)
     .build
-
 }
