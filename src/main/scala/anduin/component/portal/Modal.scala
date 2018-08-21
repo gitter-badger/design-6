@@ -14,7 +14,7 @@ import japgolly.scalajs.react.vdom.html_<^._
 
 final case class Modal(
   title: String = "",
-  size: Modal.Size = Modal.SizeSmall,
+  size: Modal.Size = Modal.Size480,
   isOpen: Boolean = false,
   isClosable: Option[PortalUtils.isClosable] = PortalUtils.defaultIsClosable,
   // (open callback) => target Vdom
@@ -33,11 +33,11 @@ object Modal {
   private val ComponentName = this.getClass.getSimpleName
 
   sealed trait Size { val style: TagMod }
-  case object SizeSmall extends Size { val style: TagMod = ^.width := "480px" }
+  case object Size480 extends Size { val style: TagMod = ^.width := "480px" }
   case object Size600 extends Size { val style: TagMod = ^.width := "600px" }
   case object Size720 extends Size { val style: TagMod = ^.width := "720px" }
-  case object SizeMedium extends Size { val style: TagMod = ^.width := "960px" }
-  case object SizeLarge extends Size { val style: TagMod = ^.width := "1160px" }
+  case object Size960 extends Size { val style: TagMod = ^.width := "960px" }
+  case object Size1160 extends Size { val style: TagMod = ^.width := "1160px" }
   case object SizeFull extends Size { val style: TagMod = Style.width.pc100.height.pc100 }
 
   private class Backend() {
