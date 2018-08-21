@@ -67,12 +67,12 @@ object ButtonStyle {
   }
 
   case object ColorPurple extends Color {
-    private val interact = Style.hover.backgroundPurple3.active.backgroundPrimary5
-    val link: TagMod = Style.color.purple4
+    private val interact = Style.hover.backgroundGray6.active.backgroundGray8
+    val link: TagMod = Style.color.gray7
     val minimal =
-      TagMod(interact, ColorAccentBase.minimal, Style.color.purple4.hover.borderPurple5.active.borderPurple5)
-    val full = TagMod(interact, ColorAccentBase.full, Style.backgroundColor.purple4.borderColor.purple5)
-    val selected = TagMod(ColorAccentBase.selected, Style.backgroundColor.purple5.borderColor.purple5)
+      TagMod(interact, ColorAccentBase.minimal, Style.color.gray7.hover.borderGray4.active.borderGray5)
+    val full = TagMod(interact, ColorAccentBase.full, Style.backgroundColor.gray7.borderColor.gray8)
+    val selected = TagMod(ColorAccentBase.selected, Style.backgroundColor.gray8.borderColor.gray8)
   }
 
   sealed trait Size { val style: TagMod }
