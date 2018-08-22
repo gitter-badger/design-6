@@ -3,55 +3,68 @@
 package anduin.component.portal
 
 import org.scalajs.dom
-import org.scalajs.dom.raw.Element
 
 // scalastyle:off underscore.import
 import japgolly.scalajs.react._
 import japgolly.scalajs.react.vdom.html_<^._
 // scalastyle:on underscore.import
 
-private[portal] final case class Portal(status: Status) {
-  def apply(children: VdomNode*): VdomElement = {
-    Portal.component(this)(children: _*)
-  }
+// This is a low level component so it should not have default values
+private[portal] final case class Portal(
+  // Rendering
+  renderTarget: (Callback, Boolean) => VdomNode, // (Toggle, isOpened)
+  renderContent: Callback => VdomNode, // (Toggle)
+  // State management
+  defaultIsOpened: Boolean, // For initial state
+  isOpened: Option[Boolean], // Opt-out internal state (controlled Portal)
+  // Event hooks (these are actually "afterOpen" and "afterClose")
+  onOpen: Callback,
+  onClose: Callback
+) {
+  def apply(): VdomElement = Portal.component(this)
 }
 
 private[portal] object Portal {
 
-  private val ComponentName = this.getClass.getSimpleName
+  private type Props = Portal
 
-  private class Backend(scope: BackendScope[Portal, _]) {
+  private case class State(isOpened: Boolean)
 
-    private var node: Element = _ // scalastyle:ignore
+  private class Backend(scope: BackendScope[Props, State]) {
 
-    def componentWillUnmount: Callback = {
-      scope.props.flatMap { props =>
-        Callback {
-          if (node != null) {
-            dom.document.body.removeChild(node)
-          }
-          node = null // scalastyle:ignore
-        }
-      }
+    private def getIsOpened(props: Props, state: State) = {
+      props.isOpened.getOrElse(state.isOpened)
     }
 
-    def render(props: Portal, children: PropsChildren): VdomNode = {
-      if (node == null) { // scalastyle:ignore
-        node = dom.document.createElement("div")
-        dom.document.body.appendChild(node)
-      }
-      if (props.status != StatusClose) {
-        ReactPortal(children, node)
-      } else {
-        EmptyVdom
-      }
+    private def toggle: Callback = {
+      for {
+        props <- scope.props
+        state <- scope.state
+        // Choose correct event hook to call
+        eventHook = if (getIsOpened(props, state)) props.onClose else props.onOpen
+        // If it's uncontrolled component: update internal state then call event hook
+        _ <- Callback.when(props.isOpened.isEmpty) { scope.setState(State(!state.isOpened), eventHook) }
+        // If it's controlled component:   just call event hook directly
+        _ <- Callback.when(props.isOpened.isDefined) { eventHook }
+      } yield ()
+    }
+
+    private def renderContent(props: Props): VdomNode = {
+      ReactPortal(props.renderContent(toggle), dom.document.body)
+    }
+
+    def render(props: Props, state: State): VdomNode = {
+      val isOpened = getIsOpened(props, state)
+      ReactFragment(
+        if (isOpened) renderContent(props) else EmptyVdom,
+        props.renderTarget(toggle, isOpened)
+      )
     }
   }
 
   private val component = ScalaComponent
-    .builder[Portal](ComponentName)
-    .stateless
-    .renderBackendWithChildren[Backend]
-    .componentWillUnmount(_.backend.componentWillUnmount)
+    .builder[Props](this.getClass.getSimpleName)
+    .initialStateFromProps(props => State(props.defaultIsOpened))
+    .renderBackend[Backend]
     .build
 }
