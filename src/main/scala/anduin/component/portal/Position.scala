@@ -2,49 +2,44 @@
 
 package anduin.component.portal
 
-// Position
-sealed trait Position {
-  // The `placement` for Popper
-  // See https://github.com/FezVrasta/popper.js/blob/master/docs/_includes/popper-documentation.md#popperplacements--enum
-  val placement: String
-}
+// scalastyle:off underscore.import
+import anduin.scalajs.popper._
+// scalastyle:on underscore.import
 
-case object PositionTopLeft extends Position {
-  override val placement: String = "top-start"
-}
-case object PositionTop extends Position {
-  override val placement: String = "top"
-}
-case object PositionTopRight extends Position {
-  override val placement: String = "top-end"
-}
+// This is anduin.component Position, which might not be mapped directly 1:1
+// to Popper or whatever library's position system
+sealed trait Position
 
-case object PositionRightTop extends Position {
-  override val placement: String = "right-start"
-}
-case object PositionRight extends Position {
-  override val placement: String = "right"
-}
-case object PositionRightBottom extends Position {
-  override val placement: String = "right-end"
-}
+case object PositionTopLeft extends Position
+case object PositionTop extends Position
+case object PositionTopRight extends Position
+case object PositionRightTop extends Position
+case object PositionRight extends Position
+case object PositionRightBottom extends Position
+case object PositionBottomLeft extends Position
+case object PositionBottom extends Position
+case object PositionBottomRight extends Position
+case object PositionLeftTop extends Position
+case object PositionLeft extends Position
+case object PositionLeftBottom extends Position
 
-case object PositionBottomLeft extends Position {
-  override val placement: String = "bottom-start"
-}
-case object PositionBottom extends Position {
-  override val placement: String = "bottom"
-}
-case object PositionBottomRight extends Position {
-  override val placement: String = "bottom-end"
-}
-
-case object PositionLeftTop extends Position {
-  override val placement: String = "left-start"
-}
-case object PositionLeft extends Position {
-  override val placement: String = "left"
-}
-case object PositionLeftBottom extends Position {
-  override val placement: String = "left-bottom"
+object Position {
+  // scalastyle:off cyclomatic.complexity
+  def getPopperPlacement(position: Position): Placement = {
+    position match {
+      case PositionTopLeft     => PlacementTopStart
+      case PositionTop         => PlacementTop
+      case PositionTopRight    => PlacementTopEnd
+      case PositionRightTop    => PlacementRightStart
+      case PositionRight       => PlacementRight
+      case PositionRightBottom => PlacementRightEnd
+      case PositionBottomLeft  => PlacementBottomStart
+      case PositionBottom      => PlacementBottom
+      case PositionBottomRight => PlacementBottomEnd
+      case PositionLeftTop     => PlacementLeftStart
+      case PositionLeft        => PlacementLeft
+      case PositionLeftBottom  => PlacementLeftEnd
+    }
+  }
+  // scalastyle:on cyclomatic.complexity
 }
