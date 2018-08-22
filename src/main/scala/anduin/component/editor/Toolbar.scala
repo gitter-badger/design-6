@@ -149,12 +149,7 @@ object Toolbar {
           Popover(
             position = PositionTop,
             verticalOffset = -8,
-            isPortalClicked = (clickedTarget, target, portal) => {
-              Popover.IsPortalClicked(clickedTarget, target, portal) || props
-                .editorRef()
-                .map(_.contains(clickedTarget))
-                .getOrElse(false)
-            },
+            isClosable = None,
             renderTarget = (toggle, _, isOpened) => {
               Tooltip(
                 targetTag = <.span,
