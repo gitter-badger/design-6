@@ -39,6 +39,7 @@ object CopyToClipboard {
           window.getSelection().removeAllRanges()
         }
         _ <- scope.modState(_.copy(copied = true))
+        _ <- scope.modState(_.copy(copied = false)).delayMs(3000)
       } yield ()
     }
 
@@ -46,15 +47,7 @@ object CopyToClipboard {
       Tooltip(
         position = PositionRight,
         targetTag = <.span,
-        trigger = (target, open, close, _) => {
-          TagMod(
-            ^.onMouseEnter --> open,
-            ^.onMouseLeave --> scope.modState(_.copy(copied = false), close),
-            ^.onClick --> copyToClipboard,
-            target
-          )
-        },
-        renderTarget = ReactFragment(children),
+        renderTarget = <.span(^.onClick --> copyToClipboard, children),
         renderContent = () => if (state.copied) "Copied to clipboard" else "Click to copy"
       )()
     }
