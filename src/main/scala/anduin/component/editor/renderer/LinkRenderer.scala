@@ -8,7 +8,7 @@ import japgolly.scalajs.react.{PropsChildren, raw}
 
 import anduin.component.button.{ButtonLink, ButtonStyle}
 import anduin.component.editor.{DataUtil, StyleParser}
-import anduin.component.portal.{PositionBottom, Tooltip}
+import anduin.component.portal.{Popover, PositionBottom}
 
 // scalastyle:off underscore.import
 import japgolly.scalajs.react.vdom.html_<^._
@@ -26,22 +26,14 @@ private[editor] object LinkRenderer {
     if (readOnly) {
       link.rawElement
     } else {
-      Tooltip(
+      Popover(
         position = PositionBottom,
         targetTag = <.span,
-        trigger = (t, open, _, _) => {
-          TagMod(
-            ^.onClick --> open,
-            t
-          )
+        renderTarget = (toggle, _, _) => {
+          <.span(^.onClick --> toggle, link)
         },
-        renderTarget = link,
-        renderContent = () => {
-          ButtonLink(
-            style = ButtonStyle.StyleLink,
-            href = href,
-            target = ^.target.blank
-          )("Open link")
+        renderContent = (_, _) => {
+          ButtonLink(style = ButtonStyle.StyleLink, href = href, target = ^.target.blank)("Open link")
         }
       )().rawElement
     }
