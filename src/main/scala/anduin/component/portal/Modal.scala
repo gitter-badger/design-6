@@ -2,10 +2,8 @@
 
 package anduin.component.portal
 
-import org.scalajs.dom
-import org.scalajs.dom.raw.{Element, HTMLElement}
-
 import anduin.style.Style
+import japgolly.scalajs.react.component.builder.Lifecycle
 
 // scalastyle:off underscore.import
 import japgolly.scalajs.react._
@@ -13,25 +11,29 @@ import japgolly.scalajs.react.vdom.html_<^._
 // scalastyle:on underscore.import
 
 final case class Modal(
+  // Portal common props (see Portal for detail)
+  renderTarget: Callback => VdomNode = _ => EmptyVdom, // (Toggle) - might not necessary if isOpened is defined
+  renderContent: Callback => VdomNode, // (Toggle)
+  defaultIsOpened: Boolean = false,
+  isOpened: Option[Boolean] = None,
+  onOpen: Callback = Callback.empty,
+  onClose: Callback = Callback.empty,
+  // Portal utils common props
+  isClosable: Option[PortalUtils.isClosable] = PortalUtils.defaultIsClosable,
+  // Modal specific props
   title: String = "",
   size: Modal.Size = Modal.Size480,
-  isClosable: Option[PortalUtils.isClosable] = PortalUtils.defaultIsClosable,
-  isOpened: Option[Boolean] = None,
-  defaultIsOpened: Boolean = false,
-  // (open callback) => target Vdom
-  renderTarget: Callback => VdomNode,
-  // (close callback) => content Vdom
-  renderContent: Callback => VdomNode,
-  unsafeOverlayMod: TagMod = TagMod.empty,
-  onOpen: Callback = Callback.empty,
-  onClose: Callback = Callback.empty
+  isPermanent: Boolean = false,
+  unsafeOverlayMod: TagMod = TagMod.empty
 ) {
   def apply(): VdomElement = Modal.component(this)
 }
 
 object Modal {
 
-  private val ComponentName = this.getClass.getSimpleName
+  private type Props = Modal
+
+  // Public options
 
   sealed trait Size { val style: TagMod }
   case object Size480 extends Size { val style: TagMod = ^.width := "480px" }
@@ -39,58 +41,81 @@ object Modal {
   case object Size720 extends Size { val style: TagMod = ^.width := "720px" }
   case object Size960 extends Size { val style: TagMod = ^.width := "960px" }
   case object Size1160 extends Size { val style: TagMod = ^.width := "1160px" }
-  case object SizeFull extends Size { val style: TagMod = Style.width.pc100.height.pc100 }
+  case object SizeFull extends Size {
+    val style: TagMod = Style.width.pc100.height.pc100
+  }
 
-  private class Backend() {
+  // Internal rendering
 
-    private val modalRef = Ref[HTMLElement]
+  private val overlayStyles = TagMod(
+    Style.position.fixed.coordinate.fill,
+    ^.backgroundColor := "rgba(48, 64, 77, 0.9)"
+  )
 
-    private val overflowHidden = Style.overflow.hidden.value
+  private val overlayFullStyles = Style.overflow.autoY.padding.ver32
 
-    private def isPortalClicked(clickedTarget: Element) = {
-      val t = for {
-        modal <- modalRef.get
-      } yield !clickedTarget.contains(modal)
-      t.asCallback.map(_.getOrElse(false))
-    }
+  private val contentStyles = TagMod(
+    Style.backgroundColor.gray1.borderRadius.px2,
+    Style.overflow.hidden.margin.horAuto
+  )
 
-    def render(props: Modal): VdomElement = {
-      PortalWrapper(
-        isOpen = props.isOpened.isDefined || props.defaultIsOpened,
-        closeOnEsc = props.isClosable.exists(_.onEsc),
-        closeOnOutsideClick = props.isClosable.exists(_.onOutsideClick),
-        isPortalClicked = (clickedTarget, _) => isPortalClicked(clickedTarget),
-        onOpen = props.onOpen,
-        onClose = props.onClose,
-        renderTarget = (open, _, _) => {
-          // Disable the scrolling on body when the modal is opened
-          val onOpen = Callback(dom.document.body.classList.add(overflowHidden)) >> open
-          props.renderTarget(onOpen)
+  private def renderContent(props: Props)(close: Callback): VdomElement = {
+    val content = <.div(
+      overlayStyles,
+      overlayFullStyles.when(props.size != SizeFull),
+      props.unsafeOverlayMod,
+      PortalUtils.getClosableMods(props.isClosable, close),
+      <.div(
+        contentStyles,
+        props.size.style,
+        ^.tabIndex := 0, // Allow (keyboard) focus so Esc can work
+        // Content
+        TagMod.when(props.title.nonEmpty) {
+          ModalHeader(props.title, props.isClosable.isDefined, close)()
         },
-        renderContent = (close, _) => {
-          val onClose = Callback(dom.document.body.classList.remove(overflowHidden)) >> close
-          <.div(
-            Style.position.fixed.coordinate.fill.zIndex.idx999,
-            props.unsafeOverlayMod,
-            ^.background := "rgba(48, 64, 77, 0.9)",
-            TagMod.when(props.size != SizeFull) { Style.overflow.autoY.padding.ver32 },
-            <.div.withRef(modalRef)(
-              Style.backgroundColor.gray1.borderRadius.px2.overflow.hidden.margin.horAuto,
-              props.size.style,
-              TagMod.when(props.title.nonEmpty) {
-                ModalHeader(props.title, props.isClosable.isDefined, onClose)()
-              },
-              props.renderContent(onClose)
-            )
-          )
-        }
-      )()
+        props.renderContent(close)
+      )
+    )
+    // This external div is to keep the render consistent with the unmount's
+    // detach render (which use renderIntoDOM instead of ReactPortal)
+    <.div(content)
+  }
+
+  private def onClose(props: Props): Callback =
+    PortalUtils.unstableSetBodyOverflow(false) >> props.onClose
+
+  private def onOpen(props: Props): Callback =
+    PortalUtils.unstableSetBodyOverflow(true) >> props.onOpen
+
+  // Main render
+
+  private def render(props: Props): VdomElement = {
+    Portal(
+      renderTarget = (toggle, _) => props.renderTarget(toggle),
+      renderContent = renderContent(props),
+      // ===
+      defaultIsOpened = props.defaultIsOpened,
+      isOpened = props.isOpened,
+      onClose = onClose(props),
+      onOpen = onOpen(props)
+    )()
+  }
+
+  private def willUnmount(
+    scope: Lifecycle.ComponentWillUnmount[Props, Unit, Unit]
+  ): Callback = {
+    Callback.when(scope.props.isPermanent) {
+      PortalUtils.detach { unmount =>
+        val close = onClose(scope.props) >> unmount
+        renderContent(scope.props)(close)
+      }
     }
   }
 
   private val component = ScalaComponent
-    .builder[Modal](ComponentName)
+    .builder[Props](this.getClass.getSimpleName)
     .stateless
-    .renderBackend[Backend]
+    .render_P(render)
+    .componentWillUnmount(willUnmount)
     .build
 }
