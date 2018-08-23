@@ -33,17 +33,13 @@ final class Data(
 
 // Modifiers
 
-final case class OffsetSimple(x: Double, y: Double)
-
 final class OffsetModifier(
   val offset: String
 ) extends js.Object
 
 object OffsetModifier {
-  def apply(
-    offset: OffsetSimple
-  ): OffsetModifier = new OffsetModifier(
-    offset = s"${offset.x.toString}px, ${offset.y.toString}px"
+  def apply(x: Double, y: Double): OffsetModifier = new OffsetModifier(
+    offset = s"${x.toString}px, ${y.toString}px"
   )
 }
 
