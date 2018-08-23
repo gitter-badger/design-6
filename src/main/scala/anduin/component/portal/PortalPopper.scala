@@ -53,7 +53,7 @@ private[portal] object PortalPopper {
   //   element)
   // - Therefore the arrow will be sent via ContentProps and let the consumer
   //   to insert it correctly
-  val arrowSize = 8
+  val arrowSize: Double = 8
   private val arrowSizePx = s"${arrowSize}px"
   private val arrowMod = TagMod(
     VdomAttr("x-arrow") := "", // Popper's default arrow selector
@@ -112,11 +112,14 @@ private[portal] object PortalPopper {
               offset = OffsetModifier(props.offsetHor, props.offsetVer)
             )
           )
+          // This applies necessary coordination to the content (via inline
+          // styles)
           val popper = new Popper(target, content, options)
           this.popperOpt = Some(popper)
+          // Show content after calculation (content should be hidden by
+          // contentStyles in the initial render)
+          content.style.opacity = "1"
         }
-        // Show content after calculation (content should set 0 opacity itself)
-        _ <- Callback { content.style.opacity = "1" }
       } yield ()
     }
 

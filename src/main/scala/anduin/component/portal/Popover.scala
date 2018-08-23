@@ -60,7 +60,7 @@ object Popover {
     props.targetTag.withRef(popper.ref)(body)
   }
 
-  def render(props: Props): VdomElement = {
+  private def render(props: Props): VdomElement = {
     PortalPopper(
       renderTarget = renderTarget(props),
       renderContent = renderContent(props),

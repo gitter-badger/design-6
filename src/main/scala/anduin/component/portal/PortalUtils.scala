@@ -2,12 +2,12 @@
 
 package anduin.component.portal
 
-// scalastyle:off underscore.import
-import japgolly.scalajs.react._
-import japgolly.scalajs.react.vdom.html_<^._
 import org.scalajs.dom
 import org.scalajs.dom.ext.KeyCode
 
+// scalastyle:off underscore.import
+import japgolly.scalajs.react._
+import japgolly.scalajs.react.vdom.html_<^._
 // scalastyle:on underscore.import
 
 // - These are common functionality for Portal consumers (e.g. Modal, Popover,

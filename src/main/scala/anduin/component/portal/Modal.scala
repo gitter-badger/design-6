@@ -3,7 +3,6 @@
 package anduin.component.portal
 
 import anduin.style.Style
-import japgolly.scalajs.react.component.builder.Lifecycle
 
 // scalastyle:off underscore.import
 import japgolly.scalajs.react._
@@ -89,33 +88,37 @@ object Modal {
 
   // Main render
 
-  private def render(props: Props): VdomElement = {
-    Portal(
-      renderTarget = (toggle, _) => props.renderTarget(toggle),
-      renderContent = renderContent(props),
-      // ===
-      defaultIsOpened = props.defaultIsOpened,
-      isOpened = props.isOpened,
-      onClose = onClose(props),
-      onOpen = onOpen(props)
-    )()
-  }
+  private class Backend(scope: BackendScope[Props, _]) {
 
-  private def willUnmount(
-    scope: Lifecycle.ComponentWillUnmount[Props, Unit, Unit]
-  ): Callback = {
-    Callback.when(scope.props.isPermanent) {
-      PortalUtils.detach { unmount =>
-        val close = onClose(scope.props) >> unmount
-        renderContent(scope.props)(close)
-      }
+    def render(props: Props): VdomElement = {
+      Portal(
+        renderTarget = (toggle, _) => props.renderTarget(toggle),
+        renderContent = renderContent(props),
+        // ===
+        defaultIsOpened = props.defaultIsOpened,
+        isOpened = props.isOpened,
+        onClose = onClose(props),
+        onOpen = onOpen(props)
+      )()
+    }
+
+    def willUnmount: Callback = {
+      for {
+        props <- scope.props
+        _ <- Callback.when(props.isPermanent) {
+          PortalUtils.detach { unmount =>
+            val close = onClose(props) >> unmount
+            renderContent(props)(close)
+          }
+        }
+      } yield ()
     }
   }
 
   private val component = ScalaComponent
     .builder[Props](this.getClass.getSimpleName)
     .stateless
-    .render_P(render)
-    .componentWillUnmount(willUnmount)
+    .renderBackend[Backend]
+    .componentWillUnmount(_.backend.willUnmount)
     .build
 }
