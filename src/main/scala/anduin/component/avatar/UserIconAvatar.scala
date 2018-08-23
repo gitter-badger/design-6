@@ -10,7 +10,7 @@ import japgolly.scalajs.react._
 import japgolly.scalajs.react.vdom.html_<^._
 // scalastyle:on underscore.import
 
-final case class UserIconAvatar(avatarSize: AvatarSize = DefaultSize) {
+final case class UserIconAvatar(avatarSize: AvatarSize = Size32) {
   def apply(): VdomElement = UserIconAvatar.component(this)
 }
 

@@ -12,7 +12,7 @@ import japgolly.scalajs.react.vdom.html_<^._
 final case class Avatar(
   id: String,
   borderRadius: Style,
-  avatarSize: AvatarSize = DefaultSize
+  avatarSize: AvatarSize = Size32
 ) {
   def apply(children: VdomNode*): VdomElement = Avatar.component(this)(children: _*)
 }
