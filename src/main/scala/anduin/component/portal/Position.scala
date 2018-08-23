@@ -10,18 +10,26 @@ import anduin.scalajs.popper._
 // to Popper or whatever library's position system
 sealed trait Position
 
-case object PositionTopLeft extends Position
-case object PositionTop extends Position
-case object PositionTopRight extends Position
-case object PositionRightTop extends Position
-case object PositionRight extends Position
-case object PositionRightBottom extends Position
-case object PositionBottomLeft extends Position
-case object PositionBottom extends Position
-case object PositionBottomRight extends Position
-case object PositionLeftTop extends Position
-case object PositionLeft extends Position
-case object PositionLeftBottom extends Position
+// @TODO: to avoid huge changes in first implementation, we append "Base" to
+// these trait. However, a proper way is to rename PositionTop object to
+// PositionTopCenter, so these traits don't need "Base" suffix
+sealed trait PositionTopBase extends Position
+sealed trait PositionRightBase extends Position
+sealed trait PositionBottomBase extends Position
+sealed trait PositionLeftBase extends Position
+
+case object PositionTopLeft extends PositionTopBase
+case object PositionTop extends PositionTopBase
+case object PositionTopRight extends PositionTopBase
+case object PositionRightTop extends PositionRightBase
+case object PositionRight extends PositionRightBase
+case object PositionRightBottom extends PositionRightBase
+case object PositionBottomLeft extends PositionBottomBase
+case object PositionBottom extends PositionBottomBase
+case object PositionBottomRight extends PositionBottomBase
+case object PositionLeftTop extends PositionLeftBase
+case object PositionLeft extends PositionLeftBase
+case object PositionLeftBottom extends PositionLeftBase
 
 object Position {
   // scalastyle:off cyclomatic.complexity
