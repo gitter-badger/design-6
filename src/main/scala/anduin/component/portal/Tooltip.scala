@@ -39,15 +39,9 @@ object Tooltip {
     Style.padding.ver4.padding.hor8.borderRadius.px4
   )
 
-  private val arrow = <.div(
-    VdomAttr("x-arrow") := "", // Popper's default arrow selector
-    Style.position.absolute.backgroundColor.gray9,
-    TagMod(^.width := "8px", ^.height := "8px"),
-    ^.transform := "rotate(45deg)"
-  )
-
   private def renderContent(props: Props)(popper: PortalPopper.ContentProps): VdomElement = {
     val body = props.renderContent()
+    val arrow = <.div(popper.arrowMod, Style.backgroundColor.gray9)
     <.div.withRef(popper.ref)(popper.styles, contentStyles, body, arrow)
   }
 
@@ -57,13 +51,14 @@ object Tooltip {
       // HTML result consistent with the other case
       props.targetTag(props.renderTarget)
     } else {
+      val arrowOffset = PortalPopper.getArrowOffset(props.position)
       PortalPopper(
         renderTarget = renderTarget(props),
         renderContent = renderContent(props),
         // ===
         position = props.position,
-        offsetHor = 0,
-        offsetVer = 8 // for arrow
+        offsetHor = arrowOffset._1,
+        offsetVer = arrowOffset._2
       )()
     }
   }
