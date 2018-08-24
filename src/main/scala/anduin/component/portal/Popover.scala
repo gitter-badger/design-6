@@ -38,7 +38,12 @@ object Popover {
   // Because we use body's scroll so we must use absolute position here so
   // the overlay matches the size and position of body tag, in order for Popper
   // to work
-  private val overlayStyles = Style.position.absolute.width.pc100.height.pc100.coordinate.fill
+  private val overlayStyles = TagMod(
+    Style.position.absolute.width.pc100.height.pc100.coordinate.fill,
+    // Backward compatible
+    // https://github.com/anduintransaction/stargazer/issues/17011
+    Style.zIndex.idx999
+  )
 
   private def renderContent(props: Props)(popper: PortalPopper.ContentProps) = {
     <.div(

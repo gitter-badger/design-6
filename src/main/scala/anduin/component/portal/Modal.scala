@@ -48,7 +48,10 @@ object Modal {
 
   private val overlayStyles = TagMod(
     Style.position.fixed.coordinate.fill,
-    ^.backgroundColor := "rgba(48, 64, 77, 0.9)"
+    ^.backgroundColor := "rgba(48, 64, 77, 0.9)",
+    // Backward compatible
+    // https://github.com/anduintransaction/stargazer/issues/17011
+    Style.zIndex.idx999
   )
 
   private val overlayFullStyles = Style.overflow.autoY.padding.ver32
