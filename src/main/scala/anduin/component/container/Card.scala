@@ -11,7 +11,7 @@ import japgolly.scalajs.react.vdom.html_<^._
 
 final case class Card(
   header: VdomNode = EmptyVdom,
-  isNonImportant: Boolean = false
+  isDimmed: Boolean = false
 ) {
   def apply(children: VdomNode*): VdomElement = {
     Card.component(this)(children: _*)
@@ -28,7 +28,7 @@ object Card {
     } else {
       <.header(
         Style.fontSize.px12.fontWeight.medium.margin.bottom20.textTransform.uppercase,
-        TagMod.when(props.isNonImportant) {
+        TagMod.when(props.isDimmed) {
           Style.color.gray7
         },
         props.header
@@ -39,7 +39,7 @@ object Card {
   private def render(props: Props, children: PropsChildren): VdomElement = {
     <.div(
       Style.borderRadius.px2.padding.all20,
-      if (props.isNonImportant) {
+      if (props.isDimmed) {
         Style.backgroundColor.gray1
       } else {
         Style.backgroundColor.white
