@@ -10,7 +10,8 @@ import japgolly.scalajs.react.vdom.html_<^._
 // scalastyle:on underscore.import
 
 final case class Card(
-  header: VdomNode = EmptyVdom
+  header: VdomNode = EmptyVdom,
+  isNonImportant: Boolean = false
 ) {
   def apply(children: VdomNode*): VdomElement = {
     Card.component(this)(children: _*)
@@ -26,8 +27,10 @@ object Card {
       EmptyVdom
     } else {
       <.header(
-        Style.fontSize.px12.fontWeight.medium.margin.bottom20,
-        Style.color.gray7.textTransform.uppercase,
+        Style.fontSize.px12.fontWeight.medium.margin.bottom20.textTransform.uppercase,
+        TagMod.when(props.isNonImportant) {
+          Style.color.gray7
+        },
         props.header
       )
     }
@@ -35,7 +38,12 @@ object Card {
 
   private def render(props: Props, children: PropsChildren): VdomElement = {
     <.div(
-      Style.backgroundColor.white.borderRadius.px2.padding.all20,
+      Style.borderRadius.px2.padding.all20,
+      if (props.isNonImportant) {
+        Style.backgroundColor.gray1
+      } else {
+        Style.backgroundColor.white
+      },
       Style.shadow.blur1Light,
       renderHeader(props),
       children
