@@ -83,12 +83,6 @@ object Modal {
     <.div(content)
   }
 
-  private def onClose(props: Props): Callback =
-    PortalUtils.unstableSetBodyOverflow(false) >> props.onClose
-
-  private def onOpen(props: Props): Callback =
-    PortalUtils.unstableSetBodyOverflow(true) >> props.onOpen
-
   // Main render
 
   private class Backend(scope: BackendScope[Props, _]) {
@@ -100,8 +94,8 @@ object Modal {
         // ===
         defaultIsOpened = props.defaultIsOpened,
         isOpened = props.isOpened,
-        onClose = onClose(props),
-        onOpen = onOpen(props)
+        onClose = props.onClose,
+        onOpen = props.onOpen
       )()
     }
 
@@ -110,7 +104,7 @@ object Modal {
         props <- scope.props
         _ <- Callback.when(props.isPermanent) {
           PortalUtils.detach { unmount =>
-            val close = onClose(props) >> unmount
+            val close = props.onClose >> unmount
             renderContent(props)(close)
           }
         }

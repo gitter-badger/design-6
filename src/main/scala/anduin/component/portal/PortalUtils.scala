@@ -47,16 +47,6 @@ object PortalUtils {
     }
   }
 
-  // Prevent body overflow ===
-
-  // This should not available widely yet due to not being stable enough in
-  // several cases. E.g. When there are nested modal, or more components that
-  // can hide body's scroll than just modal
-  private[portal] def unstableSetBodyOverflow(isHidden: Boolean): Callback = Callback {
-    val value = if (isHidden) "hidden" else "auto"
-    body.style.overflow = value
-  }
-
   // Detach into DOM ===
 
   // This is an advanced feature to keep an instance lives longer than its
