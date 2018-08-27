@@ -27,10 +27,7 @@ object Card {
       EmptyVdom
     } else {
       <.header(
-        Style.fontSize.px12.fontWeight.medium.margin.bottom20.textTransform.uppercase,
-        TagMod.when(props.isDimmed) {
-          Style.color.gray7
-        },
+        Style.color.gray7.fontSize.px12.fontWeight.medium.margin.bottom20.textTransform.uppercase,
         props.header
       )
     }
