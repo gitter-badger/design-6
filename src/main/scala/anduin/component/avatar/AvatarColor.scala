@@ -4,7 +4,7 @@ package anduin.component.avatar
 
 import scala.util.hashing.MurmurHash3
 
-private[avatar] object AvatarColor {
+object AvatarColor {
 
   private val GoldenRatioConjugate = 0.618033988749895
 
