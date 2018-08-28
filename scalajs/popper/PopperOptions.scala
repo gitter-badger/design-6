@@ -43,15 +43,37 @@ object OffsetModifier {
   )
 }
 
+// ===
+
+final class PreventOverflowModifier(
+  val boundariesElement: String
+) extends js.Object
+
+sealed abstract class Boundaries(val value: String)
+
+case object BoundariesScrolledParent extends Boundaries("scrollParent")
+case object BoundariesWindow extends Boundaries("window")
+case object BoundariesViewPort extends Boundaries("viewport")
+
+object PreventOverflowModifier {
+  def apply(boundaries: Boundaries): PreventOverflowModifier =
+    new PreventOverflowModifier(boundaries.value)
+}
+
+// ===
+
 final class Modifiers(
-  val offset: js.UndefOr[OffsetModifier]
+  val offset: js.UndefOr[OffsetModifier],
+  val preventOverflow: js.UndefOr[PreventOverflowModifier]
 ) extends js.Object
 
 object Modifiers {
   def apply(
-    offset: js.UndefOr[OffsetModifier] = js.undefined
+    offset: js.UndefOr[OffsetModifier] = js.undefined,
+    preventOverflow: js.UndefOr[PreventOverflowModifier] = js.undefined
   ): Modifiers = new Modifiers(
-    offset
+    offset,
+    preventOverflow
   )
 }
 
