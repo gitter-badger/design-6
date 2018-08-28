@@ -46,17 +46,25 @@ object Popover {
   )
 
   private def renderContent(props: Props)(popper: PortalPopper.ContentProps) = {
+    val isOverlayClosable = props.isClosable.exists(_.onOutsideClick)
+
+    // This is the actual popover node (i.e. the dom node that Popper
+    // will position)
+    val content = <.div.withRef(popper.ref)(
+      // Reset overlay's pointerEvents
+      TagMod.when(!isOverlayClosable) { Style.pointerEvents.all },
+      TagMod(popper.styles, contentStyles),
+      props.renderContent(popper.toggle, popper.update)
+    )
+
+    // This is the overlay of Popover. This will catch closable events
+    // like onEsc or onOutsideClick
     <.div(
       overlayStyles,
-      if (props.isClosable.isDefined) {
-        PortalUtils.getClosableMods(props.isClosable, popper.toggle)
-      } else {
-        Style.pointerEvents.none // Allow click through if not closable
-      }, {
-        // The actual popover
-        val body = props.renderContent(popper.toggle, popper.update)
-        <.div.withRef(popper.ref)(popper.styles, contentStyles, body)
-      }
+      PortalUtils.getClosableMods(props.isClosable, popper.toggle),
+      // Allow click through if not closable via outsideClick
+      TagMod.when(!isOverlayClosable) { Style.pointerEvents.none },
+      content
     )
   }
 
