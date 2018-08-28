@@ -109,7 +109,8 @@ private[portal] object PortalPopper {
             placement = Position.getPopperPlacement(props.position),
             onCreate = setArrowStyle(props),
             modifiers = Modifiers(
-              offset = OffsetModifier(props.offsetHor, props.offsetVer)
+              offset = OffsetModifier(props.offsetHor, props.offsetVer),
+              preventOverflow = PreventOverflowModifier(BoundariesWindow)
             )
           )
           // This applies necessary coordination to the content (via inline
