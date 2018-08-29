@@ -3,6 +3,7 @@
 package anduin.component.editor
 
 import anduin.component.button.{Button, ButtonStyle}
+import anduin.component.portal.Tooltip
 
 // scalastyle:off underscore.import
 import japgolly.scalajs.react._
@@ -27,20 +28,17 @@ private[editor] object ToolbarButton {
   private class Backend() {
 
     def render(props: ToolbarButton, children: PropsChildren): VdomElement = {
-      <.span(
-        ^.classSet(
-          "tooltip -top" -> props.tip.nonEmpty
-        ),
-        TagMod.when(props.tip.nonEmpty)(VdomAttr("data-tip") := props.tip),
-        Button(
+      Tooltip(
+        targetTag = <.span,
+        renderTarget = Button(
           style = ButtonStyle.StyleMinimal,
           size = ButtonStyle.SizeIcon,
           isSelected = props.active,
           onClick = props.onClick
-        )(
-          children
-        )
-      )
+        )(children),
+        renderContent = () => props.tip,
+        isDisabled = props.tip.nonEmpty
+      )()
     }
   }
 
