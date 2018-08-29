@@ -40,8 +40,8 @@ private[portal] object PortalPopper {
   // - In other words, only the consumer know exactly which is the actual
   //   "content" element
   private val contentStyles = TagMod(
-    Style.width.maxContent, // make Popper calculation more stable
-    Style.position.fixed.opacity.pc0.coordinate.top0 // avoid showing while Popper is calculating
+    // avoid showing while Popper is calculating
+    Style.position.fixed.opacity.pc0.coordinate.top0
   )
 
   // The appearance of the arrow can be customized by the consumer, but most
@@ -109,7 +109,8 @@ private[portal] object PortalPopper {
             placement = Position.getPopperPlacement(props.position),
             onCreate = setArrowStyle(props),
             modifiers = Modifiers(
-              offset = OffsetModifier(props.offsetHor, props.offsetVer)
+              offset = OffsetModifier(props.offsetHor, props.offsetVer),
+              preventOverflow = PreventOverflowModifier(BoundariesWindow)
             )
           )
           // This applies necessary coordination to the content (via inline
