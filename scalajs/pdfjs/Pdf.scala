@@ -16,11 +16,11 @@ import anduin.scalajs.moment.{Date, Moment}
 
 object PdfWorkerUrl {
   // The path to PDF parsing worker
-  def pdfWorkerUrl(productionBuild: Boolean): String = {
+  def pdfWorkerUrl(productionBuild: Boolean, jsSuffix: String): String = {
     if (productionBuild) {
-      "/web/gondor/pdf.worker.min.js"
+      s"/web/gondor/pdf$jsSuffix.worker.min.js.gz"
     } else {
-      "/web/gondor/pdf.worker.js"
+      s"/web/gondor/pdf$jsSuffix.worker.js.gz"
     }
   }
 }
