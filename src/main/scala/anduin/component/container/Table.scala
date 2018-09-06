@@ -55,6 +55,11 @@ object Table {
     val thead: TagMod = Style.backgroundColor.gray1
     val th: TagMod = TagMod(border, Style.border.all)
   }
+  case object StyleNormal extends Style {
+    val tr: TagMod = TagMod(border, Style.border.bottom)
+    val thead: TagMod = Style.backgroundColor.gray1
+    val th: TagMod = TagMod.empty
+  }
   case object StyleMinimal extends Style {
     val tr: TagMod = TagMod(border, Style.border.bottom)
     val thead: TagMod = TagMod.empty
