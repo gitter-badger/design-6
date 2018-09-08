@@ -54,7 +54,7 @@ object Modal {
     Style.zIndex.idx999
   )
 
-  private val overlayFullStyles = Style.overflow.autoY.padding.ver32
+  private val overlayNonFullStyles = Style.overflow.autoY.padding.ver32
 
   private val contentStyles = TagMod(
     Style.backgroundColor.gray1.borderRadius.px2,
@@ -64,7 +64,7 @@ object Modal {
   private def renderContent(props: Props)(close: Callback): VdomElement = {
     val content = <.div(
       overlayStyles,
-      overlayFullStyles.when(props.size != SizeFull),
+      TagMod.when(props.size != SizeFull) { overlayNonFullStyles },
       props.unsafeOverlayMod,
       PortalUtils.getClosableMods(props.isClosable, close),
       <.div(
