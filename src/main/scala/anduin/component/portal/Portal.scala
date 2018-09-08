@@ -19,7 +19,9 @@ private[portal] final case class Portal(
   isOpened: Option[Boolean], // Opt-out internal state (controlled Portal)
   // Event hooks (these are actually "afterOpen" and "afterClose")
   onOpen: Callback,
-  onClose: Callback
+  onClose: Callback,
+  // Other behaviours
+  isPermanent: Boolean
 ) {
   def apply(): VdomElement = Portal.component(this)
 }
@@ -60,11 +62,29 @@ private[portal] object Portal {
         props.renderTarget(toggle, isOpened)
       )
     }
+
+    def willUnmount: Callback = {
+      for {
+        props <- scope.props
+        state <- scope.state
+        _ <- Callback.when(
+          props.isPermanent && getIsOpened(props, state)
+        ) {
+          PortalUtils.detach { unmount =>
+            val close = props.onClose >> unmount
+            // Dangerous: we need a div wrapper here since only VdomElement
+            // can detach
+            <.div(props.renderContent(close))
+          }
+        }
+      } yield ()
+    }
   }
 
   private val component = ScalaComponent
     .builder[Props](this.getClass.getSimpleName)
     .initialStateFromProps(props => State(props.defaultIsOpened))
     .renderBackend[Backend]
+    .componentWillUnmount(_.backend.willUnmount)
     .build
 }

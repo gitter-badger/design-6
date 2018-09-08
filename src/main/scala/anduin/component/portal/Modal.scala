@@ -85,37 +85,22 @@ object Modal {
 
   // Main render
 
-  private class Backend(scope: BackendScope[Props, _]) {
-
-    def render(props: Props): VdomElement = {
-      Portal(
-        renderTarget = (toggle, _) => props.renderTarget(toggle),
-        renderContent = renderContent(props),
-        // ===
-        defaultIsOpened = props.defaultIsOpened,
-        isOpened = props.isOpened,
-        onClose = props.onClose,
-        onOpen = props.onOpen
-      )()
-    }
-
-    def willUnmount: Callback = {
-      for {
-        props <- scope.props
-        _ <- Callback.when(props.isPermanent) {
-          PortalUtils.detach { unmount =>
-            val close = props.onClose >> unmount
-            renderContent(props)(close)
-          }
-        }
-      } yield ()
-    }
+  private def render(props: Props): VdomElement = {
+    Portal(
+      renderTarget = (toggle, _) => props.renderTarget(toggle),
+      renderContent = renderContent(props),
+      // ===
+      defaultIsOpened = props.defaultIsOpened,
+      isOpened = props.isOpened,
+      onClose = props.onClose,
+      onOpen = props.onOpen,
+      isPermanent = props.isPermanent
+    )()
   }
 
   private val component = ScalaComponent
     .builder[Props](this.getClass.getSimpleName)
     .stateless
-    .renderBackend[Backend]
-    .componentWillUnmount(_.backend.willUnmount)
+    .render_P(render)
     .build
 }
