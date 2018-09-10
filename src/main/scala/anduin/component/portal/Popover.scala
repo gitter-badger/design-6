@@ -14,7 +14,7 @@ final case class Popover(
   renderTarget: (Callback, Callback, Boolean) => VdomNode, // (toggle, update position, isOpened)
   renderContent: (Callback, Callback) => VdomNode, // (close, update position)
   // Portal utils common props
-  isClosable: Option[PortalUtils.isClosable] = PortalUtils.defaultIsClosable,
+  isClosable: Option[PortalUtils.IsClosable] = PortalUtils.defaultIsClosable,
   // PortalPopper common props (see PortalPopper for detail)
   position: Position = PositionBottom,
   verticalOffset: Double = 0,

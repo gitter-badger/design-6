@@ -24,9 +24,9 @@ object PortalUtils {
 
   // Closable ===
 
-  case class isClosable(onEsc: Boolean, onOutsideClick: Boolean)
+  case class IsClosable(onEsc: Boolean, onOutsideClick: Boolean)
 
-  val defaultIsClosable = Some(PortalUtils.isClosable(onEsc = true, onOutsideClick = true))
+  val defaultIsClosable = Some(PortalUtils.IsClosable(onEsc = true, onOutsideClick = true))
 
   private def closeIfEsc(close: Callback)(event: ReactKeyboardEvent) = {
     Callback.when(event.keyCode == KeyCode.Escape) { close }
@@ -38,7 +38,7 @@ object PortalUtils {
 
   // NOTE: in order for "closeOnEsc" to work, there should be an interact-able
   // child (i.e. tabIndex != -1). Preferably autoFocus too.
-  private[portal] def getClosableMods(isClosableOpt: Option[isClosable], close: Callback): TagMod = {
+  private[portal] def getClosableMods(isClosableOpt: Option[IsClosable], close: Callback): TagMod = {
     isClosableOpt.fold(TagMod.empty) { isClosable =>
       TagMod(
         TagMod.when(isClosable.onOutsideClick) { ^.onClick ==> closeIfOutside(close) },

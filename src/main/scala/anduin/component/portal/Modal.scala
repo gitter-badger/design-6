@@ -18,7 +18,7 @@ final case class Modal(
   onOpen: Callback = Callback.empty,
   onClose: Callback = Callback.empty,
   // Portal utils common props
-  isClosable: Option[PortalUtils.isClosable] = PortalUtils.defaultIsClosable,
+  isClosable: Option[PortalUtils.IsClosable] = PortalUtils.defaultIsClosable,
   // Modal specific props
   title: String = "",
   size: Modal.Size = Modal.Size480,
