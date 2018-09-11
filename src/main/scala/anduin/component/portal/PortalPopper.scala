@@ -143,7 +143,8 @@ private[portal] object PortalPopper {
         defaultIsOpened = false,
         isOpened = None,
         onOpen = popperUpdate,
-        onClose = popperDestroy
+        onClose = popperDestroy,
+        isPermanent = false
       )()
     }
   }
