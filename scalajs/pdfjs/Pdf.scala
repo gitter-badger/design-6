@@ -5,12 +5,12 @@ package anduin.scalajs.pdfjs
 import scala.scalajs.js
 import scala.scalajs.js.annotation.{JSImport, JSName}
 import scala.scalajs.js.typedarray.ArrayBuffer
-import scala.scalajs.js.{UndefOr, |}
+import scala.scalajs.js.{Date, UndefOr, |}
 
 import org.scalajs.dom.raw.HTMLCanvasElement
 import org.scalajs.dom.{CanvasRenderingContext2D, Element}
 
-import anduin.scalajs.moment.{Date, Moment}
+import anduin.scalajs.datefns.ParseDate
 
 // scalastyle:off number.of.types
 
@@ -342,7 +342,7 @@ object MetadataProperty {
       val dateToParse = dateWithoutPrefix.replace("'", "")
 
       try {
-        Option(Moment(dateToParse, DateFormat))
+        Option(ParseDate(dateToParse, DateFormat))
       } catch {
         case _: Throwable => None
       }
