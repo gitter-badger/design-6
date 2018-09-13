@@ -2,24 +2,13 @@
 
 package anduin.component.util
 
-import scala.scalajs.js.{Date => JsDate}
-
-import java.time.{Duration, Instant, LocalDate, ZonedDateTime}
-
-import anduin.scalajs.moment.{Date, Moment}
+import java.time.ZonedDateTime
+import scala.scalajs.js.Date
 
 object DateUtils {
 
-  def toJsDate(date: ZonedDateTime): JsDate = {
-    new JsDate(date.toInstant.toEpochMilli.toDouble)
-  }
-
-  def toJsDate(date: LocalDate): JsDate = {
-    new JsDate(Duration.ofDays(date.toEpochDay).toMillis.toDouble)
-  }
-
   def rollToNextMondayIfWeekend(date: ZonedDateTime): ZonedDateTime = {
-    val jsDate = toJsDate(date)
+    val jsDate = new Date(date.toInstant.toEpochMilli.toDouble)
     // Note: `getDay()` returns (0-6) which is Sunday -> Saturday
     jsDate.getDay() match {
       case 0 => date.plusDays(1) // Sunday roll to Monday
@@ -27,18 +16,4 @@ object DateUtils {
       case _ => date
     }
   }
-
-  implicit def toMomentDate(date: ZonedDateTime): Date = {
-    Moment(date.toInstant.toEpochMilli.toDouble)
-  }
-
-  implicit def toMomentDate(instant: Instant): Date = {
-    Moment(instant.toEpochMilli.toDouble)
-  }
-
-  val Day = "day"
-
-  val Month = "month"
-
-  val Year = "year"
 }

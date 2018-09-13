@@ -6,10 +6,6 @@ import java.time.{Instant, LocalDate, LocalDateTime, ZonedDateTime}
 
 import anduin.scalajs.moment.Moment
 
-// scalastyle:off underscore.import
-import anduin.component.util.DateUtils._
-// scalastyle:on underscore.import
-
 /**
   * Date formatter on JS side. We should replace this with `CoreFormatterUtils` when scala-java-time supports time zone
   * Formats can be looked up at https://momentjs.com
@@ -23,8 +19,13 @@ object JsDateFormatterUtils {
   val LongDatePattern1 = "MMM D, YYYY" // May 1, 2016
   val ShortLocalDatePattern = "MMM D"
 
-  def format(date: ZonedDateTime, pattern: String): String = date.format(pattern)
-  def format(instant: Instant, pattern: String): String = instant.format(pattern)
+  def format(date: ZonedDateTime, pattern: String): String = {
+    Moment(date.toInstant.toEpochMilli.toDouble).format(pattern)
+  }
+
+  def format(instant: Instant, pattern: String): String = {
+    Moment(instant.toEpochMilli.toDouble).format(pattern)
+  }
 
   private val FourDigitZeroPaddingFormatter = "%04d" // return "1992" or "0082"
   private val TwoDigitZeroPaddingFormatter = "%02d" // return "11" or "02"
