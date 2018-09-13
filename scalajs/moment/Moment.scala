@@ -15,7 +15,4 @@ object Moment extends js.Object {
    */
   def apply(millis: Double): Date = js.native
   def apply(value: String, format: String): Date = js.native
-
-  def utc(): Date = js.native
-  def utc(millis: Double): Date = js.native
 }
