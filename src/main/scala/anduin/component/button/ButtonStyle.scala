@@ -3,7 +3,6 @@
 package anduin.component.button
 
 import japgolly.scalajs.react.vdom.TagMod
-
 import anduin.style.Style
 
 object ButtonStyle {
@@ -22,6 +21,18 @@ object ButtonStyle {
     )
 
     val link: TagMod = Style.color.primary4
+    val minimal = TagMod(interact, Style.hover.borderGray4.hover.shadow1Light.active.borderGray4.active.shadow1Light)
+    val full = TagMod(interact, Style.shadow.blur1Light.borderColor.gray4.backgroundColor.gray1)
+    val selected: TagMod = Style.borderColor.gray4.color.primary4.backgroundColor.gray2
+  }
+  case object ColorBlack extends Color {
+    // for minimal and full
+    private val interact = TagMod(
+      Style.color.gray8.hover.colorPrimary4.active.colorPrimary4,
+      Style.hover.backgroundWhite.active.backgroundGray2
+    )
+
+    val link: TagMod = Style.color.gray8.hover.colorGray8
     val minimal = TagMod(interact, Style.hover.borderGray4.hover.shadow1Light.active.borderGray4.active.shadow1Light)
     val full = TagMod(interact, Style.shadow.blur1Light.borderColor.gray4.backgroundColor.gray1)
     val selected: TagMod = Style.borderColor.gray4.color.primary4.backgroundColor.gray2
