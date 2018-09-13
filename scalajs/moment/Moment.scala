@@ -13,6 +13,5 @@ object Moment extends js.Object {
   /* Long has different semantics than JavaScript's numbers, therefore Double
    * must be used.
    */
-  def apply(millis: Double): Date = js.native
   def apply(value: String, format: String): Date = js.native
 }
