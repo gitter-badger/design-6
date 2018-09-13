@@ -3,6 +3,7 @@
 package anduin.component.portal
 
 import anduin.style.Style
+import org.scalajs.dom
 
 // scalastyle:off underscore.import
 import japgolly.scalajs.react._
@@ -87,6 +88,10 @@ object Modal {
 
   // Main render
 
+  private val bodyStyles = dom.document.body.style
+  private val setBodyHidden = Callback(bodyStyles.overflow = "hidden")
+  private val setBodyAuto = Callback(bodyStyles.overflow = "auto")
+
   private def render(props: Props): VdomElement = {
     Portal(
       renderTarget = (toggle, _) => props.renderTarget(toggle),
@@ -98,8 +103,8 @@ object Modal {
       // ===
       afterUserClose = props.afterUserClose,
       afterUserOpen = props.afterUserOpen,
-      afterOpen = props.afterOpen,
-      beforeClose = props.beforeClose
+      afterOpen = setBodyHidden >> props.afterOpen,
+      beforeClose = setBodyAuto >> props.beforeClose
     )()
   }
 
