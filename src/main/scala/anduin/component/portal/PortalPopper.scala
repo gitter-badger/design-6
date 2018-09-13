@@ -140,11 +140,15 @@ private[portal] object PortalPopper {
           val contentProps = ContentProps(contentRef, toggle, popperUpdate, contentStyles, arrowMod)
           props.renderContent(contentProps)
         },
+        // ===
         defaultIsOpened = false,
         isOpened = None,
-        onOpen = popperUpdate,
-        onClose = popperDestroy,
-        isPermanent = false
+        isPermanent = false,
+        // ===
+        afterUserOpen = popperUpdate,
+        afterUserClose = popperDestroy,
+        afterOpen = Callback.empty,
+        beforeClose = Callback.empty
       )()
     }
   }

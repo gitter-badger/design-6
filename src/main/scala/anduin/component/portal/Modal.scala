@@ -15,8 +15,10 @@ final case class Modal(
   renderContent: Callback => VdomNode, // (Toggle)
   defaultIsOpened: Boolean = false,
   isOpened: Option[Boolean] = None,
-  onOpen: Callback = Callback.empty,
-  onClose: Callback = Callback.empty,
+  afterUserOpen: Callback = Callback.empty,
+  afterUserClose: Callback = Callback.empty,
+  afterOpen: Callback = Callback.empty,
+  beforeClose: Callback = Callback.empty,
   // Portal utils common props
   isClosable: Option[PortalUtils.IsClosable] = PortalUtils.defaultIsClosable,
   // Modal specific props
@@ -92,9 +94,12 @@ object Modal {
       // ===
       defaultIsOpened = props.defaultIsOpened,
       isOpened = props.isOpened,
-      onClose = props.onClose,
-      onOpen = props.onOpen,
-      isPermanent = props.isPermanent
+      isPermanent = props.isPermanent,
+      // ===
+      afterUserClose = props.afterUserClose,
+      afterUserOpen = props.afterUserOpen,
+      afterOpen = props.afterOpen,
+      beforeClose = props.beforeClose
     )()
   }
 

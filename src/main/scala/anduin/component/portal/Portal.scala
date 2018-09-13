@@ -17,9 +17,11 @@ private[portal] final case class Portal(
   // State management
   defaultIsOpened: Boolean, // For initial state
   isOpened: Option[Boolean], // Opt-out internal state (controlled Portal)
-  // Event hooks (these are actually "afterOpen" and "afterClose")
-  onOpen: Callback,
-  onClose: Callback,
+  // Event hooks
+  afterUserOpen: Callback,
+  afterUserClose: Callback,
+  afterOpen: Callback,
+  beforeClose: Callback,
   // Other behaviours
   isPermanent: Boolean
 ) {
@@ -43,22 +45,36 @@ private[portal] object Portal {
         props <- scope.props
         state <- scope.state
         // Choose correct event hook to call
-        eventHook = if (getIsOpened(props, state)) props.onClose else props.onOpen
-        // If it's uncontrolled component: update internal state then call event hook
-        _ <- Callback.when(props.isOpened.isEmpty) { scope.setState(State(!state.isOpened), eventHook) }
+        eventHook = if (getIsOpened(props, state)) {
+          props.afterUserClose
+        } else {
+          props.afterUserOpen
+        }
+        // If it's uncontrolled component: update internal state THEN call
+        // event hooks
+        _ <- Callback.when(props.isOpened.isEmpty) {
+          scope.setState(State(!state.isOpened), eventHook)
+        }
         // If it's controlled component:   just call event hook directly
         _ <- Callback.when(props.isOpened.isDefined) { eventHook }
       } yield ()
     }
 
-    private def renderContent(props: Props): VdomNode = {
-      ReactPortal(props.renderContent(toggle), dom.document.body)
+    private def renderContent(props: Props, close: Callback): VdomNode = {
+      PortalContent(
+        onDidMount = props.afterOpen,
+        onWillUnmount = props.beforeClose
+      )(props.renderContent(close))
     }
 
     def render(props: Props, state: State): VdomNode = {
       val isOpened = getIsOpened(props, state)
       ReactFragment(
-        if (isOpened) renderContent(props) else EmptyVdom,
+        if (isOpened) {
+          ReactPortal(renderContent(props, toggle), dom.document.body)
+        } else {
+          EmptyVdom
+        },
         props.renderTarget(toggle, isOpened)
       )
     }
@@ -71,10 +87,11 @@ private[portal] object Portal {
           props.isPermanent && getIsOpened(props, state)
         ) {
           PortalUtils.detach { unmount =>
-            val close = props.onClose >> unmount
+            val close = props.afterUserClose >> unmount
             // Dangerous: we need a div wrapper here since only VdomElement
-            // can detach
-            <.div(props.renderContent(close))
+            // can detach. Also note that this trigger another render (e.g.
+            // beforeClose is called and afterOpen is called)
+            <.div(renderContent(props, close))
           }
         }
       } yield ()
