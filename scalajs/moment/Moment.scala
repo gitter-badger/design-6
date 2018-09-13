@@ -14,8 +14,6 @@ object Moment extends js.Object {
    * must be used.
    */
   def apply(millis: Double): Date = js.native
-
-  // moment("20111031", "YYYYMMDD").fromNow(); // 3 years ago
   def apply(value: String, format: String): Date = js.native
 
   def utc(): Date = js.native
