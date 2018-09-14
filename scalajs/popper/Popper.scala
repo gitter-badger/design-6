@@ -16,4 +16,5 @@ class Popper(
 ) extends js.Object {
   def destroy(): Unit = js.native
   def update(): Unit = js.native
+  def scheduleUpdate(): Unit = js.native
 }
