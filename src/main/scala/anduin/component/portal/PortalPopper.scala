@@ -2,7 +2,9 @@
 
 package anduin.component.portal
 
-import org.scalajs.dom.raw.HTMLElement
+import scala.scalajs.js
+
+import org.scalajs.dom.raw.{HTMLElement, MutationObserver, MutationObserverInit, MutationRecord}
 
 import anduin.style.Style
 
@@ -28,19 +30,24 @@ private[portal] final case class PortalPopper(
 private[portal] object PortalPopper {
 
   private type Props = PortalPopper
-
   private type RefIO = Ref[HTMLElement, HTMLElement]
-  final case class TargetProps(ref: RefIO, toggle: Callback, update: Callback, isOpened: Boolean)
-  final case class ContentProps(ref: RefIO, toggle: Callback, update: Callback, styles: TagMod, arrowMod: TagMod)
 
-  // This is the style that consumer of PortalPopper should add to the
-  // "content" element.
+  // RenderProps
+  private[portal] final case class TargetProps(ref: RefIO, toggle: Callback, styles: TagMod, isOpened: Boolean)
+  private[portal] final case class ContentProps(ref: RefIO, toggle: Callback, styles: TagMod, arrowMod: TagMod)
+
+  // These are styles that consumer of PortalPopper should add to the
+  // "target" and "content" element.
   // - It cannot be added by PortalPopper because the consumer might have
   //   in-between layer, like Popover has a "overlay" element.
   // - In other words, only the consumer know exactly which is the actual
   //   "content" element
+  private val targetStyles = TagMod(
+    // Avoid div's default 100% width
+    Style.width.maxContent
+  )
   private val contentStyles = TagMod(
-    // avoid showing while Popper is calculating
+    // Avoid showing while Popper is calculating
     Style.position.fixed.opacity.pc0.coordinate.top0
   )
 
@@ -92,15 +99,26 @@ private[portal] object PortalPopper {
     }
   }
 
+  private val observerOptions = MutationObserverInit(
+    subtree = true,
+    characterData = true,
+    childList = true
+  )
+
   private class Backend(scope: BackendScope[Props, _]) {
 
     private val targetRef = Ref[HTMLElement]
     private val contentRef = Ref[HTMLElement]
-    private var popperOpt: Option[Popper] = None // scalastyle:ignore var.field
+    // @TODO use ref instead of var
+    private var popperOpt: Option[Popper] = None // scalastyle:off var.field
+    private val observer = new MutationObserver(
+      (_: js.Array[MutationRecord], _: MutationObserver) => {
+        popperOpt.foreach(_.scheduleUpdate())
+      }
+    )
 
-    private def popperUpdate = {
+    private def popperInit = {
       for {
-        _ <- this.popperDestroy
         target <- targetRef.get
         content <- contentRef.get
         props <- scope.props
@@ -120,12 +138,14 @@ private[portal] object PortalPopper {
           // Show content after calculation (content should be hidden by
           // contentStyles in the initial render)
           content.style.opacity = "1"
+          // Watch for content's change to re-calculate position
+          observer.observe(content, observerOptions)
         }
       } yield ()
     }
 
-    private def popperDestroy = {
-      Callback.traverseOption(popperOpt)(popper => Callback { popper.destroy() })
+    private def popperDestroy: Callback = {
+      Callback.traverseOption(popperOpt)(p => Callback(p.destroy()))
     }
 
     // ===
@@ -133,11 +153,11 @@ private[portal] object PortalPopper {
     def render(props: Props): VdomElement = {
       Portal(
         renderTarget = (toggle, isOpened) => {
-          val targetProps = TargetProps(targetRef, toggle, popperUpdate, isOpened)
+          val targetProps = TargetProps(targetRef, toggle, targetStyles, isOpened)
           props.renderTarget(targetProps)
         },
         renderContent = toggle => {
-          val contentProps = ContentProps(contentRef, toggle, popperUpdate, contentStyles, arrowMod)
+          val contentProps = ContentProps(contentRef, toggle, contentStyles, arrowMod)
           props.renderContent(contentProps)
         },
         // ===
@@ -145,10 +165,10 @@ private[portal] object PortalPopper {
         isOpened = None,
         isPermanent = false,
         // ===
-        afterUserOpen = popperUpdate,
-        afterUserClose = popperDestroy,
-        afterOpen = Callback.empty,
-        beforeClose = Callback.empty
+        afterUserOpen = Callback.empty,
+        afterUserClose = Callback.empty,
+        afterOpen = popperInit,
+        beforeClose = popperDestroy
       )()
     }
   }

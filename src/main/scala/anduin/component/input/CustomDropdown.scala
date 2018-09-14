@@ -45,8 +45,8 @@ class CustomDropdown[A] {
     Popover(
       position = props.position,
       verticalOffset = 4,
-      renderTarget = (toggle, _, isOpened) => renderTarget(props, toggle, isOpened),
-      renderContent = (close, _) => renderContent(props, close)
+      renderTarget = (toggle, isOpened) => renderTarget(props, toggle, isOpened),
+      renderContent = close => renderContent(props, close)
     )()
   }
 

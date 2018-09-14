@@ -11,8 +11,8 @@ import japgolly.scalajs.react.vdom.html_<^._
 
 final case class Popover(
   // Portal common props (see Portal for detail)
-  renderTarget: (Callback, Callback, Boolean) => VdomNode, // (toggle, update position, isOpened)
-  renderContent: (Callback, Callback) => VdomNode, // (close, update position)
+  renderTarget: (Callback, Boolean) => VdomNode, // (toggle, isOpened)
+  renderContent: Callback => VdomNode, // (close)
   // Portal utils common props
   isClosable: Option[PortalUtils.IsClosable] = PortalUtils.defaultIsClosable,
   // PortalPopper common props (see PortalPopper for detail)
@@ -54,7 +54,7 @@ object Popover {
       // Reset overlay's pointerEvents
       TagMod.when(!isOverlayClosable) { Style.pointerEvents.all },
       TagMod(popper.styles, contentStyles),
-      props.renderContent(popper.toggle, popper.update)
+      props.renderContent(popper.toggle)
     )
 
     // This is the overlay of Popover. This will catch closable events
@@ -69,8 +69,8 @@ object Popover {
   }
 
   private def renderTarget(props: Props)(popper: PortalPopper.TargetProps) = {
-    val body = props.renderTarget(popper.toggle, popper.update, popper.isOpened)
-    props.targetTag.withRef(popper.ref)(body)
+    val body = props.renderTarget(popper.toggle, popper.isOpened)
+    props.targetTag.withRef(popper.ref)(popper.styles, body)
   }
 
   private def render(props: Props): VdomElement = {
