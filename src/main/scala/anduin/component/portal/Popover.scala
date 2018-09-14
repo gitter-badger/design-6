@@ -54,7 +54,7 @@ object Popover {
       // Reset overlay's pointerEvents
       TagMod.when(!isOverlayClosable) { Style.pointerEvents.all },
       TagMod(popper.styles, contentStyles),
-      props.renderContent(popper.toggle, popper.update)
+      props.renderContent(popper.toggle, Callback.empty)
     )
 
     // This is the overlay of Popover. This will catch closable events
@@ -69,8 +69,8 @@ object Popover {
   }
 
   private def renderTarget(props: Props)(popper: PortalPopper.TargetProps) = {
-    val body = props.renderTarget(popper.toggle, popper.update, popper.isOpened)
-    props.targetTag.withRef(popper.ref)(body)
+    val body = props.renderTarget(popper.toggle, Callback.empty, popper.isOpened)
+    props.targetTag.withRef(popper.ref)(popper.styles, body)
   }
 
   private def render(props: Props): VdomElement = {
