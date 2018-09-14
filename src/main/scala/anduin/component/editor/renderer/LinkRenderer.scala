@@ -29,10 +29,10 @@ private[editor] object LinkRenderer {
       Popover(
         position = PositionBottom,
         targetTag = <.span,
-        renderTarget = (toggle, _, _) => {
+        renderTarget = (toggle, _) => {
           <.span(^.onClick --> toggle, link)
         },
-        renderContent = (_, _) => {
+        renderContent = _ => {
           ButtonLink(style = ButtonStyle.StyleLink, href = href, target = ^.target.blank)("Open link")
         }
       )().rawElement

@@ -150,7 +150,7 @@ object Toolbar {
             position = PositionTop,
             verticalOffset = -8,
             isClosable = None,
-            renderTarget = (toggle, _, isOpened) => {
+            renderTarget = (toggle, isOpened) => {
               Tooltip(
                 targetTag = <.span,
                 renderTarget = Button(
@@ -162,7 +162,7 @@ object Toolbar {
                 renderContent = () => "Formatting options"
               )()
             },
-            renderContent = (_, _) => {
+            renderContent = _ => {
               <.div(
                 Style.flexbox.flex.flexbox.itemsCenter.padding.all4,
                 MarkButtonBar(props.value, props.onChange)(),
