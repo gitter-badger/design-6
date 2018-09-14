@@ -55,32 +55,35 @@ object MenuItem {
     val styles = TagMod(ColorNeutral.color, Style.color.danger5.hover.backgroundDanger4.active.backgroundDanger5)
   }
 
+  private val commonStyles = TagMod(
+    Style.flexbox.flex.flexbox.itemsCenter,
+    Style.padding.ver8.padding.hor16.lineHeight.px16
+  )
+  private val linkStyles = TagMod(commonStyles, Style.hover.underlineNone)
+  private val buttonStyles = TagMod(commonStyles)(
+    Style.width.pc100.textAlign.left,
+    Style.disabled.colorGray6.disabled.backgroundNone
+  )
+
+  private val checkIcon = <.span(
+    Style.margin.leftAuto,
+    Icon(name = Icon.NameCheck)()
+  )
+
   private def render(props: Props, children: PropsChildren): VdomElement = {
     val commonMods = TagMod(
       // common styles
-      Style.flexbox.flex.flexbox.itemsCenter.padding.ver8.padding.hor16.lineHeight.px16,
       props.color.styles,
       // behaviour
       TagMod.when(!props.isDisabled) { ^.onClick --> props.onClick },
       // content
       children,
-      TagMod.when(props.isSelected) { <.span(Style.margin.leftAuto, Icon(name = Icon.NameCheck)()) }
+      TagMod.when(props.isSelected) { checkIcon }
     )
     if (props.url.nonEmpty) {
-      <.a(
-        Style.hover.underlineNone.hover.colorGray9,
-        ^.href := props.url,
-        props.openIn.tag,
-        commonMods
-      )
+      <.a(linkStyles, ^.href := props.url, props.openIn.tag, commonMods)
     } else {
-      <.button(
-        Style.width.pc100.textAlign.left,
-        Style.disabled.colorGray6.disabled.backgroundNone,
-        ^.tpe := "button",
-        ^.disabled := props.isDisabled,
-        commonMods
-      )
+      <.button(buttonStyles, ^.tpe := "button", ^.disabled := props.isDisabled, commonMods)
     }
   }
 
