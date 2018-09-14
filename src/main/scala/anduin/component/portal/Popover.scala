@@ -13,6 +13,7 @@ final case class Popover(
   // Portal common props (see Portal for detail)
   renderTarget: (Callback, Boolean) => VdomNode, // (toggle, isOpened)
   renderContent: Callback => VdomNode, // (close)
+  isOpened: Option[Boolean] = None,
   // Portal utils common props
   isClosable: Option[PortalUtils.IsClosable] = PortalUtils.defaultIsClosable,
   // PortalPopper common props (see PortalPopper for detail)
@@ -77,6 +78,7 @@ object Popover {
     PortalPopper(
       renderTarget = renderTarget(props),
       renderContent = renderContent(props),
+      isOpened = props.isOpened,
       // ===
       position = props.position,
       offsetVer = props.verticalOffset,
