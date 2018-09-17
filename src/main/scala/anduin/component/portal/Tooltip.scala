@@ -58,6 +58,7 @@ object Tooltip {
       PortalPopper(
         renderTarget = renderTarget(props),
         renderContent = renderContent(props),
+        isOpened = None,
         // ===
         position = props.position,
         offsetHor = arrowOffset._1,

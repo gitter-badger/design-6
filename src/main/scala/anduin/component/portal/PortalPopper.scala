@@ -19,6 +19,7 @@ private[portal] final case class PortalPopper(
   // Portal common props (see Portal for detail)
   renderTarget: PortalPopper.TargetProps => VdomNode,
   renderContent: PortalPopper.ContentProps => VdomNode,
+  isOpened: Option[Boolean],
   // Popper specific props
   position: Position,
   offsetVer: Double,
@@ -162,7 +163,7 @@ private[portal] object PortalPopper {
         },
         // ===
         defaultIsOpened = false,
-        isOpened = None,
+        isOpened = props.isOpened,
         isPermanent = false,
         // ===
         afterUserOpen = Callback.empty,
