@@ -2,7 +2,7 @@
 
 package anduin.component.date
 
-import java.time.ZonedDateTime
+import java.time.Instant
 import scala.concurrent.duration
 import scala.concurrent.duration.FiniteDuration
 import scala.scalajs.js.Date
@@ -16,13 +16,12 @@ import japgolly.scalajs.react.vdom.html_<^._
 import anduin.scalajs.datefns._
 // scalastyle:on underscore.import
 
-final case class TimeAgo(zonedDateTime: ZonedDateTime, autoUpdate: Boolean = true) {
+final case class TimeAgo(instant: Instant, autoUpdate: Boolean = true) {
 
   def apply(): VdomElement = TimeAgo.component(this)
 
   def getDate(): Date = {
-    val utcOffset = new Date().getTimezoneOffset() * 60 * 1000
-    new Date(zonedDateTime.toInstant.toEpochMilli.toDouble - utcOffset)
+    new Date(instant.toEpochMilli.toDouble)
   }
 }
 
