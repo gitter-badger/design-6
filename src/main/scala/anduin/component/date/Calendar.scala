@@ -322,7 +322,9 @@ object Calendar {
       }
     }
     .configure(
-      EventListener[KeyboardEvent].install("keydown", _.backend.onKeyDown, _ => dom.document),
+      EventListener[KeyboardEvent].install("keydown", _.backend.onKeyDown, _ => dom.document)
+    )
+    .configure(
       EventListener[MouseEvent].install("mousedown", _.backend.onMouseDown, _ => dom.document)
     )
     .build

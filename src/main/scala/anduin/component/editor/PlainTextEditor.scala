@@ -10,9 +10,9 @@ import japgolly.scalajs.react.vdom.html_<^._
 
 object PlainTextEditor {
 
-  private case class Props(html: String, maxLengthOpt: Option[Int] = None)
+  final case class Props(html: String, maxLengthOpt: Option[Int] = None)
 
-  private def render(props: Props) = {
+  val component = ScalaFnComponent[Props] { props =>
     val text = Serializer.deserialize(props.html).document.text
     val subText = props.maxLengthOpt
       .map { max =>
@@ -23,7 +23,4 @@ object PlainTextEditor {
     // TODO: @nghuuphuoc Don't need to wrap in `div` when upgrading to React 16
     <.div(subText)
   }
-
-  def apply(html: String, maxLengthOpt: Option[Int] = None): VdomElement =
-    ScalaFnComponent(render)(Props(html, maxLengthOpt))
 }
