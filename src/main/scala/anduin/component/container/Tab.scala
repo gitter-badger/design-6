@@ -50,7 +50,7 @@ object Tab {
         props.setActive.getOrElse(this.selfSetActive)
 
       val panel = props.panels(active)
-      val content = ReactFragment(
+      val content = React.Fragment(
         panel.renderContent(),
         panel.renderContent_S(setActive)
       )

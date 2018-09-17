@@ -3,15 +3,12 @@
 package anduin.component.portal
 
 import scala.scalajs.js
-
 import org.scalajs.dom.raw.{HTMLElement, MutationObserver, MutationObserverInit, MutationRecord}
-
 import anduin.style.Style
 
 // scalastyle:off underscore.import
 import japgolly.scalajs.react._
 import japgolly.scalajs.react.vdom.html_<^._
-
 import anduin.scalajs.popper._
 // scalastyle:on underscore.import
 
@@ -31,7 +28,7 @@ private[portal] final case class PortalPopper(
 private[portal] object PortalPopper {
 
   private type Props = PortalPopper
-  private type RefIO = Ref[HTMLElement, HTMLElement]
+  private type RefIO = Ref.Simple[HTMLElement]
 
   // RenderProps
   private[portal] final case class TargetProps(ref: RefIO, toggle: Callback, isOpened: Boolean)

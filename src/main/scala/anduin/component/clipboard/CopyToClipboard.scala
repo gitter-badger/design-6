@@ -25,7 +25,7 @@ object CopyToClipboard {
 
     private def copyToClipboard = {
       for {
-        node <- scope.getDOMNode.map(_.asElement)
+        node <- scope.getDOMNode.map(_.asMounted().asElement())
         selection = window.getSelection()
         range = document.createRange()
         _ <- Callback {

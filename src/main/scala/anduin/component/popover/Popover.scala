@@ -343,9 +343,12 @@ object Popover {
     .configure(
       // `useCapture = true` means that the event will be handled from the document down to the event target
       // before the bubbling phase
-      EventListener[MouseEvent]
-        .install("click", _.backend.onWindowClick, _ => dom.window, useCapture = true),
-      EventListener[MouseEvent].install("mousemove", _.backend.onWindowMouseMove, _ => dom.window),
+      EventListener[MouseEvent].install("click", _.backend.onWindowClick, _ => dom.window, useCapture = true)
+    )
+    .configure(
+      EventListener[MouseEvent].install("mousemove", _.backend.onWindowMouseMove, _ => dom.window)
+    )
+    .configure(
       EventListener[MouseEvent].install("scroll", _.backend.onScroll, _ => dom.window)
     )
     .build

@@ -69,7 +69,7 @@ private[portal] object Portal {
 
     def render(props: Props, state: State): VdomNode = {
       val isOpened = getIsOpened(props, state)
-      ReactFragment(
+      React.Fragment(
         if (isOpened) {
           ReactPortal(renderContent(props, toggle), dom.document.body)
         } else {

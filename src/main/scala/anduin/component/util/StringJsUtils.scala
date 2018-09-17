@@ -3,9 +3,9 @@
 package anduin.component.util
 
 import japgolly.scalajs.react.vdom.TagMod
-
 import anduin.component.portal.{Position, PositionTop, Tooltip}
 import anduin.style.Style
+import japgolly.scalajs.react.React
 
 // scalastyle:off underscore.import
 import japgolly.scalajs.react.vdom.html_<^._
@@ -43,7 +43,7 @@ object StringJsUtils {
         )()
       )
     } else {
-      ReactFragment(string)
+      React.Fragment(string)
     }
   }
 }
