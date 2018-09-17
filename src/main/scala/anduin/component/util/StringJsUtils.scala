@@ -43,7 +43,7 @@ object StringJsUtils {
         )()
       )
     } else {
-      ReactFragment(string)
+      React.Fragment(string)
     }
   }
 }

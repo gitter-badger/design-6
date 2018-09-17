@@ -73,7 +73,7 @@ class CustomDropdown[A] {
     })
     val header = renderBoxIfExisted(props.header)
     val footer = renderBoxIfExisted(props.footer)
-    ReactFragment(header, options, footer)
+    React.Fragment(header, options, footer)
   }
 
   // the box for header and footer
