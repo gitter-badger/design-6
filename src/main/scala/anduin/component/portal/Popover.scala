@@ -20,7 +20,9 @@ final case class Popover(
   position: Position = PositionBottom,
   verticalOffset: Double = 0,
   horizontalOffset: Double = 0,
-  targetTag: HtmlTag = <.div
+  targetTag: HtmlTag = <.div,
+  // Other
+  isFullWidth: Boolean = false
 ) {
   def apply(): VdomElement = Popover.component(this)
 }
@@ -71,7 +73,9 @@ object Popover {
 
   private def renderTarget(props: Props)(popper: PortalPopper.TargetProps) = {
     val body = props.renderTarget(popper.toggle, popper.isOpened)
-    props.targetTag.withRef(popper.ref)(popper.styles, body)
+    // Should this be popper.styles(props.isFullWidth)?
+    val styles = if (props.isFullWidth) Style.width.pc100 else Style.width.maxContent
+    props.targetTag.withRef(popper.ref)(styles, body)
   }
 
   private def render(props: Props): VdomElement = {

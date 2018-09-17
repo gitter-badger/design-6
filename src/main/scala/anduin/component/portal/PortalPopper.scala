@@ -34,19 +34,15 @@ private[portal] object PortalPopper {
   private type RefIO = Ref[HTMLElement, HTMLElement]
 
   // RenderProps
-  private[portal] final case class TargetProps(ref: RefIO, toggle: Callback, styles: TagMod, isOpened: Boolean)
+  private[portal] final case class TargetProps(ref: RefIO, toggle: Callback, isOpened: Boolean)
   private[portal] final case class ContentProps(ref: RefIO, toggle: Callback, styles: TagMod, arrowMod: TagMod)
 
   // These are styles that consumer of PortalPopper should add to the
-  // "target" and "content" element.
+  // "content" element.
   // - It cannot be added by PortalPopper because the consumer might have
   //   in-between layer, like Popover has a "overlay" element.
   // - In other words, only the consumer know exactly which is the actual
   //   "content" element
-  private val targetStyles = TagMod(
-    // Avoid div's default 100% width
-    Style.width.maxContent
-  )
   private val contentStyles = TagMod(
     // Avoid showing while Popper is calculating
     Style.position.fixed.opacity.pc0.coordinate.top0
@@ -154,7 +150,7 @@ private[portal] object PortalPopper {
     def render(props: Props): VdomElement = {
       Portal(
         renderTarget = (toggle, isOpened) => {
-          val targetProps = TargetProps(targetRef, toggle, targetStyles, isOpened)
+          val targetProps = TargetProps(targetRef, toggle, isOpened)
           props.renderTarget(targetProps)
         },
         renderContent = toggle => {
