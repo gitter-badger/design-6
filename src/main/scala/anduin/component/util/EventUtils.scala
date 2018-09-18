@@ -3,7 +3,7 @@
 package anduin.component.util
 
 import japgolly.scalajs.react.ReactMouseEventFromHtml
-import org.scalajs.dom.{MouseEvent, TouchEvent}
+import org.scalajs.dom.MouseEvent
 import org.scalajs.dom.raw.{ClientRect, Element}
 
 object EventUtils {
@@ -19,10 +19,6 @@ object EventUtils {
     e.button == LeftButton
   }
 
-  def isMouseDownEvent(e: ReactMouseEventFromHtml): Boolean = {
-    e.eventType == "mousedown"
-  }
-
   private def isInside(x: Double, y: Double, rect: ClientRect): Boolean = {
     rect.left <= x && x <= (rect.left + rect.width) && rect.top <= y && y <= (rect.top + rect.height)
   }
@@ -33,11 +29,5 @@ object EventUtils {
 
   def clickInside(e: MouseEvent, element: Element): Boolean = {
     clickInside(e, element.getBoundingClientRect())
-  }
-
-  def clickInside(e: TouchEvent, element: Element): Boolean = {
-    val clientX = e.touches(0).clientX
-    val clientY = e.touches(0).clientY
-    isInside(clientX, clientY, element.getBoundingClientRect())
   }
 }
