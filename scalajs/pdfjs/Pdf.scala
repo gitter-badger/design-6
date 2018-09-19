@@ -323,7 +323,7 @@ trait MetadataProperty extends js.Object {
 }
 
 object MetadataProperty {
-  private val DateFormat = "YYYYMMDDHHmmssZZ"
+  private val DateFormat = "YYYYMMdd HHmmssZZ"
 
   /**
     * Parse creation/modification date. Note that the format of this string could be different based on machine.
@@ -340,9 +340,10 @@ object MetadataProperty {
       val dateWithoutPrefix = if (date.substring(0, 2) == "D:") date.substring(2) else date
       // Remove all character `'` if applicable
       val dateToParse = dateWithoutPrefix.replace("'", "")
+      val d = s"${dateToParse.substring(0, 8)} ${dateToParse.substring(8)}"
 
       try {
-        Option(ParseDate(dateToParse, DateFormat))
+        Option(ParseDate(d, DateFormat))
       } catch {
         case _: Throwable => None
       }
