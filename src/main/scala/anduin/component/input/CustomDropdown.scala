@@ -46,7 +46,8 @@ class CustomDropdown[A] {
       position = props.position,
       verticalOffset = 4,
       renderTarget = (toggle, isOpened) => renderTarget(props, toggle, isOpened),
-      renderContent = close => renderContent(props, close)
+      renderContent = close => renderContent(props, close),
+      isFullWidth = true
     )()
   }
 
