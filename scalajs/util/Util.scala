@@ -2,7 +2,12 @@
 
 package anduin.scalajs.util
 
+import scala.collection.mutable
 import scala.scalajs.js
+
+// scalastyle:off underscore.import
+import japgolly.scalajs.react.vdom.html_<^._
+// scalastyle:on underscore.import
 
 object Util {
 
@@ -13,4 +18,8 @@ object Util {
   // js.undefined => None
   def safelyToOption[A](a: js.UndefOr[A]): Option[A] =
     a.toOption.filter(_ != null)
+
+  def getModsFromProps(props: mutable.Map[String, js.Any]): TagMod = {
+    props.map(prop => VdomAttr(prop._1) := prop._2).toTagMod
+  }
 }
