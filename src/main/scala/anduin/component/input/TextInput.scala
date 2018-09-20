@@ -73,7 +73,7 @@ object TextInput {
 
   private val borderStyles = Style.border.all.borderWidth.px1.borderRadius.px2
 
-  private val inputStyles = TagMod(
+  private[component] val inputStyles = TagMod(
     Style.display.block.width.pc100.padding.hor12.backgroundColor.white,
     Style.focus.shadow.focus.border.transition.allWithShadow,
     Style.disabled.backgroundGray2.disabled.colorGray6,

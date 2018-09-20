@@ -60,7 +60,7 @@ object MenuItem {
     Style.padding.ver8.padding.hor16.lineHeight.px16
   )
   private val linkStyles = TagMod(commonStyles, Style.hover.underlineNone)
-  private val buttonStyles = TagMod(commonStyles)(
+  private[component] val buttonStyles = TagMod(commonStyles)(
     Style.width.pc100.textAlign.left,
     Style.disabled.colorGray6.disabled.backgroundNone
   )
