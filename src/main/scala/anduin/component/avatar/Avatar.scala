@@ -3,6 +3,7 @@
 package anduin.component.avatar
 
 import anduin.style.Style
+import com.anduin.stargazer.util.avatar.AvatarColor
 
 // scalastyle:off underscore.import
 import japgolly.scalajs.react._
