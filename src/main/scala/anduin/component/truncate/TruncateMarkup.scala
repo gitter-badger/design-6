@@ -30,7 +30,7 @@ object TruncateMarkup {
 
   // See https://www.npmjs.com/package/react-truncate-markup
   def apply(
-    lines: Int,
+    lines: Int = 1,
     ellipsis: EllipsisType = "...",
     lineHeight: LineHeightType = "auto-detected"
   )(children: VdomNode*): VdomElement = {
