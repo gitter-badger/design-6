@@ -12,6 +12,7 @@ import japgolly.scalajs.react.vdom.html_<^._
 final case class Card(
   header: VdomNode = EmptyVdom,
   isDimmed: Boolean = false,
+  isFullHeight: Boolean = false,
   borderStyle: Style = Style.borderRadius.px2.padding.all20
 ) {
   def apply(children: VdomNode*): VdomElement = {
@@ -42,6 +43,7 @@ object Card {
       } else {
         Style.backgroundColor.white
       },
+      TagMod.when(props.isFullHeight)(Style.height.pc100),
       Style.shadow.blur1Light,
       renderHeader(props),
       children
