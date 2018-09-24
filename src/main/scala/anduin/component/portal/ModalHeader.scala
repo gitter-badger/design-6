@@ -47,7 +47,9 @@ object ModalHeader {
       <.h3(
         titleStyles,
         ^.title := props.title,
-        TruncateMarkup()(props.title)
+        TruncateMarkup(
+          renderTarget = props.title
+        )()
       ),
       TagMod.when(props.isClosable) {
         val button = Button(

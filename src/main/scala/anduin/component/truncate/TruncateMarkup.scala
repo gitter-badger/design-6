@@ -18,12 +18,9 @@ object TruncateMarkup {
 
   private type EllipsisType = String | Element | js.Function1[Element, String]
 
-  private type LineHeightType = Double | String
-
   final class Props(
-    val lines: Int = 1,
-    val ellipsis: EllipsisType,
-    val lineHeight: LineHeightType
+    val lines: Int,
+    val ellipsis: EllipsisType
   ) extends js.Object
 
   private val component = JsComponent[Props, Children.Varargs, Null](ReactTruncateMarkup.RawComponent)
@@ -32,14 +29,17 @@ object TruncateMarkup {
   def apply(
     lines: Int = 1,
     ellipsis: EllipsisType = "...",
-    lineHeight: LineHeightType = "auto-detected"
-  )(children: VdomNode*): VdomElement = {
+    targetTag: HtmlTag = <.div,
+    renderTarget: VdomNode
+  )(): VdomElement = {
+    // react-truncate-markup only allows to use 1 element passed as children
+    // so, we have to wrap inside another tag
+    // Passing (children: VdomNode) doesn't work even it can be built successfully
     component(
       new Props(
         lines = lines,
-        ellipsis = ellipsis,
-        lineHeight = lineHeight
+        ellipsis = ellipsis
       )
-    )(children: _*)
+    )(targetTag(renderTarget))
   }
 }
