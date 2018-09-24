@@ -4,6 +4,7 @@ package anduin.component.portal
 
 import anduin.component.button.{Button, ButtonStyle}
 import anduin.component.icon.Icon
+import anduin.component.truncate.TruncateMarkup
 import anduin.style.Style
 
 // scalastyle:off underscore.import
@@ -45,7 +46,10 @@ object ModalHeader {
       containerStyles,
       <.h3(
         titleStyles,
-        <.div(Style.typography.truncate2, props.title)
+        ^.title := props.title,
+        TruncateMarkup(
+          renderTarget = props.title
+        )()
       ),
       TagMod.when(props.isClosable) {
         val button = Button(
