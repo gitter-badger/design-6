@@ -6,6 +6,7 @@ import org.scalajs.dom.KeyboardEvent
 
 import anduin.component.editor.Editor.{RenderMarkProps, RenderNodeProps}
 import anduin.component.editor.renderer.{ImageRenderer, LinkRenderer, MarkRenderer, TextAlignRenderer}
+import anduin.component.util.ComponentUtils
 import anduin.style.Style
 
 // scalastyle:off underscore.import
@@ -95,6 +96,7 @@ object RichEditor {
       props.renderWrapper(
         focus(),
         <.div(
+          ComponentUtils.testId(this, "ContentEditor"),
           ^.cls := "editor",
           editorRef.component(
             Editor.props(

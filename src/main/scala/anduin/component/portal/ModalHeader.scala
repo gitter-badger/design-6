@@ -5,6 +5,7 @@ package anduin.component.portal
 import anduin.component.button.{Button, ButtonStyle}
 import anduin.component.icon.Icon
 import anduin.component.truncate.TruncateMarkup
+import anduin.component.util.ComponentUtils
 import anduin.style.Style
 
 // scalastyle:off underscore.import
@@ -45,6 +46,7 @@ object ModalHeader {
     <.div(
       containerStyles,
       <.h3(
+        ComponentUtils.testId(this, "Title"),
         titleStyles,
         ^.title := props.title,
         TruncateMarkup(

@@ -10,6 +10,7 @@ import org.scalajs.dom.window
 import anduin.component.button.{Button, ButtonStyle}
 import anduin.component.icon.Icon
 import anduin.component.menu.VerticalDivider
+import anduin.component.util.ComponentUtils
 import anduin.scalajs.slate.Slate.{Change, Value}
 import anduin.style.Style
 
@@ -92,6 +93,7 @@ object Toolbar {
     def render(props: Toolbar, children: PropsChildren): VdomElement = {
       val hasLink = hasLinks(props.value)
       <.div(
+        ComponentUtils.testId(this, "ToolbarContainer"),
         ^.cls := "editor-toolbar flex pa1 items-center",
         <.div(
           Style.flexbox.flex.flexbox.itemsCenter,
