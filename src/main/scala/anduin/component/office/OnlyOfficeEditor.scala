@@ -36,6 +36,7 @@ object OnlyOfficeEditor {
         Callback.future {
           val promise = Promise[Callback]()
 
+          @SuppressWarnings(Array("org.wartremover.warts.AsInstanceOf"))
           val script = dom.document.createElement("script").asInstanceOf[HTMLScriptElement]
           script.setAttribute("src", props.apiUrl)
           script.setAttribute("async", "true")
@@ -54,6 +55,7 @@ object OnlyOfficeEditor {
     def removeScript(props: Props): Callback = {
       Callback {
         PimpedNodeList(dom.document.querySelectorAll("script[src]")).map { script =>
+          @SuppressWarnings(Array("org.wartremover.warts.AsInstanceOf"))
           val src = script.asInstanceOf[HTMLScriptElement].src
           if (src == props.apiUrl) {
             script.parentNode.removeChild(script)
