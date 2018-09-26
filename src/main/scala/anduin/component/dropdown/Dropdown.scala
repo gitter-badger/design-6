@@ -54,6 +54,7 @@ class Dropdown[A] {
     <.div(popover).rawElement // Downshift requires native HTML root
   }
 
+  @SuppressWarnings(Array("org.wartremover.warts.AsInstanceOf")) // scalastyle:ignore
   private def stateReducer(
     state: DownshiftA.State,
     changes: DownshiftA.StateChanges
