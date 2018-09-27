@@ -20,7 +20,7 @@ final case class TimeAgo(instant: Instant, autoUpdate: Boolean = true) {
 
   def apply(): VdomElement = TimeAgo.component(this)
 
-  def getDate(): Date = {
+  val getDate: Date = {
     new Date(instant.toEpochMilli.toDouble)
   }
 }
@@ -29,8 +29,15 @@ object TimeAgo {
 
   private type Props = TimeAgo
 
+  private val suffixToRemove = "about "
+
   private def calculateFromNow(props: Props) = {
-    DistanceInWordsToNow(props.getDate(), DistanceInWordsOptions(addSuffixParam = true))
+    val str = DistanceInWordsToNow(props.getDate, DistanceInWordsOptions(addSuffixParam = true))
+    if (str.startsWith(suffixToRemove)) {
+      str.substring(suffixToRemove.length)
+    } else {
+      str
+    }
   }
 
   private case class State(fromNow: String, start: Int = 0)
@@ -45,7 +52,7 @@ object TimeAgo {
       for {
         props <- scope.props
         _ <- Callback.when(props.autoUpdate) {
-          val seconds = DifferenceInSeconds(Date.now(), props.getDate())
+          val seconds = DifferenceInSeconds(Date.now(), props.getDate)
           val durationTime = if (seconds < 60) {
             1
           } else if (seconds < 60 * 60) {
@@ -64,7 +71,7 @@ object TimeAgo {
     def render(props: Props, state: State): VdomElement = {
       // Use the HTML5 <time> element
       // https://developer.mozilla.org/en-US/docs/Web/HTML/Element/time
-      <.time(^.dateTime := Format(props.getDate()), state.fromNow)
+      <.time(^.dateTime := Format(props.getDate), state.fromNow)
     }
   }
 
