@@ -8,10 +8,6 @@ import japgolly.scalajs.react.vdom.html_<^._
 
 object ComponentUtils {
 
-  // QA test id
-  // Deprecated, use the below one
-  val DataTestID: VdomAttr[String] = VdomAttr[String]("data-test-id")
-
   def testId(obj: Object, id: String): TagMod = {
     VdomAttr("data-test-id") := s"${obj.getClass.getSimpleName}-$id"
   }
