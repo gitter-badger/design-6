@@ -14,6 +14,7 @@ import java.time.{LocalDate, Month, ZoneOffset, ZonedDateTime}
 import org.scalajs.dom.raw.HTMLElement
 
 import anduin.component.button.Button
+import anduin.style.Style
 
 // scalastyle:off underscore.import
 import japgolly.scalajs.react._
@@ -292,7 +293,7 @@ object Calendar {
         )
       ).withRef(innerElementRef)(
         <.div(
-          ^.cls := "datepicker-calendar",
+          Style.padding.all8,
           <.div(
             ^.cls := "datepicker-title",
             // The select to choose a month
