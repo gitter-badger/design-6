@@ -5,6 +5,7 @@ package anduin.style
 private[style] final case class Height(classes: List[String] = List.empty) {
   def px8: Style = new Style(classes :+ "h-8")
   def px16: Style = new Style(classes :+ "h-16")
+  def px20: Style = new Style(classes :+ "h-20")
   def px24: Style = new Style(classes :+ "h-24")
   def px32: Style = new Style(classes :+ "h-32")
   def px40: Style = new Style(classes :+ "h-40")
