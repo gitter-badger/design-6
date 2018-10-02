@@ -2,9 +2,7 @@
 
 package anduin.component.portal
 
-// scalastyle:off underscore.import
-import anduin.scalajs.popper._
-// scalastyle:on underscore.import
+import anduin.scalajs.popper.PopperPlacement
 
 // This is anduin.component Position, which might not be mapped directly 1:1
 // to Popper or whatever library's position system
@@ -32,21 +30,22 @@ case object PositionLeft extends PositionLeftBase
 case object PositionLeftBottom extends PositionLeftBase
 
 object Position {
+
   // scalastyle:off cyclomatic.complexity
-  def getPopperPlacement(position: Position): Placement = {
+  def getPopperPlacement(position: Position): PopperPlacement = {
     position match {
-      case PositionTopLeft     => PlacementTopStart
-      case PositionTop         => PlacementTop
-      case PositionTopRight    => PlacementTopEnd
-      case PositionRightTop    => PlacementRightStart
-      case PositionRight       => PlacementRight
-      case PositionRightBottom => PlacementRightEnd
-      case PositionBottomLeft  => PlacementBottomStart
-      case PositionBottom      => PlacementBottom
-      case PositionBottomRight => PlacementBottomEnd
-      case PositionLeftTop     => PlacementLeftStart
-      case PositionLeft        => PlacementLeft
-      case PositionLeftBottom  => PlacementLeftEnd
+      case PositionTopLeft     => PopperPlacement.TopStart
+      case PositionTop         => PopperPlacement.Top
+      case PositionTopRight    => PopperPlacement.TopEnd
+      case PositionRightTop    => PopperPlacement.RightStart
+      case PositionRight       => PopperPlacement.Right
+      case PositionRightBottom => PopperPlacement.RightEnd
+      case PositionBottomLeft  => PopperPlacement.BottomStart
+      case PositionBottom      => PopperPlacement.Bottom
+      case PositionBottomRight => PopperPlacement.BottomEnd
+      case PositionLeftTop     => PopperPlacement.LeftStart
+      case PositionLeft        => PopperPlacement.Left
+      case PositionLeftBottom  => PopperPlacement.LeftEnd
     }
   }
   // scalastyle:on cyclomatic.complexity

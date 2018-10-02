@@ -3,13 +3,15 @@
 package anduin.component.portal
 
 import scala.scalajs.js
+
 import org.scalajs.dom.raw.{HTMLElement, MutationObserver, MutationObserverInit, MutationRecord}
+
+import anduin.scalajs.popper.{Popper, PopperModifiers}
 import anduin.style.Style
 
 // scalastyle:off underscore.import
 import japgolly.scalajs.react._
 import japgolly.scalajs.react.vdom.html_<^._
-import anduin.scalajs.popper._
 // scalastyle:on underscore.import
 
 private[portal] final case class PortalPopper(
@@ -69,7 +71,7 @@ private[portal] object PortalPopper {
   // - Also note that this must be called in "onCreated", because the arrow
   //   modifier remove inline style of other axis.
   // - Ref: https://github.com/FezVrasta/popper.js/blob/master/packages/popper/src/modifiers/arrow.js#L85
-  private def setArrowStyle(props: Props)(data: Data): Unit = {
+  private def setArrowStyle(props: Props)(data: Popper.Data): Unit = {
     data.arrowElement.toOption.foreach { arrowElement =>
       val style = arrowElement.style
       val value = s"-${arrowSize / 2}px"
@@ -93,18 +95,23 @@ private[portal] object PortalPopper {
     }
   }
 
-  private val observerOptions = MutationObserverInit(
-    subtree = true,
-    characterData = true,
-    childList = true
-  )
+  private val observerOptions = {
+    MutationObserverInit(subtree = true, characterData = true, childList = true)
+  }
+
+  // These modifiers are currently not customizable so they're defined here
+  // for performance purpose
+  private object staticModifiers {
+    import PopperModifiers._ // scalastyle:ignore underscore.import import.grouping
+    val preventOverflow = new PreventOverflow(PreventOverflow.BoundariesViewPort)
+  }
 
   private class Backend(scope: BackendScope[Props, _]) {
 
     private val targetRef = Ref[HTMLElement]
     private val contentRef = Ref[HTMLElement]
     // @TODO use ref instead of var
-    private var popperOpt: Option[Popper] = None // scalastyle:off var.field
+    private var popperOpt: Option[Popper] = None // scalastyle:ignore var.field
     private val observer = new MutationObserver(
       (_: js.Array[MutationRecord], _: MutationObserver) => {
         popperOpt.foreach(_.scheduleUpdate())
@@ -117,12 +124,12 @@ private[portal] object PortalPopper {
         content <- contentRef.get
         props <- scope.props
         _ <- Callback {
-          val options = PopperOptions(
+          val options = new Popper.Options(
             placement = Position.getPopperPlacement(props.position),
             onCreate = setArrowStyle(props),
-            modifiers = Modifiers(
-              offset = OffsetModifier(props.offsetHor, props.offsetVer),
-              preventOverflow = PreventOverflowModifier(BoundariesWindow)
+            modifiers = new PopperModifiers(
+              offset = new PopperModifiers.Offset(props.offsetHor, props.offsetVer),
+              preventOverflow = staticModifiers.preventOverflow
             )
           )
           // This applies necessary coordination to the content (via inline
