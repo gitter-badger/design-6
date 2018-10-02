@@ -9,6 +9,8 @@ import org.scalajs.dom
 import org.scalajs.dom.ext.PimpedNodeList
 import org.scalajs.dom.raw.HTMLScriptElement
 
+import anduin.scalajs.onlyoffice.{Config, Editor}
+
 // scalastyle:off underscore.import
 import japgolly.scalajs.react._
 import japgolly.scalajs.react.vdom.html_<^._
@@ -17,7 +19,7 @@ import japgolly.scalajs.react.vdom.html_<^._
 final case class OnlyOfficeEditor(
   containerId: String,
   apiUrl: String,
-  config: OnlyOfficeConfig
+  config: Config
 ) {
   def apply(): VdomElement = OnlyOfficeEditor.component(this)
 }
@@ -66,7 +68,7 @@ object OnlyOfficeEditor {
 
     private def showEditor(props: Props) = {
       Callback {
-        OnlyOfficeFacade.Editor(props.containerId, props.config)
+        Editor(props.containerId, props.config)
       }
     }
 
