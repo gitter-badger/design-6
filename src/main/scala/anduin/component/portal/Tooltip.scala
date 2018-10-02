@@ -14,7 +14,7 @@ final case class Tooltip(
   renderTarget: VdomNode,
   renderContent: () => VdomNode,
   // PortalPopper common props (see PortalPopper for detail)
-  position: Position = PositionTop,
+  position: Position = PositionTopCenter,
   targetTag: HtmlTag = <.div,
   // Tooltip specific props
   isDisabled: Boolean = false

@@ -76,10 +76,10 @@ private[portal] object PortalPopper {
       val style = arrowElement.style
       val value = s"-${arrowSize / 2}px"
       props.position match {
-        case _: PositionTopBase    => style.bottom = value
-        case _: PositionRightBase  => style.left = value
-        case _: PositionBottomBase => style.top = value
-        case _: PositionLeftBase   => style.right = value
+        case _: PositionTop    => style.bottom = value
+        case _: PositionRight  => style.left = value
+        case _: PositionBottom => style.top = value
+        case _: PositionLeft   => style.right = value
       }
     }
   }
@@ -90,8 +90,8 @@ private[portal] object PortalPopper {
   //   add the offset when needed
   def getArrowOffset(position: Position): (Double, Double) = {
     position match {
-      case _: PositionTopBase | _: PositionBottomBase => (0, arrowSize)
-      case _: PositionRightBase | _: PositionLeftBase => (arrowSize, 0)
+      case _: PositionTop | _: PositionBottom => (0, arrowSize)
+      case _: PositionRight | _: PositionLeft => (arrowSize, 0)
     }
   }
 
