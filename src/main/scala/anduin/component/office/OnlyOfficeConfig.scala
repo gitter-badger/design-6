@@ -28,6 +28,9 @@ object OnlyOfficeConfig {
   // `editorConfig` options
 
   class EditorConfig(
+    val callbackUrl: String,
+    // Can be view or edit
+    val mode: String = "edit",
     val customization: Customization
   ) extends js.Object
 
