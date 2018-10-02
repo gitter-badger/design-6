@@ -2,8 +2,6 @@
 
 package anduin.component.input
 
-import scala.scalajs.js
-
 import anduin.component.icon.Icon
 import anduin.style.Style
 
@@ -21,7 +19,7 @@ final case class TextBox(
   // ===
   tpe: TextBox.Tpe = TextBox.TpeSingle,
   status: TextBox.Status = TextBox.StatusNone,
-  size: TextBox.Size = TextBox.SizeMedium,
+  size: TextBox.Size = TextBox.Size32,
   // ===
   isDisabled: Boolean = false,
   isRequired: Boolean = false,
@@ -33,15 +31,15 @@ final case class TextBox(
 
 object TextBox {
 
-  trait Tpe { val styles: TagMod }
-  case object TpeSingle extends Tpe { val styles: TagMod = Style.lineHeight.px16 }
-  case object TpeArea extends Tpe { val styles: TagMod = Style.lineHeight.ratio1p5.padding.ver8 }
+  private type Props = TextBox
 
-  // ===
+  sealed abstract class Tpe(val styles: TagMod)
+  case object TpeSingle extends Tpe(Style.lineHeight.px16)
+  case object TpeArea extends Tpe(Style.lineHeight.ratio1p5.padding.ver8)
 
-  trait Size { val height: TagMod; val font: TagMod }
-  case object SizeMedium extends Size { val height: TagMod = Style.height.px32; val font: TagMod = Style.fontSize.px13 }
-  case object SizeLarge extends Size { val height: TagMod = Style.height.px40; val font: TagMod = Style.fontSize.px16 }
+  sealed abstract class Size(val height: TagMod, val font: TagMod)
+  case object Size32 extends Size(Style.height.px32, Style.fontSize.px13)
+  case object Size40 extends Size(Style.height.px40, Style.fontSize.px16)
 
   // ===
 
@@ -68,70 +66,67 @@ object TextBox {
   }
 
   // === Predefined styles
-  // These styles will be used in Backend's render, however they are all
-  // static values and quite large so we brought them here.
 
-  private val borderStyles = Style.border.all.borderWidth.px1.borderRadius.px2
+  private[component] object Styles {
+    private val border = Style.border.all.borderWidth.px1.borderRadius.px2
 
-  private[component] val inputStyles = TagMod(
-    Style.display.block.width.pc100.padding.hor12.backgroundColor.white,
-    Style.focus.shadow.focus.border.transition.allWithShadow,
-    Style.disabled.backgroundGray2.disabled.colorGray6,
-    borderStyles
-  )
+    val input = TagMod(
+      Style.display.block.width.pc100.padding.hor12,
+      Style.focus.spread.focus.border.transition.allWithShadow,
+      border
+    )
 
-  private val contextStyles = TagMod(
-    Style.padding.hor12.backgroundColor.gray2.color.gray6,
-    Style.borderWidth.right0.borderRadius.left,
-    Style.flexbox.flex.flexbox.itemsCenter,
-    StatusNone.styles,
-    borderStyles
-  )
+    val inputEnabled = Style.backgroundColor.white.color.gray8
+    val inputDisabled = Style.backgroundColor.gray2.color.gray6
+
+    val context = TagMod(
+      Style.padding.hor12.backgroundColor.gray2.color.gray6,
+      Style.borderWidth.right0.borderRadius.left,
+      Style.flexbox.flex.flexbox.itemsCenter,
+      StatusNone.styles,
+      border
+    )
+  }
 
   // ===
 
-  private class Backend(scope: BackendScope[TextBox, _]) {
+  private def onChange(props: Props)(e: ReactEventFromInput): Callback = {
+    props.onChange(e.target.value)
+  }
 
-    private def onChange(e: ReactEventFromInput) = {
-      for {
-        props <- scope.props
-        _ <- props.onChange(e.target.value)
-      } yield ()
+  private def render(props: Props): VdomElement = {
+    val height = TagMod.when(props.tpe != TpeArea) { props.size.height }
+    val commonStyles = TagMod(props.size.font, props.tpe.styles, height)
+    val contextIsDefined = props.context != EmptyVdom
+    val tag: VdomTag = if (props.tpe == TpeArea) <.textarea else <.input
+
+    val input = tag(
+      // styles
+      TagMod(commonStyles, Styles.input, props.status.styles),
+      TagMod.when(contextIsDefined) { Style.borderRadius.right },
+      TagMod.when(props.isReadOnly) { Style.backgroundColor.gray1 },
+      if (props.isDisabled) Styles.inputDisabled else Styles.inputEnabled,
+      // behaviours
+      TagMod.when(props.tpe != TpeArea) { ^.tpe := "text" },
+      ^.disabled := props.isDisabled,
+      ^.readOnly := props.isReadOnly,
+      ^.onChange ==> onChange(props),
+      ^.onFocus --> props.onFocus,
+      ^.value := props.value,
+      ^.placeholder := props.placeholder,
+      ^.autoFocus := props.isAutoFocus
+    )
+    val context = TagMod.when(contextIsDefined) {
+      <.div(commonStyles, Styles.context, props.context)
     }
+    val icon = props.status.icon.whenDefined
 
-    def render(props: TextBox): VdomElement = {
-      val height = TagMod.when(props.tpe != TpeArea) { props.size.height }
-      val commonStyles = TagMod(props.size.font, props.tpe.styles, height)
-      val contextIsDefined = props.context != EmptyVdom
-      val tag: VdomTag = if (props.tpe == TpeArea) <.textarea else <.input
-
-      val input = tag(
-        // styles
-        TagMod(commonStyles, inputStyles, props.status.styles),
-        TagMod.when(contextIsDefined) { Style.borderRadius.right },
-        TagMod.when(props.isReadOnly) { Style.backgroundColor.gray1 },
-        // behaviours
-        TagMod.when(props.tpe != TpeArea) { ^.tpe := "text" },
-        //Override color on safari & iOS
-        TagMod.when(props.isDisabled) { ^.style := js.Dynamic.literal("-webkit-text-fill-color" -> "var(--color-gray-6)")},
-        ^.disabled := props.isDisabled,
-        ^.readOnly := props.isReadOnly,
-        ^.onChange ==> onChange,
-        ^.onFocus --> props.onFocus,
-        ^.value := props.value,
-        ^.placeholder := props.placeholder,
-        ^.autoFocus := props.isAutoFocus
-      )
-      val context = TagMod.when(contextIsDefined) { <.div(commonStyles, contextStyles, props.context) }
-      val icon = props.status.icon.whenDefined
-
-      <.div(Style.position.relative.flexbox.flex, context, input, icon)
-    }
+    <.div(Style.position.relative.flexbox.flex, context, input, icon)
   }
 
   private val component = ScalaComponent
-    .builder[TextBox](this.getClass.getSimpleName)
+    .builder[Props](this.getClass.getSimpleName)
     .stateless
-    .renderBackend[Backend]
+    .render_P(render)
     .build
 }

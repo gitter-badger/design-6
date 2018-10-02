@@ -103,9 +103,9 @@ private[dropdown] object DropdownContent {
   object Search {
     // static mods
     val inputMods = TagMod(
-      TextBox.inputStyles,
-      TextBox.SizeMedium.font,
-      TextBox.SizeMedium.height,
+      TextBox.Styles.input,
+      TextBox.Size32.font,
+      TextBox.Size32.height,
       TextBox.StatusNone.styles,
       ^.autoFocus := true,
       ^.placeholder := "Search…"
