@@ -149,7 +149,7 @@ object Toolbar {
           )(),
           VerticalDivider(),
           Popover(
-            position = PositionTop,
+            position = PositionTopCenter,
             verticalOffset = -8,
             isClosable = None,
             renderTarget = (toggle, isOpened) => {

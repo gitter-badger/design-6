@@ -8,7 +8,7 @@ import japgolly.scalajs.react.{PropsChildren, raw}
 
 import anduin.component.button.{ButtonLink, ButtonStyle}
 import anduin.component.editor.{DataUtil, StyleParser}
-import anduin.component.portal.{Popover, PositionBottom}
+import anduin.component.portal.{Popover, PositionBottomCenter}
 
 // scalastyle:off underscore.import
 import japgolly.scalajs.react.vdom.html_<^._
@@ -27,7 +27,7 @@ private[editor] object LinkRenderer {
       link.rawElement
     } else {
       Popover(
-        position = PositionBottom,
+        position = PositionBottomCenter,
         targetTag = <.span,
         renderTarget = (toggle, _) => {
           <.span(^.onClick --> toggle, link)

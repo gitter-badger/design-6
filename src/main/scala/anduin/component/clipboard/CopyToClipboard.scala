@@ -4,7 +4,7 @@ package anduin.component.clipboard
 
 import org.scalajs.dom.{document, window}
 
-import anduin.component.portal.{PositionRight, Tooltip}
+import anduin.component.portal.{PositionRightCenter, Tooltip}
 
 // scalastyle:off underscore.import
 import japgolly.scalajs.react._
@@ -45,7 +45,7 @@ object CopyToClipboard {
 
     def render(state: State, children: PropsChildren): VdomElement = {
       Tooltip(
-        position = PositionRight,
+        position = PositionRightCenter,
         targetTag = <.span,
         renderTarget = <.span(^.onClick --> copyToClipboard, children),
         renderContent = () => if (state.copied) "Copied to clipboard" else "Click to copy"

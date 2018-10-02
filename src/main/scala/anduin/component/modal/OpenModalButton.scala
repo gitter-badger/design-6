@@ -3,7 +3,7 @@
 package anduin.component.modal
 
 import anduin.component.button.{Button, ButtonStyle}
-import anduin.component.portal.{Position, PositionTop, Tooltip}
+import anduin.component.portal.{Position, PositionTopCenter, Tooltip}
 import anduin.scalajs.react.hammer.ReactHammer
 
 // scalastyle:off underscore.import
@@ -21,7 +21,7 @@ final case class OpenModalButton(
   buttonIsFullWidth: Boolean = false,
   disabled: Boolean = false,
   tip: String = "",
-  tipPlacement: Position = PositionTop,
+  tipPlacement: Position = PositionTopCenter,
   modalTitle: String = "",
   modalClasses: String = "",
   modalBody: Callback => VdomNode = _ => EmptyVdom,

@@ -17,7 +17,7 @@ final case class Popover(
   // Portal utils common props
   isClosable: Option[PortalUtils.IsClosable] = PortalUtils.defaultIsClosable,
   // PortalPopper common props (see PortalPopper for detail)
-  position: Position = PositionBottom,
+  position: Position = PositionBottomCenter,
   verticalOffset: Double = 0,
   horizontalOffset: Double = 0,
   targetTag: HtmlTag = <.div,
