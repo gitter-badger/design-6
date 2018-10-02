@@ -12,26 +12,26 @@ import japgolly.scalajs.react._
 import japgolly.scalajs.react.vdom.html_<^._
 // scalastyle:on underscore.import
 
-final case class TextInput(
+final case class TextBox(
   value: String,
   onFocus: Callback = Callback.empty,
   onChange: String => Callback = _ => Callback.empty,
   placeholder: String = "",
   context: VdomNode = EmptyVdom,
   // ===
-  tpe: TextInput.Tpe = TextInput.TpeSingle,
-  status: TextInput.Status = TextInput.StatusNone,
-  size: TextInput.Size = TextInput.SizeMedium,
+  tpe: TextBox.Tpe = TextBox.TpeSingle,
+  status: TextBox.Status = TextBox.StatusNone,
+  size: TextBox.Size = TextBox.SizeMedium,
   // ===
   isDisabled: Boolean = false,
   isRequired: Boolean = false,
   isReadOnly: Boolean = false,
   isAutoFocus: Boolean = false
 ) {
-  def apply(): VdomElement = TextInput.component(this)
+  def apply(): VdomElement = TextBox.component(this)
 }
 
-object TextInput {
+object TextBox {
 
   trait Tpe { val styles: TagMod }
   case object TpeSingle extends Tpe { val styles: TagMod = Style.lineHeight.px16 }
@@ -90,7 +90,7 @@ object TextInput {
 
   // ===
 
-  private class Backend(scope: BackendScope[TextInput, _]) {
+  private class Backend(scope: BackendScope[TextBox, _]) {
 
     private def onChange(e: ReactEventFromInput) = {
       for {
@@ -99,7 +99,7 @@ object TextInput {
       } yield ()
     }
 
-    def render(props: TextInput): VdomElement = {
+    def render(props: TextBox): VdomElement = {
       val height = TagMod.when(props.tpe != TpeArea) { props.size.height }
       val commonStyles = TagMod(props.size.font, props.tpe.styles, height)
       val contextIsDefined = props.context != EmptyVdom
@@ -130,7 +130,7 @@ object TextInput {
   }
 
   private val component = ScalaComponent
-    .builder[TextInput](this.getClass.getSimpleName)
+    .builder[TextBox](this.getClass.getSimpleName)
     .stateless
     .renderBackend[Backend]
     .build
