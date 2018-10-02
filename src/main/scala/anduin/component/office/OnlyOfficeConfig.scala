@@ -33,6 +33,7 @@ object OnlyOfficeConfig {
 
   class Customization(
     val compactToolbar: Boolean = false,
-    val chat: Boolean = true
+    val chat: Boolean = true,
+    val comments: Boolean = true
   ) extends js.Object
 }
