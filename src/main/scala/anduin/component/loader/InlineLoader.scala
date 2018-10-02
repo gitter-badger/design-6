@@ -13,9 +13,10 @@ import org.scalajs.dom.html._
 object InlineLoader {
 
   // scalastyle:off multiple.string.literals
-  def apply(additionalClasses: String*): VdomTagOf[Span] = {
+  def apply(additionalStyles: TagMod*): VdomTagOf[Span] = {
     <.span(
-      ^.cls := s"loader-inline ${additionalClasses.mkString(" ")}",
+      ^.cls := "loader-inline",
+      additionalStyles.toTagMod,
       <.span(^.cls := "item"),
       <.span(^.cls := "item"),
       <.span(^.cls := "item")
