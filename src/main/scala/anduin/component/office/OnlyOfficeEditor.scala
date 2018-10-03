@@ -7,7 +7,7 @@ import scala.scalajs.concurrent.JSExecutionContext.Implicits.queue
 
 import org.scalajs.dom
 import org.scalajs.dom.ext.PimpedNodeList
-import org.scalajs.dom.raw.HTMLScriptElement
+import org.scalajs.dom.raw.Event
 
 import anduin.scalajs.onlyoffice.{Config, Editor}
 
@@ -38,15 +38,14 @@ object OnlyOfficeEditor {
         Callback.future {
           val promise = Promise[Callback]()
 
-          @SuppressWarnings(Array("org.wartremover.warts.AsInstanceOf"))
-          val script = dom.document.createElement("script").asInstanceOf[HTMLScriptElement]
+          val script = dom.document.createElement("script")
           script.setAttribute("src", props.apiUrl)
           script.setAttribute("async", "true")
-          script.onload = { _ =>
+          script.addEventListener("load", (_: Event) => {
             promise.success {
               showEditor(props)
             }
-          }
+          })
 
           dom.document.body.appendChild(script)
           promise.future
@@ -56,11 +55,12 @@ object OnlyOfficeEditor {
 
     def removeScript(props: Props): Callback = {
       Callback {
-        PimpedNodeList(dom.document.querySelectorAll("script[src]")).map { script =>
-          @SuppressWarnings(Array("org.wartremover.warts.AsInstanceOf"))
-          val src = script.asInstanceOf[HTMLScriptElement].src
-          if (src == props.apiUrl) {
-            script.parentNode.removeChild(script)
+        PimpedNodeList(dom.document.querySelectorAll("script[src]")).foreach { script =>
+          script.domToHtml.foreach { s =>
+            val src = s.getAttribute("src")
+            if (src == props.apiUrl) {
+              s.parentNode.removeChild(s)
+            }
           }
         }
       }
