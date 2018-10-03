@@ -26,7 +26,7 @@ final case class Modal(
   title: String = "",
   size: Modal.Size = Modal.Size480,
   isPermanent: Boolean = false,
-  layout: Modal.LayoutBuilder = Modal.LayoutBuilder()
+  layout: Modal.LayoutMods = Modal.LayoutMods()
 ) {
   def apply(): VdomElement = Modal.component(this)
 }
@@ -35,10 +35,9 @@ object Modal {
 
   private type Props = Modal
 
-  case class LayoutBuilder(
+  case class LayoutMods(
     overlay: TagMod = EmptyVdom,
-    content: TagMod = EmptyVdom,
-    header: VdomNode => VdomNode = identity
+    content: TagMod = EmptyVdom
   )
 
   // Public options
@@ -83,7 +82,7 @@ object Modal {
         ^.tabIndex := 0, // Allow (keyboard) focus so Esc can work
         // Content
         TagMod.when(props.title.nonEmpty) {
-          props.layout.header(ModalHeader(props.title, props.isClosable.isDefined, close)())
+          ModalHeader(props.title, props.isClosable.isDefined, close)()
         },
         props.renderContent(close)
       )
