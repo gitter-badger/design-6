@@ -26,7 +26,6 @@ final case class Modal(
   title: String = "",
   size: Modal.Size = Modal.Size480,
   isPermanent: Boolean = false,
-  unsafeOverlayMod: TagMod = TagMod.empty,
   layout: Modal.LayoutBuilder = Modal.LayoutBuilder()
 ) {
   def apply(): VdomElement = Modal.component(this)
@@ -75,7 +74,6 @@ object Modal {
     val content = <.div(
       overlayStyles,
       TagMod.when(props.size != SizeFull) { overlayNonFullStyles },
-      props.unsafeOverlayMod,
       props.layout.overlay,
       PortalUtils.getClosableMods(props.isClosable, close),
       <.div(
