@@ -10,7 +10,7 @@ import japgolly.scalajs.react.vdom.html_<^._
 // scalastyle:on underscore.import
 
 // Internal styling logic of TextBox
-private[textbox] object TextBoxStyle {
+private[component] object TextBoxStyle {
 
   private type Props = TextBox
 

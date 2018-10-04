@@ -42,8 +42,6 @@ object TextBox {
   case object Size32 extends Size
   case object Size40 extends Size
 
-  // ===
-
   sealed abstract class Status
   case object StatusNone extends Status
   case object StatusBusy extends Status
