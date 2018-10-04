@@ -3,7 +3,7 @@
 package anduin.component.dropdown
 
 import anduin.component.icon.Icon
-import anduin.component.input.TextBox
+import anduin.component.input.textbox.{TextBox, TextBoxStyle}
 import anduin.component.menu.MenuItem
 import anduin.scalajs.downshift.{DownshiftRenderProps, GetItemPropsOptions}
 import anduin.scalajs.util.Util
@@ -101,12 +101,11 @@ private[dropdown] class DropdownContent[A] {
 private[dropdown] object DropdownContent {
 
   object Search {
+
+    private val fakeTextBox = TextBox(value = "")
     // static mods
     val inputMods = TagMod(
-      TextBox.Styles.input,
-      TextBox.Size32.font,
-      TextBox.Size32.height,
-      TextBox.StatusNone.styles,
+      TextBoxStyle.getInput(fakeTextBox),
       ^.autoFocus := true,
       ^.placeholder := "Search…"
     )
