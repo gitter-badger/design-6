@@ -51,7 +51,8 @@ object TextBox {
   // ===
 
   private def onChange(props: Props)(e: ReactEventFromInput): Callback = {
-    props.onChange(e.target.value)
+    val value = e.target.value
+    props.onChange(value)
   }
 
   private def renderInput(props: Props): VdomElement = {
@@ -68,7 +69,7 @@ object TextBox {
       ^.autoFocus := props.isAutoFocus
     )
     props.tpe match {
-      case TpeSingle     => <.input(^.tpe := "text", common)
+      case TpeSingle     => <.input.text(common)
       case area: TpeArea => <.textarea(^.rows := area.rows, common)
     }
   }

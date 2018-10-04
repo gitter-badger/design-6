@@ -94,9 +94,9 @@ private[component] object TextBoxStyle {
   // Icon
 
   private val iconWrapper = TagMod(
-    Style.position.absolute.coordinate.top0.coordinate.bottom0,
-    Style.backgroundColor.white.margin.verAuto,
-    TagMod(^.right := "8px", ^.height := "16px")
+    Style.position.absolute.margin.right8.margin.verAuto,
+    Style.coordinate.top0.coordinate.bottom0.coordinate.right0,
+    Style.backgroundColor.white.height.px16
   )
 
   def getIcon(props: Props): Option[VdomElement] = props.status match {
