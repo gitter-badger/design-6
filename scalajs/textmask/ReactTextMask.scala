@@ -22,13 +22,15 @@ object ReactTextMask {
   type OnChange = js.Function1[ReactEventFromInput, Unit]
 
   class Props(
-    mask: js.UndefOr[TextMask] = js.undefined,
+    mask: Option[TextMask] = None,
+    val value: js.UndefOr[String] = js.undefined,
     val onChange: js.UndefOr[OnChange] = js.undefined,
     val render: js.UndefOr[Render] = js.undefined
   ) extends js.Object {
     // We accept both
     @JSName("mask")
-    val maskRaw: js.UndefOr[TextMask.Raw] = mask.map(TextMask.toRaw)
+    val maskRaw: js.UndefOr[TextMask.Raw] =
+      mask.fold[TextMask.Raw](false)(TextMask.toRaw)
   }
 
   @JSImport("react-text-mask", JSImport.Default)

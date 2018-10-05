@@ -13,9 +13,9 @@ sealed abstract class TextMask
 
 object TextMask {
 
-  class Array(val chars: List[Item]) extends TextMask
-  class Func(val raw: String => Array) extends TextMask
-  class FromJS(val raw: TextMask.Raw) extends TextMask
+  case class Array(value: List[Item]) extends TextMask
+  case class Func(value: String => Array) extends TextMask
+  case class FromJS(value: TextMask.Raw) extends TextMask
 
   sealed abstract class Item
   case class Char(value: String) extends Item
@@ -31,21 +31,21 @@ object TextMask {
 
   type RawArray = js.Array[Item.Raw]
   type RawFunc = js.Function1[String, RawArray]
-  type RawObject = js.Dictionary[js.Any] // https://git.io/fxtrx
-  type Raw = RawArray | RawFunc | RawObject
+  type Raw = RawArray | RawFunc | js.Object | Boolean
+  // Why js.Object? https://git.io/fxtrx
 
   private def toRawArray(array: Array): RawArray = {
-    array.chars.map(Item.toRaw).toJSArray
+    array.value.map(Item.toRaw).toJSArray
   }
 
   private def toRawFunc(func: Func): RawFunc = (input: String) => {
-    toRawArray(func.raw(input))
+    toRawArray(func.value(input))
   }
 
   def toRaw(mask: TextMask): Raw = mask match {
     // Intellij might warn this typing. Just believe in compilation
     case array: Array => toRawArray(array)
     case func: Func   => toRawFunc(func)
-    case js: FromJS   => js.raw
+    case js: FromJS   => js.value
   }
 }
