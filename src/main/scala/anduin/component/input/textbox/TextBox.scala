@@ -2,7 +2,12 @@
 
 package anduin.component.input.textbox
 
+import anduin.scalajs.textmask.{ReactTextMask, TextMask}
+import anduin.scalajs.util.Util
 import anduin.style.Style
+import org.scalajs.dom.html
+
+import scala.scalajs.js
 
 // scalastyle:off underscore.import
 import japgolly.scalajs.react._
@@ -19,6 +24,7 @@ final case class TextBox(
   tpe: TextBox.Tpe = TextBox.TpeSingle,
   status: TextBox.Status = TextBox.StatusNone,
   size: TextBox.Size = TextBox.Size32,
+  mask: Option[TextBox.Mask] = None,
   // ===
   isDisabled: Boolean = false,
   isRequired: Boolean = false,
@@ -48,30 +54,52 @@ object TextBox {
   case object StatusValid extends Status
   case object StatusInvalid extends Status
 
+  sealed abstract class Mask
+  case object MaskEmail extends Mask
+  case object MaskCurrency extends Mask
+  case object MaskPercentage extends Mask
+  case object MaskNumber extends Mask
+  case class MaskArray(value: List[TextMask.Item]) extends Mask
+  case class MaskFunc(value: String => TextMask.Array) extends Mask
+
   // ===
 
-  private def onChange(props: Props)(e: ReactEventFromInput): Callback = {
+  private def onChange(props: Props)(e: ReactEventFromInput): Unit = {
     val value = e.target.value
-    props.onChange(value)
+    props.onChange(value).runNow()
   }
 
-  private def renderInput(props: Props): VdomElement = {
+  private def renderTextMask(props: Props)(
+    maskRef: raw.React.RefFn[html.Input],
+    maskProps: js.Dictionary[js.Any]
+  ): raw.React.Element = {
     val common = TagMod(
       TextBoxStyle.getInput(props),
-      // ---
-      ^.value := props.value,
-      ^.onChange ==> onChange(props),
-      // ---
+      // These mods and ref will control `onChange`, `onBlur` and `value`
+      Util.getModsFromProps(maskProps),
+      VdomAttr("ref") := maskRef,
+      // All other props
+      ^.placeholder := props.placeholder,
+      ^.onFocus --> props.onFocus,
       ^.disabled := props.isDisabled,
       ^.readOnly := props.isReadOnly,
-      ^.onFocus --> props.onFocus,
-      ^.placeholder := props.placeholder,
       ^.autoFocus := props.isAutoFocus
     )
-    props.tpe match {
+    val element = props.tpe match {
       case TpeSingle     => <.input.text(common)
       case area: TpeArea => <.textarea(^.rows := area.rows, common)
     }
+    element.rawElement
+  }
+
+  private def renderInput(props: Props): VdomElement = {
+    val maskProps = new ReactTextMask.Props(
+      mask = props.mask.map(TextBoxMask.get),
+      value = props.value,
+      onChange = js.defined(onChange(props)),
+      render = js.defined(renderTextMask(props))
+    )
+    ReactTextMask.component(maskProps)
   }
 
   private def render(props: Props): VdomElement = {
