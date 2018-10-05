@@ -30,7 +30,7 @@ object ReactTextMask {
     // We accept both
     @JSName("mask")
     val maskRaw: js.UndefOr[TextMask.Raw] =
-      mask.fold[TextMask.Raw](false)(TextMask.toRaw)
+      js.defined(mask.fold[TextMask.Raw](false)(TextMask.toRaw))
   }
 
   @JSImport("react-text-mask", JSImport.Default)
