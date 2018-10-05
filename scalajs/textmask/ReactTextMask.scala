@@ -19,12 +19,13 @@ object ReactTextMask {
     raw.React.Element
   ]
 
-  type OnChange = js.Function1[ReactEventFromInput, Unit]
+  type EventListener = js.Function1[ReactEventFromInput, Unit]
 
   class Props(
     mask: Option[TextMask] = None,
     val value: js.UndefOr[String] = js.undefined,
-    val onChange: js.UndefOr[OnChange] = js.undefined,
+    val onChange: js.UndefOr[EventListener] = js.undefined,
+    val onBlur: js.UndefOr[EventListener] = js.undefined,
     val render: js.UndefOr[Render] = js.undefined
   ) extends js.Object {
     // We accept both

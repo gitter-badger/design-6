@@ -14,8 +14,8 @@ object TextMaskAddons {
     val thousandsSeparatorSymbol: js.UndefOr[String] = js.undefined,
     val allowDecimal: js.UndefOr[Boolean] = js.undefined,
     val decimalSymbol: js.UndefOr[String] = js.undefined,
-    val decimalLimit: js.UndefOr[Number] = js.undefined,
-    val integerLimit: js.UndefOr[Number] = js.undefined,
+    val decimalLimit: js.UndefOr[Int] = js.undefined,
+    val integerLimit: js.UndefOr[Int] = js.undefined,
     val requireDecimal: js.UndefOr[Boolean] = js.undefined,
     val allowNegative: js.UndefOr[Boolean] = js.undefined,
     val allowLeadingZeroes: js.UndefOr[Boolean] = js.undefined
