@@ -18,6 +18,7 @@ final case class TextBox(
   value: String,
   onChange: String => Callback = _ => Callback.empty,
   onFocus: Callback = Callback.empty,
+  onBlur: String => Callback = _ => Callback.empty,
   placeholder: String = "",
   context: Option[VdomNode] = None,
   // ===
@@ -59,6 +60,7 @@ object TextBox {
   case object MaskCurrency extends Mask
   case object MaskPercentage extends Mask
   case object MaskNumber extends Mask
+  case object MaskFloat extends Mask
   case class MaskArray(value: List[TextMask.Item]) extends Mask
   case class MaskFunc(value: String => TextMask.Array) extends Mask
 
@@ -67,6 +69,11 @@ object TextBox {
   private def onChange(props: Props)(e: ReactEventFromInput): Unit = {
     val value = e.target.value
     props.onChange(value).runNow()
+  }
+
+  private def onBlur(props: Props)(e: ReactEventFromInput): Unit = {
+    val value = e.target.value
+    props.onBlur(value).runNow()
   }
 
   private def renderTextMask(props: Props)(
@@ -97,6 +104,7 @@ object TextBox {
       mask = props.mask.map(TextBoxMask.get),
       value = props.value,
       onChange = js.defined(onChange(props)),
+      onBlur = js.defined(onBlur(props)),
       render = js.defined(renderTextMask(props))
     )
     ReactTextMask.component(maskProps)
