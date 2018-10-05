@@ -12,16 +12,22 @@ private[textbox] object TextBoxMask {
 
   // These "createMask" are expensive. Don't call them on render. Instead, they
   // should be defined once here and use in respond to TextBox.Mask instances
-  val email = Email
-  val currency = Number()
-  val percentage = Number(new NumberConfig(prefix = "", suffix = "%"))
-  val number = Number(new NumberConfig(prefix = ""))
+  private val email = TextMask.FromJS(Email)
+  private val currency = TextMask.FromJS(Number())
+  private val percentage = {
+    val config = new NumberConfig(prefix = "", suffix = "%")
+    TextMask.FromJS(Number(config))
+  }
+  private val number = {
+    val config = new NumberConfig(prefix = "")
+    TextMask.FromJS(Number(config))
+  }
 
   def get(mask: TextBox.Mask): TextMask = mask match {
-    case TextBox.MaskEmail        => TextMask.FromJS(email)
-    case TextBox.MaskCurrency     => TextMask.FromJS(currency)
-    case TextBox.MaskPercentage   => TextMask.FromJS(percentage)
-    case TextBox.MaskNumber       => TextMask.FromJS(number)
+    case TextBox.MaskEmail        => email
+    case TextBox.MaskCurrency     => currency
+    case TextBox.MaskPercentage   => percentage
+    case TextBox.MaskNumber       => number
     case array: TextBox.MaskArray => TextMask.Array(array.value)
     case func: TextBox.MaskFunc   => TextMask.Func(func.value)
   }
