@@ -18,7 +18,7 @@ private[dropdown] class DropdownTarget[A] {
   def apply(): Props.type = Props
 
   case class Props(
-    outer: Dropdown[A]#OuterProps,
+    outer: Dropdown[A]#Props,
     downshift: DownshiftRenderProps[A]
   ) {
     def apply(): VdomElement = component(this)

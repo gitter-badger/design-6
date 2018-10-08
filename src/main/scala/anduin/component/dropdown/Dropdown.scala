@@ -19,9 +19,9 @@ class Dropdown[A] {
   private val Target = (new DropdownTarget[A])()
   private val Content = (new DropdownContent[A])()
 
-  def apply(): OuterProps.type = OuterProps
+  def apply(): Props.type = Props
 
-  case class OuterProps(
+  case class Props(
     // Basic
     value: Option[A],
     options: List[Dropdown.Opt[A]],
@@ -36,12 +36,12 @@ class Dropdown[A] {
     valueToString: A => String = _.toString,
     renderValue: A => VdomNode = _.toString,
     placeholder: VdomNode = "Select…",
-    renderOption: DropdownContent.Option.Render[A] = DropdownContent.Option.defaultRender[A]
+    renderOption: DropdownOpt.Render[A] = DropdownOpt.defaultRender[A]
   ) {
     def apply(): VdomElement = component(this)
   }
 
-  private def renderChildren(outerProps: OuterProps)(
+  private def renderChildren(outerProps: Props)(
     downshiftProps: DownshiftA.RenderProps
   ): raw.React.Node = {
     val popover = Popover(
@@ -75,13 +75,13 @@ class Dropdown[A] {
     }
   }
 
-  private def itemToString(outerProps: OuterProps)(item: A): String =
+  private def itemToString(outerProps: Props)(item: A): String =
     if (item == null) "" else outerProps.valueToString(item)
 
-  private def onChange(outerProps: OuterProps)(item: A): Unit =
+  private def onChange(outerProps: Props)(item: A): Unit =
     outerProps.onChange(item).runNow()
 
-  private def render(outerProps: OuterProps): VdomElement = {
+  private def render(outerProps: Props): VdomElement = {
     val props = new DownshiftA.Props(
       onChange = onChange(outerProps),
       itemToString = itemToString(outerProps),
@@ -93,7 +93,7 @@ class Dropdown[A] {
   }
 
   private val component = ScalaComponent
-    .builder[OuterProps](this.getClass.getSimpleName)
+    .builder[Props](this.getClass.getSimpleName)
     .stateless
     .render_P(render)
     .build
