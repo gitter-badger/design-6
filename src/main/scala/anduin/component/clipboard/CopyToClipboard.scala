@@ -2,9 +2,10 @@
 
 package anduin.component.clipboard
 
+import org.scalajs.dom.raw.HTMLElement
 import org.scalajs.dom.{document, window}
 
-import anduin.component.portal.{PositionRightCenter, Tooltip}
+import anduin.component.portal.{PositionTopCenter, Tooltip}
 
 // scalastyle:off underscore.import
 import japgolly.scalajs.react._
@@ -19,13 +20,17 @@ object CopyToClipboard {
 
   private val CopyCommand = "copy"
 
-  private case class State(copied: Boolean)
+  private type Props = CopyToClipboard
 
-  private class Backend(scope: BackendScope[CopyToClipboard, State]) {
+  private final case class State(copied: Boolean)
+
+  private final case class Backend(scope: BackendScope[Props, State]) {
+
+    private val childrenRef = Ref[HTMLElement]
 
     private def copyToClipboard = {
       for {
-        node <- scope.getDOMNode.map(_.asMounted().asElement())
+        node <- childrenRef.get
         selection = window.getSelection()
         range = document.createRange()
         _ <- Callback {
@@ -39,25 +44,26 @@ object CopyToClipboard {
           window.getSelection().removeAllRanges()
         }
         _ <- scope.modState(_.copy(copied = true))
-        _ <- scope.modState(_.copy(copied = false)).delayMs(3000)
       } yield ()
     }
 
     def render(state: State, children: PropsChildren): VdomElement = {
       Tooltip(
-        position = PositionRightCenter,
+        position = PositionTopCenter,
         targetTag = <.span,
-        renderTarget = <.span(^.onClick --> copyToClipboard, children),
+        renderTarget = <.span.withRef(childrenRef)(
+          ^.onClick --> copyToClipboard,
+          ^.onMouseLeave --> scope.modState(_.copy(copied = false)),
+          children
+        ),
         renderContent = () => if (state.copied) "Copied to clipboard" else "Click to copy"
       )()
     }
   }
 
   private val component = ScalaComponent
-    .builder[CopyToClipboard](this.getClass.getSimpleName)
-    .initialState(
-      State(copied = false)
-    )
+    .builder[Props](this.getClass.getSimpleName)
+    .initialState(State(copied = false))
     .renderBackendWithChildren[Backend]
     .build
 }
