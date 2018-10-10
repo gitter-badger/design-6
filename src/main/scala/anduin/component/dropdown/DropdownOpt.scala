@@ -15,7 +15,7 @@ import japgolly.scalajs.react._
 import japgolly.scalajs.react.vdom.html_<^._
 // scalastyle:on underscore.import
 
-private[dropdown] class DropdownOpt[A] {
+private[dropdown] class DropdownOption[A] {
 
   def apply(): Props.type = Props
 
@@ -33,7 +33,7 @@ private[dropdown] class DropdownOpt[A] {
     val isDisabled = Some(props.option.isDisabled).orUndefined
     val options = new GetItemPropsOptions[A](props.index, value, isDisabled)
     val itemProps = props.downshift.getItemProps(options)
-    val renderOptionProps = DropdownOpt.RenderProps(
+    val renderOptionProps = DropdownOption.RenderProps(
       option = props.option,
       mods = Util.getModsFromProps(itemProps),
       renderValue = props.outer.renderValue,
@@ -50,14 +50,14 @@ private[dropdown] class DropdownOpt[A] {
     .build
 }
 
-private[dropdown] object DropdownOpt {
+private[dropdown] object DropdownOption {
 
   final case class RenderProps[A](
     option: Dropdown.Opt[A],
     mods: TagMod,
     renderValue: A => VdomNode,
-    isSelected: Boolean,
-    isHighlighted: Boolean
+    isSelected: Boolean = false,
+    isHighlighted: Boolean = false
   )
   type Render[A] = RenderProps[A] => VdomNode
 
@@ -76,5 +76,13 @@ private[dropdown] object DropdownOpt {
     val iconName = if (props.isSelected) Icon.NameCheck else Icon.NameBlank
     val icon = <.span(iconStyles, Icon(iconName, Icon.SizeDynamic("12"))())
     <.button(MenuItem.buttonStyles, styles, props.mods)(icon, value, void)
+  }
+
+  // This render a option without any functionality. This should not be used
+  // to render actual options nodes that user will interact with. Instead, it
+  // should be used for behind-the-scene measure and layout purpose
+  def renderPlain[A](props: Dropdown[A]#Props)(option: Dropdown.Opt[A]): VdomNode = {
+    val renderOptionProps = DropdownOption.RenderProps(option, TagMod.empty, props.renderValue)
+    props.renderOption(renderOptionProps)
   }
 }

@@ -3,7 +3,6 @@
 package anduin.component.dropdown
 
 import anduin.component.input.textbox.{TextBox, TextBoxStyle}
-import anduin.scalajs.downshift.DownshiftRenderProps
 import anduin.scalajs.util.Util
 import anduin.style.Style
 
@@ -14,16 +13,9 @@ import japgolly.scalajs.react.vdom.html_<^._
 
 private[dropdown] class DropdownContent[A] {
 
-  def apply(): Props.type = Props
+  private val Opt = (new DropdownOption[A])()
 
-  private val Opt = (new DropdownOpt[A])()
-
-  case class Props(
-    outer: Dropdown[A]#Props,
-    downshift: DownshiftRenderProps[A]
-  ) {
-    def apply(): VdomElement = component(this)
-  }
+  private type Props = DropdownInnerProps[A]
 
   private def renderSearch(props: Props): Option[VdomElement] = {
     if (props.outer.options.length > 10) {
@@ -43,7 +35,7 @@ private[dropdown] class DropdownContent[A] {
     inputOpt match {
       case None | Some("") => true
       case Some(input) =>
-        val value = props.outer.valueToString(option.value).toLowerCase
+        val value = props.outer.getFilterValue(option.value).toLowerCase
         value.contains(input.toLowerCase)
     }
   }
@@ -51,7 +43,7 @@ private[dropdown] class DropdownContent[A] {
   private def renderOption(props: Props)(tuple: (Dropdown.Opt[A], Int)) = {
     val (option, index) = tuple
     <.div(
-      ^.key := props.outer.valueToString(option.value),
+      ^.key := props.outer.getFilterValue(option.value),
       Opt(props.outer, props.downshift, option, index)()
     )
   }
@@ -77,7 +69,7 @@ private[dropdown] class DropdownContent[A] {
     )
   }
 
-  private val component = ScalaComponent
+  val component = ScalaComponent
     .builder[Props](this.getClass.getSimpleName)
     .stateless
     .render_P(render)

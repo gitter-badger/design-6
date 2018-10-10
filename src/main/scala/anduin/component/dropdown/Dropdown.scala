@@ -16,39 +16,42 @@ import scala.scalajs.js.JSConverters._
 class Dropdown[A] {
 
   private val DownshiftA = new Downshift[A]
-  private val Target = (new DropdownTarget[A])()
-  private val Content = (new DropdownContent[A])()
+  private val Target = new DropdownTarget[A]
+  private val Content = new DropdownContent[A]
+  private type Measurement = Dropdown.Measurement[A]
 
   def apply(): Props.type = Props
 
   case class Props(
-    // Basic
+    // Required
     value: Option[A],
     options: List[Dropdown.Opt[A]],
     onChange: A => Callback,
+    renderValue: A => VdomNode,
+    // Basic options
     isDisabled: Boolean = false,
-    // Common rendering option
+    isFullWidth: Boolean = false,
+    placeholder: VdomNode = "Select…",
+    style: Dropdown.Style = Dropdown.StyleFull,
+    // Advanced options
     footer: Option[VdomNode] = None,
     header: Option[VdomNode] = None,
-    style: Dropdown.Style = Dropdown.StyleFull,
-    isFullWidth: Boolean = false,
-    // Custom rendering
-    valueToString: A => String = _.toString,
-    renderValue: A => VdomNode = _.toString,
-    placeholder: VdomNode = "Select…",
-    renderOption: DropdownOpt.Render[A] = DropdownOpt.defaultRender[A]
+    getFilterValue: A => String = _.toString,
+    renderOption: DropdownOption.Render[A] = DropdownOption.defaultRender[A],
+    staticMeasurement: Option[Measurement] = None
   ) {
     def apply(): VdomElement = component(this)
   }
 
-  private def renderChildren(outerProps: Props)(
-    downshiftProps: DownshiftA.RenderProps
+  private def renderChildren(props: Props, measurement: Option[Measurement])(
+    downshift: DownshiftA.RenderProps
   ): raw.React.Node = {
+    val innerProps = DropdownInnerProps[A](props, downshift, measurement)
     val popover = Popover(
-      isOpened = downshiftProps.isOpen.toOption,
+      isOpened = downshift.isOpen.toOption,
       position = PositionBottomLeft,
-      renderTarget = (_, _) => Target(outerProps, downshiftProps)(),
-      renderContent = _ => Content(outerProps, downshiftProps)(),
+      renderTarget = (_, _) => Target.component(innerProps),
+      renderContent = _ => Content.component(innerProps),
       isFullWidth = true
     )()
     <.div(popover).rawElement // Downshift requires native HTML root
@@ -75,27 +78,36 @@ class Dropdown[A] {
     }
   }
 
-  private def itemToString(outerProps: Props)(item: A): String =
-    if (item == null) "" else outerProps.valueToString(item)
+  private def itemToString(props: Props)(item: A): String =
+    if (item == null) "" else props.getFilterValue(item)
 
-  private def onChange(outerProps: Props)(item: A): Unit =
-    outerProps.onChange(item).runNow()
+  private def onChange(props: Props)(item: A): Unit =
+    props.onChange(item).runNow()
 
-  private def render(outerProps: Props): VdomElement = {
-    val props = new DownshiftA.Props(
-      onChange = onChange(outerProps),
-      itemToString = itemToString(outerProps),
-      defaultSelectedItem = outerProps.value.orUndefined,
-      stateReducer = stateReducer,
-      children = renderChildren(outerProps)
-    )
-    DownshiftA.component(props)
+  private class Backend() {
+    // This needs to be new for each instance of Dropdown component
+    private val Measure = new DropdownMeasure[A]
+
+    private def getMeasurement(props: Props): Option[Measurement] = {
+      props.staticMeasurement.fold(Measure.get(props))(Some(_))
+    }
+
+    def render(props: Props): VdomElement = {
+      val downshiftProps = new DownshiftA.Props(
+        onChange = onChange(props),
+        itemToString = itemToString(props),
+        defaultSelectedItem = props.value.orUndefined,
+        stateReducer = stateReducer,
+        children = renderChildren(props, getMeasurement(props))
+      )
+      DownshiftA.component(downshiftProps)
+    }
   }
 
   private val component = ScalaComponent
     .builder[Props](this.getClass.getSimpleName)
     .stateless
-    .render_P(render)
+    .renderBackend[Backend]
     .build
 }
 
@@ -103,7 +115,10 @@ object Dropdown {
 
   case class Opt[A](value: A, isDisabled: Boolean = false)
 
+  case class Measurement[A](biggestWidthOption: Opt[A], optionHeight: Int)
+
   sealed trait Style
   case object StyleFull extends Style
   case object StyleMinimal extends Style
+
 }
