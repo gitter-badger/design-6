@@ -2,25 +2,31 @@
 
 package anduin.component.editor
 
-import japgolly.scalajs.react.ScalaFnComponent
+import anduin.component.truncate.TruncateMarkup
 
 // scalastyle:off underscore.import
+import japgolly.scalajs.react._
 import japgolly.scalajs.react.vdom.html_<^._
 // scalastyle:on underscore.import
 
+final case class PlainTextEditor(html: String) {
+  def apply(): VdomElement = PlainTextEditor.component(this)
+}
+
 object PlainTextEditor {
 
-  final case class Props(html: String, maxLengthOpt: Option[Int] = None)
+  private type Props = PlainTextEditor
 
-  val component = ScalaFnComponent[Props] { props =>
+  private def render(props: Props) = {
     val text = Serializer.deserialize(props.html).document.text
-    val subText = props.maxLengthOpt
-      .map { max =>
-        s"${text.substring(0, max)}..."
-      }
-      .getOrElse(text)
-
-    // TODO: @nghuuphuoc Don't need to wrap in `div` when upgrading to React 16
-    <.div(subText)
+    TruncateMarkup(
+      renderTarget = text
+    )()
   }
+
+  private val component = ScalaComponent
+    .builder[Props](this.getClass.getSimpleName)
+    .stateless
+    .render_P(render)
+    .build
 }
