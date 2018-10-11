@@ -14,31 +14,9 @@ import japgolly.scalajs.react.vdom.html_<^._
 private[dropdown] class DropdownContent[A] {
 
   private val OptionRender = (new DropdownOption[A])()
+  private val Filter = new DropdownFilter[A]
 
   private type Props = DropdownInnerProps[A]
-
-  private def renderSearch(props: Props): Option[VdomElement] = {
-    if (props.outer.options.length > 10) {
-      val input = <.input(
-        DropdownContent.searchMods,
-        Util.getModsFromProps(props.downshift.getInputProps())
-      )
-      val element = <.div(Style.padding.hor8.margin.bottom8, input)
-      Some(element)
-    } else {
-      None
-    }
-  }
-
-  private def filterOption(props: Props)(option: Dropdown.Opt[A]) = {
-    val inputOpt = props.downshift.inputValue.toOption.filter(_ != null)
-    inputOpt match {
-      case None | Some("") => true
-      case Some(input) =>
-        val value = props.outer.getFilterValue(option.value).toLowerCase
-        value.contains(input.toLowerCase)
-    }
-  }
 
   private def renderOption(props: Props)(tuple: (Dropdown.Opt[A], Int)) = {
     val (option, index) = tuple
@@ -62,7 +40,7 @@ private[dropdown] class DropdownContent[A] {
       props.outer.header,
       <.div(
         Style.padding.ver8,
-        renderSearch(props),
+        Filter.component(props),
         renderOptions(props)
       ),
       props.outer.footer
@@ -76,14 +54,3 @@ private[dropdown] class DropdownContent[A] {
     .build
 }
 
-private[dropdown] object DropdownContent {
-
-  private val fakeTextBox = TextBox(value = "")
-  // static mods
-  private val searchMods = TagMod(
-    TextBoxStyle.getInput(fakeTextBox),
-    ^.autoFocus := true,
-    ^.placeholder := "Search…"
-  )
-
-}
