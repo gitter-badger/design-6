@@ -13,7 +13,7 @@ import japgolly.scalajs.react.vdom.html_<^._
 
 private[dropdown] class DropdownContent[A] {
 
-  private val Opt = (new DropdownOption[A])()
+  private val OptionRender = (new DropdownOption[A])()
 
   private type Props = DropdownInnerProps[A]
 
