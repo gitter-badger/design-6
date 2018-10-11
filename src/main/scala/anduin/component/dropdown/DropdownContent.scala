@@ -2,7 +2,9 @@
 
 package anduin.component.dropdown
 
-import anduin.component.input.textbox.{TextBox, TextBoxStyle}
+import org.scalajs.dom.document.documentElement
+
+import anduin.scalajs.reactvirtualized.{ReactVirtualizedAutoSizer, ReactVirtualizedList}
 import anduin.scalajs.util.Util
 import anduin.style.Style
 
@@ -18,20 +20,53 @@ private[dropdown] class DropdownContent[A] {
 
   private type Props = DropdownInnerProps[A]
 
-  private def renderOption(props: Props)(tuple: (Dropdown.Opt[A], Int)) = {
-    val (option, index) = tuple
-    <.div(
-      ^.key := props.outer.getFilterValue(option.value),
-      Opt(props.outer, props.downshift, option, index)()
-    )
+  private def renderOption(props: Props)(
+    rvProps: ReactVirtualizedList.RowRenderProps
+  ): raw.React.Node = {
+    val option = props.outer.options(rvProps.index)
+    val node = OptionRender(props.outer, props.downshift, option, rvProps.index)()
+    <.div(^.key := rvProps.key, ^.style := rvProps.style, node).rawNode
   }
 
-  private def renderOptions(props: Props): VdomElement = {
-    val options = props.outer.options
-      .filter(filterOption(props))
-      .zipWithIndex
-      .toVdomArray(renderOption(props))
-    <.div(Style.overflow.autoY, ^.maxHeight := "40vh", options)
+  private def renderOptionsWithSize(props: Props)(
+    asProps: ReactVirtualizedAutoSizer.RenderProps
+  ): raw.React.Node = {
+    val optionCount = props.outer.options.length
+    val optionHeight = props.measurement.optionHeight.getOrElse(0)
+    val height = Math.min(
+      Math.ceil(documentElement.clientHeight * 0.4).toInt,
+      optionCount * optionHeight
+    )
+    val rvProps = new ReactVirtualizedList.Props(
+      height = height,
+      rowCount = optionCount,
+      rowHeight = optionHeight,
+      rowRenderer = renderOption(props),
+      width = asProps.width
+    )
+    ReactVirtualizedList.component(rvProps).rawNode
+  }
+
+  private def renderOptions(raw: Props): VdomElement = {
+    // Filter - From now on we only care the filtered props
+    val options = raw.outer.options.filter(DropdownFilter.byValue(raw))
+    val props = raw.copy(outer = raw.outer.copy(options = options))
+    // Render
+    val asProps = new ReactVirtualizedAutoSizer.Props(
+      disableHeight = true,
+      children = renderOptionsWithSize(props)
+    )
+    ReactVirtualizedAutoSizer.component(asProps)
+  }
+
+  private def renderGhostOption(props: Props): Option[VdomElement] = {
+    props.measurement.biggestWidthOption.map(option => {
+      <.div(
+        // The right padding is necessary in case there is scrollbar
+        TagMod(Style.overflow.hidden.padding.right24, ^.height := "0"),
+        DropdownOption.renderPlain(props.outer)(option)
+      )
+    })
   }
 
   private def render(props: Props): VdomElement = {
@@ -41,6 +76,7 @@ private[dropdown] class DropdownContent[A] {
       <.div(
         Style.padding.ver8,
         Filter.component(props),
+        renderGhostOption(props),
         renderOptions(props)
       ),
       props.outer.footer
@@ -53,4 +89,3 @@ private[dropdown] class DropdownContent[A] {
     .render_P(render)
     .build
 }
-
