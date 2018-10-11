@@ -20,9 +20,8 @@ private[dropdown] class DropdownTarget[A] {
   val ghostStyles = TagMod(Style.display.block.overflow.hidden, ^.height := "0")
 
   private def renderGhostLabel(props: Props): Option[VdomElement] = {
-    props.measurement.map(measurement => {
-      val value = measurement.biggestWidthOption.value
-      <.span(ghostStyles, props.outer.renderValue(value))
+    props.measurement.biggestWidthOption.map(option => {
+      <.span(ghostStyles, props.outer.renderValue(option.value))
     })
   }
 

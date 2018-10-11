@@ -7,5 +7,5 @@ import anduin.scalajs.downshift.DownshiftRenderProps
 private[dropdown] case class DropdownInnerProps[A](
   outer: Dropdown[A]#Props,
   downshift: DownshiftRenderProps[A],
-  measurement: Option[Dropdown.Measurement[A]]
+  measurement: Dropdown.Measurement[A]
 )

@@ -43,7 +43,7 @@ class Dropdown[A] {
     def apply(): VdomElement = component(this)
   }
 
-  private def renderChildren(props: Props, measurement: Option[Measurement])(
+  private def renderChildren(props: Props, measurement: Measurement)(
     downshift: DownshiftA.RenderProps
   ): raw.React.Node = {
     val innerProps = DropdownInnerProps[A](props, downshift, measurement)
@@ -88,8 +88,8 @@ class Dropdown[A] {
     // This needs to be new for each instance of Dropdown component
     private val Measure = new DropdownMeasure[A]
 
-    private def getMeasurement(props: Props): Option[Measurement] = {
-      props.staticMeasurement.fold(Measure.get(props))(Some(_))
+    private def getMeasurement(props: Props): Measurement = {
+      props.staticMeasurement.getOrElse(Measure.get(props))
     }
 
     def render(props: Props): VdomElement = {
@@ -115,7 +115,10 @@ object Dropdown {
 
   case class Opt[A](value: A, isDisabled: Boolean = false)
 
-  case class Measurement[A](biggestWidthOption: Opt[A], optionHeight: Int)
+  case class Measurement[A](
+    biggestWidthOption: Option[Opt[A]],
+    optionHeight: Option[Int]
+  )
 
   sealed trait Style
   case object StyleFull extends Style

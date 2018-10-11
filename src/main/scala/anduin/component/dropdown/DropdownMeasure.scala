@@ -18,42 +18,39 @@ private[dropdown] class DropdownMeasure[A] {
 
   // scalastyle:off var.field
   private var lastOptionsLength: Int = -1
-  private var lastResultOpt: Option[Result] = None
+  private var lastResult: Result = Dropdown.Measurement[A](None, None)
   // scalastyle:on var.field
 
-  def get(props: Props): Option[Result] = {
-    lastResultOpt.fold(calculateAndCache(props))(lastResult => {
-      val isSame = lastOptionsLength == props.options.length
-      if (isSame) Some(lastResult) else calculateAndCache(props)
-    })
+  def get(props: Props): Result = {
+    val isSame = lastOptionsLength == props.options.length
+    if (isSame) lastResult else calculateAndCache(props)
   }
 
-  private def calculateAndCache(props: Props): Option[Result] = {
-    val result = props.options.headOption.map { _ =>
-      Dropdown.Measurement[A](
-        optionHeight = getOptionHeight(props),
-        biggestWidthOption = getBiggestWidthOption(props)
-      )
-    }
+  private def calculateAndCache(props: Props): Result = {
+    val result = Dropdown.Measurement[A](
+      optionHeight = getOptionHeight(props),
+      biggestWidthOption = getBiggestWidthOption(props)
+    )
     lastOptionsLength = props.options.length
-    lastResultOpt = result
+    lastResult = result
     result
   }
 
   // ===
 
-  private def getOptionHeight(props: Props): Int = {
+  private def getOptionHeight(props: Props): Option[Int] = {
     val div = dom.document.createElement("div")
-    val plain = props.options.headOption
-      .fold(EmptyVdom)(DropdownOption.renderPlain[A](props))
-    div.innerHTML = ReactDOMServer.renderToStaticMarkup(<.div(plain))
-    dom.document.body.appendChild(div)
-    val height = div.clientHeight
-    dom.document.body.removeChild(div)
-    height
+    props.options.headOption.map(option => {
+      val plain = <.div(DropdownOption.renderPlain[A](props)(option))
+      div.innerHTML = ReactDOMServer.renderToStaticMarkup(plain)
+      dom.document.body.appendChild(div)
+      val height = div.clientHeight
+      dom.document.body.removeChild(div)
+      height
+    })
   }
 
-  private def getBiggestWidthOption(props: Props): Dropdown.Opt[A] = {
+  private def getBiggestWidthOption(props: Props): Option[Dropdown.Opt[A]] = {
     // It's faster to renderToStatic all options at once
     val container = dom.document.createElement("div")
     container.innerHTML = ReactDOMServer.renderToStaticMarkup({
@@ -63,10 +60,12 @@ private[dropdown] class DropdownMeasure[A] {
     // append to actual DOM so clientWidth is correct
     dom.document.body.appendChild(container)
     val nodes = container.children(0).children.toVector.zipWithIndex
-    val longestIndex = nodes.maxBy(_._1.clientWidth)._2
+    val longestNode = nodes.reduceLeftOption((node1, node2) => {
+      if (node1._1.clientWidth > node2._1.clientWidth) node1 else node2
+    })
     // clean up
     dom.document.body.removeChild(container)
-    props.options(longestIndex)
+    longestNode.map(_._2).map(props.options)
   }
 
   private def renderValue(props: Props)(option: Dropdown.Opt[A]): VdomElement = {
