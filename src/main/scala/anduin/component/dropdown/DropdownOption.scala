@@ -70,7 +70,7 @@ private[dropdown] class DropdownOption[A] {
     <.button(
       MenuItem.buttonStyles,
       getStyles(props),
-      getMods(props),
+      getMods(props)
     )(
       renderIcon(props),
       renderBody(props),

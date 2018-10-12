@@ -17,9 +17,10 @@ private[dropdown] class DropdownMeasure[A] {
   private type Result = Dropdown.Measurement[A]
   private val OptionRender = (new DropdownOption[A])()
 
+  private val emptyResult = Dropdown.Measurement[A](None, None)
   // scalastyle:off var.field
   private var lastOptionsLength: Int = -1
-  private var lastResult: Result = Dropdown.Measurement[A](None, None)
+  private var lastResult: Result = emptyResult
   // scalastyle:on var.field
 
   def get(props: Props): Result = {
@@ -28,13 +29,19 @@ private[dropdown] class DropdownMeasure[A] {
   }
 
   private def calculateAndCache(props: Props): Result = {
-    val result = Dropdown.Measurement[A](
-      optionHeight = getOptionHeight(props),
-      biggestWidthOption = getBiggestWidthOption(props)
-    )
-    lastOptionsLength = props.options.length
-    lastResult = result
-    result
+    // These measurements only needed for ReactVirtualized, which is disabled
+    // when options.length < 20
+    if (props.options.length < 20) {
+      emptyResult
+    } else {
+      val result = Dropdown.Measurement[A](
+        optionHeight = getOptionHeight(props),
+        biggestWidthOption = getBiggestWidthOption(props)
+      )
+      lastOptionsLength = props.options.length
+      lastResult = result
+      result
+    }
   }
 
   // ===

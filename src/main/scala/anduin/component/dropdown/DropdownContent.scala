@@ -20,18 +20,16 @@ private[dropdown] class DropdownContent[A] {
 
   private type Props = DropdownInnerProps[A]
 
-  private def renderOption(props: Props)(
-    rvProps: ReactVirtualizedList.RowRenderProps
-  ): raw.React.Node = {
-    val options = props.outer.options(rvProps.index)
+  private type RvProps = ReactVirtualizedList.RowRenderProps
+  private def renderRVOption(props: Props)(rvProps: RvProps): raw.React.Node = {
+    val option = props.outer.options(rvProps.index)
     val downshift = Some(props.downshift)
-    val node = OptionRender(props.outer, downshift, options, rvProps.index)()
+    val node = OptionRender(props.outer, downshift, option, rvProps.index)()
     <.div(^.key := rvProps.key, ^.style := rvProps.style, node).rawNode
   }
 
-  private def renderOptionsWithSize(props: Props)(
-    asProps: ReactVirtualizedAutoSizer.RenderProps
-  ): raw.React.Node = {
+  private type AsProps = ReactVirtualizedAutoSizer.RenderProps
+  private def renderRVOptions(props: Props)(asProps: AsProps): raw.React.Node = {
     val optionCount = props.outer.options.length
     val optionHeight = props.measurement.optionHeight.getOrElse(0)
     val height = Math.min(
@@ -42,10 +40,21 @@ private[dropdown] class DropdownContent[A] {
       height = height,
       rowCount = optionCount,
       rowHeight = optionHeight,
-      rowRenderer = renderOption(props),
+      rowRenderer = renderRVOption(props),
       width = asProps.width
     )
     ReactVirtualizedList.component(rvProps).rawNode
+  }
+
+  private def renderRawOptions(props: Props): VdomElement = {
+    val nodes = props.outer.options.zipWithIndex.toVdomArray { tuple =>
+      val (option, index) = tuple
+      val key = ^.key := props.outer.getFilterValue(option.value)
+      val downshift = Some(props.downshift)
+      val node = OptionRender(props.outer, downshift, option, index)()
+      <.div(key, node)
+    }
+    <.div(Style.overflow.autoY, ^.maxHeight := "40vh", nodes)
   }
 
   private def renderOptions(raw: Props): VdomElement = {
@@ -53,11 +62,18 @@ private[dropdown] class DropdownContent[A] {
     val options = raw.outer.options.filter(DropdownFilter.byValue(raw))
     val props = raw.copy(outer = raw.outer.copy(options = options))
     // Render
-    val asProps = new ReactVirtualizedAutoSizer.Props(
-      disableHeight = true,
-      children = renderOptionsWithSize(props)
-    )
-    ReactVirtualizedAutoSizer.component(asProps)
+    // We don't need ReactVirtualized for short list. Also, ReactVirtualized
+    // won't work when options's heights are not the same so it's better to
+    // avoid if not worth it
+    if (props.outer.options.length < 20) {
+      renderRawOptions(props)
+    } else {
+      val asProps = new ReactVirtualizedAutoSizer.Props(
+        disableHeight = true,
+        children = renderRVOptions(props)
+      )
+      ReactVirtualizedAutoSizer.component(asProps)
+    }
   }
 
   private def renderGhostOption(props: Props): Option[VdomElement] = {
