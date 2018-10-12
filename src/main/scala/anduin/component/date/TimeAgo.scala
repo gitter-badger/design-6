@@ -54,16 +54,20 @@ object TimeAgo {
         _ <- Callback.when(props.autoUpdate) {
           val seconds = DifferenceInSeconds(Date.now(), props.getDate)
           val durationTime = if (seconds < 60) {
-            1
+            10
           } else if (seconds < 60 * 60) {
-            60
+            60 * 5
           } else if (seconds < 60 * 60 * 24) {
             60 * 60
           } else {
-            0
+            -1
           }
 
-          setInterval(tick(props), FiniteDuration(durationTime.toLong, duration.SECONDS))
+          if (durationTime > 0) {
+            setInterval(tick(props), FiniteDuration(durationTime.toLong, duration.SECONDS))
+          } else {
+            Callback.empty
+          }
         }
       } yield ()
     }
