@@ -37,7 +37,7 @@ class Dropdown[A] {
     footer: Option[VdomNode] = None,
     header: Option[VdomNode] = None,
     getFilterValue: A => String = _.toString,
-    renderOption: DropdownOption.Render[A] = DropdownOption.defaultRender[A],
+    renderOption: Option[A => VdomNode] = None,
     staticMeasurement: Option[Measurement] = None
   ) {
     def apply(): VdomElement = component(this)

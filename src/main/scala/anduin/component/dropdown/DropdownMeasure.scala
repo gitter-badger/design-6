@@ -15,6 +15,7 @@ private[dropdown] class DropdownMeasure[A] {
 
   private type Props = Dropdown[A]#Props
   private type Result = Dropdown.Measurement[A]
+  private val OptionRender = (new DropdownOption[A])()
 
   // scalastyle:off var.field
   private var lastOptionsLength: Int = -1
@@ -41,7 +42,7 @@ private[dropdown] class DropdownMeasure[A] {
   private def getOptionHeight(props: Props): Option[Int] = {
     val div = dom.document.createElement("div")
     props.options.headOption.map(option => {
-      val plain = <.div(DropdownOption.renderPlain[A](props)(option))
+      val plain = <.div(OptionRender(props, None, option, 0)())
       div.innerHTML = ReactDOMServer.renderToStaticMarkup(plain)
       dom.document.body.appendChild(div)
       val height = div.clientHeight

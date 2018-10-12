@@ -23,8 +23,9 @@ private[dropdown] class DropdownContent[A] {
   private def renderOption(props: Props)(
     rvProps: ReactVirtualizedList.RowRenderProps
   ): raw.React.Node = {
-    val option = props.outer.options(rvProps.index)
-    val node = OptionRender(props.outer, props.downshift, option, rvProps.index)()
+    val options = props.outer.options(rvProps.index)
+    val downshift = Some(props.downshift)
+    val node = OptionRender(props.outer, downshift, options, rvProps.index)()
     <.div(^.key := rvProps.key, ^.style := rvProps.style, node).rawNode
   }
 
@@ -64,7 +65,7 @@ private[dropdown] class DropdownContent[A] {
       <.div(
         // The right padding is necessary in case there is scrollbar
         TagMod(Style.overflow.hidden.padding.right24, ^.height := "0"),
-        DropdownOption.renderPlain(props.outer)(option)
+        OptionRender(props.outer, None, option, 0)()
       )
     })
   }
