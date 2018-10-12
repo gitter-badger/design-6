@@ -63,10 +63,8 @@ object TimeAgo {
             -1
           }
 
-          if (durationTime > 0) {
+          Callback.when(durationTime > 0) {
             setInterval(tick(props), FiniteDuration(durationTime.toLong, duration.SECONDS))
-          } else {
-            Callback.empty
           }
         }
       } yield ()
