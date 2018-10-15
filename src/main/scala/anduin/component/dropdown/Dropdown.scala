@@ -9,8 +9,6 @@ import scala.scalajs.js
 // scalastyle:off underscore.import
 import japgolly.scalajs.react._
 import japgolly.scalajs.react.vdom.html_<^._
-
-import scala.scalajs.js.JSConverters._
 // scalastyle:on underscore.import
 
 class Dropdown[A] {
