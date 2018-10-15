@@ -86,17 +86,22 @@ private[dropdown] class DropdownContent[A] {
     })
   }
 
+  private val boxStyles = TagMod(
+    Style.backgroundColor.gray1.padding.ver8.padding.hor12,
+    Style.borderWidth.px1.borderColor.gray3
+  )
+
   private def render(props: Props): VdomElement = {
     <.div(
       Util.getModsFromProps(props.downshift.getMenuProps()),
-      props.outer.header,
+      props.outer.header.map(<.div(Style.border.bottom, boxStyles, _)),
       <.div(
         Style.padding.ver8,
         Filter.component(props),
         renderGhostOption(props),
         renderOptions(props)
       ),
-      props.outer.footer
+      props.outer.footer.map(<.div(Style.border.top, boxStyles, _))
     )
   }
 
