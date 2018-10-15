@@ -4,6 +4,7 @@ package anduin.scalajs.downshift
 
 import scala.scalajs.js
 import scala.scalajs.js.annotation.JSImport
+import scala.scalajs.js.|
 
 // scalastyle:off underscore.import
 import japgolly.scalajs.react._
@@ -22,7 +23,8 @@ class Downshift[A] {
     val itemToString: js.Function1[A, String],
     val stateReducer: js.Function2[State, StateChanges, StateChanges],
     val children: js.Function1[RenderProps, raw.React.Node],
-    val defaultSelectedItem: js.UndefOr[A]
+    // ===
+    val selectedItem: js.UndefOr[A | Null]
   ) extends js.Object
 
   val component =
