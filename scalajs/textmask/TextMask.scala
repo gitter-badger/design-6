@@ -43,7 +43,6 @@ object TextMask {
   }
 
   def toRaw(mask: TextMask): Raw = mask match {
-    // Intellij might warn this typing. Just believe in compilation
     case array: Array => toRawArray(array)
     case func: Func   => toRawFunc(func)
     case js: FromJS   => js.value

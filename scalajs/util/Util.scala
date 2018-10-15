@@ -20,6 +20,11 @@ object Util {
     a.toOption.filter(_ != null)
 
   def getModsFromProps(props: mutable.Map[String, js.Any]): TagMod = {
-    props.map(prop => VdomAttr(prop._1) := prop._2).toTagMod
+    // Although "props" comes directly from JS land, ScalaJS sometimes add
+    // some internal attributes (like `"bitmap$init$0$2":true`). We need to get
+    // rid of them before converting this "props" to a TagMod
+    // See also: https://github.com/scala-js/scala-js/issues/2227
+    val filtered = props.filterNot(_._1.contains("bitmap$"))
+    filtered.map(prop => VdomAttr(prop._1) := prop._2).toTagMod
   }
 }
