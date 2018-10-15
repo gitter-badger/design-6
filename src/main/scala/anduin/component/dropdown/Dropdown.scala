@@ -96,9 +96,13 @@ class Dropdown[A] {
       val downshiftProps = new DownshiftA.Props(
         onChange = onChange(props),
         itemToString = itemToString(props),
-        defaultSelectedItem = props.value.orUndefined,
         stateReducer = stateReducer,
-        children = renderChildren(props, getMeasurement(props))
+        children = renderChildren(props, getMeasurement(props)),
+        // ===
+        selectedItem = js.defined(props.value match {
+          case Some(value) => value
+          case None        => null // scalastyle:ignore null
+        })
       )
       DownshiftA.component(downshiftProps)
     }
