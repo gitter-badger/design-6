@@ -29,19 +29,13 @@ private[dropdown] class DropdownMeasure[A] {
   }
 
   private def calculateAndCache(props: Props): Result = {
-    // These measurements only needed for ReactVirtualized, which is disabled
-    // when options.length < 20
-    if (props.options.length < 20) {
-      emptyResult
-    } else {
-      val result = Dropdown.Measurement[A](
-        optionHeight = getOptionHeight(props),
-        biggestWidthOption = getBiggestWidthOption(props)
-      )
-      lastOptionsLength = props.options.length
-      lastResult = result
-      result
-    }
+    val result = Dropdown.Measurement[A](
+      optionHeight = getOptionHeight(props),
+      biggestWidthOption = getBiggestWidthOption(props)
+    )
+    lastOptionsLength = props.options.length
+    lastResult = result
+    result
   }
 
   // ===

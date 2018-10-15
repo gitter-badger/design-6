@@ -30,7 +30,9 @@ private[dropdown] class DropdownTarget[A] {
     <.span(
       Style.display.block.textAlign.left,
       <.span(actualStyles, op.value.fold(op.placeholder)(op.renderValue)),
-      renderGhostLabel(props)
+      // below 2 ghosts are for fixed target width
+      renderGhostLabel(props),
+      <.span(ghostStyles, op.placeholder)
     )
   }
 
