@@ -54,6 +54,16 @@ class Dropdown[A] {
 
   private class Backend() {
 
+    // This variable will be set immediately before Downshift's stateReducer
+    // (and reset after that) to help Downshift detects whether the click is
+    // inside or outside the Dropdown's area.
+    // - Learn more in the comment in StateReducer > preventClosing
+    private var isInnerClick: Boolean = false // scalastyle:ignore var.field
+    private val isInnerClickWrapper = TagMod(
+      ^.onMouseDown --> Callback(isInnerClick = true),
+      ^.onMouseUp --> Callback(isInnerClick = false).delayMs(100).void
+    )
+
     // This needs to be new for each instance of Dropdown component
     private val Measure = new DropdownMeasure[A]
 
@@ -82,7 +92,7 @@ class Dropdown[A] {
         isOpened = innerProps.downshift.isOpen.toOption,
         position = PositionBottomLeft,
         renderTarget = (_, _) => Target(innerProps)(),
-        renderContent = _ => Content(innerProps)(),
+        renderContent = _ => <.div(isInnerClickWrapper, Content(innerProps)()),
         isFullWidth = true
       )()
       // can't return Popover directly here. Downshift
