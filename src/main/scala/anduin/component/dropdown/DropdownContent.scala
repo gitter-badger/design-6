@@ -15,10 +15,16 @@ import japgolly.scalajs.react.vdom.html_<^._
 
 private[dropdown] class DropdownContent[A] {
 
-  private val OptionRender = (new DropdownOption[A])()
-  private val Filter = new DropdownFilter[A]
+  def apply(): OuterProps.type = OuterProps
 
-  private type Props = DropdownInnerProps[A]
+  case class OuterProps(props: Props) {
+    def apply(): VdomElement = component(this)
+  }
+
+  private type Props = Dropdown[A]#InnerProps
+
+  private val OptionRender = (new DropdownOption[A])()
+  private val Filter = (new DropdownFilter[A])()
 
   private type RvProps = ReactVirtualizedList.RowRenderProps
   private def renderRVOption(props: Props)(rvProps: RvProps): raw.React.Node = {
@@ -91,13 +97,14 @@ private[dropdown] class DropdownContent[A] {
     Style.borderWidth.px1.borderColor.gray3
   )
 
-  private def render(props: Props): VdomElement = {
+  private def render(outerProps: OuterProps): VdomElement = {
+    val props = outerProps.props
     <.div(
       Util.getModsFromProps(props.downshift.getMenuProps()),
       props.outer.header.map(<.div(Style.border.bottom, boxStyles, _)),
       <.div(
         Style.padding.ver8,
-        Filter.component(props),
+        Filter(props)(),
         renderGhostOption(props),
         renderOptions(props)
       ),
@@ -105,8 +112,8 @@ private[dropdown] class DropdownContent[A] {
     )
   }
 
-  val component = ScalaComponent
-    .builder[Props](this.getClass.getSimpleName)
+  private val component = ScalaComponent
+    .builder[OuterProps](this.getClass.getSimpleName)
     .stateless
     .render_P(render)
     .build
