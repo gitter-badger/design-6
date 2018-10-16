@@ -27,28 +27,21 @@ final case class Button(
 
 object Button {
 
-  type Props = Button
+  private type Props = Button
 
-  sealed trait Tpe { val value: String }
-  case object TpeButton extends Tpe { val value = "button" }
-  case object TpeSubmit extends Tpe { val value = "submit" }
-  case object TpeReset extends Tpe { val value = "reset" }
+  sealed trait Tpe
+  case object TpeButton extends Tpe
+  case object TpeSubmit extends Tpe
+  case object TpeReset extends Tpe
 
-  private class Backend(scope: BackendScope[Props, _]) {
+  private def getTpeValue(tpe: Tpe): String = tpe match {
+    case TpeButton => "button"
+    case TpeSubmit => "submit"
+    case TpeReset  => "reset"
+  }
 
-    private def onClick(e: ReactEventFromHtml) = {
-      for {
-        // @TODO: Try to not prevent default so we can take advantage of native
-        // functionality https://anduin.design/ui-guide/button#type
-        _ <- e.preventDefaultCB
-        // @TODO: Try to not stop propagation. This is anti-pattern
-        _ <- e.stopPropagationCB
-        props <- scope.props
-        _ <- props.onClick
-      } yield ()
-    }
-
-    def render(props: Props, children: PropsChildren): VdomElement = <.button(
+  private def render(props: Props, children: PropsChildren): VdomElement = {
+    <.button(
       // styles
       ButtonStyle.getStyles(
         color = props.color,
@@ -58,23 +51,18 @@ object Button {
         isFullWidth = props.isFullWidth
       ),
       // behaviours
-      ^.tpe := props.tpe.value,
+      ^.tpe := getTpeValue(props.tpe),
       ^.disabled := props.isDisabled,
       ^.autoFocus := props.autoFocus,
-      // The "isEmpty" check is to prevent "preventDefault" from being called
-      // if user ommited "onClicl" (e.g. They do want to use the native
-      // function, like click to trigger form's onSubmit)
-      TagMod.when(!props.isDisabled && !props.onClick.isEmpty_?) {
-        ^.onClick ==> onClick
-      },
+      TagMod.when(!props.isDisabled) { ^.onClick --> props.onClick },
       // content
       children
     )
   }
 
   private val component = ScalaComponent
-    .builder[Button](this.getClass.getSimpleName)
+    .builder[Props](this.getClass.getSimpleName)
     .stateless
-    .renderBackendWithChildren[Backend]
+    .render_PC(render)
     .build
 }
