@@ -14,9 +14,9 @@ import japgolly.scalajs.react._
 class Downshift[A] {
 
   // Also alias for public uses
-  type RenderProps = DownshiftRenderProps[A]
-  type State = DownshiftState[A]
-  type StateChanges = DownshiftStateChanges[A]
+  private type RenderProps = DownshiftRenderProps[A]
+  private type State = DownshiftState[A]
+  private type StateChanges = DownshiftStateChanges[A]
 
   class Props(
     val onChange: js.Function1[A, Unit],
@@ -35,7 +35,4 @@ object Downshift {
   @JSImport("downshift", JSImport.Default, "Downshift")
   @js.native
   object RawComponent extends js.Object
-
-  // Alias for public uses
-  val StateChangeTypes = DownshiftStateChangeTypes
 }
