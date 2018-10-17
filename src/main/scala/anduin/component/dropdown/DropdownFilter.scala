@@ -12,9 +12,17 @@ import japgolly.scalajs.react.vdom.html_<^._
 // scalastyle:on underscore.import
 
 private[dropdown] class DropdownFilter[A] {
-  private type Props = DropdownInnerProps[A]
 
-  private def render(props: Props): Option[VdomElement] = {
+  def apply(): OuterProps.type = OuterProps
+
+  case class OuterProps(props: Props) {
+    def apply(): VdomElement = component(this)
+  }
+
+  private type Props = Dropdown[A]#InnerProps
+
+  private def render(outerProps: OuterProps): Option[VdomElement] = {
+    val props = outerProps.props
     props.outer.options.lift(10).map(_ => {
       val input = <.input(
         DropdownFilter.staticMods,
@@ -24,8 +32,8 @@ private[dropdown] class DropdownFilter[A] {
     })
   }
 
-  val component = ScalaComponent
-    .builder[Props](this.getClass.getSimpleName)
+  private val component = ScalaComponent
+    .builder[OuterProps](this.getClass.getSimpleName)
     .stateless
     .render_P(render)
     .build
@@ -40,7 +48,7 @@ private[dropdown] object DropdownFilter {
     ^.placeholder := "Search…"
   )
 
-  def byValue[A](props: DropdownInnerProps[A])(option: Dropdown.Opt[A]): Boolean = {
+  def byValue[A](props: Dropdown[A]#InnerProps)(option: Dropdown.Opt[A]): Boolean = {
     val inputOpt = props.downshift.inputValue.toOption.filter(_ != null)
     inputOpt match {
       case None | Some("") => true

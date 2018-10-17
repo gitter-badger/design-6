@@ -14,10 +14,17 @@ import japgolly.scalajs.react.vdom.html_<^._
 
 private[dropdown] class DropdownTarget[A] {
 
-  private type Props = DropdownInnerProps[A]
+  def apply(): OuterProps.type = OuterProps
 
-  val actualStyles = Style.flexbox.flex.flexbox.itemsCenter
-  val ghostStyles = TagMod(Style.display.block.overflow.hidden, ^.height := "0")
+  case class OuterProps(props: Props) {
+    def apply(): VdomElement = component(this)
+  }
+
+  private type Props = Dropdown[A]#InnerProps
+
+  private val actualStyles = Style.flexbox.flex.flexbox.itemsCenter
+  private val ghostStyles =
+    TagMod(Style.display.block.overflow.hidden, ^.height := "0")
 
   private def renderGhostLabel(props: Props): Option[VdomElement] = {
     props.measurement.biggestWidthOption.map(option => {
@@ -36,7 +43,8 @@ private[dropdown] class DropdownTarget[A] {
     )
   }
 
-  private def render(props: Props): VdomElement = {
+  private def render(outerProps: OuterProps): VdomElement = {
+    val props = outerProps.props
     val op = props.outer
     val styles = ButtonStyle.getStyles(
       color = ButtonStyle.ColorWhite,
@@ -56,8 +64,8 @@ private[dropdown] class DropdownTarget[A] {
     )
   }
 
-  val component = ScalaComponent
-    .builder[Props](this.getClass.getSimpleName)
+  private val component = ScalaComponent
+    .builder[OuterProps](this.getClass.getSimpleName)
     .stateless
     .render_P(render)
     .build
