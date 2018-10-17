@@ -34,7 +34,7 @@ class Dropdown[A] {
     // Basic options
     isDisabled: Boolean = false,
     isFullWidth: Boolean = false,
-    placeholder: VdomNode = "Select…",
+    placeholder: VdomNode = "",
     style: Dropdown.Style = Dropdown.StyleFull,
     footer: Option[VdomNode] = None,
     header: Option[VdomNode] = None,
