@@ -57,7 +57,7 @@ private[dropdown] class DropdownMeasure[A] {
     val container = dom.document.createElement("div")
     container.innerHTML = ReactDOMServer.renderToStaticMarkup({
       val children = props.options.toTagMod(renderValue(props))
-      <.div(Style.flexbox.flex.position.absolute, children)
+      <.div(Style.position.absolute, children)
     })
     // append to actual DOM so clientWidth is correct
     dom.document.body.appendChild(container)
@@ -71,6 +71,8 @@ private[dropdown] class DropdownMeasure[A] {
   }
 
   private def renderValue(props: Props)(option: Dropdown.Opt[A]): VdomElement = {
-    <.div(props.renderValue(option.value))
+    val v = option.value
+    val node = props.renderValue.fold[VdomNode](props.getValueString(v))(_(v))
+    <.div(Style.width.maxContent, node)
   }
 }

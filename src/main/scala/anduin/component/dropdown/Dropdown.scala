@@ -30,16 +30,17 @@ class Dropdown[A] {
     value: Option[A],
     options: List[Dropdown.Opt[A]],
     onChange: A => Callback,
-    renderValue: A => VdomNode,
+    getValueString: A => String,
     // Basic options
     isDisabled: Boolean = false,
     isFullWidth: Boolean = false,
     placeholder: VdomNode = "Select…",
     style: Dropdown.Style = Dropdown.StyleFull,
-    // Advanced options
     footer: Option[VdomNode] = None,
     header: Option[VdomNode] = None,
-    getFilterValue: A => String = _.toString,
+    // Advanced options
+    getFilterValue: Option[A => String] = None,
+    renderValue: Option[A => VdomNode] = None,
     renderOption: Option[A => VdomNode] = None,
     staticMeasurement: Option[Measurement] = None
   ) {
@@ -72,7 +73,7 @@ class Dropdown[A] {
     }
 
     private def itemToString(props: Props)(item: A): String =
-      if (item == null) "" else props.getFilterValue(item)
+      if (item == null) "" else props.getValueString(item)
 
     private def onChange(props: Props)(item: A): Unit =
       props.onChange(item).runNow()

@@ -52,10 +52,12 @@ private[dropdown] class DropdownContent[A] {
     ReactVirtualizedList.component(rvProps).rawNode
   }
 
+  // Figure a way for ReactVirtualized to work with dynamic height FAST
+  // and we can get rid of this ugly fallback
   private def renderRawOptions(props: Props): VdomElement = {
     val nodes = props.outer.options.zipWithIndex.toVdomArray { tuple =>
       val (option, index) = tuple
-      val key = ^.key := props.outer.getFilterValue(option.value)
+      val key = ^.key := props.outer.getValueString(option.value)
       val downshift = Some(props.downshift)
       val node = OptionRender(props.outer, downshift, option, index)()
       <.div(key, node)

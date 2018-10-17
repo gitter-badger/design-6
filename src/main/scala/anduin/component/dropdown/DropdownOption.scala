@@ -61,9 +61,9 @@ private[dropdown] class DropdownOption[A] {
     TagMod.when(props.option.isDisabled)(Style.color.gray6)
   )
 
-  private def renderBody(props: Props) = {
-    val op = props.outer
-    op.renderOption.getOrElse(op.renderValue)(props.option.value)
+  private def renderBody(props: Props): VdomNode = {
+    val (op, v) = (props.outer, props.option.value)
+    op.renderOption.map(_(v)).getOrElse(op.getValueString(v))
   }
 
   private def render(props: Props) = {

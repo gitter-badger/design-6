@@ -53,7 +53,9 @@ private[dropdown] object DropdownFilter {
     inputOpt match {
       case None | Some("") => true
       case Some(input) =>
-        val value = props.outer.getFilterValue(option.value).toLowerCase
+        val op = props.outer
+        val filter = op.getFilterValue.getOrElse(op.getValueString)
+        val value = filter(option.value).toLowerCase
         value.contains(input.toLowerCase)
     }
   }

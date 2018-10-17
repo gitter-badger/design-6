@@ -22,24 +22,33 @@ private[dropdown] class DropdownTarget[A] {
 
   private type Props = Dropdown[A]#InnerProps
 
-  private val actualStyles = Style.flexbox.flex.flexbox.itemsCenter
-  private val ghostStyles =
-    TagMod(Style.display.block.overflow.hidden, ^.height := "0")
+  // This could be simpler if A => String conforms to A => VdomNode
+  private def renderValue(p: Props)(v: A): VdomNode = {
+    p.outer.renderValue.map(_(v)).getOrElse(p.outer.getValueString(v))
+  }
 
-  private def renderGhostLabel(props: Props): Option[VdomElement] = {
-    props.measurement.biggestWidthOption.map(option => {
-      <.span(ghostStyles, props.outer.renderValue(option.value))
-    })
+  private def renderGhost(props: Props): VdomElement = {
+    <.span(
+      TagMod(Style.display.block.overflow.hidden, ^.height := "0"),
+      props.measurement.biggestWidthOption.map(option => {
+        <.span(Style.display.block, renderValue(props)(option.value))
+      }),
+      <.span(Style.display.block, props.outer.placeholder)
+    )
+  }
+
+  private def renderCurrent(props: Props): VdomElement = {
+    <.span(
+      Style.flexbox.flex.flexbox.itemsCenter,
+      props.outer.value.fold(props.outer.placeholder)(renderValue(props))
+    )
   }
 
   private def renderLabel(props: Props): VdomElement = {
-    val op = props.outer
     <.span(
       Style.display.block.textAlign.left,
-      <.span(actualStyles, op.value.fold(op.placeholder)(op.renderValue)),
-      // below 2 ghosts are for fixed target width
-      renderGhostLabel(props),
-      <.span(ghostStyles, op.placeholder)
+      renderCurrent(props),
+      renderGhost(props)
     )
   }
 
