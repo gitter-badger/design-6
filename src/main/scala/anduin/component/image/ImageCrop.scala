@@ -9,21 +9,31 @@ import japgolly.scalajs.react._
 import japgolly.scalajs.react.vdom.html_<^._
 // scalastyle:on underscore.import
 
+final case class ImageCrop(
+  src: String,
+  crop: Crop,
+  onChange: Crop => Callback
+) {
+  def apply(): VdomElement = ImageCrop.component(this)
+}
+
 object ImageCrop {
 
-  private val component = JsComponent[ReactImageCrop.Props, Children.None, Null](ReactImageCrop.RawComponent)
+  private type Props = ImageCrop
 
-  def apply(
-    src: String,
-    crop: Crop,
-    onChange: Crop => Callback
-  ): VdomElement = {
-    component(
+  private def render(props: Props) = {
+    ReactImageCrop.component(
       new ReactImageCrop.Props(
-        src = src,
-        crop = crop,
-        onChange = c => onChange(c).runNow()
+        src = props.src,
+        crop = props.crop,
+        onChange = c => props.onChange(c).runNow()
       )
     )
   }
+
+  private val component = ScalaComponent
+    .builder[Props](this.getClass.getSimpleName)
+    .stateless
+    .render_P(render)
+    .build
 }
