@@ -10,7 +10,8 @@ import japgolly.scalajs.react.vdom.html_<^._
 // scalastyle:on underscore.import
 
 final case class Stepper(
-  steps: Seq[Stepper.Step]
+  steps: Seq[Stepper.Step],
+  initialStep: Int = 0
 ) {
   def apply(): VdomElement = Stepper.component(this)
 }
@@ -64,7 +65,7 @@ object Stepper {
 
   private val component = ScalaComponent
     .builder[Props](this.getClass.getSimpleName)
-    .initialState(State(0))
+    .initialStateFromProps(props => State(props.initialStep))
     .renderBackend[Backend]
     .build
 }
