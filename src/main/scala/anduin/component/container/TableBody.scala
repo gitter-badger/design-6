@@ -35,11 +35,9 @@ private[component] class TableBody[A] {
   private def getSortedRows(props: Props): List[A] = {
     props.sortColumn.fold(props.rows) { columnIndex =>
       val column = props.columns(columnIndex)
-      // This is bad, super bad. See the note in sortBy definition
-      val sorted = (column.sortByString, column.sortByDouble) match {
-        case (Some(sortBy), _) => props.rows.sortBy(sortBy)
-        case (_, Some(sortBy)) => props.rows.sortBy(sortBy)
-        case _                 => props.rows
+      val sorted = column.sortBy match {
+        case hasOrder: Table.ColumnOrderingHasOrder[A] => props.rows.sorted(hasOrder)
+        case _: Table.ColumnOrderingEmpty[A]           => props.rows
       }
       if (props.sortIsAsc) sorted else sorted.reverse
     }
@@ -92,7 +90,6 @@ private[component] object TableBody {
     // the default render does not need the row data. However, we still want
     // to keep this method's signature
     val _ = row
-
     <.tr(^.key := key, Style.hover.backgroundGray1, style, cells)
   }
 }

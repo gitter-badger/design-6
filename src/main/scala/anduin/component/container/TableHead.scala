@@ -76,8 +76,10 @@ private[component] class TableHead[A] {
     val (column, index) = colWithIndex
     // Note: This is bad, super bad. See the note at the definition of
     // sortByInt
-    val sortable =
-      column.sortByDouble.isDefined || column.sortByString.isDefined
+    val sortable = column.sortBy match {
+        case _: Table.ColumnOrderingHasOrder[A] => true
+        case _: Table.ColumnOrderingEmpty[A] => false
+    }
     val content = if (sortable) {
       renderTitleButton(props, column, index)
     } else {

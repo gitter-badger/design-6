@@ -35,14 +35,20 @@ object Table {
   case class Column[A](
     head: VdomNode = "",
     render: A => Cell,
-    // This is bad, very bad.. the return of this should be generic, like:
-    // sortBy: Option[A => B], where:
-    // - B is order-able, and
-    // - The consumers don't need to define B if they don't need sort
-    sortByString: Option[A => String] = None,
-    sortByDouble: Option[A => Double] = None,
+    sortBy: ColumnOrdering[A] = ColumnOrderingEmpty[A](),
     width: String = ""
   )
+
+  sealed trait ColumnOrdering[-A]
+  sealed trait ColumnOrderingHasOrder[A] extends ColumnOrdering[A] with Ordering[A]
+  case class ColumnOrderingEmpty[A]() extends ColumnOrdering[A]
+  object ColumnOrdering {
+    def apply[A, B](f: A => B)(
+      implicit ordering: Ordering[B]
+    ): ColumnOrdering[A] = new ColumnOrderingHasOrder[A] {
+      def compare(x: A, y: A): Int = ordering.on(f).compare(x, y)
+    }
+  }
 
   sealed trait Style {
     val tr: TagMod
