@@ -5,6 +5,7 @@ package anduin.style
 private[style] final case class Width(classes: List[String] = List.empty) {
 
   def px16: Style = new Style(classes :+ "w1")
+  def px20: Style = new Style(classes :+ "w20")
   def px32: Style = new Style(classes :+ "w2")
   def px64: Style = new Style(classes :+ "w3")
   def px128: Style = new Style(classes :+ "w4")
