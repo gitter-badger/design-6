@@ -2,7 +2,7 @@
 
 package anduin.component.field
 
-import anduin.component.portal.Popover
+import anduin.component.portal.Tooltip
 import anduin.style.Style
 
 // scalastyle:off underscore.import
@@ -39,13 +39,9 @@ object Field {
 
   private def renderHelp(props: Props): Option[VdomElement] = {
     props.help.map { text =>
-      Popover(
-        renderTarget = (toggle, _) => {
-          <.span(" ", <.button(^.onClick --> toggle, Static.help))
-        },
-        renderContent = _ => {
-          <.div(Style.padding.hor16.padding.ver12.maxWidth.px256, text)
-        },
+      Tooltip(
+        renderTarget = <.span(" ", Static.help),
+        renderContent = () => <.div(Style.maxWidth.px256, text),
         targetTag = <.span
       )()
     }

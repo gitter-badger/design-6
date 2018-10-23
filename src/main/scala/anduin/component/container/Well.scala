@@ -31,7 +31,7 @@ object Well {
   case object ColorNeutral extends Color {
     private[Well] val iconName = Icon.NameBookmark
     private[Well] val iconColor = Style.color.gray7
-    private[Well] val bg = Style.backgroundColor.gray2
+    private[Well] val bg = Style.backgroundColor.gray1
     private[Well] val close = Style.backgroundColor.gray3
   }
   case object ColorPrimary extends Color {
