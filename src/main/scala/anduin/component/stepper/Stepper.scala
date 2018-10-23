@@ -28,10 +28,13 @@ object Stepper {
   private object StatusPast extends Status
   private object StatusPresent extends Status
   private object StatusFuture extends Status
-  private def getStatus(state: State, index: Int): Status = index match {
-    case x: Int if x < state.index  => StatusPast
-    case y: Int if y == state.index => StatusPresent
-    case z: Int if z > state.index  => StatusFuture
+  private def getStatus(props: Props, state: State, step: Step): Status = {
+    val index = props.steps.indexOf(step)
+    index match {
+      case x: Int if x < state.index  => StatusPast
+      case y: Int if y == state.index => StatusPresent
+      case z: Int if z > state.index  => StatusFuture
+    }
   }
 
   private object Dot {
@@ -47,21 +50,24 @@ object Stepper {
     )
 
     def render(props: Props, state: State, step: Step): VdomElement = {
-      val index = props.steps.indexOf(step)
-      val mods = getMods(getStatus(state, index))
+      val mods = getMods(getStatus(props, state, step))
       <.div(static, mods._1, Icon(mods._2)())
     }
   }
 
+  /*
+   * If future => both lines are gray
+   * If present => right always gray, left always (green > blue)
+   * If past => both lines are green
+   */
   private object Line {
-    private def getColor(status: Status) = status match {
-      case StatusPast    => (Style.backgroundColor.success3, CssVar.Color.success3)
-      case StatusPresent => (Style.backgroundColor.primary4, CssVar.Color.primary4)
-      case StatusFuture  => (Style.backgroundColor.gray3, CssVar.Color.gray3)
-    }
+    private val gradientSuccessToPrimary =
+      ^.background := s"linear-gradient(to right, ${CssVar.Color.success3}, ${CssVar.Color.primary4})"
 
-    private def getGradient(first: String, second: String): TagMod = {
-      ^.background := s"linear-gradient(to right, $first, $second)"
+    private def getColors(status: Status): (TagMod, TagMod) = status match {
+      case StatusPast    => (Style.backgroundColor.success3, Style.backgroundColor.success3)
+      case StatusPresent => (gradientSuccessToPrimary, Style.backgroundColor.gray3)
+      case StatusFuture  => (Style.backgroundColor.gray3, Style.backgroundColor.gray3)
     }
 
     private def renderLine(isInvisible: Boolean, color: TagMod): VdomElement = {
@@ -70,13 +76,10 @@ object Stepper {
     }
 
     def render(props: Props, state: State, step: Step): (VdomElement, VdomElement) = {
-      val thisIndex = props.steps.indexOf(step)
-      val prevIndex = thisIndex - 1
-      val (thisStatus, prevStatus) = (getStatus(state, thisIndex), getStatus(state, prevIndex))
-      val (thisColor, prevColor) = (getColor(thisStatus), getColor(prevStatus))
+      val colors = getColors(getStatus(props, state, step))
       (
-        renderLine(props.steps.headOption.contains(step), getGradient(prevColor._2, thisColor._2)),
-        renderLine(props.steps.lastOption.contains(step), thisColor._1)
+        renderLine(props.steps.headOption.contains(step), colors._1),
+        renderLine(props.steps.lastOption.contains(step), colors._2)
       )
     }
   }
