@@ -32,6 +32,7 @@ class Dropdown[A] {
     onChange: A => Callback,
     getValueString: A => String,
     // Basic options
+    id: Option[String] = None,
     isDisabled: Boolean = false,
     isFullWidth: Boolean = false,
     placeholder: VdomNode = "",

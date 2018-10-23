@@ -63,6 +63,7 @@ private[dropdown] class DropdownTarget[A] {
       isFullWidth = op.isFullWidth
     )
     <.button(
+      ^.id :=? op.id,
       ^.tpe := "button",
       ^.disabled := op.isDisabled || op.options.isEmpty,
       Util.getModsFromProps(props.downshift.getToggleButtonProps()),

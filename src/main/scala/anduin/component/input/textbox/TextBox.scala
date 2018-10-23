@@ -22,6 +22,7 @@ final case class TextBox(
   placeholder: String = "",
   context: Option[VdomNode] = None,
   // ===
+  id: Option[String] = None,
   tpe: TextBox.Tpe = TextBox.TpeSingle,
   status: TextBox.Status = TextBox.StatusNone,
   size: TextBox.Size = TextBox.Size32,
@@ -86,6 +87,7 @@ object TextBox {
       Util.getModsFromProps(maskProps),
       VdomAttr("ref") := maskRef,
       // All other props
+      ^.id :=? props.id,
       ^.placeholder := props.placeholder,
       ^.onFocus --> props.onFocus,
       ^.disabled := props.isDisabled,
