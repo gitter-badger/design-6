@@ -13,13 +13,14 @@ import japgolly.scalajs.react.vdom.html_<^._
 final case class Field(
   layout: Field.Layout,
   id: String,
-  input: VdomNode,
   label: Option[String] = None,
   help: Option[VdomNode] = None,
   desc: Option[String] = None,
   error: Option[String] = None
 ) {
-  def apply(): VdomElement = Field.component(this)
+  def apply(children: VdomNode*): VdomElement = {
+    Field.component(this)(children: _*)
+  }
 }
 
 object Field {
@@ -50,7 +51,7 @@ object Field {
     }
   }
 
-  private def renderHor(props: Props): VdomElement = {
+  private def renderHor(props: Props, children: PropsChildren): VdomElement = {
     <.div(
       Style.flexbox.flex,
       <.div(
@@ -64,19 +65,19 @@ object Field {
       ),
       <.div(
         Style.flexbox.fixed,
-        props.input,
+        children,
         props.error.map(<.p(Static.error, Style.margin.top8, _))
       )
     )
   }
 
-  private def render(props: Props): VdomElement = props.layout match {
-    case LayoutHor => renderHor(props)
+  private def render(props: Props, children: PropsChildren): VdomElement = props.layout match {
+    case LayoutHor => renderHor(props, children)
   }
 
   private val component = ScalaComponent
     .builder[Props](this.getClass.getSimpleName)
     .stateless
-    .render_P(render)
+    .render_PC(render)
     .build
 }
