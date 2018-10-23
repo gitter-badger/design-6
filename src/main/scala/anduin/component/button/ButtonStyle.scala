@@ -93,6 +93,7 @@ object ButtonStyle {
   // This should be used for Library Engineering only, thus under `component`.
   // It should not be accessible for Product Engineering or any consumer of
   // `anduin.component`.
+  // scalastyle:off cyclomatic.complexity
   private[component] def getStyles(
     color: Color,
     size: Size,
@@ -119,7 +120,8 @@ object ButtonStyle {
     TagMod.when(style == StyleLink) { Style.flexbox.inlineFlex.hover.underline.textAlign.left },
     TagMod.when(style == StyleFull) { Style.disabled.backgroundGray2.disabled.borderGray4.disabled.shadowNone },
     TagMod.when(style == StyleMinimal && !isSelected) { Style.borderColor.transparent },
-    TagMod.when(style == StyleMinimal || style == StyleFull) {
+    TagMod.when(style == StyleGhost && !isSelected) { Style.borderColor.gray4 },
+    TagMod.when(style == StyleMinimal || style == StyleFull || style == StyleGhost) {
       TagMod(
         Style.lineHeight.px16.fontWeight.medium.whiteSpace.noWrap,
         Style.borderRadius.px2.border.all,
@@ -131,4 +133,5 @@ object ButtonStyle {
       )
     }
   )
+  // scalastyle:on cyclomatic.complexity
 }
