@@ -21,6 +21,9 @@ final case class UploadAndCrop(
   cropWidthPercent: Double,
   cropHeightPercent: Double,
   aspectRatio: Double,
+  targetSize: Option[Size],
+  minSize: Option[Size],
+  maxSize: Option[Size],
   onUpload: String => Task[String]
 ) {
   def apply(): VdomElement = UploadAndCrop.component(this)
@@ -65,6 +68,10 @@ object UploadAndCrop {
       scope.modState(_.copy(status = FileNotSelected), closeCropModal)
     }
 
+    private def chooseAnotherFile(file: File) = {
+      onDidSelectFile(file)
+    }
+
     private def startUploading(closeCropModal: Callback)(src: String) = {
       scope.modState(_.copy(status = Uploading(src)), closeCropModal)
     }
@@ -103,7 +110,10 @@ object UploadAndCrop {
                 cropWidthPercent = props.cropWidthPercent,
                 cropHeightPercent = props.cropHeightPercent,
                 aspectRatio = props.aspectRatio,
+                minSize = props.minSize,
+                maxSize = props.maxSize,
                 onCancel = closeModal(close),
+                onChooseAnotherFile = chooseAnotherFile,
                 onStartUploading = startUploading(close)
               )()
             }
