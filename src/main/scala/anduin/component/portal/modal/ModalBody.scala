@@ -1,12 +1,11 @@
 // Copyright (C) 2014-2018 Anduin Transactions Inc.
 
-package anduin.component.portal
+package anduin.component.portal.modal
 
 // scalastyle:off underscore.import
+import anduin.style.Style
 import japgolly.scalajs.react._
 import japgolly.scalajs.react.vdom.html_<^._
-
-import anduin.style.Style
 // scalastyle:on underscore.import
 
 final case class ModalBody() {

@@ -1,6 +1,6 @@
 // Copyright (C) 2014-2018 Anduin Transactions Inc.
 
-package anduin.component.container
+package anduin.component.table
 
 import anduin.component.icon.Icon
 import anduin.style.Style
@@ -10,7 +10,7 @@ import japgolly.scalajs.react._
 import japgolly.scalajs.react.vdom.html_<^._
 // scalastyle:on underscore.import
 
-private[component] class TableHead[A] {
+private[table] class TableHead[A] {
 
   case class Props(
     columns: List[Table.Column[A]],

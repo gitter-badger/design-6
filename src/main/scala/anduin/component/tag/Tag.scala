@@ -1,6 +1,6 @@
 // Copyright (C) 2014-2018 Anduin Transactions Inc.
 
-package anduin.component.text
+package anduin.component.tag
 
 import anduin.style.Style
 
@@ -10,7 +10,7 @@ import japgolly.scalajs.react.vdom.html_<^._
 // scalastyle:on underscore.import
 
 final case class Tag(
-  color: Tag.Color = Tag.ColorWhite,
+  color: Tag.Color = Tag.ColorGray,
   size: Tag.Size = Tag.SizeMedium,
   isSolid: Boolean = false
 ) {
@@ -27,29 +27,25 @@ object Tag {
     val clear: Style
     val solid: Style
   }
-  case object ColorWhite extends Color {
+  case object ColorGray extends Color {
     val clear: Style = Style.backgroundColor.gray3.color.gray7
     val solid: Style = Style.backgroundColor.gray7.color.white
   }
-  case object ColorPrimary extends Color {
+  case object ColorBlue extends Color {
     val clear: Style = Style.backgroundColor.primary1.color.primary5
     val solid: Style = Style.backgroundColor.primary4.color.white
   }
-  case object ColorSuccess extends Color {
+  case object ColorGreen extends Color {
     val clear: Style = Style.backgroundColor.success1.color.success5
     val solid: Style = Style.backgroundColor.success4.color.white
   }
-  case object ColorWarning extends Color {
+  case object ColorOrange extends Color {
     val clear: Style = Style.backgroundColor.warning1.color.warning5
     val solid: Style = Style.backgroundColor.warning4.color.white
   }
-  case object ColorDanger extends Color {
+  case object ColorRed extends Color {
     val clear: Style = Style.backgroundColor.danger1.color.danger5
     val solid: Style = Style.backgroundColor.danger4.color.white
-  }
-  case object ColorPurple extends Color {
-    val clear: Style = Style.backgroundColor.purple1.color.purple5
-    val solid: Style = Style.backgroundColor.purple4.color.white
   }
 
   sealed trait Size {

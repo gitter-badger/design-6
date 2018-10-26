@@ -1,6 +1,6 @@
 // Copyright (C) 2014-2018 Anduin Transactions Inc.
 
-package anduin.component.container
+package anduin.component.tab
 
 import anduin.style.{CssVar, Style}
 
@@ -9,7 +9,7 @@ import japgolly.scalajs.react._
 import japgolly.scalajs.react.vdom.html_<^._
 // scalastyle:on underscore.import
 
-private[container] final case class TabFull(
+private[tab] final case class TabFull(
   titles: List[(VdomNode, Int)],
   content: VdomNode,
   active: Int,
@@ -18,7 +18,7 @@ private[container] final case class TabFull(
   def apply(): VdomElement = { TabFull.component(this) }
 }
 
-private[container] object TabFull {
+private[tab] object TabFull {
 
   type Props = TabFull
 

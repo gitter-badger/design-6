@@ -57,7 +57,7 @@ private[dropdown] class DropdownTarget[A] {
     val op = props.outer
     val styles = ButtonStyle.getStyles(
       color = ButtonStyle.ColorWhite,
-      size = ButtonStyle.SizeMedium,
+      size = ButtonStyle.Size32,
       style = DropdownTarget.getButtonStyle(op.style),
       isSelected = props.downshift.isOpen.contains(true),
       isFullWidth = op.isFullWidth

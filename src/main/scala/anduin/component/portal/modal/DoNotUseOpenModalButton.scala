@@ -1,9 +1,10 @@
 // Copyright (C) 2014-2018 Anduin Transactions Inc.
 
-package anduin.component.modal
+package anduin.component.portal.modal
 
 import anduin.component.button.{Button, ButtonStyle}
-import anduin.component.portal.{Position, PositionTopCenter, Tooltip}
+import anduin.component.portal.tooltip.Tooltip
+import anduin.component.portal.{Position, PositionTopCenter}
 import anduin.scalajs.react.hammer.ReactHammer
 
 // scalastyle:off underscore.import
@@ -12,12 +13,12 @@ import japgolly.scalajs.react.vdom.html_<^._
 // scalastyle:on underscore.import
 
 // scalastyle:off parameter.number
-final case class OpenModalButton(
+final case class DoNotUseOpenModalButton(
   buttonClasses: String = "flex items-center",
   buttonColor: ButtonStyle.Color = ButtonStyle.ColorWhite,
   buttonTpe: Button.Tpe = Button.TpeButton,
   buttonStyle: ButtonStyle.Style = ButtonStyle.StyleLink,
-  buttonSize: ButtonStyle.Size = ButtonStyle.SizeMedium,
+  buttonSize: ButtonStyle.Size = ButtonStyle.Size32,
   buttonIsFullWidth: Boolean = false,
   disabled: Boolean = false,
   tip: String = "",
@@ -25,7 +26,7 @@ final case class OpenModalButton(
   modalTitle: String = "",
   modalClasses: String = "",
   modalBody: Callback => VdomNode = _ => EmptyVdom,
-  modalHeader: Option[Modal.ModalHeaderRenderer] = None,
+  modalHeader: Option[DoNotUseModal.ModalHeaderRenderer] = None,
   modalStyle: Map[String, String] = Map.empty,
   overlayCloseable: Boolean = true,
   closeOnEscape: Boolean = true,
@@ -40,19 +41,19 @@ final case class OpenModalButton(
 ) {
   def apply(children: VdomNode*): VdomElement = {
     val ctorType =
-      keyOpt.map(OpenModalButton.component.withKey(_)).getOrElse(OpenModalButton.component.ctor)
+      keyOpt.map(DoNotUseOpenModalButton.component.withKey(_)).getOrElse(DoNotUseOpenModalButton.component.ctor)
     ctorType(this)(children: _*)
   }
 }
 // scalastyle:on parameter.number
 
-object OpenModalButton {
+object DoNotUseOpenModalButton {
 
   private val componentName = this.getClass.getSimpleName
 
   private case class State(isOpen: Boolean, over: Boolean)
 
-  private class Backend(scope: BackendScope[OpenModalButton, State]) {
+  private class Backend(scope: BackendScope[DoNotUseOpenModalButton, State]) {
 
     private def show(): Callback = {
       for {
@@ -87,7 +88,7 @@ object OpenModalButton {
       } yield ()
     }
 
-    def render(props: OpenModalButton, state: State, children: PropsChildren): VdomElement = {
+    def render(props: DoNotUseOpenModalButton, state: State, children: PropsChildren): VdomElement = {
       val renderBtn = Button(
         onClick = show(),
         isDisabled = props.disabled,
@@ -113,7 +114,7 @@ object OpenModalButton {
           })
         ),
         TagMod.unless(props.disabled) {
-          Modal(
+          DoNotUseModal(
             title = props.modalTitle,
             isOpen = state.isOpen,
             overlayClassName = props.modalClasses,
@@ -130,7 +131,7 @@ object OpenModalButton {
   }
 
   private val component = ScalaComponent
-    .builder[OpenModalButton](componentName)
+    .builder[DoNotUseOpenModalButton](componentName)
     .initialStateFromProps { props =>
       State(
         isOpen = props.isOpen,

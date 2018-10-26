@@ -1,26 +1,25 @@
 // Copyright (C) 2014-2018 Anduin Transactions Inc.
 
-package anduin.component.popover
+package anduin.component.portal.popover
 
-import scala.scalajs.js.Date
-
+import anduin.component.button.{Button, ButtonStyle}
+import anduin.component.icon.Icon
+import anduin.component.util.EventUtils
+import anduin.style.Style
 import japgolly.scalajs.react.extra.{EventListener, OnUnmount}
 import japgolly.scalajs.react.vdom.Exports.VdomTagOf
 import org.scalajs.dom
 import org.scalajs.dom.document
 import org.scalajs.dom.raw.{HTMLElement, MouseEvent}
 
-import anduin.component.button.{Button, ButtonStyle}
-import anduin.component.icon.Icon
-import anduin.component.util.EventUtils
-import anduin.style.Style
+import scala.scalajs.js.Date
 
 // scalastyle:off underscore.import
 import japgolly.scalajs.react._
 import japgolly.scalajs.react.vdom.html_<^._
 // scalastyle:on underscore.import
 
-final case class Popover(
+final case class DoNotUsePopover(
   toggler: TagMod,
   disableToggler: Boolean = false,
   hasCloseButton: Boolean = false,
@@ -29,27 +28,27 @@ final case class Popover(
   dynamicPosition: Boolean = false,
   verticalOffset: Double = 0,
   horizontalOffset: Double = 0,
-  placement: Popover.Placement = Popover.Placement.Default,
-  size: Popover.Size = Popover.Size.Default,
+  placement: DoNotUsePopover.Placement = DoNotUsePopover.Placement.Default,
+  size: DoNotUsePopover.Size = DoNotUsePopover.Size.Default,
   classes: String = "",
   popoverBodyClasses: String = "",
   key: String = "",
-  trigger: Popover.Trigger = Popover.Trigger.Click,
+  trigger: DoNotUsePopover.Trigger = DoNotUsePopover.Trigger.Click,
   hideWhenClickInside: Boolean = true,
   //set to false if you don't want to hide popover on click event (both outside and inside)
   //this is a workaround when inside the popover have a dropdown that content exceeds the popover body area
   hideWhenClick: Boolean = true,
-  status: Popover.Status = Popover.Status.Hidden,
+  status: DoNotUsePopover.Status = DoNotUsePopover.Status.Hidden,
   unmountWhenHide: Boolean = false,
-  onStatusChange: Popover.Status => Callback = _ => Callback.empty
+  onStatusChange: DoNotUsePopover.Status => Callback = _ => Callback.empty
 )(
-  val children: Popover.RenderProps => TagMod // display state => component
+  val children: DoNotUsePopover.RenderProps => TagMod // display state => component
 ) {
-  def apply(): ScalaComponent.Unmounted[_, _, _] = Popover.component.withKey(key)(this)
+  def apply(): ScalaComponent.Unmounted[_, _, _] = DoNotUsePopover.component.withKey(key)(this)
 }
 
 // scalastyle:off number.of.types
-object Popover {
+object DoNotUsePopover {
 
   /**
     * Define the popover size
@@ -116,7 +115,7 @@ object Popover {
 
   case class State(status: Status, leaveTogglerTimeOpt: Option[Double])
 
-  class Backend(scope: BackendScope[Popover, State]) extends OnUnmount {
+  class Backend(scope: BackendScope[DoNotUsePopover, State]) extends OnUnmount {
 
     private val bodyRef = Ref[HTMLElement]
     private val togglerRef = Ref[HTMLElement]
@@ -275,7 +274,7 @@ object Popover {
       } yield ()
     }
 
-    def render(props: Popover, state: State): VdomTagOf[HTMLElement] = {
+    def render(props: DoNotUsePopover, state: State): VdomTagOf[HTMLElement] = {
       <.div.withRef(wrapperRef)(
         ^.classSet(
           "popover-wrapper" -> true,
@@ -326,7 +325,7 @@ object Popover {
   }
 
   val component = ScalaComponent
-    .builder[Popover](ComponentName)
+    .builder[DoNotUsePopover](ComponentName)
     .initialStateFromProps { props =>
       State(
         status = props.status,

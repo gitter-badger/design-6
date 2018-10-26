@@ -2,8 +2,8 @@
 
 package anduin.component.button
 
-import japgolly.scalajs.react.vdom.TagMod
 import anduin.style.Style
+import japgolly.scalajs.react.vdom.TagMod
 
 object ButtonStyle {
 
@@ -44,7 +44,7 @@ object ButtonStyle {
     val full: TagMod = Style.color.white.shadow.blur1Dark
     val selected: TagMod = Style.color.white
   }
-  case object ColorPrimary extends Color {
+  case object ColorBlue extends Color {
     private val interact = Style.hover.backgroundPrimary3.active.backgroundPrimary5
     val link: TagMod = Style.color.primary4
     val minimal =
@@ -52,7 +52,7 @@ object ButtonStyle {
     val full = TagMod(interact, ColorAccentBase.full, Style.backgroundColor.primary4.borderColor.primary5)
     val selected = TagMod(ColorAccentBase.selected, Style.backgroundColor.primary5.borderColor.primary5)
   }
-  case object ColorSuccess extends Color {
+  case object ColorGreen extends Color {
     private val interact = Style.hover.backgroundSuccess3.active.backgroundSuccess5
     val link: TagMod = Style.color.success4
     val minimal =
@@ -60,7 +60,7 @@ object ButtonStyle {
     val full = TagMod(interact, ColorAccentBase.full, Style.backgroundColor.success4.borderColor.success5)
     val selected = TagMod(ColorAccentBase.selected, Style.backgroundColor.success5.borderColor.success5)
   }
-  case object ColorWarning extends Color {
+  case object ColorOrange extends Color {
     private val interact = Style.hover.backgroundWarning3.active.backgroundWarning5
     val link: TagMod = Style.color.warning4
     val minimal =
@@ -68,7 +68,7 @@ object ButtonStyle {
     val full = TagMod(interact, ColorAccentBase.full, Style.backgroundColor.warning4.borderColor.warning5)
     val selected = TagMod(ColorAccentBase.selected, Style.backgroundColor.warning5.borderColor.warning5)
   }
-  case object ColorDanger extends Color {
+  case object ColorRed extends Color {
     private val interact = Style.hover.backgroundDanger3.active.backgroundDanger5
     val link: TagMod = Style.color.danger4
     val minimal =
@@ -77,25 +77,17 @@ object ButtonStyle {
     val selected = TagMod(ColorAccentBase.selected, Style.backgroundColor.danger5.borderColor.danger5)
   }
 
-  case object ColorPurple extends Color {
-    private val interact = Style.hover.backgroundGray6.active.backgroundGray8
-    val link: TagMod = Style.color.gray7
-    val minimal =
-      TagMod(interact, ColorAccentBase.minimal, Style.color.gray7.hover.borderGray4.active.borderGray5)
-    val full = TagMod(interact, ColorAccentBase.full, Style.backgroundColor.gray7.borderColor.gray8)
-    val selected = TagMod(ColorAccentBase.selected, Style.backgroundColor.gray8.borderColor.gray8)
-  }
-
   sealed trait Size { val style: TagMod }
-  case object SizeLarge extends Size { val style: TagMod = Style.height.px40.padding.hor16.fontSize.px16 }
-  case object SizeMedium extends Size { val style: TagMod = Style.height.px32.padding.hor12.fontSize.px13 }
-  case object SizeSmall extends Size { val style: TagMod = Style.height.px24.padding.hor8.fontSize.px12 }
+  case object Size40 extends Size { val style: TagMod = Style.height.px40.padding.hor16.fontSize.px16 }
+  case object Size32 extends Size { val style: TagMod = Style.height.px32.padding.hor12.fontSize.px13 }
+  case object Size24 extends Size { val style: TagMod = Style.height.px24.padding.hor8.fontSize.px12 }
   case object SizeIcon extends Size { val style: TagMod = Style.height.px32.width.px32.fontSize.px13 }
   case object SizeCustom extends Size { val style: TagMod = Style.fontSize.px13 }
 
   sealed trait Style
   case object StyleFull extends Style
   case object StyleLink extends Style
+  case object StyleGhost extends Style
   case object StyleMinimal extends Style
 
   // This should be used for Library Engineering only, thus under `component`.
@@ -117,6 +109,7 @@ object ButtonStyle {
       style match {
         case StyleFull    => color.full
         case StyleMinimal => color.minimal
+        case StyleGhost   => color.minimal
         case StyleLink    => color.link
       }
     },

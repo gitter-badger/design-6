@@ -2,18 +2,17 @@
 
 package anduin.component.editor.renderer
 
-import scala.scalajs.js
-
-import japgolly.scalajs.react.{PropsChildren, raw}
-
 import anduin.component.button.{ButtonLink, ButtonStyle}
 import anduin.component.editor.{DataUtil, StyleParser}
-import anduin.component.portal.{Popover, PositionBottomCenter}
+import anduin.component.portal.PositionBottomCenter
+import anduin.component.portal.popover.Popover
+import japgolly.scalajs.react.{PropsChildren, raw}
+
+import scala.scalajs.js
 
 // scalastyle:off underscore.import
-import japgolly.scalajs.react.vdom.html_<^._
-
 import anduin.scalajs.slate.Slate._
+import japgolly.scalajs.react.vdom.html_<^._
 // scalastyle:on underscore.import
 
 private[editor] object LinkRenderer {

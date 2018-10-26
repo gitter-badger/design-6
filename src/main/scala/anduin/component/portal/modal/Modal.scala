@@ -1,7 +1,8 @@
 // Copyright (C) 2014-2018 Anduin Transactions Inc.
 
-package anduin.component.portal
+package anduin.component.portal.modal
 
+import anduin.component.portal.{Portal, PortalUtils}
 import anduin.style.Style
 import org.scalajs.dom
 

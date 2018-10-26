@@ -1,10 +1,11 @@
 // Copyright (C) 2014-2018 Anduin Transactions Inc.
 
-package anduin.component.portal
+package anduin.component.portal.popover
 
 import anduin.style.Style
 
 // scalastyle:off underscore.import
+import anduin.component.portal._
 import japgolly.scalajs.react._
 import japgolly.scalajs.react.vdom.html_<^._
 // scalastyle:on underscore.import

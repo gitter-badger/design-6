@@ -1,9 +1,8 @@
 // Copyright (C) 2014-2018 Anduin Transactions Inc.
 
-package anduin.component.modal
+package anduin.component.portal.modal
 
 import anduin.component.button.{ButtonStyle, ProgressButton}
-import anduin.component.portal.{ModalBody, ModalFooterWCancel}
 
 // scalastyle:off underscore.import
 import japgolly.scalajs.react._
@@ -34,7 +33,7 @@ object CommonConfirmModal {
         ModalBody()(props.displayInfo),
         ModalFooterWCancel(cancel = props.onClose)(
           ProgressButton(
-            color = ButtonStyle.ColorPrimary,
+            color = ButtonStyle.ColorBlue,
             status = state.confirmBtnStatus,
             labels = {
               case ProgressButton.Status.Loading => "Confirming"

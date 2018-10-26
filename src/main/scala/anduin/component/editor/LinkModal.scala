@@ -3,7 +3,7 @@
 package anduin.component.editor
 
 import anduin.component.button.{Button, ButtonStyle}
-import anduin.component.portal.{ModalBody, ModalFooterWCancel}
+import anduin.component.portal.modal.{ModalBody, ModalFooterWCancel}
 import anduin.scalajs.slate.Slate.Value
 
 // scalastyle:off underscore.import
@@ -45,7 +45,7 @@ private[editor] object LinkModal {
         ),
         ModalFooterWCancel(cancel = props.onClose)(
           <.div(
-            Button(color = ButtonStyle.ColorPrimary, isDisabled = state.link.isEmpty, onClick = {
+            Button(color = ButtonStyle.ColorBlue, isDisabled = state.link.isEmpty, onClick = {
               for {
                 _ <- props.onClose
                 _ <- props.onAddLink(state.link)

@@ -2,23 +2,24 @@
 
 package anduin.component.editor
 
-import scala.scalajs.js
-
-import org.scalajs.dom.raw.Element
-import org.scalajs.dom.window
-
 import anduin.component.button.{Button, ButtonStyle}
 import anduin.component.icon.Icon
 import anduin.component.menu.VerticalDivider
+import anduin.component.portal.modal.Modal
+import anduin.component.portal.popover.Popover
+import anduin.component.portal.tooltip.Tooltip
 import anduin.component.util.ComponentUtils
 import anduin.scalajs.slate.Slate.{Change, Value}
 import anduin.style.Style
+import org.scalajs.dom.raw.Element
+import org.scalajs.dom.window
+
+import scala.scalajs.js
 
 // scalastyle:off underscore.import
+import anduin.component.portal._
 import japgolly.scalajs.react._
 import japgolly.scalajs.react.vdom.html_<^._
-
-import anduin.component.portal._
 // scalastyle:on underscore.import
 
 final case class Toolbar(

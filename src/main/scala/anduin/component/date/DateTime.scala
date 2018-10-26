@@ -1,6 +1,6 @@
 // Copyright (C) 2014-2018 Anduin Transactions Inc.
 
-package anduin.component.text
+package anduin.component.date
 
 import java.time.format.DateTimeFormatter
 import java.time.{LocalDate, LocalDateTime}

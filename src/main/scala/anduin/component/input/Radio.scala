@@ -52,7 +52,7 @@ object Radio {
       ^.onChange --> props.onChange(props.value),
       // styles
       if (props.isChecked) {
-        ButtonStyle.ColorPrimary.full
+        ButtonStyle.ColorBlue.full
       } else {
         ButtonStyle.ColorWhite.full
       },

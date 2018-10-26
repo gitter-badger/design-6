@@ -2,10 +2,10 @@
 
 package anduin.component.clipboard
 
+import anduin.component.portal.PositionTopCenter
+import anduin.component.portal.tooltip.Tooltip
 import org.scalajs.dom.raw.HTMLElement
 import org.scalajs.dom.{document, window}
-
-import anduin.component.portal.{PositionTopCenter, Tooltip}
 
 // scalastyle:off underscore.import
 import japgolly.scalajs.react._

@@ -1,19 +1,18 @@
 // Copyright (C) 2014-2018 Anduin Transactions Inc.
 
-package anduin.component.container
-
-import org.scalajs.dom.html
-import org.scalajs.dom.raw.DOMList
+package anduin.component.table
 
 import anduin.component.util.NodeListSeq
 import anduin.style.Style
+import org.scalajs.dom.html
+import org.scalajs.dom.raw.DOMList
 
 // scalastyle:off underscore.import
 import japgolly.scalajs.react._
 import japgolly.scalajs.react.vdom.html_<^._
 // scalastyle:on underscore.import
 
-private[component] final case class TableSticky(
+private[table] final case class TableSticky(
   widths: List[String],
   styles: TagMod,
   body: VdomElement,

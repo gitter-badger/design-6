@@ -2,10 +2,9 @@
 
 package anduin.component.input
 
-import org.scalajs.dom.FileList
-
 import anduin.component.button.{Button, ButtonStyle}
 import anduin.style.Style
+import org.scalajs.dom.FileList
 
 // scalastyle:off underscore.import
 import japgolly.scalajs.react._
@@ -14,7 +13,7 @@ import japgolly.scalajs.react.vdom.html_<^._
 
 final case class FileButtonInput(
   color: ButtonStyle.Color = ButtonStyle.ColorWhite,
-  size: ButtonStyle.Size = ButtonStyle.SizeMedium,
+  size: ButtonStyle.Size = ButtonStyle.Size32,
   style: ButtonStyle.Style = ButtonStyle.StyleFull,
   isFullWidth: Boolean = false,
   isSelected: Boolean = false,

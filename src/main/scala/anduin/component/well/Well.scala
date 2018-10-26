@@ -1,6 +1,6 @@
 // Copyright (C) 2014-2018 Anduin Transactions Inc.
 
-package anduin.component.container
+package anduin.component.well
 
 import anduin.component.button.{Button, ButtonStyle}
 import anduin.component.icon.Icon
@@ -12,7 +12,7 @@ import japgolly.scalajs.react.vdom.html_<^._
 // scalastyle:on underscore.import
 
 final case class Well(
-  color: Well.Color = Well.ColorNeutral,
+  color: Well.Color = Well.ColorGray,
   title: String = "",
   close: Callback = Callback.empty
 ) {
@@ -28,28 +28,28 @@ object Well {
     private[Well] val iconColor: Style
     private[Well] val bg: Style
   }
-  case object ColorNeutral extends Color {
+  case object ColorGray extends Color {
     private[Well] val iconName = Icon.NameBookmark
     private[Well] val iconColor = Style.color.gray7
     private[Well] val bg = Style.backgroundColor.gray1
     private[Well] val close = Style.backgroundColor.gray3
   }
-  case object ColorPrimary extends Color {
+  case object ColorBlue extends Color {
     private[Well] val iconName = Icon.NameInfo
     private[Well] val iconColor = Style.color.primary4
     private[Well] val bg = Style.backgroundColor.primary1
   }
-  case object ColorSuccess extends Color {
+  case object ColorGreen extends Color {
     private[Well] val iconName = Icon.NameCheck
     private[Well] val iconColor = Style.color.success4
     private[Well] val bg = Style.backgroundColor.success1
   }
-  case object ColorWarning extends Color {
+  case object ColorOrange extends Color {
     private[Well] val iconName = Icon.NameWarning
     private[Well] val iconColor = Style.color.warning4
     private[Well] val bg = Style.backgroundColor.warning1
   }
-  case object ColorDanger extends Color {
+  case object ColorRed extends Color {
     private[Well] val iconName = Icon.NameError
     private[Well] val iconColor = Style.color.danger4
     private[Well] val bg = Style.backgroundColor.danger1

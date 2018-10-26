@@ -1,6 +1,6 @@
 // Copyright (C) 2014-2018 Anduin Transactions Inc.
 
-package anduin.component.option
+package anduin.component.input
 
 import anduin.component.icon.Icon
 import anduin.style.Style

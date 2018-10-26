@@ -2,10 +2,11 @@
 
 package anduin.component.util
 
-import japgolly.scalajs.react.vdom.TagMod
-import anduin.component.portal.{Position, PositionTopCenter, Tooltip}
+import anduin.component.portal.tooltip.Tooltip
+import anduin.component.portal.{Position, PositionTopCenter}
 import anduin.style.Style
 import japgolly.scalajs.react.React
+import japgolly.scalajs.react.vdom.TagMod
 
 // scalastyle:off underscore.import
 import japgolly.scalajs.react.vdom.html_<^._

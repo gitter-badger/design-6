@@ -1,17 +1,16 @@
 // Copyright (C) 2014-2018 Anduin Transactions Inc.
 
-package anduin.component.container
-
-import org.scalajs.dom.html
+package anduin.component.table
 
 import anduin.style.Style
+import org.scalajs.dom.html
 
 // scalastyle:off underscore.import
 import japgolly.scalajs.react._
 import japgolly.scalajs.react.vdom.html_<^._
 // scalastyle:on underscore.import
 
-private[component] class TableBody[A] {
+private[table] class TableBody[A] {
 
   case class Props(
     rows: List[A],

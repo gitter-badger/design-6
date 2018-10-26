@@ -1,8 +1,7 @@
 // Copyright (C) 2014-2018 Anduin Transactions Inc.
 
 package anduin.component.field
-
-import anduin.component.portal.Tooltip
+import anduin.component.portal.tooltip.Tooltip
 import anduin.style.Style
 
 // scalastyle:off underscore.import

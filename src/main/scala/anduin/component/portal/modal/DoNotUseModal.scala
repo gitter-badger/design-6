@@ -1,20 +1,20 @@
 // Copyright (C) 2014-2018 Anduin Transactions Inc.
 
-package anduin.component.modal
-
-import scala.scalajs.js
+package anduin.component.portal.modal
 
 import anduin.component.icon.Icon
 import anduin.component.util.ComponentUtils
 import anduin.scalajs.react.modal.ReactModal
 import org.scalajs.dom.raw.Element
 
+import scala.scalajs.js
+
 // scalastyle:off underscore.import
 import japgolly.scalajs.react._
 import japgolly.scalajs.react.vdom.html_<^._
 // scalastyle:on underscore.import
 
-object Modal {
+object DoNotUseModal {
 
   def setAppElement(appElement: Element): Unit = {
     ReactModal.RawComponent.setAppElement(appElement)

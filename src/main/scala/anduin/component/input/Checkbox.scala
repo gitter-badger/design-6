@@ -2,9 +2,8 @@
 
 package anduin.component.input
 
-import anduin.style.Style
 import anduin.component.button.ButtonStyle
-
+import anduin.style.Style
 import japgolly.scalajs.react.vdom.svg_<^
 
 // scalastyle:off underscore.import
@@ -82,7 +81,7 @@ object Checkbox {
       // styles
       inputStyles,
       if (props.isChecked) {
-        ButtonStyle.ColorPrimary.full
+        ButtonStyle.ColorBlue.full
       } else {
         ButtonStyle.ColorWhite.full
       }

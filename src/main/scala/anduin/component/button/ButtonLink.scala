@@ -3,16 +3,15 @@
 package anduin.component.button
 
 // scalastyle:off underscore.import
+import anduin.style.Style
 import japgolly.scalajs.react._
 import japgolly.scalajs.react.vdom.html_<^._
-
-import anduin.style.Style
 // scalastyle:on underscore.import
 
 final case class ButtonLink(
   // Common styling via ButtonStyle
   color: ButtonStyle.Color = ButtonStyle.ColorWhite,
-  size: ButtonStyle.Size = ButtonStyle.SizeMedium,
+  size: ButtonStyle.Size = ButtonStyle.Size32,
   style: ButtonStyle.Style = ButtonStyle.StyleFull,
   isFullWidth: Boolean = false,
   isSelected: Boolean = false,

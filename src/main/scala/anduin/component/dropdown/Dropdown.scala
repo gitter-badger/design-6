@@ -2,7 +2,8 @@
 
 package anduin.component.dropdown
 
-import anduin.component.portal.{Popover, PositionBottomLeft}
+import anduin.component.portal.PositionBottomLeft
+import anduin.component.portal.popover.Popover
 import anduin.scalajs.downshift.{Downshift, DownshiftRenderProps, DownshiftState, DownshiftStateChanges}
 
 import scala.scalajs.js
