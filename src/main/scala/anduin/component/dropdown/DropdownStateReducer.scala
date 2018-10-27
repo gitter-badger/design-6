@@ -2,7 +2,7 @@
 
 package anduin.component.dropdown
 
-import anduin.scalajs.downshift.{DownshiftState, DownshiftStateChangeTypes, DownshiftStateChanges}
+import anduin.scalajs.downshift.{Downshift, DownshiftState, DownshiftStateChanges}
 
 import scala.scalajs.js
 import scala.scalajs.js.UndefOr
@@ -12,7 +12,7 @@ private[dropdown] class DropdownStateReducer[A] {
 
   private type State = DownshiftState[A]
   private type Changes = DownshiftStateChanges[A]
-  private val Types = DownshiftStateChangeTypes
+  private val Types = Downshift.stateChangeTypes
 
   case class Data(isInnerClick: Boolean)
   case class Input(state: State, changes: Changes, data: Data)

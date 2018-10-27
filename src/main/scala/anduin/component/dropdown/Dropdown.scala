@@ -4,11 +4,12 @@ package anduin.component.dropdown
 
 import anduin.component.portal.PositionBottomLeft
 import anduin.component.portal.popover.Popover
-import anduin.scalajs.downshift.{Downshift, DownshiftRenderProps, DownshiftState, DownshiftStateChanges}
 
 import scala.scalajs.js
 
 // scalastyle:off underscore.import
+import anduin.scalajs.downshift._
+
 import japgolly.scalajs.react._
 import japgolly.scalajs.react.vdom.html_<^._
 // scalastyle:on underscore.import
