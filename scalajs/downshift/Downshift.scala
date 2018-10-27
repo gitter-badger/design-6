@@ -28,11 +28,11 @@ class Downshift[A] {
   ) extends js.Object
 
   val component =
-    JsComponent[Props, Children.None, Null](Downshift.RawComponent)
+    JsComponent[Props, Children.None, Null](Downshift)
 }
 
-object Downshift {
-  @JSImport("downshift", JSImport.Default, "Downshift")
-  @js.native
-  object RawComponent extends js.Object
+@JSImport("downshift", JSImport.Default)
+@js.native
+object Downshift extends js.Object {
+  val stateChangeTypes: DownshiftStateChangeTypes = js.native
 }

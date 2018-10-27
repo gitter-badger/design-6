@@ -4,6 +4,7 @@ package anduin.scalajs.downshift
 
 import scala.scalajs.js
 import scala.scalajs.js.annotation.JSName
+import scala.scalajs.js.|
 
 trait DownshiftState[A] extends js.Object {
   val highlightedIndex: js.UndefOr[Int] = js.undefined
@@ -17,20 +18,20 @@ trait DownshiftStateChanges[A] extends js.Object with DownshiftState[A] {
   val tpe: js.UndefOr[String] = js.undefined
 }
 
-object DownshiftStateChangeTypes {
-  val unknown = "__autocomplete_unknown__"
-  val mouseUp = "__autocomplete_mouseup__"
-  val itemMouseEnter = "__autocomplete_item_mouseenter__"
-  val keyDownArrowUp = "__autocomplete_keydown_arrow_up__"
-  val keyDownArrowDown = "__autocomplete_keydown_arrow_down__"
-  val keyDownEscape = "__autocomplete_keydown_escape__"
-  val keyDownEnter = "__autocomplete_keydown_enter__"
-  val clickItem = "__autocomplete_click_item__"
-  val blurInput = "__autocomplete_blur_input__"
-  val changeInput = "__autocomplete_change_input__"
-  val keyDownSpaceButton = "__autocomplete_keydown_space_button__"
-  val clickButton = "__autocomplete_click_button__"
-  val blurButton = "__autocomplete_blur_button__"
-  val controlledPropUpdatedSelectedItem = "__autocomplete_controlled_prop_updated_selected_item__"
-  val touchStart = "__autocomplete_touchstart__"
+trait DownshiftStateChangeTypes extends js.Object {
+  val unknown: String | Int
+  val mouseUp: String | Int
+  val itemMouseEnter: String | Int
+  val keyDownArrowUp: String | Int
+  val keyDownArrowDown: String | Int
+  val keyDownEscape: String | Int
+  val keyDownEnter: String | Int
+  val clickItem: String | Int
+  val blurInput: String | Int
+  val changeInput: String | Int
+  val keyDownSpaceButton: String | Int
+  val clickButton: String | Int
+  val blurButton: String | Int
+  val controlledPropUpdatedSelectedItem: String | Int
+  val touchStart: String | Int
 }
