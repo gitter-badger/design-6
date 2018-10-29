@@ -5,7 +5,7 @@ package anduin.component.image
 import org.scalajs.dom.raw.File
 
 import anduin.component.icon.Icon
-import anduin.component.portal.Tooltip
+import anduin.component.portal.tooltip.Tooltip
 import anduin.style.Style
 
 // scalastyle:off underscore.import
