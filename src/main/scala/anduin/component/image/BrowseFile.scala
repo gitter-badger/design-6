@@ -5,7 +5,6 @@ package anduin.component.image
 import org.scalajs.dom.raw.File
 
 import anduin.component.icon.Icon
-import anduin.component.portal.tooltip.Tooltip
 import anduin.style.Style
 
 // scalastyle:off underscore.import
@@ -47,15 +46,10 @@ private[image] object BrowseFile {
         ^.onMouseEnter --> onMouseEnter,
         ^.onMouseLeave --> onMouseLeave,
         if (state.hover) {
-          Tooltip(
-            renderTarget = {
-              <.span(
-                Style.opacity.pc50,
-                Icon(name = Icon.NamePlus, size = Icon.SizeDynamic("48px"))()
-              )
-            },
-            renderContent = () => "Click the + icon to select file"
-          )()
+          <.span(
+            Style.width.pc100.height.pc100.flexbox.flex.flexbox.justifyCenter.flexbox.itemsCenter.backgroundColor.white,
+            Icon(name = Icon.NamePlus, size = Icon.Size32)()
+          )
         } else {
           children
         },
