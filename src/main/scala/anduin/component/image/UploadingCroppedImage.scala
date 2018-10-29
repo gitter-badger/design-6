@@ -2,7 +2,8 @@
 
 package anduin.component.image
 
-import anduin.component.loader.SquareRotationLoader
+import anduin.component.loader.InlineLoader
+import anduin.style.Style
 
 // scalastyle:off underscore.import
 import japgolly.scalajs.react._
@@ -29,7 +30,10 @@ private[image] object UploadingCroppedImage {
     }
 
     def render(): VdomElement = {
-      SquareRotationLoader()()
+      <.div(
+        Style.flexbox.flex.flexbox.itemsCenter,
+        InlineLoader()
+      )
     }
   }
 
