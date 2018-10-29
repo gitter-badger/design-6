@@ -31,7 +31,6 @@ private[image] object FileUtils {
 
     @SuppressWarnings(Array("org.wartremover.warts.AsInstanceOf")) // scalastyle:ignore
     val file = new Blob(js.Array(bytes), BlobPropertyBag(contentType)).asInstanceOf[File]
-    dom.window.console.log(file)
     file
   }
 }

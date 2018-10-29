@@ -79,11 +79,12 @@ object UploadAndCrop {
     private def didUpload(props: Props)(src: String) = {
       Callback.future {
         val file = FileUtils.base64ToFile(src, "image/jpeg")
+
         props
           .onUpload(file)
           .executeWithOptions(_.enableAutoCancelableRunLoops)
           .runAsync
-          .map(_.map { success =>
+          .map(_.flatMap { success =>
             if (success) {
               scope.modState(_.copy(status = DidUpload(src)))
             } else {
