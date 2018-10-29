@@ -10,7 +10,7 @@ import org.scalajs.dom.raw.{Blob, BlobPropertyBag, File}
 
 private[image] object FileUtils {
 
-  private final val Base64Prefix = ";base64,"
+  private val Base64Prefix = ";base64,"
 
   private def base64ToByteArray(dataUri: String): Uint8Array = {
     val base64Index = dataUri.indexOf(Base64Prefix) + Base64Prefix.length

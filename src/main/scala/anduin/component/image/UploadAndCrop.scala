@@ -4,7 +4,6 @@ package anduin.component.image
 
 import scala.concurrent.Promise
 
-import monix.eval.Task
 import monix.execution.Scheduler.Implicits.global
 import org.scalajs.dom.raw.{Event, File, FileReader}
 
@@ -23,7 +22,7 @@ final case class UploadAndCrop(
   aspectRatio: Double,
   minSize: Option[Size],
   maxSize: Option[Size],
-  onUpload: File => Task[CallbackTo[Boolean]]
+  onUpload: UploadAndCrop.OnUpload => Callback
 ) {
   def apply(children: VdomNode*): VdomElement = UploadAndCrop.component(this)(children: _*)
 }
@@ -31,6 +30,8 @@ final case class UploadAndCrop(
 object UploadAndCrop {
 
   private type Props = UploadAndCrop
+
+  case class OnUpload(file: File, onSuccess: Callback, onError: Callback)
 
   sealed trait Status
   object FileNotSelected extends Status
@@ -76,21 +77,14 @@ object UploadAndCrop {
     }
 
     private def didUpload(props: Props)(src: String) = {
-      Callback.future {
-        val file = FileUtils.base64ToFile(src, "image/jpeg")
-
-        props
-          .onUpload(file)
-          .executeWithOptions(_.enableAutoCancelableRunLoops)
-          .runAsync
-          .map(_.flatMap { success =>
-            if (success) {
-              scope.modState(_.copy(status = DidUpload(src)))
-            } else {
-              scope.modState(_.copy(status = FileNotSelected))
-            }
-          })
-      }
+      val file = FileUtils.base64ToFile(src, "image/jpeg")
+      props.onUpload(
+        OnUpload(
+          file,
+          scope.modState(_.copy(status = DidUpload(src))),
+          scope.modState(_.copy(status = FileNotSelected))
+        )
+      )
     }
 
     def render(props: Props, state: State, children: PropsChildren): VdomElement = {
