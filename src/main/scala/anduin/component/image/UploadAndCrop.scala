@@ -24,7 +24,7 @@ final case class UploadAndCrop(
   targetSize: Option[Size],
   minSize: Option[Size],
   maxSize: Option[Size],
-  onUpload: String => Task[String]
+  onUpload: File => Task[CallbackTo[Boolean]]
 ) {
   def apply(): VdomElement = UploadAndCrop.component(this)
 }
@@ -77,19 +77,20 @@ object UploadAndCrop {
     }
 
     private def didUpload(props: Props)(src: String) = {
-      for {
-        _ <- Callback
-          .future {
-            props
-              .onUpload(src)
-              .executeWithOptions(_.enableAutoCancelableRunLoops)
-              .runAsync
-              .map { newSource =>
-                scope.modState(_.copy(status = DidUpload(newSource)))
-              }
-          }
-          .delayMs(5 * 1000)
-      } yield ()
+      Callback.future {
+        val file = FileUtils.base64ToFile(src, "image/jpeg")
+        props
+          .onUpload(file)
+          .executeWithOptions(_.enableAutoCancelableRunLoops)
+          .runAsync
+          .map(_.map { success =>
+            if (success) {
+              scope.modState(_.copy(status = DidUpload(src)))
+            } else {
+              scope.modState(_.copy(status = FileNotSelected))
+            }
+          })
+      }
     }
 
     def render(props: Props, state: State): VdomElement = {
