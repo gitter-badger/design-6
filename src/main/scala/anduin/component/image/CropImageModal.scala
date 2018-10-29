@@ -97,7 +97,6 @@ private[image] object CropImageModal {
 
       <.div(
         Style.position.relative,
-        VdomAttr("data-minsize") := s"checkMinSize: $checkMinSize, checkMaxSize=$checkMaxSize",
         <.div(
           Style.position.absolute.coordinate.left0.coordinate.top0,
           ^.visibility.hidden,

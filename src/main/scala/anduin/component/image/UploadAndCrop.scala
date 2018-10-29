@@ -21,7 +21,6 @@ final case class UploadAndCrop(
   cropWidthPercent: Double,
   cropHeightPercent: Double,
   aspectRatio: Double,
-  targetSize: Option[Size],
   minSize: Option[Size],
   maxSize: Option[Size],
   onUpload: File => Task[CallbackTo[Boolean]]
