@@ -26,7 +26,7 @@ final case class UploadAndCrop(
   maxSize: Option[Size],
   onUpload: File => Task[CallbackTo[Boolean]]
 ) {
-  def apply(): VdomElement = UploadAndCrop.component(this)
+  def apply(children: VdomNode*): VdomElement = UploadAndCrop.component(this)(children: _*)
 }
 
 object UploadAndCrop {
@@ -93,12 +93,12 @@ object UploadAndCrop {
       }
     }
 
-    def render(props: Props, state: State): VdomElement = {
+    def render(props: Props, state: State, children: PropsChildren): VdomElement = {
       state.status match {
         case FileNotSelected =>
           BrowseFile(
             onDidSelect = onDidSelectFile
-          )()
+          )(children)
 
         case FileSelected(src) =>
           Modal(
@@ -134,6 +134,6 @@ object UploadAndCrop {
   private val component = ScalaComponent
     .builder[Props](this.getClass.getSimpleName)
     .initialState(State())
-    .renderBackend[Backend]
+    .renderBackendWithChildren[Backend]
     .build
 }
