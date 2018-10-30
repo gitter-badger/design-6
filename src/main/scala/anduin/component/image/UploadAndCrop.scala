@@ -17,6 +17,7 @@ import japgolly.scalajs.react.vdom.html_<^._
 
 final case class UploadAndCrop(
   uploadButtonLabel: String,
+  cropModalTitle: String,
   cropWidthPercent: Double,
   cropHeightPercent: Double,
   aspectRatio: Double,
@@ -97,6 +98,7 @@ object UploadAndCrop {
         case FileSelected(src) =>
           Modal(
             isOpened = Some(true),
+            title = props.cropModalTitle,
             size = Modal.Size600,
             renderTarget = _ => EmptyVdom,
             renderContent = close => {
