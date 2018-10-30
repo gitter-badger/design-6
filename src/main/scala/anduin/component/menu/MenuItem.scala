@@ -23,18 +23,31 @@ final case class MenuItem(
   // button
   isDisabled: Boolean = false
 ) {
-  def apply(children: VdomNode*): VdomElement = MenuItem.component(this)(children: _*)
+  def apply(children: VdomNode*): VdomElement = {
+    MenuItem.component(this)(children: _*)
+  }
+
+  def simpleItemWithIconAndText(icon: Icon, text: String): VdomElement = {
+    apply(
+      <.div(
+        Style.flexbox.flex.flexbox.itemsCenter,
+        Style.color.gray7,
+        icon(),
+        <.span(Style.margin.left8, text)
+      )
+    )
+  }
 }
 
 object MenuItem {
 
-  type Props = MenuItem
+  private type Props = MenuItem
 
-  sealed trait OpenIn { val tag: TagMod }
-  case object OpenInNewTab extends OpenIn { val tag = ^.target.blank }
-  case object OpenInThisTab extends OpenIn { val tag = ^.target.self }
+  sealed trait OpenIn { def tag: TagMod }
+  case object OpenInNewTab extends OpenIn { val tag: TagMod = ^.target.blank }
+  case object OpenInThisTab extends OpenIn { val tag: TagMod = ^.target.self }
 
-  sealed trait Color { val styles: TagMod }
+  sealed trait Color { def styles: TagMod }
   case object ColorGray extends Color {
     val styles: TagMod = Style.color.gray8.hover.backgroundGray2.active.backgroundGray3
   }
@@ -61,7 +74,8 @@ object MenuItem {
     Style.padding.ver8.padding.hor16.lineHeight.px16
   )
   private val linkStyles = TagMod(commonStyles, Style.hover.underlineNone)
-  private[component] val buttonStyles = TagMod(commonStyles)(
+  private[component] val buttonStyles: TagMod = TagMod(
+    commonStyles,
     Style.width.pc100.textAlign.left,
     Style.disabled.colorGray6.disabled.backgroundNone
   )
