@@ -22,8 +22,8 @@ private[image] final case class CropImageModal(
   cropWidthPercent: Double,
   cropHeightPercent: Double,
   aspectRatio: Double,
-  minSize: Option[Size],
-  maxSize: Option[Size],
+  minSize: Option[ImageSize],
+  maxSize: Option[ImageSize],
   onCancel: Callback,
   onChooseAnotherFile: File => Callback,
   onStartUploading: String => Callback

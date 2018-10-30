@@ -20,8 +20,8 @@ final case class UploadAndCrop(
   cropWidthPercent: Double,
   cropHeightPercent: Double,
   aspectRatio: Double,
-  minSize: Option[Size],
-  maxSize: Option[Size],
+  minSize: Option[ImageSize],
+  maxSize: Option[ImageSize],
   onUpload: UploadAndCrop.OnUpload => Callback
 ) {
   def apply(): VdomElement = UploadAndCrop.component(this)
@@ -33,11 +33,11 @@ object UploadAndCrop {
 
   case class OnUpload(file: File, onSuccess: Callback, onError: Callback)
 
-  sealed trait Status
-  object FileNotSelected extends Status
-  case class FileSelected(src: String) extends Status
-  case class Uploading(src: String) extends Status
-  case class DidUpload(src: String) extends Status
+  private sealed trait Status
+  private object FileNotSelected extends Status
+  private case class FileSelected(src: String) extends Status
+  private case class Uploading(src: String) extends Status
+  private case class DidUpload(src: String) extends Status
 
   private case class State(status: Status = FileNotSelected)
 

@@ -2,4 +2,4 @@
 
 package anduin.component.image
 
-final case class Size(width: Double, height: Double)
+final case class ImageSize(width: Double, height: Double)
