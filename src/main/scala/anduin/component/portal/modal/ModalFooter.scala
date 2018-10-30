@@ -2,6 +2,8 @@
 
 package anduin.component.portal.modal
 
+import anduin.component.util.ComponentUtils
+
 import anduin.style.Style
 
 // scalastyle:off underscore.import
@@ -19,7 +21,11 @@ object ModalFooter {
   private type Props = ModalFooter
 
   private def render(children: PropsChildren) = {
-    <.div(Style.padding.hor20.padding.bottom20, children)
+    <.div(
+      ComponentUtils.testId(this, "Container"),
+      Style.padding.hor20.padding.bottom20,
+      children
+    )
   }
 
   private val component = ScalaComponent

@@ -44,6 +44,7 @@ object ModalHeader {
 
   private def render(props: Props): VdomElement = {
     <.div(
+      ComponentUtils.testId(this, "Container"),
       containerStyles,
       <.h3(
         ComponentUtils.testId(this, "Title"),
