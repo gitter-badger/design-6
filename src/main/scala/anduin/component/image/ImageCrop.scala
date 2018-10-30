@@ -2,6 +2,8 @@
 
 package anduin.component.image
 
+import scala.scalajs.js
+
 import anduin.scalajs.reactimagecrop.{Crop, ReactImageCrop}
 
 // scalastyle:off underscore.import
@@ -12,6 +14,9 @@ import japgolly.scalajs.react.vdom.html_<^._
 final case class ImageCrop(
   src: String,
   crop: Crop,
+  className: String = "",
+  style: Map[String, String] = Map.empty,
+  imageStyle: Map[String, String] = Map.empty,
   onChange: Crop => Callback
 ) {
   def apply(): VdomElement = ImageCrop.component(this)
@@ -26,6 +31,9 @@ object ImageCrop {
       new ReactImageCrop.Props(
         src = props.src,
         crop = props.crop,
+        className = props.className,
+        style = js.Dictionary(props.style.toSeq: _*),
+        imageStyle = js.Dictionary(props.imageStyle.toSeq: _*),
         onChange = c => props.onChange(c).runNow()
       )
     )
