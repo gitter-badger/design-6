@@ -17,7 +17,10 @@ object ReactImageCrop {
   final class Props(
     val src: String,
     val crop: Crop,
-    val onChange: js.Function1[Crop, Unit]
+    val onChange: js.Function1[Crop, Unit],
+    val className: js.UndefOr[String] = js.undefined,
+    val style: js.UndefOr[js.Dictionary[String]] = js.undefined,
+    val imageStyle: js.UndefOr[js.Dictionary[String]] = js.undefined
   ) extends js.Object
 
   val component = JsComponent[ReactImageCrop.Props, Children.None, Null](ReactImageCrop.RawComponent)
