@@ -26,17 +26,6 @@ final case class MenuItem(
   def apply(children: VdomNode*): VdomElement = {
     MenuItem.component(this)(children: _*)
   }
-
-  def simpleItemWithIconAndText(icon: Icon, text: String): VdomElement = {
-    apply(
-      <.div(
-        Style.flexbox.flex.flexbox.itemsCenter,
-        Style.color.gray7,
-        icon(),
-        <.span(Style.margin.left8, text)
-      )
-    )
-  }
 }
 
 object MenuItem {
