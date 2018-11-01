@@ -54,12 +54,7 @@ object FileMenuItemInput {
         ^.onChange ==> onChange
       )
       // Fake a menu item
-      <.div(
-        ^.tpe := "button",
-        menuStyles,
-        children,
-        input
-      )
+      <.div(^.tpe := "button", menuStyles, children, input)
     }
   }
 

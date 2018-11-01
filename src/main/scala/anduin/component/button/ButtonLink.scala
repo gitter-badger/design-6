@@ -2,8 +2,10 @@
 
 package anduin.component.button
 
-// scalastyle:off underscore.import
+import anduin.component.icon.Icon
 import anduin.style.Style
+
+// scalastyle:off underscore.import
 import japgolly.scalajs.react._
 import japgolly.scalajs.react.vdom.html_<^._
 // scalastyle:on underscore.import
@@ -16,6 +18,7 @@ final case class ButtonLink(
   isFullWidth: Boolean = false,
   isSelected: Boolean = false,
   // Specific behaviours for ButtonLink
+  icon: Option[Icon.Name] = None,
   onClick: Callback = Callback.empty, // link can still has onClick
   href: String = "",
   target: TagMod = TagMod.empty
@@ -44,6 +47,7 @@ object ButtonLink {
     props.target,
     TagMod.when(!props.onClick.isEmpty_?) { ^.onClick --> props.onClick },
     // content
+    ButtonStyle.renderIcon(props.icon, children),
     children
   )
 

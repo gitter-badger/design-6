@@ -309,12 +309,7 @@ object DoNotUsePopover {
             TagMod.when(props.hasCloseButton)(
               <.div(
                 Style.position.absolute.coordinate.top0.coordinate.right0.margin.top16.margin.right16,
-                Button(
-                  style = ButtonStyle.StyleLink,
-                  onClick = hide
-                )(
-                  Icon(name = Icon.NameCross)()
-                )
+                Button(style = ButtonStyle.StyleLink, onClick = hide, icon = Some(Icon.NameCross))()
               )
             ),
             props.children(RenderProps(state.status == Status.Displayed, changeStatus))

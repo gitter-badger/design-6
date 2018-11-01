@@ -2,8 +2,13 @@
 
 package anduin.component.button
 
+import anduin.component.icon.Icon
 import anduin.style.Style
-import japgolly.scalajs.react.vdom.TagMod
+
+// scalastyle:off underscore.import
+import japgolly.scalajs.react._
+import japgolly.scalajs.react.vdom.html_<^._
+// scalastyle:on underscore.import
 
 object ButtonStyle {
 
@@ -134,4 +139,14 @@ object ButtonStyle {
     }
   )
   // scalastyle:on cyclomatic.complexity
+
+  private[component] def renderIcon(
+    nameOpt: Option[Icon.Name],
+    children: PropsChildren
+  ): Option[VdomElement] = {
+    nameOpt.map(name => {
+      val margin = TagMod.when(children.nonEmpty)(Style.margin.right8)
+      <.span(margin, Icon(name = name)())
+    })
+  }
 }

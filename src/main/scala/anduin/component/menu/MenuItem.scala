@@ -16,6 +16,7 @@ final case class MenuItem(
   isSelected: Boolean = false,
   onClick: Callback = Callback.empty,
   color: MenuItem.Color = MenuItem.ColorNeutral,
+  icon: Option[Icon.Name] = None,
   // link
   url: String = "",
   openIn: MenuItem.OpenIn = MenuItem.OpenInThisTab,
@@ -77,6 +78,10 @@ object MenuItem {
       // behaviour
       TagMod.when(!props.isDisabled) { ^.onClick --> props.onClick },
       // content
+      props.icon.map(name => {
+        val margin = TagMod.when(children.nonEmpty)(Style.margin.right8)
+        <.span(margin, Icon(name = name)())
+      }),
       children,
       TagMod.when(props.isSelected) { checkIcon }
     )

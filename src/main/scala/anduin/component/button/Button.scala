@@ -2,6 +2,8 @@
 
 package anduin.component.button
 
+import anduin.component.icon.Icon
+
 // scalastyle:off underscore.import
 import japgolly.scalajs.react._
 import japgolly.scalajs.react.vdom.html_<^._
@@ -15,6 +17,7 @@ final case class Button(
   isFullWidth: Boolean = false,
   isSelected: Boolean = false,
   // Specific behaviours for Button
+  icon: Option[Icon.Name] = None,
   tpe: Button.Tpe = Button.TpeButton,
   autoFocus: Boolean = false,
   isDisabled: Boolean = false,
@@ -56,6 +59,7 @@ object Button {
       ^.autoFocus := props.autoFocus,
       TagMod.when(!props.isDisabled) { ^.onClick --> props.onClick },
       // content
+      ButtonStyle.renderIcon(props.icon, children),
       children
     )
   }

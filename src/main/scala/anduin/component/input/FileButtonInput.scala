@@ -3,6 +3,7 @@
 package anduin.component.input
 
 import anduin.component.button.{Button, ButtonStyle}
+import anduin.component.icon.Icon
 import anduin.style.Style
 import org.scalajs.dom.FileList
 
@@ -18,6 +19,7 @@ final case class FileButtonInput(
   isFullWidth: Boolean = false,
   isSelected: Boolean = false,
   isDisabled: Boolean = false,
+  icon: Option[Icon.Name] = None,
   // Specific behaviours for FileButton
   onChange: FileList => Callback,
   shouldClearAfterChanged: Boolean = false,
@@ -49,21 +51,36 @@ object FileButtonInput {
         // corresponding styles. This is because the actual input and the
         // element that has style (div) are not the same element, so
         // ":disabled" styles are not triggered
-        Button(props.color, props.size, props.style, props.isFullWidth, props.isSelected, isDisabled = true)(children)
+        Button(
+          props.color,
+          props.size,
+          props.style,
+          props.isFullWidth,
+          props.isSelected,
+          isDisabled = true,
+          icon = props.icon
+        )(children)
       } else {
-        // this is the actual input element that opens file browser
-        val inputStyles = Style.position.absolute.coordinate.fill.opacity.pc0.width.pc100.height.pc100.cursor.pointer
-        val behaviours = TagMod(^.accept := props.acceptTypes, ^.multiple := props.isMultiple, ^.onChange ==> onChange)
-        val input = <.input(^.tpe := "file", inputStyles, behaviours)
-        // now use the fake div for styling
-        val styles = ButtonStyle.getStyles(
-          color = props.color,
-          size = props.size,
-          style = props.style,
-          isSelected = props.isSelected,
-          isFullWidth = props.isFullWidth
+        <.div(
+          Style.position.relative,
+          ButtonStyle.getStyles(
+            color = props.color,
+            size = props.size,
+            style = props.style,
+            isSelected = props.isSelected,
+            isFullWidth = props.isFullWidth
+          ),
+          ButtonStyle.renderIcon(props.icon, children),
+          children,
+          // this is the actual input element that opens file browser
+          <.input(
+            Style.position.absolute.coordinate.fill.opacity.pc0.width.pc100.height.pc100.cursor.pointer,
+            ^.tpe := "file",
+            ^.accept := props.acceptTypes,
+            ^.multiple := props.isMultiple,
+            ^.onChange ==> onChange
+          )
         )
-        <.div(Style.position.relative, styles, children, input)
       }
     }
   }

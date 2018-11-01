@@ -62,8 +62,9 @@ object Well {
       val button = Button(
         onClick = props.close,
         style = ButtonStyle.StyleMinimal,
-        size = ButtonStyle.SizeIcon
-      )(Icon(name = Icon.NameCross)())
+        size = ButtonStyle.SizeIcon,
+        icon = Some(Icon.NameCross)
+      )()
       <.div(^.padding := "6px 6px 0 0", button)
     }
   }

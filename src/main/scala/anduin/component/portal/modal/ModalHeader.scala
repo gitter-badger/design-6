@@ -59,8 +59,9 @@ object ModalHeader {
           style = ButtonStyle.StyleMinimal,
           size = ButtonStyle.SizeIcon,
           autoFocus = true,
-          onClick = props.close
-        )(Icon(name = Icon.NameCross)())
+          onClick = props.close,
+          icon = Some(Icon.NameCross)
+        )()
         <.div(closeStyles, button)
       }
     )

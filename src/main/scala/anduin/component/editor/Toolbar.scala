@@ -107,8 +107,9 @@ object Toolbar {
               style = ButtonStyle.StyleMinimal,
               size = ButtonStyle.SizeIcon,
               onClick = props.onChange(props.value.change().undo()),
-              isDisabled = !props.value.hasUndos
-            )(Icon(Icon.NameUndo)()),
+              isDisabled = !props.value.hasUndos,
+              icon = Some(Icon.NameUndo)
+            )(),
             renderContent = () => "Undo"
           )(),
           // Redo button
@@ -118,8 +119,9 @@ object Toolbar {
               style = ButtonStyle.StyleMinimal,
               size = ButtonStyle.SizeIcon,
               onClick = props.onChange(props.value.change().redo()),
-              isDisabled = props.value.hasRedos
-            )(Icon(Icon.NameRedo)()),
+              isDisabled = props.value.hasRedos,
+              icon = Some(Icon.NameRedo)
+            )(),
             renderContent = () => "Redo"
           )(),
           VerticalDivider(),
@@ -131,8 +133,9 @@ object Toolbar {
                 Button(
                   onClick = open,
                   size = ButtonStyle.SizeIcon,
-                  style = ButtonStyle.StyleMinimal
-                )(Icon(Icon.NameLink)())
+                  style = ButtonStyle.StyleMinimal,
+                  icon = Some(Icon.NameLink)
+                )()
               },
               renderContent = LinkModal(props.value, onAddLink, _)()
             )(),
@@ -144,8 +147,9 @@ object Toolbar {
               style = ButtonStyle.StyleMinimal,
               size = ButtonStyle.SizeIcon,
               onClick = onRemoveLink,
-              isDisabled = !hasLink
-            )(Icon(Icon.NameUnlink)()),
+              isDisabled = !hasLink,
+              icon = Some(Icon.NameUnlink)
+            )(),
             renderContent = () => "Remove Link"
           )(),
           VerticalDivider(),
@@ -160,8 +164,9 @@ object Toolbar {
                   style = ButtonStyle.StyleMinimal,
                   size = ButtonStyle.SizeIcon,
                   onClick = toggle,
-                  isSelected = isOpened
-                )(Icon(name = Icon.NameTextStyle)()),
+                  isSelected = isOpened,
+                  icon = Some(Icon.NameTextStyle)
+                )(),
                 renderContent = () => "Formatting options"
               )()
             },
@@ -187,8 +192,9 @@ object Toolbar {
                 Button(
                   onClick = open,
                   size = ButtonStyle.SizeIcon,
-                  style = ButtonStyle.StyleMinimal
-                )(Icon(Icon.NameInfo)())
+                  style = ButtonStyle.StyleMinimal,
+                  icon = Some(Icon.NameInfo)
+                )()
               },
               renderContent = _ => {
                 <.div(
