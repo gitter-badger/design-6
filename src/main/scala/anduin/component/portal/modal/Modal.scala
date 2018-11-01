@@ -42,13 +42,14 @@ object Modal {
   )
 
   // Public options
+  private val defaultOverlayPadding = Style.overflow.autoY.padding.ver32
 
   sealed trait Size { val style: TagMod }
-  case object Size480 extends Size { val style: TagMod = ^.width := "480px" }
-  case object Size600 extends Size { val style: TagMod = ^.width := "600px" }
-  case object Size720 extends Size { val style: TagMod = ^.width := "720px" }
-  case object Size960 extends Size { val style: TagMod = ^.width := "960px" }
-  case object Size1160 extends Size { val style: TagMod = ^.width := "1160px" }
+  case object Size480 extends Size { val style: TagMod = TagMod(^.width := "480px", defaultOverlayPadding) }
+  case object Size600 extends Size { val style: TagMod = TagMod(^.width := "600px", defaultOverlayPadding) }
+  case object Size720 extends Size { val style: TagMod = TagMod(^.width := "720px", defaultOverlayPadding) }
+  case object Size960 extends Size { val style: TagMod = TagMod(^.width := "960px", defaultOverlayPadding) }
+  case object Size1160 extends Size { val style: TagMod = TagMod(^.width := "1160px", defaultOverlayPadding) }
   case object SizeFull extends Size {
     val style: TagMod = Style.width.pc100.height.pc100
   }
@@ -64,8 +65,6 @@ object Modal {
     Style.zIndex.idx999
   )
 
-  private val overlayNonFullStyles = Style.overflow.autoY.padding.ver32
-
   private val contentStyles = TagMod(
     Style.backgroundColor.gray1.borderRadius.px2,
     Style.overflow.hidden.margin.horAuto
@@ -74,7 +73,6 @@ object Modal {
   private def renderContent(props: Props)(close: Callback): VdomElement = {
     val content = <.div(
       overlayStyles,
-      TagMod.when(props.size != SizeFull) { overlayNonFullStyles },
       props.layout.overlay,
       PortalUtils.getClosableMods(props.isClosable, close),
       <.div(
