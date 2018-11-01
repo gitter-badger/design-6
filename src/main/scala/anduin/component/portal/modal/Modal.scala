@@ -52,6 +52,7 @@ object Modal {
   case object SizeFull extends Size {
     val style: TagMod = Style.width.pc100.height.pc100
   }
+  case class SizeDynamic(style: TagMod) extends Size
 
   // Internal rendering
 
