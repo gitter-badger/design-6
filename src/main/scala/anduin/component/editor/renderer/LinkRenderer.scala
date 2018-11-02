@@ -32,7 +32,12 @@ private[editor] object LinkRenderer {
           <.span(^.onClick --> toggle, link)
         },
         renderContent = _ => {
-          ButtonLink(style = ButtonStyle.StyleLink, href = href, target = ^.target.blank)("Open link")
+          ButtonLink(
+            color = ButtonStyle.ColorBlue,
+            style = ButtonStyle.StyleLink,
+            href = href,
+            target = ^.target.blank
+          )("Open link")
         }
       )().rawElement
     }
