@@ -2,8 +2,7 @@
 
 package anduin.component.stepper
 
-import anduin.style.{CssVar, Style}
-import anduin.component.icon.Icon
+import anduin.style.Style
 
 // scalastyle:off underscore.import
 import japgolly.scalajs.react._
@@ -23,102 +22,6 @@ object Stepper {
 
   private type Props = Stepper
   case class State(index: Int)
-
-  private sealed trait Status
-  private object StatusPast extends Status
-  private object StatusPresent extends Status
-  private object StatusFuture extends Status
-  private def getStatus(props: Props, state: State, step: Step): Status = {
-    val index = props.steps.indexOf(step)
-    index match {
-      case x: Int if x < state.index  => StatusPast
-      case y: Int if y == state.index => StatusPresent
-      case z: Int if z > state.index  => StatusFuture
-    }
-  }
-
-  private object Dot {
-    private def getMods(status: Status) = status match {
-      case StatusPast    => (Style.borderColor.success3.backgroundColor.success3.color.white, Icon.NameCheckBold)
-      case StatusPresent => (Style.borderColor.primary4.color.primary4, Icon.NameCircle)
-      case StatusFuture  => (Style.borderColor.gray3, Icon.NameBlank)
-    }
-    private val static = TagMod(
-      Style.flexbox.none.width.px20.height.px20,
-      Style.flexbox.flex.flexbox.itemsCenter.flexbox.justifyCenter,
-      Style.border.all.borderWidth.px2.borderRadius.pc100
-    )
-
-    def render(props: Props, state: State, step: Step): VdomElement = {
-      val mods = getMods(getStatus(props, state, step))
-      <.div(static, mods._1, Icon(mods._2)())
-    }
-  }
-
-  /*
-   * If future => both lines are gray
-   * If present => right always gray, left always (green > blue)
-   * If past => both lines are green
-   */
-  private object Line {
-    private val gradientSuccessToPrimary =
-      ^.background := s"linear-gradient(to right, ${CssVar.Color.success3}, ${CssVar.Color.primary4})"
-
-    private def getColors(status: Status): (TagMod, TagMod) = status match {
-      case StatusPast    => (Style.backgroundColor.success3, Style.backgroundColor.success3)
-      case StatusPresent => (gradientSuccessToPrimary, Style.backgroundColor.gray3)
-      case StatusFuture  => (Style.backgroundColor.gray3, Style.backgroundColor.gray3)
-    }
-
-    private def renderLine(isInvisible: Boolean, color: TagMod): VdomElement = {
-      val opacity = TagMod.when(isInvisible)(Style.opacity.pc0)
-      <.div(Style.flexbox.fixed, color, opacity, ^.height := "2px")
-    }
-
-    def render(props: Props, state: State, step: Step): (VdomElement, VdomElement) = {
-      val colors = getColors(getStatus(props, state, step))
-      (
-        renderLine(props.steps.headOption.contains(step), colors._1),
-        renderLine(props.steps.lastOption.contains(step), colors._2)
-      )
-    }
-  }
-
-  private object Head {
-
-    private def renderTitle(props: Props, state: State, step: Step): VdomElement = {
-      <.p(
-        Style.fontWeight.medium.padding.hor32,
-        Style.whiteSpace.preLine.textAlign.center, {
-          val isFuture = props.steps.indexOf(step) > state.index
-          TagMod.when(isFuture)(Style.color.gray6)
-        },
-        step.title
-      )
-    }
-
-    private val upperStyles =
-      Style.margin.bottom8.flexbox.flex.flexbox.itemsCenter
-
-    private def renderChild(props: Props, state: State)(step: Step): VdomElement = {
-      val lines = Line.render(props, state, step)
-      <.div(
-        ^.key := step.title,
-        <.div(upperStyles, lines._1, Dot.render(props, state, step), lines._2),
-        renderTitle(props, state, step)
-      )
-    }
-
-    private val styles = TagMod(
-      Style.flexbox.flex.flexbox.justifyCenter,
-      Style.padding.top24.padding.bottom16,
-      Style.border.bottom.borderColor.gray3
-    )
-
-    def render(props: Props, state: State): VdomElement = {
-      <.div(styles, props.steps.toVdomArray(renderChild(props, state)))
-    }
-  }
 
   private class Backend(scope: BackendScope[Props, State]) {
 
@@ -147,8 +50,14 @@ object Stepper {
     def render(props: Props, state: State): VdomElement = {
       <.div(
         Style.backgroundColor.white.shadow.blur1Light,
-        Head.render(props, state),
-        renderBody(props, state)
+        StepperHeader(
+          titles = props.steps.map(_.title),
+          current = state.index
+        )(),
+        <.div(
+          Style.border.top.borderColor.gray3,
+          renderBody(props, state)
+        )
       )
     }
   }
