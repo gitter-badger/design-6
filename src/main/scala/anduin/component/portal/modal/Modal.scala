@@ -42,7 +42,7 @@ object Modal {
   )
 
   // Public options
-  private val defaultOverlayPadding = Style.overflow.autoY.padding.ver32
+  private val defaultOverlayPadding = Style.overflow.autoY.margin.ver32
 
   sealed trait Size { val style: TagMod }
   case object Size480 extends Size { val style: TagMod = TagMod(^.width := "480px", defaultOverlayPadding) }
