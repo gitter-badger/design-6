@@ -26,6 +26,7 @@ object Field {
 
   sealed trait Layout
   case object LayoutHor extends Layout
+  case object LayoutVer extends Layout
 
   private type Props = Field
 
@@ -66,8 +67,29 @@ object Field {
     )
   }
 
+  private def renderVer(props: Props, children: PropsChildren): VdomElement = {
+    <.div(
+      TagMod.when(props.help.isDefined || props.label.isDefined || props.desc.isDefined) {
+        <.div(
+          Style.flexbox.fixed.margin.bottom8,
+          <.p(
+            Style.padding.bottom4,
+            props.label.map(<.label(^.htmlFor := props.id, Static.label, _)),
+            renderHelp(props)
+          ),
+          props.desc.map(<.p(Static.desc, _))
+        )
+      },
+      <.div(
+        children,
+        props.error.map(<.p(Static.error, Style.margin.top8, _))
+      )
+    )
+  }
+
   private def render(props: Props, children: PropsChildren): VdomElement = props.layout match {
     case LayoutHor => renderHor(props, children)
+    case LayoutVer => renderVer(props, children)
   }
 
   private val component = ScalaComponent
