@@ -4,6 +4,7 @@ package anduin.component.dropdown
 
 import org.scalajs.dom.document.documentElement
 
+import anduin.component.util.ComponentUtils
 import anduin.scalajs.reactvirtualized.{ReactVirtualizedAutoSizer, ReactVirtualizedList}
 import anduin.scalajs.util.Util
 import anduin.style.Style
@@ -102,6 +103,7 @@ private[dropdown] class DropdownContent[A] {
   private def render(outerProps: OuterProps): VdomElement = {
     val props = outerProps.props
     <.div(
+      ComponentUtils.testId(this, "Container"),
       Util.getModsFromProps(props.downshift.getMenuProps()),
       props.outer.header.map(<.div(Style.border.bottom, boxStyles, _)),
       <.div(
