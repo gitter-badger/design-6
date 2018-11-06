@@ -113,6 +113,7 @@ private[image] object CropImageModal {
                 ImageCrop(
                   src = state.src,
                   crop = state.crop,
+                  className = "image-crop",
                   onChange = c => scope.modState(_.copy(crop = c))
                 )()
               )
