@@ -73,7 +73,7 @@ private[image] object CropImageModal {
           val ctx = canvas.getContext("2d").asInstanceOf[CanvasRenderingContext2D]
           ctx.drawImage(image, x, y, width, height, 0, 0, width, height)
 
-          val dataUrl = canvas.toDataURL("image/jpeg")
+          val dataUrl = canvas.toDataURL("image/png")
           scope.modState(_.copy(src = dataUrl), props.onStartUploading(dataUrl))
         }
       } yield ()

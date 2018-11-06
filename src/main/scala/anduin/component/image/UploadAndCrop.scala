@@ -78,7 +78,7 @@ object UploadAndCrop {
     }
 
     private def didUpload(props: Props)(src: String) = {
-      val file = FileUtils.base64ToFile(src, "image/jpeg")
+      val file = FileUtils.base64ToFile(src, "image/png")
       props.onUpload(
         OnUpload(
           file,
