@@ -20,7 +20,6 @@ final case class UploadAndCrop(
   cropModalTitle: String,
   cropWidthPercent: Double,
   cropHeightPercent: Double,
-  aspectRatio: Double,
   minSize: Option[ImageSize],
   maxSize: Option[ImageSize],
   onUpload: UploadAndCrop.OnUpload => Callback
@@ -106,7 +105,6 @@ object UploadAndCrop {
                 src = src,
                 cropWidthPercent = props.cropWidthPercent,
                 cropHeightPercent = props.cropHeightPercent,
-                aspectRatio = props.aspectRatio,
                 minSize = props.minSize,
                 maxSize = props.maxSize,
                 onCancel = closeModal(close),
