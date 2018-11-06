@@ -21,14 +21,13 @@ private[image] final case class CropImageModal(
   src: String,
   cropWidthPercent: Double,
   cropHeightPercent: Double,
-  aspectRatio: Double,
   minSize: Option[ImageSize],
   maxSize: Option[ImageSize],
   onCancel: Callback,
   onChooseAnotherFile: File => Callback,
   onStartUploading: String => Callback
 ) {
-  val originalCrop = new Crop(0, 0, cropWidthPercent, cropHeightPercent, aspectRatio)
+  val originalCrop = new Crop(0, 0, cropWidthPercent, cropHeightPercent)
   def apply(): VdomElement = CropImageModal.component(this)
 }
 
@@ -61,8 +60,8 @@ private[image] object CropImageModal {
           val x = crop.x * state.originalWidth / 100
           val y = crop.y * state.originalHeight / 100
           val width = crop.widthPercent * state.originalWidth / 100
-          // Keep the ratio
-          val height = width * props.aspectRatio
+          // Keep the ratio if aspect ratio is defined
+          val height = crop.heightPercent * state.originalHeight / 100
 
           @SuppressWarnings(Array("org.wartremover.warts.AsInstanceOf")) // scalastyle:ignore
           val canvas = dom.document.createElement("canvas").asInstanceOf[HTMLCanvasElement]
@@ -73,7 +72,7 @@ private[image] object CropImageModal {
           val ctx = canvas.getContext("2d").asInstanceOf[CanvasRenderingContext2D]
           ctx.drawImage(image, x, y, width, height, 0, 0, width, height)
 
-          val dataUrl = canvas.toDataURL("image/jpeg")
+          val dataUrl = canvas.toDataURL("image/png")
           scope.modState(_.copy(src = dataUrl), props.onStartUploading(dataUrl))
         }
       } yield ()
@@ -113,6 +112,7 @@ private[image] object CropImageModal {
                 ImageCrop(
                   src = state.src,
                   crop = state.crop,
+                  className = "image-crop",
                   onChange = c => scope.modState(_.copy(crop = c))
                 )()
               )
