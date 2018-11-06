@@ -49,4 +49,5 @@ private[style] final case class BackgroundColor(classes: List[String] = List.emp
   def purple1: Style = new Style(classes :+ "bg--purple-1")
 
   def inherit: Style = new Style(classes :+ "bg--inherit")
+  def transparent: Style = new Style(classes :+ "bg--transparent")
 }
