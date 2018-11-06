@@ -11,6 +11,5 @@ class Crop(
   @JSName("width")
   val widthPercent: Double,
   @JSName("height")
-  val heightPercent: Double,
-  val aspect: Double
+  val heightPercent: Double
 ) extends js.Object
