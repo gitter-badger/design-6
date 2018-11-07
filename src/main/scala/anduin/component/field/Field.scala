@@ -69,21 +69,16 @@ object Field {
 
   private def renderVer(props: Props, children: PropsChildren): VdomElement = {
     <.div(
-      TagMod.when(props.help.isDefined || props.label.isDefined || props.desc.isDefined) {
+      props.label.map { label =>
         <.div(
-          Style.flexbox.fixed.margin.bottom8,
-          <.p(
-            Style.padding.bottom4,
-            props.label.map(<.label(^.htmlFor := props.id, Static.label, _)),
-            renderHelp(props)
-          ),
-          props.desc.map(<.p(Static.desc, _))
+          Style.margin.bottom8,
+          <.label(^.htmlFor := props.id, Static.label, label),
+          renderHelp(props)
         )
       },
-      <.div(
-        children,
-        props.error.map(<.p(Static.error, Style.margin.top8, _))
-      )
+      props.desc.map(<.p(Style.margin.bottom8, Static.desc, _)),
+      children,
+      props.error.map(<.p(Static.error, Style.margin.top8, _))
     )
   }
 
