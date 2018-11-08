@@ -30,7 +30,7 @@ class Dropdown[A] {
   case class Props(
     // Required
     value: Option[A],
-    options: List[Dropdown.Opt[A]],
+    options: Seq[Dropdown.Opt[A]],
     onChange: A => Callback,
     getValueString: A => String,
     // Basic options
