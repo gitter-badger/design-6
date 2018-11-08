@@ -13,7 +13,7 @@ import japgolly.scalajs.react.vdom.html_<^._
 private[table] class TableHead[A] {
 
   case class Props(
-    columns: List[Table.Column[A]],
+    columns: Seq[Table.Column[A]],
     style: Table.Style,
     // ==
     sort: Int => Callback,

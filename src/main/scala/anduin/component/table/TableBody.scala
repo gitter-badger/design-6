@@ -13,14 +13,14 @@ import japgolly.scalajs.react.vdom.html_<^._
 private[table] class TableBody[A] {
 
   case class Props(
-    rows: List[A],
+    rows: Seq[A],
     // key, cells, row
     renderRow: TableBody.RenderRow[A],
     align: Table.Align,
     getKey: A => String,
     footer: VdomNode,
     // ==
-    columns: List[Table.Column[A]],
+    columns: Seq[Table.Column[A]],
     style: Table.Style,
     // ==
     sortColumn: Option[Int],
@@ -31,7 +31,7 @@ private[table] class TableBody[A] {
 
   def apply(): Props.type = Props
 
-  private def getSortedRows(props: Props): List[A] = {
+  private def getSortedRows(props: Props): Seq[A] = {
     props.sortColumn.fold(props.rows) { columnIndex =>
       val column = props.columns(columnIndex)
       val sorted = column.sortBy match {

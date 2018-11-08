@@ -13,7 +13,7 @@ import japgolly.scalajs.react.vdom.html_<^._
 // scalastyle:on underscore.import
 
 private[table] final case class TableSticky(
-  widths: List[String],
+  widths: Seq[String],
   styles: TagMod,
   body: VdomElement,
   head: VdomElement,

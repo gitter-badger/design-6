@@ -10,19 +10,11 @@ import japgolly.scalajs.react.vdom.html_<^._
 // scalastyle:on underscore.import
 
 object Table {
-  sealed trait Align { val styles: TagMod }
-  case object AlignInherit extends Align {
-    val styles: TagMod = Style.verticalAlign.inherit
-  }
-  case object AlignTop extends Align {
-    val styles: TagMod = Style.verticalAlign.top
-  }
-  case object AlignMiddle extends Align {
-    val styles: TagMod = Style.verticalAlign.middle
-  }
-  case object AlignBottom extends Align {
-    val styles: TagMod = Style.verticalAlign.bottom
-  }
+  abstract class Align(private[table] val styles: TagMod)
+  case object AlignInherit extends Align(Style.verticalAlign.inherit)
+  case object AlignTop extends Align(Style.verticalAlign.top)
+  case object AlignMiddle extends Align(Style.verticalAlign.middle)
+  case object AlignBottom extends Align(Style.verticalAlign.bottom)
 
   case class Cell(
     content: VdomNode = EmptyVdom,
@@ -81,8 +73,11 @@ class Table[A] {
   private val Body = (new TableBody[A])()
 
   case class Props(
-    // common
-    columns: List[Table.Column[A]] = List.empty,
+    // basic
+    columns: Seq[Table.Column[A]],
+    rows: Seq[A],
+    getKey: A => String = _.toString,
+    // ===
     style: Table.Style = Table.StyleFull,
     // head
     sortColumn: Option[Int] = None,
@@ -90,11 +85,8 @@ class Table[A] {
     headIsSticky: Boolean = false,
     headStickyOffset: Int = 0,
     // body
-    rows: List[A] = List.empty,
-    // see in TableBody
     renderRow: TableBody.RenderRow[A] = TableBody.defaultRenderRow[A],
     align: Table.Align = Table.AlignMiddle,
-    getKey: A => String = (any: Any) => any.toString,
     footer: VdomNode = EmptyVdom
   ) {
     def apply(): VdomElement = component(this)
