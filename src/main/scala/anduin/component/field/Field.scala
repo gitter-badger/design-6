@@ -24,9 +24,15 @@ final case class Field(
 
 object Field {
 
-  sealed trait Layout
-  case object LayoutHor extends Layout
-  case object LayoutVer extends Layout
+  sealed abstract class Layout
+  object Layout {
+    sealed abstract class Flex(private[Field] val style: TagMod)
+    case object Fixed extends Flex(Style.flexbox.none)
+    case class Grow(value: Int) extends Flex(^.flex := s"${value.toString} 0 0")
+
+    case class Hor(left: Flex = Grow(1), right: Flex = Grow(1)) extends Layout
+    case object Ver extends Layout
+  }
 
   private type Props = Field
 
@@ -47,11 +53,12 @@ object Field {
     }
   }
 
-  private def renderHor(props: Props, children: PropsChildren): VdomElement = {
+  private def renderHor(props: Props, children: PropsChildren, layout: Layout.Hor): VdomElement = {
     <.div(
       Style.flexbox.flex,
       <.div(
-        Style.flexbox.fixed.margin.right24,
+        Style.margin.right24,
+        layout.left.style,
         <.p(
           ^.paddingTop := "6px",
           props.label.map(<.label(^.htmlFor := props.id, Static.label, _)),
@@ -60,7 +67,7 @@ object Field {
         props.desc.map(<.p(Static.desc, _))
       ),
       <.div(
-        Style.flexbox.fixed,
+        layout.right.style,
         children,
         props.error.map(<.p(Static.error, Style.margin.top8, _))
       )
@@ -83,8 +90,8 @@ object Field {
   }
 
   private def render(props: Props, children: PropsChildren): VdomElement = props.layout match {
-    case LayoutHor => renderHor(props, children)
-    case LayoutVer => renderVer(props, children)
+    case layout: Layout.Hor => renderHor(props, children, layout)
+    case Layout.Ver         => renderVer(props, children)
   }
 
   private val component = ScalaComponent
