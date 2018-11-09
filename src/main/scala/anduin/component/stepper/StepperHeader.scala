@@ -105,7 +105,7 @@ object StepperHeader {
 
   private val styles = TagMod(
     Style.flexbox.flex.flexbox.justifyCenter,
-    Style.padding.top24.padding.bottom16
+    Style.padding.top8
   )
 
   private def render(props: Props): VdomElement = {
