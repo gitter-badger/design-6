@@ -1,6 +1,7 @@
 // Copyright (C) 2014-2018 Anduin Transactions Inc.
 
 package anduin.component.field
+
 import anduin.component.portal.tooltip.Tooltip
 import anduin.style.Style
 
@@ -59,11 +60,13 @@ object Field {
       <.div(
         Style.margin.right24,
         layout.left.style,
-        <.p(
-          ^.paddingTop := "6px",
-          props.label.map(<.label(^.htmlFor := props.id, Static.label, _)),
-          renderHelp(props)
-        ),
+        props.label.map(label => {
+          <.p(
+            ^.paddingTop := "6px",
+            <.label(^.htmlFor := props.id, Static.label, label),
+            renderHelp(props)
+          )
+        }),
         props.desc.map(<.p(Static.desc, _))
       ),
       <.div(
@@ -76,15 +79,16 @@ object Field {
 
   private def renderVer(props: Props, children: PropsChildren): VdomElement = {
     <.div(
-      props.label.map { label =>
-        <.div(
-          Style.margin.bottom8,
-          <.label(^.htmlFor := props.id, Static.label, label),
-          renderHelp(props)
-        )
-      },
-      props.desc.map(<.p(Style.margin.bottom8, Static.desc, _)),
-      children,
+      <.div(
+        props.label.map { label =>
+          <.div(
+            <.label(^.htmlFor := props.id, Static.label, label),
+            renderHelp(props)
+          )
+        },
+        props.desc.map(<.p(Static.desc, _))
+      ),
+      <.div(Style.margin.top8, children),
       props.error.map(<.p(Static.error, Style.margin.top8, _))
     )
   }
