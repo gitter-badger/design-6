@@ -50,9 +50,7 @@ object Modal {
   case object Size720 extends Size { val style: TagMod = TagMod(^.width := "720px", defaultOverlayPadding) }
   case object Size960 extends Size { val style: TagMod = TagMod(^.width := "960px", defaultOverlayPadding) }
   case object Size1160 extends Size { val style: TagMod = TagMod(^.width := "1160px", defaultOverlayPadding) }
-  case object SizeFull extends Size {
-    val style: TagMod = Style.width.pc100.height.pc100
-  }
+  case object SizeFull extends Size { val style: TagMod = Style.width.pc100.height.pc100 }
   case class SizeDynamic(style: TagMod) extends Size
 
   // Internal rendering
