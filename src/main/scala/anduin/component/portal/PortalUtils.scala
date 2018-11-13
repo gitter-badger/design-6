@@ -24,7 +24,7 @@ object PortalUtils {
 
   // Closable ===
 
-  case class IsClosable(onEsc: Boolean, onOutsideClick: Boolean)
+  final case class IsClosable(onEsc: Boolean, onOutsideClick: Boolean)
 
   val defaultIsClosable = Some(PortalUtils.IsClosable(onEsc = true, onOutsideClick = true))
 

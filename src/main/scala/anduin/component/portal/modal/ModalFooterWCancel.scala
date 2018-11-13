@@ -10,7 +10,7 @@ import japgolly.scalajs.react._
 import japgolly.scalajs.react.vdom.html_<^._
 // scalastyle:on underscore.import
 
-case class ModalFooterWCancel(
+final case class ModalFooterWCancel(
   cancel: Callback,
   cancelLabel: String = "Cancel"
 ) {

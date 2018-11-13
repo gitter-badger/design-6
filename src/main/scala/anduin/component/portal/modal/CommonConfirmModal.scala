@@ -13,7 +13,8 @@ final case class CommonConfirmModal(
   displayInfo: VdomNode,
   onConfirm: Callback => Callback,
   onClose: Callback,
-  confirmBtnLabel: String = "Confirm"
+  confirmBtnLabel: String = "Confirm",
+  cancelBtnLabel: String = "Cancel"
 ) {
   def apply(): VdomElement = CommonConfirmModal.component(this)
 }
@@ -31,7 +32,7 @@ object CommonConfirmModal {
     def render(props: CommonConfirmModal, state: State): VdomElement = {
       React.Fragment(
         ModalBody()(props.displayInfo),
-        ModalFooterWCancel(cancel = props.onClose)(
+        ModalFooterWCancel(cancel = props.onClose, cancelLabel = props.cancelBtnLabel)(
           ProgressButton(
             color = ButtonStyle.ColorBlue,
             status = state.confirmBtnStatus,
