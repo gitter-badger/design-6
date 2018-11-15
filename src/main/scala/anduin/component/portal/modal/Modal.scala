@@ -51,7 +51,6 @@ object Modal {
   case object Size960 extends Size { val style: TagMod = TagMod(^.width := "960px", defaultOverlayPadding) }
   case object Size1160 extends Size { val style: TagMod = TagMod(^.width := "1160px", defaultOverlayPadding) }
   case object SizeFull extends Size { val style: TagMod = Style.width.pc100.height.pc100 }
-  case class SizeDynamic(style: TagMod) extends Size
 
   // Internal rendering
 
@@ -71,12 +70,12 @@ object Modal {
   private def renderContent(props: Props)(close: Callback): VdomElement = {
     val content = <.div(
       overlayStyles,
-      props.layout.overlay,
       PortalUtils.getClosableMods(props.isClosable, close),
+      props.layout.overlay,
       <.div(
         contentStyles,
-        props.layout.content,
         props.size.style,
+        props.layout.content,
         ^.tabIndex := 0, // Allow (keyboard) focus so Esc can work
         // Content
         TagMod.when(props.title.nonEmpty) {
