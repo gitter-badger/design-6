@@ -51,10 +51,13 @@ object Stepper {
     def render(props: Props, state: State): VdomElement = {
       <.div(
         Style.backgroundColor.white.shadow.blur1Light,
-        StepperHeader(
-          titles = props.steps.map(_.title),
-          current = state.index
-        )(),
+        <.div(
+          Style.padding.ver12,
+          StepperHeader(
+            titles = props.steps.map(_.title),
+            current = state.index
+          )()
+        ),
         <.div(
           Style.border.top.borderColor.gray3,
           renderBody(props, state)
