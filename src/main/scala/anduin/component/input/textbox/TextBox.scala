@@ -5,7 +5,7 @@ package anduin.component.input.textbox
 import anduin.scalajs.textmask.{ReactTextMask, TextMask}
 import anduin.scalajs.util.Util
 import anduin.style.Style
-import org.scalajs.dom.html
+import org.scalajs.dom.html.Input
 
 import scala.scalajs.js
 
@@ -24,7 +24,7 @@ final case class TextBox(
   context: Option[VdomNode] = None,
   // ===
   id: Option[String] = None,
-  tpe: TextBox.Tpe = TextBox.TpeSingle,
+  tpe: TextBox.Tpe = TextBox.TpeText,
   status: TextBox.Status = TextBox.StatusNone,
   size: TextBox.Size = TextBox.Size32,
   mask: Option[TextBox.Mask] = None,
@@ -43,9 +43,13 @@ object TextBox {
 
   // Options
 
-  sealed abstract class Tpe
-  case object TpeSingle extends Tpe
-  case class TpeArea(rows: Int = 3) extends Tpe
+  sealed abstract class Tpe(private[TextBox] val tag: VdomTag)
+  // <input type="..." />
+  sealed abstract class TpeSingle(tag: VdomTagOf[Input]) extends Tpe(tag)
+  case object TpeText extends TpeSingle(<.input.text)
+  case object TpePassword extends TpeSingle(<.input.password)
+  // <textarea rows="..." />
+  case class TpeArea(rows: Int = 3) extends Tpe(<.textarea(^.rows := rows))
 
   sealed abstract class Size
   case object Size32 extends Size
@@ -83,10 +87,10 @@ object TextBox {
   }
 
   private def renderTextMask(props: Props)(
-    maskRef: raw.React.RefFn[html.Input],
+    maskRef: raw.React.RefFn[Input],
     maskProps: js.Dictionary[js.Any]
   ): raw.React.Element = {
-    val common = TagMod(
+    val attrs = TagMod(
       TextBoxStyle.getInput(props),
       // These mods and ref will control `onChange`, `onBlur` and `value`
       Util.getModsFromProps(maskProps),
@@ -100,11 +104,7 @@ object TextBox {
       ^.readOnly := props.isReadOnly,
       ^.autoFocus := props.isAutoFocus
     )
-    val element = props.tpe match {
-      case TpeSingle     => <.input.text(common)
-      case area: TpeArea => <.textarea(^.rows := area.rows, common)
-    }
-    element.rawElement
+    props.tpe.tag(attrs).rawElement
   }
 
   private def renderInput(props: Props): VdomElement = {

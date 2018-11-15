@@ -30,8 +30,8 @@ private[component] object TextBoxStyle {
       case TextBox.Size40 => size40
     }
     val line: TagMod = props.tpe match {
-      case TextBox.TpeSingle  => style.line
-      case _: TextBox.TpeArea => Style.lineHeight.ratio1p5
+      case _: TextBox.TpeSingle => style.line
+      case _: TextBox.TpeArea   => Style.lineHeight.ratio1p5
     }
     TagMod(line, style.font)
   }
