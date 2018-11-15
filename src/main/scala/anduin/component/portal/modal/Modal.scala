@@ -42,7 +42,7 @@ object Modal {
   )
 
   // Public options
-  private val defaultOverlayPadding = Style.overflow.autoY.margin.ver32
+  private val defaultOverlayPadding = Style.margin.ver32
 
   sealed trait Size { val style: TagMod }
   case object Size480 extends Size { val style: TagMod = TagMod(^.width := "480px", defaultOverlayPadding) }
@@ -56,7 +56,7 @@ object Modal {
   // Internal rendering
 
   private val overlayStyles = TagMod(
-    Style.position.fixed.coordinate.fill,
+    Style.position.fixed.coordinate.fill.overflow.autoY,
     ^.backgroundColor := "rgba(48, 64, 77, 0.9)",
     // Backward compatible
     // https://github.com/anduintransaction/stargazer/issues/17011
