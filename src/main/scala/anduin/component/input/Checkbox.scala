@@ -39,6 +39,8 @@ object Checkbox {
   private def renderTick(props: Checkbox) = TagMod.when(props.isChecked) {
     <.span(
       Style.position.absolute.flexbox.flex.flexbox.justifyCenter.flexbox.itemsCenter,
+      // Should not consume events
+      Style.pointerEvents.none,
       TagMod(^.width := sizePx, ^.height := sizePx),
       if (props.isDisabled) Style.color.gray6 else Style.color.white,
       Icon(name = Icon.NameCheckBold)()
