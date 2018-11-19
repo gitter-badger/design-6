@@ -76,7 +76,7 @@ class Table[A] {
     // basic
     columns: Seq[Table.Column[A]],
     rows: Seq[A],
-    getKey: A => String = _.toString,
+    getKey: A => String,
     // ===
     style: Table.Style = Table.StyleFull,
     // head
