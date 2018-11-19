@@ -58,6 +58,8 @@ object MenuItem {
     val styles = TagMod(ColorNeutral.color, Style.color.danger5.hover.backgroundDanger4.active.backgroundDanger5)
   }
 
+  case class ColorCustom(styles: TagMod) extends Color
+
   private val commonStyles = TagMod(
     Style.flexbox.flex.flexbox.itemsCenter,
     Style.padding.ver8.padding.hor16.lineHeight.px16
