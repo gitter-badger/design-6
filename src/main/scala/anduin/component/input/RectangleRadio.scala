@@ -2,11 +2,12 @@
 
 package anduin.component.input
 
+import anduin.component.input.radio.Radio
+import anduin.style.Style
+
 // scalastyle:off underscore.import
 import japgolly.scalajs.react._
 import japgolly.scalajs.react.vdom.html_<^._
-
-import anduin.style.Style
 // scalastyle:on underscore.import
 
 final case class RectangleRadio(

@@ -1,6 +1,6 @@
 // Copyright (C) 2014-2018 Anduin Transactions Inc.
 
-package anduin.component.input
+package anduin.component.input.radio
 
 import anduin.component.button.ButtonStyle
 import anduin.style.Style
