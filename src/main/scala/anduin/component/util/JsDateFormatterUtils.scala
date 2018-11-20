@@ -2,7 +2,7 @@
 
 package anduin.component.util
 
-import java.time.{Duration, Instant, LocalDate, ZonedDateTime}
+import java.time.{Instant, LocalDate, ZonedDateTime}
 import scala.scalajs.js.Date
 
 import anduin.scalajs.datefns.Format
@@ -28,6 +28,12 @@ object JsDateFormatterUtils {
   }
 
   def format(localDate: LocalDate, pattern: String): String = {
-    Format(new Date(Duration.ofDays(localDate.toEpochDay).toMillis.toDouble), pattern)
+    Format(
+      new Date(
+        year = localDate.getYear,
+        month = localDate.getMonthValue,
+        date = localDate.getDayOfMonth
+      ),
+      pattern)
   }
 }
