@@ -30,6 +30,7 @@ object Checkbox {
 
   private def renderLabel(props: Checkbox, children: PropsChildren) = TagMod.when(children.nonEmpty) {
     <.span(
+      Style.flexbox.fixed,
       Style.margin.left8,
       TagMod.when(props.isDisabled) { Style.color.gray6 },
       children
@@ -49,6 +50,7 @@ object Checkbox {
 
   private val inputStyles = TagMod(
     TagMod(^.width := sizePx, ^.height := sizePx),
+    Style.flexbox.none,
     Style.focus.outline.transition.allWithOutline,
     Style.borderRadius.px2.border.all.cursor.pointer,
     Style.disabled.backgroundGray2.disabled.borderGray4.disabled.shadowNone
@@ -60,7 +62,8 @@ object Checkbox {
       ^.tpe := "checkbox",
       ^.disabled := props.isDisabled,
       ^.checked := props.isChecked,
-      ^.onChange ==> { e: ReactEventFromInput => props.onChange(e.target.checked)
+      ^.onChange ==> { e: ReactEventFromInput =>
+        props.onChange(e.target.checked)
       },
       // styles
       inputStyles,
@@ -70,7 +73,8 @@ object Checkbox {
 
   private def render(props: Props, children: PropsChildren): VdomElement = {
     <.label(
-      Style.flexbox.flex.flexbox.itemsCenter.width.maxContent,
+      Style.flexbox.flex.flexbox.itemsStart,
+      Style.width.maxContent.maxWidth.pc100,
       Style.cursor.pointer.position.relative,
       renderInput(props),
       renderTick(props),
