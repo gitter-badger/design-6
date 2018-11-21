@@ -31,7 +31,7 @@ object JsDateFormatterUtils {
     Format(
       new Date(
         year = localDate.getYear,
-        month = localDate.getMonthValue,
+        month = localDate.getMonthValue - 1,
         date = localDate.getDayOfMonth
       ),
       pattern)

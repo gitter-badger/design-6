@@ -15,6 +15,7 @@ import org.scalajs.dom.raw.HTMLElement
 
 import anduin.component.button.Button
 import anduin.style.Style
+import com.anduin.stargazer.util.date.DateCalculator
 
 // scalastyle:off underscore.import
 import japgolly.scalajs.react._
@@ -226,7 +227,7 @@ object Calendar {
       val numCells = daysInMonth + before + DaysPerWeek - after
       val numRows = numCells / DaysPerWeek
 
-      val now = ZonedDateTime.now(ZoneOffset.UTC).toLocalDate
+      val now = DateCalculator.today.toLocalDate
 
       <.table(
         ^.cls := "datepicker-table",
