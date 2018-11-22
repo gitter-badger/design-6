@@ -33,7 +33,9 @@ private[dropdown] class DropdownTarget[A] {
       props.measurement.biggestWidthOption.map(option => {
         <.span(Style.display.block, renderValue(props)(option.value))
       }),
-      <.span(Style.display.block, props.outer.placeholder)
+      <.span(Style.display.block, props.outer.placeholder),
+      // to be fair header & footer don't have arrow so negative margin
+      <.div(^.marginRight := "-16px", props.outer.header, props.outer.footer)
     )
   }
 

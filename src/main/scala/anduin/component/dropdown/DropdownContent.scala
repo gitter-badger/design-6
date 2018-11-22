@@ -2,12 +2,11 @@
 
 package anduin.component.dropdown
 
-import org.scalajs.dom.document.documentElement
-
 import anduin.component.util.ComponentUtils
 import anduin.scalajs.reactvirtualized.{ReactVirtualizedAutoSizer, ReactVirtualizedList}
 import anduin.scalajs.util.Util
 import anduin.style.Style
+import org.scalajs.dom.document.documentElement
 
 // scalastyle:off underscore.import
 import japgolly.scalajs.react._
@@ -106,12 +105,14 @@ private[dropdown] class DropdownContent[A] {
       ComponentUtils.testId(this, "Container"),
       Util.getModsFromProps(props.downshift.getMenuProps()),
       props.outer.header.map(<.div(Style.border.bottom, boxStyles, _)),
-      <.div(
-        Style.padding.ver8,
-        Filter(props)(),
-        renderGhostOption(props),
-        renderOptions(props)
-      ),
+      TagMod.when(props.outer.options.nonEmpty) {
+        <.div(
+          Style.padding.ver8,
+          Filter(props)(),
+          renderGhostOption(props),
+          renderOptions(props)
+        )
+      },
       props.outer.footer.map(<.div(Style.border.top, boxStyles, _))
     )
   }
