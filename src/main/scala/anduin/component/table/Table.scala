@@ -2,6 +2,7 @@
 
 package anduin.component.table
 
+import anduin.component.util.ComponentUtils
 import anduin.style.Style
 
 // scalastyle:off underscore.import
@@ -143,7 +144,12 @@ class Table[A] {
       )()
 
       if (!props.headIsSticky) {
-        <.table(styles, head, body)
+        <.table(
+          ComponentUtils.testId(this, "Table"),
+          styles,
+          head,
+          body
+        )
       } else {
         val widths = props.columns.map(_.width)
         TableSticky(widths, styles, body, head, props.headStickyOffset)()

@@ -3,6 +3,7 @@
 package anduin.component.table
 
 import anduin.component.icon.Icon
+import anduin.component.util.ComponentUtils
 import anduin.style.Style
 
 // scalastyle:off underscore.import
@@ -97,6 +98,7 @@ private[table] class TableHead[A] {
   private def render(props: Props): VdomElement = {
     val columns = props.columns.zipWithIndex.toVdomArray(renderColumn(props))
     <.thead(
+      ComponentUtils.testId(this, "TableHeader"),
       Style.whiteSpace.noWrap,
       props.style.thead,
       <.tr(props.style.tr, columns)
