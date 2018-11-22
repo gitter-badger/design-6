@@ -2,6 +2,7 @@
 
 package anduin.component.table
 
+import anduin.component.util.ComponentUtils
 import anduin.style.Style
 import org.scalajs.dom.html
 
@@ -72,7 +73,8 @@ private[table] class TableBody[A] {
       val cell = <.td(Style.padding.all12, props.footer, span)
       <.tr(props.style.tr, cell)
     }
-    <.tbody(props.align.styles, rows, footer)
+    val id = ComponentUtils.testId(Table, "Body")
+    <.tbody(id, props.align.styles, rows, footer)
   }
 
   private val component = ScalaComponent

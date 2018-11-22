@@ -144,12 +144,8 @@ class Table[A] {
       )()
 
       if (!props.headIsSticky) {
-        <.table(
-          ComponentUtils.testId(this, "Table"),
-          styles,
-          head,
-          body
-        )
+        val id = ComponentUtils.testId(Table, "Container")
+        <.table(id, styles, head, body)
       } else {
         val widths = props.columns.map(_.width)
         TableSticky(widths, styles, body, head, props.headStickyOffset)()

@@ -98,7 +98,7 @@ private[table] class TableHead[A] {
   private def render(props: Props): VdomElement = {
     val columns = props.columns.zipWithIndex.toVdomArray(renderColumn(props))
     <.thead(
-      ComponentUtils.testId(this, "TableHeader"),
+      ComponentUtils.testId(Table, "Head"),
       Style.whiteSpace.noWrap,
       props.style.thead,
       <.tr(props.style.tr, columns)

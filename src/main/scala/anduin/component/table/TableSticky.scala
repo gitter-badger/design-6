@@ -2,7 +2,7 @@
 
 package anduin.component.table
 
-import anduin.component.util.NodeListSeq
+import anduin.component.util.{ComponentUtils, NodeListSeq}
 import anduin.style.Style
 import org.scalajs.dom.html
 import org.scalajs.dom.raw.DOMList
@@ -57,12 +57,14 @@ object TableSticky {
 
     def render(props: Props): VdomElement = {
       val headTable = <.table.withRef(headTableRef)(
+        ComponentUtils.testId(Table, "StickyFakeHead"),
         Style.position.sticky.zIndex.idx1,
         ^.top := s"${props.headStickyOffset.toString}px",
         props.styles,
         props.head
       )
       val bodyTable = <.table.withRef(bodyTableRef)(
+        ComponentUtils.testId(Table, "Container"),
         // 36px is the height of head + 2*1px border.
         // This will work for a long time
         ^.marginTop := "-38px",
