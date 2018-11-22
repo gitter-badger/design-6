@@ -65,7 +65,7 @@ private[dropdown] class DropdownTarget[A] {
     <.button(
       ^.id :=? op.id,
       ^.tpe := "button",
-      ^.disabled := op.isDisabled || op.options.isEmpty,
+      ^.disabled := op.isDisabled,
       Util.getModsFromProps(props.downshift.getToggleButtonProps()),
       styles
     )(
