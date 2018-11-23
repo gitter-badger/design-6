@@ -1,24 +1,31 @@
 // Copyright (C) 2014-2018 Anduin Transactions Inc.
 
-package anduin.component.portal.modal
+package anduin.component.modal
+
+import anduin.component.util.ComponentUtils
+
+import anduin.style.Style
 
 // scalastyle:off underscore.import
-import anduin.style.Style
 import japgolly.scalajs.react._
 import japgolly.scalajs.react.vdom.html_<^._
 // scalastyle:on underscore.import
 
-final case class ModalBody() {
+final case class ModalFooter() {
   def apply(children: VdomNode*): VdomElement =
-    ModalBody.component(this)(children: _*)
+    ModalFooter.component(this)(children: _*)
 }
 
-object ModalBody {
+object ModalFooter {
 
-  private type Props = ModalBody
+  private type Props = ModalFooter
 
   private def render(children: PropsChildren) = {
-    <.div(Style.padding.all20, children)
+    <.div(
+      ComponentUtils.testId(this, "Container"),
+      Style.padding.hor20.padding.bottom20,
+      children
+    )
   }
 
   private val component = ScalaComponent

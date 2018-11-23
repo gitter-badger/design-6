@@ -10,7 +10,7 @@ import japgolly.scalajs.react.vdom.html_<^._
 // scalastyle:on underscore.import
 
 // This is a low level component so it should not have default values
-private[portal] final case class Portal(
+private[component] final case class Portal(
   // Rendering
   renderTarget: (Callback, Boolean) => VdomNode, // (Toggle, isOpened)
   renderContent: Callback => VdomNode, // (Toggle)
@@ -28,7 +28,7 @@ private[portal] final case class Portal(
   def apply(): VdomElement = Portal.component(this)
 }
 
-private[portal] object Portal {
+private[component] object Portal {
 
   private type Props = Portal
 

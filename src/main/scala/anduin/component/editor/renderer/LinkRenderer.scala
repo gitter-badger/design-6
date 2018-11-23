@@ -5,7 +5,7 @@ package anduin.component.editor.renderer
 import anduin.component.button.{ButtonLink, ButtonStyle}
 import anduin.component.editor.{DataUtil, StyleParser}
 import anduin.component.portal.PositionBottomCenter
-import anduin.component.portal.popover.Popover
+import anduin.component.popover.Popover
 import japgolly.scalajs.react.{PropsChildren, raw}
 
 import scala.scalajs.js

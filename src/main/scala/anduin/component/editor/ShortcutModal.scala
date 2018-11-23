@@ -1,7 +1,7 @@
 // Copyright (C) 2014-2018 Anduin Transactions Inc.
 
 package anduin.component.editor
-import anduin.component.portal.modal.ModalBody
+import anduin.component.modal.ModalBody
 import anduin.style.Style
 
 // scalastyle:off underscore.import

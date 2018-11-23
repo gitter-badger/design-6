@@ -7,7 +7,7 @@ import scala.concurrent.Promise
 import monix.execution.Scheduler.Implicits.global
 import org.scalajs.dom.raw.{Event, File, FileReader}
 
-import anduin.component.portal.modal.Modal
+import anduin.component.modal.Modal
 import anduin.style.Style
 
 // scalastyle:off underscore.import

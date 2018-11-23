@@ -1,6 +1,6 @@
 // Copyright (C) 2014-2018 Anduin Transactions Inc.
 
-package anduin.component.portal.popover
+package anduin.component.popover
 
 import anduin.style.Style
 

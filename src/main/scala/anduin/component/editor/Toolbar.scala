@@ -5,9 +5,9 @@ package anduin.component.editor
 import anduin.component.button.{Button, ButtonStyle}
 import anduin.component.icon.Icon
 import anduin.component.menu.VerticalDivider
-import anduin.component.portal.modal.Modal
-import anduin.component.portal.popover.Popover
-import anduin.component.portal.tooltip.Tooltip
+import anduin.component.modal.Modal
+import anduin.component.popover.Popover
+import anduin.component.tooltip.Tooltip
 import anduin.component.util.ComponentUtils
 import anduin.scalajs.slate.Slate.{Change, Value}
 import anduin.style.Style

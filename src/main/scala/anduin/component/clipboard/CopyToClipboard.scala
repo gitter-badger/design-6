@@ -3,7 +3,7 @@
 package anduin.component.clipboard
 
 import anduin.component.portal.PositionTopCenter
-import anduin.component.portal.tooltip.Tooltip
+import anduin.component.tooltip.Tooltip
 import org.scalajs.dom.raw.HTMLElement
 import org.scalajs.dom.{document, window}
 

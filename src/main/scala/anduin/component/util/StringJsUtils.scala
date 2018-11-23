@@ -2,7 +2,7 @@
 
 package anduin.component.util
 
-import anduin.component.portal.tooltip.Tooltip
+import anduin.component.tooltip.Tooltip
 import anduin.component.portal.{Position, PositionTopCenter}
 import anduin.style.Style
 import japgolly.scalajs.react.React

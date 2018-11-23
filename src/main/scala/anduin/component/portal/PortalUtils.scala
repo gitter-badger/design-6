@@ -38,7 +38,7 @@ object PortalUtils {
 
   // NOTE: in order for "closeOnEsc" to work, there should be an interact-able
   // child (i.e. tabIndex != -1). Preferably autoFocus too.
-  private[portal] def getClosableMods(isClosableOpt: Option[IsClosable], close: Callback): TagMod = {
+  private[component] def getClosableMods(isClosableOpt: Option[IsClosable], close: Callback): TagMod = {
     isClosableOpt.fold(TagMod.empty) { isClosable =>
       TagMod(
         TagMod.when(isClosable.onOutsideClick) { ^.onClick ==> closeIfOutside(close) },
@@ -54,7 +54,7 @@ object PortalUtils {
   // - Should be called in parent's willUnmount
   // - The Callback in renderContent is to remove the instance completely
   //   (i.e. unmount and remove the container)
-  private[portal] def detach(renderContent: Callback => VdomElement): Callback = Callback {
+  private[component] def detach(renderContent: Callback => VdomElement): Callback = Callback {
     val container = dom.document.createElement("div")
     body.appendChild(container)
     val close = Callback {

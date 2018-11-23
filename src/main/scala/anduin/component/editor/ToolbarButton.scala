@@ -3,7 +3,7 @@
 package anduin.component.editor
 
 import anduin.component.button.{Button, ButtonStyle}
-import anduin.component.portal.tooltip.Tooltip
+import anduin.component.tooltip.Tooltip
 // scalastyle:off underscore.import
 import japgolly.scalajs.react._
 import japgolly.scalajs.react.vdom.html_<^._

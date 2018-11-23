@@ -29,7 +29,7 @@ case object PositionLeftBottom extends PositionLeft
 object Position {
 
   // scalastyle:off cyclomatic.complexity
-  def getPopperPlacement(position: Position): PopperPlacement = {
+  private[component] def getPopperPlacement(position: Position): PopperPlacement = {
     position match {
       case PositionTopLeft      => PopperPlacement.TopStart
       case PositionTopCenter    => PopperPlacement.Top

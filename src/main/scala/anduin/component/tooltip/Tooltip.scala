@@ -1,6 +1,6 @@
 // Copyright (C) 2014-2018 Anduin Transactions Inc.
 
-package anduin.component.portal.tooltip
+package anduin.component.tooltip
 
 import anduin.component.portal.{PortalPopper, Position, PositionTopCenter}
 import anduin.style.Style

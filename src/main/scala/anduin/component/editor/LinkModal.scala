@@ -3,7 +3,7 @@
 package anduin.component.editor
 
 import anduin.component.button.{Button, ButtonStyle}
-import anduin.component.portal.modal.{ModalBody, ModalFooterWCancel}
+import anduin.component.modal.{ModalBody, ModalFooterWCancel}
 import anduin.scalajs.slate.Slate.Value
 
 // scalastyle:off underscore.import

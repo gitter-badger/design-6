@@ -2,7 +2,7 @@
 
 package anduin.component.field
 
-import anduin.component.portal.tooltip.Tooltip
+import anduin.component.tooltip.Tooltip
 import anduin.style.Style
 
 // scalastyle:off underscore.import

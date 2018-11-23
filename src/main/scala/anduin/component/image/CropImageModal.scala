@@ -8,7 +8,7 @@ import org.scalajs.dom.raw.{File, FileList, HTMLCanvasElement, HTMLElement}
 
 import anduin.component.button.{Button, ButtonStyle}
 import anduin.component.input.FileButtonInput
-import anduin.component.portal.modal.{ModalBody, ModalFooter}
+import anduin.component.modal.{ModalBody, ModalFooter}
 import anduin.scalajs.reactimagecrop.Crop
 import anduin.style.Style
 

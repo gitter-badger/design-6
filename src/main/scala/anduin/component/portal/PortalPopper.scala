@@ -14,7 +14,7 @@ import japgolly.scalajs.react._
 import japgolly.scalajs.react.vdom.html_<^._
 // scalastyle:on underscore.import
 
-private[portal] final case class PortalPopper(
+private[component] final case class PortalPopper(
   // Portal common props (see Portal for detail)
   renderTarget: PortalPopper.TargetProps => VdomNode,
   renderContent: PortalPopper.ContentProps => VdomNode,
@@ -27,14 +27,14 @@ private[portal] final case class PortalPopper(
   def apply(): VdomElement = PortalPopper.component(this)
 }
 
-private[portal] object PortalPopper {
+private[component] object PortalPopper {
 
   private type Props = PortalPopper
   private type RefIO = Ref.Simple[HTMLElement]
 
   // RenderProps
-  private[portal] final case class TargetProps(ref: RefIO, toggle: Callback, isOpened: Boolean)
-  private[portal] final case class ContentProps(ref: RefIO, toggle: Callback, styles: TagMod, arrowMod: TagMod)
+  private[component] final case class TargetProps(ref: RefIO, toggle: Callback, isOpened: Boolean)
+  private[component] final case class ContentProps(ref: RefIO, toggle: Callback, styles: TagMod, arrowMod: TagMod)
 
   // These are styles that consumer of PortalPopper should add to the
   // "content" element.
