@@ -29,7 +29,7 @@ object RectangleRadio {
     val default: Style
     val selected: Style
   }
-  case object ColorWhite extends Color {
+  case object ColorGray extends Color {
     val style: Style = Style.backgroundColor.gray3
     val default: Style = Style.backgroundColor.gray3.borderColor.gray4.hover.borderGray5
     val selected: Style = Style.borderColor.gray6
@@ -38,6 +38,11 @@ object RectangleRadio {
     val style: Style = Style.backgroundColor.primary1
     val default: Style = Style.backgroundColor.primary1.borderColor.primary2.hover.borderPrimary3
     val selected: Style = Style.borderColor.primary4
+  }
+  case object ColorLightGray extends Color {
+    val style: Style = Style.backgroundColor.gray2
+    val default: Style = Style.backgroundColor.gray2.borderColor.gray4.hover.borderGray5
+    val selected: Style = Style.borderColor.primary3
   }
 
   def render(props: Props, children: PropsChildren): VdomElement = {
