@@ -15,6 +15,7 @@ final case class RectangleRadio(
   value: String,
   onChange: String => Callback,
   isChecked: Boolean,
+  isDisabled: Boolean = false,
   color: RectangleRadio.Color = RectangleRadio.ColorPrimary
 ) {
   def apply(children: VdomNode*): VdomElement = RectangleRadio.component(this)(children: _*)
@@ -39,9 +40,9 @@ object RectangleRadio {
     val default: Style = Style.backgroundColor.primary1.borderColor.primary2.hover.borderPrimary3
     val selected: Style = Style.borderColor.primary4
   }
-  case object ColorLightGray extends Color {
-    val style: Style = Style.backgroundColor.gray2
-    val default: Style = Style.backgroundColor.gray2.borderColor.gray4.hover.borderGray5
+  case object ColorWhite extends Color {
+    val style: Style = Style.backgroundColor.white
+    val default: Style = Style.backgroundColor.white.borderColor.gray4.hover.borderGray5
     val selected: Style = Style.borderColor.primary3
   }
 
@@ -54,7 +55,8 @@ object RectangleRadio {
         name = props.name,
         value = props.value,
         isChecked = props.isChecked,
-        onChange = props.onChange
+        onChange = props.onChange,
+        isDisabled = props.isDisabled
       )(children)
     )
   }
