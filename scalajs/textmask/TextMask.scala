@@ -6,7 +6,7 @@ import scala.scalajs.js
 import scala.scalajs.js.|
 
 // scalastyle:off underscore.import
-import js.JSConverters._
+import scala.scalajs.js.JSConverters._
 // scalastyle:off underscore.import
 
 sealed abstract class TextMask
