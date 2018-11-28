@@ -19,7 +19,8 @@ final case class TextBox(
   onChange: String => Callback = _ => Callback.empty,
   onFocus: Callback = Callback.empty,
   onBlur: String => Callback = _ => Callback.empty,
-  onKeyUp: Int => Callback = _ => Callback.empty,
+  onKeyDown: ReactKeyboardEventFromInput => Callback = _ => Callback.empty,
+  onKeyUp: ReactKeyboardEventFromInput => Callback = _ => Callback.empty,
   placeholder: String = "",
   context: Option[VdomNode] = None,
   // ===
@@ -82,10 +83,6 @@ object TextBox {
     props.onBlur(value).runNow()
   }
 
-  private def onKeyUp(props: Props)(e: ReactKeyboardEventFromInput): Callback = {
-    props.onKeyUp(e.keyCode)
-  }
-
   private def renderTextMask(props: Props)(
     maskRef: raw.React.RefFn[Input],
     maskProps: js.Dictionary[js.Any]
@@ -99,7 +96,8 @@ object TextBox {
       ^.id :=? props.id,
       ^.placeholder := props.placeholder,
       ^.onFocus --> props.onFocus,
-      ^.onKeyUp ==> onKeyUp(props),
+      ^.onKeyDown ==> props.onKeyDown,
+      ^.onKeyUp ==> props.onKeyUp,
       ^.disabled := props.isDisabled,
       ^.readOnly := props.isReadOnly,
       ^.autoFocus := props.isAutoFocus
