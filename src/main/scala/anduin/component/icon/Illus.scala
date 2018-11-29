@@ -134,6 +134,15 @@ object Illus {
         |  </g>
       """.stripMargin
   }
+  object NameComment extends Name {
+    override val content: String =
+      """
+        |  <g fill="none" fill-rule="nonzero">
+        |    <path fill="#D5EAF6" stroke="#2B95D6" stroke-width="2" d="M7 19.865L11.638 16H20V3H3v13h4v3.865z"/>
+        |    <path fill="#2B95D6" d="M6 7h11v1.5H6zM6 10.5h7V12H6z"/>
+        |  </g>
+      """.stripMargin
+  }
   object NameConfirmCertificateSent extends Name {
     override val content: String =
       """
@@ -321,7 +330,7 @@ object Illus {
         |  </g>
       """.stripMargin
   }
-  object NameVewiSignRequest extends Name {
+  object NameViewSignRequest extends Name {
     override val content: String =
       """
         |  <g fill="none">
