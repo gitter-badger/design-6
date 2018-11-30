@@ -26,31 +26,31 @@ object RectangleRadio {
   private type Props = RectangleRadio
 
   sealed trait Color {
-    val style: Style
     val default: Style
     val selected: Style
   }
   case object ColorGray extends Color {
-    val style: Style = Style.backgroundColor.gray3
     val default: Style = Style.backgroundColor.gray3.borderColor.gray4.hover.borderGray5
     val selected: Style = Style.borderColor.gray6
   }
   case object ColorPrimary extends Color {
-    val style: Style = Style.backgroundColor.primary1
     val default: Style = Style.backgroundColor.primary1.borderColor.primary2.hover.borderPrimary3
     val selected: Style = Style.borderColor.primary4
   }
-  case object ColorWhite extends Color {
-    val style: Style = Style.backgroundColor.white
+  case object ColorPrimaryWhite extends Color {
     val default: Style = Style.backgroundColor.white.borderColor.gray4.hover.borderGray5
     val selected: Style = Style.borderColor.primary3
   }
+  case class StyleCustom(
+    default: Style = new Style(List.empty),
+    selected: Style = new Style(List.empty)
+  ) extends Color
 
   def render(props: Props, children: PropsChildren): VdomElement = {
     <.div(
-      Style.padding.hor12.padding.ver8.border.all,
-      props.color.style,
+      Style.padding.hor12.padding.ver8.border.all.cursor.pointer,
       if (props.isChecked) props.color.selected else props.color.default,
+      TagMod.when(!props.isDisabled)(^.onClick --> props.onChange(props.value)),
       Radio(
         name = props.name,
         value = props.value,
