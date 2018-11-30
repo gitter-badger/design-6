@@ -189,6 +189,15 @@ object Illus {
         |  </g>
       """.stripMargin
   }
+  object NameMarkAsComplete extends Name {
+    override val content: String =
+      """
+        |  <g fill="none" fill-rule="nonzero">
+        |    <circle stroke="#15B371" stroke-width="2" fill="#D1F0E3" cx="12" cy="12" r="9"/>
+        |    <path d="M9.293 15.71l-3.148-3.144a.5.5 0 0 1 0-.707l.709-.707a.5.5 0 0 1 .706 0l2.263 2.26a.25.25 0 0 0 .354 0l5.267-5.263a.5.5 0 0 1 .707 0l.706.71a.5.5 0 0 1 0 .706l-6.15 6.145a1 1 0 0 1-1.414 0z" fill="#15B371"/>
+        |  </g>
+      """.stripMargin
+  }
   object NameMarkAsFinal extends Name {
     override val content: String =
       """
