@@ -1,6 +1,6 @@
 // Copyright (C) 2014-2018 Anduin Transactions Inc.
 
-package anduin.component.loader.placeholder
+package anduin.component.progress_indicators.placeholder
 
 case class PlaceholderProps(
   width: Double = 400,

@@ -2,7 +2,7 @@
 
 package anduin.component.image
 
-import anduin.component.loader.InlineLoader
+import anduin.component.progress_indicators.InlineLoader
 import anduin.style.Style
 
 // scalastyle:off underscore.import
