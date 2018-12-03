@@ -1,6 +1,6 @@
 // Copyright (C) 2014-2018 Anduin Transactions Inc.
 
-package anduin.component.progress_indicators
+package anduin.component.progressindicators
 
 import japgolly.scalajs.react.vdom.Exports.VdomTagOf
 

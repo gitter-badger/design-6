@@ -1,6 +1,6 @@
 // Copyright (C) 2014-2018 Anduin Transactions Inc.
 
-package anduin.component.progress_indicators.placeholder
+package anduin.component.progressindicators.placeholder
 
 import japgolly.scalajs.react.vdom.{SvgAttrAndStyles => sa, SvgTags => st}
 
