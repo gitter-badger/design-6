@@ -10,6 +10,10 @@ private[style] final case class Width(classes: List[String] = List.empty) {
   def px64: Style = new Style(classes :+ "w3")
   def px128: Style = new Style(classes :+ "w4")
   def px256: Style = new Style(classes :+ "w5")
+  def px512: Style = new Style(classes :+ "w6")
+  def px768: Style = new Style(classes :+ "w7")
+  def px1024: Style = new Style(classes :+ "w8")
+  def px1536: Style = new Style(classes :+ "w9")
 
   def pc10: Style = new Style(classes :+ "w-10")
   def pc20: Style = new Style(classes :+ "w-20")
