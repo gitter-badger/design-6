@@ -31,12 +31,17 @@ object Config {
     val callbackUrl: String,
     // Can be view or edit
     val mode: String = "edit",
-    val customization: Customization
+    val customization: Customization,
+    val user: User
   ) extends js.Object
 
   class Customization(
     val compactToolbar: Boolean = false,
     val chat: Boolean = true,
     val comments: Boolean = true
+  ) extends js.Object
+
+  class User(
+    val id: String
   ) extends js.Object
 }
