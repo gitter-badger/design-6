@@ -2,7 +2,7 @@
 
 package anduin.component.modal
 
-import anduin.component.button.{Button, ButtonStyle}
+import anduin.component.button.{ButtonStyle, ProgressButton}
 
 // scalastyle:off underscore.import
 import japgolly.scalajs.react._
@@ -24,20 +24,34 @@ object ConfirmationModal {
 
   private val ComponentName = this.getClass.getSimpleName
 
-  private val component = ScalaComponent
-    .builder[ConfirmationModal](ComponentName)
-    .stateless
-    .render_P { props =>
+  private type Props = ConfirmationModal
+  private case class State(
+    btnStatus: ProgressButton.Status = ProgressButton.Status.Default
+  )
+
+  private class Backend(scope: BackendScope[Props, State]) {
+    def render(props: Props, state: State): VdomNode = {
       React.Fragment(
         ModalBody()(props.actionText),
         ModalFooterWCancel(cancel = props.onCloseModal)(
-          Button(
-            onClick = props.onConfirm,
+          ProgressButton(
             color = props.confirmBtnColor,
-            isDisabled = props.isDisableConfirm
-          )(props.confirmBtnLabel)
+            status = state.btnStatus,
+            isDisabled = props.isDisableConfirm,
+            onClick = for {
+              _ <- scope.modState(_.copy(btnStatus = ProgressButton.Status.Loading))
+              _ <- props.onConfirm
+            } yield (),
+            labels = _ => props.confirmBtnLabel
+          )()
         )
       )
     }
+  }
+
+  private val component = ScalaComponent
+    .builder[ConfirmationModal](ComponentName)
+    .initialState(State())
+    .renderBackend[Backend]
     .build
 }
