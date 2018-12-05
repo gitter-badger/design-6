@@ -48,7 +48,7 @@ object Field {
     props.help.map { text =>
       Tooltip(
         renderTarget = <.span(" ", Static.help),
-        renderContent = () => <.div(Style.maxWidth.px256, text),
+        renderContent = () => <.div(Style.maxWidth.px256.whiteSpace.preWrap, text),
         targetTag = <.span
       )()
     }
