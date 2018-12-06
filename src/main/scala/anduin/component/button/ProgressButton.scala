@@ -2,7 +2,7 @@
 
 package anduin.component.button
 
-import anduin.component.progressindicators.InlineLoader
+import anduin.component.progressindicators.CircleIndicator
 import anduin.style.Style
 
 // scalastyle:off underscore.import
@@ -50,14 +50,11 @@ object ProgressButton {
         isDisabled = props.status == Status.Disabled || props.status == Status.Loading || props.isDisabled,
         isFullWidth = props.isFullWidth
       )(
-        <.div(
-          Style.margin.right8,
-          // hack to align
-          // @TODO: use Icon
-          ^.lineHeight := "1",
-          TagMod.when(props.status != Status.Loading) { Style.display.none },
-          InlineLoader()
-        ),
+        if (props.status == Status.Loading) {
+          <.div(Style.margin.right8, CircleIndicator()())
+        } else {
+          EmptyVdom
+        },
         props.labels(props.status)
       )
     }

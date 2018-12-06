@@ -2,7 +2,7 @@
 
 package anduin.component.image
 
-import anduin.component.progressindicators.InlineLoader
+import anduin.component.progressindicators.CircleIndicator
 import anduin.style.Style
 
 // scalastyle:off underscore.import
@@ -32,7 +32,7 @@ private[image] object UploadingCroppedImage {
     def render(): VdomElement = {
       <.div(
         Style.flexbox.flex.flexbox.itemsCenter,
-        InlineLoader()
+        CircleIndicator()()
       )
     }
   }

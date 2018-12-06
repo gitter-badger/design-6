@@ -1,6 +1,6 @@
 // Copyright (C) 2014-2018 Anduin Transactions Inc.
 
-package anduin.test.component.progressindicators
+package anduin.component.progressindicators
 
 import anduin.style.Style
 
