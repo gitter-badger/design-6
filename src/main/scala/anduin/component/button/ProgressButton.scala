@@ -40,7 +40,9 @@ object ProgressButton {
     case object Error extends Status
   }
 
-  private class Backend() {
+  private class Backend(backendScope: BackendScope[ProgressButton, Unit]) {
+    val _ = backendScope
+
     def render(props: ProgressButton): VdomElement = {
       Button(
         tpe = props.tpe,

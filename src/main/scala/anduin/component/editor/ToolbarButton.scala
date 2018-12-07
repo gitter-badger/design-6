@@ -24,7 +24,9 @@ private[editor] object ToolbarButton {
 
   private val ComponentName = this.getClass.getSimpleName
 
-  private class Backend() {
+  private class Backend(backendScope: BackendScope[ToolbarButton, Unit]) {
+
+    val _ = backendScope
 
     def render(props: ToolbarButton, children: PropsChildren): VdomElement = {
       Tooltip(

@@ -24,7 +24,9 @@ object CheckMark {
 
   private val ComponentName = this.getClass.getSimpleName
 
-  private class Backend() {
+  private class Backend(backendScope: BackendScope[CheckMark, Unit]) {
+
+    val _ = backendScope
 
     def render(props: CheckMark, children: PropsChildren): VdomElement = {
       <.div(

@@ -56,7 +56,9 @@ class Dropdown[A] {
     measurement: Dropdown.Measurement[A]
   )
 
-  private class Backend() {
+  private final class Backend(backendScope: BackendScope[Props, Unit]) {
+
+    val _ = backendScope
 
     // This variable will be set immediately before Downshift's stateReducer
     // (and reset after that) to help Downshift detects whether the click is

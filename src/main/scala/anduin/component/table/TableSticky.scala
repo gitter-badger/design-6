@@ -26,7 +26,9 @@ object TableSticky {
 
   type Props = TableSticky
 
-  private class Backend {
+  private final class Backend(backendScope: BackendScope[Props, Unit]) {
+
+    val _ = backendScope
 
     private val headTableRef = Ref[html.Table]
     private val bodyTableRef = Ref[html.Table]
