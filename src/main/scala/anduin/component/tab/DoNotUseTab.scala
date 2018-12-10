@@ -36,7 +36,8 @@ object DoNotUseTab {
     activeIndex: Int,
     isVertical: Boolean,
     additionalTabHeaderClasses: String = "",
-    additionalTabContentClasses: String = ""
+    additionalTabContentClasses: String = "",
+    showHeader: Boolean
   )
   private case class State(activeIndex: Int, isVertical: Boolean = false)
 
@@ -84,7 +85,7 @@ object DoNotUseTab {
                 )
               }
           }
-        ),
+        ).when(props.showHeader),
         TagMod.when(props.panels.nonEmpty)(
           <.div(
             ^.cls := s"tab-content ${props.additionalTabContentClasses}",
@@ -132,8 +133,9 @@ object DoNotUseTab {
     activeIndex: Int = 0,
     isVertical: Boolean = false,
     additionalTabHeaderClasses: String = "",
-    additionalTabContentClasses: String = ""
+    additionalTabContentClasses: String = "",
+    showHeader: Boolean = true
   )(panels: Panel*): ScalaComponent.Unmounted[_, _, _] = {
-    component(Props(panels, activeIndex, isVertical, additionalTabHeaderClasses, additionalTabContentClasses))
+    component(Props(panels, activeIndex, isVertical, additionalTabHeaderClasses, additionalTabContentClasses, showHeader))
   }
 }
