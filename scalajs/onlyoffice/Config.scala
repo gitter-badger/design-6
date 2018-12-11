@@ -32,7 +32,8 @@ object Config {
     // Can be view or edit
     val mode: String = "edit",
     val customization: Customization,
-    val user: User
+    val user: User,
+    val userdata: String = ""
   ) extends js.Object
 
   class Customization(
