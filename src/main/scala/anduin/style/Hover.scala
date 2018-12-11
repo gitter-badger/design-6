@@ -113,5 +113,8 @@ private[style] final case class Hover(classes: List[String] = List.empty) {
   // Text Decoration
   def underlineNone: Style = new Style(classes :+ "non-underline-hover")
   def underline: Style = new Style(classes :+ "underline-hover")
+
+  // Opacity
+  def opacity100: Style = new Style(classes :+ "hv-o100")
 }
 // scalastyle:on number.of.methods
