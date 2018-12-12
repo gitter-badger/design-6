@@ -13,7 +13,7 @@ final case class Card(
   header: VdomNode = EmptyVdom,
   isDimmed: Boolean = false,
   isFullHeight: Boolean = false,
-  customStyle: Style = Style
+  style: Style = Style.borderRadius.px2.padding.all20
 ) {
   def apply(children: VdomNode*): VdomElement = {
     Card.component(this)(children: _*)
@@ -37,8 +37,7 @@ object Card {
 
   private def render(props: Props, children: PropsChildren): VdomElement = {
     <.div(
-      Style.borderRadius.px2.padding.all20,
-      props.customStyle,
+      props.style,
       if (props.isDimmed) {
         Style.backgroundColor.gray1
       } else {

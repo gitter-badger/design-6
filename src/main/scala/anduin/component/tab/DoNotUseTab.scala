@@ -62,30 +62,32 @@ object DoNotUseTab {
 
       <.div(
         ^.cls := "tab-wrapper w-100",
-        <.ul(
-          ^.cls := s"tab-nav $verticalTab ${props.additionalTabHeaderClasses}",
-          props.panels.zipWithIndex.toTagMod {
-            case (item, index) =>
-              TagMod.unless(item.hide) {
-                <.li(
-                  ^.key := index,
-                  ^.classSet(
-                    s"tab-item cursor-pointer ${item.headerClass}" -> true,
-                    "-active" -> (index == state.activeIndex),
-                    "disabled" -> !item.enabled
-                  ),
-                  TagMod.when(item.target == JavaScriptUtils.voidMethod && item.enabled) {
-                    ^.onClick ==> onClickTab(item, index)
-                  },
-                  <.a(
-                    ^.cls := "link",
-                    ^.href := item.target,
-                    TagMod(item.header.children: _*)
+        TagMod.when(props.showHeader) {
+          <.ul(
+            ^.cls := s"tab-nav $verticalTab ${props.additionalTabHeaderClasses}",
+            props.panels.zipWithIndex.toTagMod {
+              case (item, index) =>
+                TagMod.unless(item.hide) {
+                  <.li(
+                    ^.key := index,
+                    ^.classSet(
+                      s"tab-item cursor-pointer ${item.headerClass}" -> true,
+                      "-active" -> (index == state.activeIndex),
+                      "disabled" -> !item.enabled
+                    ),
+                    TagMod.when(item.target == JavaScriptUtils.voidMethod && item.enabled) {
+                      ^.onClick ==> onClickTab(item, index)
+                    },
+                    <.a(
+                      ^.cls := "link",
+                      ^.href := item.target,
+                      TagMod(item.header.children: _*)
+                    )
                   )
-                )
-              }
-          }
-        ).when(props.showHeader),
+                }
+            }
+          )
+        },
         TagMod.when(props.panels.nonEmpty)(
           <.div(
             ^.cls := s"tab-content ${props.additionalTabContentClasses}",
