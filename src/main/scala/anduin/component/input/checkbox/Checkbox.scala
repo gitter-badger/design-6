@@ -2,7 +2,7 @@
 
 package anduin.component.input.checkbox
 
-import anduin.component.button.ButtonStyle
+import anduin.component.button.Button
 import anduin.component.icon.Icon
 import anduin.style.Style
 
@@ -67,7 +67,11 @@ object Checkbox {
       },
       // styles
       inputStyles,
-      if (props.isChecked) ButtonStyle.ColorBlue.full else ButtonStyle.ColorWhite.full
+      if (props.isChecked) {
+        Button.Style.Full(color = Button.Color.Blue).colorNormal
+      } else {
+        Button.Style.Full(color = Button.Color.White).colorNormal
+      }
     )
   }
 

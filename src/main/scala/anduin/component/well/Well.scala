@@ -2,7 +2,7 @@
 
 package anduin.component.well
 
-import anduin.component.button.{Button, ButtonStyle}
+import anduin.component.button.Button
 import anduin.component.icon.Icon
 import anduin.style.Style
 
@@ -61,9 +61,7 @@ object Well {
     } else {
       val button = Button(
         onClick = props.close,
-        style = ButtonStyle.StyleMinimal,
-        size = ButtonStyle.SizeIcon,
-        icon = Some(Icon.NameCross)
+        style = Button.Style.Minimal(icon = Some(Icon.NameCross))
       )()
       <.div(^.padding := "6px 6px 0 0", button)
     }

@@ -2,7 +2,7 @@
 
 package anduin.component.modal
 
-import anduin.component.button.{ButtonStyle, ProgressButton}
+import anduin.component.button.Button
 
 // scalastyle:off underscore.import
 import japgolly.scalajs.react._
@@ -24,7 +24,7 @@ object CommonConfirmModal {
   private val ComponentName = this.getClass.getSimpleName
 
   private case class State(
-    confirmBtnStatus: ProgressButton.Status
+    confirmBtnIsBusy: Boolean
   )
 
   private class Backend(scope: BackendScope[CommonConfirmModal, State]) {
@@ -33,21 +33,13 @@ object CommonConfirmModal {
       React.Fragment(
         ModalBody()(props.displayInfo),
         ModalFooterWCancel(cancel = props.onClose, cancelLabel = props.cancelBtnLabel)(
-          ProgressButton(
-            color = ButtonStyle.ColorBlue,
-            status = state.confirmBtnStatus,
-            labels = {
-              case ProgressButton.Status.Loading => "Confirming"
-              case ProgressButton.Status.Success => "Done"
-              case ProgressButton.Status.Error   => "Failed to confirm, please try again"
-              case ProgressButton.Status.Default | ProgressButton.Status.Disabled =>
-                props.confirmBtnLabel
-            },
+          Button(
+            style = Button.Style.Full(color = Button.Color.Blue, isBusy = state.confirmBtnIsBusy),
             onClick = for {
-              _ <- scope.modState(_.copy(confirmBtnStatus = ProgressButton.Status.Loading))
+              _ <- scope.modState(_.copy(confirmBtnIsBusy = true))
               _ <- props.onConfirm(props.onClose)
             } yield ()
-          )()
+          )(props.confirmBtnLabel)
         )
       )
     }
@@ -55,7 +47,7 @@ object CommonConfirmModal {
 
   private val component = ScalaComponent
     .builder[CommonConfirmModal](ComponentName)
-    .initialState(State(confirmBtnStatus = ProgressButton.Status.Default))
+    .initialState(State(confirmBtnIsBusy = false))
     .renderBackend[Backend]
     .build
 }

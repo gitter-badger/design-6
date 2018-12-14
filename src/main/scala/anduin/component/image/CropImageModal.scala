@@ -6,7 +6,7 @@ import org.scalajs.dom
 import org.scalajs.dom.CanvasRenderingContext2D
 import org.scalajs.dom.raw.{File, FileList, HTMLCanvasElement, HTMLElement}
 
-import anduin.component.button.{Button, ButtonStyle}
+import anduin.component.button.Button
 import anduin.component.input.FileButtonInput
 import anduin.component.modal.{ModalBody, ModalFooter}
 import anduin.scalajs.reactimagecrop.Crop
@@ -123,7 +123,7 @@ private[image] object CropImageModal {
                 <.div(
                   Style.margin.right8,
                   Button(
-                    color = ButtonStyle.ColorBlue,
+                    style = Button.Style.Full(color = Button.Color.Blue),
                     onClick = crop(props, state)
                   )("Crop and Upload")
                 ),
@@ -147,7 +147,7 @@ private[image] object CropImageModal {
                 <.div(
                   Style.margin.right8,
                   FileButtonInput(
-                    color = ButtonStyle.ColorBlue,
+                    style = Button.Style.Full(color = Button.Color.Blue),
                     acceptTypes = "image/png, image/jpeg",
                     isMultiple = false,
                     onChange = onChooseFile(props)

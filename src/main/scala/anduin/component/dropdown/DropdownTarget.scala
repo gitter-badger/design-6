@@ -2,7 +2,7 @@
 
 package anduin.component.dropdown
 
-import anduin.component.button.ButtonStyle
+import anduin.component.button.Button
 import anduin.component.icon.Icon
 import anduin.scalajs.util.Util
 import anduin.style.Style
@@ -52,22 +52,27 @@ private[dropdown] class DropdownTarget[A] {
     )
   }
 
+  private def getButtonStyle(props: Props) = {
+    val isSelected = props.downshift.isOpen.contains(true)
+    val isFullWidth = props.outer.isFullWidth
+    val buttonStyle = props.outer.style match {
+      case Dropdown.StyleFull =>
+        Button.Style.Full(isSelected = isSelected, isFullWidth = isFullWidth)
+      case Dropdown.StyleMinimal =>
+        Button.Style.Minimal(isSelected = isSelected, isFullWidth = isFullWidth)
+    }
+    val buttonProps = Button(style = buttonStyle)
+    Button.getStyles(buttonProps, None)
+  }
+
   private def render(outerProps: OuterProps): VdomElement = {
     val props = outerProps.props
-    val op = props.outer
-    val styles = ButtonStyle.getStyles(
-      color = ButtonStyle.ColorWhite,
-      size = ButtonStyle.Size32,
-      style = DropdownTarget.getButtonStyle(op.style),
-      isSelected = props.downshift.isOpen.contains(true),
-      isFullWidth = op.isFullWidth
-    )
     <.button(
-      ^.id :=? op.id,
+      ^.id :=? props.outer.id,
       ^.tpe := "button",
-      ^.disabled := op.isDisabled,
+      ^.disabled := props.outer.isDisabled,
       Util.getModsFromProps(props.downshift.getToggleButtonProps()),
-      styles
+      getButtonStyle(props)
     )(
       renderLabel(props),
       DropdownTarget.icon
@@ -88,9 +93,4 @@ private[dropdown] object DropdownTarget {
     TagMod(Style.margin.leftAuto.position.relative, ^.right := "-4px"),
     Icon(name = Icon.NameCaretDown)()
   )
-
-  private def getButtonStyle(style: Dropdown.Style) = style match {
-    case Dropdown.StyleFull    => ButtonStyle.StyleFull
-    case Dropdown.StyleMinimal => ButtonStyle.StyleMinimal
-  }
 }

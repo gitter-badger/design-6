@@ -2,7 +2,7 @@
 
 package anduin.component.editor
 
-import anduin.component.button.{Button, ButtonStyle}
+import anduin.component.button.Button
 import anduin.component.tooltip.Tooltip
 // scalastyle:off underscore.import
 import japgolly.scalajs.react._
@@ -32,9 +32,7 @@ private[editor] object ToolbarButton {
       Tooltip(
         targetTag = <.span,
         renderTarget = Button(
-          style = ButtonStyle.StyleMinimal,
-          size = ButtonStyle.SizeIcon,
-          isSelected = props.active,
+          style = Button.Style.Minimal(isSelected = props.active),
           onClick = props.onClick
         )(children),
         renderContent = () => props.tip,

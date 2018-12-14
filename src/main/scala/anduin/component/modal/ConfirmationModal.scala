@@ -2,7 +2,7 @@
 
 package anduin.component.modal
 
-import anduin.component.button.{ButtonStyle, ProgressButton}
+import anduin.component.button.Button
 
 // scalastyle:off underscore.import
 import japgolly.scalajs.react._
@@ -13,7 +13,7 @@ final case class ConfirmationModal(
   actionText: VdomNode,
   onConfirm: Callback,
   confirmBtnLabel: String,
-  confirmBtnColor: ButtonStyle.Color = ButtonStyle.ColorWhite,
+  confirmBtnColor: Button.Color = Button.Color.White,
   onCloseModal: Callback,
   isDisableConfirm: Boolean = false
 ) {
@@ -22,35 +22,33 @@ final case class ConfirmationModal(
 
 object ConfirmationModal {
 
-  private val ComponentName = this.getClass.getSimpleName
-
   private type Props = ConfirmationModal
-  private case class State(
-    btnStatus: ProgressButton.Status = ProgressButton.Status.Default
-  )
+
+  private case class State(btnIsBusy: Boolean = false)
 
   private class Backend(scope: BackendScope[Props, State]) {
     def render(props: Props, state: State): VdomNode = {
       React.Fragment(
         ModalBody()(props.actionText),
         ModalFooterWCancel(cancel = props.onCloseModal)(
-          ProgressButton(
-            color = props.confirmBtnColor,
-            status = state.btnStatus,
+          Button(
+            style = Button.Style.Full(
+              color = props.confirmBtnColor,
+              isBusy = state.btnIsBusy
+            ),
             isDisabled = props.isDisableConfirm,
             onClick = for {
-              _ <- scope.modState(_.copy(btnStatus = ProgressButton.Status.Loading))
+              _ <- scope.modState(_.copy(btnIsBusy = true))
               _ <- props.onConfirm
-            } yield (),
-            labels = _ => props.confirmBtnLabel
-          )()
+            } yield ()
+          )(props.confirmBtnLabel)
         )
       )
     }
   }
 
   private val component = ScalaComponent
-    .builder[ConfirmationModal](ComponentName)
+    .builder[Props](this.getClass.getSimpleName)
     .initialState(State())
     .renderBackend[Backend]
     .build

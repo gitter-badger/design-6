@@ -2,8 +2,7 @@
 
 package anduin.component.input
 
-import anduin.component.button.{Button, ButtonStyle}
-import anduin.component.icon.Icon
+import anduin.component.button.Button
 import anduin.style.Style
 import org.scalajs.dom.FileList
 
@@ -13,13 +12,8 @@ import japgolly.scalajs.react.vdom.html_<^._
 // scalastyle:on underscore.import
 
 final case class FileButtonInput(
-  color: ButtonStyle.Color = ButtonStyle.ColorWhite,
-  size: ButtonStyle.Size = ButtonStyle.Size32,
-  style: ButtonStyle.Style = ButtonStyle.StyleFull,
-  isFullWidth: Boolean = false,
-  isSelected: Boolean = false,
+  style: Button.Style = Button.Style.Full(),
   isDisabled: Boolean = false,
-  icon: Option[Icon.Name] = None,
   // Specific behaviours for FileButton
   onChange: FileList => Callback,
   shouldClearAfterChanged: Boolean = false,
@@ -32,8 +26,6 @@ final case class FileButtonInput(
 }
 
 object FileButtonInput {
-
-  private val ComponentName = this.getClass.getSimpleName
 
   private class Backend(scope: BackendScope[FileButtonInput, _]) {
 
@@ -52,26 +44,21 @@ object FileButtonInput {
         // element that has style (div) are not the same element, so
         // ":disabled" styles are not triggered
         Button(
-          props.color,
-          props.size,
-          props.style,
-          props.isFullWidth,
-          props.isSelected,
-          isDisabled = true,
-          icon = props.icon
+          style = props.style,
+          isDisabled = true
         )(children)
       } else {
         <.div(
-          Style.position.relative,
-          ButtonStyle.getStyles(
-            color = props.color,
-            size = props.size,
-            style = props.style,
-            isSelected = props.isSelected,
-            isFullWidth = props.isFullWidth
-          ),
-          ButtonStyle.renderIcon(props.icon, children),
-          children,
+          Style.position.relative, {
+            val bprops = Button(
+              style = props.style,
+              isDisabled = props.isDisabled
+            )
+            TagMod(
+              Button.getStyles(bprops, Some(children)),
+              Button.getContent(bprops, children)
+            )
+          },
           // this is the actual input element that opens file browser
           <.input(
             Style.position.absolute.coordinate.fill.opacity.pc0.width.pc100.height.pc100.cursor.pointer,
@@ -86,7 +73,7 @@ object FileButtonInput {
   }
 
   private val component = ScalaComponent
-    .builder[FileButtonInput](ComponentName)
+    .builder[FileButtonInput](this.getClass.getSimpleName)
     .stateless
     .renderBackendWithChildren[Backend]
     .build

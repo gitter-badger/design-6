@@ -2,7 +2,7 @@
 
 package anduin.component.editor
 
-import anduin.component.button.{Button, ButtonStyle}
+import anduin.component.button.Button
 import anduin.component.modal.{ModalBody, ModalFooterWCancel}
 import anduin.scalajs.slate.Slate.Value
 
@@ -45,12 +45,16 @@ private[editor] object LinkModal {
         ),
         ModalFooterWCancel(cancel = props.onClose)(
           <.div(
-            Button(color = ButtonStyle.ColorBlue, isDisabled = state.link.isEmpty, onClick = {
-              for {
-                _ <- props.onClose
-                _ <- props.onAddLink(state.link)
-              } yield ()
-            })("Add")
+            Button(
+              style = Button.Style.Full(color = Button.Color.Blue),
+              isDisabled = state.link.isEmpty,
+              onClick = {
+                for {
+                  _ <- props.onClose
+                  _ <- props.onAddLink(state.link)
+                } yield ()
+              }
+            )("Add")
           )
         )
       )
@@ -62,9 +66,7 @@ private[editor] object LinkModal {
     .initialStateFromProps { props =>
       val href = props.value.inlines
         .find(_.inlineType == LinkNode.nodeType)
-        .fold("") { inline =>
-          DataUtil.value(inline.data, "href")
-        }
+        .fold("")(inline => DataUtil.value(inline.data, "href"))
       State(href)
     }
     .renderBackend[Backend]

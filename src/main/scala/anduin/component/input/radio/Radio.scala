@@ -2,7 +2,7 @@
 
 package anduin.component.input.radio
 
-import anduin.component.button.ButtonStyle
+import anduin.component.button.Button
 import anduin.style.Style
 
 // scalastyle:off underscore.import
@@ -52,9 +52,9 @@ object Radio {
       ^.onChange --> props.onChange(props.value),
       // styles
       if (props.isChecked) {
-        ButtonStyle.ColorBlue.full
+        Button.Style.Full(color = Button.Color.Blue).colorNormal
       } else {
-        ButtonStyle.ColorWhite.full
+        Button.Style.Full(color = Button.Color.White).colorNormal
       },
       inputStyles
     )

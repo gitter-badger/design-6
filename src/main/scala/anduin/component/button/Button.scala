@@ -122,17 +122,6 @@ object Button {
     ) extends ButtonStyle.BStyle.Minimal
   }
 
-  private def renderBody(props: Props, children: PropsChildren): VdomElement = {
-    <.span(
-      props.style.body,
-      props.style.icon.map(name => {
-        val margin = TagMod.when(children.nonEmpty)(SStyle.margin.right8)
-        <.span(margin, Icon(name = name)())
-      }),
-      children
-    )
-  }
-
   private[component] def getStyles(props: Props, children: Option[PropsChildren]): TagMod = TagMod(
     props.style.container, {
       val isIconOnly = props.style.icon.isDefined && children.exists(_.isEmpty)
@@ -146,10 +135,16 @@ object Button {
     TagMod.when(!props.isDisabled) { ^.onClick --> props.onClick }
   )
 
-  private[component] def getContent(props: Props, children: PropsChildren): TagMod = TagMod(
-    renderBody(props, children),
-    props.style.overlay
-  )
+  private[component] def getContent(props: Props, children: PropsChildren): TagMod = {
+    val icon = props.style.icon.map(name => {
+      val margin = TagMod.when(children.nonEmpty)(SStyle.margin.right8)
+      <.span(margin, Icon(name = name)())
+    })
+    TagMod(
+      <.span(props.style.body, icon, children),
+      props.style.overlay
+    )
+  }
 
   private[component] def getMods(props: Props, children: PropsChildren): TagMod = TagMod(
     getStyles(props, Some(children)),

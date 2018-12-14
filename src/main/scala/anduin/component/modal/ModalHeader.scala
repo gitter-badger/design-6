@@ -2,7 +2,7 @@
 
 package anduin.component.modal
 
-import anduin.component.button.{Button, ButtonStyle}
+import anduin.component.button.Button
 import anduin.component.icon.Icon
 import anduin.component.truncate.TruncateMarkup
 import anduin.component.util.ComponentUtils
@@ -56,11 +56,9 @@ object ModalHeader {
       ),
       TagMod.when(props.isClosable) {
         val button = Button(
-          style = ButtonStyle.StyleMinimal,
-          size = ButtonStyle.SizeIcon,
-          autoFocus = true,
-          onClick = props.close,
-          icon = Some(Icon.NameCross)
+          style = Button.Style.Minimal(icon = Some(Icon.NameCross)),
+          tpe = Button.Tpe.Button(isAutoFocus = true),
+          onClick = props.close
         )()
         <.div(closeStyles, button)
       }

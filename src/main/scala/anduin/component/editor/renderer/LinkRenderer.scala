@@ -2,7 +2,7 @@
 
 package anduin.component.editor.renderer
 
-import anduin.component.button.{ButtonLink, ButtonStyle}
+import anduin.component.button.Button
 import anduin.component.editor.{DataUtil, StyleParser}
 import anduin.component.portal.PositionBottomCenter
 import anduin.component.popover.Popover
@@ -32,11 +32,9 @@ private[editor] object LinkRenderer {
           <.span(^.onClick --> toggle, link)
         },
         renderContent = _ => {
-          ButtonLink(
-            color = ButtonStyle.ColorBlue,
-            style = ButtonStyle.StyleLink,
-            href = href,
-            target = ^.target.blank
+          Button(
+            style = Button.Style.Link(),
+            tpe = Button.Tpe.Link(href = href, target = Button.Target.Blank)
           )("Open link")
         }
       )().rawElement

@@ -2,7 +2,7 @@
 
 package anduin.component.editor
 
-import anduin.component.button.{Button, ButtonStyle}
+import anduin.component.button.Button
 import anduin.component.icon.Icon
 import anduin.component.menu.VerticalDivider
 import anduin.component.modal.Modal
@@ -104,11 +104,9 @@ object Toolbar {
           Tooltip(
             targetTag = <.span,
             renderTarget = Button(
-              style = ButtonStyle.StyleMinimal,
-              size = ButtonStyle.SizeIcon,
+              style = Button.Style.Minimal(icon = Some(Icon.NameUndo)),
               onClick = props.onChange(props.value.change().undo()),
-              isDisabled = !props.value.hasUndos,
-              icon = Some(Icon.NameUndo)
+              isDisabled = !props.value.hasUndos
             )(),
             renderContent = () => "Undo"
           )(),
@@ -116,11 +114,9 @@ object Toolbar {
           Tooltip(
             targetTag = <.span,
             renderTarget = Button(
-              style = ButtonStyle.StyleMinimal,
-              size = ButtonStyle.SizeIcon,
+              style = Button.Style.Minimal(icon = Some(Icon.NameRedo)),
               onClick = props.onChange(props.value.change().redo()),
-              isDisabled = props.value.hasRedos,
-              icon = Some(Icon.NameRedo)
+              isDisabled = props.value.hasRedos
             )(),
             renderContent = () => "Redo"
           )(),
@@ -132,9 +128,7 @@ object Toolbar {
               renderTarget = open => {
                 Button(
                   onClick = open,
-                  size = ButtonStyle.SizeIcon,
-                  style = ButtonStyle.StyleMinimal,
-                  icon = Some(Icon.NameLink)
+                  style = Button.Style.Minimal(icon = Some(Icon.NameLink))
                 )()
               },
               renderContent = LinkModal(props.value, onAddLink, _)()
@@ -144,11 +138,9 @@ object Toolbar {
           Tooltip(
             targetTag = <.span,
             renderTarget = Button(
-              style = ButtonStyle.StyleMinimal,
-              size = ButtonStyle.SizeIcon,
+              style = Button.Style.Minimal(icon = Some(Icon.NameUnlink)),
               onClick = onRemoveLink,
-              isDisabled = !hasLink,
-              icon = Some(Icon.NameUnlink)
+              isDisabled = !hasLink
             )(),
             renderContent = () => "Remove Link"
           )(),
@@ -161,11 +153,8 @@ object Toolbar {
               Tooltip(
                 targetTag = <.span,
                 renderTarget = Button(
-                  style = ButtonStyle.StyleMinimal,
-                  size = ButtonStyle.SizeIcon,
-                  onClick = toggle,
-                  isSelected = isOpened,
-                  icon = Some(Icon.NameTextStyle)
+                  style = Button.Style.Minimal(isSelected = isOpened, icon = Some(Icon.NameTextStyle)),
+                  onClick = toggle
                 )(),
                 renderContent = () => "Formatting options"
               )()
@@ -191,9 +180,7 @@ object Toolbar {
               renderTarget = open => {
                 Button(
                   onClick = open,
-                  size = ButtonStyle.SizeIcon,
-                  style = ButtonStyle.StyleMinimal,
-                  icon = Some(Icon.NameInfo)
+                  style = Button.Style.Minimal(icon = Some(Icon.NameInfo))
                 )()
               },
               renderContent = _ => {

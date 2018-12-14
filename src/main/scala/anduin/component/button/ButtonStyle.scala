@@ -98,10 +98,15 @@ private[button] object ButtonStyle {
         Style.lineHeight.px16.fontWeight.medium.whiteSpace.noWrap,
         Style.focus.outline.transition.allWithOutline.borderRadius.px2,
         Style.display.block.position.relative,
-        TagMod.when(isBusy)(Style.pointerEvents.none)
+        TagMod.when(isBusy)(Style.pointerEvents.none),
+        // To ensure Button tpe Link has same style with other types
+        Style.hover.underlineNone
       )
       final def body: TagMod = TagMod(
         Style.flexbox.flex.flexbox.itemsCenter.flexbox.justifyCenter,
+        // Necessary to use Parent's height. Without this the vertical
+        // alignment will not work in case of "a" tag (e.g. Button tpe Link)
+        Style.height.pc100,
         TagMod.when(isBusy)(Style.opacity.pc0)
       )
 
