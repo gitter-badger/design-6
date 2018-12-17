@@ -10,7 +10,7 @@ import japgolly.scalajs.react.vdom.html_<^._
 // scalastyle:on underscore.import
 
 final case class ConfirmationModal(
-  actionText: VdomNode,
+  content: VdomNode,
   onConfirm: Callback,
   confirmBtnLabel: String,
   confirmBtnColor: Button.Color = Button.Color.White,
@@ -29,7 +29,7 @@ object ConfirmationModal {
   private class Backend(scope: BackendScope[Props, State]) {
     def render(props: Props, state: State): VdomNode = {
       React.Fragment(
-        ModalBody()(props.actionText),
+        ModalBody()(props.content),
         ModalFooterWCancel(cancel = props.onCloseModal)(
           Button(
             style = Button.Style.Full(
