@@ -55,27 +55,32 @@ private[dropdown] class DropdownTarget[A] {
   private def getButtonStyle(props: Props) = {
     val isSelected = props.downshift.isOpen.contains(true)
     val isFullWidth = props.outer.isFullWidth
-    val buttonStyle = props.outer.style match {
+    props.outer.style match {
       case Dropdown.StyleFull =>
         Button.Style.Full(isSelected = isSelected, isFullWidth = isFullWidth)
       case Dropdown.StyleMinimal =>
         Button.Style.Minimal(isSelected = isSelected, isFullWidth = isFullWidth)
     }
-    val buttonProps = Button(style = buttonStyle)
-    Button.getStyles(buttonProps, None)
   }
 
   private def render(outerProps: OuterProps): VdomElement = {
     val props = outerProps.props
+    val style = getButtonStyle(props)
+    val isDisabled = props.outer.isDisabled
     <.button(
       ^.id :=? props.outer.id,
       ^.tpe := "button",
-      ^.disabled := props.outer.isDisabled,
+      ^.disabled := isDisabled,
       Util.getModsFromProps(props.downshift.getToggleButtonProps()),
-      getButtonStyle(props)
+      style.container,
+      style.sizeRect,
+      if (isDisabled) style.colorDisabled else style.colorNormal
     )(
-      renderLabel(props),
-      DropdownTarget.icon
+      <.span(
+        style.body,
+        renderLabel(props),
+        DropdownTarget.icon
+      )
     )
   }
 
