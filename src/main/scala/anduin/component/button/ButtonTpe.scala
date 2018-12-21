@@ -28,7 +28,7 @@ private[button] object ButtonTpe {
       final def normal: TagMod = TagMod(^.tpe := text, ^.autoFocus := isAutoFocus)
       final def disabled: TagMod = TagMod(normal, ^.disabled := true)
     }
-    trait Button extends NonLink { final def text: String = "button" }
+    trait TpeButton extends NonLink { final def text: String = "button" }
     trait Submit extends NonLink { final def text: String = "submit" }
     trait Reset extends NonLink { final def text: String = "reset" }
   }

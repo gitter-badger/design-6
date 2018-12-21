@@ -12,7 +12,7 @@ import japgolly.scalajs.react.vdom.html_<^._
 
 final case class Button(
   style: Button.Style = Button.Style.Full(),
-  tpe: Button.Tpe = Button.Tpe.Button(),
+  tpe: Button.Tpe = Button.Tpe.TpeButton(),
   // actually these 2 props don't make much sense when being used with
   // Button.Tpe.Link. However, they are placed here (top-level) due to our
   // massive current usages.
@@ -46,7 +46,7 @@ object Button {
     // https://developer.mozilla.org/en-US/docs/Web/HTML/Element/a
     final case class Link(href: String, target: Target = Target.Self) extends ButtonTpe.Tpe.Link
     // https://developer.mozilla.org/en-US/docs/Web/HTML/Element/button#attr-type
-    case class Button(isAutoFocus: Boolean = false) extends ButtonTpe.Tpe.Button
+    case class TpeButton(isAutoFocus: Boolean = false) extends ButtonTpe.Tpe.TpeButton
     case class Submit(isAutoFocus: Boolean = false) extends ButtonTpe.Tpe.Submit
     case class Reset(isAutoFocus: Boolean = false) extends ButtonTpe.Tpe.Reset
   }
