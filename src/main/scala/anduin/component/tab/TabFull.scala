@@ -10,17 +10,17 @@ import japgolly.scalajs.react.vdom.html_<^._
 // scalastyle:on underscore.import
 
 private[tab] final case class TabFull(
-  titles: List[(VdomNode, Int)],
+  titles: Seq[(VdomNode, Int)],
   content: VdomNode,
   active: Int,
   setActive: Int => Callback
 ) {
-  def apply(): VdomElement = { TabFull.component(this) }
+  def apply(): VdomElement = TabFull.component(this)
 }
 
 private[tab] object TabFull {
 
-  type Props = TabFull
+  private type Props = TabFull
 
   private val activeStyles = TagMod(
     Style.backgroundColor.white.color.gray8.borderRadius.px2.borderRadius.top,

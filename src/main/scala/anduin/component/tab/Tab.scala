@@ -8,7 +8,7 @@ import japgolly.scalajs.react.vdom.html_<^._
 // scalastyle:on underscore.import
 
 final case class Tab(
-  panels: List[Tab.Panel],
+  panels: Seq[Tab.Panel],
   defaultPanel: Int = 0,
   style: Tab.Style = Tab.StyleFull,
   // Uncontrolled tab -> Let parent controls the state
@@ -41,13 +41,13 @@ object Tab {
 
   private class Backend(scope: BackendScope[Props, State]) {
 
-    private def selfSetActive(index: Int) = scope.setState { State(index) }
+    private def selfSetActive(index: Int) = scope.setState(State(index))
 
     def render(props: Props, state: State): VdomElement = {
       // decide active based on whether this is an uncontrolled component or not
       val active = props.active.getOrElse(state.active)
       val setActive: Int => Callback =
-        props.setActive.getOrElse(this.selfSetActive)
+        props.setActive.getOrElse(this.selfSetActive _)
 
       val panel = props.panels(active)
       val content = React.Fragment(
