@@ -9,6 +9,7 @@ import org.scalajs.dom.raw.{File, FileList, HTMLCanvasElement, HTMLElement}
 import anduin.component.button.Button
 import anduin.component.input.FileButtonInput
 import anduin.component.modal.{ModalBody, ModalFooter}
+import anduin.component.util.ComponentUtils
 import anduin.scalajs.reactimagecrop.Crop
 import anduin.style.Style
 
@@ -95,6 +96,7 @@ private[image] object CropImageModal {
       }
 
       <.div(
+        ComponentUtils.testId(CropImageModal, "Container"),
         Style.position.relative,
         <.div(
           Style.position.absolute.coordinate.left0.coordinate.top0,
@@ -121,6 +123,7 @@ private[image] object CropImageModal {
               <.div(
                 Style.flexbox.flex.flexbox.justifyEnd,
                 <.div(
+                  ComponentUtils.testId(CropImageModal, "CropAndUploadButton"),
                   Style.margin.right8,
                   Button(
                     style = Button.Style.Full(color = Button.Color.Blue),
