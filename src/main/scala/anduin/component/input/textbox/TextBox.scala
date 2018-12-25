@@ -62,16 +62,17 @@ object TextBox {
   case object StatusValid extends Status
   case object StatusInvalid extends Status
 
-  sealed abstract class Mask
-  case object MaskEmail extends Mask
-  case object MaskCurrency extends Mask
-  case object MaskPercentage extends Mask
-  case object MaskNumber extends Mask
-  case object MaskFloat extends Mask
-  case class MaskArray(value: List[TextMask.Item]) extends Mask
-  case class MaskFunc(value: String => TextMask.Array) extends Mask
+  sealed abstract class Mask(private[TextBox] val placeholder: String)
+  case object MaskEmail extends Mask("@")
+  case object MaskCurrency extends Mask("$")
+  case object MaskPercentage extends Mask("%")
+  case object MaskNumber extends Mask("")
+  case object MaskFloat extends Mask("")
+  case class MaskCustomArray(value: List[TextMask.Item]) extends Mask("")
+  case class MaskCustomFunc(value: String => TextMask.Array) extends Mask("")
 
-  // ===
+  // only onChange and onBlur should be defined here because they are
+  // controlled by TextMask
 
   private def onChange(props: Props)(e: ReactEventFromInput): Unit = {
     val value = e.target.value
@@ -81,6 +82,16 @@ object TextBox {
   private def onBlur(props: Props)(e: ReactEventFromInput): Unit = {
     val value = e.target.value
     props.onBlur(value).runNow()
+  }
+
+  // ===
+
+  private def getPlaceholder(props: Props): String = {
+    if (props.placeholder.nonEmpty) {
+      props.placeholder
+    } else {
+      props.mask.fold("")(_.placeholder)
+    }
   }
 
   private def renderTextMask(props: Props)(
@@ -94,7 +105,7 @@ object TextBox {
       VdomAttr("ref") := maskRef,
       // All other props
       ^.id :=? props.id,
-      ^.placeholder := props.placeholder,
+      ^.placeholder := getPlaceholder(props),
       ^.onFocus --> props.onFocus,
       ^.onKeyDown ==> props.onKeyDown,
       ^.onKeyUp ==> props.onKeyUp,

@@ -36,7 +36,7 @@ private[textbox] object TextBoxMask {
     case TextBox.MaskPercentage   => percentage
     case TextBox.MaskNumber       => number
     case TextBox.MaskFloat        => float
-    case array: TextBox.MaskArray => TextMask.Array(array.value)
-    case func: TextBox.MaskFunc   => TextMask.Func(func.value)
+    case array: TextBox.MaskCustomArray => TextMask.Array(array.value)
+    case func: TextBox.MaskCustomFunc   => TextMask.Func(func.value)
   }
 }
