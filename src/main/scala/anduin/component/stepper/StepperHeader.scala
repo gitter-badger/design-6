@@ -4,6 +4,7 @@ package anduin.component.stepper
 
 import anduin.style.{CssVar, Style}
 import anduin.component.icon.Icon
+import anduin.component.util.ComponentUtils
 
 // scalastyle:off underscore.import
 import japgolly.scalajs.react._
@@ -81,7 +82,17 @@ object StepperHeader {
     }
   }
   private def renderTitle(props: Props, title: String): VdomElement = {
+    val state =
+      if (props.titles.indexOf(title) > props.current) {
+        "Future"
+      } else if (props.titles.indexOf(title) < props.current) {
+        "Past"
+      } else {
+        "Current"
+      }
+
     <.p(
+      ComponentUtils.testId(StepperHeader, state),
       Style.fontWeight.medium.padding.hor32,
       Style.whiteSpace.preLine.textAlign.center, {
         val isFuture = props.titles.indexOf(title) > props.current
@@ -97,6 +108,7 @@ object StepperHeader {
   private def renderChild(props: Props)(title: String): VdomElement = {
     val lines = Line.render(props, title)
     <.div(
+      ComponentUtils.testId(StepperHeader, title),
       ^.key := title,
       <.div(upperStyles, lines._1, Dot.render(props, title), lines._2),
       renderTitle(props, title)
@@ -109,7 +121,11 @@ object StepperHeader {
   )
 
   private def render(props: Props): VdomElement = {
-    <.div(styles, props.titles.toVdomArray(renderChild(props)))
+    <.div(
+      ComponentUtils.testId(StepperHeader, "Container"),
+      styles,
+      props.titles.toVdomArray(renderChild(props))
+    )
   }
 
   private val component = ScalaComponent
