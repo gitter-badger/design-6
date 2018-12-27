@@ -103,6 +103,9 @@ object TextBox {
       // These mods and ref will control `onChange`, `onBlur` and `value`
       Util.getModsFromProps(maskProps),
       VdomAttr("ref") := maskRef,
+      // When "mask" is not defined TextMask won't update the "value" for us
+      // so we need to bind it directly ourselves
+      TagMod.when(props.mask.isEmpty)(^.value := props.value),
       // All other props
       ^.id :=? props.id,
       ^.placeholder := getPlaceholder(props),
