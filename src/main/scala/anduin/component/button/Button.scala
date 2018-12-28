@@ -17,7 +17,8 @@ final case class Button(
   // Button.Tpe.Link. However, they are placed here (top-level) due to our
   // massive current usages.
   isDisabled: Boolean = false,
-  onClick: Callback = Callback.empty
+  onClick: Callback = Callback.empty,
+  onDoubleClick: Callback = Callback.empty
 ) {
   def apply(children: VdomNode*): VdomElement = {
     Button.component(this)(children: _*)
@@ -132,7 +133,12 @@ object Button {
 
   private[component] def getBehaviours(props: Props): TagMod = TagMod(
     if (props.isDisabled) props.tpe.disabled else props.tpe.normal,
-    TagMod.when(!props.isDisabled) { ^.onClick --> props.onClick }
+    TagMod.when(!props.isDisabled) {
+      TagMod(
+        ^.onClick --> props.onClick,
+        ^.onDoubleClick --> props.onDoubleClick
+      )
+    }
   )
 
   private[component] def getContent(props: Props, children: PropsChildren): TagMod = {
