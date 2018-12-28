@@ -90,5 +90,13 @@ object ReadOnlyEditor {
     }
     .renderBackend[Backend]
     .componentDidMount(_.backend.findLinks)
+    .componentWillReceiveProps { scope =>
+      val curProps = scope.currentProps
+      val nextProps = scope.nextProps
+      Callback.when(curProps.html != nextProps.html) {
+        val body = nextProps.maxLengthOpt.map(nextProps.html.substring(0, _)).getOrElse(nextProps.html)
+        scope.modState(_ => State(value = Serializer.deserialize(body)))
+      }
+    }
     .build
 }
