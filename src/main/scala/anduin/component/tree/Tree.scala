@@ -24,7 +24,12 @@ class Tree[A] {
 
   def apply(): Props.type = Props
 
-  case class RenderProps(node: A, parents: Seq[A], toggle: Callback)
+  case class RenderProps(
+    node: A,
+    parents: Seq[A],
+    toggle: Callback,
+    isOpened: Boolean
+  )
 
   case class Props(
     node: A,
@@ -78,7 +83,12 @@ class Tree[A] {
     }
 
     private def renderContent(props: Props, state: State): VdomElement = {
-      val rProps = RenderProps(props.node, props.parentNodes, toggle(props, state))
+      val rProps = RenderProps(
+        props.node,
+        props.parentNodes,
+        toggle(props, state),
+        state.isOpened
+      )
       props.render(rProps)
     }
 
