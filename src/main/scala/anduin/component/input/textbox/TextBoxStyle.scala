@@ -18,30 +18,12 @@ private[component] object TextBoxStyle {
 
   private val borderStatic = Style.border.all.borderWidth.px1.borderRadius.px2
 
-  // Size
-
-  case class SizeStyle(font: TagMod, line: TagMod)
-  private val size32 = SizeStyle(Style.fontSize.px13, Style.lineHeight.px16)
-  private val size40 = SizeStyle(Style.fontSize.px16, Style.lineHeight.px24)
-
-  private def getFont(props: Props): TagMod = {
-    val style = props.size match {
-      case TextBox.Size32 => size32
-      case TextBox.Size40 => size40
-    }
-    val line: TagMod = props.tpe match {
-      case _: TextBox.TpeSingle => style.line
-      case _: TextBox.TpeArea   => Style.lineHeight.ratio1p5
-    }
-    TagMod(line, style.font)
-  }
-
   // Common styles for both input and context
 
   private def getCommon(props: Props): TagMod = TagMod(
     borderStatic,
     Style.padding.hor12.padding.ver8,
-    getFont(props)
+    props.tpe.getSize(props.size)
   )
 
   // Input
@@ -77,7 +59,9 @@ private[component] object TextBoxStyle {
     getBorderColor(props),
     getBackground(props),
     getColor(props),
-    TagMod.when(props.context.isDefined) { Style.borderRadius.right }
+    TagMod.when(props.context.isDefined) {
+      Style.borderRadius.right
+    }
   )
 
   // Context

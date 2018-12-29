@@ -25,9 +25,9 @@ final case class TextBox(
   context: Option[VdomNode] = None,
   // ===
   id: Option[String] = None,
-  tpe: TextBox.Tpe = TextBox.TpeText,
+  tpe: TextBoxType = TextBox.TpeText,
   status: TextBox.Status = TextBox.StatusNone,
-  size: TextBox.Size = TextBox.Size32,
+  size: TextBoxSize = TextBox.Size32,
   mask: Option[TextBox.Mask] = None,
   // ===
   isDisabled: Boolean = false,
@@ -44,17 +44,12 @@ object TextBox {
 
   // Options
 
-  sealed abstract class Tpe(private[TextBox] val tag: VdomTag)
-  // <input type="..." />
-  sealed abstract class TpeSingle(tag: VdomTagOf[Input]) extends Tpe(tag)
-  case object TpeText extends TpeSingle(<.input.text)
-  case object TpePassword extends TpeSingle(<.input.password)
-  // <textarea rows="..." />
-  case class TpeArea(rows: Int = 3) extends Tpe(<.textarea(^.rows := rows))
+  object TpeText extends TextBoxType.Text
+  object TpePassword extends TextBoxType.Password
+  case class TpeArea(rows: Int = 3) extends TextBoxType.Area
 
-  sealed abstract class Size
-  case object Size32 extends Size
-  case object Size40 extends Size
+  object Size32 extends TextBoxSize.Px32
+  object Size40 extends TextBoxSize.Px40
 
   sealed abstract class Status
   case object StatusNone extends Status
