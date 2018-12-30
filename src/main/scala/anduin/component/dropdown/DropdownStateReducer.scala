@@ -17,10 +17,11 @@ private[dropdown] class DropdownStateReducer[A] {
   case class Data(isInnerClick: Boolean)
   case class Input(state: State, changes: Changes, data: Data)
 
-  // Clear inputValue when menu opens
+  // Clear inputValue when menu is opening or opened
   private def clearInput(input: Input): Input = {
     val isTyping = input.changes.tpe.contains(Types.changeInput)
-    val isOpen = input.changes.isOpen.exists(_ == true)
+    val isOpen = input.changes.isOpen.exists(_ == true) ||
+      input.state.isOpen.exists(_ == true)
     if (isOpen && !isTyping) {
       val update = new DownshiftStateChanges[A] {
         override val inputValue = ""
