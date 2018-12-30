@@ -19,11 +19,13 @@ private[dropdown] class DropdownStateReducer[A] {
 
   // Clear inputValue when menu opens
   private def clearInput(input: Input): Input = {
-    if (!input.changes.tpe.contains(Types.changeInput) &&
-        input.changes.isOpen.exists(_ == true)) {
-      val nextChanges = merge(input.changes, new DownshiftStateChanges[A] {
+    val isTyping = input.changes.tpe.contains(Types.changeInput)
+    val isOpen = input.changes.isOpen.exists(_ == true)
+    if (isOpen && !isTyping) {
+      val update = new DownshiftStateChanges[A] {
         override val inputValue = ""
-      })
+      }
+      val nextChanges = merge(input.changes, update)
       input.copy(changes = nextChanges)
     } else {
       input
@@ -41,8 +43,8 @@ private[dropdown] class DropdownStateReducer[A] {
   //   - and the PR of this change
   private def preventClosing(input: Input): Input = {
     if (input.changes.tpe.contains(Types.mouseUp) &&
-      input.changes.isOpen.exists(_ == false) &&
-      input.data.isInnerClick) {
+        input.changes.isOpen.exists(_ == false) &&
+        input.data.isInnerClick) {
       input.copy(changes = new DownshiftStateChanges[A] {
         @JSName("type")
         override val tpe: UndefOr[String] = input.changes.tpe
