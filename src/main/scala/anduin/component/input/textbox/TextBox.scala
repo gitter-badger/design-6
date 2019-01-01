@@ -89,6 +89,22 @@ object TextBox {
     }
   }
 
+  private def getTextMaskMods(maskProps: js.Dictionary[js.Any]): TagMod = {
+    // "maskProps" defines "onChange", "onBlue" and "defaultValue"
+    // - In case of masked, TextMask will update "value" based on
+    //   "defaultValue" properly
+    // - In case of not masked, TextMask won't, so the "value" of the input
+    //   is out of sync
+    // The solution here is to always set "value" instead of "defaultValue"
+    // See:
+    // - https://github.com/text-mask/text-mask/issues/838
+    // - https://github.com/text-mask/text-mask/pull/831
+    val updatedMaskProps = maskProps.map { prop =>
+      if (prop._1 == "defaultValue") ("value", prop._2) else prop
+    }
+    Util.getModsFromProps(updatedMaskProps)
+  }
+
   private def renderTextMask(props: Props)(
     maskRef: raw.React.RefFn[Input],
     maskProps: js.Dictionary[js.Any]
@@ -96,11 +112,8 @@ object TextBox {
     val attrs = TagMod(
       TextBoxStyle.getInput(props),
       // These mods and ref will control `onChange`, `onBlur` and `value`
-      Util.getModsFromProps(maskProps),
+      getTextMaskMods(maskProps),
       VdomAttr("ref") := maskRef,
-      // When "mask" is not defined TextMask won't update the "value" for us
-      // so we need to bind it directly ourselves
-      TagMod.when(props.mask.isEmpty)(^.value := props.value),
       // All other props
       ^.id :=? props.id,
       ^.placeholder := getPlaceholder(props),
