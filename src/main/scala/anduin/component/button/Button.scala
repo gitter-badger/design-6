@@ -54,15 +54,15 @@ object Button {
 
   // Style ===
 
-  trait Size {
+  trait Height {
     def square: TagMod
     def rect: TagMod
   }
-  object Size {
-    object Fix24 extends ButtonStyle.Size.Fix24
-    object Fix32 extends ButtonStyle.Size.Fix32
-    object Fix40 extends ButtonStyle.Size.Fix40
-    object Free extends ButtonStyle.Size.Free
+  object Height {
+    object Fix24 extends ButtonStyle.Height.Fix24
+    object Fix32 extends ButtonStyle.Height.Fix32
+    object Fix40 extends ButtonStyle.Height.Fix40
+    object Free extends ButtonStyle.Height.Free
   }
 
   trait Color
@@ -97,7 +97,7 @@ object Button {
 
     final case class Full(
       color: Color = Color.White,
-      size: Size = Size.Fix32,
+      height: Height = Height.Fix32,
       icon: Option[Icon.Name] = None,
       isFullWidth: Boolean = false,
       isSelected: Boolean = false,
@@ -106,7 +106,7 @@ object Button {
 
     final case class Ghost(
       color: Color = Color.Black,
-      size: Size = Size.Fix32,
+      height: Height = Height.Fix32,
       icon: Option[Icon.Name] = None,
       isFullWidth: Boolean = false,
       isSelected: Boolean = false,
@@ -115,7 +115,7 @@ object Button {
 
     final case class Minimal(
       color: Color = Color.Black,
-      size: Size = Size.Fix32,
+      height: Height = Height.Fix32,
       icon: Option[Icon.Name] = None,
       isFullWidth: Boolean = false,
       isSelected: Boolean = false,
