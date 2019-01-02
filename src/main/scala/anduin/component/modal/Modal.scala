@@ -33,7 +33,8 @@ final case class Modal(
   isClosable: Option[PortalUtils.IsClosable] = PortalUtils.defaultIsClosable,
   // Modal specific props
   title: String = "",
-  size: Modal.Size = Modal.Size480,
+  size: Modal.Size = Modal.Size480, // Will be "Width"
+  height: Modal.Height = Modal.Height.Content,
   isPermanent: Boolean = false,
   layout: Modal.LayoutMods = Modal.LayoutMods()
 ) {
@@ -46,16 +47,25 @@ object Modal {
 
   case class LayoutMods(overlay: TagMod = EmptyVdom, container: TagMod = EmptyVdom)
 
-  // Public options
-  private val defaultOverlayPadding = Style.margin.ver32
+  // Will be rename to Width
+  sealed trait Size {
+    def width: TagMod
+    final def container: TagMod = TagMod(width, Style.overflow.hiddenX.margin.horAuto)
+  }
+  case object Size480 extends Size { val width: TagMod = ^.width := "480px" }
+  case object Size600 extends Size { val width: TagMod = ^.width := "600px" }
+  case object Size720 extends Size { val width: TagMod = ^.width := "720px" }
+  case object Size960 extends Size { val width: TagMod = ^.width := "960px" }
+  case object Size1160 extends Size { val width: TagMod = ^.width := "1160px" }
+  case object SizeFull extends Size { val width: TagMod = Style.width.pc100 }
 
-  sealed trait Size { val style: TagMod }
-  case object Size480 extends Size { val style: TagMod = TagMod(^.width := "480px", defaultOverlayPadding) }
-  case object Size600 extends Size { val style: TagMod = TagMod(^.width := "600px", defaultOverlayPadding) }
-  case object Size720 extends Size { val style: TagMod = TagMod(^.width := "720px", defaultOverlayPadding) }
-  case object Size960 extends Size { val style: TagMod = TagMod(^.width := "960px", defaultOverlayPadding) }
-  case object Size1160 extends Size { val style: TagMod = TagMod(^.width := "1160px", defaultOverlayPadding) }
-  case object SizeFull extends Size { val style: TagMod = Style.width.pc100.height.pc100 }
+  sealed trait Height { def container: TagMod }
+  object Height {
+    object Content extends Height { val container: TagMod = Style.margin.ver32 }
+    // it's intentional to use overflow.hiddenY instead of autoY here since
+    // consumers should only use Full to be able to get parent's height
+    object Full extends Height { val container: TagMod = Style.height.pc100.overflow.hiddenY }
+  }
 
   // Internal rendering
 
@@ -67,9 +77,8 @@ object Modal {
     Style.zIndex.idx999
   )
 
-  private val contentStaticMod = TagMod(
+  private val containerStaticMod = TagMod(
     Style.backgroundColor.gray1.borderRadius.px2,
-    Style.overflow.hidden.margin.horAuto,
     ^.tabIndex := 0 // Allow (keyboard) focus so Esc can work
   )
 
@@ -87,8 +96,9 @@ object Modal {
         // Anatomy: Container
         <.div(
           ComponentUtils.testId(this, "Container"),
-          contentStaticMod,
-          props.size.style,
+          containerStaticMod,
+          props.size.container,
+          props.height.container,
           props.layout.container,
           // Anatomy: Header
           TagMod.when(props.title.nonEmpty) {
