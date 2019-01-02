@@ -31,7 +31,6 @@ private[style] final case class Flexbox(classes: List[String] = List.empty) {
   def auto: Style = new Style(classes :+ "flex-auto")
   def fixed: Style = new Style(classes :+ "flex-fixed")
   def none: Style = new Style(classes :+ "flex-none")
-  def one: Style = new Style(classes :+ "flex-one")
 
   def grow0: Style = new Style(classes :+ "flex-grow-0")
   def grow1: Style = new Style(classes :+ "flex-grow-1")
