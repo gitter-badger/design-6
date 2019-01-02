@@ -3,6 +3,7 @@
 package anduin.component.modal
 
 import anduin.component.portal.{Portal, PortalUtils}
+import anduin.component.util.ComponentUtils
 import anduin.style.Style
 import org.scalajs.dom
 
@@ -11,6 +12,13 @@ import japgolly.scalajs.react._
 import japgolly.scalajs.react.vdom.html_<^._
 // scalastyle:on underscore.import
 
+// Modal's anatomy (based on render result):
+// - Overlay (aka Backdrop, the full-screen translucent background)
+//   - Container (Portal's content, aka the "Modal")
+//     - Header (built-in ModalHeader)
+//     - Content (consumer-provided content via props.renderContent)
+//       - Body (usually ModalBody)
+//       - Footer (usually ModalFooter)
 final case class Modal(
   // Portal common props (see Portal for detail)
   renderTarget: Callback => VdomNode = _ => EmptyVdom, // (Toggle) - might not necessary if isOpened is defined
@@ -36,10 +44,7 @@ object Modal {
 
   private type Props = Modal
 
-  case class LayoutMods(
-    overlay: TagMod = EmptyVdom,
-    content: TagMod = EmptyVdom
-  )
+  case class LayoutMods(overlay: TagMod = EmptyVdom, container: TagMod = EmptyVdom)
 
   // Public options
   private val defaultOverlayPadding = Style.margin.ver32
@@ -54,7 +59,7 @@ object Modal {
 
   // Internal rendering
 
-  private val overlayStyles = TagMod(
+  private val overlayStaticMod = TagMod(
     Style.position.fixed.coordinate.fill.overflow.autoY,
     ^.backgroundColor := "rgba(48, 64, 77, 0.9)",
     // Backward compatible
@@ -62,31 +67,44 @@ object Modal {
     Style.zIndex.idx999
   )
 
-  private val contentStyles = TagMod(
+  private val contentStaticMod = TagMod(
     Style.backgroundColor.gray1.borderRadius.px2,
-    Style.overflow.hidden.margin.horAuto
+    Style.overflow.hidden.margin.horAuto,
+    ^.tabIndex := 0 // Allow (keyboard) focus so Esc can work
   )
 
-  private def renderContent(props: Props)(close: Callback): VdomElement = {
-    val content = <.div(
-      overlayStyles,
-      PortalUtils.getClosableMods(props.isClosable, close),
-      props.layout.overlay,
+  // Should see Modal's anatomy at top of file
+  private def renderModal(props: Props)(close: Callback): VdomElement = {
+    // This double divs is to keep the render consistent with the unmount's
+    // detach render (which use renderIntoDOM instead of ReactPortal)
+    <.div(
+      // Anatomy: Overlay
       <.div(
-        contentStyles,
-        props.size.style,
-        props.layout.content,
-        ^.tabIndex := 0, // Allow (keyboard) focus so Esc can work
-        // Content
-        TagMod.when(props.title.nonEmpty) {
-          ModalHeader(props.title, props.isClosable.isDefined, close)()
-        },
-        props.renderContent(close)
+        ComponentUtils.testId(this, "Overlay"),
+        overlayStaticMod,
+        PortalUtils.getClosableMods(props.isClosable, close),
+        props.layout.overlay,
+        // Anatomy: Container
+        <.div(
+          ComponentUtils.testId(this, "Container"),
+          contentStaticMod,
+          props.size.style,
+          props.layout.container,
+          // Anatomy: Header
+          TagMod.when(props.title.nonEmpty) {
+            <.div(
+              ComponentUtils.testId(this, "Header"),
+              ModalHeader(props.title, props.isClosable.isDefined, close)()
+            )
+          },
+          // Anatomy: Content
+          <.div(
+            ComponentUtils.testId(this, "Content"),
+            props.renderContent(close)
+          )
+        )
       )
     )
-    // This external div is to keep the render consistent with the unmount's
-    // detach render (which use renderIntoDOM instead of ReactPortal)
-    <.div(content)
   }
 
   // Main render
@@ -98,7 +116,7 @@ object Modal {
   private def render(props: Props): VdomElement = {
     Portal(
       renderTarget = (toggle, _) => props.renderTarget(toggle),
-      renderContent = renderContent(props),
+      renderContent = renderModal(props),
       // ===
       defaultIsOpened = props.defaultIsOpened,
       isOpened = props.isOpened,
