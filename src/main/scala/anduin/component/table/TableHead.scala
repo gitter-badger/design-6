@@ -35,72 +35,56 @@ private[table] class TableHead[A] {
       // Not sorting by this column
       (Style.color.gray4, Icon.NameCaretVertical)
     }
-    val negativeMargin = ^.marginRight := "-4px"// visual touch
+    val negativeMargin = ^.marginRight := "-4px" // visual touch
     <.span(negativeMargin, color, Icon(name = icon)())
   }
 
-  private val titleCommonStyles = TagMod(
-    Style.fontSize.px12.fontWeight.semiBold,
-    Style.textAlign.left.color.gray6,
-    Style.padding.ver8.padding.hor12
-  )
-
-  private val titleButtonStyles = TagMod(
-    titleCommonStyles,
-    Style.flexbox.flex.flexbox.itemsCenter.width.pc100,
+  private val titleStyles = TagMod(
+    Style.fontSize.px12.fontWeight.semiBold.textAlign.left.color.gray6,
+    Style.padding.ver8.padding.hor12.flexbox.flex.flexbox.itemsCenter.width.pc100,
     Style.active.colorPrimary5.focus.outline.transition.allWithOutline
   )
 
-  private def renderTitleButton(
-    props: Props,
-    column: Table.Column[A],
-    index: Int
-  ) = {
+  private def renderTitle(props: Props, column: Table.Column[A], index: Int) = {
+    val sortable = column.sortBy match {
+      case _: Table.ColumnOrderingHasOrder[A] => true
+      case _: Table.ColumnOrderingEmpty[A]    => false
+    }
     <.button(
-      titleButtonStyles,
       ^.tpe := "button",
+      titleStyles,
       ^.onClick --> props.sort(index),
+      ^.disabled := !sortable,
       <.span(
         Style.flexbox.fixed,
-        TagMod.when(props.sortColumn.contains(index)) {
-          Style.color.gray8
-        },
+        TagMod.when(props.sortColumn.contains(index))(Style.color.gray8),
         column.head
       ),
-      renderSortIcon(index, props)
+      TagMod.when(sortable)(renderSortIcon(index, props))
     )
   }
 
-  private def renderColumn(props: Props)(
-    colWithIndex: (Table.Column[A], Int)
-  ) = {
+  private def renderHead(props: Props)(colWithIndex: (Table.Column[A], Int)) = {
     val (column, index) = colWithIndex
-    // Note: This is bad, super bad. See the note at the definition of
-    // sortByInt
-    val sortable = column.sortBy match {
-        case _: Table.ColumnOrderingHasOrder[A] => true
-        case _: Table.ColumnOrderingEmpty[A] => false
-    }
-    val content = if (sortable) {
-      renderTitleButton(props, column, index)
-    } else {
-      <.div(titleCommonStyles, column.head)
-    }
     <.th(
-      Style.padding.all0, // because of current CSS
       ^.key := index,
-      TagMod.unless(column.width.isEmpty) { ^.width := column.width },
+      Style.padding.all0, // because of current CSS
+      TagMod.unless(column.width.isEmpty)(^.width := column.width),
       props.style.th,
-      content
+      renderTitle(props, column, index)
     )
   }
 
+  // TableHead's anatomy:
+  // - <.thead (render)
+  //   - <.tr
+  //     - <.th (renderHead)
+  //       - <.button (renderTitle)
   private def render(props: Props): VdomElement = {
-    val columns = props.columns.zipWithIndex.toVdomArray(renderColumn(props))
+    val columns = props.columns.zipWithIndex.toVdomArray(renderHead(props))
     <.thead(
       ComponentUtils.testId(Table, "Head"),
       Style.whiteSpace.noWrap,
-      props.style.thead,
       <.tr(props.style.tr, columns)
     )
   }

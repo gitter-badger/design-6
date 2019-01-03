@@ -44,19 +44,16 @@ object Table {
   }
 
   sealed trait Style {
-    val tr: TagMod
-    val thead: TagMod
-    val th: TagMod
+    def tr: TagMod
+    def th: TagMod
   }
   private val border = Style.borderWidth.px1.borderColor.gray3
   case object StyleFull extends Style {
     val tr: TagMod = TagMod(border, Style.border.all)
-    val thead: TagMod = Style.backgroundColor.gray1
-    val th: TagMod = TagMod(border, Style.border.all)
+    val th: TagMod = TagMod(border, Style.border.all.backgroundColor.gray1)
   }
   case object StyleMinimal extends Style {
     val tr: TagMod = TagMod(border, Style.border.bottom)
-    val thead: TagMod = TagMod.empty
     val th: TagMod = TagMod.empty
   }
 }
