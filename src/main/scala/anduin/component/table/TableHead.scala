@@ -15,7 +15,8 @@ private[table] class TableHead[A] {
 
   case class Props(
     columns: Seq[Table.Column[A]],
-    style: Table.Style,
+    style: TableStyle,
+    isSticky: Option[Table.Sticky],
     // ==
     sort: Int => Callback,
     sortColumn: Option[Int],
@@ -68,9 +69,13 @@ private[table] class TableHead[A] {
     val (column, index) = colWithIndex
     <.th(
       ^.key := index,
+      props.isSticky.fold(TagMod.empty) { sticky =>
+        TagMod(Style.position.sticky.zIndex.idx1, ^.top := s"${sticky.offset}px")
+      },
       Style.padding.all0, // because of current CSS
-      TagMod.unless(column.width.isEmpty)(^.width := column.width),
+      TagMod.when(column.width.nonEmpty)(^.width := column.width),
       props.style.th,
+      TagMod.when(index != 0)(props.style.thNotFirst),
       renderTitle(props, column, index)
     )
   }
@@ -78,14 +83,14 @@ private[table] class TableHead[A] {
   // TableHead's anatomy:
   // - <.thead (render)
   //   - <.tr
-  //     - <.th (renderHead)
+  //     - <.th (renderHead) <~ btw, sticky happens here
   //       - <.button (renderTitle)
   private def render(props: Props): VdomElement = {
     val columns = props.columns.zipWithIndex.toVdomArray(renderHead(props))
     <.thead(
       ComponentUtils.testId(Table, "Head"),
       Style.whiteSpace.noWrap,
-      <.tr(props.style.tr, columns)
+      <.tr(columns)
     )
   }
 

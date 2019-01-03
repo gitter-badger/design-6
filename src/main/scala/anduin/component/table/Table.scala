@@ -3,7 +3,7 @@
 package anduin.component.table
 
 import anduin.component.util.ComponentUtils
-import anduin.style.Style
+import anduin.style.{Style => SStyle}
 
 // scalastyle:off underscore.import
 import japgolly.scalajs.react._
@@ -12,10 +12,10 @@ import japgolly.scalajs.react.vdom.html_<^._
 
 object Table {
   abstract class Align(private[table] val styles: TagMod)
-  case object AlignInherit extends Align(Style.verticalAlign.inherit)
-  case object AlignTop extends Align(Style.verticalAlign.top)
-  case object AlignMiddle extends Align(Style.verticalAlign.middle)
-  case object AlignBottom extends Align(Style.verticalAlign.bottom)
+  case object AlignInherit extends Align(SStyle.verticalAlign.inherit)
+  case object AlignTop extends Align(SStyle.verticalAlign.top)
+  case object AlignMiddle extends Align(SStyle.verticalAlign.middle)
+  case object AlignBottom extends Align(SStyle.verticalAlign.bottom)
 
   case class Cell(
     content: VdomNode = EmptyVdom,
@@ -43,19 +43,12 @@ object Table {
     }
   }
 
-  sealed trait Style {
-    def tr: TagMod
-    def th: TagMod
+  object Style {
+    object Full extends TableStyle.Full
+    object Minimal extends TableStyle.Minimal
   }
-  private val border = Style.borderWidth.px1.borderColor.gray3
-  case object StyleFull extends Style {
-    val tr: TagMod = TagMod(border, Style.border.all)
-    val th: TagMod = TagMod(border, Style.border.all.backgroundColor.gray1)
-  }
-  case object StyleMinimal extends Style {
-    val tr: TagMod = TagMod(border, Style.border.bottom)
-    val th: TagMod = TagMod.empty
-  }
+
+  case class Sticky(offset: Int = 0)
 }
 
 class Table[A] {
@@ -76,12 +69,11 @@ class Table[A] {
     rows: Seq[A],
     getKey: A => String,
     // ===
-    style: Table.Style = Table.StyleFull,
+    style: TableStyle = Table.Style.Full,
     // head
     sortColumn: Option[Int] = None,
     sortIsAsc: Boolean = true,
-    headIsSticky: Boolean = false,
-    headStickyOffset: Int = 0,
+    headIsSticky: Option[Table.Sticky] = None,
     // body
     renderRow: TableBody.RenderRow[A] = TableBody.defaultRenderRow[A],
     align: Table.Align = Table.AlignMiddle,
@@ -111,15 +103,16 @@ class Table[A] {
     def render(props: Props, state: State): VdomElement = {
 
       val styles = TagMod(
-        Style.width.pc100.backgroundColor.white.table.collapse,
-        TagMod.when(props.columns.count(_.width.isEmpty) < 2) {
-          Style.table.fixed
-        }
+        SStyle.width.pc100.backgroundColor.white,
+        ^.cellSpacing := "0",
+        TagMod.when(props.columns.count(_.width.isEmpty) < 2)(SStyle.table.fixed),
+        props.style.table
       )
 
       val head = Head(
         columns = props.columns,
         style = props.style,
+        isSticky = props.headIsSticky,
         // ==
         sortColumn = state.sortColumn,
         sortIsAsc = state.sortIsAsc,
@@ -140,13 +133,8 @@ class Table[A] {
         sortIsAsc = state.sortIsAsc
       )()
 
-      if (!props.headIsSticky) {
-        val id = ComponentUtils.testId(Table, "Container")
-        <.table(id, styles, head, body)
-      } else {
-        val widths = props.columns.map(_.width)
-        TableSticky(widths, styles, body, head, props.headStickyOffset)()
-      }
+      val id = ComponentUtils.testId(Table, "Container")
+      <.table(id, styles, head, body)
     }
 
   }
