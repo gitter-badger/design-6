@@ -12,23 +12,23 @@ import japgolly.scalajs.react.vdom.html_<^._
 
 private[button] object ButtonStyle {
 
-  object Size {
-    trait Fix24 extends Button.Size {
+  object Height {
+    trait Fix24 extends Button.Height {
       private def common = Style.height.px24.fontSize.px12
       final def square: TagMod = TagMod(common, ^.width := "24px")
       final def rect: TagMod = TagMod(common, Style.padding.hor8)
     }
-    trait Fix32 extends Button.Size {
+    trait Fix32 extends Button.Height {
       private def common = Style.height.px32.fontSize.px13
       final def square: TagMod = TagMod(common, Style.width.px32)
       final def rect: TagMod = TagMod(common, Style.padding.hor12)
     }
-    trait Fix40 extends Button.Size {
+    trait Fix40 extends Button.Height {
       private def common = Style.height.px40.fontSize.px16
       final def square: TagMod = TagMod(common, ^.width := "40px")
       final def rect: TagMod = TagMod(common, Style.padding.hor16)
     }
-    trait Free extends Button.Size {
+    trait Free extends Button.Height {
       final def square: TagMod = TagMod.empty
       final def rect: TagMod = TagMod.empty
     }
@@ -82,16 +82,16 @@ private[button] object ButtonStyle {
 
     sealed trait NonLink {
       def color: Button.Color
-      def size: Button.Size
+      def height: Button.Height
       def icon: Option[Icon.Name]
       def isFullWidth: Boolean
       def isBusy: Boolean
       def isSelected: Boolean
 
       // Size
-      final def sizeSquare: TagMod = size.square
+      final def sizeSquare: TagMod = height.square
       private def sizeWidth = if (isFullWidth) Style.width.pc100 else Style.width.maxContent
-      final def sizeRect: TagMod = TagMod(sizeWidth, size.rect)
+      final def sizeRect: TagMod = TagMod(sizeWidth, height.rect)
 
       // Body & Container
       final def nonLinkContainer: TagMod = TagMod(
