@@ -11,7 +11,8 @@ class Config(
   // Can be text, spreadsheet, presentation
   val documentType: String = "text",
   val height: String = "100%",
-  val width: String = "100%"
+  val width: String = "100%",
+  val events: Config.Events
 ) extends js.Object
 
 object Config {
@@ -39,10 +40,29 @@ object Config {
   class Customization(
     val compactToolbar: Boolean = false,
     val chat: Boolean = true,
-    val comments: Boolean = true
+    val comments: Boolean = true,
+    val forcesave: Boolean = false
   ) extends js.Object
 
   class User(
     val id: String
   ) extends js.Object
+
+  trait Events extends js.Object {
+    val onDocumentStateChange: js.Function1[DocumentStateChangeEvent, Unit]
+  }
+
+  object Events {
+    def apply(
+      onDocumentStateChangeParam: js.Function1[DocumentStateChangeEvent, Unit]
+    ): Events = {
+      new Events {
+        override val onDocumentStateChange = onDocumentStateChangeParam
+      }
+    }
+  }
+
+  trait DocumentStateChangeEvent extends js.Object {
+    val data: Boolean
+  }
 }
