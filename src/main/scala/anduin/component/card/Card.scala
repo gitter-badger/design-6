@@ -10,7 +10,6 @@ import japgolly.scalajs.react.vdom.html_<^._
 // scalastyle:on underscore.import
 
 final case class Card(
-  header: VdomNode = EmptyVdom,
   isDimmed: Boolean = false,
   isFullHeight: Boolean = false,
   style: Style = Style.borderRadius.px2.padding.all20
@@ -24,28 +23,12 @@ object Card {
 
   private type Props = Card
 
-  private def renderHeader(props: Props): VdomNode = {
-    if (props.header == EmptyVdom) {
-      EmptyVdom
-    } else {
-      <.header(
-        Style.color.gray7.fontSize.px12.fontWeight.medium.margin.bottom20.textTransform.uppercase,
-        props.header
-      )
-    }
-  }
-
   private def render(props: Props, children: PropsChildren): VdomElement = {
     <.div(
       props.style,
-      if (props.isDimmed) {
-        Style.backgroundColor.gray1
-      } else {
-        Style.backgroundColor.white
-      },
+      if (props.isDimmed) Style.backgroundColor.gray1 else Style.backgroundColor.white,
       TagMod.when(props.isFullHeight)(Style.height.pc100),
       Style.shadow.blur1Light,
-      renderHeader(props),
       children
     )
   }
