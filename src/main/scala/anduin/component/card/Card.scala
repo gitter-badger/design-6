@@ -11,8 +11,7 @@ import japgolly.scalajs.react.vdom.html_<^._
 
 final case class Card(
   isDimmed: Boolean = false,
-  isFullHeight: Boolean = false,
-  style: Style = Style.borderRadius.px2.padding.all20
+  isFullHeight: Boolean = false
 ) {
   def apply(children: VdomNode*): VdomElement = {
     Card.component(this)(children: _*)
@@ -25,10 +24,9 @@ object Card {
 
   private def render(props: Props, children: PropsChildren): VdomElement = {
     <.div(
-      props.style,
       if (props.isDimmed) Style.backgroundColor.gray1 else Style.backgroundColor.white,
       TagMod.when(props.isFullHeight)(Style.height.pc100),
-      Style.shadow.blur1Light,
+      Style.shadow.blur1Light.borderRadius.px2.padding.all20,
       children
     )
   }
