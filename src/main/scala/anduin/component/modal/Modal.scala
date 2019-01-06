@@ -33,7 +33,7 @@ final case class Modal(
   isClosable: Option[PortalUtils.IsClosable] = PortalUtils.defaultIsClosable,
   // Modal specific props
   title: String = "",
-  size: Modal.Size = Modal.Size480, // Will be "Width"
+  width: Modal.Width = Modal.Width480,
   height: Modal.Height = Modal.Height.Content,
   isPermanent: Boolean = false,
   layout: Modal.LayoutMods = Modal.LayoutMods()
@@ -47,17 +47,16 @@ object Modal {
 
   case class LayoutMods(overlay: TagMod = EmptyVdom, container: TagMod = EmptyVdom)
 
-  // Will be rename to Width
-  sealed trait Size {
+  sealed trait Width {
     def width: TagMod
     final def container: TagMod = TagMod(width, Style.overflow.hiddenX.margin.horAuto)
   }
-  case object Size480 extends Size { val width: TagMod = ^.width := "480px" }
-  case object Size600 extends Size { val width: TagMod = ^.width := "600px" }
-  case object Size720 extends Size { val width: TagMod = ^.width := "720px" }
-  case object Size960 extends Size { val width: TagMod = ^.width := "960px" }
-  case object Size1160 extends Size { val width: TagMod = ^.width := "1160px" }
-  case object SizeFull extends Size { val width: TagMod = Style.width.pc100 }
+  case object Width480 extends Width { val width: TagMod = ^.width := "480px" }
+  case object Width600 extends Width { val width: TagMod = ^.width := "600px" }
+  case object Width720 extends Width { val width: TagMod = ^.width := "720px" }
+  case object Width960 extends Width { val width: TagMod = ^.width := "960px" }
+  case object Width1160 extends Width { val width: TagMod = ^.width := "1160px" }
+  case object WidthFull extends Width { val width: TagMod = Style.width.pc100 }
 
   sealed trait Height { def container: TagMod }
   object Height {
@@ -97,7 +96,7 @@ object Modal {
         <.div(
           ComponentUtils.testId(this, "Container"),
           containerStaticMod,
-          props.size.container,
+          props.width.container,
           props.height.container,
           props.layout.container,
           // Anatomy: Header
