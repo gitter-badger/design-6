@@ -98,7 +98,7 @@ object UploadAndCrop {
           Modal(
             isOpened = Some(true),
             title = props.cropModalTitle,
-            width = Modal.Width600,
+            size = Modal.Size(Modal.Width.Px600),
             renderTarget = _ => EmptyVdom,
             renderContent = close => {
               CropImageModal(

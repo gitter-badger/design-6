@@ -33,8 +33,7 @@ final case class Modal(
   isClosable: Option[PortalUtils.IsClosable] = PortalUtils.defaultIsClosable,
   // Modal specific props
   title: String = "",
-  width: Modal.Width = Modal.Width480,
-  height: Modal.Height = Modal.Height.Content,
+  size: Modal.Size = Modal.Size(),
   isPermanent: Boolean = false,
   layout: Modal.LayoutMods = Modal.LayoutMods()
 ) {
@@ -47,30 +46,33 @@ object Modal {
 
   case class LayoutMods(overlay: TagMod = EmptyVdom, container: TagMod = EmptyVdom)
 
-  sealed trait Width {
-    def width: TagMod
-    final def container: TagMod = TagMod(width, Style.overflow.hiddenX.margin.horAuto)
+  object Width {
+    object Px480 extends ModalSize.Width.Px480
+    object Px600 extends ModalSize.Width.Px600
+    object Px720 extends ModalSize.Width.Px720
+    object Px960 extends ModalSize.Width.Px960
+    object Px1160 extends ModalSize.Width.Px1160
+    object Full extends ModalSize.Width.Full
   }
-  case object Width480 extends Width { val width: TagMod = ^.width := "480px" }
-  case object Width600 extends Width { val width: TagMod = ^.width := "600px" }
-  case object Width720 extends Width { val width: TagMod = ^.width := "720px" }
-  case object Width960 extends Width { val width: TagMod = ^.width := "960px" }
-  case object Width1160 extends Width { val width: TagMod = ^.width := "1160px" }
-  case object WidthFull extends Width { val width: TagMod = Style.width.pc100 }
 
-  sealed trait Height { def container: TagMod }
   object Height {
-    object Content extends Height { val container: TagMod = Style.margin.ver32 }
-    // it's intentional to use overflow.hiddenY instead of autoY here since
-    // consumers should only use Full to be able to get parent's height
-    object Full extends Height { val container: TagMod = Style.height.pc100.overflow.hiddenY }
+    object Content extends ModalSize.Height.Content
+    object Full extends ModalSize.Height.Full
   }
+
+  final case class Size(
+    width: ModalSize.Width = Width.Px480,
+    height: ModalSize.Height = Height.Content
+  ) extends ModalSize
 
   // Internal rendering
 
   private val overlayStaticMod = TagMod(
     Style.position.fixed.coordinate.fill.overflow.autoY,
     ^.backgroundColor := "rgba(48, 64, 77, 0.9)",
+    // To center the container. We should not use margin hor auto at container
+    // because container's width might be unknown (i.e. Width.Content)
+    Style.flexbox.flex.flexbox.justifyCenter.flexbox.itemsStart,
     // Backward compatible
     // https://github.com/anduintransaction/stargazer/issues/17011
     Style.zIndex.idx999
@@ -78,7 +80,8 @@ object Modal {
 
   private val containerStaticMod = TagMod(
     Style.backgroundColor.gray1.borderRadius.px2,
-    ^.tabIndex := 0 // Allow (keyboard) focus so Esc can work
+    // Allow (keyboard) focus so Esc can work
+    ^.tabIndex := 0
   )
 
   // Should see Modal's anatomy at top of file
@@ -90,24 +93,29 @@ object Modal {
       <.div(
         ComponentUtils.testId(this, "Overlay"),
         overlayStaticMod,
-        PortalUtils.getClosableMods(props.isClosable, close),
+        props.size.overlay,
         props.layout.overlay,
+        PortalUtils.getClosableMods(props.isClosable, close),
         // Anatomy: Container
         <.div(
           ComponentUtils.testId(this, "Container"),
           containerStaticMod,
-          props.width.container,
-          props.height.container,
+          props.size.container,
           props.layout.container,
           // Anatomy: Header
           TagMod.when(props.title.nonEmpty) {
             <.div(
               ComponentUtils.testId(this, "Header"),
+              props.size.header,
               ModalHeader(props.title, props.isClosable.isDefined, close)()
             )
           },
           // Anatomy: Content
-          props.renderContent(close)
+          <.div(
+            ComponentUtils.testId(this, "Content"),
+            props.size.content,
+            props.renderContent(close)
+          )
         )
       )
     )
