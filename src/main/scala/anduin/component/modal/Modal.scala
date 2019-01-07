@@ -98,10 +98,7 @@ object Modal {
             )
           },
           // Anatomy: Content
-          <.div(
-            ComponentUtils.testId(this, "Content"),
-            props.renderContent(close)
-          )
+          props.renderContent(close)
         )
       )
     )
