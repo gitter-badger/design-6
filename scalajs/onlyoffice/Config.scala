@@ -5,48 +5,130 @@ package anduin.scalajs.onlyoffice
 import scala.scalajs.js
 
 // See https://api.onlyoffice.com/editors/config/
-class Config(
-  val editorConfig: Config.EditorConfig,
-  val document: Config.Document,
-  // Can be text, spreadsheet, presentation
-  val documentType: String = "text",
-  val height: String = "100%",
-  val width: String = "100%",
+trait Config extends js.Object {
+  val editorConfig: Config.EditorConfig
+  val document: Config.Document
+  val documentType: String
+  val height: String
+  val width: String
   val events: Config.Events
-) extends js.Object
+}
 
 object Config {
 
+  def apply(
+    editorConfigParam: Config.EditorConfig,
+    documentParam: Config.Document,
+    // Can be text, spreadsheet, presentation
+    documentTypeParam: String = "text",
+    heightParam: String = "100%",
+    widthParam: String = "100%",
+    eventsParam: Config.Events
+  ): Config = {
+    new Config {
+      override val editorConfig = editorConfigParam
+      override val document = documentParam
+      override val documentType = documentTypeParam
+      override val height = heightParam
+      override val width = widthParam
+      override val events = eventsParam
+    }
+  }
+
   // `document` options
 
-  class Document(
-    val fileType: String,
-    val key: String,
-    val title: String,
+  trait Document extends js.Object {
+    val fileType: String
+    val key: String
+    val title: String
     val url: String
-  ) extends js.Object
+  }
+
+  object Document {
+    def apply(
+      fileTypeParam: String,
+      keyParam: String,
+      titleParam: String,
+      urlParam: String
+    ): Document = {
+      new Document {
+        override val fileType = fileTypeParam
+        override val key = keyParam
+        override val title = titleParam
+        override val url = urlParam
+      }
+    }
+  }
 
   // `editorConfig` options
 
-  class EditorConfig(
-    val callbackUrl: String,
-    // Can be view or edit
-    val mode: String = "edit",
-    val customization: Customization,
-    val user: User,
-    val userdata: String = ""
-  ) extends js.Object
+  trait EditorConfig extends js.Object {
+    val callbackUrl: String
+    val mode: String
+    val customization: Customization
+    val user: User
+    val userdata: String
+  }
 
-  class Customization(
-    val compactToolbar: Boolean = false,
-    val chat: Boolean = true,
-    val comments: Boolean = true,
-    val forcesave: Boolean = false
-  ) extends js.Object
+  object EditorConfig {
+    def apply(
+      callbackUrlParam: String,
+      // Can be view or edit
+      modeParam: String = "edit",
+      customizationParam: Customization,
+      userParam: User,
+      userdataParam: String = ""
+    ): EditorConfig = {
+      new EditorConfig {
+        override val callbackUrl = callbackUrlParam
+        override val mode = modeParam
+        override val customization = customizationParam
+        override val user = userParam
+        override val userdata = userdataParam
+      }
+    }
+  }
 
-  class User(
+  // `customization` options
+
+  trait Customization extends js.Object {
+    val compactToolbar: Boolean
+    val chat: Boolean
+    val comments: Boolean
+    val forcesave: Boolean
+  }
+
+  object Customization {
+    def apply(
+      compactToolbarParam: Boolean = false,
+      chatParam: Boolean = true,
+      commentsParam: Boolean = true,
+      forcesaveParam: Boolean = false
+    ): Customization = {
+      new Customization {
+        override val compactToolbar = compactToolbarParam
+        override val chat = chatParam
+        override val comments = commentsParam
+        override val forcesave = forcesaveParam
+      }
+    }
+  }
+
+  // `user` option
+
+  trait User extends js.Object {
     val id: String
-  ) extends js.Object
+  }
+
+  object User {
+    def apply(idParam: String): User = {
+      new User {
+        override val id = idParam
+      }
+    }
+  }
+
+  // `events` options
 
   trait Events extends js.Object {
     val onDocumentStateChange: js.Function1[DocumentStateChangeEvent, Unit]
