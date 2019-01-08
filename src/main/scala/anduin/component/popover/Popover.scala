@@ -51,6 +51,18 @@ object Popover {
 
   private def renderContent(props: Props)(popper: PortalPopper.ContentProps) = {
     val isOverlayClosable = props.isClosable.exists(_.onOutsideClick)
+    val arrow = <.div(
+      popper.arrowMod,
+      Style.backgroundColor.white.borderColor.gray4,
+      TagMod(
+        props.position match {
+          case _: PositionTop    => Style.border.right.border.bottom
+          case _: PositionRight  => Style.border.right.border.top
+          case _: PositionBottom => Style.border.left.border.top
+          case _: PositionLeft   => Style.border.left.border.bottom
+        }
+      )
+    )
 
     // This is the actual popover node (i.e. the dom node that Popper
     // will position)
@@ -58,7 +70,8 @@ object Popover {
       // Reset overlay's pointerEvents
       TagMod.when(!isOverlayClosable) { Style.pointerEvents.all },
       TagMod(popper.styles, contentStyles),
-      props.renderContent(popper.toggle)
+      props.renderContent(popper.toggle),
+      arrow
     )
 
     // This is the overlay of Popover. This will catch closable events
@@ -80,14 +93,16 @@ object Popover {
   }
 
   private def render(props: Props): VdomElement = {
+    val (offsetVer, offsetHor) = PortalPopper.getArrowOffset(props.position)
+
     PortalPopper(
       renderTarget = renderTarget(props),
       renderContent = renderContent(props),
       isOpened = props.isOpened,
       // ===
       position = props.position,
-      offsetVer = props.verticalOffset,
-      offsetHor = props.horizontalOffset
+      offsetVer = offsetVer,
+      offsetHor = offsetHor
     )()
   }
 

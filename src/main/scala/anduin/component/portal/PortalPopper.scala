@@ -127,6 +127,7 @@ private[component] object PortalPopper {
           val options = new Popper.Options(
             placement = Position.getPopperPlacement(props.position),
             onCreate = setArrowStyle(props),
+            onUpdate = setArrowStyle(props),
             modifiers = new PopperModifiers(
               offset = new PopperModifiers.Offset(props.offsetHor, props.offsetVer),
               preventOverflow = staticModifiers.preventOverflow
