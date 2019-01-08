@@ -28,6 +28,7 @@ object Popper {
   final class Options(
     val placement: PopperPlacement = PopperPlacement.Bottom,
     val onCreate: js.Function1[Data, Unit] = _ => (),
+    val onUpdate: js.Function1[Data, Unit] = _ => (),
     val modifiers: js.UndefOr[PopperModifiers] = js.undefined
   ) extends js.Object {
     @JSName("placement")
