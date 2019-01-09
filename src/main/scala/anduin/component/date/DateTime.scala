@@ -31,7 +31,7 @@ object DateTime {
   case object DateLong extends Date { val dtf: DTF = DateTimeFormatter.ofPattern("MMMM d") }
 
   sealed trait Time { val dtf: DTF }
-  case object TimeHM12 extends Time { val dtf: DTF = DateTimeFormatter.ofPattern("h:m a") }
+  case object TimeHM12 extends Time { val dtf: DTF = DateTimeFormatter.ofPattern("hh:mm a") }
   case object TimeNone extends Time { val dtf: DTF = DateTimeFormatter.ofPattern("") }
 
   private val today = LocalDate.now()
