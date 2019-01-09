@@ -15,6 +15,7 @@ final case class ConfirmationModal(
   confirmBtnLabel: String,
   confirmBtnColor: Button.Color = Button.Color.White,
   onCloseModal: Callback,
+  cancelBtnLabel: String = "Cancel",
   isDisableConfirm: Boolean = false
 ) {
   def apply(): VdomElement = ConfirmationModal.component(this)
@@ -30,7 +31,7 @@ object ConfirmationModal {
     def render(props: Props, state: State): VdomNode = {
       React.Fragment(
         ModalBody()(props.content),
-        ModalFooterWCancel(cancel = props.onCloseModal)(
+        ModalFooterWCancel(cancel = props.onCloseModal, cancelLabel = props.cancelBtnLabel)(
           Button(
             style = Button.Style.Full(
               color = props.confirmBtnColor,
