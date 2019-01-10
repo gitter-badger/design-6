@@ -10,7 +10,8 @@ import japgolly.scalajs.react.vdom.html_<^._
 // scalastyle:on underscore.import
 
 final case class CircleIndicatorBlock(
-  title: Option[String] = None
+  title: Option[String] = None,
+  isFullHeight: Boolean = false
 ) {
   def apply(): VdomElement = CircleIndicatorBlock.component(this)
 }
@@ -21,7 +22,7 @@ object CircleIndicatorBlock {
 
   private def render(props: Props): VdomElement = {
     <.div(
-      Style.height.px256,
+      if (props.isFullHeight) Style.height.pc100 else Style.height.px256,
       Style.flexbox.flex.flexbox.justifyCenter.flexbox.itemsCenter,
       <.div(
         <.div(
