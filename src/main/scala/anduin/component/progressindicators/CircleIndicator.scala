@@ -9,7 +9,9 @@ import japgolly.scalajs.react._
 import japgolly.scalajs.react.vdom.html_<^._
 // scalastyle:on underscore.import
 
-final case class CircleIndicator() {
+final case class CircleIndicator(
+  size: CircleIndicator.Size = CircleIndicator.Size.Px16
+) {
   def apply(): VdomElement = CircleIndicator.component(this)
 }
 
@@ -17,10 +19,18 @@ object CircleIndicator {
 
   private type Props = CircleIndicator
 
-  private val size: TagMod = Style.width.px16.height.px16
+  sealed trait Size {
+    protected def px: Int
+    final def mod: TagMod = TagMod(^.width := s"${px}px", ^.height := s"${px}px")
+  }
+
+  object Size {
+    object Px16 extends Size { val px: Int = 16 }
+    object Px48 extends Size { val px: Int = 48 }
+  }
 
   private val common: TagMod = TagMod(
-    size,
+    Style.width.pc100.height.pc100,
     Style.position.absolute.coordinate.fill,
     Style.border.all.borderRadius.pc100,
     ^.borderWidth := "3px"
@@ -38,13 +48,13 @@ object CircleIndicator {
     <.div(common, Style.opacity.pc20)
   }
 
-  private val render: VdomElement = {
-    <.div(size, Style.position.relative, static, animated)
+  private def render(props: Props): VdomElement = {
+    <.div(Style.position.relative, props.size.mod, static, animated)
   }
 
   private val component = ScalaComponent
     .builder[Props](this.getClass.getSimpleName)
     .stateless
-    .renderStatic(render)
+    .render_P(render)
     .build
 }
