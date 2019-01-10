@@ -19,8 +19,14 @@ private[editor] object LinkRenderer {
 
   def apply(data: Data, children: js.Object, readOnly: Boolean): raw.React.Element = {
     val href = DataUtil.value(data, "href")
+    val openInNewTab = DataUtil.value(data, "target") == "_blank"
     val style = StyleParser.getStyleTagMod(data)
-    val link = <.a(style, ^.href := href, PropsChildren.fromRawProps(js.Dynamic.literal(children = children)))
+    val link = <.a(
+      style,
+      ^.href := href,
+      TagMod.when(openInNewTab)(^.target.blank),
+      PropsChildren.fromRawProps(js.Dynamic.literal(children = children))
+    )
 
     if (readOnly) {
       link.rawElement

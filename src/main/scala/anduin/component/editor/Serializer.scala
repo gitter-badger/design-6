@@ -130,6 +130,7 @@ object Serializer {
           data = js.defined(
             js.Dynamic.literal(
               href = ele.getAttribute("href"),
+              target = ele.getAttribute("target"),
               style = StyleParser.parseStyle(ele)
             )
           ),
@@ -247,16 +248,9 @@ object Serializer {
       // - Not working version: https://jsfiddle.net/oj53q1n2/11/
       .replaceAll(">\\s+<", "><")
       .trim
-
-    HtmlNormalizer(
-      htmlSerializer.deserialize(
-        Caja.htmlSanitize(
-          html = trim,
-          urlTransformer = sanitizeUri
-        ),
-        new HtmlDeserializeOptions(toJSON = true)
-      )
-    )
+    val sanitized = Caja.htmlSanitize(html = trim, urlTransformer = sanitizeUri)
+    val valueJson = htmlSerializer.deserialize(sanitized, new HtmlDeserializeOptions(toJSON = true))
+    HtmlNormalizer(valueJson)
   }
 
   def serialize(value: Value): String = {

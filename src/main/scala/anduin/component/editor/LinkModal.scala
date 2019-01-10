@@ -3,8 +3,10 @@
 package anduin.component.editor
 
 import anduin.component.button.Button
+import anduin.component.input.checkbox.Checkbox
 import anduin.component.modal.{ModalBody, ModalFooterWCancel}
 import anduin.scalajs.slate.Slate.Value
+import anduin.style.Style
 
 // scalastyle:off underscore.import
 import japgolly.scalajs.react._
@@ -13,21 +15,21 @@ import japgolly.scalajs.react.vdom.html_<^._
 
 private[editor] final case class LinkModal(
   value: Value,
-  onAddLink: String => Callback,
+  onAddLink: (String, Boolean) => Callback,
   onClose: Callback
 ) {
-  def apply(): ScalaComponent.Unmounted[_, _, _] = LinkModal.component(this)
+  def apply(): VdomElement = LinkModal.component(this)
 }
 
 private[editor] object LinkModal {
 
-  private val ComponentName = this.getClass.getSimpleName
+  private type Props = LinkModal
 
-  private case class State(link: String = "")
+  private case class State(link: String = "", openInNewTab: Boolean = true)
 
-  private class Backend(scope: BackendScope[LinkModal, State]) {
+  private class Backend(scope: BackendScope[Props, State]) {
 
-    def render(props: LinkModal, state: State): VdomElement = {
+    def render(props: Props, state: State): VdomElement = {
       React.Fragment(
         ModalBody()(
           <.input(
@@ -36,11 +38,18 @@ private[editor] object LinkModal {
             ^.tpe := "text",
             ^.placeholder := "Insert the link",
             ^.value := state.link,
-            ^.onChange ==> { (e: ReactEventFromInput) =>
+            ^.onChange ==> { e: ReactEventFromInput =>
               e.extract(_.target.value) { value =>
                 scope.modState(_.copy(link = value))
               }
             }
+          ),
+          <.div(
+            Style.margin.top8,
+            Checkbox(
+              isChecked = state.openInNewTab,
+              onChange = checked => scope.modState(_.copy(openInNewTab = checked))
+            )("The link will be opened in a new tab")
           )
         ),
         ModalFooterWCancel(cancel = props.onClose)(
@@ -51,7 +60,7 @@ private[editor] object LinkModal {
               onClick = {
                 for {
                   _ <- props.onClose
-                  _ <- props.onAddLink(state.link)
+                  _ <- props.onAddLink(state.link, state.openInNewTab)
                 } yield ()
               }
             )("Add")
@@ -62,12 +71,18 @@ private[editor] object LinkModal {
   }
 
   private val component = ScalaComponent
-    .builder[LinkModal](ComponentName)
+    .builder[Props](this.getClass.getSimpleName)
     .initialStateFromProps { props =>
-      val href = props.value.inlines
+      val (href, openInNewTab) = props.value.inlines
         .find(_.inlineType == LinkNode.nodeType)
-        .fold("")(inline => DataUtil.value(inline.data, "href"))
-      State(href)
+        .fold {
+          ("", true)
+        } { inline =>
+          val href = DataUtil.value(inline.data, "href")
+          val openInNewTab = DataUtil.value(inline.data, "target") == "_blank"
+          (href, openInNewTab)
+        }
+      State(href, openInNewTab)
     }
     .renderBackend[Backend]
     .build

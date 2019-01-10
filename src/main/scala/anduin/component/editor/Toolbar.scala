@@ -45,7 +45,7 @@ object Toolbar {
       value.inlines.exists(inline => inline.inlineType == LinkNode.nodeType)
     }
 
-    private def onAddLink(link: String) = {
+    private def onAddLink(link: String, openInNewTab: Boolean) = {
       // Prepend `http://` if the link doesn't start with it
       val standardLink = if (!link.startsWith("http://") && !link.startsWith("https://")) {
         s"http://$link"
@@ -68,10 +68,14 @@ object Toolbar {
             // If there's no selected text, create a link with the same text and href
             change.insertText(standardLink).extend(0 - standardLink.length)
           }
+          val data = js.Dynamic.literal(href = standardLink)
+          if (openInNewTab) {
+            data.updateDynamic("target")("_blank")
+          }
           change.wrapInline(
             js.Dynamic.literal(
               `type` = LinkNode.nodeType,
-              data = js.Dynamic.literal(href = standardLink)
+              data = data
             )
           )
           change.collapseToEnd()
