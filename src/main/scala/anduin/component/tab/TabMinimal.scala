@@ -23,12 +23,12 @@ private[tab] object TabMinimal {
   private type Props = TabMinimal
 
   private val activeStyles = TagMod(
-    Style.backgroundColor.white.color.gray8.borderRadius.px2,
+    Style.color.gray8.border.bottom.borderWidth.px2,
     ^.borderBottomColor := CssVar.Color.primary4
   )
 
   private val normalStyles = TagMod(
-    Style.backgroundColor.gray1.color.gray7
+    Style.color.gray7
   )
 
   private def renderButton(props: Props)(titleTup: (VdomNode, Int)): VdomElement = {
@@ -36,9 +36,8 @@ private[tab] object TabMinimal {
     val isActive = props.active == index
     <.button(
       // === Styles
-      Style.focus.outline.transition.allWithOutline.padding.hor16.padding.ver12,
+      Style.focus.outline.transition.allWithOutline.padding.hor12.padding.ver8.margin.hor4,
       if (isActive) activeStyles else normalStyles,
-      TagMod.when(index != 0) { ^.marginLeft := "-1px" },
       // === Behaviours
       ^.tpe := "button",
       ^.onClick --> props.setActive(index),
@@ -49,7 +48,7 @@ private[tab] object TabMinimal {
 
   private def renderHeader(props: Props): VdomElement = {
     <.header(
-      Style.flexbox.flex.flexbox.justifyCenter.lineHeight.px16.fontWeight.medium,
+      Style.flexbox.flex.flexbox.justifyCenter.lineHeight.px16.fontWeight.medium.margin.bottom24,
       props.titles.toTagMod { renderButton(props) }
     )
   }
