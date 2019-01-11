@@ -9,30 +9,28 @@ import japgolly.scalajs.react._
 import japgolly.scalajs.react.vdom.html_<^._
 // scalastyle:on underscore.import
 
-final case class CircleIndicatorBlock(
+final case class BlockIndicator(
   title: Option[String] = None,
-  isFullHeight: Boolean = false
+  isFullHeight: Boolean = false,
+  indicator: VdomElement = BlockIndicator.defaultIndicator
 ) {
-  def apply(): VdomElement = CircleIndicatorBlock.component(this)
+  def apply(): VdomElement = BlockIndicator.component(this)
 }
 
-object CircleIndicatorBlock {
+object BlockIndicator {
 
-  private type Props = CircleIndicatorBlock
+  private type Props = BlockIndicator
+
+  private val defaultIndicator = CircleIndicator(size = CircleIndicator.Size.Px48)()
 
   private def render(props: Props): VdomElement = {
     <.div(
       if (props.isFullHeight) Style.height.pc100 else Style.height.px256,
-      Style.flexbox.flex.flexbox.justifyCenter.flexbox.itemsCenter,
-      <.div(
-        <.div(
-          Style.color.primary4,
-          CircleIndicator(size = CircleIndicator.Size.Px48)()
-        ),
-        props.title.map { title =>
-          <.p(Style.margin.top8.fontSize.px16, title)
-        }
-      )
+      Style.flexbox.flex.flexbox.column.flexbox.justifyCenter.flexbox.itemsCenter,
+      <.div(Style.color.primary4, props.indicator),
+      props.title.map { title =>
+        <.p(Style.margin.top12.fontSize.px15.color.gray6, title)
+      }
     )
   }
 
