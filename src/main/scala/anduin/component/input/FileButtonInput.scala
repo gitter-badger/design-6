@@ -6,6 +6,8 @@ import anduin.component.button.Button
 import anduin.style.Style
 import org.scalajs.dom.FileList
 
+import anduin.component.util.ComponentUtils
+
 // scalastyle:off underscore.import
 import japgolly.scalajs.react._
 import japgolly.scalajs.react.vdom.html_<^._
@@ -49,6 +51,7 @@ object FileButtonInput {
         )(children)
       } else {
         <.div(
+          ComponentUtils.testId(FileButtonInput, s"${children.raw.toString}Button"),
           Style.position.relative, {
             val bprops = Button(
               style = props.style,
@@ -61,6 +64,7 @@ object FileButtonInput {
           },
           // this is the actual input element that opens file browser
           <.input(
+            ComponentUtils.testId(FileButtonInput, "FileInput"),
             Style.position.absolute.coordinate.fill.opacity.pc0.width.pc100.height.pc100.cursor.pointer,
             ^.tpe := "file",
             ^.accept := props.acceptTypes,
