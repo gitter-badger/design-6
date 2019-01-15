@@ -28,6 +28,7 @@ private[tab] object TabMinimal {
   )
 
   private val normalStyles = TagMod(
+    Style.border.bottom.borderWidth.px2.borderColor.transparent,
     Style.color.gray7
   )
 
