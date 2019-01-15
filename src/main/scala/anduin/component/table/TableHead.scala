@@ -42,27 +42,26 @@ private[table] class TableHead[A] {
 
   private val titleStyles = TagMod(
     Style.fontSize.px12.fontWeight.semiBold.textAlign.left.color.gray6,
-    Style.padding.ver8.padding.hor12.flexbox.flex.flexbox.itemsCenter.width.pc100,
-    Style.active.colorPrimary5.focus.outline.transition.allWithOutline
+    Style.padding.ver8.padding.hor12.flexbox.flex.flexbox.itemsCenter.width.pc100
   )
 
-  private def renderTitle(props: Props, column: Table.Column[A], index: Int) = {
-    val sortable = column.sortBy match {
-      case _: Table.ColumnOrderingHasOrder[A] => true
-      case _: Table.ColumnOrderingEmpty[A]    => false
-    }
+  private def renderTitleSortable(props: Props, column: Table.Column[A], index: Int) = {
     <.button(
-      ^.tpe := "button",
+      Style.active.colorPrimary5.focus.outline.transition.allWithOutline,
+      TagMod.when(props.sortColumn.contains(index))(Style.color.gray8),
       titleStyles,
+      ^.tpe := "button",
       ^.onClick --> props.sort(index),
-      ^.disabled := !sortable,
-      <.span(
-        Style.flexbox.fixed,
-        TagMod.when(props.sortColumn.contains(index))(Style.color.gray8),
-        column.head
-      ),
-      TagMod.when(sortable)(renderSortIcon(index, props))
+      <.span(Style.flexbox.fixed, column.head),
+      renderSortIcon(index, props)
     )
+  }
+
+  private def renderTitle(props: Props, column: Table.Column[A], index: Int) = {
+    column.sortBy match {
+      case _: Table.ColumnOrderingHasOrder[A] => renderTitleSortable(props, column, index)
+      case _: Table.ColumnOrderingEmpty[A]    => <.div(titleStyles, column.head)
+    }
   }
 
   private def renderHead(props: Props)(colWithIndex: (Table.Column[A], Int)) = {
