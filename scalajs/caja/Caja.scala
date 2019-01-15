@@ -13,6 +13,9 @@ object HtmlCssSanitizerJs extends js.Object
 @JSGlobalScope
 object HtmlSanitize extends js.Object {
 
+  @JSName("html4")
+  val html4: js.Dynamic = js.native
+
   @JSName("html_sanitize")
   def apply(
     html: String,
@@ -27,6 +30,7 @@ object Caja {
     urlTransformer: js.UndefOr[js.Function1[URI, String]] = js.undefined
   ): String = {
     val _ = HtmlCssSanitizerJs
+    HtmlSanitize.html4.ATTRIBS.updateDynamic("a::target")(HtmlSanitize.html4.atype.selectDynamic("URI"))
     HtmlSanitize(html, urlTransformer)
   }
 }
