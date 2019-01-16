@@ -30,11 +30,11 @@ private[table] class TableHead[A] {
   private def renderSortIcon(index: Int, props: Props): VdomNode = {
     val (color, icon) = if (props.sortColumn.contains(index)) {
       // Sorting by this column
-      val icon = if (props.sortIsAsc) Icon.NameCaretDown else Icon.NameCaretUp
+      val icon = if (props.sortIsAsc) Icon.Glyph.CaretDown else Icon.Glyph.CaretUp
       (Style.color.primary4, icon)
     } else {
       // Not sorting by this column
-      (Style.color.gray4, Icon.NameCaretVertical)
+      (Style.color.gray4, Icon.Glyph.CaretVertical)
     }
     val negativeMargin = ^.marginRight := "-4px" // visual touch
     <.span(negativeMargin, color, Icon(name = icon)())

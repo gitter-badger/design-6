@@ -73,7 +73,7 @@ object MenuItem {
 
   private val checkIcon = <.span(
     Style.margin.leftAuto,
-    Icon(name = Icon.NameCheck)()
+    Icon(name = Icon.Glyph.Check)()
   )
 
   private def render(props: Props, children: PropsChildren): VdomElement = {

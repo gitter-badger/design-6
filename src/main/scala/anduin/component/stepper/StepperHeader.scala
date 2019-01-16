@@ -37,9 +37,9 @@ object StepperHeader {
 
   private object Dot {
     private def getMods(status: Status) = status match {
-      case StatusPast    => (Style.borderColor.success3.backgroundColor.success3.color.white, Icon.NameCheckBold)
-      case StatusPresent => (Style.borderColor.primary4.color.primary4, Icon.NameCircle)
-      case StatusFuture  => (Style.borderColor.gray3, Icon.NameBlank)
+      case StatusPast    => (Style.borderColor.success3.backgroundColor.success3.color.white, Icon.Glyph.CheckBold)
+      case StatusPresent => (Style.borderColor.primary4.color.primary4, Icon.Glyph.Circle)
+      case StatusFuture  => (Style.borderColor.gray3, Icon.Glyph.Blank)
     }
     private val static = TagMod(
       Style.flexbox.none.width.px20.height.px20,

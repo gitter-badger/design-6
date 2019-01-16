@@ -33,10 +33,10 @@ private[dropdown] class DropdownOption[A] {
   private def renderIcon(props: Props): VdomElement = {
     val value = props.option.value
     val isSelected = props.downshift.exists(_.selectedItem.contains(value))
-    val iconName = if (isSelected) Icon.NameCheck else Icon.NameBlank
+    val iconName = if (isSelected) Icon.Glyph.Check else Icon.Glyph.Blank
     <.span(
       TagMod(Style.margin.right8, ^.marginLeft := "-4px"),
-      Icon(iconName, Icon.SizeDynamic("12"))()
+      Icon(iconName, Icon.Size.Custom(12))()
     )
   }
 

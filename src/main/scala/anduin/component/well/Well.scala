@@ -29,28 +29,28 @@ object Well {
     private[Well] val bg: Style
   }
   case object ColorGray extends Color {
-    private[Well] val iconName = Icon.NameBookmark
+    private[Well] val iconName = Icon.Glyph.Bookmark
     private[Well] val iconColor = Style.color.gray7
     private[Well] val bg = Style.backgroundColor.gray1
     private[Well] val close = Style.backgroundColor.gray3
   }
   case object ColorBlue extends Color {
-    private[Well] val iconName = Icon.NameInfo
+    private[Well] val iconName = Icon.Glyph.Info
     private[Well] val iconColor = Style.color.primary4
     private[Well] val bg = Style.backgroundColor.primary1
   }
   case object ColorGreen extends Color {
-    private[Well] val iconName = Icon.NameCheck
+    private[Well] val iconName = Icon.Glyph.Check
     private[Well] val iconColor = Style.color.success4
     private[Well] val bg = Style.backgroundColor.success1
   }
   case object ColorOrange extends Color {
-    private[Well] val iconName = Icon.NameWarning
+    private[Well] val iconName = Icon.Glyph.Warning
     private[Well] val iconColor = Style.color.warning4
     private[Well] val bg = Style.backgroundColor.warning1
   }
   case object ColorRed extends Color {
-    private[Well] val iconName = Icon.NameError
+    private[Well] val iconName = Icon.Glyph.Error
     private[Well] val iconColor = Style.color.danger4
     private[Well] val bg = Style.backgroundColor.danger1
   }
@@ -61,7 +61,7 @@ object Well {
     } else {
       val button = Button(
         onClick = props.close,
-        style = Button.Style.Minimal(icon = Some(Icon.NameCross))
+        style = Button.Style.Minimal(icon = Some(Icon.Glyph.Cross))
       )()
       <.div(^.padding := "6px 6px 0 0", button)
     }

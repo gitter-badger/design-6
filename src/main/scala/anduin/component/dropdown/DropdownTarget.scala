@@ -96,6 +96,6 @@ private[dropdown] object DropdownTarget {
   private val icon = <.span(
     // manually move it a little bit to the right for visual reason
     TagMod(Style.margin.leftAuto.position.relative, ^.right := "-4px"),
-    Icon(name = Icon.NameCaretDown)()
+    Icon(name = Icon.Glyph.CaretDown)()
   )
 }

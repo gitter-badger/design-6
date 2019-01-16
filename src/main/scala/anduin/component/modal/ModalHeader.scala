@@ -56,7 +56,7 @@ object ModalHeader {
       ),
       TagMod.when(props.isClosable) {
         val button = Button(
-          style = Button.Style.Minimal(icon = Some(Icon.NameCross)),
+          style = Button.Style.Minimal(icon = Some(Icon.Glyph.Cross)),
           tpe = Button.Tpe.TpeButton(isAutoFocus = true),
           onClick = props.close
         )()

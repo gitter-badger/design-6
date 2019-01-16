@@ -85,7 +85,7 @@ private[component] object TextBoxStyle {
 
   def getIcon(props: Props): Option[VdomElement] = props.status match {
     case TextBox.StatusValid =>
-      Some(<.div(iconWrapper, Icon(Icon.NameCheck)(), Style.color.success4))
+      Some(<.div(iconWrapper, Icon(Icon.Glyph.Check)(), Style.color.success4))
     // case StatusBusy => ??? should have some icon here
     case _ => None
   }
