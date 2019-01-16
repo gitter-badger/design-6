@@ -159,6 +159,12 @@ object Illus {
         |  <path style="fill: ${CssVar.Color.primary4}" fill-rule="evenodd" d="M17.58 8L13 3.42V8h4.58zM11 3H4v18h9v2H3a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h10a1 1 0 0 1 .7.3l6 6a1 1 0 0 1 .3.71v2.33a5.99 5.99 0 0 0-2-.34h-7V3zm2.53 9c-.4.45-.73.95-.99 1.5H6V12h7.53zM12 16a6 6 0 0 0 .19 1.5H6V16h6zM6 7h4v1.5H6V7zm9 11.65a4 4 0 1 1 6 0V23l-3-2-3 2v-4.35zm3-.65a2 2 0 1 0 0-4 2 2 0 0 0 0 4z"/>
       """.stripMargin
   }
+  object NamePlusSquare extends Name {
+    override val content: String =
+      s"""
+         |  <path style="fill: ${CssVar.Color.primary4}" fill-rule="evenodd" d="M5 5v14h14V5H5zm0-2h14a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2zm8 8h4v2h-4v4h-2v-4H7v-2h4V7h2v4z"/>
+      """.stripMargin
+  }
   object NameRedline extends Name {
     override val content: String =
       s"""
