@@ -10,7 +10,9 @@ import scala.scalajs.js.annotation.JSGlobal
 class Editor(
   val id: String,
   val config: Config
-) extends js.Object
+) extends js.Object {
+  def destroyEditor(): Unit = js.native
+}
 
 object Editor {
   def apply(idParam: String, configParam: Config): Editor = {
