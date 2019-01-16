@@ -30,6 +30,8 @@ object OnlyOfficeEditor {
 
   private case class Backend(scope: BackendScope[Props, _]) {
 
+    private var editor: Option[Editor] = None // scalastyle:ignore var.field
+
     def loadScript(props: Props): Callback = {
       if (dom.document.querySelectorAll(s"script[src='${props.apiUrl}']").length > 0) {
         // The script is already loaded
@@ -53,7 +55,7 @@ object OnlyOfficeEditor {
       }
     }
 
-    def removeScript(props: Props): Callback = {
+    private def removeScript(props: Props) = {
       Callback {
         PimpedNodeList(dom.document.querySelectorAll("script[src]")).foreach { script =>
           script.domToHtml.foreach { s =>
@@ -66,9 +68,19 @@ object OnlyOfficeEditor {
       }
     }
 
+    def componentWillUnmount(): Callback = {
+      for {
+        props <- scope.props
+        _ <- removeScript(props)
+        _ <- Callback.traverseOption(editor) { editorInstance =>
+          Callback(editorInstance.destroyEditor())
+        }
+      } yield ()
+    }
+
     private def showEditor(props: Props) = {
       Callback {
-        Editor(props.containerId, props.config)
+        editor = Some(Editor(props.containerId, props.config))
       }
     }
 
@@ -84,8 +96,6 @@ object OnlyOfficeEditor {
     .componentDidMount { scope =>
       scope.backend.loadScript(scope.props)
     }
-    .componentWillUnmount { scope =>
-      scope.backend.removeScript(scope.props)
-    }
+    .componentWillUnmount(_.backend.componentWillUnmount())
     .build
 }
