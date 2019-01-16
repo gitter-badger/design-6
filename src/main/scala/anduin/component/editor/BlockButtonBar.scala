@@ -93,9 +93,9 @@ private[editor] object BlockButtonBar {
       <.div(
         Style.flexbox.flex,
         List(
-          (BlockQuoteNode, Icon(name = Icon.NameCitation)(), "Quote"),
-          (UnorderedListNode, Icon(name = Icon.NameListBullet)(), "Bulleted List"),
-          (OrderedListNode, Icon(name = Icon.NameListNumber)(), "Numbered List")
+          (BlockQuoteNode, Icon(name = Icon.Glyph.Citation)(), "Quote"),
+          (UnorderedListNode, Icon(name = Icon.Glyph.ListBullet)(), "Bulleted List"),
+          (OrderedListNode, Icon(name = Icon.Glyph.ListNumber)(), "Numbered List")
         ).toVdomArray {
           case (blockNode, icon, tip) =>
             ToolbarButton(

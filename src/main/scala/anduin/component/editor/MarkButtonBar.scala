@@ -42,10 +42,10 @@ private[editor] object MarkButtonBar {
       <.div(
         Style.flexbox.flex,
         List(
-          (BoldNode, Icon(name = Icon.NameBold)(), "Bold"),
-          (ItalicNode, Icon(name = Icon.NameItalic)(), "Italic"),
-          (UnderlineNode, Icon(name = Icon.NameUnderline)(), "Underline"),
-          (StrikeThroughNode, Icon(name = Icon.NameStrikeThrough)(), "Strikethrough")
+          (BoldNode, Icon(name = Icon.Glyph.Bold)(), "Bold"),
+          (ItalicNode, Icon(name = Icon.Glyph.Italic)(), "Italic"),
+          (UnderlineNode, Icon(name = Icon.Glyph.Underline)(), "Underline"),
+          (StrikeThroughNode, Icon(name = Icon.Glyph.StrikeThrough)(), "Strikethrough")
         ).toVdomArray {
           case (markNode, icon, tip) =>
             ToolbarButton(

@@ -48,7 +48,7 @@ private[image] object BrowseFile {
         if (state.hover) {
           <.span(
             Style.width.pc100.height.pc100.flexbox.flex.flexbox.justifyCenter.flexbox.itemsCenter.backgroundColor.white,
-            Icon(name = Icon.NamePlus, size = Icon.Size32)()
+            Icon(name = Icon.Glyph.Plus, size = Icon.Size.Px32)()
           )
         } else {
           children

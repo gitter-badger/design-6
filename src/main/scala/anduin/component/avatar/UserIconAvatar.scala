@@ -23,7 +23,7 @@ object UserIconAvatar {
       Style.flexbox.flex.flexbox.itemsCenter.flexbox.justifyCenter.fontWeight.bold.color.white.borderRadius.pill.backgroundColor.gray4,
       ^.width := s"${props.avatarSize.size}px",
       ^.height := s"${props.avatarSize.size}px",
-      Icon(name = Icon.NameUser)()
+      Icon(name = Icon.Glyph.UserSingle)()
     )
   }
 

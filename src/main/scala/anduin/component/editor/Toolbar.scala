@@ -108,7 +108,7 @@ object Toolbar {
           Tooltip(
             targetTag = <.span,
             renderTarget = Button(
-              style = Button.Style.Minimal(icon = Some(Icon.NameUndo)),
+              style = Button.Style.Minimal(icon = Some(Icon.Glyph.Undo)),
               onClick = props.onChange(props.value.change().undo()),
               isDisabled = !props.value.hasUndos
             )(),
@@ -118,7 +118,7 @@ object Toolbar {
           Tooltip(
             targetTag = <.span,
             renderTarget = Button(
-              style = Button.Style.Minimal(icon = Some(Icon.NameRedo)),
+              style = Button.Style.Minimal(icon = Some(Icon.Glyph.Redo)),
               onClick = props.onChange(props.value.change().redo()),
               isDisabled = props.value.hasRedos
             )(),
@@ -132,7 +132,7 @@ object Toolbar {
               renderTarget = open => {
                 Button(
                   onClick = open,
-                  style = Button.Style.Minimal(icon = Some(Icon.NameLink))
+                  style = Button.Style.Minimal(icon = Some(Icon.Glyph.Link))
                 )()
               },
               renderContent = LinkModal(props.value, onAddLink, _)()
@@ -142,7 +142,7 @@ object Toolbar {
           Tooltip(
             targetTag = <.span,
             renderTarget = Button(
-              style = Button.Style.Minimal(icon = Some(Icon.NameUnlink)),
+              style = Button.Style.Minimal(icon = Some(Icon.Glyph.Unlink)),
               onClick = onRemoveLink,
               isDisabled = !hasLink
             )(),
@@ -157,7 +157,7 @@ object Toolbar {
               Tooltip(
                 targetTag = <.span,
                 renderTarget = Button(
-                  style = Button.Style.Minimal(isSelected = isOpened, icon = Some(Icon.NameTextStyle)),
+                  style = Button.Style.Minimal(isSelected = isOpened, icon = Some(Icon.Glyph.TextStyle)),
                   onClick = toggle
                 )(),
                 renderContent = () => "Formatting options"
@@ -184,7 +184,7 @@ object Toolbar {
               renderTarget = open => {
                 Button(
                   onClick = open,
-                  style = Button.Style.Minimal(icon = Some(Icon.NameInfo))
+                  style = Button.Style.Minimal(icon = Some(Icon.Glyph.Info))
                 )()
               },
               renderContent = _ => {

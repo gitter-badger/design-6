@@ -29,7 +29,7 @@ object RadioBox {
       Style.position.absolute.borderRadius.pc100.backgroundColor.white.color.success4,
       Style.flexbox.flex.flexbox.itemsCenter.flexbox.justifyCenter,
       TagMod(^.width := "20px", ^.height := "20px", ^.top := "-10px", ^.right := "-10px"),
-      Icon(name = Icon.NameCheckCircle)()
+      Icon(name = Icon.Glyph.CheckCircle)()
     )
   }
 

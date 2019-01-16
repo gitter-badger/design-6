@@ -45,9 +45,9 @@ private[editor] object AlignButtonBar {
       <.div(
         Style.flexbox.flex,
         List(
-          ("left", Icon(name = Icon.NameAlignLeft)(), "Align Left"),
-          ("center", Icon(name = Icon.NameAlignCenter)(), "Align Center"),
-          ("right", Icon(name = Icon.NameAlignRight)(), "Align Right")
+          ("left", Icon(name = Icon.Glyph.AlignLeft)(), "Align Left"),
+          ("center", Icon(name = Icon.Glyph.AlignCenter)(), "Align Center"),
+          ("right", Icon(name = Icon.Glyph.AlignRight)(), "Align Right")
         ).toVdomArray {
           case (align, icon, tip) =>
             ToolbarButton(

@@ -56,7 +56,7 @@ class Tree[A] {
 
     private def renderButton(props: Props, state: State): VdomNode = {
       if (props.loader.hasChildren(props.node)) {
-        val icon = if (state.isOpened) Icon.NameCaretDown else Icon.NameCaretRight
+        val icon = if (state.isOpened) Icon.Glyph.CaretDown else Icon.Glyph.CaretRight
         Button(
           style = Button.Style.Minimal(icon = Some(icon)),
           onClick = toggle(props, state)

@@ -47,7 +47,7 @@ object CheckMark {
               "at-icon" -> true,
               Style.flexbox.flex.flexbox.justifyCenter.flexbox.itemsCenter.borderRadius.pill.color.white.value -> true
             ),
-            Icon(name = Icon.NameCheck)()
+            Icon(name = Icon.Glyph.Check)()
           )
         ),
         children
