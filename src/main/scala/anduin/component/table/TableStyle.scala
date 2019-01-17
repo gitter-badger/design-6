@@ -20,14 +20,14 @@ object TableStyle {
   private val border: TagMod = Style.borderWidth.px1.borderColor.gray3
 
   trait Full extends TableStyle {
-    final override val table: TagMod = TagMod(border, Style.border.top.border.left.border.right)
-    final override val td: TagMod = TagMod(border, Style.border.bottom)
-    final override val th: TagMod = TagMod(border, Style.border.bottom.backgroundColor.gray1)
-    final override val thNotFirst: TagMod = TagMod(Style.border.left)
+    override val table: TagMod = TagMod(border, Style.border.top.border.left.border.right)
+    override val td: TagMod = TagMod(border, Style.border.bottom)
+    override val th: TagMod = TagMod(border, Style.border.bottom.backgroundColor.gray1)
+    override val thNotFirst: TagMod = TagMod(Style.border.left)
   }
 
   trait Minimal extends TableStyle {
-    final override val td: TagMod = TagMod(border, Style.border.bottom)
-    final override val th: TagMod = TagMod(border, Style.border.bottom)
+    override val td: TagMod = TagMod(border, Style.border.bottom)
+    override val th: TagMod = TagMod(border, Style.border.bottom)
   }
 }
