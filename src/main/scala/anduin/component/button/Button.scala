@@ -78,7 +78,7 @@ object Button {
     def icon: Option[Icon.Name]
     def container: TagMod
     def body: TagMod
-    def overlay: VdomNode
+    def overlay: TagMod
     // these are separated because isDisabled is
     // not a property of Style but Button
     def colorDisabled: TagMod
