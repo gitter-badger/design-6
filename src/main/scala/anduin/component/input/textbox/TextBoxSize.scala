@@ -11,7 +11,7 @@ import japgolly.scalajs.react.vdom.html_<^._
 sealed trait TextBoxSize {
   protected def common: TagMod
   protected def singleOnly: TagMod
-  protected final val areaOnly: TagMod = Style.lineHeight.ratio1p5
+  protected val areaOnly: TagMod = Style.lineHeight.ratio1p5
   def single: TagMod = TagMod(common, singleOnly)
   def area: TagMod = TagMod(common, areaOnly)
 }
