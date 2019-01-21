@@ -2,6 +2,7 @@
 
 package anduin.component.tab
 
+import anduin.component.util.ComponentUtils
 import anduin.style.{CssVar, Style}
 
 // scalastyle:off underscore.import
@@ -36,6 +37,7 @@ private[tab] object TabMinimal {
     val (title, index) = titleTup
     val isActive = props.active == index
     <.button(
+      ComponentUtils.testId(this, s"${title.rawNode.toString.replaceAll("[ ']", "")}Button"),
       // === Styles
       Style.focus.outline.transition.allWithOutline.padding.hor12.padding.ver8.margin.hor4,
       if (isActive) activeStyles else normalStyles,
