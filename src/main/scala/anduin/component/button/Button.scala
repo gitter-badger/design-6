@@ -12,7 +12,7 @@ import japgolly.scalajs.react.vdom.html_<^._
 
 final case class Button(
   style: Button.Style = Button.Style.Full(),
-  tpe: Button.Tpe = Button.Tpe.TpeButton(),
+  tpe: ButtonType = Button.Tpe.Plain(),
   // actually these 2 props don't make much sense when being used with
   // Button.Tpe.Link. However, they are placed here (top-level) due to our
   // massive current usages.
@@ -32,24 +32,17 @@ object Button {
 
   // Tpe ===
 
-  trait Target { def mod: TagMod }
   object Target {
-    object Blank extends ButtonTpe.Target.Blank
-    object Self extends ButtonTpe.Target.Self
-    object Parent extends ButtonTpe.Target.Parent
+    object Blank extends ButtonType.Target.Blank
+    object Self extends ButtonType.Target.Self
+    object Parent extends ButtonType.Target.Parent
   }
 
-  trait Tpe {
-    def normal: TagMod
-    def disabled: TagMod
-  }
   object Tpe {
-    // https://developer.mozilla.org/en-US/docs/Web/HTML/Element/a
-    final case class Link(href: String, target: Target = Target.Self) extends ButtonTpe.Tpe.Link
-    // https://developer.mozilla.org/en-US/docs/Web/HTML/Element/button#attr-type
-    case class TpeButton(isAutoFocus: Boolean = false) extends ButtonTpe.Tpe.TpeButton
-    case class Submit(isAutoFocus: Boolean = false) extends ButtonTpe.Tpe.Submit
-    case class Reset(isAutoFocus: Boolean = false) extends ButtonTpe.Tpe.Reset
+    final case class Link(href: String, target: ButtonType.Target = Target.Self) extends ButtonType.Link
+    case class Plain(isAutoFocus: Boolean = false) extends ButtonType.Plain
+    case class Submit(isAutoFocus: Boolean = false) extends ButtonType.Submit
+    case class Reset(isAutoFocus: Boolean = false) extends ButtonType.Reset
   }
 
   // Style ===
