@@ -39,7 +39,7 @@ private[editor] object LinkRenderer {
         },
         renderContent = _ => {
           Button(
-            style = Button.Style.Link(),
+            style = Button.Style.Text(),
             tpe = Button.Tpe.Link(href = href, target = Button.Target.Blank)
           )("Open link")
         }

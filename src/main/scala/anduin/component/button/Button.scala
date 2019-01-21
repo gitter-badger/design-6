@@ -63,10 +63,10 @@ object Button {
   }
 
   object Style {
-    final case class Link(
+    final case class Text(
       color: ButtonStyle.Color = Color.Blue,
       isBlock: Boolean = false
-    ) extends ButtonStyle.Link
+    ) extends ButtonStyle.Text
     final case class Full(
       color: ButtonStyle.Color = Color.White,
       height: ButtonStyle.Height = Height.Fix32,

@@ -147,7 +147,7 @@ object ButtonStyle {
   // ============================
   // Public traits (for Button.scala)
   // ============================
-  trait Link extends ButtonStyle {
+  trait Text extends ButtonStyle {
     def color: Color
     def isBlock: Boolean
 
