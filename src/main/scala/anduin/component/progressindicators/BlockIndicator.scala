@@ -2,6 +2,7 @@
 
 package anduin.component.progressindicators
 
+import anduin.component.util.ComponentUtils
 import anduin.style.Style
 
 // scalastyle:off underscore.import
@@ -25,6 +26,7 @@ object BlockIndicator {
 
   private def render(props: Props): VdomElement = {
     <.div(
+      ComponentUtils.testId(this, "Loading"),
       if (props.isFullHeight) Style.height.pc100 else Style.height.px256,
       Style.flexbox.flex.flexbox.column.flexbox.justifyCenter.flexbox.itemsCenter,
       <.div(Style.color.primary4, props.indicator),
