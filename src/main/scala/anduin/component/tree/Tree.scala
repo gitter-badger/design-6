@@ -58,11 +58,11 @@ class Tree[A] {
       if (props.loader.hasChildren(props.node)) {
         val icon = if (state.isOpened) Icon.Glyph.CaretDown else Icon.Glyph.CaretRight
         Button(
-          style = Button.Style.Minimal(icon = Some(icon)),
+          style = Button.Style.Minimal(icon = Some(icon), height = Button.Height.Fix24),
           onClick = toggle(props, state)
         )()
       } else {
-        <.div(Style.width.px32.height.px32)
+        <.div(^.width := "24px", ^.height := "24px")
       }
     }
 
@@ -77,7 +77,8 @@ class Tree[A] {
       }
       <.div(
         TagMod.when(!state.isOpened)(Style.display.none),
-        Style.padding.left16,
+        Style.border.left.borderColor.gray3.padding.left8,
+        ^.marginLeft := "11px", // 12px - 1px of the border
         children
       )
     }
@@ -95,7 +96,7 @@ class Tree[A] {
     def render(props: Props, state: State): VdomElement = {
       <.div(
         <.div(
-          Style.flexbox.flex.flexbox.itemsCenter,
+          Style.flexbox.flex.flexbox.itemsStart,
           <.div(Style.flexbox.none, renderButton(props, state)),
           <.div(Style.flexbox.fixed, renderContent(props, state))
         ),
