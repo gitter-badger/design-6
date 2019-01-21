@@ -57,7 +57,8 @@ object Modal {
 
   object Height {
     object Content extends ModalSize.Height.Content
-    object Full extends ModalSize.Height.Full
+    case class Custom(percent: Int) extends ModalSize.Height.Custom
+    object Full extends ModalSize.Height.Custom { val percent: Int = 100 }
   }
 
   final case class Size(
@@ -93,7 +94,6 @@ object Modal {
       <.div(
         ComponentUtils.testId(this, "Overlay"),
         overlayStaticMod,
-        props.size.overlay,
         props.layout.overlay,
         PortalUtils.getClosableMods(props.isClosable, close),
         // Anatomy: Container
