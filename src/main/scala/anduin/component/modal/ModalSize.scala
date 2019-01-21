@@ -13,7 +13,6 @@ trait ModalSize {
   def height: ModalSize.Height
 
   // "width" only has "container" atm
-  final def overlay: TagMod = height.overlay
   final def container: TagMod = TagMod(width.container, height.container)
   final def content: TagMod = height.content
   final def header: TagMod = height.header
@@ -41,22 +40,28 @@ private[modal] object ModalSize {
   }
 
   sealed trait Height {
-    def overlay: TagMod = TagMod.empty
     def container: TagMod = TagMod.empty
     def header: TagMod = TagMod.empty
     def content: TagMod = TagMod.empty
   }
 
   object Height {
+    // Use height of Modal's content
     trait Content extends Height {
-      override val overlay: TagMod = Style.padding.ver32
+      override val container: TagMod = TagMod(Style.margin.ver32, ^.alignSelf.flexStart)
     }
-    // it's intentional to use overflow.hiddenY instead of autoY here since
-    // consumers should only use Full to be able to get parent's height
-    trait Full extends Height {
+
+    // Set to a fixed percentage of screen (percentage of Modal's overlay to
+    // be exact, which is as large as the screen)
+    trait Custom extends Height {
+      def percent: Int
+
       override val container: TagMod = TagMod(
-        Style.height.pc100.overflow.hiddenY,
-        Style.flexbox.flex.flexbox.column
+        ^.height := s"$percent%",
+        ^.alignSelf.center,
+        // it's intentional to use overflow.hiddenY instead of autoY here since
+        // consumers should only use Full to be able to get parent's height
+        Style.flexbox.flex.flexbox.column.overflow.hiddenY
       )
       override val header: TagMod = Style.flexbox.none
       override val content: TagMod = Style.flexbox.fixed
