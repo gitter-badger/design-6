@@ -11,7 +11,7 @@ import japgolly.scalajs.react.vdom.html_<^._
 // scalastyle:on underscore.import
 
 final case class Button(
-  style: Button.Style = Button.Style.Full(),
+  style: ButtonStyle = Button.Style.Full(),
   tpe: ButtonType = Button.Tpe.Plain(),
   // actually these 2 props don't make much sense when being used with
   // Button.Tpe.Link. However, they are placed here (top-level) due to our
@@ -47,10 +47,6 @@ object Button {
 
   // Style ===
 
-  trait Height {
-    def square: TagMod
-    def rect: TagMod
-  }
   object Height {
     object Fix24 extends ButtonStyle.Height.Fix24
     object Fix32 extends ButtonStyle.Height.Fix32
@@ -58,7 +54,6 @@ object Button {
     object Free extends ButtonStyle.Height.Free
   }
 
-  trait Color
   object Color {
     object White extends ButtonStyle.Color.White
     object Black extends ButtonStyle.Color.Black
@@ -67,53 +62,35 @@ object Button {
     object Red extends ButtonStyle.Color.Red
   }
 
-  trait Style {
-    def icon: Option[Icon.Name]
-    def container: TagMod
-    def body: TagMod
-    def overlay: TagMod
-    // these are separated because isDisabled is
-    // not a property of Style but Button
-    def colorDisabled: TagMod
-    def colorNormal: TagMod
-    // these are separated because children is
-    // not a property of Style but Button
-    def sizeSquare: TagMod // Icon with no children
-    def sizeRect: TagMod // Icon with children
-  }
   object Style {
-
     final case class Link(
-      color: Color = Color.Blue,
+      color: ButtonStyle.Color = Color.Blue,
       isBlock: Boolean = false
-    ) extends ButtonStyle.BStyle.Link
-
+    ) extends ButtonStyle.Link
     final case class Full(
-      color: Color = Color.White,
-      height: Height = Height.Fix32,
+      color: ButtonStyle.Color = Color.White,
+      height: ButtonStyle.Height = Height.Fix32,
       icon: Option[Icon.Name] = None,
       isFullWidth: Boolean = false,
       isSelected: Boolean = false,
       isBusy: Boolean = false
-    ) extends ButtonStyle.BStyle.Full
-
+    ) extends ButtonStyle.Full
     final case class Ghost(
-      color: Color = Color.Black,
-      height: Height = Height.Fix32,
+      color: ButtonStyle.Color = Color.Black,
+      height: ButtonStyle.Height = Height.Fix32,
       icon: Option[Icon.Name] = None,
       isFullWidth: Boolean = false,
       isSelected: Boolean = false,
       isBusy: Boolean = false
-    ) extends ButtonStyle.BStyle.Ghost
-
+    ) extends ButtonStyle.Ghost
     final case class Minimal(
-      color: Color = Color.Black,
-      height: Height = Height.Fix32,
+      color: ButtonStyle.Color = Color.Black,
+      height: ButtonStyle.Height = Height.Fix32,
       icon: Option[Icon.Name] = None,
       isFullWidth: Boolean = false,
       isSelected: Boolean = false,
       isBusy: Boolean = false
-    ) extends ButtonStyle.BStyle.Minimal
+    ) extends ButtonStyle.Minimal
   }
 
   private[component] def getStyles(props: Props, children: Option[PropsChildren]): TagMod = TagMod(

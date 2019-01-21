@@ -2,10 +2,9 @@
 
 package anduin.component.input
 
-import anduin.component.button.Button
+import anduin.component.button.{Button, ButtonStyle}
 import anduin.style.Style
 import org.scalajs.dom.FileList
-
 import anduin.component.util.ComponentUtils
 
 // scalastyle:off underscore.import
@@ -14,7 +13,7 @@ import japgolly.scalajs.react.vdom.html_<^._
 // scalastyle:on underscore.import
 
 final case class FileButtonInput(
-  style: Button.Style = Button.Style.Full(),
+  style: ButtonStyle = Button.Style.Full(),
   isDisabled: Boolean = false,
   // Specific behaviours for FileButton
   onChange: FileList => Callback,
