@@ -2,7 +2,7 @@
 
 package anduin.component.modal
 
-import anduin.component.button.Button
+import anduin.component.button.{Button, ButtonStyle}
 
 // scalastyle:off underscore.import
 import japgolly.scalajs.react._
@@ -13,7 +13,7 @@ final case class ConfirmationModal(
   content: VdomNode,
   onConfirm: Callback,
   confirmBtnLabel: String,
-  confirmBtnColor: Button.Color = Button.Color.White,
+  confirmBtnColor: ButtonStyle.Color = Button.Color.White,
   onCloseModal: Callback,
   cancelBtnLabel: String = "Cancel",
   isDisableConfirm: Boolean = false
