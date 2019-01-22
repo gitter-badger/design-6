@@ -56,7 +56,7 @@ private[modal] object ModalSize {
     trait Custom extends Height {
       def percent: Int
 
-      override val container: TagMod = TagMod(
+      override def container: TagMod = TagMod(
         ^.height := s"$percent%",
         ^.alignSelf.center,
         // it's intentional to use overflow.hiddenY instead of autoY here since
