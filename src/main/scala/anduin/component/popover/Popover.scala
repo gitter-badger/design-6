@@ -66,12 +66,15 @@ object Popover {
 
     // This is the actual popover node (i.e. the dom node that Popper
     // will position)
+    val realContent = props.renderContent(popper.toggle)
     val content = <.div.withRef(popper.ref)(
       // Reset overlay's pointerEvents
       TagMod.when(!isOverlayClosable) { Style.pointerEvents.all },
-      TagMod(popper.styles, contentStyles),
-      props.renderContent(popper.toggle),
-      arrow
+      realContent,
+      // Don't show the arrow when there's no content
+      TagMod.unless(realContent == EmptyVdom) {
+        TagMod(popper.styles, contentStyles, arrow)
+      }
     )
 
     // This is the overlay of Popover. This will catch closable events
