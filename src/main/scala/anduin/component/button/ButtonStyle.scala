@@ -11,7 +11,7 @@ import japgolly.scalajs.react.vdom.html_<^._
 // scalastyle:on underscore.import
 
 sealed trait ButtonStyle {
-  def icon: Option[Icon.Name]
+  def iconProps: Option[Icon]
   def container: TagMod
   def body: TagMod
   def overlay: TagMod
@@ -30,26 +30,31 @@ object ButtonStyle {
   sealed trait Height {
     def square: TagMod
     def rect: TagMod
+    def iconSize: Icon.Size
   }
   object Height {
     trait Fix24 extends Height {
       private def common = Style.height.px24.fontSize.px12
       final def square: TagMod = TagMod(common, ^.width := "24px")
       final def rect: TagMod = TagMod(common, Style.padding.hor8)
+      final def iconSize: Icon.Size = Icon.Size.Custom(12)
     }
     trait Fix32 extends Height {
       private def common = Style.height.px32.fontSize.px13
       final def square: TagMod = TagMod(common, Style.width.px32)
       final def rect: TagMod = TagMod(common, Style.padding.hor12)
+      final def iconSize: Icon.Size = Icon.Size.Px16
     }
     trait Fix40 extends Height {
       private def common = Style.height.px40.fontSize.px16
       final def square: TagMod = TagMod(common, ^.width := "40px")
       final def rect: TagMod = TagMod(common, Style.padding.hor16)
+      final def iconSize: Icon.Size = Icon.Size.Custom(20)
     }
     trait Free extends Height {
       final def square: TagMod = TagMod.empty
       final def rect: TagMod = TagMod.empty
+      final def iconSize: Icon.Size = Icon.Size.Px16
     }
   }
 
@@ -69,9 +74,9 @@ object ButtonStyle {
   // ============================
   // Private traits (for Public traits below)
   // ============================
-  // "Block" buttons have traditional button-like appearance, like having
+  // "Box" buttons have traditional button-like appearance, like having
   // width, height and support icon. In other words, they are not "Link".
-  sealed trait Block {
+  sealed trait Box {
     def color: Color
     def height: Height
     def icon: Option[Icon.Name]
@@ -79,13 +84,16 @@ object ButtonStyle {
     def isBusy: Boolean
     def isSelected: Boolean
 
+    // Icon
+    final def iconProps: Option[Icon] = icon.map(name => Icon(name = name, size = height.iconSize))
+
     // Size
     final def sizeSquare: TagMod = height.square
     private def sizeWidth = if (isFullWidth) Style.width.pc100 else Style.width.maxContent
     final def sizeRect: TagMod = TagMod(sizeWidth, height.rect)
 
     // Body & Container
-    final def blockContainer: TagMod = TagMod(
+    final def boxContainer: TagMod = TagMod(
       Style.lineHeight.px16.fontWeight.medium.whiteSpace.noWrap,
       Style.focus.outline.transition.allWithOutline.borderRadius.px2,
       Style.display.block.position.relative,
@@ -110,11 +118,11 @@ object ButtonStyle {
       )
     }
 
-    final def blockDisabled: TagMod = Style.color.gray5.backgroundColor.gray1
+    final def boxDisabled: TagMod = Style.color.gray5.backgroundColor.gray1
   }
-  // "BlockNoBg" buttons don't have background defined at normal state. It
+  // "BoxNoBg" buttons don't have background defined at normal state. It
   // is for "Ghost" and "Minimal".
-  sealed trait BlockNoBg {
+  sealed trait BoxNoBg {
     def isSelected: Boolean
     def isBusy: Boolean
     def color: Color
@@ -137,7 +145,7 @@ object ButtonStyle {
       case _: Color.Green => if (is) bgc.success4 else Style.hover.backgroundSuccess1.active.backgroundSuccess4
     }
     // scalastyle:on cyclomatic.complexity
-    final def blockNoBgNormal: TagMod = TagMod(text, bg)
+    final def boxNoBgNormal: TagMod = TagMod(text, bg)
   }
   sealed trait Border {
     final def borderContainer: TagMod = Style.border.all
@@ -151,7 +159,7 @@ object ButtonStyle {
     def color: Color
     def isBlock: Boolean
 
-    final def icon: Option[Icon.Name] = None
+    final def iconProps: Option[Icon] = None
     final def container: TagMod = TagMod(
       Style.hover.underline,
       TagMod.when(isBlock)(Style.display.block)
@@ -171,9 +179,9 @@ object ButtonStyle {
     final def sizeSquare: TagMod = TagMod.empty
     final def sizeRect: TagMod = TagMod.empty
   }
-  trait Full extends ButtonStyle with Block with Border {
-    final def container: TagMod = TagMod(borderContainer, blockContainer)
-    final def colorDisabled: TagMod = TagMod(borderDisabled, blockDisabled)
+  trait Full extends ButtonStyle with Box with Border {
+    final def container: TagMod = TagMod(borderContainer, boxContainer)
+    final def colorDisabled: TagMod = TagMod(borderDisabled, boxDisabled)
 
     // Styles that are different between White and other colors
     private def text: TagMod = color match {
@@ -204,9 +212,9 @@ object ButtonStyle {
     }
     final def colorNormal: TagMod = TagMod(text, shadow, bg, border)
   }
-  trait Ghost extends ButtonStyle with Block with Border with BlockNoBg {
-    final def container: TagMod = TagMod(borderContainer, blockContainer)
-    final def colorDisabled: TagMod = TagMod(borderDisabled, blockDisabled)
+  trait Ghost extends ButtonStyle with Box with Border with BoxNoBg {
+    final def container: TagMod = TagMod(borderContainer, boxContainer)
+    final def colorDisabled: TagMod = TagMod(borderDisabled, boxDisabled)
 
     // scalastyle:off cyclomatic.complexity
     private def is: Boolean = isSelected || isBusy
@@ -218,14 +226,14 @@ object ButtonStyle {
       case _: Color.Green => if (is) bc.success5 else bc.success4.active.borderSuccess5
     }
     // scalastyle:on cyclomatic.complexity
-    final def colorNormal: TagMod = TagMod(blockNoBgNormal, border)
+    final def colorNormal: TagMod = TagMod(boxNoBgNormal, border)
   }
-  trait Minimal extends ButtonStyle with Block with BlockNoBg {
+  trait Minimal extends ButtonStyle with Box with BoxNoBg {
     // We want the width of a button is the same whether it's Minimal or
     // Ghost so here we have a fake border
-    final def container: TagMod = TagMod(Style.border.all, blockContainer)
+    final def container: TagMod = TagMod(Style.border.all, boxContainer)
     private def colorBorder = Style.borderColor.transparent
-    final def colorDisabled: TagMod = TagMod(colorBorder, blockDisabled)
-    final def colorNormal: TagMod = TagMod(colorBorder, blockNoBgNormal)
+    final def colorDisabled: TagMod = TagMod(colorBorder, boxDisabled)
+    final def colorNormal: TagMod = TagMod(colorBorder, boxNoBgNormal)
   }
 }

@@ -95,7 +95,7 @@ object Button {
 
   private[component] def getStyles(props: Props, children: Option[PropsChildren]): TagMod = TagMod(
     props.style.container, {
-      val isIconOnly = props.style.icon.isDefined && children.exists(_.isEmpty)
+      val isIconOnly = props.style.iconProps.isDefined && children.exists(_.isEmpty)
       if (isIconOnly) props.style.sizeSquare else props.style.sizeRect
     },
     if (props.isDisabled) props.style.colorDisabled else props.style.colorNormal
@@ -112,9 +112,9 @@ object Button {
   )
 
   private[component] def getContent(props: Props, children: PropsChildren): TagMod = {
-    val icon = props.style.icon.map(name => {
+    val icon = props.style.iconProps.map(iconInfo => {
       val margin = TagMod.when(children.nonEmpty)(SStyle.margin.right8)
-      <.span(margin, Icon(name = name)())
+      <.span(margin, iconInfo())
     })
     TagMod(
       <.span(props.style.body, icon, children),
