@@ -37,7 +37,8 @@ class Tree[A] {
     getKey: A => String,
     loader: TreeLoader[A],
     parentNodes: Seq[A] = Seq.empty,
-    defaultIsOpened: Boolean = false
+    defaultIsOpened: Boolean = false,
+    isSelfHidden: Boolean = false
   ) {
     def apply(): VdomElement = component(this)
   }
@@ -71,7 +72,8 @@ class Tree[A] {
         val element = props.copy(
           node = node,
           parentNodes = props.parentNodes :+ props.node,
-          defaultIsOpened = false
+          defaultIsOpened = false,
+          isSelfHidden = false
         )()
         <.div(^.key := props.getKey(node), element)
       }
@@ -95,10 +97,12 @@ class Tree[A] {
 
     def render(props: Props, state: State): VdomElement = {
       <.div(
-        <.div(
-          Style.flexbox.flex.flexbox.itemsStart,
-          <.div(Style.flexbox.none, renderButton(props, state)),
-          <.div(Style.flexbox.fixed, renderContent(props, state))
+        TagMod.unless(props.isSelfHidden)(
+          <.div(
+            Style.flexbox.flex.flexbox.itemsStart,
+            <.div(Style.flexbox.none, renderButton(props, state)),
+            <.div(Style.flexbox.fixed, renderContent(props, state))
+          )
         ),
         <.div(renderChildren(props, state))
       )
@@ -116,5 +120,10 @@ class Tree[A] {
         scope.props.loader.load(scope.props.node, scope.backend.setChildren)
       }
     })
+    .componentDidUpdate { scope =>
+      Callback.when(scope.prevProps.node != scope.currentProps.node) {
+        scope.currentProps.loader.load(scope.currentProps.node, scope.backend.setChildren)
+      }
+    }
     .build
 }
