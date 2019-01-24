@@ -37,7 +37,7 @@ class Tree[A] {
     getKey: A => String,
     loader: TreeLoader[A],
     parentNodes: Seq[A] = Seq.empty,
-    defaultIsOpened: Boolean = false,
+    shouldOpen: A => Boolean = _ => false,
     isSelfHidden: Boolean = false
   ) {
     def apply(): VdomElement = component(this)
@@ -49,6 +49,9 @@ class Tree[A] {
 
     def setChildren(children: Seq[A]): Callback =
       scope.modState(_.copy(children = children))
+
+    def setOpened(isOpened: Boolean): Callback =
+      scope.modState(_.copy(isOpened = isOpened))
 
     private def toggle(props: Props, state: State): Callback = scope.modState(
       _.copy(isOpened = !state.isOpened),
@@ -72,7 +75,7 @@ class Tree[A] {
         val element = props.copy(
           node = node,
           parentNodes = props.parentNodes :+ props.node,
-          defaultIsOpened = false,
+          shouldOpen = props.shouldOpen,
           isSelfHidden = false
         )()
         <.div(^.key := props.getKey(node), element)
@@ -112,18 +115,23 @@ class Tree[A] {
   private val component = ScalaComponent
     .builder[Props](this.getClass.getSimpleName)
     .initialStateFromProps(props => {
-      State(isOpened = props.defaultIsOpened, children = Seq.empty)
+      State(isOpened = props.shouldOpen(props.node), children = Seq.empty)
     })
     .renderBackend[Backend]
     .componentDidMount(scope => {
-      Callback.when(scope.props.defaultIsOpened) {
+      Callback.when(scope.state.isOpened) {
         scope.props.loader.load(scope.props.node, scope.backend.setChildren)
       }
     })
     .componentDidUpdate { scope =>
-      Callback.when(scope.prevProps.node != scope.currentProps.node) {
-        scope.currentProps.loader.load(scope.currentProps.node, scope.backend.setChildren)
-      }
+      Callback.when(scope.prevProps.shouldOpen != scope.currentProps.shouldOpen) {
+        scope.backend.setOpened(scope.currentProps.shouldOpen(scope.currentProps.node))
+      } >>
+        Callback.when(
+          scope.prevProps.node != scope.currentProps.node || (scope.currentState.isOpened != scope.prevState.isOpened && scope.currentState.isOpened)
+        ) {
+          scope.currentProps.loader.load(scope.currentProps.node, scope.backend.setChildren)
+        }
     }
     .build
 }
