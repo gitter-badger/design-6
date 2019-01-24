@@ -21,11 +21,16 @@ object ButtonType {
     final def disabled: TagMod = TagMod.empty
   }
 
-  sealed trait Target { def mod: TagMod }
+  sealed trait Target {
+    def target: TagMod
+    // "rel" is added for security reason.
+    // - See: https://mathiasbynens.github.io/rel-noopener/
+    final def mod: TagMod = TagMod(target, ^.rel := "noreferrer noopener")
+  }
   object Target {
-    trait Blank extends Target { val mod: TagMod = ^.target.blank }
-    trait Self extends Target { val mod: TagMod = ^.target.self }
-    trait Parent extends Target { val mod: TagMod = ^.target.parent }
+    trait Blank extends Target { def target: TagMod = ^.target.blank }
+    trait Self extends Target { def target: TagMod = ^.target.self }
+    trait Parent extends Target { def target: TagMod = ^.target.parent }
   }
 
   // https://developer.mozilla.org/en-US/docs/Web/HTML/Element/button#attr-type
