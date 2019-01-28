@@ -118,12 +118,14 @@ object Config {
 
   trait User extends js.Object {
     val id: String
+    val name: String
   }
 
   object User {
-    def apply(idParam: String): User = {
+    def apply(idParam: String, nameParam: String): User = {
       new User {
         override val id = idParam
+        override val name = nameParam
       }
     }
   }
