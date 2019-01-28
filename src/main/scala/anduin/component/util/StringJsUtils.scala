@@ -47,4 +47,11 @@ object StringJsUtils {
       React.Fragment(string)
     }
   }
+
+  // Check if a given `string` is empty or only consists of whitespace (including new line, tab characters)
+  def isEmptyOrWhitespace(string: String): Boolean = {
+    string.isEmpty || string.forall { char =>
+      Character.isWhitespace(char)
+    }
+  }
 }
