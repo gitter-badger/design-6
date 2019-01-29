@@ -93,9 +93,9 @@ class Tree[A] {
     }
 
     private val indent = TagMod(
-        Style.border.left.borderColor.gray3.padding.left8,
-        ^.marginLeft := "11px" // 12px - 1px of the border
-      )
+      Style.border.left.borderColor.gray3.padding.left8,
+      ^.marginLeft := "11px" // 12px - 1px of the border
+    )
 
     private def renderChildren(props: Props, state: State, content: Option[VdomElement]): VdomNode = {
       val childrenNodes = props.loader match {
@@ -163,8 +163,8 @@ class Tree[A] {
         }
         // set isExpanded if needed
         _ <- Callback.when({
-          val props = scope.currentProps
-          scope.prevProps != props && props.shouldExpanded(props.node)
+          scope.currentProps != scope.prevProps &&
+          scope.currentProps.shouldExpanded(scope.currentProps.node)
         })(scope.backend.setIsExpanded(true))
       } yield ()
     }
