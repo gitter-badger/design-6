@@ -25,17 +25,17 @@ object IconFile {
     val path16: String =
       """
         |  <path d="M3 1h9l3 4v11H3V1z" fill="#000" fill-opacity=".1"/>
-        |  <path d="M2.5.5h8.25l2.75 3.67V14.5h-11V.5z" fill="#fff" stroke="#9BB0C2"/>
+        |  <path d="M2.5.5h8.25l2.75 3.67V14.5h-11V.5z" fill="#F7FAFC" stroke="#9BB0C2"/>
       """.stripMargin
     val path24: String =
       """
         |  <path d="M5 3h10.6L21 9v14H5V3z" fill="#000" fill-opacity=".1"/>
-        |  <path d="M4.5 2.5h9.88l5.12 5.7v13.3h-15v-19z" fill="#fff" stroke="#9BB0C2"/>
+        |  <path d="M4.5 2.5h9.88l5.12 5.7v13.3h-15v-19z" fill="#F7FAFC" stroke="#9BB0C2"/>
       """.stripMargin
     val path32: String =
       """
         |  <path d="M6 3h15l7 8v20H6V3z" fill="#000" fill-opacity=".1"/>
-        |  <path d="M5.5 2.5h14.27l6.73 7.69V29.5h-21v-27z" fill="#fff" stroke="#9BB0C2"/>
+        |  <path d="M5.5 2.5h14.27l6.73 7.69V29.5h-21v-27z" fill="#F7FAFC" stroke="#9BB0C2"/>
       """.stripMargin
   }
   object Pdf extends IconFile {
