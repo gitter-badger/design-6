@@ -43,8 +43,8 @@ object PageIconNego {
       Toc(headings = Source.getTocHeadings)(),
       Markdown(
         s"""
-           |`Icon.Nego` contains [Icon's names] that are specifically
-           |designed for [negotiation actions][nc]:
+           |`Icon.Nego` contains [Icon's names] that are specially designed
+           |for [negotiation actions][nc]:
            |
            |[Icon's names]: ${ctl.urlFor(Pages.Icon("#name")).value}
            |[nc]: ${ctl.urlFor(Pages.IconGlyph("#negotiation")).value}

@@ -29,8 +29,8 @@ object PageIconFile {
       Toc(headings = Source.getTocHeadings)(),
       Markdown(
         s"""
-           |`Icon.File` contains [Icon's names] that are specifically
-           |designed for [files and folders][ff]:
+           |`Icon.File` contains [Icon's names] that are specially designed for
+           |[files and folders][ff]:
            |
            |[Icon's names]: ${ctl.urlFor(Pages.Icon("#name")).value}
            |[ff]: ${ctl.urlFor(Pages.IconGlyph("#files-and-folders")).value}
@@ -49,7 +49,7 @@ object PageIconFile {
       )(),
       <.div(
         Style.padding.ver16,
-        renderIcons(Pdf, Word, Text, Zip),
+        renderIcons(Pdf, Word, Text, Archive),
         renderIcons(Generic, Categorized, Draft, Redline, Final, Signed),
         renderIcons(Folder, FolderEmpty, Box, BoxEmpty)
       ),
@@ -58,7 +58,27 @@ object PageIconFile {
           |Unlike Glyph, the colors of File Icons are fixed and cannot be
           |changed by their parent.
           |""".stripMargin
-      )()
+      )(),
+      Markdown(
+        """
+          |## By Extension
+          |
+          |```scala
+          |Icon.File.ByExtension(extension: String)
+          |```
+          |
+          |The `ByExtension` case class returns the correct icon for an
+          |extension. It accepts both the extension or the whole file name:
+          |""".stripMargin
+      )(),
+      ExampleRich(Source.annotate({
+        <.div(
+          Style.flexbox.flex,
+          Icon(name = Icon.File.ByExtension("pdf"), size = Icon.Size.Px32)(),
+          Icon(name = Icon.File.ByExtension("sample.docx"), size = Icon.Size.Px32)(),
+          Icon(name = Icon.File.ByExtension("foo.xyz"), size = Icon.Size.Px32)(),
+        )
+      }))()
     )
   }
 }
