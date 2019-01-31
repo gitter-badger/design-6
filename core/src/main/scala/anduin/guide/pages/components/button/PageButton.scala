@@ -12,6 +12,7 @@ import anduin.component.icon.Icon
 import anduin.component.input.textbox.TextBox
 
 object PageButton {
+
   def render(ctl: Pages.Ctl): VdomElement = {
     <.div(
       Header("Button", Some(Button))(),

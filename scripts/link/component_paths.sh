@@ -23,6 +23,7 @@ link_paths=(
   toggle
   tooltip
   truncate
+  tree
   util/ComponentUtils.scala
   util/EventUtils.scala
   util/NodeListSeq.scala

@@ -1,6 +1,9 @@
 # NOTE: Don't put "docs" here, we need it for
 # ghpages publishing
 
+# I work with Mac
+.DS_STORE
+
 # Scala & SBT
 target
 

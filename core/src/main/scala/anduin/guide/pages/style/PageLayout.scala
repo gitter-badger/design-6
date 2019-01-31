@@ -7,10 +7,10 @@ import anduin.mcro.Source
 import anduin.style.Style
 import japgolly.scalajs.react.vdom.html_<^._
 
-object PageFlexbox {
+object PageLayout {
   def render(ctl: Pages.Ctl): VdomElement = {
     <.div(
-      Header("Flexbox", Some(Style))(),
+      Header("Layout", Some(Style))(),
       Toc(headings = Source.getTocHeadings)(),
       Markdown(
         """

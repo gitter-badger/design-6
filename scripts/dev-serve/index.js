@@ -5,17 +5,17 @@ const express = require('express');
 const path = require("path");
 const app = express();
 
+app.get('/', function (req, res) {
+    res.sendFile(path.join(__dirname, './index.html'));
+});
+
 [
   '../../core/target/scala-2.12/scalajs-bundler/main',
+  '../../core/src/main/resources/public',
   '../../../scalajs-code-splitting/o/o',
 ].forEach(target => {
     app.use(express.static(path.join(__dirname, target)));
 })
-
-// favicon
-app.get('/icon.png', function (req, res) {
-    res.sendFile(path.join(__dirname, '../../core/src/main/resources/public/icon.png'));
-});
 
 app.get('/*', function (req, res) {
     res.sendFile(path.join(__dirname, './index.html'));

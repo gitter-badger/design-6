@@ -4,14 +4,14 @@ import japgolly.scalajs.react.extra.router.RouterCtl
 object Pages {
   sealed trait Page
   // entry
-  case object Welcome extends Page
+  case object Home extends Page
 
   // style
   sealed trait StyleT extends Page
   case class Logo(hash: String = "") extends StyleT
   case class Style(hash: String = "") extends StyleT
   case class Space(hash: String = "") extends StyleT
-  case class Flexbox(hash: String = "") extends StyleT
+  case class Layout(hash: String = "") extends StyleT
   case class Color(hash: String = "") extends StyleT
   sealed trait TypographyT extends StyleT
   case class Typography(hash: String = "") extends TypographyT
@@ -20,6 +20,7 @@ object Pages {
   // component
   sealed trait ComponentT extends Page
   case class Component(hash: String = "") extends ComponentT
+  case class Playground(hash: String = "") extends ComponentT
 
   case class Avatar(hash: String = "") extends ComponentT
   sealed trait ButtonT extends ComponentT

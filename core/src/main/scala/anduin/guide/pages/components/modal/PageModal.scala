@@ -522,7 +522,7 @@ object PageModal {
         Modal(
           title = "URL Modal",
           renderTarget = open => Button(onClick = open)("Open Modal"),
-          renderContent = _ => ModalBody()("welcome content"), /*<*/
+          renderContent = _ => ModalBody()("home content"), /*<*/
           /* url = ctl.pathFor(Pages.Welcome()).value, */ /*>*/
           size = Modal.Size(Modal.Width.Px1160)
         )() /*<*/

@@ -20,8 +20,9 @@ import anduin.guide.pages.components.table.PageTable
 import anduin.guide.pages.components.textbox.PageTextBox
 import anduin.guide.pages.components.toggle.PageToggle
 import anduin.guide.pages.components.well.PageWell
+import anduin.guide.pages.components.playground.PagePlayground
 import anduin.guide.pages.style._
-import anduin.guide.pages.welcome.PageWelcome
+import anduin.guide.pages.home.PageHome
 import anduin.guide.pages.wip.PageWIP
 import japgolly.scalajs.react.extra.router.{Redirect, RouterConfig, RouterConfigDsl}
 import japgolly.scalajs.react.vdom.VdomElement
@@ -43,16 +44,17 @@ object Router {
 
     // format: off
     (trimSlashes
-      | staticRoute(root, Welcome) ~> getRender(() => Promise.resolve[RenderFn](PageWelcome.render _))
+      | staticRoute(root, Home) ~> getRender(() => Promise.resolve[RenderFn](PageHome.render _))
       // Style
       | dynamicRouteCT("style" ~ hash.caseClass[Style]) ~> getRender(() => Promise.resolve[RenderFn](PageStyle.render _))
       | dynamicRouteCT("logo" ~ hash.caseClass[Logo]) ~> getRender(() => Promise.resolve[RenderFn](PageLogo.render _))
       | dynamicRouteCT("color" ~ hash.caseClass[Color]) ~> getRender(() => Promise.resolve[RenderFn](PageColor.render _))
-      | dynamicRouteCT("flexbox" ~ hash.caseClass[Flexbox]) ~> getRender(() => Promise.resolve[RenderFn](PageFlexbox.render _))
+      | dynamicRouteCT("layout" ~ hash.caseClass[Layout]) ~> getRender(() => Promise.resolve[RenderFn](PageLayout.render _))
       | dynamicRouteCT("space" ~ hash.caseClass[Space]) ~> getRender(() => Promise.resolve[RenderFn](PageSpace.render _))
       | dynamicRouteCT("typography" ~ hash.caseClass[Typography]) ~> getRender(() => Promise.resolve[RenderFn](PageTypography.render _))
       | dynamicRouteCT("typography-fixed" ~ hash.caseClass[FixedLineHeight]) ~> getRender(() => Promise.resolve[RenderFn](PageFixedLineHeight.render _))
       // Component
+      | dynamicRouteCT("playground" ~ hash.caseClass[Playground]) ~> getRender(() => Promise.resolve[RenderFn](PagePlayground.render _))
       | dynamicRouteCT("avatar" ~ hash.caseClass[Avatar]) ~> getRender(() => Promise.resolve[RenderFn](PageWIP.render _))
       | dynamicRouteCT("button" ~ hash.caseClass[Button]) ~> getRender(() => Promise.resolve[RenderFn](PageButton.render _))
       | dynamicRouteCT("button-box" ~ hash.caseClass[ButtonBox]) ~> getRender(() => Promise.resolve[RenderFn](PageButtonBox.render _))
@@ -91,7 +93,7 @@ object Router {
       | dynamicRouteCT("resources" ~ hash.caseClass[Resources]) ~> getRender(() => Promise.resolve[RenderFn](PageWIP.render _))
       | dynamicRouteCT("careers" ~ hash.caseClass[Careers]) ~> getRender(() => Promise.resolve[RenderFn](PageWIP.render _))
       | emptyRule)
-      .notFound(redirectToPage(Welcome)(Redirect.Replace))
+      .notFound(redirectToPage(Home)(Redirect.Replace))
       .renderWith(Layout.render)
     // format: on
   }

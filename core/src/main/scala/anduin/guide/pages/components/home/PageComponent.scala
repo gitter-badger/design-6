@@ -114,7 +114,7 @@ object PageComponent {
            |technique like [Flexbox][1], which should have better control and
            |yield more stable result.
            |
-           |[1]: ${ctl.urlFor(Pages.Flexbox()).value}
+           |[1]: ${ctl.urlFor(Pages.Layout()).value}
            |""".stripMargin
       )(),
       ExampleRich(Source.annotate({
