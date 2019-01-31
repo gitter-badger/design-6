@@ -98,7 +98,7 @@ object IconFile {
         |  <path d="M9 8.5h6M9 11.5h14M9 14.5h14M9 17.5h14M9 20.5h14M9 23.5h6" stroke="#9BB0C2"/>
       """.stripMargin
   }
-  object Zip extends IconFile {
+  object Archive extends IconFile {
     val path16: String =
       """
         |  <path d="M3 1h10l2 2v13H3V1z" fill="#000" fill-opacity=".1"/>
