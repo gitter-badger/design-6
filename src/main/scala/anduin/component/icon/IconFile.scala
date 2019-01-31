@@ -20,7 +20,19 @@ trait IconFile extends Icon.Name {
 
 // scalastyle:off line.size.limit
 object IconFile {
-  // File Types
+  // File Extensions
+  case class ByExtension(extension: String) extends IconFile {
+    val icon: IconFile = extension match {
+      case e: String if e.endsWith("pdf") => Pdf
+      case e: String if e.endsWith("doc") || e.endsWith("docx") => Word
+      case e: String if e.endsWith("zip") || e.endsWith("rar") => Archive
+      case e: String if e.endsWith("txt") => Text
+      case _ => Generic
+    }
+    def path16: String = icon.path16
+    def path24: String = icon.path24
+    def path32: String = icon.path32
+  }
   object Generic extends IconFile {
     val path16: String =
       """
