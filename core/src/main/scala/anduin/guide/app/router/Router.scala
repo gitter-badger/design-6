@@ -88,10 +88,6 @@ object Router {
       | dynamicRouteCT("tooltip" ~ hash.caseClass[Tooltip]) ~> getRender(() => Promise.resolve[RenderFn](PageWIP.render _))
       | dynamicRouteCT("tree" ~ hash.caseClass[Tree]) ~> getRender(() => Promise.resolve[RenderFn](PageWIP.render _))
       | dynamicRouteCT("well" ~ hash.caseClass[Well]) ~> getRender(() => Promise.resolve[RenderFn](PageWell.render _))
-      // Others
-      | dynamicRouteCT("copy" ~ hash.caseClass[Copy]) ~> getRender(() => Promise.resolve[RenderFn](PageWIP.render _))
-      | dynamicRouteCT("resources" ~ hash.caseClass[Resources]) ~> getRender(() => Promise.resolve[RenderFn](PageWIP.render _))
-      | dynamicRouteCT("careers" ~ hash.caseClass[Careers]) ~> getRender(() => Promise.resolve[RenderFn](PageWIP.render _))
       | emptyRule)
       .notFound(redirectToPage(Home)(Redirect.Replace))
       .renderWith(Layout.render)

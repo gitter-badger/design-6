@@ -6,7 +6,7 @@ import anduin.guide.app.main.Pages
 import anduin.guide.app.main.Pages._
 import anduin.guide.app.main.Pages.{Layout => PagesLayout}
 import anduin.style.Style
-
+import anduin.guide.app.main.layout.NavElements.PageTarget._
 
 // scalastyle:off underscore.import
 import anduin.guide.app.main.layout.NavElements._
@@ -36,58 +36,55 @@ object LayoutNav {
       ^.marginLeft := "-20px",
       ul(
         li(
-          Title("Home", Some(Home))
+          Title("Home", Internal(Home))
         ),
         h("Guide"),
         li(
-          Title("Style", Some(Pages.Style()), Some(_.isInstanceOf[StyleT])),
+          Title("Style", Internal(Pages.Style()), Some(_.isInstanceOf[StyleT])),
           ul(
-            li(Title("Color", Some(Color()))),
+            li(Title("Color", Internal(Color()))),
             li(
-              Title("Typography", Some(Typography()), Some(_.isInstanceOf[TypographyT])),
-              ul(li(Title("Fixed line height", Some(FixedLineHeight()))))
+              Title("Typography", Internal(Typography()), Some(_.isInstanceOf[TypographyT])),
+              ul(li(Title("Fixed line height", Internal(FixedLineHeight()))))
             ),
-            li(Title("Space", Some(Space()))),
-            li(Title("Layout", Some(PagesLayout()))),
-            li(Title("Logo", Some(Logo()))),
+            li(Title("Space", Internal(Space()))),
+            li(Title("Layout", Internal(PagesLayout()))),
+            li(Title("Logo", Internal(Logo()))),
           )
         ),
         li(
-          Title("Component", Some(Component()), Some(_.isInstanceOf[ComponentT])),
+          Title("Component", Internal(Component()), Some(_.isInstanceOf[ComponentT])),
           ul(
             li(
-              Title("Button", Some(Button()), Some(_.isInstanceOf[ButtonT])),
-              ul(li(Title("Box", Some(ButtonBox())))),
+              Title("Button", Internal(Button()), Some(_.isInstanceOf[ButtonT])),
+              ul(li(Title("Box", Internal(ButtonBox())))),
             ),
             li(
-              Title("Icon", Some(Icon()), Some(_.isInstanceOf[IconT])),
+              Title("Icon", Internal(Icon()), Some(_.isInstanceOf[IconT])),
               ul(
-                li(Title("Glyph", Some(IconGlyph()))),
-                li(Title("Negotiation", Some(IconNego()))),
-                li(Title("File", Some(IconFile()))),
-                li(Title("Folder", Some(IconFolder()))),
+                li(Title("Glyph", Internal(IconGlyph()))),
+                li(Title("Negotiation", Internal(IconNego()))),
+                li(Title("File", Internal(IconFile()))),
+                li(Title("Folder", Internal(IconFolder()))),
               ),
             ),
-            li(Title("Progress", Some(ProgressIndicator()))),
-            li(Title("Toggle", Some(Toggle()))),
+            li(Title("Progress", Internal(ProgressIndicator()))),
+            li(Title("Toggle", Internal(Toggle()))),
             h("Container"),
-            li(Title("Card", Some(Card()))),
-            li(Title("Table", Some(Table()))),
-            li(Title("Well", Some(Well()))),
-            li(Title("Modal", Some(Modal()))),
-            li(Title("Tab", Some(Tab()))),
+            li(Title("Card", Internal(Card()))),
+            li(Title("Table", Internal(Table()))),
+            li(Title("Well", Internal(Well()))),
+            li(Title("Modal", Internal(Modal()))),
+            li(Title("Tab", Internal(Tab()))),
             h("Form"),
             li(
-              Title("Dropdown", Some(Dropdown()), Some(_.isInstanceOf[DropdownT])),
+              Title("Dropdown", Internal(Dropdown()), Some(_.isInstanceOf[DropdownT])),
             ),
           )
         ),
-        li(
-          Title("Copy", Some(Copy()))
-        ),
         h(""),
-        li(Title("Resources", Some(Resources()))),
-        li(Title("Work with us", Some(Careers()))),
+        li(Title("Github", External("https://github.com/anduintransaction/design"))),
+        li(Title("Work with us", External("https://www.anduintransact.com/careers"))),
       )
     )
   }

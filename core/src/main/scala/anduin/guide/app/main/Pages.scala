@@ -60,12 +60,5 @@ object Pages {
   case class Tree(hash: String = "") extends ComponentT
   case class Well(hash: String = "") extends ComponentT
 
-  // Copy
-  case class Copy(hash: String = "") extends Page
-
-  // Others
-  case class Resources(hash: String = "") extends Page
-  case class Careers(hash: String = "") extends Page
-
   type Ctl = RouterCtl[Pages.Page]
 }

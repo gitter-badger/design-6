@@ -11,9 +11,16 @@ object NavElements {
 
   case class Props(ctl: Pages.Ctl, page: Page)
 
+  sealed trait PageTarget
+  object PageTarget {
+    case class Internal(page: Page) extends PageTarget
+    case class External(url: String) extends PageTarget
+    object None extends PageTarget
+  }
+
   case class Title(
     text: String,
-    page: Option[Page] = None,
+    target: PageTarget,
     isExpanded: Option[Page => Boolean] = None
   )
 
@@ -31,13 +38,16 @@ object NavElements {
     CallbackOption.unless(ReactMouseEvent targetsNewTab_? e) >> props.ctl.setEH(page)(e)
   }
 
-  private def getColor(current: Page, targetOpt: Option[Page]): TagMod = {
-    targetOpt.fold[TagMod](Style.color.inherit) { target =>
-      if (target.getClass.getSimpleName == current.getClass.getSimpleName) {
-        Style.color.gray7.borderColor.gray3
-      } else {
-        Style.color.inherit.borderColor.transparent
-      }
+  private def getColor(current: Page, target: PageTarget): TagMod = {
+    target match {
+      case PageTarget.None        => Style.color.inherit
+      case _: PageTarget.External => Style.color.inherit.borderColor.transparent
+      case internal: PageTarget.Internal =>
+        if (internal.page.getClass.getSimpleName == current.getClass.getSimpleName) {
+          Style.color.gray7.borderColor.gray3
+        } else {
+          Style.color.inherit.borderColor.transparent
+        }
     }
   }
 
@@ -48,20 +58,36 @@ object NavElements {
   )(toggle: Callback, isExpanded: Boolean): VdomElement = {
     val common = TagMod(
       Style.position.relative.hover.colorPrimary4.transition.all,
-      getColor(props.page, title.page),
+      getColor(props.page, title.target),
       renderLiIcon(children, isExpanded),
       title.text
     )
-    val node = title.page.fold[VdomElement] {
-      <.button(^.onClick --> toggle, common)
-    } { page =>
-      <.a(
-        Style.hover.underlineNone.hover.borderPrimary3,
-        Style.border.bottom.borderWidth.px2,
-        ^.href := props.ctl.urlFor(page).value,
-        ^.onClick ==> (e => setPage(page, props, e) >> toggle),
-        common
-      )
+    val node = title.target match {
+      case PageTarget.None => <.button(^.onClick --> toggle, common)
+      case _ =>
+        val linkMod = title.target match {
+          case internal: PageTarget.Internal => TagMod(
+            ^.href := props.ctl.urlFor(internal.page).value,
+            ^.onClick ==> (e => setPage(internal.page, props, e) >> toggle)
+          )
+          case external: PageTarget.External => TagMod(
+            ^.href := external.url,
+            ^.target.blank,
+            ^.rel := "noreferrer noopener"
+          )
+          case _ => TagMod.empty
+        }
+        val suffix = title.target match {
+          case _: PageTarget.External => " ⬈"
+          case _ => ""
+        }
+        <.a(
+          Style.hover.underlineNone.hover.borderPrimary3,
+          Style.border.bottom.borderWidth.px2,
+          linkMod,
+          common,
+          suffix
+        )
     }
     <.li(
       Style.padding.ver8,
