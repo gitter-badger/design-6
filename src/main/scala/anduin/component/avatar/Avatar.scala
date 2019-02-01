@@ -25,7 +25,7 @@ object Avatar {
 
   private def render(props: Props, children: PropsChildren) = {
     <.span(
-      Style.flexbox.flex.flexbox.itemsCenter.flexbox.justifyCenter.fontWeight.bold.color.white.flexbox.shrink0,
+      Style.flexbox.flex.flexbox.itemsCenter.flexbox.justifyCenter.fontWeight.bold.color.white.flexbox.none,
       props.borderRadius,
       ^.width := s"${props.avatarSize.size}px",
       ^.height := s"${props.avatarSize.size}px",
