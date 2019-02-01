@@ -30,16 +30,16 @@ object RectangleRadio {
     val selected: Style
   }
   case object ColorGray extends Color {
-    val default: Style = Style.background.gray3.borderColor.gray4.hover.borderGray5
+    val default: Style = Style.background.gray3.borderColor.gray4.borderColor.hoverGray5
     val selected: Style = Style.borderColor.gray6
   }
   case object ColorPrimary extends Color {
-    val default: Style = Style.background.blue1.borderColor.primary2.hover.borderPrimary3
-    val selected: Style = Style.borderColor.primary4
+    val default: Style = Style.background.blue1.borderColor.blue2.borderColor.hoverBlue3
+    val selected: Style = Style.borderColor.blue4
   }
   case object ColorPrimaryWhite extends Color {
-    val default: Style = Style.background.white.borderColor.gray4.hover.borderGray5
-    val selected: Style = Style.borderColor.primary3
+    val default: Style = Style.background.white.borderColor.gray4.borderColor.hoverGray5
+    val selected: Style = Style.borderColor.blue3
   }
   case class StyleCustom(
     default: Style = new Style(List.empty),

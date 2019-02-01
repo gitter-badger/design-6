@@ -206,9 +206,9 @@ object ButtonStyle {
     private def border: TagMod = color match {
       case _: Color.White => bc.gray4
       case _: Color.Black => bc.gray8
-      case _: Color.Blue  => bc.primary5
-      case _: Color.Red   => bc.danger5
-      case _: Color.Green => bc.success5
+      case _: Color.Blue  => bc.blue5
+      case _: Color.Red   => bc.red5
+      case _: Color.Green => bc.green5
     }
     final def colorNormal: TagMod = TagMod(text, shadow, bg, border)
   }
@@ -219,11 +219,11 @@ object ButtonStyle {
     // scalastyle:off cyclomatic.complexity
     private def is: Boolean = isSelected || isBusy
     private def border: TagMod = color match {
-      case _: Color.White => if (is) bc.gray5 else bc.gray7.active.borderGray5
-      case _: Color.Black => if (is) bc.gray7 else bc.gray4.active.borderGray7
-      case _: Color.Blue  => if (is) bc.primary5 else bc.primary4.active.borderPrimary5
-      case _: Color.Red   => if (is) bc.danger5 else bc.danger4.active.borderDanger5
-      case _: Color.Green => if (is) bc.success5 else bc.success4.active.borderSuccess5
+      case _: Color.White => if (is) bc.gray5 else bc.gray7.borderColor.activeGray5
+      case _: Color.Black => if (is) bc.gray7 else bc.gray4.borderColor.activeGray7
+      case _: Color.Blue  => if (is) bc.blue5 else bc.blue4.borderColor.activeBlue5
+      case _: Color.Red   => if (is) bc.red5 else bc.red4.borderColor.activeRed5
+      case _: Color.Green => if (is) bc.green5 else bc.green4.borderColor.activeGreen5
     }
     // scalastyle:on cyclomatic.complexity
     final def colorNormal: TagMod = TagMod(boxNoBgNormal, border)

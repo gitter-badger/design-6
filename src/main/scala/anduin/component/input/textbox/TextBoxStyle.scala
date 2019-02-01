@@ -48,8 +48,8 @@ private[component] object TextBoxStyle {
   }
 
   private def getBorderColor(props: Props): TagMod = props.status match {
-    case TextBox.StatusInvalid => Style.borderColor.danger4
-    case TextBox.StatusValid   => Style.borderColor.success4
+    case TextBox.StatusInvalid => Style.borderColor.red4
+    case TextBox.StatusValid   => Style.borderColor.green4
     case _                     => Style.borderColor.gray4
   }
 

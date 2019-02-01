@@ -35,7 +35,7 @@ object RadioBox {
 
   private val styles = TagMod(
     Style.display.block.textAlign.left.focus.outline.transition.allWithOutline,
-    Style.border.all.borderWidth.px2.hover.borderGray3.active.borderGray5,
+    Style.border.all.borderWidth.px2.borderColor.hoverGray3.borderColor.activeGray5,
     Style.borderRadius.px2.padding.all16.position.relative,
     Style.width.pc100.height.pc100
   )
@@ -44,7 +44,7 @@ object RadioBox {
     <.button(
       // style
       styles,
-      if (props.isChecked) Style.borderColor.success4 else Style.borderColor.gray4,
+      if (props.isChecked) Style.borderColor.green4 else Style.borderColor.gray4,
       TagMod.when(props.isDisabled) { Style.opacity.pc50 },
       // behaviour
       ^.tpe := "button",

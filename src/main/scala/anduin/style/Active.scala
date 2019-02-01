@@ -49,16 +49,6 @@ private[style] final case class Active(classes: List[String] = List.empty) {
   def colorPurple2: Style = new Style(classes :+ "active-c--purple-2")
   def colorPurple1: Style = new Style(classes :+ "active-c--purple-1")
 
-  // border
-  def borderGray4: Style = new Style(classes :+ "active-bc--gray-4")
-  def borderGray5: Style = new Style(classes :+ "active-bc--gray-5")
-  def borderGray7: Style = new Style(classes :+ "active-bc--gray-7")
-  def borderPrimary5: Style = new Style(classes :+ "active-bc--primary-5")
-  def borderSuccess5: Style = new Style(classes :+ "active-bc--success-5")
-  def borderWarning5: Style = new Style(classes :+ "active-bc--warning-5")
-  def borderDanger5: Style = new Style(classes :+ "active-bc--danger-5")
-  def borderPurple5: Style = new Style(classes :+ "active-bc--purple-5")
-
   // shadow
   def shadow1Light: Style = new Style(classes :+ "a-s1l")
   def shadow1Dark: Style = new Style(classes :+ "a-s1d")
