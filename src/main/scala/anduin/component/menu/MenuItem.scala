@@ -41,7 +41,7 @@ object MenuItem {
     val styles: TagMod = Style.color.gray8.background.hoverGray2.background.activeGray3
   }
   case object ColorNeutral extends Color {
-    private[MenuItem] val color = Style.hover.colorWhite.active.colorWhite
+    private[MenuItem] val color = Style.color.hoverWhite.color.activeWhite
     private[MenuItem] val bg = Style.background.hoverBlue4.background.activeBlue5
     val styles = TagMod(Style.color.gray8, color, bg)
   }

@@ -39,7 +39,7 @@ object FileMenuItemInput {
     lazy val menuStyles = TagMod(
       Style.color.gray8.lineHeight.px16,
       Style.flexbox.flex.flexbox.itemsCenter.padding.ver8.padding.hor16,
-      Style.hover.colorWhite.active.colorWhite,
+      Style.color.hoverWhite.color.activeWhite,
       Style.background.hoverBlue4.background.activeBlue5,
       Style.position.relative.width.pc100.textAlign.left,
       Style.disabled.colorGray6.disabled.backgroundNone

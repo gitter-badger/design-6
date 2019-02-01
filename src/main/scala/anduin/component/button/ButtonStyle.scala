@@ -135,7 +135,7 @@ object ButtonStyle {
       case _: Color.Green => Style.color.success4
       case _: Color.Red   => Style.color.danger4
     }
-    private def text: TagMod = if (is) Style.color.white else TagMod(textNormal, Style.active.colorWhite)
+    private def text: TagMod = if (is) Style.color.white else TagMod(textNormal, Style.color.activeWhite)
     // scalastyle:off cyclomatic.complexity
     private def bg: TagMod = color match {
       case _: Color.White => if (is) bgc.gray6 else Style.background.hoverGray7.background.activeGray6
