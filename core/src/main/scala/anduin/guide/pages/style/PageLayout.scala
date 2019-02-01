@@ -50,8 +50,8 @@ object PageLayout {
       ExampleRich(Source.annotate({
         <.div(
           Style.flexbox.flex,
-          <.div(Style.margin.right8, "First"),
-          <.div("Second")
+          <.div(Style.flexbox.none.margin.right8, "First"),
+          <.div(Style.flexbox.none, "Second")
         )
       }))(),
       Markdown(
@@ -61,8 +61,8 @@ object PageLayout {
           |controlled with flexbox using the properties described below.
           |
           |Note that this creates a block-level container (i.e. like a `div`).
-          |We highly discourage the idea of inline-level flex container in
-          |favor of the [normal inline flow][inline].
+          |We highly discourage the idea of inline-level flex container since
+          |it can be handled better with the [normal inline flow][inline].
           |
           |[inline]: https://developer.mozilla.org/en-US/docs/Web/HTML/Inline_elements
           |""".stripMargin
@@ -78,8 +78,8 @@ object PageLayout {
       ExampleRich(Source.annotate({
         <.div(
           Style.flexbox.flex.flexbox.column,
-          <.div("First"),
-          <.div("Second")
+          <.div(Style.flexbox.none, "First"),
+          <.div(Style.flexbox.none, "Second")
         )
       }))(),
       Markdown(
@@ -101,7 +101,10 @@ object PageLayout {
           |""".stripMargin
       )(),
       ExampleRich(Source.annotate({
-        val box = Style.padding.all8.backgroundColor.gray3.margin.right8.margin.bottom8
+        val box = TagMod(
+          Style.flexbox.none.padding.all8.backgroundColor.gray3,
+          Style.margin.right8.margin.bottom8
+        )
         <.div(
           Style.flexbox.flex.flexbox.wrap,
           ^.marginBottom := "-8px", // visual touch, don't mind me
@@ -136,19 +139,19 @@ object PageLayout {
           |### Items*
           |
           |```scala
-          |Style.flexBox.itemsStart
-          |Style.flexBox.itemsEnd
-          |Style.flexBox.itemsCenter
-          |Style.flexBox.itemsBaseline
-          |Style.flexBox.itemsStretch // default
+          |Style.flexbox.itemsStart
+          |Style.flexbox.itemsEnd
+          |Style.flexbox.itemsCenter
+          |Style.flexbox.itemsBaseline
+          |Style.flexbox.itemsStretch // default
           |```
           |
-          |`Style.flexBox.items*` controls how flex items are positioned
+          |`Style.flexbox.items*` controls how flex items are positioned
           |along their container's **cross axis**:
           |""".stripMargin
       )(),
       ExampleRich(Source.annotate({
-        val box = Style.padding.all4.backgroundColor.gray3.margin.right8
+        val box = Style.flexbox.none.padding.all4.backgroundColor.gray3.margin.right8
         <.div(
           Style.flexbox.flex.flexbox.itemsCenter,
           <.div(box, Style.height.px32, "one"),
@@ -161,19 +164,19 @@ object PageLayout {
           |### Justify*
           |
           |```scala
-          |Style.flexBox.justifyStart // default
-          |Style.flexBox.justifyEnd
-          |Style.flexBox.justifyCenter
-          |Style.flexBox.justifyBetween
-          |Style.flexBox.justifyAround
+          |Style.flexbox.justifyStart // default
+          |Style.flexbox.justifyEnd
+          |Style.flexbox.justifyCenter
+          |Style.flexbox.justifyBetween
+          |Style.flexbox.justifyAround
           |```
           |
-          |`Style.flexBox.justify*` controls how flex items are positioned
+          |`Style.flexbox.justify*` controls how flex items are positioned
           |along their container's **main axis**:
           |""".stripMargin
       )(),
       ExampleRich(Source.annotate({
-        val box = Style.padding.all4.backgroundColor.gray3.margin.right8
+        val box = Style.flexbox.none.padding.all4.backgroundColor.gray3.margin.right8
         <.div(
           Style.flexbox.flex.flexbox.justifyBetween,
           <.div(box, "one"),
@@ -184,7 +187,7 @@ object PageLayout {
       Markdown(
         """
           |Since this works by distributing [available spaces][as] between
-          |items, it has no practical effect when there are [fill](#fill)
+          |items, it has no practical effect when there are [fill](#flex-items)
           |items:
           |
           |[as]: https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_Flexible_Box_Layout/Basic_Concepts_of_Flexbox#Properties_applied_to_flex_items
@@ -203,13 +206,30 @@ object PageLayout {
       Markdown(
         """
           |# Flex items
+          |
+          |[By default][mdn], a flex item is allowed to shrink but not grow.
+          |This usually leads to unexpected behaviour in practice and thus
+          |should be avoided.
+          |
+          |Instead, it is recommended that all flex items should have one of
+          |these styles applied:
+          |
+          |- `Style.flexbox.none` to prevent a flex item from growing or
+          |shrinking from its initial size.
+          |- `Style.flexbox.fill` to allow a flex item to grow and shrink as
+          |needed, ignoring its initial size:
+          |
+          |[mdn]: https://developer.mozilla.org/en-US/docs/Web/CSS/flex
           |""".stripMargin
       )(),
-      Markdown(
-        """
-          |
-        """.stripMargin
-      )(),
+      ExampleRich(Source.annotate({
+        val box = Style.backgroundColor.gray3.textAlign.center.padding.all8
+        <.div(
+          Style.flexbox.flex,
+          <.div(Style.flexbox.none.margin.right8, box, "None"),
+          <.div(Style.flexbox.fill, box, "Fill"),
+        )
+      }))(),
     )
   }
 }
