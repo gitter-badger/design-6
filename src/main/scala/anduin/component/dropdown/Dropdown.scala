@@ -67,7 +67,7 @@ class Dropdown[A] {
     private var isInnerClick: Boolean = false // scalastyle:ignore var.field
     private val isInnerClickWrapper = TagMod(
       ^.onMouseDown --> Callback(isInnerClick = true),
-      ^.onMouseUp --> Callback(isInnerClick = false).delayMs(100).void
+      ^.onMouseUp --> Callback(isInnerClick = false).delayMs(100).toCallback
     )
 
     // This needs to be new for each instance of Dropdown component
