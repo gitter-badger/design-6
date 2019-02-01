@@ -52,7 +52,7 @@ private[table] class TableHead[A] {
       titleStyles,
       ^.tpe := "button",
       ^.onClick --> props.sort(index),
-      <.span(Style.flexbox.fixed, column.head),
+      <.span(Style.flexbox.fill, column.head),
       renderSortIcon(index, props)
     )
   }

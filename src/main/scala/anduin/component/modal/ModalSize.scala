@@ -64,7 +64,7 @@ private[modal] object ModalSize {
         Style.flexbox.flex.flexbox.column.overflow.hiddenY
       )
       override val header: TagMod = Style.flexbox.none
-      override val content: TagMod = Style.flexbox.fixed
+      override val content: TagMod = Style.flexbox.fill
     }
   }
 }

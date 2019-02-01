@@ -70,7 +70,7 @@ object StepperHeader {
 
     private def renderLine(isInvisible: Boolean, color: TagMod): VdomElement = {
       val opacity = TagMod.when(isInvisible)(Style.opacity.pc0)
-      <.div(Style.flexbox.fixed, color, opacity, ^.height := "2px")
+      <.div(Style.flexbox.fill, color, opacity, ^.height := "2px")
     }
 
     def render(props: Props, title: String): (VdomElement, VdomElement) = {

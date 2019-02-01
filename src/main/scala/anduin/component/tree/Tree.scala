@@ -119,7 +119,7 @@ class Tree[A] {
         <.div(
           Style.flexbox.flex.flexbox.itemsStart,
           <.div(Style.flexbox.none, renderButton(props, state)),
-          <.div(Style.flexbox.fixed, content)
+          <.div(Style.flexbox.fill, content)
         )
       }
     }

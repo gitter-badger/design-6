@@ -30,7 +30,7 @@ object Checkbox {
 
   private def renderLabel(props: Checkbox, children: PropsChildren) = TagMod.when(children.nonEmpty) {
     <.span(
-      Style.flexbox.fixed,
+      Style.flexbox.fill,
       Style.margin.left8,
       TagMod.when(props.isDisabled) { Style.color.gray6 },
       children

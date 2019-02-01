@@ -81,7 +81,7 @@ object Well {
       Style.borderRadius.px2.flexbox.flex,
       <.div(Style.flexbox.none, renderIcon(props)),
       <.div(
-        Style.flexbox.fixed.padding.ver12.padding.hor8,
+        Style.flexbox.fill.padding.ver12.padding.hor8,
         TagMod.when(props.title.nonEmpty) {
           <.h4(Style.margin.bottom4.color.gray7, props.title)
         },
