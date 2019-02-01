@@ -32,19 +32,19 @@ object Tag {
     val solid: Style = Style.background.gray7.color.white
   }
   case object ColorBlue extends Color {
-    val clear: Style = Style.background.blue1.color.primary5
+    val clear: Style = Style.background.blue1.color.blue5
     val solid: Style = Style.background.blue4.color.white
   }
   case object ColorGreen extends Color {
-    val clear: Style = Style.background.green1.color.success5
+    val clear: Style = Style.background.green1.color.green5
     val solid: Style = Style.background.green4.color.white
   }
   case object ColorOrange extends Color {
-    val clear: Style = Style.background.orange1.color.warning5
+    val clear: Style = Style.background.orange1.color.orange5
     val solid: Style = Style.background.orange4.color.white
   }
   case object ColorRed extends Color {
-    val clear: Style = Style.background.red1.color.danger5
+    val clear: Style = Style.background.red1.color.red5
     val solid: Style = Style.background.red4.color.white
   }
 

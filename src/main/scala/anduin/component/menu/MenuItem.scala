@@ -46,16 +46,16 @@ object MenuItem {
     val styles = TagMod(Style.color.gray8, color, bg)
   }
   case object ColorPrimary extends Color {
-    val styles = TagMod(ColorNeutral.color, Style.color.primary5, ColorNeutral.bg)
+    val styles = TagMod(ColorNeutral.color, Style.color.blue5, ColorNeutral.bg)
   }
   case object ColorSuccess extends Color {
-    val styles = TagMod(ColorNeutral.color, Style.color.success5.background.hoverGreen4.background.activeGreen5)
+    val styles = TagMod(ColorNeutral.color, Style.color.green5.background.hoverGreen4.background.activeGreen5)
   }
   case object ColorWarning extends Color {
-    val styles = TagMod(ColorNeutral.color, Style.color.warning5.background.hoverOrange4.background.activeOrange5)
+    val styles = TagMod(ColorNeutral.color, Style.color.orange5.background.hoverOrange4.background.activeOrange5)
   }
   case object ColorDanger extends Color {
-    val styles = TagMod(ColorNeutral.color, Style.color.danger5.background.hoverRed4.background.activeRed5)
+    val styles = TagMod(ColorNeutral.color, Style.color.red5.background.hoverRed4.background.activeRed5)
   }
 
   case class ColorCustom(styles: TagMod) extends Color

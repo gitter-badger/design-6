@@ -131,9 +131,9 @@ object ButtonStyle {
     private def textNormal: TagMod = color match {
       case _: Color.White => Style.color.gray4
       case _: Color.Black => Style.color.gray7
-      case _: Color.Blue  => Style.color.primary4
-      case _: Color.Green => Style.color.success4
-      case _: Color.Red   => Style.color.danger4
+      case _: Color.Blue  => Style.color.blue4
+      case _: Color.Green => Style.color.green4
+      case _: Color.Red   => Style.color.red4
     }
     private def text: TagMod = if (is) Style.color.white else TagMod(textNormal, Style.color.activeWhite)
     // scalastyle:off cyclomatic.complexity
@@ -171,9 +171,9 @@ object ButtonStyle {
     final def colorNormal: TagMod = color match {
       case _: Color.White => Style.color.white
       case _: Color.Black => Style.color.gray8
-      case _: Color.Blue  => Style.color.primary4
-      case _: Color.Green => Style.color.success4
-      case _: Color.Red   => Style.color.danger4
+      case _: Color.Blue  => Style.color.blue4
+      case _: Color.Green => Style.color.green4
+      case _: Color.Red   => Style.color.red4
     }
     // There should be no size in Link
     final def sizeSquare: TagMod = TagMod.empty
