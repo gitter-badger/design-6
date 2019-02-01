@@ -32,17 +32,6 @@ private[style] final case class Flexbox(classes: List[String] = List.empty) {
   def fixed: Style = new Style(classes :+ "flex-fixed")
   def none: Style = new Style(classes :+ "flex-none")
 
-  def order0: Style = new Style(classes :+ "order-0")
-  def order1: Style = new Style(classes :+ "order-1")
-  def order2: Style = new Style(classes :+ "order-2")
-  def order3: Style = new Style(classes :+ "order-3")
-  def order4: Style = new Style(classes :+ "order-4")
-  def order5: Style = new Style(classes :+ "order-5")
-  def order6: Style = new Style(classes :+ "order-6")
-  def order7: Style = new Style(classes :+ "order-7")
-  def order8: Style = new Style(classes :+ "order-8")
-  def orderLast: Style = new Style(classes :+ "order-last")
-
   def basis15: Style = new Style(classes :+ "basis-15")
   def basis25: Style = new Style(classes :+ "basis-25")
   def basis40: Style = new Style(classes :+ "basis-40")
