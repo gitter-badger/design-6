@@ -22,7 +22,7 @@ object BarIndicator {
   private def renderIndicator(props: Props): VdomElement = {
     <.div(
       Style.position.absolute.coordinate.top0.coordinate.left0,
-      Style.backgroundColor.currentColor.height.pc100,
+      Style.background.currentColor.height.pc100,
       props.percent.fold[TagMod] {
         Style.width.pc30.animation.translateX330
       } { percent =>
@@ -33,7 +33,7 @@ object BarIndicator {
 
   private val track = <.div(
     Style.position.absolute.coordinate.fill,
-    Style.backgroundColor.currentColor.opacity.pc20
+    Style.background.currentColor.opacity.pc20
   )
 
   private val styles =

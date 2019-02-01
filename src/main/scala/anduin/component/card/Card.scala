@@ -24,7 +24,7 @@ object Card {
 
   private def render(props: Props, children: PropsChildren): VdomElement = {
     <.div(
-      if (props.isDimmed) Style.backgroundColor.gray1 else Style.backgroundColor.white,
+      if (props.isDimmed) Style.background.gray1 else Style.background.white,
       TagMod.when(props.isFullHeight)(Style.height.pc100),
       Style.shadow.blur1Light.borderRadius.px2.padding.all20,
       children

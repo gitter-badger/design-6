@@ -35,7 +35,7 @@ object Popover {
   // ===
 
   private val contentStyles = TagMod(
-    Style.backgroundColor.white.borderRadius.px2.shadow.blur8,
+    Style.background.white.borderRadius.px2.shadow.blur8,
     Style.border.all.borderColor.gray4.borderWidth.px1
   )
 
@@ -53,7 +53,7 @@ object Popover {
     val isOverlayClosable = props.isClosable.exists(_.onOutsideClick)
     val arrow = <.div(
       popper.arrowMod,
-      Style.backgroundColor.white.borderColor.gray4,
+      Style.background.white.borderColor.gray4,
       TagMod(
         props.position match {
           case _: PositionTop    => Style.border.right.border.bottom

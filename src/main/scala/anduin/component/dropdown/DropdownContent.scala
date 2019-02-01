@@ -95,7 +95,7 @@ private[dropdown] class DropdownContent[A] {
   }
 
   private val boxStyles = TagMod(
-    Style.backgroundColor.gray1.padding.ver8.padding.hor12,
+    Style.background.gray1.padding.ver8.padding.hor12,
     Style.borderWidth.px1.borderColor.gray3
   )
 

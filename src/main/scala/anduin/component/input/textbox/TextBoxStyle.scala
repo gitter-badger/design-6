@@ -39,11 +39,11 @@ private[component] object TextBoxStyle {
 
   private def getBackground(props: Props): TagMod = {
     if (props.isReadOnly) {
-      Style.backgroundColor.gray1
+      Style.background.gray1
     } else if (props.isDisabled) {
-      Style.backgroundColor.gray2
+      Style.background.gray2
     } else {
-      Style.backgroundColor.white
+      Style.background.white
     }
   }
 
@@ -67,7 +67,7 @@ private[component] object TextBoxStyle {
   // Context
 
   private val contextStatic = TagMod(
-    Style.backgroundColor.gray2.color.gray6,
+    Style.background.gray2.color.gray6,
     Style.borderWidth.right0.borderRadius.left.borderColor.gray4,
     Style.flexbox.flex.flexbox.itemsCenter
   )
@@ -80,7 +80,7 @@ private[component] object TextBoxStyle {
   private val iconWrapper = TagMod(
     Style.position.absolute.margin.right8.margin.verAuto,
     Style.coordinate.top0.coordinate.bottom0.coordinate.right0,
-    Style.backgroundColor.white.height.px16
+    Style.background.white.height.px16
   )
 
   def getIcon(props: Props): Option[VdomElement] = props.status match {

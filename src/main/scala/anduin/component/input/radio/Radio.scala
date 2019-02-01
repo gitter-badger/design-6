@@ -70,9 +70,9 @@ object Radio {
       <.span(
         TagMod(^.width := "8px", ^.height := "8px"),
         if (props.isDisabled) {
-          Style.backgroundColor.gray6
+          Style.background.gray6
         } else {
-          Style.backgroundColor.white
+          Style.background.white
         },
         Style.borderRadius.pc100
       )

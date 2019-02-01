@@ -22,7 +22,7 @@ object TableStyle {
   trait Full extends TableStyle {
     override val table: TagMod = TagMod(border, Style.border.top.border.left.border.right)
     override val td: TagMod = TagMod(border, Style.border.bottom)
-    override val th: TagMod = TagMod(border, Style.border.bottom.backgroundColor.gray1)
+    override val th: TagMod = TagMod(border, Style.border.bottom.background.gray1)
     override val thNotFirst: TagMod = TagMod(Style.border.left)
   }
 

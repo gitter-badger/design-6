@@ -56,7 +56,7 @@ private[dropdown] class DropdownOption[A] {
     // isHighlighted
     TagMod.when(props.downshift.exists {
       _.highlightedIndex.contains(props.index)
-    })(Style.backgroundColor.gray2),
+    })(Style.background.gray2),
     // isDisabled
     TagMod.when(props.option.isDisabled)(Style.color.gray6)
   )

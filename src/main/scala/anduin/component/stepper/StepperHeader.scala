@@ -37,7 +37,7 @@ object StepperHeader {
 
   private object Dot {
     private def getMods(status: Status) = status match {
-      case StatusPast    => (Style.borderColor.success3.backgroundColor.green3.color.white, Icon.Glyph.CheckBold)
+      case StatusPast    => (Style.borderColor.success3.background.green3.color.white, Icon.Glyph.CheckBold)
       case StatusPresent => (Style.borderColor.primary4.color.primary4, Icon.Glyph.Circle)
       case StatusFuture  => (Style.borderColor.gray3, Icon.Glyph.Blank)
     }
@@ -63,9 +63,9 @@ object StepperHeader {
       ^.background := s"linear-gradient(to right, ${CssVar.Color.success3}, ${CssVar.Color.primary4})"
 
     private def getColors(status: Status): (TagMod, TagMod) = status match {
-      case StatusPast    => (Style.backgroundColor.green3, Style.backgroundColor.green3)
-      case StatusPresent => (gradientSuccessToPrimary, Style.backgroundColor.gray3)
-      case StatusFuture  => (Style.backgroundColor.gray3, Style.backgroundColor.gray3)
+      case StatusPast    => (Style.background.green3, Style.background.green3)
+      case StatusPresent => (gradientSuccessToPrimary, Style.background.gray3)
+      case StatusFuture  => (Style.background.gray3, Style.background.gray3)
     }
 
     private def renderLine(isInvisible: Boolean, color: TagMod): VdomElement = {

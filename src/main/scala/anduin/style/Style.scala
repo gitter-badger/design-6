@@ -13,7 +13,7 @@ class Style(val classes: List[String]) {
 
   def active: Active = Active(classes)
   def animation: Animation = Animation(classes)
-  def backgroundColor: BackgroundColor = BackgroundColor(classes)
+  def background: Background = Background(classes)
   def backgroundPosition: BackgroundPosition = BackgroundPosition(classes)
   def backgroundSize: BackgroundSize = BackgroundSize(classes)
   def border: Border = Border(classes)

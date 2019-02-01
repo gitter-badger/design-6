@@ -26,7 +26,7 @@ object ModalHeader {
   private type Props = ModalHeader
 
   private val containerStyles = TagMod(
-    Style.backgroundColor.white.padding.ver16.position.relative,
+    Style.background.white.padding.ver16.position.relative,
     Style.border.bottom.borderColor.gray3.borderWidth.px1
   )
 
@@ -37,7 +37,7 @@ object ModalHeader {
   )
 
   private val closeStyles = TagMod(
-    Style.position.absolute.coordinate.top0.backgroundColor.white,
+    Style.position.absolute.coordinate.top0.background.white,
     Style.flexbox.flex.flexbox.itemsCenter.height.pc100, // center vertical
     ^.right := "12px"
   )

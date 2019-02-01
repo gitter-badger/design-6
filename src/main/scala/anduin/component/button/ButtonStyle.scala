@@ -68,7 +68,7 @@ object ButtonStyle {
   }
 
   // convenient shortcut
-  private val bgc = Style.backgroundColor
+  private val bgc = Style.background
   private val bc = Style.borderColor
 
   // ============================
@@ -118,7 +118,7 @@ object ButtonStyle {
       )
     }
 
-    final def boxDisabled: TagMod = Style.color.gray5.backgroundColor.gray1
+    final def boxDisabled: TagMod = Style.color.gray5.background.gray1
   }
   // "BoxNoBg" buttons don't have background defined at normal state. It
   // is for "Ghost" and "Minimal".
@@ -138,11 +138,11 @@ object ButtonStyle {
     private def text: TagMod = if (is) Style.color.white else TagMod(textNormal, Style.active.colorWhite)
     // scalastyle:off cyclomatic.complexity
     private def bg: TagMod = color match {
-      case _: Color.White => if (is) bgc.gray6 else Style.hover.backgroundGray7.active.backgroundGray6
-      case _: Color.Black => if (is) bgc.gray6 else Style.hover.backgroundGray3.active.backgroundGray6
-      case _: Color.Blue  => if (is) bgc.primary4 else Style.hover.backgroundPrimary1.active.backgroundPrimary4
-      case _: Color.Red   => if (is) bgc.danger4 else Style.hover.backgroundDanger1.active.backgroundDanger4
-      case _: Color.Green => if (is) bgc.success4 else Style.hover.backgroundSuccess1.active.backgroundSuccess4
+      case _: Color.White => if (is) bgc.gray6 else Style.background.hoverGray7.background.activeGray6
+      case _: Color.Black => if (is) bgc.gray6 else Style.background.hoverGray3.background.activeGray6
+      case _: Color.Blue  => if (is) bgc.blue4 else Style.background.hoverBlue1.background.activeBlue4
+      case _: Color.Red   => if (is) bgc.red4 else Style.background.hoverRed1.background.activeRed4
+      case _: Color.Green => if (is) bgc.green4 else Style.background.hoverGreen1.background.activeGreen4
     }
     // scalastyle:on cyclomatic.complexity
     final def boxNoBgNormal: TagMod = TagMod(text, bg)
@@ -196,11 +196,11 @@ object ButtonStyle {
     // scalastyle:off cyclomatic.complexity
     private def is: Boolean = isSelected || isBusy
     private def bg: TagMod = color match {
-      case _: Color.White => if (is) bgc.gray2 else bgc.gray1.hover.backgroundWhite.active.backgroundGray2
-      case _: Color.Black => if (is) bgc.gray8 else bgc.gray7.hover.backgroundGray6.active.backgroundGray8
-      case _: Color.Blue  => if (is) bgc.primary5 else bgc.primary4.hover.backgroundPrimary3.active.backgroundPrimary5
-      case _: Color.Red   => if (is) bgc.danger5 else bgc.danger4.hover.backgroundDanger3.active.backgroundDanger5
-      case _: Color.Green => if (is) bgc.success5 else bgc.success4.hover.backgroundSuccess3.active.backgroundSuccess5
+      case _: Color.White => if (is) bgc.gray2 else bgc.gray1.background.hoverWhite.background.activeGray2
+      case _: Color.Black => if (is) bgc.gray8 else bgc.gray7.background.hoverGray6.background.activeGray8
+      case _: Color.Blue  => if (is) bgc.blue5 else bgc.blue4.background.hoverBlue3.background.activeBlue5
+      case _: Color.Red   => if (is) bgc.red5 else bgc.red4.background.hoverRed3.background.activeRed5
+      case _: Color.Green => if (is) bgc.green5 else bgc.green4.background.hoverGreen3.background.activeGreen5
     }
     // scalastyle:on cyclomatic.complexity
     private def border: TagMod = color match {

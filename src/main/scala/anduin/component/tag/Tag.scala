@@ -28,24 +28,24 @@ object Tag {
     val solid: Style
   }
   case object ColorGray extends Color {
-    val clear: Style = Style.backgroundColor.gray3.color.gray7
-    val solid: Style = Style.backgroundColor.gray7.color.white
+    val clear: Style = Style.background.gray3.color.gray7
+    val solid: Style = Style.background.gray7.color.white
   }
   case object ColorBlue extends Color {
-    val clear: Style = Style.backgroundColor.blue1.color.primary5
-    val solid: Style = Style.backgroundColor.blue4.color.white
+    val clear: Style = Style.background.blue1.color.primary5
+    val solid: Style = Style.background.blue4.color.white
   }
   case object ColorGreen extends Color {
-    val clear: Style = Style.backgroundColor.green1.color.success5
-    val solid: Style = Style.backgroundColor.green4.color.white
+    val clear: Style = Style.background.green1.color.success5
+    val solid: Style = Style.background.green4.color.white
   }
   case object ColorOrange extends Color {
-    val clear: Style = Style.backgroundColor.orange1.color.warning5
-    val solid: Style = Style.backgroundColor.orange4.color.white
+    val clear: Style = Style.background.orange1.color.warning5
+    val solid: Style = Style.background.orange4.color.white
   }
   case object ColorRed extends Color {
-    val clear: Style = Style.backgroundColor.red1.color.danger5
-    val solid: Style = Style.backgroundColor.red4.color.white
+    val clear: Style = Style.background.red1.color.danger5
+    val solid: Style = Style.background.red4.color.white
   }
 
   sealed trait Size {

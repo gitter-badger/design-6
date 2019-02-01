@@ -95,6 +95,6 @@ private[component] object TableBody {
     // the default render does not need the row data. However, we still want
     // to keep this method's signature
     val _ = row
-    <.tr(^.key := key, Style.hover.backgroundGray1, cells)
+    <.tr(^.key := key, Style.background.hoverGray1, cells)
   }
 }

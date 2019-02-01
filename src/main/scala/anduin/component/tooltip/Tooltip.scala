@@ -36,7 +36,7 @@ object Tooltip {
   }
 
   private val contentStyles = TagMod(
-    Style.backgroundColor.gray9.color.white.shadow.blur8,
+    Style.background.gray9.color.white.shadow.blur8,
     Style.padding.ver4.padding.hor8.borderRadius.px4,
     // Backward compatible
     // https://github.com/anduintransaction/stargazer/issues/17011
@@ -45,7 +45,7 @@ object Tooltip {
 
   private def renderContent(props: Props)(popper: PortalPopper.ContentProps): VdomElement = {
     val body = props.renderContent()
-    val arrow = <.div(popper.arrowMod, Style.backgroundColor.gray9)
+    val arrow = <.div(popper.arrowMod, Style.background.gray9)
     <.div.withRef(popper.ref)(popper.styles, contentStyles, body, arrow)
   }
 

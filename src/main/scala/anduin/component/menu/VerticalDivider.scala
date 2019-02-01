@@ -11,7 +11,7 @@ import anduin.style.Style
 
 object VerticalDivider {
   private val component = ScalaComponent.static(this.getClass.getSimpleName)(
-    <.div(Style.backgroundColor.gray4.margin.hor4, ^.width := "1px", ^.height := "20px")
+    <.div(Style.background.gray4.margin.hor4, ^.width := "1px", ^.height := "20px")
   )()
   def apply(): VdomElement = component
 }

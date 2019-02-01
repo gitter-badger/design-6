@@ -50,7 +50,7 @@ object Stepper {
 
     def render(props: Props, state: State): VdomElement = {
       <.div(
-        Style.backgroundColor.white.shadow.blur1Light,
+        Style.background.white.shadow.blur1Light,
         <.div(
           Style.padding.ver12,
           StepperHeader(

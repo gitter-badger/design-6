@@ -47,7 +47,7 @@ private[image] object BrowseFile {
         ^.onMouseLeave --> onMouseLeave,
         if (state.hover) {
           <.span(
-            Style.width.pc100.height.pc100.flexbox.flex.flexbox.justifyCenter.flexbox.itemsCenter.backgroundColor.white,
+            Style.width.pc100.height.pc100.flexbox.flex.flexbox.justifyCenter.flexbox.itemsCenter.background.white,
             Icon(name = Icon.Glyph.Plus, size = Icon.Size.Px32)()
           )
         } else {

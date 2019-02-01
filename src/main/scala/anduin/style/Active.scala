@@ -49,50 +49,6 @@ private[style] final case class Active(classes: List[String] = List.empty) {
   def colorPurple2: Style = new Style(classes :+ "active-c--purple-2")
   def colorPurple1: Style = new Style(classes :+ "active-c--purple-1")
 
-  // Background Color
-
-  def backgroundGray9: Style = new Style(classes :+ "active-bg-gray-9")
-  def backgroundGray8: Style = new Style(classes :+ "active-bg-gray-8")
-  def backgroundGray7: Style = new Style(classes :+ "active-bg-gray-7")
-  def backgroundGray6: Style = new Style(classes :+ "active-bg-gray-6")
-  def backgroundGray5: Style = new Style(classes :+ "active-bg-gray-5")
-  def backgroundGray4: Style = new Style(classes :+ "active-bg-gray-4")
-  def backgroundGray3: Style = new Style(classes :+ "active-bg-gray-3")
-  def backgroundGray2: Style = new Style(classes :+ "active-bg-gray-2")
-  def backgroundGray1: Style = new Style(classes :+ "active-bg-gray-1")
-
-  def backgroundWhite: Style = new Style(classes :+ "active-bg-white")
-
-  def backgroundPrimary5: Style = new Style(classes :+ "active-bg-blue-5")
-  def backgroundPrimary4: Style = new Style(classes :+ "active-bg-blue-4")
-  def backgroundPrimary3: Style = new Style(classes :+ "active-bg-blue-3")
-  def backgroundPrimary2: Style = new Style(classes :+ "active-bg-blue-2")
-  def backgroundPrimary1: Style = new Style(classes :+ "active-bg-blue-1")
-
-  def backgroundSuccess5: Style = new Style(classes :+ "active-bg-green-5")
-  def backgroundSuccess4: Style = new Style(classes :+ "active-bg-green-4")
-  def backgroundSuccess3: Style = new Style(classes :+ "active-bg-green-3")
-  def backgroundSuccess2: Style = new Style(classes :+ "active-bg-green-2")
-  def backgroundSuccess1: Style = new Style(classes :+ "active-bg-green-1")
-
-  def backgroundWarning5: Style = new Style(classes :+ "active-bg-orange-5")
-  def backgroundWarning4: Style = new Style(classes :+ "active-bg-orange-4")
-  def backgroundWarning3: Style = new Style(classes :+ "active-bg-orange-3")
-  def backgroundWarning2: Style = new Style(classes :+ "active-bg-orange-2")
-  def backgroundWarning1: Style = new Style(classes :+ "active-bg-orange-1")
-
-  def backgroundDanger5: Style = new Style(classes :+ "active-bg-red-5")
-  def backgroundDanger4: Style = new Style(classes :+ "active-bg-red-4")
-  def backgroundDanger3: Style = new Style(classes :+ "active-bg-red-3")
-  def backgroundDanger2: Style = new Style(classes :+ "active-bg-red-2")
-  def backgroundDanger1: Style = new Style(classes :+ "active-bg-red-1")
-
-  def backgroundPurple5: Style = new Style(classes :+ "active-bg--purple-5")
-  def backgroundPurple4: Style = new Style(classes :+ "active-bg--purple-4")
-  def backgroundPurple3: Style = new Style(classes :+ "active-bg--purple-3")
-  def backgroundPurple2: Style = new Style(classes :+ "active-bg--purple-2")
-  def backgroundPurple1: Style = new Style(classes :+ "active-bg--purple-1")
-
   // border
   def borderGray4: Style = new Style(classes :+ "active-bc--gray-4")
   def borderGray5: Style = new Style(classes :+ "active-bc--gray-5")
