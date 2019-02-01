@@ -66,7 +66,7 @@ private[home] object PageLink {
         TagMod(^.right := "calc(100% + 8px)", ^.top := "32px"),
         renderPageStatus(props)
       ),
-      <.div(Style.flexbox.fixed, renderPageTitle(props)),
+      <.div(Style.flexbox.fill, renderPageTitle(props)),
       <.div(Style.flexbox.none.margin.left24, renderPageImg(props)),
     )
   }

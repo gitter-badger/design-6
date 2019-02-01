@@ -11,9 +11,9 @@ object PageColor {
     <.div(
       Style.flexbox.flex.padding.all16.fontWeight.medium,
       color,
-      <.dt(Style.flexbox.fixed, Style.fontFamily.mono, name),
-      <.dd(Style.flexbox.fixed, Style.fontFamily.mono, value),
-      <.dd(Style.flexbox.fixed, ^.flexGrow := "2", if (note.isEmpty) " " else note)
+      <.dt(Style.flexbox.fill, Style.fontFamily.mono, name),
+      <.dd(Style.flexbox.fill, Style.fontFamily.mono, value),
+      <.dd(Style.flexbox.fill, ^.flexGrow := "2", if (note.isEmpty) " " else note)
     )
 
   private def renderColor(color: Style, name: String, value: String): VdomElement =
@@ -92,7 +92,7 @@ object PageColor {
       <.div(
         Style.flexbox.flex.padding.top12,
         <.dl(
-          Style.flexbox.fixed,
+          Style.flexbox.fill,
           renderHeader(
             c.primary4,
             bg.primary1,
@@ -106,7 +106,7 @@ object PageColor {
           renderColor(bg.primary5.color.white, "primary5", "#137CBD")
         ),
         <.dl(
-          Style.flexbox.fixed.margin.left16,
+          Style.flexbox.fill.margin.left16,
           renderHeader(
             c.success4,
             bg.success1,
@@ -123,7 +123,7 @@ object PageColor {
       <.div(
         Style.flexbox.flex.padding.top16.padding.bottom12,
         <.dl(
-          Style.flexbox.fixed,
+          Style.flexbox.fill,
           renderHeader(
             c.warning4,
             bg.warning1,
@@ -137,7 +137,7 @@ object PageColor {
           renderColor(bg.warning5.color.white, "warning5", "#D9822B")
         ),
         <.dl(
-          Style.flexbox.fixed.margin.left16,
+          Style.flexbox.fill.margin.left16,
           renderHeader(
             c.danger4,
             bg.danger1,

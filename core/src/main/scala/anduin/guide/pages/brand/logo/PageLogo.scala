@@ -57,8 +57,8 @@ object PageLogo {
   }
 
   private def renderSection(title: VdomNode, logo: Logo, desc: String): VdomElement = {
-    val descNode = <.div(Style.flexbox.fixed.margin.left20, desc)
-    val logoNode = <.div(Style.flexbox.fixed, renderLogo(logo))
+    val descNode = <.div(Style.flexbox.fill.margin.left20, desc)
+    val logoNode = <.div(Style.flexbox.fill, renderLogo(logo))
     val body = <.div(Style.flexbox.flex, logoNode, descNode)
     <.div(title, body)
   }

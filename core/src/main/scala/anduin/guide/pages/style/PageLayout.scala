@@ -1,7 +1,6 @@
 package anduin.guide.pages.style
 
 import anduin.guide.components._
-import anduin.component.button.Button
 import anduin.guide.app.main.Pages
 import anduin.mcro.Source
 import anduin.style.Style
@@ -14,177 +13,203 @@ object PageLayout {
       Toc(headings = Source.getTocHeadings)(),
       Markdown(
         """
-          |Flexbox helps lay things out, align them, and distribute space in 
-          |between.
+          |Layout should be built with [flexbox]:
           |
-          |# Overview
+          |[flexbox]: https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_Flexible_Box_Layout/Basic_Concepts_of_Flexbox
+          |""".stripMargin
+      )(),
+      ExampleRich(Source.annotate({
+        val box = Style.backgroundColor.gray3.textAlign.center.padding.all8
+        <.div(
+          Style.flexbox.flex,
+          <.div(Style.flexbox.none.margin.right8, box, "None"),
+          <.div(Style.flexbox.fill, box, "Fill"),
+        )
+      }))(),
+      Markdown(
+        """
+          |We intentionally support only a small subset of flexbox to simplify
+          |the layout work. Features/properties that have little or practical
+          |usages to us are removed.
           |
-          |```text
-          |Style.flexBox.<display|direction|alignment|children>
+          |Also, we do not support [responsive] layout at the moment. We are
+          |looking into some solutions but nothing concrete for short-term
+          |future.
           |
-          |  display:      flex, inlineFlex
+          |[responsive]: https://developer.mozilla.org/en-US/docs/Web/Apps/Progressive/Responsive/responsive_design_building_blocks
+          |""".stripMargin
+      )(),
+      Markdown(
+        """
+          |# Flex container
           |
-          |  direction:    row, column, wrap
+          |To build a layout with flexbox, first we need to define a flex
+          |container using `Style.flexbox.flex`:
+          |""".stripMargin
+      )(),
+      ExampleRich(Source.annotate({
+        <.div(
+          Style.flexbox.flex,
+          <.div(Style.margin.right8, "First"),
+          <.div("Second")
+        )
+      }))(),
+      Markdown(
+        """
+          |The direct children of this container are now [flex
+          |items](#flex-items). Their sizes and positions can be
+          |controlled with flexbox using the properties described below.
           |
-          |  alignment:    items..., justify...
+          |Note that this creates a block-level container (i.e. like a `div`).
+          |We highly discourage the idea of inline-level flex container in
+          |favor of the [normal inline flow][inline].
           |
-          |  children:     auto, fixed, none,
-          |                grow..., shrink..., order...
+          |[inline]: https://developer.mozilla.org/en-US/docs/Web/HTML/Inline_elements
+          |""".stripMargin
+      )(),
+      Markdown(
+        """
+          |## Direction
+          |
+          |By default, flex items are positioned horizontally. To laid them
+          |out vertically, use `Style.flexbox.column`:
+          |""".stripMargin
+      )(),
+      ExampleRich(Source.annotate({
+        <.div(
+          Style.flexbox.flex.flexbox.column,
+          <.div("First"),
+          <.div("Second")
+        )
+      }))(),
+      Markdown(
+        """
+          |This behaviour is very similar to using [block elements], which is
+          |more lightweight and should be considered first.
+          |
+          |[block elements]: https://developer.mozilla.org/en-US/docs/Web/HTML/Block-level_elements
+          |""".stripMargin
+      )(),
+      Markdown(
+        """
+          |## Wrap
+          |
+          |By default, flexbox will try to place all items on one line,
+          |including shrinking them if possible, or it will cause an overflow.
+          |To avoid overflow and wrap flex items onto new lines, use
+          |`Style.flexbox.wrap`:
+          |""".stripMargin
+      )(),
+      ExampleRich(Source.annotate({
+        val box = Style.padding.all8.backgroundColor.gray3.margin.right8.margin.bottom8
+        <.div(
+          Style.flexbox.flex.flexbox.wrap,
+          ^.marginBottom := "-8px", // visual touch, don't mind me
+          <.div(box, "There is"),
+          <.div(box, "only one"),
+          <.div(box, "corner of the universe"),
+          <.div(box, "you can"),
+          <.div(box, "be certain of"),
+          <.div(box, "improving"),
+          <.div(box, "and that's"),
+          <.div(box, "your own self"),
+          <.div(box, "–"),
+          <.div(box, "Aldous Huxley")
+        )
+      }))(),
+      Markdown(
+        """
+          |## Alignment
+          |
+          |Flexbox makes no assumption about the writing mode, so it uses
+          |somewhat unusual terms like "main-axis" or "start" to specify items
+          |alignment.
+          |
+          |If you are not familar with these terms yet, we recommend to take
+          |a look at [this MDN's article][mdn] before moving on.
+          |
+          |[mdn]: https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_Flexible_Box_Layout/Basic_Concepts_of_Flexbox#The_two_axes_of_flexbox
+          |""".stripMargin
+      )(),
+      Markdown(
+        """
+          |### Items*
+          |
+          |```scala
+          |Style.flexBox.itemsStart
+          |Style.flexBox.itemsEnd
+          |Style.flexBox.itemsCenter
+          |Style.flexBox.itemsBaseline
+          |Style.flexBox.itemsStretch // default
           |```
           |
-          |# Learn Flexbox
+          |`Style.flexBox.items*` controls how flex items are positioned
+          |along their container's **cross axis**:
+          |""".stripMargin
+      )(),
+      ExampleRich(Source.annotate({
+        val box = Style.padding.all4.backgroundColor.gray3.margin.right8
+        <.div(
+          Style.flexbox.flex.flexbox.itemsCenter,
+          <.div(box, Style.height.px32, "one"),
+          <.div(box, Style.height.px64, "two"),
+          <.div(box, Style.height.px48, "tree")
+        )
+      }))(),
+      Markdown(
+        """
+          |### Justify*
           |
-          |[**Flexbox is a web standard**](https://www.w3.org/TR/css-flexbox-1/). Understand how it works is essential in building layout not only for a specific system but in the world of web in general.
+          |```scala
+          |Style.flexBox.justifyStart // default
+          |Style.flexBox.justifyEnd
+          |Style.flexBox.justifyCenter
+          |Style.flexBox.justifyBetween
+          |Style.flexBox.justifyAround
+          |```
           |
-          |**Unlike other CSS properties, Flexbox is quite complex.**  Fortunately, it's been around for a while, thus there are many resources to learn now. If unsure, it is recommended to start with  [MDN's Basic concepts of flexbox](https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_Flexible_Box_Layout/Basic_Concepts_of_Flexbox).
+          |`Style.flexBox.justify*` controls how flex items are positioned
+          |along their container's **main axis**:
+          |""".stripMargin
+      )(),
+      ExampleRich(Source.annotate({
+        val box = Style.padding.all4.backgroundColor.gray3.margin.right8
+        <.div(
+          Style.flexbox.flex.flexbox.justifyBetween,
+          <.div(box, "one"),
+          <.div(box, "two"),
+          <.div(box, "tree")
+        )
+      }))(),
+      Markdown(
+        """
+          |Since this works by distributing [available spaces][as] between
+          |items, it has no practical effect when there are [fill](#fill)
+          |items:
           |
-          |**When learning, it's always good to try different perspectives.** Especially if you are having trouble understanding complex concepts like Flexbox. Some other good resources to learn Flexbox could be:
+          |[as]: https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_Flexible_Box_Layout/Basic_Concepts_of_Flexbox#Properties_applied_to_flex_items
+          |""".stripMargin
+      )(),
+      ExampleRich(Source.annotate({
+        val box = Style.padding.all8.backgroundColor.gray3.margin.right8
+        <.div(
+          // No space left to distribute...
+          Style.flexbox.flex.flexbox.justifyBetween,
+          <.div(box, Style.flexbox.none, "one"),
+          // ...since this already takes any available space:
+          <.div(box, Style.flexbox.fill, "two")
+        )
+      }))(),
+      Markdown(
+        """
+          |# Flex items
+          |""".stripMargin
+      )(),
+      Markdown(
+        """
           |
-          |- [A Complete Guide to Flexbox](https://css-tricks.com/snippets/css/a-guide-to-flexbox/), the famous article from CSS-Tricks
-          |- [Layout with Flexbox](https://facebook.github.io/react-native/docs/flexbox.html) from React Native
-          |- [An animated guide to Flexbox](https://medium.freecodecamp.org/an-animated-guide-to-flexbox-d280cf6afc35) from Scott Domes
-          |- Or play a game with [Frogs](http://flexboxfroggy.com/) or [Tower](http://www.flexboxdefense.com/)
-          |- Or even [the specification](https://www.w3.org/TR/css-flexbox-1/) itself
-          |
-          |# Sizing children
-          |
-          |[Controlling the size of a flex child could be tricky](https://css-tricks.com/flex-grow-is-weird/) via the `flex` property, or `flex-grow`, `flex-shrink` and especially `flex-basis`. Fortunately, there are some useful `flex` values that would be enough to cover most use cases. We made these values available under `Style.flexbox` with the following names:
-          |
-          |- `auto`: should grow or shrink its extra space (the space left after laying its content out).
-          |- `fixed`: should grow or shrink the whole item (without taking its content into consideration).
-          |- `none`: should not grow or shrink at all, just use its content's size.
-          |
-          |The example below could help understanding the difference between `auto (flex-basis: auto)` and `fixed (flex-basis: 0)`:
-          |
-          |Example:
         """.stripMargin
       )(),
-      ExampleRich(
-        // format: off
-        Source.annotate(
-          /*>*/<.div(Style.textAlign.center,
-            <.div(Style.flexbox.flex.margin.bottom4,
-              <.div(/*<*/"short", " none", Style.flexbox.none/*>*/, Style.margin.right4, Style.backgroundColor.gray2),
-              <.div(/*<*/"loooooooooong", " none", Style.flexbox.none/*>*/, Style.backgroundColor.gray2)),
-            <.div(Style.flexbox.flex.margin.bottom4,
-              <.div(/*<*/"short", " none", Style.flexbox.none/*>*/, Style.margin.right4, Style.backgroundColor.gray2),
-              <.div(/*<*/"short", " fixed", Style.flexbox.fixed/*>*/, Style.margin.right4, Style.backgroundColor.gray2),
-              <.div(/*<*/"loooooooooong", " fixed", Style.flexbox.fixed/*>*/, Style.backgroundColor.gray2)),
-            <.div(Style.flexbox.flex,
-              <.div(/*<*/"short", " none", Style.flexbox.none/*>*/, Style.margin.right4, Style.backgroundColor.gray2),
-              <.div(/*<*/"short", " auto", Style.flexbox.auto/*>*/, Style.margin.right4, Style.backgroundColor.gray2),
-              <.div(/*<*/"loooooooooong", " auto", Style.flexbox.auto/*>*/, Style.backgroundColor.gray2))
-          )
-        )/*<*/
-        // format: on
-      )(),
-      Markdown(
-        """
-          |- In the second row, the widths of "fixed" items are the same regardless of their content.
-          |- Meanwhile, in the third row, the widths of "auto" items depend on their content's width.
-          |
-          |The following table shows a quick comparison between those 3 values:
-          |
-          ||     | `auto` | `fixed` | `none` |
-          || --- | ------ | ------- | ------ |
-          || Will it grow or shrink?  | Yes | Yes | No |
-          || Does its content matter? | Yes | No  | No |
-          || Raw value | `1 1 auto` | `1 1 0` | `0 0 auto` |
-          |
-          |The below graphic from W3C could also help understanding the difference between `fixed / flex-basis: 0` and `auto / flex-basis: auto`
-          |
-          |![relative vs absolute flex](https://www.w3.org/TR/css-flexbox-1/images/rel-vs-abs-flex.svg)
-          |
-          |# Usage Notes
-          |
-          |## `overflow` for `fixed` and `auto`
-          |
-          |Although `fixed` and `auto` both have `flex-shrink: 1`, there are cases they will not be resized to smaller than the size of their children.
-          |
-          |This is because by default Flexbox try to not break the unbreakable contents, like long words or text with `noWrap` or another Flexbox nested inside.
-          |
-          |In these cases, most of the time you will want an `overflow: hidden` on these flex items to let them free to shrink.
-          """.stripMargin
-      )(),
-      ExampleRich(
-        // format: off
-        Source.annotate(
-          /*>*/<.div(Style.whiteSpace.noWrap,
-            <.div(Style.flexbox.flex,
-              /*<*/<.div(Style.flexbox.fixed, "1111111111111111111111111111111111111111111"),
-              <.div(Style.flexbox.fixed, "2222222222222222222222222222222222222222222")/*>*/),
-            <.div(Style.flexbox.flex,
-              /*<*/<.div(Style.flexbox.fixed.overflow.hidden, "1111111111111111111111111111111111111111111"),
-              <.div(Style.flexbox.fixed.overflow.hidden, "2222222222222222222222222222222222222222222")/*>*/)
-          )/*<*/
-        )
-        // format: on
-      )(),
-      Markdown(
-        """
-          |## Don't overuse
-          |
-          |Flexbox is too powerful that sometime it's easy to build layouts that looks nice but semantically incorrect and/or unnecessarily complex.
-          |
-          |Although quite useful, Flexbox should not be the first thought. We should only use it in complex cases, after considered other standard layout techniques:
-          |
-          |- If the children are all text and/or can form a sentence, try inline first.
-          |- If they should be placed vertically (on top of each other), try using block elements first:
-          """.stripMargin
-      )(),
-      ExampleRich(
-        // format: off
-        Source.annotate(
-          /*>*/<.div(
-            Style.flexbox.flex.flexbox.justifyAround,/*<*/
-
-            // Bad: Unnecessary flex column
-            <.div(Style.flexbox.flex.flexbox.column,
-                  <.span("First"),
-                  <.p("Second")),
-
-            // Good: Use block elements instead
-            <.div(<.p("First"), <.p("Second"))/*>*/
-          )/*<*/
-        )
-        // format: on
-      )(),
-      Markdown(
-        """
-          |- Also considering the native `table` tag before using Flexbox. The flexibility of `table` is quite powerful but often underestimated. In fact, the way HTML's `table` computes the widths of its columns is very similar to `flex: 1 0 auto`.
-          |
-          |That being said, there are cases that seem like simple at first sight, but could be quite complex and should use Flexbox. One example is aligning icon and text, which can be found at Components/Icon page.
-          |
-          |## Keep it simple
-          |
-          |It's case by case, but in general the following ones could be simplified:
-          |
-          |- Nested flex
-          |- Flex with only one child
-          |
-          |Example:
-        """.stripMargin
-      )(),
-      ExampleRich(
-        // format: off
-        Source.annotate({
-          /*>*/val image = <.div(Style.backgroundColor.primary4, ^.width := "40px", ^.height := "40px")
-          val info = <.div(Style.margin.left8, <.p("Title"), <.p("Description"))
-          val button = <.div(Style.margin.left8, Button()("Action"))
-          val flex = Style.flexbox.flex.flexbox.itemsCenter
-          <.div(/*<*/
-
-            // Bad: Unnecessary nested flex
-            <.div(flex, /*>*/Style.margin.bottom16,/*<*/
-                  <.div(flex, image, info),
-                  <.div(flex, button)),
-
-            // Good: Single level of flex
-            <.div(flex, image, info, button)/*>*/
-          )/*<*/
-        })
-        // format: on
-      )()
     )
   }
 }
