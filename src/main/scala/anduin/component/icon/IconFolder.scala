@@ -1,17 +1,20 @@
 // Copyright (C) 2014-2019 Anduin Transactions Inc.
 
 package anduin.component.icon
-import anduin.style.CssVar
+
+// scalastyle:off underscore.import
+import anduin.style.CssVar.Color._
+// scalastyle:on underscore.import
 
 object IconFolder {
   case class Color(stroke: String, fill1: String, fill2: String)
   object Color {
     object Brown extends Color("#D6A06B", "#E9D799", "#EABE9D")
-    object Gray extends Color("#9BB0C2", "#E7EEF2", "#CDDAE4")
-    object Red extends Color(CssVar.Color.danger5, CssVar.Color.danger3, CssVar.Color.danger4)
-    object Orange extends Color(CssVar.Color.warning5, CssVar.Color.warning3, CssVar.Color.warning4)
-    object Green extends Color(CssVar.Color.success5, CssVar.Color.success3, CssVar.Color.success4)
-    object Blue extends Color(CssVar.Color.primary5, CssVar.Color.primary3, CssVar.Color.primary4)
+    object Gray extends Color(gray5, gray2, gray4)
+    object Red extends Color(red5, red3, red4)
+    object Orange extends Color(orange5, orange3, orange4)
+    object Green extends Color(green5, green3, green4)
+    object Blue extends Color(blue5, blue3, blue4)
   }
 }
 

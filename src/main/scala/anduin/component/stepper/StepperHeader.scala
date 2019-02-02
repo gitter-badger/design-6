@@ -60,7 +60,7 @@ object StepperHeader {
    */
   private object Line {
     private val gradientSuccessToPrimary =
-      ^.background := s"linear-gradient(to right, ${CssVar.Color.success3}, ${CssVar.Color.primary4})"
+      ^.background := s"linear-gradient(to right, ${CssVar.Color.green3}, ${CssVar.Color.blue4})"
 
     private def getColors(status: Status): (TagMod, TagMod) = status match {
       case StatusPast    => (Style.background.green3, Style.background.green3)

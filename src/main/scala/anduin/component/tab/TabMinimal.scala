@@ -25,7 +25,7 @@ private[tab] object TabMinimal {
 
   private val activeStyles = TagMod(
     Style.color.gray8.border.bottom.borderWidth.px2,
-    ^.borderBottomColor := CssVar.Color.primary4
+    ^.borderBottomColor := CssVar.Color.blue4
   )
 
   private val normalStyles = TagMod(

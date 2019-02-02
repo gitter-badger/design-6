@@ -25,8 +25,8 @@ private[tab] object TabFull {
   private val activeStyles = TagMod(
     Style.background.white.color.gray8.borderRadius.px2.borderRadius.top,
     ^.borderBottomColor := "transparent",
-    ^.borderTopColor := CssVar.Color.primary4,
-    ^.boxShadow := s"${CssVar.Color.primary4} 0 -1px 0 0"
+    ^.borderTopColor := CssVar.Color.blue4,
+    ^.boxShadow := s"${CssVar.Color.blue4} 0 -1px 0 0"
   )
 
   private val normalStyles = TagMod(
