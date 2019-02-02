@@ -5,7 +5,7 @@
 }
 
 .token.atrule, .token.attr-value, .token.keyword {
-  color: var(--color-primary-5);
+  color: var(--color-blue-5);
 }
 
 .token.operator, .token.entity, .token.url, .language-css .token.string, .style .token.string {
@@ -14,11 +14,11 @@
 }
 
 .token.property, .token.tag, .token.boolean, .token.number, .token.constant, .token.symbol, .token.deleted {
-  color: var(--color-warning-5);
+  color: var(--color-orange-5);
 }
 
 .token.selector, .token.attr-name, .token.string, .token.char, .token.builtin, .token.inserted {
-  color: var(--color-warning-5);
+  color: var(--color-orange-5);
 }
 
 .token.comment, .token.prolog, .token.doctype, .token.cdata {
