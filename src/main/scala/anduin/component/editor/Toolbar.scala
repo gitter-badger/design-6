@@ -103,7 +103,7 @@ object Toolbar {
         <.div(
           Style.flexbox.flex.flexbox.itemsCenter,
           props.attachmentButton,
-          VerticalDivider(),
+          VerticalDivider()(),
           // Undo button
           Tooltip(
             targetTag = <.span,
@@ -124,7 +124,7 @@ object Toolbar {
             )(),
             renderContent = () => "Redo"
           )(),
-          VerticalDivider(),
+          VerticalDivider()(),
           Tooltip(
             targetTag = <.span,
             renderTarget = Modal(
@@ -148,7 +148,7 @@ object Toolbar {
             )(),
             renderContent = () => "Remove Link"
           )(),
-          VerticalDivider(),
+          VerticalDivider()(),
           Popover(
             position = PositionTopCenter,
             verticalOffset = -8,
@@ -167,9 +167,9 @@ object Toolbar {
               <.div(
                 Style.flexbox.flex.flexbox.itemsCenter.padding.all4,
                 MarkButtonBar(props.value, props.onChange)(),
-                VerticalDivider(),
+                VerticalDivider()(),
                 AlignButtonBar(props.value, props.onChange)(),
-                VerticalDivider(),
+                VerticalDivider()(),
                 BlockButtonBar(props.value, props.onChange)()
               )
             }
