@@ -4,6 +4,7 @@ package anduin.guide.pages.home
 
 import anduin.guide.app.main.Pages
 import anduin.guide.pages.home.{PageHomeLink => Link}
+import anduin.guide.pages.home.PageHomeLink.Target._
 import anduin.style.Style
 
 // scalastyle:off underscore.import
@@ -43,8 +44,7 @@ private[home] object PageHomeList {
   )
 
   private val panelStyles = TagMod(
-
-  )
+    )
 
   private def render(props: Props): VdomElement = {
     val ctl = props.ctl
@@ -57,11 +57,14 @@ private[home] object PageHomeList {
         <.div(
           TagMod(Style.flexbox.none, ^.width := "75%"), // 1/4 / 1/3
           h1("Style"),
-          Link(ctl, Pages.Color(), isWIP = false)(),
-          Link(ctl, Pages.Typography(), isWIP = false)(),
-          Link(ctl, Pages.Space(), isWIP = false)(),
-          Link(ctl, Pages.Layout(), isWIP = false)(),
-          Link(ctl, Pages.Logo(), isWIP = false)()
+          Link(Page(ctl, Pages.Color(), isWIP = false))(),
+          Link(Page(ctl, Pages.Typography(), isWIP = false))(),
+          Link(Page(ctl, Pages.Space(), isWIP = false))(),
+          Link(Page(ctl, Pages.Layout(), isWIP = false))(),
+          Link(Page(ctl, Pages.Logo(), isWIP = false))(),
+          h1("Links"),
+          Link(URL("GitHub", "https://github.com/anduintransaction/design"))(),
+          Link(URL("Work with us", "https://www.anduintransact.com/careers"))(),
         )
       ),
       <.div(
@@ -73,31 +76,31 @@ private[home] object PageHomeList {
         <.div(
           TagMod(Style.flexbox.none, ^.width := "37.5%"), // 1/4 / 2/3
           h1("Components"),
-          Link(ctl, Pages.Button(), isWIP = false)(),
-          Link(ctl, Pages.Icon(), isWIP = false)(),
-          Link(ctl, Pages.Progress(), isWIP = false)(),
-          Link(ctl, Pages.Menu(), isWIP = true)(),
-          Link(ctl, Pages.Tree(), isWIP = true)(),
+          Link(Page(ctl, Pages.Button(), isWIP = false))(),
+          Link(Page(ctl, Pages.Icon(), isWIP = false))(),
+          Link(Page(ctl, Pages.Progress(), isWIP = false))(),
+          Link(Page(ctl, Pages.Menu(), isWIP = true))(),
+          Link(Page(ctl, Pages.Tree(), isWIP = true))(),
           h2("Form"),
-          Link(ctl, Pages.Field(), isWIP = true)(),
-          Link(ctl, Pages.Dropdown(), isWIP = false)(),
-          Link(ctl, Pages.TextBox(), isWIP = true)(),
-          Link(ctl, Pages.Checkbox(), isWIP = true)(),
-          Link(ctl, Pages.Radio(), isWIP = true)()
+          Link(Page(ctl, Pages.Field(), isWIP = true))(),
+          Link(Page(ctl, Pages.Dropdown(), isWIP = false))(),
+          Link(Page(ctl, Pages.TextBox(), isWIP = true))(),
+          Link(Page(ctl, Pages.Checkbox(), isWIP = true))(),
+          Link(Page(ctl, Pages.Radio(), isWIP = true))()
         ),
         <.div(
           Style.flexbox.none,
           TagMod(Style.flexbox.none, ^.width := "37.5%"), // 1/4 / 2/3
           h2("Container"),
-          Link(ctl, Pages.Tag(), isWIP = true)(),
-          Link(ctl, Pages.Well(), isWIP = false)(),
-          Link(ctl, Pages.Card(), isWIP = false)(),
-          Link(ctl, Pages.Table(), isWIP = false)(),
-          Link(ctl, Pages.Tooltip(), isWIP = true)(),
-          Link(ctl, Pages.Popover(), isWIP = true)(),
-          Link(ctl, Pages.Modal(), isWIP = false)(),
-          Link(ctl, Pages.Tab(), isWIP = false)(),
-          Link(ctl, Pages.Stepper(), isWIP = true)()
+          Link(Page(ctl, Pages.Tag(), isWIP = true))(),
+          Link(Page(ctl, Pages.Well(), isWIP = false))(),
+          Link(Page(ctl, Pages.Card(), isWIP = false))(),
+          Link(Page(ctl, Pages.Table(), isWIP = false))(),
+          Link(Page(ctl, Pages.Tooltip(), isWIP = true))(),
+          Link(Page(ctl, Pages.Popover(), isWIP = true))(),
+          Link(Page(ctl, Pages.Modal(), isWIP = false))(),
+          Link(Page(ctl, Pages.Tab(), isWIP = false))(),
+          Link(Page(ctl, Pages.Stepper(), isWIP = true))()
         )
       )
     )

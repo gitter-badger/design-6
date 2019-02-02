@@ -6,12 +6,8 @@ import anduin.style.Style
 import japgolly.scalajs.react._
 import japgolly.scalajs.react.vdom.html_<^._
 
-import anduin.guide.app.main.Pages.Ctl
-
 private[home] case class PageHomeLink(
-  ctl: Ctl,
-  page: Pages.Page,
-  isWIP: Boolean
+  target: PageHomeLink.Target
 ) {
   def apply(): VdomElement = PageHomeLink.component(this)
 }
@@ -20,16 +16,29 @@ private[home] object PageHomeLink {
 
   private type Props = PageHomeLink
 
-  private def renderPageTitle(props: Props): VdomElement = {
+  sealed trait Target
+  object Target {
+    case class Page(ctl: Pages.Ctl, value: Pages.Page, isWIP: Boolean) extends Target
+    case class URL(title: String, value: String) extends Target
+  }
+
+  private def renderTitle(props: Props): VdomElement = {
     <.p(
       Style.fontSize.px24.lineHeight.px32,
-      <.span(props.page.getClass.getSimpleName),
-      if (props.isWIP) <.span(" \uD83D\uDEA7") else EmptyVdom
+      props.target match {
+        case page: Target.Page =>
+          React.Fragment(
+            <.span(page.value.getClass.getSimpleName),
+            if (page.isWIP) <.span(" \uD83D\uDEA7") else EmptyVdom
+          )
+        case url: Target.URL => <.span(url.title, " ↗")
+      }
     )
   }
 
-  private def renderPageImg(props: Props): VdomElement = {
-    val src = props.page.getClass.getSimpleName.toLowerCase
+  // Currently only Target.Page has img
+  private def renderPageImg(page: Target.Page): VdomElement = {
+    val src = page.value.getClass.getSimpleName.toLowerCase
     <.div(
       Style.overflow.hidden,
       ^.maxWidth := "192px",
@@ -53,11 +62,14 @@ private[home] object PageHomeLink {
   )
 
   private def render(props: Props): VdomElement = {
-    props.ctl.link(props.page)(
-      styles,
-      <.div(Style.flexbox.fill, renderPageTitle(props)),
-      <.div(Style.flexbox.none.margin.left24, renderPageImg(props)),
-    )
+    val title = <.div(Style.flexbox.fill, renderTitle(props))
+    props.target match {
+      case page: Target.Page =>
+        val img = <.div(Style.flexbox.none.margin.left24, renderPageImg(page))
+        page.ctl.link(page.value)(styles, title, img)
+      case url: Target.URL =>
+        <.a(^.href := url.value, ^.target.blank, ^.rel := "noreferrer noopener", styles, title)
+    }
   }
 
   private val component = ScalaComponent

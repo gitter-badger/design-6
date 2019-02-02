@@ -78,7 +78,7 @@ object NavElements {
           case _ => TagMod.empty
         }
         val suffix = title.target match {
-          case _: PageTarget.External => " ⬈"
+          case _: PageTarget.External => " ↗"
           case _ => ""
         }
         <.a(
