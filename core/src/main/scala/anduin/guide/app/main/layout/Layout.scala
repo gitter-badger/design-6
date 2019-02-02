@@ -1,5 +1,7 @@
 package anduin.guide.app.main.layout
 
+import japgolly.scalajs.react.React
+
 import anduin.guide.app.main.Pages
 import anduin.style.Style
 import japgolly.scalajs.react.extra.router.Resolution
@@ -48,6 +50,7 @@ object Layout {
     <.div(
       Style.margin.horAuto,
       ^.width := "576px",
+      ^.padding := "48px 0",
       // Should always on top
       Style.position.relative.zIndex.idx1.backgroundColor.white,
       res.render()
@@ -59,8 +62,10 @@ object Layout {
       Style.lineHeight.px32,
       ^.fontSize := "19px",
       ^.className := "ad-ff-sans",
-      renderSidebar(ctl, res),
-      renderBody(res)
+      res.page match {
+        case Pages.Home => res.render()
+        case _          => React.Fragment(renderSidebar(ctl, res), renderBody(res))
+      }
     )
   }
 }

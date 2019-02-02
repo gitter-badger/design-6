@@ -68,7 +68,7 @@ object LayoutNav {
                 li(Title("Folder", Internal(IconFolder()))),
               ),
             ),
-            li(Title("Progress", Internal(ProgressIndicator()))),
+            li(Title("Progress", Internal(Progress()))),
             li(Title("Toggle", Internal(Toggle()))),
             h("Container"),
             li(Title("Card", Internal(Card()))),

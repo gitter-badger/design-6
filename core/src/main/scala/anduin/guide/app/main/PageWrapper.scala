@@ -29,14 +29,10 @@ object PageWrapper {
 
   private val loading: VdomElement = BlockIndicator()()
 
-  private def renderPage(props: Props)(renderFn: RenderFn): VdomElement = {
-    <.div(^.padding := "48px 0", renderFn(props.ctl))
-  }
-
   private class Backend(scope: BackendScope[Props, State]) {
 
     def render(props: Props, state: State): VdomElement = {
-      state.renderFnOpt.fold(loading)(renderPage(props))
+      state.renderFnOpt.fold(loading)(_(props.ctl))
     }
 
     private def setRenderFn(renderFn: RenderFn): Unit = {

@@ -75,7 +75,7 @@ object Router {
       | dynamicRouteCT("multi-dropdown" ~ hash.caseClass[DropdownMulti]) ~> getRender(() => Promise.resolve[RenderFn](PageWIP.render _))
       | dynamicRouteCT("multi-suggest" ~ hash.caseClass[SuggestMulti]) ~> getRender(() => Promise.resolve[RenderFn](PageWIP.render _))
       | dynamicRouteCT("popover" ~ hash.caseClass[Popover]) ~> getRender(() => Promise.resolve[RenderFn](PagePopover.render _))
-      | dynamicRouteCT("progress-indicator" ~ hash.caseClass[ProgressIndicator]) ~> getRender(() => Promise.resolve[RenderFn](PageProgressIndicator.render _))
+      | dynamicRouteCT("progress-indicator" ~ hash.caseClass[Progress]) ~> getRender(() => Promise.resolve[RenderFn](PageProgressIndicator.render _))
       | dynamicRouteCT("radio" ~ hash.caseClass[Radio]) ~> getRender(() => Promise.resolve[RenderFn](PageWIP.render _))
       | dynamicRouteCT("radio-box" ~ hash.caseClass[RadioBox]) ~> getRender(() => Promise.resolve[RenderFn](PageWIP.render _))
       | dynamicRouteCT("stepper" ~ hash.caseClass[Stepper]) ~> getRender(() => Promise.resolve[RenderFn](PageStepper.render _))

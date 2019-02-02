@@ -43,7 +43,7 @@ object Pages {
   case class Menu(hash: String = "") extends ComponentT
   case class Modal(hash: String = "") extends ComponentT
   case class Popover(hash: String = "") extends ComponentT
-  case class ProgressIndicator(hash: String = "") extends ComponentT
+  case class Progress(hash: String = "") extends ComponentT
   sealed trait RadioT extends ComponentT
   case class Radio(hash: String = "") extends RadioT
   case class RadioBox(hash: String = "") extends RadioT

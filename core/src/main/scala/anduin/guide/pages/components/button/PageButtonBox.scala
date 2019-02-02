@@ -291,7 +291,7 @@ object PageButtonBox {
            |handled for a significant time, set `isBusy = true` to
            |replace the button's body with a [circle process indicator][cpi]:
            |
-           |[cpi]: ${ctl.urlFor(Pages.ProgressIndicator("#circle")).value}
+           |[cpi]: ${ctl.urlFor(Pages.Progress("#circle")).value}
            |""".stripMargin
       )(),
       ExampleRich(Source.annotate({
