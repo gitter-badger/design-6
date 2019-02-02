@@ -69,8 +69,6 @@ object PageTypography {
                   |pixels) or short string of text on UI (e.g: label, information, 
                   |value).
                   |
-                  |[1]: ${ctl.urlFor(Pages.FixedLineHeight()).value}
-                  |
                   |However, there are still cases where we want to change the line 
                   |height, especially when we have a large font size as mentioned in
                   |the Font Size section. These should be done by choosing a value 

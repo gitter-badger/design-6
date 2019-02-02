@@ -13,9 +13,7 @@ object Pages {
   case class Space(hash: String = "") extends StyleT
   case class Layout(hash: String = "") extends StyleT
   case class Color(hash: String = "") extends StyleT
-  sealed trait TypographyT extends StyleT
-  case class Typography(hash: String = "") extends TypographyT
-  case class FixedLineHeight(hash: String = "") extends TypographyT
+  case class Typography(hash: String = "") extends StyleT
 
   // component
   sealed trait ComponentT extends Page

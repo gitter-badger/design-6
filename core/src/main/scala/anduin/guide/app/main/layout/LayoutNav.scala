@@ -43,10 +43,7 @@ object LayoutNav {
           Title("Style", Internal(Pages.Style()), Some(_.isInstanceOf[StyleT])),
           ul(
             li(Title("Color", Internal(Color()))),
-            li(
-              Title("Typography", Internal(Typography()), Some(_.isInstanceOf[TypographyT])),
-              ul(li(Title("Fixed line height", Internal(FixedLineHeight()))))
-            ),
+            li(Title("Typography", Internal(Typography()))),
             li(Title("Space", Internal(Space()))),
             li(Title("Layout", Internal(PagesLayout()))),
             li(Title("Logo", Internal(Logo()))),

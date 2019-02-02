@@ -52,7 +52,6 @@ object Router {
       | dynamicRouteCT("layout" ~ hash.caseClass[Layout]) ~> getRender(() => Promise.resolve[RenderFn](PageLayout.render _))
       | dynamicRouteCT("space" ~ hash.caseClass[Space]) ~> getRender(() => Promise.resolve[RenderFn](PageSpace.render _))
       | dynamicRouteCT("typography" ~ hash.caseClass[Typography]) ~> getRender(() => Promise.resolve[RenderFn](PageTypography.render _))
-      | dynamicRouteCT("typography-fixed" ~ hash.caseClass[FixedLineHeight]) ~> getRender(() => Promise.resolve[RenderFn](PageFixedLineHeight.render _))
       // Component
       | dynamicRouteCT("playground" ~ hash.caseClass[Playground]) ~> getRender(() => Promise.resolve[RenderFn](PagePlayground.render _))
       | dynamicRouteCT("avatar" ~ hash.caseClass[Avatar]) ~> getRender(() => Promise.resolve[RenderFn](PageWIP.render _))
