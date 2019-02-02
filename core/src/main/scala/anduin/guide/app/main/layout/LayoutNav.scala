@@ -28,7 +28,7 @@ object LayoutNav {
       NavElements.Props(props.ctl, props.page)
 
     <.div(
-      Style.color.gray4.hover.colorGray7.transition.all,
+      Style.color.gray4.color.hoverGray7.transition.all,
       // The padding was defined here instead of the parent to increase the
       // hit area for the above hover effect
       ^.padding := "0 56px",

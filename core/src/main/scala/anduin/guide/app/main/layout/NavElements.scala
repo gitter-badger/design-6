@@ -57,7 +57,7 @@ object NavElements {
     props: Props
   )(toggle: Callback, isExpanded: Boolean): VdomElement = {
     val common = TagMod(
-      Style.position.relative.hover.colorPrimary4.transition.all,
+      Style.position.relative.color.hoverBlue4.transition.all,
       getColor(props.page, title.target),
       renderLiIcon(children, isExpanded),
       title.text
@@ -82,7 +82,7 @@ object NavElements {
           case _ => ""
         }
         <.a(
-          Style.hover.underlineNone.hover.borderPrimary3,
+          Style.hover.underlineNone.borderColor.hoverBlue3,
           Style.border.bottom.borderWidth.px2,
           linkMod,
           common,

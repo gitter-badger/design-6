@@ -4,7 +4,7 @@ lazy val commonSettings = Seq(
   organization := "co.anduin",
   version := "0.1",
   scalaVersion := "2.12.6",
-  libraryDependencies += "com.github.japgolly.scalajs-react" %%% "core" % "1.3.0",
+  libraryDependencies += "com.github.japgolly.scalajs-react" %%% "core" % "1.4.0",
   scalacOptions += "-Yrangepos"
 )
 
@@ -32,21 +32,21 @@ lazy val core = (project in file("core"))
     libraryDependencies ++= Seq(
       "org.scalatest" %% "scalatest" % "3.0.5" % Test,
       "org.scala-js" %%% "scalajs-dom" % "0.9.5",
-      "com.github.japgolly.scalajs-react" %%% "extra" % "1.3.0"
+      "com.github.japgolly.scalajs-react" %%% "extra" % "1.4.0"
     ),
     // https://github.com/webjars/webjars/issues/1789
     dependencyOverrides += "org.webjars.npm" % "js-tokens" % "3.0.2",
     npmDependencies in Compile ++= Seq(
-      "react" -> "16.5.0",
-      "react-dom" -> "16.5.0",
-      "react-truncate-markup" -> "2.0.1",
-      "react-virtualized" -> "9.20.1",
+      "react" -> "16.7.0",
+      "react-dom" -> "16.7.0",
+      "react-truncate-markup" -> "3.0.0",
+      "react-virtualized" -> "9.21.0",
       "react-text-mask" -> "5.4.3",
       "text-mask-addons" -> "3.8.0",
-      "popper.js" -> "1.14.3",
+      "popper.js" -> "1.14.7",
       "marked" -> "0.3.19",
       "focus-visible" -> "4.1.5",
-      "downshift" -> "2.2.2"
+      "downshift" -> "3.2.2"
     )
   )
 
