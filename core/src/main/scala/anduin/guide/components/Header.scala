@@ -26,8 +26,11 @@ object Header {
         props.title
       ),
       props.obj.whenDefined { obj =>
-        val name = obj.getClass.getName.replace("$", "")
-        <.div(Style.margin.bottom32, CodeBlock(name)())
+        <.div(
+          Style.borderRadius.px4.border.all.borderColor.gray3,
+          Style.margin.bottom32.overflow.hidden,
+          CodeBlock(obj.getClass.getName.replace("$", ""))()
+        )
       }
     )
   }

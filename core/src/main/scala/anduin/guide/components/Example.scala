@@ -19,7 +19,9 @@ object Example {
     val (source, element) = props.content
     <.div(
       Style.background.gray1.padding.all4,
+      Style.borderRadius.px4.border.all.borderColor.gray3,
       <.div(
+        Style.borderRadius.px4.border.all.borderColor.gray3,
         Style.padding.all16,
         // Sometimes we need a gray background
         if (props.isBgGray) Style.background.gray2

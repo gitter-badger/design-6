@@ -50,7 +50,10 @@ object Markdown {
   }
 
   private val renderCode = (string: String, language: String) => {
-    val codeBlock = CodeBlock(content = string, language = language)()
+    val codeBlock = <.div(
+      Style.borderRadius.px4.overflow.hidden.border.all.borderColor.gray3,
+      CodeBlock(content = string, language = language)()
+    )
     rnd(<.div(Style.padding.ver16, codeBlock))
   }
 

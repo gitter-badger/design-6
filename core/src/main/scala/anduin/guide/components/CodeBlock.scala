@@ -29,8 +29,10 @@ object CodeBlock {
     } else htmlContent
     val cls = ^.cls := s"language-${props.language}"
     <.div(
-      Style.background.gray1.padding.ver12.padding.hor8,
-      Style.overflow.auto,
+      Style.background.gray1,
+      Style.padding.ver12.padding.hor8.overflow.auto,
+      Style.focus.outline.transition.allWithOutline,
+      ^.tabIndex := 0,
       <.pre(
         Style.fontSize.px16.lineHeight.px24.fontFamily.mono,
         ^.cls := "line-numbers",

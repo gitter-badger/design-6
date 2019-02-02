@@ -22,20 +22,21 @@ object ExampleSimple {
   object BgColor {
     object White extends BgColor(Style.background.white, Style.background.gray1)
     object Gray2 extends BgColor(Style.background.gray2, Style.background.gray1)
-    object Gray8 extends BgColor(Style.background.gray8, Style.background.gray9)
   }
 
+  private val border = Style.borderRadius.px4.border.all.borderColor.gray3
+
   private def render(props: Props, children: PropsChildren): VdomElement = {
-    val styles = TagMod(
+    val figure = <.figure(
       props.bgColor.outer,
-      Style.padding.all4,
-      Style.fontSize.px13.lineHeight.px20.fontFamily.sans
+      border,
+      Style.padding.all4.fontSize.px13.lineHeight.px20.fontFamily.sans,
+      // example
+      <.div(border, Style.padding.all16, props.bgColor.inner, children),
+      // label
+      <.figcaption(Style.padding.hor16.padding.top4, Markdown(props.label)()).when(!props.label.isEmpty)
     )
-    val example = <.div(Style.padding.all16, props.bgColor.inner, children)
-    val label = TagMod.when(!props.label.isEmpty) {
-      <.figcaption(Style.padding.hor16.padding.top4, Markdown(props.label)())
-    }
-    <.div(Style.padding.ver16, <.figure(styles, example, label))
+    <.div(Style.padding.ver16, figure)
   }
 
   private val component = ScalaComponent
