@@ -23,7 +23,8 @@ private[home] object PageHomeList {
 
   private def h(content: VdomNode): VdomElement = {
     <.div(
-      Style.flexbox.flex.flexbox.itemsBaseline.padding.ver32,
+      Style.flexbox.flex.flexbox.itemsBaseline.flexbox.justifyCenter,
+      Style.padding.ver32,
       // To have the same height with PageLink
       Style.border.bottom.borderWidth.px2.borderColor.transparent,
       // the content will always be aligned with this h1
@@ -41,15 +42,20 @@ private[home] object PageHomeList {
     <.h1(Style.fontSize.px24.lineHeight.px24.fontWeight.bold, text)
   )
 
+  private val panelStyles = TagMod(
+
+  )
+
   private def render(props: Props): VdomElement = {
     val ctl = props.ctl
     <.div(
       Style.flexbox.flex.flexbox.justifyCenter,
       <.div(
+        Style.flexbox.flex.flexbox.justifyCenter,
         ^.flex := "1 1 0px",
-        Style.padding.ver32.flexbox.flex.flexbox.justifyCenter,
+        ^.padding := "32px 0 96px",
         <.div(
-          Style.flexbox.none,
+          TagMod(Style.flexbox.none, ^.width := "75%"), // 1/4 / 1/3
           h1("Style"),
           Link(ctl, Pages.Color(), isWIP = false)(),
           Link(ctl, Pages.Typography(), isWIP = false)(),
@@ -59,12 +65,13 @@ private[home] object PageHomeList {
         )
       ),
       <.div(
-        ^.flex := "2 1 0px",
-        Style.padding.ver32.flexbox.flex.flexbox.justifyAround,
+        Style.flexbox.flex.flexbox.justifyAround,
         Style.backgroundColor.white,
+        ^.flex := "2 1 0px",
+        ^.padding := "32px 0 96px",
         ^.boxShadow := "0px 4px 16px 0px rgba(0, 0, 0, 0.06)",
         <.div(
-          Style.flexbox.none,
+          TagMod(Style.flexbox.none, ^.width := "37.5%"), // 1/4 / 2/3
           h1("Components"),
           Link(ctl, Pages.Button(), isWIP = false)(),
           Link(ctl, Pages.Icon(), isWIP = false)(),
@@ -80,6 +87,7 @@ private[home] object PageHomeList {
         ),
         <.div(
           Style.flexbox.none,
+          TagMod(Style.flexbox.none, ^.width := "37.5%"), // 1/4 / 2/3
           h2("Container"),
           Link(ctl, Pages.Tag(), isWIP = true)(),
           Link(ctl, Pages.Well(), isWIP = false)(),

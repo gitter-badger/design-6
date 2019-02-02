@@ -59,9 +59,7 @@ object Layout {
 
   def render(ctl: Pages.Ctl, res: Res): VdomElement = {
     <.div(
-      Style.lineHeight.px32,
-      ^.fontSize := "19px",
-      ^.className := "ad-ff-sans",
+      Style.fontSize.px20.lineHeight.px32,
       res.page match {
         case Pages.Home => res.render()
         case _          => React.Fragment(renderSidebar(ctl, res), renderBody(res))

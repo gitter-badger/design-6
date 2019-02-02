@@ -43,7 +43,6 @@ private[home] object PageHomeLink {
   }
 
   private val styles: TagMod = TagMod(
-    ^.width := "25vw",
     Style.flexbox.flex.flexbox.itemsStart,
     Style.padding.ver32.border.bottom.borderWidth.px2,
     // color
