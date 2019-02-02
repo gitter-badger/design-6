@@ -20,6 +20,7 @@ object PageHome {
       Style.backgroundColor.gray1,
       <.div(
         ^.maxWidth := "1600px",
+        Style.margin.horAuto,
         <.div(hero),
         <.div(PageHomeList(ctl)())
       )
