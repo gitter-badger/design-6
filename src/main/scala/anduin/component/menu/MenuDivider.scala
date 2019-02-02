@@ -14,6 +14,6 @@ case class MenuDivider() {
 }
 
 object MenuDivider {
-  private def render = <.div(Style.background.gray4.margin.ver8, ^.height := "1px")
+  private val render = <.div(Style.background.gray4.margin.ver8, ^.height := "1px")
   private val component = ScalaComponent.static(this.getClass.getSimpleName)(render)
 }
