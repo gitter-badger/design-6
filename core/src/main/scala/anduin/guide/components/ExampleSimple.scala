@@ -20,9 +20,9 @@ object ExampleSimple {
 
   sealed abstract class BgColor(val inner: TagMod, val outer: TagMod)
   object BgColor {
-    object White extends BgColor(Style.backgroundColor.white, Style.backgroundColor.gray1)
-    object Gray2 extends BgColor(Style.backgroundColor.gray2, Style.backgroundColor.gray1)
-    object Gray8 extends BgColor(Style.backgroundColor.gray8, Style.backgroundColor.gray9)
+    object White extends BgColor(Style.background.white, Style.background.gray1)
+    object Gray2 extends BgColor(Style.background.gray2, Style.background.gray1)
+    object Gray8 extends BgColor(Style.background.gray8, Style.background.gray9)
   }
 
   private def render(props: Props, children: PropsChildren): VdomElement = {

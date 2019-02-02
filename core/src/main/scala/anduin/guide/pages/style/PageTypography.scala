@@ -31,7 +31,7 @@ object PageTypography {
         <.div(
           <.span("Your secret code: "),
           <.code(
-            Style.backgroundColor.gray2.padding.ver4.padding.hor8,
+            Style.background.gray2.padding.ver4.padding.hor8,
             Style.fontFamily.mono,
             "746123"
           )

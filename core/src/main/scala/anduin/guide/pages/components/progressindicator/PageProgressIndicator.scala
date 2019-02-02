@@ -26,7 +26,7 @@ object PageProgressIndicator {
           |""".stripMargin
       )(),
       ExampleRich(Source.annotate({
-        <.div(Style.color.primary4, CircleIndicator()())
+        <.div(Style.color.blue4, CircleIndicator()())
       }))(),
       Markdown(
         """
@@ -60,7 +60,7 @@ object PageProgressIndicator {
           Style.flexbox.flex,
           <.div(CircleIndicator()(), marginR),
           <.div(CircleIndicator()(), Style.color.gray6, marginR),
-          <.div(CircleIndicator()(), Style.color.primary4, marginR)
+          <.div(CircleIndicator()(), Style.color.blue4, marginR)
         )
       }))(),
       Markdown(
@@ -77,7 +77,7 @@ object PageProgressIndicator {
       )(),
       ExampleRich(Source.annotate({
         <.div(
-          Style.flexbox.flex.color.primary4,
+          Style.flexbox.flex.color.blue4,
           <.div(CircleIndicator()(), marginR),
           <.div(CircleIndicator(size = CircleIndicator.Size.Px48)(), marginR)
         )
@@ -132,7 +132,7 @@ object PageProgressIndicator {
           Style.width.px128,
           <.div(BarIndicator()(), marginB),
           <.div(BarIndicator()(), Style.color.gray6, marginB),
-          <.div(BarIndicator()(), Style.color.primary4)
+          <.div(BarIndicator()(), Style.color.blue4)
         )
       }))(),
       Markdown(
@@ -146,7 +146,7 @@ object PageProgressIndicator {
       )(),
       ExampleRich(Source.annotate({
         <.div(
-          Style.color.primary4,
+          Style.color.blue4,
           <.div(BarIndicator()(), marginB),
           <.div(BarIndicator()(), Style.width.pc60, marginB),
           <.div(BarIndicator()(), Style.width.px128)
@@ -167,7 +167,7 @@ object PageProgressIndicator {
       )(),
       ExampleRich(Source.annotate({
         <.div(
-          Style.color.primary4.width.px256,
+          Style.color.blue4.width.px256,
           BarIndicator(percent = Some(0.3))()
         )
       }))(),
@@ -219,7 +219,7 @@ object PageProgressIndicator {
       Markdown(
         """
           |It's worth to note that `BlockIndicator` already provided
-          |`Style.color.primary4` to its indicator. This can easily be
+          |`Style.color.blue4` to its indicator. This can easily be
           |overridden by the consumer via [CSS inheritance][mdn].
           |
           |[mdn]: https://developer.mozilla.org/en-US/docs/Learn/CSS/Introduction_to_CSS/Cascade_and_inheritance

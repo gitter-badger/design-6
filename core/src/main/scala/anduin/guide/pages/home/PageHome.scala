@@ -17,7 +17,7 @@ object PageHome {
 
   def render(ctl: Pages.Ctl): VdomElement = {
     <.div(
-      Style.backgroundColor.gray1,
+      Style.background.gray1,
       <.div(
         ^.maxWidth := "1600px",
         Style.margin.horAuto,

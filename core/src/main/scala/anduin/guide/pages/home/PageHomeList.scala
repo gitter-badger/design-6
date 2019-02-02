@@ -69,7 +69,7 @@ private[home] object PageHomeList {
       ),
       <.div(
         Style.flexbox.flex.flexbox.justifyAround,
-        Style.backgroundColor.white,
+        Style.background.white,
         ^.flex := "2 1 0px",
         ^.padding := "32px 0 96px",
         ^.boxShadow := "0px 4px 16px 0px rgba(0, 0, 0, 0.06)",

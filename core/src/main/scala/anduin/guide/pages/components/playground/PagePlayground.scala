@@ -61,7 +61,7 @@ object PagePlayground {
         )
       }),
       ExampleSimple()({
-        <.div(width, Style.color.primary4, BarIndicator()())
+        <.div(width, Style.color.blue4, BarIndicator()())
       }),
       ExampleSimple(bgColor = ExampleSimple.BgColor.Gray2)({
         <.div(width, Card()(<.span(Style.fontWeight.semiBold, "Deal Report")))

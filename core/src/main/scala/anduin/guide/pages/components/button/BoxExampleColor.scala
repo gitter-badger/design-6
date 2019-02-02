@@ -63,7 +63,7 @@ private[button] object BoxExampleColor {
         <.div(
           ^.margin := "-16px",
           Style.padding.all16,
-          TagMod.when(isDark)(Style.backgroundColor.gray8),
+          TagMod.when(isDark)(Style.background.gray8),
           Button(
             style = Full(color = if (isDark) Black else White),
             onClick = setDark(!isDark)

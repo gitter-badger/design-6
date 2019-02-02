@@ -53,7 +53,7 @@ object PageStyle {
            |
            |```scala
            |/*>*/<.div(
-           |  /*<*/Style.background.primary4.color.white, // Color
+           |  /*<*/Style.background.blue4.color.white, // Color
            |  Style.margin.left8.padding.all4, // Spacing/*>*/
            |  ...
            |)/*<*/

@@ -19,7 +19,7 @@ object PageLayout {
           |""".stripMargin
       )(),
       ExampleRich(Source.annotate({
-        val box = Style.backgroundColor.gray3.textAlign.center.padding.all8
+        val box = Style.background.gray3.textAlign.center.padding.all8
         <.div(
           Style.flexbox.flex,
           <.div(Style.flexbox.none.margin.right8, box, "None"),
@@ -102,7 +102,7 @@ object PageLayout {
       )(),
       ExampleRich(Source.annotate({
         val box = TagMod(
-          Style.flexbox.none.padding.all8.backgroundColor.gray3,
+          Style.flexbox.none.padding.all8.background.gray3,
           Style.margin.right8.margin.bottom8
         )
         <.div(
@@ -151,7 +151,7 @@ object PageLayout {
           |""".stripMargin
       )(),
       ExampleRich(Source.annotate({
-        val box = Style.flexbox.none.padding.all4.backgroundColor.gray3.margin.right8
+        val box = Style.flexbox.none.padding.all4.background.gray3.margin.right8
         <.div(
           Style.flexbox.flex.flexbox.itemsCenter,
           <.div(box, Style.height.px32, "one"),
@@ -176,7 +176,7 @@ object PageLayout {
           |""".stripMargin
       )(),
       ExampleRich(Source.annotate({
-        val box = Style.flexbox.none.padding.all4.backgroundColor.gray3.margin.right8
+        val box = Style.flexbox.none.padding.all4.background.gray3.margin.right8
         <.div(
           Style.flexbox.flex.flexbox.justifyBetween,
           <.div(box, "one"),
@@ -194,7 +194,7 @@ object PageLayout {
           |""".stripMargin
       )(),
       ExampleRich(Source.annotate({
-        val box = Style.padding.all8.backgroundColor.gray3.margin.right8
+        val box = Style.padding.all8.background.gray3.margin.right8
         <.div(
           // No space left to distribute...
           Style.flexbox.flex.flexbox.justifyBetween,
@@ -223,7 +223,7 @@ object PageLayout {
           |""".stripMargin
       )(),
       ExampleRich(Source.annotate({
-        val box = Style.backgroundColor.gray3.textAlign.center.padding.all8
+        val box = Style.background.gray3.textAlign.center.padding.all8
         <.div(
           Style.flexbox.flex,
           <.div(Style.flexbox.none.margin.right8, box, "None"),

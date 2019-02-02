@@ -501,7 +501,7 @@ object PageTable {
             <.tr(
               Style.border.all.borderColor.gray3,
               TagMod(
-                Style.backgroundColor.gray1,
+                Style.background.gray1,
                 ^.transform := "scale(1.05)",
                 ^.boxShadow := "0 0 0 1px var(--color-gray-4)," +
                   "0 1px 8px #00000014"

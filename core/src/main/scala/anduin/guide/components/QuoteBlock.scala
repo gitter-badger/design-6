@@ -15,11 +15,11 @@ object QuoteBlock {
   private type Props = QuoteBlock
 
   private def getColors(key: String): TagMod = key match {
-    case "primary" => Style.backgroundColor.primary1.borderColor.primary4
-    case "success" => Style.backgroundColor.success1.borderColor.success4
-    case "warning" => Style.backgroundColor.warning1.borderColor.warning4
-    case "danger"  => Style.backgroundColor.danger1.borderColor.danger4
-    case _         => Style.backgroundColor.gray1.borderColor.gray4
+    case "primary" => Style.background.blue1.borderColor.blue4
+    case "success" => Style.background.green1.borderColor.green4
+    case "warning" => Style.background.orange1.borderColor.orange4
+    case "danger"  => Style.background.red1.borderColor.red4
+    case _         => Style.background.gray1.borderColor.gray4
   }
 
   private def render(props: QuoteBlock): VdomElement = {

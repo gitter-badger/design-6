@@ -36,7 +36,7 @@ object PageSpace {
       )(),
       ExampleRich(Source.annotate({
         <.div(
-          Style.backgroundColor.gray2.flexbox.flex.flexbox.itemsCenter,
+          Style.background.gray2.flexbox.flex.flexbox.itemsCenter,
           Style.padding.all16,
           <.div(Style.margin.right8, Button()("Cancel")),
           <.div(Button(style = Button.Style.Full(color = Button.Color.Blue))("Submit"))

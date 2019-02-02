@@ -41,7 +41,7 @@ object Markdown {
       case _             => (None, string)
     }
     val codeSpan = <.code(
-      Style.fontFamily.mono.backgroundColor.gray2,
+      Style.fontFamily.mono.background.gray2,
       lngOpt.whenDefined(lng => ^.cls := s"language-$lng"),
       ^.padding := "0 4px",
       ^.dangerouslySetInnerHtml := newContent
@@ -68,7 +68,7 @@ object Markdown {
   private val renderTable = (header: String, body: String) => {
     val element = <.table(
       Style.table.collapse.width.pc100,
-      <.thead(Style.backgroundColor.gray1, ^.dangerouslySetInnerHtml := header),
+      <.thead(Style.background.gray1, ^.dangerouslySetInnerHtml := header),
       <.tbody(^.dangerouslySetInnerHtml := body)
     )
     rnd(<.div(Style.padding.ver16, element))
@@ -91,9 +91,9 @@ object Markdown {
 
   private val renderLink = (href: String, title: String, text: String) => {
     val link = <.a(
-      Style.color.gray7.hover.colorPrimary4.transition.all,
+      Style.color.gray7.color.hoverBlue4.transition.all,
       Style.border.bottom.borderColor.gray3.borderWidth.px2,
-      Style.hover.borderPrimary3.hover.underlineNone,
+      Style.borderColor.hoverBlue3.hover.underlineNone,
       ^.title := title,
       ^.href := href,
       ^.dangerouslySetInnerHtml := text
