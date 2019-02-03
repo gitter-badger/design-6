@@ -22,8 +22,8 @@ private[button] object BoxExampleEmail {
 
   private type Props = BoxExampleEmail
 
-  private def renderToolbarButton(icon: Icon.Name): VdomElement = {
-    Button(style = Button.Style.Minimal(icon = Some(icon)))()
+  private def renderToolbarButton(icon: Icon.Name, isDisabled: Boolean = false): VdomElement = {
+    Button(style = Button.Style.Minimal(icon = Some(icon)), isDisabled = isDisabled)()
   }
 
   private val toolbarSep =
@@ -42,6 +42,7 @@ private[button] object BoxExampleEmail {
       renderToolbarButton(Icon.Glyph.Underline),
       renderToolbarButton(Icon.Glyph.StrikeThrough),
       toolbarSep,
+      renderToolbarButton(Icon.Glyph.Paragraph, isDisabled = true),
       renderToolbarButton(Icon.Glyph.ListBullet),
       renderToolbarButton(Icon.Glyph.ListNumber),
       renderToolbarButton(Icon.Glyph.Table)
@@ -58,6 +59,7 @@ private[button] object BoxExampleEmail {
   private val footer: VdomElement = {
     <.div(
       Style.flexbox.flex.flexbox.justifyEnd,
+      <.div(Style.margin.right8, Button(isDisabled = true)("Use as template")),
       <.div(Style.margin.right8, Button()("Discard")),
       <.div(Style.margin.right8, Button()("Save")),
       Button(
