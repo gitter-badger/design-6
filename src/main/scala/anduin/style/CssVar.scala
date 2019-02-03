@@ -39,14 +39,16 @@ object CssVar {
   }
 
   object Spacing {
-    val s0 = "var(--spacing-0)"
-    val s1 = "var(--spacing-1)"
-    val s2 = "var(--spacing-2)"
-    val s3 = "var(--spacing-3)"
-    val s4 = "var(--spacing-4)"
-    val s5 = "var(--spacing-5)"
-    val s6 = "var(--spacing-6)"
-    val s7 = "var(--spacing-7)"
+    val s0 = "var(--space-0)"
+    val s4 = "var(--space-4)"
+    val s8 = "var(--space-8)"
+    val s12 = "var(--space-12)"
+    val s16 = "var(--space-16)"
+    val s20 = "var(--space-20)"
+    val s24 = "var(--space-24)"
+    val s32 = "var(--space-32)"
+    val s40 = "var(--space-40)"
+    val s48 = "var(--space-48)"
   }
 
   object Shadow {
