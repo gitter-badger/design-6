@@ -118,7 +118,7 @@ object ButtonStyle {
       )
     }
 
-    final def boxDisabled: TagMod = Style.color.gray5.background.gray1
+    final def boxDisabled: TagMod = Style.color.gray4
   }
   // "BoxNoBg" buttons don't have background defined at normal state. It
   // is for "Ghost" and "Minimal".
@@ -181,7 +181,6 @@ object ButtonStyle {
   }
   trait Full extends ButtonStyle with Box with Border {
     final def container: TagMod = TagMod(borderContainer, boxContainer)
-    final def colorDisabled: TagMod = TagMod(borderDisabled, boxDisabled)
 
     // Styles that are different between White and other colors
     private def text: TagMod = color match {
@@ -211,11 +210,10 @@ object ButtonStyle {
       case _: Color.Green => bc.green5
     }
     final def colorNormal: TagMod = TagMod(text, shadow, bg, border)
+    final def colorDisabled: TagMod = TagMod(borderDisabled, boxDisabled, Style.background.gray1)
   }
   trait Ghost extends ButtonStyle with Box with Border with BoxNoBg {
     final def container: TagMod = TagMod(borderContainer, boxContainer)
-    final def colorDisabled: TagMod = TagMod(borderDisabled, boxDisabled)
-
     // scalastyle:off cyclomatic.complexity
     private def is: Boolean = isSelected || isBusy
     private def border: TagMod = color match {
@@ -227,13 +225,14 @@ object ButtonStyle {
     }
     // scalastyle:on cyclomatic.complexity
     final def colorNormal: TagMod = TagMod(boxNoBgNormal, border)
+    final def colorDisabled: TagMod = TagMod(borderDisabled, boxDisabled)
   }
   trait Minimal extends ButtonStyle with Box with BoxNoBg {
     // We want the width of a button is the same whether it's Minimal or
     // Ghost so here we have a fake border
     final def container: TagMod = TagMod(Style.border.all, boxContainer)
     private def colorBorder = Style.borderColor.transparent
-    final def colorDisabled: TagMod = TagMod(colorBorder, boxDisabled)
     final def colorNormal: TagMod = TagMod(colorBorder, boxNoBgNormal)
+    final def colorDisabled: TagMod = TagMod(colorBorder, boxDisabled)
   }
 }
