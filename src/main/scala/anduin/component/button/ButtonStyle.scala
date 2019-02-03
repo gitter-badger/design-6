@@ -185,7 +185,7 @@ object ButtonStyle {
 
     // Styles that are different between White and other colors
     private def text: TagMod = color match {
-      case _: Color.White => Style.color.gray8
+      case _: Color.White => Style.color.gray7
       case _              => Style.color.white
     }
     private def shadow: TagMod = color match {
