@@ -66,7 +66,7 @@ private[home] object PageHomeLink {
     val title = <.div(Style.flexbox.fill, renderTitle(props))
     props.target match {
       case page: Target.Page =>
-        val img = <.div(Style.flexbox.none.margin.left24, renderPageImg(page))
+        val img = <.div(Style.flexbox.none, renderPageImg(page))
         page.ctl.link(page.value)(styles, title, img)
       case url: Target.URL =>
         <.a(^.href := url.value, ^.target.blank, ^.rel := "noreferrer noopener", styles, title)

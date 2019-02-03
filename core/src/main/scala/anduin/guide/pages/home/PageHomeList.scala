@@ -43,9 +43,6 @@ private[home] object PageHomeList {
     <.h1(Style.fontSize.px24.lineHeight.px24.fontWeight.bold, text)
   )
 
-  private val panelStyles = TagMod(
-    )
-
   private def render(props: Props): VdomElement = {
     val ctl = props.ctl
     <.div(
