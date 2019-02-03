@@ -11,6 +11,12 @@ class Style(val classes: List[String]) {
 
   def value: String = classes.mkString(" ").trim
 
+  // Sizing
+  def width: Width = Width(classes)
+  def maxWidth: MaxWidth = MaxWidth(classes)
+  def height: Height = Height(classes)
+  def minHeight: MinHeight = MinHeight(classes)
+
   def active: Active = Active(classes)
   def animation: Animation = Animation(classes)
   def background: Background = Background(classes)
@@ -33,14 +39,12 @@ class Style(val classes: List[String]) {
   def fontSize: FontSize = FontSize(classes)
   def fontStyle: FontStyle = FontStyle(classes)
   def fontWeight: FontWeight = FontWeight(classes)
-  def height: Height = Height(classes)
   def hover: Hover = Hover(classes)
   def letterSpacing: LetterSpacing = LetterSpacing(classes)
   def lineHeight: LineHeight = LineHeight(classes)
   // TODO: replace with List component
   def listing: Listing = Listing(classes)
   def margin: Margin = Margin(classes)
-  def maxWidth: MaxWidth = MaxWidth(classes)
   def opacity: Opacity = Opacity(classes)
   def overflow: Overflow = Overflow(classes)
   def padding: Padding = Padding(classes)
@@ -56,7 +60,6 @@ class Style(val classes: List[String]) {
   def transition: Transition = Transition(classes)
   def verticalAlign: VerticalAlign = VerticalAlign(classes)
   def whiteSpace: WhiteSpace = WhiteSpace(classes)
-  def width: Width = Width(classes)
   def wordBreak: WordBreak = WordBreak(classes)
   def zIndex: Zindex = Zindex(classes)
 

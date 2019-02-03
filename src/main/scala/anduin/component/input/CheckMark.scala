@@ -30,8 +30,9 @@ object CheckMark {
 
     def render(props: CheckMark, children: PropsChildren): VdomElement = {
       <.div(
+        Style.height.pc100,
         ^.classSet(
-          "at-check-mark h-100 flex items-center" -> true,
+          "at-check-mark flex items-center" -> true,
           "-disabled" -> props.disabled,
           "-selected" -> props.selected
         ),
