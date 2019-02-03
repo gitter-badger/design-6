@@ -176,7 +176,7 @@ object Toolbar {
           )()
         ),
         <.div(
-          ^.cls := "flex m-la",
+          Style.flexbox.flex.margin.leftAuto,
           Tooltip(
             targetTag = <.span,
             renderTarget = Modal(
