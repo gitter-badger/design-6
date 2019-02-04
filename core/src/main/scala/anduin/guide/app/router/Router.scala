@@ -50,7 +50,6 @@ object Router {
       | dynamicRouteCT("logo" ~ hash.caseClass[Logo]) ~> getRender(() => Promise.resolve[RenderFn](PageLogo.render _))
       | dynamicRouteCT("color" ~ hash.caseClass[Color]) ~> getRender(() => Promise.resolve[RenderFn](PageColor.render _))
       | dynamicRouteCT("layout" ~ hash.caseClass[Layout]) ~> getRender(() => Promise.resolve[RenderFn](PageLayout.render _))
-      | dynamicRouteCT("space" ~ hash.caseClass[Space]) ~> getRender(() => Promise.resolve[RenderFn](PageSpace.render _))
       | dynamicRouteCT("typography" ~ hash.caseClass[Typography]) ~> getRender(() => Promise.resolve[RenderFn](PageTypography.render _))
       // Component
       | dynamicRouteCT("playground" ~ hash.caseClass[Playground]) ~> getRender(() => Promise.resolve[RenderFn](PagePlayground.render _))

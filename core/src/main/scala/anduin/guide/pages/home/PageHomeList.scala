@@ -56,7 +56,6 @@ private[home] object PageHomeList {
           h1("Style"),
           Link(Page(ctl, Pages.Color(), isWIP = false))(),
           Link(Page(ctl, Pages.Typography(), isWIP = false))(),
-          Link(Page(ctl, Pages.Space(), isWIP = false))(),
           Link(Page(ctl, Pages.Layout(), isWIP = false))(),
           Link(Page(ctl, Pages.Logo(), isWIP = false))(),
           h1("Links"),

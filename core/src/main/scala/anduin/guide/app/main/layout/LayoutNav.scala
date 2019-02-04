@@ -44,7 +44,6 @@ object LayoutNav {
           ul(
             li(Title("Color", Internal(Color()))),
             li(Title("Typography", Internal(Typography()))),
-            li(Title("Space", Internal(Space()))),
             li(Title("Layout", Internal(PagesLayout()))),
             li(Title("Logo", Internal(Logo()))),
           )

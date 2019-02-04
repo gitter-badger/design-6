@@ -10,7 +10,6 @@ object Pages {
   sealed trait StyleT extends Page
   case class Logo(hash: String = "") extends StyleT
   case class Style(hash: String = "") extends StyleT
-  case class Space(hash: String = "") extends StyleT
   case class Layout(hash: String = "") extends StyleT
   case class Color(hash: String = "") extends StyleT
   case class Typography(hash: String = "") extends StyleT
