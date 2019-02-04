@@ -107,7 +107,7 @@ object PageIconGlyphName {
           ("Inline", Vector(TextStyle, Bold, Italic, Underline, StrikeThrough)),
         ),
         renderSection(state, Markdown("### Interface")())(
-          ("Helper", Vector(CheckBold, Circle, CircleLine, CircleLargeLine, Blank, EllipsisHorizontal, EllipsisVertical, Collapse, Expand)),
+          ("Helper", Vector(CheckBold, MinusBold, Circle, CircleLine, CircleLargeLine, Blank, EllipsisHorizontal, EllipsisVertical, Collapse, Expand)),
           ("Sign", Vector(QuestionCircleLine, Warning, Question, Error, Info, InfoCircleLine)),
         ),
         renderSection(

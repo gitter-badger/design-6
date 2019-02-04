@@ -4,9 +4,9 @@ import anduin.guide.components._
 import anduin.component.input.checkbox.Checkbox
 import anduin.guide.app.main.Pages
 import anduin.mcro.Source
-import anduin.style.Style
-import japgolly.scalajs.react.Callback
 import japgolly.scalajs.react.vdom.html_<^._
+
+import anduin.style.Style
 
 object PageCheckbox {
   def render(ctl: Pages.Ctl): VdomElement = {
@@ -15,64 +15,93 @@ object PageCheckbox {
       Toc(headings = Source.getTocHeadings)(),
       Markdown(
         """
-          |Checkbox follows the native [`<input type="checkbox">`][1] element
-          |so make sure you're familar with it first.
-          |
-          |[1]: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/checkbox
+          |Checkboxes allow users to toggle between checked and unchecked
+          |states:
+          |x
         """.stripMargin
       )(),
       ExampleRich(Source.annotate({
-        val checkbox = Checkbox(
-          isChecked = true,
-          onChange = isChecked => {
-            val msg = s"Checkbox should be changed to ${isChecked.toString}"
-            Callback.alert(msg)
+        DemoState.Bool(
+          initialValue = false,
+          render = (value, onChange) => {
+            Checkbox(
+              isChecked = value,
+              onChange = onChange
+            )("Remember me")
           }
-        )("Hello World")
-        <.div(checkbox)
+        )()
       }))(),
       Markdown(
         """
-          |The live example above is not fully interact-able due to this
-          |guide's limitation (guide is stateless). In practice, you will
-          |usually use it with your state:
+          |# Controlled
           |
           |```scala
-          |case class State(isFoo: Boolean)
-          |
-          |def setIsFoo(isChecked: Boolean) = {
-          |  scope.setState(isFoo = isChecked)
-          |}
-          |
-          |def render() = {
-          |  Checkbox(
-          |    value = state.isFoo,
-          |    onChange = setIsFoo
-          |  )("Foo")
-          |}
+          |isChecked: Boolean = false
+          |onChange: Boolean => Callback = _ => Callback.empty
           |```
+        """.stripMargin
+      )(),
+      Markdown(
+        """
+          |# Disabled
           |
-          |# isChecked
-          |
-          |# onChange
-          |
-          |# Others
-          |
-          |Example:
+          |```scala
+          |isDisabled: Boolean = false
+          |```
         """.stripMargin
       )(),
       ExampleRich(Source.annotate({
         <.div(
           Style.flexbox.flex,
-          Checkbox(isChecked = true, isDisabled = true)("Foo"),
-          Checkbox(isChecked = false, isDisabled = true)("Foo")
+          Checkbox(isChecked = true, isDisabled = true)("Checked"),
+          Checkbox(isChecked = false, isDisabled = true)("Unchecked")
         )
       }))(),
       Markdown(
         """
+          |# Indeterminate
           |
+          |```scala
+          |isIndeterminate: Boolean = false
+          |```
+          |xxxxxxxx
         """.stripMargin
-      )()
+      )(),
+      ExampleRich(Source.annotate({
+        DemoState.Bool(
+          initialValue = false,
+          render = (isChecked, setIsChecked) => {
+            Checkbox(
+              isChecked = isChecked,
+              onChange = setIsChecked,
+              isIndeterminate = true
+            )(s"Actual value: $isChecked")
+          }
+        )()
+      }))(),
+      Markdown(
+        """
+          |# Text Wrap
+        """.stripMargin
+      )(),
+      ExampleSimple()({
+        DemoState.Bool(
+          initialValue = false,
+          render = (value, onChange) => {
+            Checkbox(
+              isChecked = value,
+              onChange = onChange
+            )("""
+                |At the end of the day, you are solely responsible for your
+                |success and your failure. And the sooner you realize that, you
+                |accept that, and integrate that into your work ethic, you will
+                |start being successful. As long as you blame others for the
+                |reason you aren't where you want to be, you will always be a
+                |failure. Erin Cummings
+              """.stripMargin)
+          }
+        )()
+      })
     )
   }
 }

@@ -19,7 +19,7 @@ object PageButton {
       Toc(headings = Source.getTocHeadings)(),
       Markdown(
         """
-          |Button lets users take action:
+          |Buttons let users take action:
           |""".stripMargin
       )(),
       ExampleRich(Source.annotate({

@@ -40,7 +40,7 @@ object PageIcon {
       Toc(headings = Source.getTocHeadings)(),
       Markdown(
         """
-          |Icons symbolizes common actions and objects:
+          |Icons symbolize common actions and objects:
           |""".stripMargin
       )(),
       ExampleRich(Source.annotate({
