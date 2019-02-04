@@ -71,7 +71,7 @@ object CheckboxInput {
 
   private val childStyles = TagMod(
     Style.display.block.margin.verAuto.height.px16,
-    Style.position.absolute.coordinate.fill
+    Style.position.absolute.position.pinAll
   )
 
   def render(props: Props): VdomElement = {
