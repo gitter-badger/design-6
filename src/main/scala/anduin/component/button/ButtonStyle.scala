@@ -118,7 +118,7 @@ object ButtonStyle {
     def getOverlay(box: Box): TagMod = TagMod.when(box.isBusy) {
       <.span(
         Style.flexbox.flex.flexbox.itemsCenter.flexbox.justifyCenter,
-        Style.position.absolute.coordinate.fill,
+        Style.position.absolute.position.pinAll,
         CircleIndicator()()
       )
     }

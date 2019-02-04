@@ -99,7 +99,7 @@ private[image] object CropImageModal {
         ComponentUtils.testId(CropImageModal, "Container"),
         Style.position.relative,
         <.div(
-          Style.position.absolute.coordinate.left0.coordinate.top0,
+          Style.position.absolute.position.pinLeft.position.pinTop,
           ^.visibility.hidden,
           <.img.withRef(imageRef)(
             ^.src := props.src,

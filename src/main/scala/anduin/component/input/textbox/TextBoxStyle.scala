@@ -79,7 +79,7 @@ private[component] object TextBoxStyle {
 
   private val iconWrapper = TagMod(
     Style.position.absolute.margin.right8.margin.verAuto,
-    Style.coordinate.top0.coordinate.bottom0.coordinate.right0,
+    Style.position.pinTop.position.pinBottom.position.pinRight,
     Style.background.white.height.px16
   )
 

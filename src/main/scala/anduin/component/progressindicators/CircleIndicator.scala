@@ -31,7 +31,7 @@ object CircleIndicator {
 
   private val common: TagMod = TagMod(
     Style.width.pc100.height.pc100,
-    Style.position.absolute.coordinate.fill,
+    Style.position.absolute.position.pinAll,
     Style.border.all.borderRadius.pc100,
     ^.borderWidth := "3px"
   )

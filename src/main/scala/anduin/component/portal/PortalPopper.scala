@@ -44,7 +44,7 @@ private[component] object PortalPopper {
   //   "content" element
   private val contentStyles = TagMod(
     // Avoid showing while Popper is calculating
-    Style.position.fixed.opacity.pc0.coordinate.top0
+    Style.position.fixed.opacity.pc0.position.pinTop
   )
 
   // The appearance of the arrow can be customized by the consumer, but most

@@ -55,7 +55,7 @@ private[image] object BrowseFile {
         },
         // Input file
         <.input.file(
-          Style.position.absolute.coordinate.fill.opacity.pc0.width.pc100.height.pc100.cursor.pointer,
+          Style.position.absolute.position.pinAll.opacity.pc0.width.pc100.height.pc100.cursor.pointer,
           ^.accept := "image/png, image/jpeg",
           ^.multiple := false,
           ^.onChange ==> onChange(props)

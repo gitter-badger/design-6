@@ -64,7 +64,7 @@ object FileButtonInput {
           // this is the actual input element that opens file browser
           <.input(
             ComponentUtils.testId(FileButtonInput, "FileInput"),
-            Style.position.absolute.coordinate.fill.opacity.pc0.width.pc100.height.pc100.cursor.pointer,
+            Style.position.absolute.position.pinAll.opacity.pc0.width.pc100.height.pc100.cursor.pointer,
             ^.tpe := "file",
             ^.accept := props.acceptTypes,
             ^.multiple := props.isMultiple,

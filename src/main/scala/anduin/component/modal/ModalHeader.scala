@@ -37,7 +37,7 @@ object ModalHeader {
   )
 
   private val closeStyles = TagMod(
-    Style.position.absolute.coordinate.top0.background.white,
+    Style.position.absolute.position.pinTop.background.white,
     Style.flexbox.flex.flexbox.itemsCenter.height.pc100, // center vertical
     ^.right := "12px"
   )

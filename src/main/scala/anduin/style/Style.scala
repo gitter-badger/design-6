@@ -11,6 +11,15 @@ class Style(val classes: List[String]) {
 
   def value: String = classes.mkString(" ").trim
 
+  // Layout
+  def display: Display = Display(classes)
+  def overflow: Overflow = Overflow(classes)
+  def position: Position = Position(classes)
+
+  // Spacing
+  def margin: Margin = Margin(classes)
+  def padding: Padding = Padding(classes)
+
   // Sizing
   def width: Width = Width(classes)
   def maxWidth: MaxWidth = MaxWidth(classes)
@@ -28,10 +37,8 @@ class Style(val classes: List[String]) {
   def borderStyle: BorderStyle = BorderStyle(classes)
   def borderWidth: BorderWidth = BorderWidth(classes)
   def color: Color = Color(classes)
-  def coordinate: Coordinate = Coordinate(classes)
   def cursor: Cursor = Cursor(classes)
   def debugGrid: DebugGrid = DebugGrid(classes)
-  def display: Display = Display(classes)
   def disabled: Disabled = Disabled(classes)
   def flexbox: Flexbox = Flexbox(classes)
   def focus: Focus = Focus(classes)
@@ -44,11 +51,7 @@ class Style(val classes: List[String]) {
   def lineHeight: LineHeight = LineHeight(classes)
   // TODO: replace with List component
   def listing: Listing = Listing(classes)
-  def margin: Margin = Margin(classes)
   def opacity: Opacity = Opacity(classes)
-  def overflow: Overflow = Overflow(classes)
-  def padding: Padding = Padding(classes)
-  def position: Position = Position(classes)
   def pointerEvents: PointerEvents = PointerEvents(classes)
   def shadow: Shadow = Shadow(classes)
   // TODO: replace with Table component
@@ -61,7 +64,7 @@ class Style(val classes: List[String]) {
   def verticalAlign: VerticalAlign = VerticalAlign(classes)
   def whiteSpace: WhiteSpace = WhiteSpace(classes)
   def wordBreak: WordBreak = WordBreak(classes)
-  def zIndex: Zindex = Zindex(classes)
+  def zIndex: ZIndex = ZIndex(classes)
 
   override def toString: String = value
 }

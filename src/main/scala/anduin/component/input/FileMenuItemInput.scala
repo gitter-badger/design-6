@@ -48,7 +48,7 @@ object FileMenuItemInput {
     def render(props: Props, children: PropsChildren): VdomElement = {
       val input = <.input(
         ^.tpe := "file",
-        Style.position.absolute.coordinate.fill.opacity.pc0.width.pc100.height.pc100.cursor.pointer,
+        Style.position.absolute.position.pinAll.opacity.pc0.width.pc100.height.pc100.cursor.pointer,
         ^.accept := props.acceptTypes,
         ^.multiple := props.isMultiple,
         ^.onChange ==> onChange

@@ -69,7 +69,7 @@ object Modal {
   // Internal rendering
 
   private val overlayStaticMod = TagMod(
-    Style.position.fixed.coordinate.fill.overflow.autoY,
+    Style.position.fixed.position.pinAll.overflow.autoY,
     ^.backgroundColor := "rgba(48, 64, 77, 0.9)",
     // To center the container. We should not use margin hor auto at container
     // because container's width might be unknown (i.e. Width.Content)

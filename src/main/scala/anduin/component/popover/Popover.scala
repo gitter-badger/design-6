@@ -43,7 +43,7 @@ object Popover {
   // the overlay matches the size and position of body tag, in order for Popper
   // to work
   private val overlayStyles = TagMod(
-    Style.position.absolute.width.pc100.height.pc100.coordinate.fill,
+    Style.position.absolute.width.pc100.height.pc100.position.pinAll,
     // Backward compatible
     // https://github.com/anduintransaction/stargazer/issues/17011
     Style.zIndex.idx999

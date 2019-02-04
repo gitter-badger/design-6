@@ -65,7 +65,7 @@ object Radio {
     // alignment of the dot
     <.span(
       size,
-      Style.position.absolute.coordinate.left0.coordinate.top0,
+      Style.position.absolute.position.pinLeft.position.pinTop,
       Style.flexbox.flex.flexbox.justifyCenter.flexbox.itemsCenter,
       <.span(
         TagMod(^.width := "8px", ^.height := "8px"),
