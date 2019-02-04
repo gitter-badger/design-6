@@ -9,35 +9,56 @@ import japgolly.scalajs.react.vdom.html_<^._
 import anduin.style.Style
 
 object PageCheckbox {
+
+  private val sampleAgreement: String =
+    """
+      |By accessing or using any web site or service made available
+      |by Anduin Transactions, you acknowledge that you have read
+      |and agree to be bound by these terms of service and agree to
+      |comply with all applicable laws and regulations, including
+      |US state and federal securities laws and regulations.
+    """.stripMargin
+
   def render(ctl: Pages.Ctl): VdomElement = {
     <.div(
       Header("Checkbox", Some(Checkbox))(),
       Toc(headings = Source.getTocHeadings)(),
       Markdown(
         """
-          |Checkboxes allow users to toggle between checked and unchecked
-          |states:
-          |x
+          |A checkbox allows users to mark an option as selected (checked) or
+          |not (unchecked):
         """.stripMargin
       )(),
       ExampleRich(Source.annotate({
-        DemoState.Bool(
-          initialValue = false,
-          render = (value, onChange) => {
-            Checkbox(
-              isChecked = value,
-              onChange = onChange
-            )("Remember me")
-          }
-        )()
+        DemoState.Bool(initialValue = false, render = (value, onChange) => {
+          Checkbox(
+            isChecked = value,
+            onChange = onChange
+          )("Remember me")
+        })()
       }))(),
+      ChecklistExample(
+        items = List(("Tomato", true), ("Orange", false), ("Apple", false)),
+        parent = Some("Fruit")
+      )(),
       Markdown(
         """
-          |# Controlled
+          |# Value
           |
           |```scala
           |isChecked: Boolean = false
           |onChange: Boolean => Callback = _ => Callback.empty
+          |```
+          |
+          |```scala
+          |// case class State(isFoo: Boolean, ...)
+          |
+          |Checkbox(
+          |  value = state.isFoo,
+          |  onChange = isChecked => {
+          |    scope.modState(_.copy(isFoo = isChecked)
+          |  }
+          |)("Foo")
           |```
         """.stripMargin
       )(),
@@ -54,6 +75,7 @@ object PageCheckbox {
         <.div(
           Style.flexbox.flex,
           Checkbox(isChecked = true, isDisabled = true)("Checked"),
+          <.div(Style.margin.right24),
           Checkbox(isChecked = false, isDisabled = true)("Unchecked")
         )
       }))(),
@@ -64,44 +86,46 @@ object PageCheckbox {
           |```scala
           |isIndeterminate: Boolean = false
           |```
-          |xxxxxxxx
         """.stripMargin
       )(),
       ExampleRich(Source.annotate({
-        DemoState.Bool(
-          initialValue = false,
-          render = (isChecked, setIsChecked) => {
-            Checkbox(
-              isChecked = isChecked,
-              onChange = setIsChecked,
-              isIndeterminate = true
-            )(s"Actual value: $isChecked")
-          }
-        )()
+        DemoState.Bool(initialValue = false, render = (value, onChange) => {
+          Checkbox(
+            isChecked = value,
+            onChange = onChange,
+            isIndeterminate = true
+          )(s"Actual value: $value")
+        })()
       }))(),
+      ChecklistExample(
+        items = List(
+          ("Term Sheet", true),
+          ("Restated Certificate of Incorporation", false),
+          ("Preferred Stock Investment Agreement", false)
+        ),
+        parent = Some("Legal documents")
+      )(),
       Markdown(
         """
           |# Text Wrap
         """.stripMargin
       )(),
       ExampleSimple()({
-        DemoState.Bool(
-          initialValue = false,
-          render = (value, onChange) => {
-            Checkbox(
-              isChecked = value,
-              onChange = onChange
-            )("""
-                |At the end of the day, you are solely responsible for your
-                |success and your failure. And the sooner you realize that, you
-                |accept that, and integrate that into your work ethic, you will
-                |start being successful. As long as you blame others for the
-                |reason you aren't where you want to be, you will always be a
-                |failure. Erin Cummings
-              """.stripMargin)
-          }
-        )()
-      })
+        DemoState.Bool(initialValue = false, render = (value, onChange) => {
+          Checkbox(
+            isChecked = value,
+            onChange = onChange
+          )(sampleAgreement)
+        })()
+      }),
+      ExampleSimple()({
+        DemoState.Bool(initialValue = false, render = (value, onChange) => {
+          <.div(
+            <.p(Style.margin.bottom8, sampleAgreement),
+            Checkbox(isChecked = value, onChange = onChange)("I agree")
+          )
+        })()
+      }),
     )
   }
 }

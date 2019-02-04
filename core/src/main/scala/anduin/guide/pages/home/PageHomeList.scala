@@ -81,7 +81,7 @@ private[home] object PageHomeList {
           Link(Page(ctl, Pages.Field(), isWIP = true))(),
           Link(Page(ctl, Pages.Dropdown(), isWIP = false))(),
           Link(Page(ctl, Pages.TextBox(), isWIP = true))(),
-          Link(Page(ctl, Pages.Checkbox(), isWIP = true))(),
+          Link(Page(ctl, Pages.Checkbox(), isWIP = false))(),
           Link(Page(ctl, Pages.Radio(), isWIP = true))()
         ),
         <.div(

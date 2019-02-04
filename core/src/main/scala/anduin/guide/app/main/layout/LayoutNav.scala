@@ -72,9 +72,8 @@ object LayoutNav {
             li(Title("Modal", Internal(Modal()))),
             li(Title("Tab", Internal(Tab()))),
             h("Form"),
-            li(
-              Title("Dropdown", Internal(Dropdown()), Some(_.isInstanceOf[DropdownT])),
-            ),
+            li(Title("Dropdown", Internal(Dropdown()))),
+            li(Title("Checkbox", Internal(Checkbox())))
           )
         ),
         h(""),
