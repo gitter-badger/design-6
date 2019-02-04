@@ -65,7 +65,6 @@ object LayoutNav {
               ),
             ),
             li(Title("Progress", Internal(Progress()))),
-            li(Title("Toggle", Internal(Toggle()))),
             h("Container"),
             li(Title("Card", Internal(Card()))),
             li(Title("Table", Internal(Table()))),
