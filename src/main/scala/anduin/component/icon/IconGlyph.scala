@@ -170,6 +170,7 @@ object IconGlyph {
   object StrikeThrough extends IconGlyph { val d = "M1 8.5v-1h14v1H1zm5.29-2H4.15a.7.7 0 0 1-.67-.51 4.02 4.02 0 0 1-.13-1.03C3.35 2.58 5.25 1 8.1 1c2.52 0 4.39 1.43 4.67 3.5.02.17-.12.33-.3.33h-1.4a.3.3 0 0 1-.29-.24C10.5 3.5 9.5 2.83 8.07 2.83c-1.6 0-2.67.79-2.67 1.99 0 .61.3 1.06.95 1.4.14.08.1.28-.06.28zm4 3h2.5c.14.4.21.84.21 1.35C13 13.4 11.07 15 7.98 15c-2.76 0-4.65-1.38-4.95-3.58a.3.3 0 0 1 .3-.33h1.43c.15 0 .26.1.3.23.27 1.13 1.44 1.84 3.07 1.84s2.82-.86 2.82-2.05c0-.56-.24-1-.73-1.34-.12-.08-.07-.27.07-.27z" }
   // Interface - Helper
   object CheckBold extends IconGlyph { val d = "M6.31 11.93L3.15 8.95a.5.5 0 0 1 0-.71l1.07-1.08c.2-.2.5-.2.7-.01L6.5 8.54l4.59-4.4a.5.5 0 0 1 .7 0l1.07 1.08c.2.2.2.51 0 .7l-6.18 6c-.1.1-.26.1-.36 0" }
+  object MinusBold extends IconGlyph { val d = "M5 7h6a1 1 0 0 1 1 1v1a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V8a1 1 0 0 1 1-1z" }
   object Circle extends IconGlyph { val d = "M12 8a4 4 0 1 1-8 0 4 4 0 0 1 8 0" }
   object CircleLine extends IconGlyph { val d = "M8 4a4 4 0 1 1 0 8 4 4 0 0 1 0-8zm0 1.5a2.5 2.5 0 1 0 0 5 2.5 2.5 0 0 0 0-5z" }
   object CircleLargeLine extends IconGlyph { val d = "M8 15A7 7 0 1 0 8 1a7 7 0 0 0 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z" }

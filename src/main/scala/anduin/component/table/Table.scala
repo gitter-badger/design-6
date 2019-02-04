@@ -105,7 +105,7 @@ class Table[A] {
       val styles = TagMod(
         SStyle.width.pc100.background.white,
         ^.cellSpacing := "0",
-        TagMod.when(props.columns.count(_.width.isEmpty) < 2)(SStyle.table.fixed),
+        TagMod.when(props.columns.count(_.width.isEmpty) < 2)(^.tableLayout.fixed),
         props.style.table
       )
 

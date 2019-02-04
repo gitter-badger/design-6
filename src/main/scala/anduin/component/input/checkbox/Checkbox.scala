@@ -2,8 +2,6 @@
 
 package anduin.component.input.checkbox
 
-import anduin.component.button.Button
-import anduin.component.icon.Icon
 import anduin.style.Style
 
 // scalastyle:off underscore.import
@@ -13,8 +11,9 @@ import japgolly.scalajs.react.vdom.html_<^._
 
 final case class Checkbox(
   isChecked: Boolean,
+  onChange: Boolean => Callback = _ => Callback.empty,
   isDisabled: Boolean = false,
-  onChange: Boolean => Callback = _ => Callback.empty
+  isIndeterminate: Boolean = false
 ) {
   def apply(children: VdomNode*): VdomElement = {
     Checkbox.component(this)(children: _*)
@@ -25,64 +24,33 @@ object Checkbox {
 
   private type Props = Checkbox
 
-  private val size = "20"
-  private val sizePx = s"${size}px"
-
-  private def renderLabel(props: Checkbox, children: PropsChildren) = TagMod.when(children.nonEmpty) {
-    <.span(
-      Style.flexbox.fill,
-      Style.margin.left8,
-      TagMod.when(props.isDisabled) { Style.color.gray6 },
-      children
-    )
+  private def renderText(props: Checkbox, children: PropsChildren): Option[VdomElement] = {
+    if (children.isEmpty) {
+      None
+    } else {
+      val color = TagMod.when(props.isDisabled)(Style.color.gray5)
+      val label = <.span(Style.flexbox.fill.margin.left8, color, children)
+      Some(label)
+    }
   }
 
-  private def renderTick(props: Checkbox) = TagMod.when(props.isChecked) {
-    <.span(
-      Style.position.absolute.flexbox.flex.flexbox.justifyCenter.flexbox.itemsCenter,
-      // Should not consume events
-      Style.pointerEvents.none,
-      TagMod(^.width := sizePx, ^.height := sizePx),
-      if (props.isDisabled) Style.color.gray6 else Style.color.white,
-      Icon(name = Icon.Glyph.CheckBold)()
-    )
-  }
-
-  private val inputStyles = TagMod(
-    TagMod(^.width := sizePx, ^.height := sizePx),
-    Style.flexbox.none,
-    Style.focus.outline.transition.allWithOutline,
-    Style.borderRadius.px2.border.all.cursor.pointer,
-    Style.disabled.backgroundGray2.disabled.borderGray4.disabled.shadowNone
-  )
-
-  private def renderInput(props: Checkbox) = {
-    <.input(
-      // behaviours
-      ^.tpe := "checkbox",
-      ^.disabled := props.isDisabled,
-      ^.checked := props.isChecked,
-      ^.onChange ==> { e: ReactEventFromInput =>
-        props.onChange(e.target.checked)
-      },
-      // styles
-      inputStyles,
-      if (props.isChecked) {
-        Button.Style.Full(color = Button.Color.Blue).colorNormal
-      } else {
-        Button.Style.Full(color = Button.Color.White).colorNormal
-      }
-    )
+  private def renderInput(props: Props): VdomElement = {
+    val input = CheckboxInput(
+      isChecked = props.isChecked,
+      onChange = props.onChange,
+      isDisabled = props.isDisabled,
+      isIndeterminate = props.isIndeterminate
+    )()
+    <.div(Style.flexbox.none, input)
   }
 
   private def render(props: Props, children: PropsChildren): VdomElement = {
     <.label(
       Style.flexbox.flex.flexbox.itemsStart,
-      Style.width.maxContent.maxWidth.pc100,
-      Style.cursor.pointer.position.relative,
+      Style.position.relative.width.maxContent.maxWidth.pc100,
+      if (props.isDisabled) Style.pointerEvents.none else Style.cursor.pointer,
       renderInput(props),
-      renderTick(props),
-      renderLabel(props, children)
+      renderText(props, children)
     )
   }
 
