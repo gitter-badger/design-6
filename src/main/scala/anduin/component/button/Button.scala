@@ -95,7 +95,7 @@ object Button {
 
   private[component] def getStyles(props: Props, children: Option[PropsChildren]): TagMod = TagMod(
     props.style.container, {
-      val isIconOnly = props.style.iconProps.isDefined && children.exists(_.isEmpty)
+      val isIconOnly = props.style.iconInfo.isDefined && children.exists(_.isEmpty)
       if (isIconOnly) props.style.sizeSquare else props.style.sizeRect
     },
     if (props.isDisabled) props.style.colorDisabled else props.style.colorNormal
@@ -111,16 +111,25 @@ object Button {
     }
   )
 
-  private[component] def getContent(props: Props, children: PropsChildren): TagMod = {
-    val icon = props.style.iconProps.map(iconInfo => {
-      val margin = TagMod.when(children.nonEmpty)(SStyle.margin.right8)
-      <.span(margin, iconInfo())
-    })
-    TagMod(
-      <.span(props.style.body, icon, children),
-      props.style.overlay
-    )
+  private def getIcon(props: Props, children: PropsChildren): Option[VdomElement] = {
+    props.style.iconInfo.map { node =>
+      <.span(
+        // if there is no children then there is no need for margin
+        TagMod.when(children.nonEmpty)(SStyle.margin.right8),
+        // if there is no children then icon will use text color. Only when
+        // used with children then icon needs to be lighter
+        TagMod.when(children.nonEmpty) {
+          if (props.isDisabled) props.style.iconColorDisabled else props.style.iconColorNormal
+        },
+        node()
+      )
+    }
   }
+
+  private[component] def getContent(props: Props, children: PropsChildren): TagMod = TagMod(
+    <.span(props.style.body, getIcon(props, children), children),
+    props.style.overlay
+  )
 
   private[component] def getMods(props: Props, children: PropsChildren): TagMod = TagMod(
     getStyles(props, Some(children)),

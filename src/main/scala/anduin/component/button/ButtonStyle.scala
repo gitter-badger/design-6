@@ -11,10 +11,13 @@ import japgolly.scalajs.react.vdom.html_<^._
 // scalastyle:on underscore.import
 
 sealed trait ButtonStyle {
-  def iconProps: Option[Icon]
   def container: TagMod
   def body: TagMod
   def overlay: TagMod
+  // icon
+  def iconInfo: Option[Icon]
+  def iconColorNormal: TagMod
+  def iconColorDisabled: TagMod
   // these are separated because isDisabled is
   // not a property of Style but Button
   def colorDisabled: TagMod
@@ -69,48 +72,50 @@ object ButtonStyle {
 
   // convenient shortcut
   private val bgc = Style.background
-  private val bc = Style.borderColor
 
   // ============================
-  // Private traits (for Public traits below)
+  // Common styles (for Public traits below)
   // ============================
+
   // "Box" buttons have traditional button-like appearance, like having
   // width, height and support icon. In other words, they are not "Link".
   sealed trait Box {
-    def color: Color
     def height: Height
     def icon: Option[Icon.Name]
     def isFullWidth: Boolean
     def isBusy: Boolean
-    def isSelected: Boolean
+  }
+  object Box {
 
     // Icon
-    final def iconProps: Option[Icon] = icon.map(name => Icon(name = name, size = height.iconSize))
+    def getIconInfo(box: Box): Option[Icon] = {
+      box.icon.map(name => Icon(name = name, size = box.height.iconSize))
+    }
 
     // Size
-    final def sizeSquare: TagMod = height.square
-    private def sizeWidth = if (isFullWidth) Style.width.pc100 else Style.width.maxContent
-    final def sizeRect: TagMod = TagMod(sizeWidth, height.rect)
+    def getSizeSquare(box: Box): TagMod = box.height.square
+    def getSizeRect(box: Box): TagMod = TagMod(
+      if (box.isFullWidth) Style.width.pc100 else Style.width.maxContent,
+      box.height.rect
+    )
 
-    // Body & Container
-    final def boxContainer: TagMod = TagMod(
+    // Body, Container & Overlay
+    def getContainer(box: Box): TagMod = TagMod(
       Style.lineHeight.px16.fontWeight.medium.whiteSpace.noWrap,
       Style.focus.outline.transition.allWithOutline.borderRadius.px2,
       Style.display.block.position.relative,
-      TagMod.when(isBusy)(Style.pointerEvents.none),
+      TagMod.when(box.isBusy)(Style.pointerEvents.none),
       // To ensure Button tpe Link has same style with other types
       Style.hover.underlineNone
     )
-    final def body: TagMod = TagMod(
+    def getBody(box: Box): TagMod = TagMod(
       Style.flexbox.flex.flexbox.itemsCenter.flexbox.justifyCenter,
       // Necessary to use Parent's height. Without this the vertical
       // alignment will not work in case of "a" tag (e.g. Button tpe Link)
       Style.height.pc100,
-      TagMod.when(isBusy)(Style.opacity.pc0)
+      TagMod.when(box.isBusy)(Style.opacity.pc0)
     )
-
-    // Overlay
-    final def overlay: TagMod = TagMod.when(isBusy) {
+    def getOverlay(box: Box): TagMod = TagMod.when(box.isBusy) {
       <.span(
         Style.flexbox.flex.flexbox.itemsCenter.flexbox.justifyCenter,
         Style.position.absolute.coordinate.fill,
@@ -118,121 +123,193 @@ object ButtonStyle {
       )
     }
 
-    final def boxDisabled: TagMod = Style.color.gray4
+    // Color
+    val colorDisabled: TagMod = Style.color.gray4
+    val iconColorDisabled: TagMod = Style.color.gray3
   }
+
   // "BoxNoBg" buttons don't have background defined at normal state. It
   // is for "Ghost" and "Minimal".
   sealed trait BoxNoBg {
     def isSelected: Boolean
     def isBusy: Boolean
     def color: Color
+  }
+  object BoxNoBg {
 
-    private def is: Boolean = isSelected || isBusy
-    private def textNormal: TagMod = color match {
+    // scalastyle:off cyclomatic.complexity
+    private def getBgNormal(boxNoBg: BoxNoBg): TagMod = {
+      // We see "isBusy" as a special state of "isSelected"
+      val isSelected: Boolean = boxNoBg.isSelected || boxNoBg.isBusy
+      boxNoBg.color match {
+        case _: Color.White => if (isSelected) bgc.gray8 else Style.background.hoverGray7.background.activeGray8
+        case _: Color.Black => if (isSelected) bgc.gray4 else Style.background.hoverGray3.background.activeGray4
+        case _: Color.Blue  => if (isSelected) bgc.blue2 else Style.background.hoverBlue1.background.activeBlue2
+        case _: Color.Red   => if (isSelected) bgc.red2 else Style.background.hoverRed1.background.activeRed2
+        case _: Color.Green => if (isSelected) bgc.green2 else Style.background.hoverGreen1.background.activeGreen2
+      }
+    }
+    // scalastyle:on cyclomatic.complexity
+
+    private def getTextNormal(boxNoBg: BoxNoBg): TagMod = boxNoBg.color match {
       case _: Color.White => Style.color.gray4
       case _: Color.Black => Style.color.gray7
+      case _: Color.Blue  => Style.color.blue5
+      case _: Color.Green => Style.color.green5
+      case _: Color.Red   => Style.color.red5
+    }
+
+    def getColorNormal(boxNoBg: BoxNoBg): TagMod = TagMod(getTextNormal(boxNoBg), getBgNormal(boxNoBg))
+
+    def getIconColorNormal(boxNoBg: BoxNoBg): TagMod = boxNoBg.color match {
+      case _: Color.White => Style.color.gray5
+      case _: Color.Black => Style.color.gray6
       case _: Color.Blue  => Style.color.blue4
       case _: Color.Green => Style.color.green4
       case _: Color.Red   => Style.color.red4
     }
-    private def text: TagMod = if (is) Style.color.white else TagMod(textNormal, Style.color.activeWhite)
-    // scalastyle:off cyclomatic.complexity
-    private def bg: TagMod = color match {
-      case _: Color.White => if (is) bgc.gray6 else Style.background.hoverGray7.background.activeGray6
-      case _: Color.Black => if (is) bgc.gray6 else Style.background.hoverGray3.background.activeGray6
-      case _: Color.Blue  => if (is) bgc.blue4 else Style.background.hoverBlue1.background.activeBlue4
-      case _: Color.Red   => if (is) bgc.red4 else Style.background.hoverRed1.background.activeRed4
-      case _: Color.Green => if (is) bgc.green4 else Style.background.hoverGreen1.background.activeGreen4
-    }
-    // scalastyle:on cyclomatic.complexity
-    final def boxNoBgNormal: TagMod = TagMod(text, bg)
   }
-  sealed trait Border {
-    final def borderContainer: TagMod = Style.border.all
-    final def borderDisabled: TagMod = Style.borderColor.gray3
+
+  // "Border" buttons, well, have border. This is Full and Ghost
+  // - It is pretty simple here actually, because the border color is different
+  //   for each style
+  object Border {
+    val container: TagMod = Style.border.all
+    val colorDisabled: TagMod = Style.borderColor.gray3
   }
 
   // ============================
   // Public traits (for Button.scala)
+  // - These can actually be final case class for external use. However, we
+  //   want to keep their implement detail here in this file so they are
+  //   defined as traits and the final case class at "Button.scala" will
+  //   extend them
   // ============================
+
   trait Text extends ButtonStyle {
     def color: Color
     def isBlock: Boolean
 
-    final def iconProps: Option[Icon] = None
-    final def container: TagMod = TagMod(
-      Style.hover.underline,
-      TagMod.when(isBlock)(Style.display.block)
-    )
+    final def container: TagMod = TagMod(Style.hover.underline, TagMod.when(isBlock)(Style.display.block))
     final def body: TagMod = TagMod.empty
     final def overlay: TagMod = TagMod.empty
 
+    final def iconInfo: Option[Icon] = None
+    final def iconColorNormal: TagMod = TagMod.empty
+    final def iconColorDisabled: TagMod = TagMod.empty
+
     final def colorDisabled: TagMod = Style.color.gray5
-    final def colorNormal: TagMod = color match {
+    final def colorNormal: TagMod = Text.getColorNormal(this)
+
+    final def sizeSquare: TagMod = TagMod.empty
+    final def sizeRect: TagMod = TagMod.empty
+  }
+  object Text {
+    def getColorNormal(text: Text): TagMod = text.color match {
       case _: Color.White => Style.color.white
       case _: Color.Black => Style.color.gray8
       case _: Color.Blue  => Style.color.blue4
       case _: Color.Green => Style.color.green4
       case _: Color.Red   => Style.color.red4
     }
-    // There should be no size in Link
-    final def sizeSquare: TagMod = TagMod.empty
-    final def sizeRect: TagMod = TagMod.empty
   }
-  trait Full extends ButtonStyle with Box with Border {
-    final def container: TagMod = TagMod(borderContainer, boxContainer)
 
-    // Styles that are different between White and other colors
-    private def text: TagMod = color match {
-      case _: Color.White => Style.color.gray7
+  trait Full extends ButtonStyle with Box {
+    def color: Color
+    def isSelected: Boolean
+
+    final def container: TagMod = TagMod(Border.container, Box.getContainer(this))
+    final def body: TagMod = Box.getBody(this)
+    final def overlay: TagMod = Box.getOverlay(this)
+
+    final def iconInfo: Option[Icon] = Box.getIconInfo(this)
+    final def iconColorNormal: TagMod = Full.getIconColorNormal(this)
+    final def iconColorDisabled: TagMod = Box.iconColorDisabled
+
+    final def colorDisabled: TagMod = TagMod(Box.colorDisabled, Border.colorDisabled, Style.background.gray1)
+    final def colorNormal: TagMod = Full.getColorNormal(this)
+
+    final def sizeSquare: TagMod = Box.getSizeSquare(this)
+    final def sizeRect: TagMod = Box.getSizeRect(this)
+  }
+  object Full {
+    def getIconColorNormal(full: Full): TagMod = full.color match {
+      case _: Color.White => Style.color.gray6
       case _              => Style.color.white
     }
-    private def shadow: TagMod = color match {
-      case _: Color.White => Style.shadow.blur1Light
-      case _              => Style.shadow.blur1Dark
-    }
-    // Styles that are different between colors
+
     // scalastyle:off cyclomatic.complexity
-    private def is: Boolean = isSelected || isBusy
-    private def bg: TagMod = color match {
-      case _: Color.White => if (is) bgc.gray2 else bgc.gray1.background.hoverWhite.background.activeGray2
-      case _: Color.Black => if (is) bgc.gray8 else bgc.gray7.background.hoverGray6.background.activeGray8
-      case _: Color.Blue  => if (is) bgc.blue5 else bgc.blue4.background.hoverBlue3.background.activeBlue5
-      case _: Color.Red   => if (is) bgc.red5 else bgc.red4.background.hoverRed3.background.activeRed5
-      case _: Color.Green => if (is) bgc.green5 else bgc.green4.background.hoverGreen3.background.activeGreen5
+    private def getBgNormal(full: Full): TagMod = {
+      val isSelected: Boolean = full.isSelected || full.isBusy
+      full.color match {
+        case _: Color.White => if (isSelected) bgc.gray2 else bgc.gray1.background.hoverWhite.background.activeGray2
+        case _: Color.Black => if (isSelected) bgc.gray8 else bgc.gray7.background.hoverGray6.background.activeGray8
+        case _: Color.Blue  => if (isSelected) bgc.blue5 else bgc.blue4.background.hoverBlue3.background.activeBlue5
+        case _: Color.Red   => if (isSelected) bgc.red5 else bgc.red4.background.hoverRed3.background.activeRed5
+        case _: Color.Green => if (isSelected) bgc.green5 else bgc.green4.background.hoverGreen3.background.activeGreen5
+      }
     }
     // scalastyle:on cyclomatic.complexity
-    private def border: TagMod = color match {
-      case _: Color.White => bc.gray4
-      case _: Color.Black => bc.gray8
-      case _: Color.Blue  => bc.blue5
-      case _: Color.Red   => bc.red5
-      case _: Color.Green => bc.green5
+
+    private def getBorderNormal(full: Full): TagMod = full.color match {
+      case _: Color.White => Style.borderColor.gray4
+      case _: Color.Black => Style.borderColor.gray8
+      case _: Color.Blue  => Style.borderColor.blue5
+      case _: Color.Red   => Style.borderColor.red5
+      case _: Color.Green => Style.borderColor.green5
     }
-    final def colorNormal: TagMod = TagMod(text, shadow, bg, border)
-    final def colorDisabled: TagMod = TagMod(borderDisabled, boxDisabled, Style.background.gray1)
-  }
-  trait Ghost extends ButtonStyle with Box with Border with BoxNoBg {
-    final def container: TagMod = TagMod(borderContainer, boxContainer)
-    // scalastyle:off cyclomatic.complexity
-    private def is: Boolean = isSelected || isBusy
-    private def border: TagMod = color match {
-      case _: Color.White => if (is) bc.gray5 else bc.gray7.borderColor.activeGray5
-      case _: Color.Black => if (is) bc.gray7 else bc.gray4.borderColor.activeGray7
-      case _: Color.Blue  => if (is) bc.blue5 else bc.blue4.borderColor.activeBlue5
-      case _: Color.Red   => if (is) bc.red5 else bc.red4.borderColor.activeRed5
-      case _: Color.Green => if (is) bc.green5 else bc.green4.borderColor.activeGreen5
+
+    def getColorNormal(full: Full): TagMod = {
+      val textAndShadow: TagMod = full.color match {
+        case _: Color.White => Style.color.gray7.shadow.blur1Light
+        case _              => Style.color.white.shadow.blur1Dark
+      }
+      TagMod(textAndShadow, getBgNormal(full), getBorderNormal(full))
     }
-    // scalastyle:on cyclomatic.complexity
-    final def colorNormal: TagMod = TagMod(boxNoBgNormal, border)
-    final def colorDisabled: TagMod = TagMod(borderDisabled, boxDisabled)
   }
+
+  trait Ghost extends ButtonStyle with Box with BoxNoBg {
+    final def container: TagMod = TagMod(Border.container, Box.getContainer(this))
+    final def body: TagMod = Box.getBody(this)
+    final def overlay: TagMod = Box.getOverlay(this)
+
+    final def iconInfo: Option[Icon] = Box.getIconInfo(this)
+    final def iconColorNormal: TagMod = BoxNoBg.getIconColorNormal(this)
+    final def iconColorDisabled: TagMod = Box.iconColorDisabled
+
+    final def colorNormal: TagMod = TagMod(BoxNoBg.getColorNormal(this), Ghost.getBorderNormal(this))
+    final def colorDisabled: TagMod = TagMod(Border.colorDisabled, Box.colorDisabled)
+
+    final def sizeSquare: TagMod = Box.getSizeSquare(this)
+    final def sizeRect: TagMod = Box.getSizeRect(this)
+  }
+  object Ghost {
+    def getBorderNormal(ghost: Ghost): TagMod = ghost.color match {
+      case _: Color.White => Style.borderColor.gray7
+      case _: Color.Black => Style.borderColor.gray4
+      case _: Color.Blue  => Style.borderColor.blue3
+      case _: Color.Red   => Style.borderColor.red3
+      case _: Color.Green => Style.borderColor.green3
+    }
+  }
+
   trait Minimal extends ButtonStyle with Box with BoxNoBg {
     // We want the width of a button is the same whether it's Minimal or
-    // Ghost so here we have a fake border
-    final def container: TagMod = TagMod(Style.border.all, boxContainer)
-    private def colorBorder = Style.borderColor.transparent
-    final def colorNormal: TagMod = TagMod(colorBorder, boxNoBgNormal)
-    final def colorDisabled: TagMod = TagMod(colorBorder, boxDisabled)
+    // Ghost so here we have a fake border. Note that we will NOT color this
+    // border at all
+    final def container: TagMod = TagMod(Border.container, Box.getContainer(this))
+    final def body: TagMod = Box.getBody(this)
+    final def overlay: TagMod = Box.getOverlay(this)
+
+    final def iconInfo: Option[Icon] = Box.getIconInfo(this)
+    final def iconColorNormal: TagMod = BoxNoBg.getIconColorNormal(this)
+    final def iconColorDisabled: TagMod = Box.iconColorDisabled
+
+    final def colorNormal: TagMod = TagMod(BoxNoBg.getColorNormal(this), Style.borderColor.transparent)
+    final def colorDisabled: TagMod = TagMod(Box.colorDisabled, Style.borderColor.transparent)
+
+    final def sizeSquare: TagMod = Box.getSizeSquare(this)
+    final def sizeRect: TagMod = Box.getSizeRect(this)
   }
+
 }
