@@ -68,8 +68,9 @@ private[component] object TextBoxStyle {
 
   private val contextStatic = TagMod(
     Style.background.gray2.color.gray6,
-    Style.borderWidth.right0.borderRadius.left.borderColor.gray4,
-    Style.flexbox.flex.flexbox.itemsCenter
+    Style.borderRadius.left.borderColor.gray4,
+    Style.flexbox.flex.flexbox.itemsCenter,
+    ^.borderRightWidth := "0"
   )
 
   def getContext(props: Props): TagMod =

@@ -44,7 +44,7 @@ object StepperHeader {
     private val static = TagMod(
       Style.flexbox.none.width.px20.height.px20,
       Style.flexbox.flex.flexbox.itemsCenter.flexbox.justifyCenter,
-      Style.border.all.borderWidth.px2.borderRadius.pc100
+      Style.border.all.borderWidth.px2.borderRadius.pill
     )
 
     def render(props: Props, title: String): VdomElement = {

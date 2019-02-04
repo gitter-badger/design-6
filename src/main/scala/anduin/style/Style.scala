@@ -26,16 +26,18 @@ class Style(val classes: List[String]) {
   def height: Height = Height(classes)
   def minHeight: MinHeight = MinHeight(classes)
 
-  def active: Active = Active(classes)
-  def animation: Animation = Animation(classes)
+  // Background
   def background: Background = Background(classes)
-  def backgroundPosition: BackgroundPosition = BackgroundPosition(classes)
-  def backgroundSize: BackgroundSize = BackgroundSize(classes)
+
+  // Border
   def border: Border = Border(classes)
   def borderColor: BorderColor = BorderColor(classes)
   def borderRadius: BorderRadius = BorderRadius(classes)
   def borderStyle: BorderStyle = BorderStyle(classes)
   def borderWidth: BorderWidth = BorderWidth(classes)
+
+  def active: Active = Active(classes)
+  def animation: Animation = Animation(classes)
   def color: Color = Color(classes)
   def cursor: Cursor = Cursor(classes)
   def debugGrid: DebugGrid = DebugGrid(classes)

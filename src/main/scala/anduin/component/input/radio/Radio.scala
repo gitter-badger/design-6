@@ -37,7 +37,7 @@ object Radio {
 
   private val inputStyles = TagMod(
     Style.focus.outline.transition.allWithOutline,
-    Style.borderRadius.pc100.border.all,
+    Style.borderRadius.pill.border.all,
     Style.disabled.backgroundGray2.disabled.borderGray4.disabled.shadowNone,
     size
   )
@@ -74,7 +74,7 @@ object Radio {
         } else {
           Style.background.white
         },
-        Style.borderRadius.pc100
+        Style.borderRadius.pill
       )
     )
   }

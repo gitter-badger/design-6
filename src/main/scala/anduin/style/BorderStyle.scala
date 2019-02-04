@@ -2,8 +2,5 @@
 package anduin.style
 
 private[style] final case class BorderStyle(classes: List[String] = List.empty) {
-  def dotted: Style = new Style(classes :+ "b--dotted")
-  def dashed: Style = new Style(classes :+ "b--dashed")
-  def solid: Style = new Style(classes :+ "b--solid")
-  def none: Style = new Style(classes :+ "b--none")
+  def dashed: Style = new Style(classes :+ "border-dashed")
 }
