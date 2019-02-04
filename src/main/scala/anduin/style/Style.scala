@@ -26,7 +26,6 @@ class Style(val classes: List[String]) {
   def height: Height = Height(classes)
   def minHeight: MinHeight = MinHeight(classes)
 
-  def active: Active = Active(classes)
   def animation: Animation = Animation(classes)
   def background: Background = Background(classes)
   def backgroundPosition: BackgroundPosition = BackgroundPosition(classes)
@@ -38,7 +37,6 @@ class Style(val classes: List[String]) {
   def borderWidth: BorderWidth = BorderWidth(classes)
   def color: Color = Color(classes)
   def cursor: Cursor = Cursor(classes)
-  def debugGrid: DebugGrid = DebugGrid(classes)
   def disabled: Disabled = Disabled(classes)
   def flexbox: Flexbox = Flexbox(classes)
   def focus: Focus = Focus(classes)
@@ -47,15 +45,12 @@ class Style(val classes: List[String]) {
   def fontStyle: FontStyle = FontStyle(classes)
   def fontWeight: FontWeight = FontWeight(classes)
   def hover: Hover = Hover(classes)
-  def letterSpacing: LetterSpacing = LetterSpacing(classes)
   def lineHeight: LineHeight = LineHeight(classes)
   // TODO: replace with List component
   def listing: Listing = Listing(classes)
   def opacity: Opacity = Opacity(classes)
   def pointerEvents: PointerEvents = PointerEvents(classes)
   def shadow: Shadow = Shadow(classes)
-  // TODO: replace with Table component
-  def table: Table = Table(classes)
   def textAlign: TextAlign = TextAlign(classes)
   def textTransform: TextTransform = TextTransform(classes)
   // TODO: only usage is Truncate, which should be a component
