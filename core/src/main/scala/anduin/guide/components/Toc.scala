@@ -60,7 +60,7 @@ object Toc {
   }
 
   private val mainStyles = TagMod(
-    Style.position.fixed.coordinate.top0.height.pc100,
+    Style.position.fixed.position.pinTop.height.pc100,
     ^.left := "calc(50% + calc(576px / 2))",
     ^.paddingTop := "128px"
   )

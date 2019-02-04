@@ -30,7 +30,7 @@ object Layout {
 
   private def renderSidebar(ctl: Pages.Ctl, res: Res) = {
     <.div(
-      Style.position.fixed.coordinate.top0.coordinate.left0.zIndex.idx1,
+      Style.position.fixed.position.pinTop.position.pinLeft.zIndex.idx1,
       Style.flexbox.flex.flexbox.column.height.pc100,
       <.div(
         Style.flexbox.none,
