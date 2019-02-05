@@ -102,7 +102,7 @@ object ButtonStyle {
     // Body, Container & Overlay
     def getContainer(box: Box): TagMod = TagMod(
       Style.lineHeight.px16.fontWeight.medium.whiteSpace.noWrap,
-      Style.focus.outline.transition.allWithOutline.borderRadius.px2,
+      Style.focus.outlineLight.transition.allWithOutline.borderRadius.px2,
       Style.display.block.position.relative,
       TagMod.when(box.isBusy)(Style.pointerEvents.none),
       // To ensure Button tpe Link has same style with other types

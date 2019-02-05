@@ -3,9 +3,9 @@
 package anduin.style
 
 private[style] final case class Focus(classes: List[String] = List.empty) {
-  def outline: Style = new Style(classes :+ "fc-o")
-  def outlineNone: Style = new Style(classes :+ "fc-on")
-  def outlineDark: Style = new Style(classes :+ "fc-od")
-  def border: Style = new Style(classes :+ "fc-b")
-  def spread: Style = new Style(classes :+ "fc-s")
+  def outlineNone: Style = new Style(classes :+ "focus:outline-none")
+  def outlineLight: Style = new Style(classes :+ "focus:outline-light")
+  def outlineDark: Style = new Style(classes :+ "focus:outline-dark")
+  def border: Style = new Style(classes :+ "focus:border")
+  def spread: Style = new Style(classes :+ "focus:spread")
 }

@@ -39,7 +39,7 @@ private[tab] object TabMinimal {
     <.button(
       ComponentUtils.testId(this, s"${title.rawNode.toString.replaceAll("[ ']", "")}Button"),
       // === Styles
-      Style.focus.outline.transition.allWithOutline.padding.hor12.padding.ver8.margin.hor4,
+      Style.focus.outlineLight.transition.allWithOutline.padding.hor12.padding.ver8.margin.hor4,
       if (isActive) activeStyles else normalStyles,
       // === Behaviours
       ^.tpe := "button",

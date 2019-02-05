@@ -26,7 +26,7 @@ object CheckboxInput {
 
   private val inputStaticStyles = TagMod(
     Style.display.block.width.px16.height.px16.borderRadius.px2.border.all,
-    Style.focus.outline.transition.allWithOutline
+    Style.focus.outlineLight.transition.allWithOutline
   )
 
   private def inputOnChange(props: Props)(e: ReactEventFromInput) =
