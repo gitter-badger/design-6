@@ -30,11 +30,13 @@ private[editor] object ShortcutModal {
 
     ModalBody()(
       <.ul(
-        ^.cls := "list os-specific-keys flex",
+        Style.flexbox.flex,
+        ^.cls := "list os-specific-keys",
         shortcuts.toVdomArray {
           case (key, description) =>
             <.li(
-              ^.cls := "item flex items-center",
+              Style.flexbox.flex.flexbox.itemsCenter,
+              ^.cls := "item",
               ^.key := s"key-$key",
               cmdKey,
               operator,
@@ -46,8 +48,9 @@ private[editor] object ShortcutModal {
       <.ul(
         ^.cls := "list universal-keys",
         <.li(
-          ^.cls := "item flex items-center",
-          <.span(^.cls := "key ph2", "Enter / Return"),
+          Style.flexbox.flex.flexbox.itemsCenter,
+          ^.cls := "item",
+          <.span(Style.padding.hor8, ^.cls := "key", "Enter / Return"),
           <.span(Style.margin.left12, "New Line")
         )
       )

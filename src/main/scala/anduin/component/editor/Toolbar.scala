@@ -99,7 +99,8 @@ object Toolbar {
       val hasLink = hasLinks(props.value)
       <.div(
         ComponentUtils.testId(this, "ToolbarContainer"),
-        ^.cls := "editor-toolbar flex pa1 items-center",
+        ^.cls := "editor-toolbar",
+        Style.flexbox.flex.flexbox.itemsCenter.padding.all4,
         <.div(
           Style.flexbox.flex.flexbox.itemsCenter,
           props.attachmentButton,
