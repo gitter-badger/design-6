@@ -69,7 +69,7 @@ object Popover {
     val realContent = props.renderContent(popper.toggle)
     val content = <.div.withRef(popper.ref)(
       // Reset overlay's pointerEvents
-      TagMod.when(!isOverlayClosable) { Style.pointerEvents.all },
+      TagMod.when(!isOverlayClosable) { Style.pointerEvents.auto },
       realContent,
       // Don't show the arrow when there's no content
       TagMod.unless(realContent == EmptyVdom) {
