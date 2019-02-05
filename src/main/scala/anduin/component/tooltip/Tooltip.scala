@@ -36,7 +36,7 @@ object Tooltip {
   }
 
   private val contentStyles = TagMod(
-    Style.background.gray9.color.white.shadow.blur8,
+    Style.background.gray9.color.white.shadow.px8,
     Style.padding.ver4.padding.hor8.borderRadius.px4,
     // Backward compatible
     // https://github.com/anduintransaction/stargazer/issues/17011

@@ -26,7 +26,7 @@ object Card {
     <.div(
       if (props.isDimmed) Style.background.gray1 else Style.background.white,
       TagMod.when(props.isFullHeight)(Style.height.pc100),
-      Style.shadow.blur1Light.borderRadius.px2.padding.all20,
+      Style.shadow.px1Light.borderRadius.px2.padding.all20,
       children
     )
   }

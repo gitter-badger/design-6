@@ -53,9 +53,9 @@ object CssVar {
 
   object Shadow {
     val border = "var(--shadow-border)"
-    val s1 = "var(--shadow-1)"
-    val s2 = "var(--shadow-2)"
-    val s3 = "var(--shadow-3)"
-    val s4 = "var(--shadow-4)"
+    val s1 = "var(--shadow-blur-1-light)"
+    val s2 = "var(--shadow-blur-1-dark)"
+    val s3 = "var(--shadow-blur-8)"
+    val s4 = "var(--shadow-blur-12)"
   }
 }

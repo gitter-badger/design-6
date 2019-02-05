@@ -38,12 +38,12 @@ object CheckboxInput {
     } else if (props.isChecked || props.isIndeterminate) {
       TagMod(
         Style.background.blue4.background.hoverBlue3.background.activeBlue5,
-        Style.borderColor.blue5.shadow.blur1Dark
+        Style.borderColor.blue5.shadow.px1Dark
       )
     } else {
       TagMod(
         Style.background.gray1.background.hoverWhite.background.activeGray2,
-        Style.borderColor.gray4.shadow.blur1Light
+        Style.borderColor.gray4.shadow.px1Light
       )
     }
     TagMod(inputStaticStyles, specific)

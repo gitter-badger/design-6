@@ -35,7 +35,7 @@ object Popover {
   // ===
 
   private val contentStyles = TagMod(
-    Style.background.white.borderRadius.px2.shadow.blur8,
+    Style.background.white.borderRadius.px2.shadow.px8,
     Style.border.all.borderColor.gray4.borderWidth.px1
   )
 
