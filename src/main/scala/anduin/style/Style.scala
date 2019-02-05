@@ -15,6 +15,7 @@ class Style(val classes: List[String]) {
   def display: Display = Display(classes)
   def overflow: Overflow = Overflow(classes)
   def position: Position = Position(classes)
+  def zIndex: ZIndex = ZIndex(classes)
 
   // Spacing
   def margin: Margin = Margin(classes)
@@ -36,12 +37,13 @@ class Style(val classes: List[String]) {
   def borderStyle: BorderStyle = BorderStyle(classes)
   def borderWidth: BorderWidth = BorderWidth(classes)
 
-  def active: Active = Active(classes)
+  // Flexbox
+  def flexbox: Flexbox = Flexbox(classes)
+
   def animation: Animation = Animation(classes)
   def color: Color = Color(classes)
   def cursor: Cursor = Cursor(classes)
   def disabled: Disabled = Disabled(classes)
-  def flexbox: Flexbox = Flexbox(classes)
   def focus: Focus = Focus(classes)
   def fontFamily: FontFamily = FontFamily(classes)
   def fontSize: FontSize = FontSize(classes)
@@ -62,7 +64,6 @@ class Style(val classes: List[String]) {
   def verticalAlign: VerticalAlign = VerticalAlign(classes)
   def whiteSpace: WhiteSpace = WhiteSpace(classes)
   def wordBreak: WordBreak = WordBreak(classes)
-  def zIndex: ZIndex = ZIndex(classes)
 
   override def toString: String = value
 }
