@@ -16,6 +16,8 @@ class Style(val classes: List[String]) {
   def overflow: Overflow = Overflow(classes)
   def position: Position = Position(classes)
   def zIndex: ZIndex = ZIndex(classes)
+
+  // Misc
   def cursor: Cursor = Cursor(classes)
   def opacity: Opacity = Opacity(classes)
   def pointerEvents: PointerEvents = PointerEvents(classes)

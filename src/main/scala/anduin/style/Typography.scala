@@ -4,5 +4,4 @@ package anduin.style
 
 private[style] final case class Typography(classes: List[String] = List.empty) {
   def truncate: Style = new Style(classes :+ "truncate")
-  def truncate2: Style = new Style(classes :+ "ty-tr")
 }
