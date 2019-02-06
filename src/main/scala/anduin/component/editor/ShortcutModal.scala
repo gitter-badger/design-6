@@ -30,8 +30,8 @@ private[editor] object ShortcutModal {
 
     ModalBody()(
       <.ul(
-        Style.flexbox.flex,
-        ^.cls := "list os-specific-keys",
+        Style.flexbox.flex.listStyle.none,
+        ^.cls := "os-specific-keys",
         shortcuts.toVdomArray {
           case (key, description) =>
             <.li(
@@ -46,7 +46,8 @@ private[editor] object ShortcutModal {
         }
       ),
       <.ul(
-        ^.cls := "list universal-keys",
+        Style.listStyle.none,
+        ^.cls := "universal-keys",
         <.li(
           Style.flexbox.flex.flexbox.itemsCenter,
           ^.cls := "item",

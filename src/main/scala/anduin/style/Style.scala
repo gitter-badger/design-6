@@ -46,21 +46,24 @@ class Style(val classes: List[String]) {
   // Flexbox
   def flexbox: Flexbox = Flexbox(classes)
 
-  def animation: Animation = Animation(classes)
+  // Typography
   def color: Color = Color(classes)
-  def focus: Focus = Focus(classes)
   def fontFamily: FontFamily = FontFamily(classes)
   def fontSize: FontSize = FontSize(classes)
-  def fontStyle: FontStyle = FontStyle(classes)
   def fontWeight: FontWeight = FontWeight(classes)
-  def hover: Hover = Hover(classes)
   def lineHeight: LineHeight = LineHeight(classes)
+  def typography: Typography = Typography(classes)
+  def listStyle: FontStyle = FontStyle(classes)
+  def fontStyle: FontStyle = FontStyle(classes)
+
+  def animation: Animation = Animation(classes)
+  def disabled: Disabled = Disabled(classes)
+  def focus: Focus = Focus(classes)
+  def hover: Hover = Hover(classes)
   // TODO: replace with List component
-  def listing: Listing = Listing(classes)
   def textAlign: TextAlign = TextAlign(classes)
   def textTransform: TextTransform = TextTransform(classes)
   // TODO: only usage is Truncate, which should be a component
-  def typography: Typography = Typography(classes)
   def transition: Transition = Transition(classes)
   def verticalAlign: VerticalAlign = VerticalAlign(classes)
   def whiteSpace: WhiteSpace = WhiteSpace(classes)
