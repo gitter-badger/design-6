@@ -113,13 +113,13 @@ object PagePlayground {
         )()
       }),
       ExampleSimple()({
-        <.div(width, TextBox(value = "John", onChange = _ => Callback.empty)())
+        <.div(width, TextBox(value = "john@anduin.co", onChange = _ => Callback.empty)())
       }),
       ExampleSimple()({
         <.div(
           width,
           TypedDropdown(
-            value = Some("John Doe"),
+            value = Some("Engineer"),
             options = List.empty[Dropdown.Opt[String]],
             onChange = _ => Callback.empty,
             getValueString = identity,
@@ -154,16 +154,16 @@ object PagePlayground {
         <.div(
           Style.flexbox.flex,
           Checkbox(isChecked = false)(),
-          <.div(Style.margin.right16),
-          Checkbox(isChecked = true)("Auto-save"),
+          <.div(Style.margin.right24),
+          Checkbox(isChecked = true)("Remember"),
         )
       }),
       ExampleSimple()({
         <.div(
           Style.flexbox.flex,
-          Radio("a", "a", _ => Callback.empty, isChecked = false)(),
-          <.div(Style.margin.right8),
-          Radio("a", "b", _ => Callback.empty, isChecked = true)("Orange"),
+          Radio("a", "a", isChecked = false,  _ => Callback.empty)(),
+          <.div(Style.margin.right24),
+          Radio("a", "b", isChecked = true, _ => Callback.empty)("Remember"),
         )
       }),
       ExampleSimple()({
