@@ -2,6 +2,9 @@
 
 package anduin.component.input.checkbox
 
+import anduin.component.icon.Icon
+import anduin.component.icon.Icon.Glyph.{Blank, CheckBold, MinusBold}
+import anduin.component.input.labelwrapper.LabelWrapper
 import anduin.style.Style
 
 // scalastyle:off underscore.import
@@ -24,34 +27,57 @@ object Checkbox {
 
   private type Props = Checkbox
 
-  private def renderText(props: Checkbox, children: PropsChildren): Option[VdomElement] = {
-    if (children.isEmpty) {
-      None
+  private def inputOnChange(props: Props)(e: ReactEventFromInput) =
+    props.onChange(e.target.checked)
+
+  private val boxStaticStyles = TagMod(
+    Style.display.block.width.px16.height.px16.borderRadius.px2.border.all,
+    Style.focus.outline.transition.allWithOutline
+  )
+
+  private def boxGetStyles(props: Props): TagMod = {
+    val specific: TagMod = if (props.isDisabled) {
+      Style.background.gray1.borderColor.gray3
+    } else if (props.isChecked || props.isIndeterminate) {
+      TagMod(
+        Style.background.blue4.background.hoverBlue3.background.activeBlue5,
+        Style.borderColor.blue5.shadow.blur1Dark
+      )
     } else {
-      val color = TagMod.when(props.isDisabled)(Style.color.gray5)
-      val label = <.span(Style.flexbox.fill.margin.left8, color, children)
-      Some(label)
+      TagMod(
+        Style.background.gray1.background.hoverWhite.background.activeGray2,
+        Style.borderColor.gray4.shadow.blur1Light
+      )
     }
+    TagMod(boxStaticStyles, specific)
   }
 
-  private def renderInput(props: Props): VdomElement = {
-    val input = CheckboxInput(
-      isChecked = props.isChecked,
-      onChange = props.onChange,
-      isDisabled = props.isDisabled,
-      isIndeterminate = props.isIndeterminate
-    )()
-    <.div(Style.flexbox.none, input)
+  // This is the actual <input>
+  private def renderBox(props: Props): VdomElement = {
+    <.input(
+      boxGetStyles(props),
+      ^.tpe := "checkbox",
+      ^.checked := props.isChecked,
+      ^.onChange ==> inputOnChange(props),
+      ^.disabled := props.isDisabled
+    )
+  }
+
+  private def renderGlyph(props: Props): VdomElement = {
+    <.div(
+      // Should not consume events
+      Style.pointerEvents.none,
+      if (props.isDisabled) Style.color.gray4 else Style.color.white,
+      Icon(if (props.isIndeterminate) MinusBold else if (props.isChecked) CheckBold else Blank)()
+    )
   }
 
   private def render(props: Props, children: PropsChildren): VdomElement = {
-    <.label(
-      Style.flexbox.flex.flexbox.itemsStart,
-      Style.position.relative.width.maxContent.maxWidth.pc100,
-      if (props.isDisabled) Style.pointerEvents.none else Style.cursor.pointer,
-      renderInput(props),
-      renderText(props, children)
-    )
+    LabelWrapper(
+      inputChildren = List((16, renderBox(props)), (16, renderGlyph(props))),
+      isDisabled = props.isDisabled,
+      hasPointer = true
+    )(children)
   }
 
   private val component = ScalaComponent
