@@ -151,8 +151,8 @@ object PageCheckbox {
           |responsible for controlling the `isIndeterminate` prop (as well as
           |`isChecked` and `onChange`) properly if used.
           |
-          |The below example should give you a general idea of controlling a
-          |checkbox that can be indeterminate:
+          |The below example should give you a general idea of controlling
+          |checkboxes with indeterminate status:
           |
           |```scala
           |// class Item(isSelected: Boolean)
