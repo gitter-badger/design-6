@@ -58,15 +58,14 @@ class Style(val classes: List[String]) {
   def textTransform: TextTransform = TextTransform(classes)
   def textDecoration: TextDecoration = TextDecoration(classes)
   def textAlign: TextAlign = TextAlign(classes)
+  def verticalAlign: VerticalAlign = VerticalAlign(classes)
+  def whiteSpace: WhiteSpace = WhiteSpace(classes)
+  def overflowWrap: OverflowWrap = OverflowWrap(classes)
 
   def animation: Animation = Animation(classes)
-  def disabled: Disabled = Disabled(classes)
   def focus: Focus = Focus(classes)
   def hover: Hover = Hover(classes)
   def transition: Transition = Transition(classes)
-  def verticalAlign: VerticalAlign = VerticalAlign(classes)
-  def whiteSpace: WhiteSpace = WhiteSpace(classes)
-  def wordBreak: WordBreak = WordBreak(classes)
 
   override def toString: String = value
 }

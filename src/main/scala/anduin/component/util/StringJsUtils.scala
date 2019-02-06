@@ -40,7 +40,7 @@ object StringJsUtils {
         Tooltip(
           position = position,
           renderTarget = <.span(Style.color.gray8, StringJsUtils.truncate(string, maxLength)),
-          renderContent = () => <.div(Style.maxWidth.px512.wordBreak.break, string)
+          renderContent = () => <.div(Style.maxWidth.px512.overflowWrap.breakWord, string)
         )()
       )
     } else {
