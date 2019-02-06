@@ -6,6 +6,7 @@ link_paths=(
   dropdown
   field
   icon
+  input/labelwrapper
   input/checkbox
   input/radio
   input/textbox

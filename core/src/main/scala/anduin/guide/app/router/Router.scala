@@ -6,6 +6,7 @@ import anduin.guide.app.main.Pages._
 import anduin.guide.pages.brand.logo.PageLogo
 import anduin.guide.pages.components.card.PageCard
 import anduin.guide.pages.components.checkbox.PageCheckbox
+import anduin.guide.pages.components.radio.PageRadio
 import anduin.guide.pages.components.dropdown.PageDropdown
 import anduin.guide.pages.components.button._
 import anduin.guide.pages.components.field.PageField
@@ -74,8 +75,7 @@ object Router {
       | dynamicRouteCT("multi-suggest" ~ hash.caseClass[SuggestMulti]) ~> getRender(() => Promise.resolve[RenderFn](PageWIP.render _))
       | dynamicRouteCT("popover" ~ hash.caseClass[Popover]) ~> getRender(() => Promise.resolve[RenderFn](PagePopover.render _))
       | dynamicRouteCT("progress-indicator" ~ hash.caseClass[Progress]) ~> getRender(() => Promise.resolve[RenderFn](PageProgressIndicator.render _))
-      | dynamicRouteCT("radio" ~ hash.caseClass[Radio]) ~> getRender(() => Promise.resolve[RenderFn](PageWIP.render _))
-      | dynamicRouteCT("radio-box" ~ hash.caseClass[RadioBox]) ~> getRender(() => Promise.resolve[RenderFn](PageWIP.render _))
+      | dynamicRouteCT("radio" ~ hash.caseClass[Radio]) ~> getRender(() => Promise.resolve[RenderFn](PageRadio.render _))
       | dynamicRouteCT("stepper" ~ hash.caseClass[Stepper]) ~> getRender(() => Promise.resolve[RenderFn](PageStepper.render _))
       | dynamicRouteCT("suggest" ~ hash.caseClass[Suggest]) ~> getRender(() => Promise.resolve[RenderFn](PageWIP.render _))
       | dynamicRouteCT("tab" ~ hash.caseClass[Tab]) ~> getRender(() => Promise.resolve[RenderFn](PageTab.render _))

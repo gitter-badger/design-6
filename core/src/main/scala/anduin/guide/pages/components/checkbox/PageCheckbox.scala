@@ -1,11 +1,11 @@
 package anduin.guide.pages.components.checkbox
 
-import anduin.guide.components._
-import anduin.component.input.checkbox.Checkbox
-import anduin.guide.app.main.Pages
-import anduin.mcro.Source
 import japgolly.scalajs.react.vdom.html_<^._
 
+import anduin.component.input.checkbox.Checkbox
+import anduin.guide.app.main.Pages
+import anduin.guide.components._
+import anduin.mcro.Source
 import anduin.style.Style
 
 object PageCheckbox {

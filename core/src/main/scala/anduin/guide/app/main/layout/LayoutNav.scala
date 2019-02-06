@@ -73,7 +73,8 @@ object LayoutNav {
             li(Title("Tab", Internal(Tab()))),
             h("Form"),
             li(Title("Dropdown", Internal(Dropdown()))),
-            li(Title("Checkbox", Internal(Checkbox())))
+            li(Title("Checkbox", Internal(Checkbox()))),
+            li(Title("Radio", Internal(Radio()))),
           )
         ),
         h(""),

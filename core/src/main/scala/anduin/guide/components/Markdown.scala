@@ -70,7 +70,8 @@ object Markdown {
 
   private val renderTable = (header: String, body: String) => {
     val element = <.table(
-      Style.table.collapse.width.pc100,
+      Style.width.pc100,
+      ^.borderCollapse.collapse,
       <.thead(Style.background.gray1, ^.dangerouslySetInnerHtml := header),
       <.tbody(^.dangerouslySetInnerHtml := body)
     )
