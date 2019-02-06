@@ -32,7 +32,7 @@ object Radio {
 
   private val boxStaticStyles = TagMod(
     Style.display.block.width.px16.height.px16.borderRadius.pill.border.all,
-    Style.focus.outline.transition.allWithOutline
+    Style.focus.outlineLight.transition.allWithOutline
   )
 
   private def boxGetStyles(props: Props): TagMod = {
@@ -43,7 +43,7 @@ object Radio {
     } else {
       TagMod(
         Style.background.gray1.background.hoverWhite.background.activeGray2,
-        Style.borderColor.gray4.shadow.blur1Light
+        Style.borderColor.gray4.shadow.px1Light
       )
     }
     TagMod(boxStaticStyles, specific)
