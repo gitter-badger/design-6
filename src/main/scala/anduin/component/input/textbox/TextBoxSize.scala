@@ -22,7 +22,7 @@ private[textbox] object TextBoxSize {
     val singleOnly: TagMod = Style.lineHeight.px16.height.px32
   }
   trait Px40 extends TextBoxSize {
-    val common: TagMod = Style.fontSize.px16.padding.hor16
+    val common: TagMod = Style.fontSize.px15.padding.hor16
     val singleOnly: TagMod = Style.lineHeight.px24.height.px40
   }
 }

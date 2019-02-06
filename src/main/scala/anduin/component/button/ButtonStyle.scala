@@ -37,7 +37,7 @@ object ButtonStyle {
   }
   object Height {
     trait Fix24 extends Height {
-      private def common = Style.height.px24.fontSize.px12
+      private def common = Style.height.px24.fontSize.px11
       final def square: TagMod = TagMod(common, ^.width := "24px")
       final def rect: TagMod = TagMod(common, Style.padding.hor8)
       final def iconSize: Icon.Size = Icon.Size.Custom(12)
@@ -49,7 +49,7 @@ object ButtonStyle {
       final def iconSize: Icon.Size = Icon.Size.Px16
     }
     trait Fix40 extends Height {
-      private def common = Style.height.px40.fontSize.px16
+      private def common = Style.height.px40.fontSize.px15
       final def square: TagMod = TagMod(common, ^.width := "40px")
       final def rect: TagMod = TagMod(common, Style.padding.hor16)
       final def iconSize: Icon.Size = Icon.Size.Custom(20)

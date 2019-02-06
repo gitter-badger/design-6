@@ -40,8 +40,8 @@ object Field {
   private object Static {
     val desc = Style.fontSize.px10.lineHeight.px16.color.gray7
     val label = Style.fontWeight.semiBold
-    val help = TagMod(Style.fontSize.px12.color.gray6.color.hoverBlue4, "[?]")
-    val error = Style.fontSize.px12.color.red5
+    val help = TagMod(Style.fontSize.px11.color.gray6.color.hoverBlue4, "[?]")
+    val error = Style.fontSize.px11.color.red5
   }
 
   private def renderHelp(props: Props): Option[VdomElement] = {

@@ -41,7 +41,7 @@ private[table] class TableHead[A] {
   }
 
   private val titleStyles = TagMod(
-    Style.fontSize.px12.fontWeight.semiBold.textAlign.left.color.gray6,
+    Style.fontSize.px11.fontWeight.semiBold.textAlign.left.color.gray6,
     Style.padding.ver8.padding.hor12.flexbox.flex.flexbox.itemsCenter.width.pc100
   )
 

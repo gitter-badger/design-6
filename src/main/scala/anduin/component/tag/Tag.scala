@@ -52,7 +52,7 @@ object Tag {
     val style: Style
   }
   case object SizeMedium extends Size {
-    val style: Style = Style.fontSize.px12.padding.hor8.lineHeight.px20
+    val style: Style = Style.fontSize.px11.padding.hor8.lineHeight.px20
   }
   case object SizeSmall extends Size {
     val style: Style = Style.fontSize.px10.padding.hor4.lineHeight.px16
