@@ -3,7 +3,7 @@
 package anduin.style
 
 private[style] final case class TextTransform(classes: List[String] = List.empty) {
-  def capitalize: Style = new Style(classes :+ "ttc")
-  def uppercase: Style = new Style(classes :+ "ttu")
-  def none: Style = new Style(classes :+ "ttn")
+  def capitalize: Style = new Style(classes :+ "capitalize")
+  def uppercase: Style = new Style(classes :+ "uppercase")
+  def none: Style = new Style(classes :+ "normal-case")
 }
