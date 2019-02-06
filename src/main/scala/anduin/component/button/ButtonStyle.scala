@@ -106,7 +106,7 @@ object ButtonStyle {
       Style.display.block.position.relative,
       TagMod.when(box.isBusy)(Style.pointerEvents.none),
       // To ensure Button tpe Link has same style with other types
-      Style.hover.underlineNone
+      Style.textDecoration.hoverNone
     )
     def getBody(box: Box): TagMod = TagMod(
       Style.flexbox.flex.flexbox.itemsCenter.flexbox.justifyCenter,
@@ -190,7 +190,7 @@ object ButtonStyle {
     def color: Color
     def isBlock: Boolean
 
-    final def container: TagMod = TagMod(Style.hover.underline, TagMod.when(isBlock)(Style.display.block))
+    final def container: TagMod = TagMod(Style.textDecoration.hoverUnderline, TagMod.when(isBlock)(Style.display.block))
     final def body: TagMod = TagMod.empty
     final def overlay: TagMod = TagMod.empty
 

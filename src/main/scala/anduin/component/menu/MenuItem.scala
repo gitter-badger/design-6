@@ -64,7 +64,7 @@ object MenuItem {
     Style.flexbox.flex.flexbox.itemsCenter,
     Style.padding.ver8.padding.hor16.lineHeight.px16
   )
-  private val linkStyles = TagMod(commonStyles, Style.hover.underlineNone)
+  private val linkStyles = TagMod(commonStyles, Style.textDecoration.hoverNone)
   private[component] val buttonStyles: TagMod = TagMod(
     commonStyles,
     Style.width.pc100.textAlign.left

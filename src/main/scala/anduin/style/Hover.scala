@@ -10,10 +10,6 @@ private[style] final case class Hover(classes: List[String] = List.empty) {
   def shadow1Light: Style = new Style(classes :+ "hv-s1l")
   def shadow1Dark: Style = new Style(classes :+ "hv-s1d")
 
-  // Text Decoration
-  def underlineNone: Style = new Style(classes :+ "non-underline-hover")
-  def underline: Style = new Style(classes :+ "underline-hover")
-
   // Opacity
   def opacity100: Style = new Style(classes :+ "hv-o100")
 }
