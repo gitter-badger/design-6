@@ -2,7 +2,9 @@
 
 package anduin.component.input.radio
 
-import anduin.component.button.Button
+import anduin.component.icon.Icon
+import anduin.component.icon.Icon.Glyph.{Blank, Circle}
+import anduin.component.input.labelwrapper.LabelWrapper
 import anduin.style.Style
 
 // scalastyle:off underscore.import
@@ -13,9 +15,9 @@ import japgolly.scalajs.react.vdom.html_<^._
 final case class Radio(
   name: String,
   value: String,
+  isChecked: Boolean,
   onChange: String => Callback,
-  isDisabled: Boolean = false,
-  isChecked: Boolean
+  isDisabled: Boolean = false
 ) {
   def apply(children: VdomNode*): VdomElement =
     Radio.component(this)(children: _*)
@@ -25,67 +27,56 @@ object Radio {
 
   private type Props = Radio
 
-  private val size = TagMod(^.minWidth := "20px", ^.height := "20px")
+  private def inputOnChange(props: Props)(e: ReactEventFromInput) =
+    props.onChange(e.target.value)
 
-  private def renderLabel(props: Radio, children: PropsChildren) = {
-    <.span(
-      Style.margin.left8,
-      TagMod.when(props.isDisabled) { Style.color.gray6 },
-      children
-    )
-  }
-
-  private val inputStyles = TagMod(
-    Style.focus.outlineLight.transition.allWithOutline,
-    Style.borderRadius.pill.border.all,
-    Style.disabled.backgroundGray2.disabled.borderGray4.disabled.shadowNone,
-    size
+  private val boxStaticStyles = TagMod(
+    Style.display.block.width.px16.height.px16.borderRadius.pill.border.all,
+    Style.focus.outline.transition.allWithOutline
   )
 
-  private def renderInput(props: Radio): VdomElement = {
+  private def boxGetStyles(props: Props): TagMod = {
+    val specific: TagMod = if (props.isDisabled) {
+      Style.background.gray1.borderColor.gray3
+    } else if (props.isChecked) {
+      Style.background.blue4.borderColor.blue5
+    } else {
+      TagMod(
+        Style.background.gray1.background.hoverWhite.background.activeGray2,
+        Style.borderColor.gray4.shadow.blur1Light
+      )
+    }
+    TagMod(boxStaticStyles, specific)
+  }
+
+  // This is the actual <input>
+  private def renderBox(props: Props): VdomElement = {
     <.input(
-      // behaviours
+      boxGetStyles(props),
       ^.tpe := "radio",
       ^.name := props.name,
-      ^.disabled := props.isDisabled,
+      ^.value := props.value,
       ^.checked := props.isChecked,
-      ^.onChange --> props.onChange(props.value),
-      // styles
-      if (props.isChecked) {
-        Button.Style.Full(color = Button.Color.Blue).colorNormal
-      } else {
-        Button.Style.Full(color = Button.Color.White).colorNormal
-      },
-      inputStyles
+      ^.onChange ==> inputOnChange(props),
+      ^.disabled := props.isDisabled
     )
   }
 
-  private def renderDot(props: Radio) = TagMod.when(props.isChecked) {
-    // we intentionally use a 20 x 20px wrapper here to support dynamic
-    // alignment of the dot
-    <.span(
-      size,
-      Style.position.absolute.position.pinLeft.position.pinTop,
-      Style.flexbox.flex.flexbox.justifyCenter.flexbox.itemsCenter,
-      <.span(
-        TagMod(^.width := "8px", ^.height := "8px"),
-        if (props.isDisabled) {
-          Style.background.gray6
-        } else {
-          Style.background.white
-        },
-        Style.borderRadius.pill
-      )
+  private def renderGlyph(props: Props): VdomElement = {
+    <.div(
+      // Should not consume events
+      Style.pointerEvents.none,
+      if (props.isDisabled) Style.color.gray4 else Style.color.white,
+      Icon(if (props.isChecked) Circle else Blank, Icon.Size.Custom(12))()
     )
   }
 
-  private def render(props: Radio, children: PropsChildren): VdomElement = {
-    <.label(
-      Style.flexbox.flex.flexbox.itemsCenter.cursor.pointer.position.relative,
-      renderInput(props),
-      renderDot(props),
-      renderLabel(props, children)
-    )
+  private def render(props: Props, children: PropsChildren): VdomElement = {
+    LabelWrapper(
+      inputChildren = List((16, renderBox(props)), (12, renderGlyph(props))),
+      isDisabled = props.isDisabled,
+      hasPointer = !props.isChecked
+    )(children)
   }
 
   private val component = ScalaComponent
@@ -93,5 +84,4 @@ object Radio {
     .stateless
     .render_PC(render)
     .build
-
 }
