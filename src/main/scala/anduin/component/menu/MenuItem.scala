@@ -67,8 +67,7 @@ object MenuItem {
   private val linkStyles = TagMod(commonStyles, Style.hover.underlineNone)
   private[component] val buttonStyles: TagMod = TagMod(
     commonStyles,
-    Style.width.pc100.textAlign.left,
-    Style.disabled.colorGray6.disabled.backgroundNone
+    Style.width.pc100.textAlign.left
   )
 
   private val checkIcon = <.span(
@@ -79,7 +78,7 @@ object MenuItem {
   private def render(props: Props, children: PropsChildren): VdomElement = {
     val commonMods = TagMod(
       // common styles
-      props.color.styles,
+      if (props.isDisabled) Style.color.gray4 else props.color.styles,
       // behaviour
       TagMod.when(!props.isDisabled) { ^.onClick --> props.onClick },
       // content

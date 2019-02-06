@@ -48,7 +48,6 @@ class Style(val classes: List[String]) {
 
   def animation: Animation = Animation(classes)
   def color: Color = Color(classes)
-  def disabled: Disabled = Disabled(classes)
   def focus: Focus = Focus(classes)
   def fontFamily: FontFamily = FontFamily(classes)
   def fontSize: FontSize = FontSize(classes)
