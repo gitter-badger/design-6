@@ -85,14 +85,14 @@ object PageColorGray {
       <.div(
         Style.padding.ver16,
         <.div(
-          Style.fontSize.px16.lineHeight.px20.margin.bottom16,
+          Style.fontSize.px17.lineHeight.px20.margin.bottom16,
           Checkbox(
             isChecked = state.isTextVisible,
             onChange = v => scope.setState(State(isTextVisible = v))
           )("Display contrast test")
         ),
         <.div(
-          Style.fontSize.px16.lineHeight.px24,
+          Style.fontSize.px17.lineHeight.px24,
           Style.flexbox.flex.flexbox.wrap,
           colors.toVdomArray(renderColor(state))
         )

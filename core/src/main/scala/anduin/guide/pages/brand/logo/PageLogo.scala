@@ -28,7 +28,7 @@ object PageLogo {
 
   private def logoLinkStyles = TagMod(
     Style.flexbox.flex.flexbox.itemsCenter.flexbox.justifyCenter,
-    Style.fontSize.px12.padding.ver8,
+    Style.fontSize.px11.padding.ver8,
     Style.background.gray1.background.hoverWhite.background.activeGray2,
     Style.transition.allWithOutline.focus.outlineLight,
     Style.border.top.borderColor.gray3

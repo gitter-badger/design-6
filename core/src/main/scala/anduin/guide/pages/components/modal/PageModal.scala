@@ -24,7 +24,7 @@ object PageModal {
     ModalBody()(
       <.p(
         Style.fontWeight.bold,
-        TagMod.when(isBold) { Style.fontSize.px16.margin.bottom12 },
+        TagMod.when(isBold) { Style.fontSize.px17.margin.bottom12 },
         "Are you sure want to archive this 8VC deal? "
       ),
       <.ul(

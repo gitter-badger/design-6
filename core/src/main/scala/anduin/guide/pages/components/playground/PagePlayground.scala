@@ -161,9 +161,9 @@ object PagePlayground {
       ExampleSimple()({
         <.div(
           Style.flexbox.flex,
-          Radio("a", "a", isChecked = false,  _ => Callback.empty)(),
+          Radio(isChecked = false,  Callback.empty)(),
           <.div(Style.margin.right24),
-          Radio("a", "b", isChecked = true, _ => Callback.empty)("Remember"),
+          Radio(isChecked = true, Callback.empty)("Remember"),
         )
       }),
       ExampleSimple()({

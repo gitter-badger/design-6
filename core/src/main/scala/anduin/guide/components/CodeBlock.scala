@@ -34,7 +34,7 @@ object CodeBlock {
       Style.focus.outlineLight.transition.allWithOutline,
       ^.tabIndex := 0,
       <.pre(
-        Style.fontSize.px16.lineHeight.px24.fontFamily.mono,
+        Style.fontSize.px17.lineHeight.px24.fontFamily.mono,
         ^.cls := "line-numbers",
         <.code(Style.display.block, cls, content)
       )

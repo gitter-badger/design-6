@@ -24,7 +24,7 @@ object BoxExampleArchive {
     React.Fragment(
       ModalBody()(
         <.p(
-          Style.fontSize.px16.fontWeight.semiBold,
+          Style.fontSize.px17.fontWeight.semiBold,
           "Are you sure want to archive this deal?"
         ),
         <.ul(

@@ -24,7 +24,7 @@ private[home] object PageHomeLink {
 
   private def renderTitle(props: Props): VdomElement = {
     <.p(
-      Style.fontSize.px24.lineHeight.px32,
+      Style.fontSize.px23.lineHeight.px32,
       props.target match {
         case page: Target.Page =>
           React.Fragment(
@@ -59,7 +59,7 @@ private[home] object PageHomeLink {
     Style.borderColor.gray2.borderColor.hoverBlue3,
     Style.focus.outlineLight,
     // interaction
-    Style.hover.underlineNone.transition.allWithOutline
+    Style.textDecoration.hoverNone.transition.allWithOutline
   )
 
   private def render(props: Props): VdomElement = {

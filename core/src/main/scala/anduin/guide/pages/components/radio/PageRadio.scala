@@ -16,8 +16,54 @@ object PageRadio {
       Toc(headings = Source.getTocHeadings)(),
       Markdown(
         """
+          |Radio buttons allow users to choose an option from several. They
+          |are usually arranged in groups:
+        """.stripMargin
+      )(),
+      ExampleSimple()({
+        def render(value: String, onChange: String => Callback) = {
+          <.div(Style.flexbox.flex)(List("Apple", "Orange", "Banana").toVdomArray { fruit =>
+            <.div(^.key := fruit, Style.margin.right24)(
+              Radio(fruit == "Apple", onChange(fruit))(fruit)
+            )
+          })
+        }
+        DemoState.Str(initialValue = "Apple", render = render)()
+      }),
+      Markdown(
+        s"""
+           |In each radio group, only one option can be selected at a time. To
+           |allow users to select multiple options, use [checkbox] or
+           |[multi-dropdown].
+           |
+           |[checkbox]: ${ctl.urlFor(Pages.Checkbox()).value}
+           |[multi-dropdown]: ${ctl.urlFor(Pages.DropdownMulti()).value}
+           |
+           |In radio groups, all options are always visible. If they can be
+           |collapsed, consider [dropdown] to take up less space.
+           |
+           |[dropdown]: ${ctl.urlFor(Pages.Dropdown()).value}
+        """.stripMargin
+      )(),
+      Markdown(
+        """
+          |# Value
           |
-          |xxxxxxx
+          |```scala
+          |value: String
+          |isChecked: Boolean
+          |onChange: String => Callback
+          |```
+          |
+          |Radio is a [stateless] component. Its consumers should define
+          |whether it is checked or not via the `isChecked` prop, as well as
+          |response to users' interactions via the `onChange` prop.
+          |
+          |In practice, `isChecked` is usually based on a boolean
+          |state, which is updated accordingly via `onChange`:
+          |
+          |[stateless]: https://reactjs.org/docs/forms.html#controlled-components
+          |
         """.stripMargin
       )(),
       ExampleRich(Source.annotate({
@@ -25,21 +71,14 @@ object PageRadio {
           <.div(Style.flexbox.flex)(List("Apple", "Orange", "Banana").toVdomArray { fruit =>
             <.div(^.key := fruit, Style.margin.right24)(
               Radio(
-                name = "fruit",
-                value = fruit,
                 isChecked = value == fruit,
-                onChange = onChange
+                onChange = onChange(fruit)
               )(fruit)
             )
           })
         }
         DemoState.Str(initialValue = "Apple", render = render)()
       }))(),
-      Markdown(
-        """
-          |# Name & Value
-        """.stripMargin
-      )(),
       Markdown(
         """
           |# Disabled
@@ -56,15 +95,9 @@ object PageRadio {
       ExampleRich(Source.annotate({
         <.div(
           Style.flexbox.flex,
-          Radio(
-            name = "disable", value = "checked", onChange = _ => Callback.empty,
-            isChecked = true, isDisabled = true,
-          )("Checked"),
+          Radio( isChecked = true, onChange = Callback.empty, isDisabled = true )("Checked"),
           <.div(Style.margin.right24),
-          Radio(
-            name = "disable", value = "unchecked", onChange = _ => Callback.empty,
-            isChecked = false, isDisabled = true,
-          )("Unchecked")
+          Radio( isChecked = false, onChange = Callback.empty, isDisabled = true )("Unchecked"),
         )
       }))(),
       // format: on

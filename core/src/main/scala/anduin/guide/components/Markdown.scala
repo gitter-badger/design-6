@@ -98,7 +98,7 @@ object Markdown {
       Style.color.gray7.color.hoverBlue4.transition.all,
       Style.fontWeight.medium, // @TODO: should be bolder
       Style.border.bottom.borderColor.gray3.borderWidth.px2,
-      Style.borderColor.hoverBlue3.hover.underlineNone,
+      Style.borderColor.hoverBlue3.textDecoration.hoverNone,
       ^.title := title,
       ^.href := href,
       ^.dangerouslySetInnerHtml := text

@@ -34,7 +34,7 @@ object BarExample {
           <.div(
             Style.lineHeight.px16,
             <.p("Sample Document"),
-            <.p(Style.fontSize.px12.color.gray6, "Uploading…")
+            <.p(Style.fontSize.px11.color.gray6, "Uploading…")
           )
         ),
         <.div(

@@ -36,11 +36,11 @@ private[home] object PageHomeList {
   }
 
   private def h1(text: String): VdomElement = h(
-    <.h1(Style.fontSize.px32.lineHeight.px32.fontWeight.bold, text)
+    <.h1(Style.fontSize.px30.lineHeight.px32.fontWeight.bold, text)
   )
 
   private def h2(text: String): VdomElement = h(
-    <.h1(Style.fontSize.px24.lineHeight.px24.fontWeight.bold, text)
+    <.h1(Style.fontSize.px23.lineHeight.px24.fontWeight.bold, text)
   )
 
   private def render(props: Props): VdomElement = {

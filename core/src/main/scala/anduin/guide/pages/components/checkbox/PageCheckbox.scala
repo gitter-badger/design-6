@@ -39,8 +39,8 @@ object PageCheckbox {
       }))(),
       Markdown(
         """
-          |Checkboxes are often used as a list, or even nested lists, to
-          |allows users to select no, one or several options:
+          |It's common for checkboxes to be used as a list, or even nested
+          |lists, to allows users to select no, one or several options:
         """.stripMargin
       )(),
       ChecklistExample(

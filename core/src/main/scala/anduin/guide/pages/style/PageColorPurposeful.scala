@@ -78,7 +78,7 @@ object PageColorPurposeful {
       ^.key := color.desc,
       Markdown(s"${color.desc}:")(),
       <.div(
-        Style.flexbox.flex.fontSize.px16.lineHeight.px24,
+        Style.flexbox.flex.fontSize.px17.lineHeight.px24,
         Style.padding.bottom24.border.bottom.borderColor.gray3,
         color.shades.toVdomArray(renderShade)
       )

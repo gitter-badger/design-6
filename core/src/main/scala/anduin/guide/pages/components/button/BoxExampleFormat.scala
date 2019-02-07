@@ -43,7 +43,7 @@ object BoxExampleFormat {
           VerticalDivider()(),
           <.div(Style.margin.left16),
           <.p(
-            Style.fontSize.px16,
+            Style.fontSize.px17,
             TagMod.when(state.isBold)(Style.fontWeight.bold),
             TagMod.when(state.isItalic)(Style.fontStyle.italic),
             "Sample text"

@@ -82,7 +82,7 @@ object NavElements {
           case _ => ""
         }
         <.a(
-          Style.hover.underlineNone.borderColor.hoverBlue3,
+          Style.textDecoration.hoverNone.borderColor.hoverBlue3,
           Style.border.bottom.borderWidth.px2,
           linkMod,
           common,
@@ -107,8 +107,8 @@ object NavElements {
 
   def h(content: String): VdomElement = {
     <.li(
-      Style.fontSize.px16.color.gray4,
-      Style.padding.top24.padding.bottom8,
+      Style.color.gray4.padding.top24.padding.bottom8,
+      ^.fontSize := "16px",
       content
     )
   }
@@ -117,7 +117,7 @@ object NavElements {
 
   def ul(content: VdomNode*): VdomElement = {
     <.ul(
-      Style.listing.list.padding.left20.padding.ver8,
+      Style.listStyle.none.padding.left20.padding.ver8,
       React.Fragment(content: _*)
     )
   }

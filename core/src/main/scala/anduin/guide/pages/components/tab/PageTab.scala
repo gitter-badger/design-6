@@ -79,7 +79,7 @@ object PageTab {
             <.div(
               Style.margin.left12.textAlign.left,
               <.p(Style.fontWeight.medium, heading),
-              <.p(Style.color.gray6.fontWeight.normal.fontSize.px12, desc)
+              <.p(Style.color.gray6.fontWeight.normal.fontSize.px11, desc)
             )
         )
         val panels = List(

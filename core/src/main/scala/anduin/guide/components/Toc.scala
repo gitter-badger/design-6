@@ -40,7 +40,7 @@ object Toc {
   private val linkStyles = TagMod(
     Style.color.inherit.focus.outlineLight.transition.allWithOutline,
     Style.border.bottom.borderWidth.px2.borderColor.transparent,
-    Style.hover.underlineNone.color.hoverBlue4.borderColor.hoverBlue3
+    Style.textDecoration.hoverNone.color.hoverBlue4.borderColor.hoverBlue3
   )
 
   private def renderLink(title: String): VdomElement = {
@@ -55,7 +55,7 @@ object Toc {
     <.li(
       ^.key := section.title,
       <.p(renderLink(section.title)),
-      <.ol(Style.listing.list, section.children.toVdomArray(renderChild))
+      <.ol(Style.listStyle.none, section.children.toVdomArray(renderChild))
     )
   }
 
@@ -68,7 +68,7 @@ object Toc {
   private val listStyles = TagMod(
     Style.fontSize.px15.lineHeight.px32,
     Style.color.gray4.color.hoverGray7.transition.all,
-    Style.listing.list.height.pc100.overflow.autoY,
+    Style.listStyle.none.height.pc100.overflow.autoY,
     ^.cls := "ad-scroll-hidden",
     ^.padding := "8px 32px 32px 108px"
   )
