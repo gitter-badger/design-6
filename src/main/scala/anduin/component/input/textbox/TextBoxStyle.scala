@@ -31,7 +31,7 @@ private[component] object TextBoxStyle {
   private val inputStatic = TagMod(
     borderStatic,
     Style.display.block.width.pc100.padding.hor12.padding.ver8,
-    Style.focus.spread.focus.border.transition.allWithShadow
+    Style.shadow.focusSpread.borderColor.focusBlue4.transition.allWithShadow
   )
 
   private def getColor(props: Props): TagMod =

@@ -34,7 +34,7 @@ object RadioBox {
   }
 
   private val styles = TagMod(
-    Style.display.block.textAlign.left.focus.outlineLight.transition.allWithOutline,
+    Style.display.block.textAlign.left.outline.focusLight.transition.allWithOutline,
     Style.border.all.borderWidth.px2.borderColor.hoverGray3.borderColor.activeGray5,
     Style.borderRadius.px2.padding.all16.position.relative,
     Style.width.pc100.height.pc100

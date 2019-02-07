@@ -47,7 +47,7 @@ private[table] class TableHead[A] {
 
   private def renderTitleSortable(props: Props, column: Table.Column[A], index: Int) = {
     <.button(
-      Style.color.activeBlue5.focus.outlineLight.transition.allWithOutline,
+      Style.color.activeBlue5.outline.focusLight.transition.allWithOutline,
       TagMod.when(props.sortColumn.contains(index))(Style.color.gray8),
       titleStyles,
       ^.tpe := "button",

@@ -32,7 +32,7 @@ object Checkbox {
 
   private val boxStaticStyles = TagMod(
     Style.display.block.width.px16.height.px16.borderRadius.px2.border.all,
-    Style.focus.outlineLight.transition.allWithOutline
+    Style.outline.focusLight.transition.allWithOutline
   )
 
   private def boxGetStyles(props: Props): TagMod = {

@@ -64,7 +64,6 @@ class Style(val classes: List[String]) {
 
   // Custom
   def animation: Animation = Animation(classes)
-  def focus: Focus = Focus(classes)
   def transition: Transition = Transition(classes)
 
   override def toString: String = value
