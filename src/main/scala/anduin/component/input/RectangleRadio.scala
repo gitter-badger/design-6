@@ -52,10 +52,8 @@ object RectangleRadio {
       if (props.isChecked) props.color.selected else props.color.default,
       TagMod.when(!props.isDisabled)(^.onClick --> props.onChange(props.value)),
       Radio(
-        name = props.name,
-        value = props.value,
         isChecked = props.isChecked,
-        onChange = props.onChange,
+        onChange = props.onChange(props.value),
         isDisabled = props.isDisabled
       )(children)
     )

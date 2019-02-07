@@ -13,10 +13,8 @@ import japgolly.scalajs.react.vdom.html_<^._
 // scalastyle:on underscore.import
 
 final case class Radio(
-  name: String,
-  value: String,
   isChecked: Boolean,
-  onChange: String => Callback,
+  onChange: Callback,
   isDisabled: Boolean = false
 ) {
   def apply(children: VdomNode*): VdomElement =
@@ -26,9 +24,6 @@ final case class Radio(
 object Radio {
 
   private type Props = Radio
-
-  private def inputOnChange(props: Props)(e: ReactEventFromInput) =
-    props.onChange(e.target.value)
 
   private val boxStaticStyles = TagMod(
     Style.display.block.width.px16.height.px16.borderRadius.pill.border.all,
@@ -54,10 +49,8 @@ object Radio {
     <.input(
       boxGetStyles(props),
       ^.tpe := "radio",
-      ^.name := props.name,
-      ^.value := props.value,
       ^.checked := props.isChecked,
-      ^.onChange ==> inputOnChange(props),
+      ^.onChange --> props.onChange,
       ^.disabled := props.isDisabled
     )
   }
