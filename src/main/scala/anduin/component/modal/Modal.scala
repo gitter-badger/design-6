@@ -44,7 +44,11 @@ object Modal {
 
   private type Props = Modal
 
-  case class LayoutMods(overlay: TagMod = EmptyVdom, container: TagMod = EmptyVdom, content: TagMod = EmptyVdom)
+  case class LayoutMods(
+    overlay: TagMod = EmptyVdom,
+    container: TagMod = EmptyVdom,
+    content: TagMod = EmptyVdom
+  )
 
   object Width {
     object Px480 extends ModalSize.Width.Px480
