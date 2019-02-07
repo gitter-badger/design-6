@@ -30,7 +30,7 @@ object PageLogo {
     Style.flexbox.flex.flexbox.itemsCenter.flexbox.justifyCenter,
     Style.fontSize.px12.padding.ver8,
     Style.background.gray1.background.hoverWhite.background.activeGray2,
-    Style.transition.allWithOutline.focus.outline,
+    Style.transition.allWithOutline.focus.outlineLight,
     Style.border.top.borderColor.gray3
   )
 

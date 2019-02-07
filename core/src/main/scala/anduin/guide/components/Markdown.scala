@@ -41,7 +41,7 @@ object Markdown {
       case _             => (None, string)
     }
     val codeSpan = <.code(
-      Style.fontFamily.mono.background.gray3.borderRadius.px4,
+      Style.fontFamily.mono.background.gray2.borderRadius.px4,
       lngOpt.whenDefined(lng => ^.cls := s"language-$lng"),
       ^.padding := "2px 4px",
       ^.dangerouslySetInnerHtml := newContent
