@@ -14,4 +14,5 @@ private[style] final case class Opacity(classes: List[String] = List.empty) {
   def pc80: Style = new Style(classes :+ "opacity-80")
   def pc90: Style = new Style(classes :+ "opacity-90")
   def pc100: Style = new Style(classes :+ "opacity-100")
+  def hoverPc100: Style = new Style(classes :+ "hover:opacity-100")
 }

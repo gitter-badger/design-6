@@ -62,9 +62,9 @@ class Style(val classes: List[String]) {
   def whiteSpace: WhiteSpace = WhiteSpace(classes)
   def overflowWrap: OverflowWrap = OverflowWrap(classes)
 
+  // Custom
   def animation: Animation = Animation(classes)
   def focus: Focus = Focus(classes)
-  def hover: Hover = Hover(classes)
   def transition: Transition = Transition(classes)
 
   override def toString: String = value
