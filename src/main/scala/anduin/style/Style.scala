@@ -11,6 +11,8 @@ class Style(val classes: List[String]) {
 
   def value: String = classes.mkString(" ").trim
 
+  // We follow Tailwind's categorization in this file:
+
   // Layout
   def display: Display = Display(classes)
   def overflow: Overflow = Overflow(classes)
@@ -62,9 +64,10 @@ class Style(val classes: List[String]) {
   def whiteSpace: WhiteSpace = WhiteSpace(classes)
   def overflowWrap: OverflowWrap = OverflowWrap(classes)
 
-  // Custom
+  // Not categorized by Tailwind
   def animation: Animation = Animation(classes)
   def transition: Transition = Transition(classes)
+  def outline: Outline = Outline(classes)
 
   override def toString: String = value
 }
