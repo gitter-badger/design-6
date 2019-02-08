@@ -8,7 +8,7 @@ private[style] final case class Flexbox(classes: List[String] = List.empty) {
   def inlineFlex: Style = new Style(classes :+ "inline-flex")
   // direction & wrap
   def row: Style = new Style(classes :+ "flex-row")
-  def column: Style = new Style(classes :+ "flex-column")
+  def column: Style = new Style(classes :+ "flex-col")
   def wrap: Style = new Style(classes :+ "flex-wrap")
   // align-items
   def itemsStart: Style = new Style(classes :+ "items-start")
