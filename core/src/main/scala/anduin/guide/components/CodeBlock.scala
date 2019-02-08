@@ -31,7 +31,7 @@ object CodeBlock {
     <.div(
       Style.background.gray1,
       Style.padding.ver12.padding.hor8.overflow.auto,
-      Style.focus.outlineLight.transition.allWithOutline,
+      Style.outline.focusLight.transition.allWithOutline,
       ^.tabIndex := 0,
       <.pre(
         Style.fontSize.px17.lineHeight.px24.fontFamily.mono,

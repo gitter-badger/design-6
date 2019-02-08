@@ -38,7 +38,7 @@ object Toc {
   }
 
   private val linkStyles = TagMod(
-    Style.color.inherit.focus.outlineLight.transition.allWithOutline,
+    Style.color.inherit.outline.focusLight.transition.allWithOutline,
     Style.border.bottom.borderWidth.px2.borderColor.transparent,
     Style.textDecoration.hoverNone.color.hoverBlue4.borderColor.hoverBlue3
   )

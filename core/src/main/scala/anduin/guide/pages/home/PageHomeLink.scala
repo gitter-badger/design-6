@@ -57,7 +57,7 @@ private[home] object PageHomeLink {
     // color
     Style.color.gray8.color.hoverBlue4,
     Style.borderColor.gray2.borderColor.hoverBlue3,
-    Style.focus.outlineLight,
+    Style.outline.focusLight,
     // interaction
     Style.textDecoration.hoverNone.transition.allWithOutline
   )

@@ -1,6 +1,7 @@
 /* Auto linked from Gondor */
 @import "base";
-@import "tachyons/tachyons";
+@import "utilities-custom/index";
+@tailwind utilities;
 
 /* Our own */
 @import "vendors/prism-custom";
