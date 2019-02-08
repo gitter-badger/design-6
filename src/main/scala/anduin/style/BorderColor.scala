@@ -6,6 +6,7 @@ package anduin.style
 private[style] final case class BorderColor(classes: List[String] = List.empty) {
   // normal
   def transparent: Style = new Style(classes :+ "border-transparent")
+  def currentColor: Style = new Style(classes :+ "border-current")
   def gray9: Style = new Style(classes :+ "border-gray-9")
   def gray8: Style = new Style(classes :+ "border-gray-8")
   def gray7: Style = new Style(classes :+ "border-gray-7")
