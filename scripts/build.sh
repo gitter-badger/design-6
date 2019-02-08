@@ -8,23 +8,23 @@ PURPLE='\033[0;35m'
 NC='\033[0m'
 
 # Clean
-echo "${PURPLE}1/5${NC} Clearing previous generation..."
+echo -e "${PURPLE}1/5${NC} Clearing previous generation..."
 rm -rf ${docs}
 mkdir ${docs}
 
 # Resources
-echo "${PURPLE}2/5${NC} Copying resources (public content)..."
+echo -e "${PURPLE}2/5${NC} Copying resources (public content)..."
 cp -R ${core_res}/public/. ${docs}/
 
 # CSS
-echo "${PURPLE}3/5${NC} Compiling CSS..."
+echo -e "${PURPLE}3/5${NC} Compiling CSS..."
 postcss ${core_css_main} --config ${core_css_config} --output ${docs}/app.css
 
 # JS
-echo "${PURPLE}4/5${NC} Compiling JS (sbt)..."
+echo -e "${PURPLE}4/5${NC} Compiling JS (sbt)..."
 sbt fullOptJS::webpack
 
-echo "${PURPLE}5/5${NC} Optimizing JS (scalajs-split)..."
+echo -e "${PURPLE}5/5${NC} Optimizing JS (scalajs-split)..."
 npx scalajs-split ./core
 cp -r ${core_target}/scalajs-split/scripts ${docs}/scripts
 
