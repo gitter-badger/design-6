@@ -5,7 +5,6 @@ package anduin.guide.pages.components.button
 import anduin.component.button.Button
 import anduin.component.icon.Icon
 import anduin.component.input.textbox.TextBox
-import anduin.component.modal.{ModalBody, ModalFooterWCancel}
 import anduin.guide.components.{DemoState, ExampleSimple}
 import anduin.style.Style
 
@@ -52,7 +51,7 @@ private[button] object BoxExampleEmail {
 
   private val editor: VdomElement = {
     DemoState.Str("Dear John,", (value, onChange) => {
-      TextBox(value, onChange, tpe = TextBox.TpeArea(rows = 4))()
+      TextBox(value, onChange, tpe = TextBox.Tpe.Area(rows = 4))()
     })()
   }
 
