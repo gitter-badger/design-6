@@ -64,7 +64,7 @@ object PageColorPurposeful {
         TagMod(^.width := "56px", ^.height := "56px"),
         shade.backgroundMod,
       ),
-      <.p(
+      <.div(
         Style.fontFamily.mono.margin.top8,
         <.p(Style.fontWeight.bold, shade.name),
         <.p(Style.opacity.pc80, s"#${shade.hex}")

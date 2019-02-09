@@ -56,14 +56,14 @@ object PageCheckbox {
           |onChange: Boolean => Callback = _ => Callback.empty
           |```
           |
-          |Checkbox is a [stateless] component. Its consumers should define
+          |Checkbox is a [controlled] component. Its consumers should define
           |whether it is checked or not via the `isChecked` prop, as well as
           |response to users' interactions via the `onChange` prop.
           |
           |In practice, `isChecked` is usually based on a boolean
           |state, which is updated accordingly via `onChange`:
           |
-          |[stateless]: https://reactjs.org/docs/forms.html#controlled-components
+          |[controlled]: https://reactjs.org/docs/forms.html#controlled-components
           |
           |```scala
           |// case class State(isFoo: Boolean, ...)
@@ -147,7 +147,7 @@ object PageCheckbox {
       )(),
       Markdown(
         """
-          |Since checkbox is a stateless component, its consumers are
+          |Since checkbox is a controlled component, its consumers are
           |responsible for controlling the `isIndeterminate` prop (as well as
           |`isChecked` and `onChange`) properly if used.
           |

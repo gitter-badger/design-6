@@ -51,9 +51,13 @@ object Pages {
   case class Tab(hash: String = "") extends ComponentT
   case class Table(hash: String = "") extends ComponentT
   case class Tag(hash: String = "") extends ComponentT
+  sealed trait TextBoxT extends ComponentT
   case class TextBox(hash: String = "") extends ComponentT
+  case class TextBoxValue(hash: String = "") extends ComponentT
+  case class TextBoxAppearance(hash: String = "") extends ComponentT
   case class Toggle(hash: String = "") extends ComponentT
   case class Tooltip(hash: String = "") extends ComponentT
+  case class Toast(hash: String = "") extends ComponentT
   case class Tree(hash: String = "") extends ComponentT
   case class Well(hash: String = "") extends ComponentT
 

@@ -72,9 +72,16 @@ object LayoutNav {
             li(Title("Modal", Internal(Modal()))),
             li(Title("Tab", Internal(Tab()))),
             h("Form"),
-            li(Title("Dropdown", Internal(Dropdown()))),
             li(Title("Checkbox", Internal(Checkbox()))),
+            li(Title("Dropdown", Internal(Dropdown()))),
             li(Title("Radio", Internal(Radio()))),
+            li(
+              Title("TextBox", Internal(TextBox()), Some(_.isInstanceOf[TextBoxT])),
+              ul(
+                li(Title("Value", Internal(TextBoxValue()))),
+                li(Title("Appearance", Internal(TextBoxAppearance()))),
+              ),
+            ),
           )
         ),
         h(""),

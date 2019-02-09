@@ -55,14 +55,14 @@ object PageRadio {
           |onChange: String => Callback
           |```
           |
-          |Radio is a [stateless] component. Its consumers should define
+          |Radio is a [controlled] component. Its consumers should define
           |whether it is checked or not via the `isChecked` prop, as well as
           |response to users' interactions via the `onChange` prop.
           |
           |In practice, `isChecked` is usually based on a boolean
           |state, which is updated accordingly via `onChange`:
           |
-          |[stateless]: https://reactjs.org/docs/forms.html#controlled-components
+          |[controlled]: https://reactjs.org/docs/forms.html#controlled-components
           |
         """.stripMargin
       )(),

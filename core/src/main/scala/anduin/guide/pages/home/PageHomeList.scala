@@ -43,61 +43,69 @@ private[home] object PageHomeList {
     <.h1(Style.fontSize.px23.lineHeight.px24.fontWeight.bold, text)
   )
 
+  private val childWidth = ^.width := "25vw"
+  private def child = <.div(Style.flexbox.none, childWidth)
+
   private def render(props: Props): VdomElement = {
     val ctl = props.ctl
     <.div(
-      Style.flexbox.flex.flexbox.justifyCenter,
+      Style.flexbox.flex.flexbox.itemsStart,
       <.div(
-        Style.flexbox.flex.flexbox.justifyCenter,
-        ^.flex := "1 1 0px",
+        Style.flexbox.flex.flexbox.wrap.flexbox.justifyAround,
+        ^.flex := "1.1 1 0px",
         ^.padding := "32px 0 96px",
-        <.div(
-          TagMod(Style.flexbox.none, ^.width := "75%"), // 1/4 / 1/3
-          h1("Style"),
-          Link(Page(ctl, Pages.Color(), isWIP = false))(),
-          Link(Page(ctl, Pages.Typography(), isWIP = false))(),
-          Link(Page(ctl, Pages.Layout(), isWIP = false))(),
-          Link(Page(ctl, Pages.Logo(), isWIP = false))(),
-          h1("Links"),
-          Link(URL("GitHub", "https://github.com/anduintransaction/design"))(),
-          Link(URL("Work with us", "https://www.anduintransact.com/careers"))(),
-        )
+        child(h1("Style")),
+        child(Link(Page(ctl, Pages.Color(), isWIP = false))()),
+        child(Link(Page(ctl, Pages.Typography(), isWIP = false))()),
+        child(Link(Page(ctl, Pages.Layout(), isWIP = false))()),
+        child(Link(Page(ctl, Pages.Logo(), isWIP = false))()),
+        child(h1("Links")),
+        child(Link(URL("GitHub", "https://github.com/anduintransaction/design"))()),
+        child(Link(URL("Work with us", "https://www.anduintransact.com/careers"))()),
       ),
       <.div(
-        Style.flexbox.flex.flexbox.justifyAround,
         Style.background.white,
         ^.flex := "2 1 0px",
         ^.padding := "32px 0 96px",
         ^.boxShadow := "0px 4px 16px 0px rgba(0, 0, 0, 0.06)",
+        h1("Components"),
         <.div(
-          TagMod(Style.flexbox.none, ^.width := "37.5%"), // 1/4 / 2/3
-          h1("Components"),
-          Link(Page(ctl, Pages.Button(), isWIP = false))(),
-          Link(Page(ctl, Pages.Icon(), isWIP = false))(),
-          Link(Page(ctl, Pages.Progress(), isWIP = false))(),
-          Link(Page(ctl, Pages.Tree(), isWIP = true))(),
-          Link(Page(ctl, Pages.Menu(), isWIP = true))(),
-          h2("Form"),
-          Link(Page(ctl, Pages.Field(), isWIP = true))(),
-          Link(Page(ctl, Pages.Dropdown(), isWIP = false))(),
-          Link(Page(ctl, Pages.TextBox(), isWIP = true))(),
-          Link(Page(ctl, Pages.Checkbox(), isWIP = false))(),
-          Link(Page(ctl, Pages.Radio(), isWIP = false))()
+          Style.flexbox.flex.flexbox.justifyAround.flexbox.wrap,
+          ^.justifyContent := "space-evenly",
+          child(Link(Page(ctl, Pages.Button(), isWIP = false))()),
+          child(Link(Page(ctl, Pages.Menu(), isWIP = true))()),
+          child(Link(Page(ctl, Pages.Icon(), isWIP = false))()),
+          child(Link(Page(ctl, Pages.Tree(), isWIP = true))()),
+          child(Link(Page(ctl, Pages.Progress(), isWIP = false))()),
+          child(Link(Page(ctl, Pages.Stepper(), isWIP = true))()),
+          child(Link(Page(ctl, Pages.Tab(), isWIP = false))()),
+          child(Link(Page(ctl, Pages.Table(), isWIP = false))()),
+          child() // Number of children needs to be even
         ),
+        h2("Container"),
         <.div(
-          Style.flexbox.none,
-          TagMod(Style.flexbox.none, ^.width := "37.5%"), // 1/4 / 2/3
-          h2("Container"),
-          Link(Page(ctl, Pages.Tag(), isWIP = true))(),
-          Link(Page(ctl, Pages.Well(), isWIP = false))(),
-          Link(Page(ctl, Pages.Card(), isWIP = false))(),
-          Link(Page(ctl, Pages.Table(), isWIP = false))(),
-          Link(Page(ctl, Pages.Tooltip(), isWIP = true))(),
-          Link(Page(ctl, Pages.Popover(), isWIP = true))(),
-          Link(Page(ctl, Pages.Modal(), isWIP = false))(),
-          Link(Page(ctl, Pages.Tab(), isWIP = false))(),
-          Link(Page(ctl, Pages.Stepper(), isWIP = true))()
-        )
+          Style.flexbox.flex.flexbox.justifyAround.flexbox.wrap,
+          ^.justifyContent := "space-evenly",
+          child(Link(Page(ctl, Pages.Tooltip(), isWIP = true))()),
+          child(Link(Page(ctl, Pages.Tag(), isWIP = true))()),
+          child(Link(Page(ctl, Pages.Toast(), isWIP = true))()),
+          child(Link(Page(ctl, Pages.Well(), isWIP = false))()),
+          child(Link(Page(ctl, Pages.Popover(), isWIP = true))()),
+          child(Link(Page(ctl, Pages.Card(), isWIP = false))()),
+          child(Link(Page(ctl, Pages.Modal(), isWIP = false))()),
+          child() // Number of children needs to be even
+        ),
+        h2("Form"),
+        <.div(
+          Style.flexbox.flex.flexbox.justifyAround.flexbox.wrap,
+          ^.justifyContent := "space-evenly",
+          child(Link(Page(ctl, Pages.Field(), isWIP = true))()),
+          child(Link(Page(ctl, Pages.Checkbox(), isWIP = false))()),
+          child(Link(Page(ctl, Pages.Dropdown(), isWIP = false))()),
+          child(Link(Page(ctl, Pages.Radio(), isWIP = false))()),
+          child(Link(Page(ctl, Pages.TextBox(), isWIP = false))()),
+          child() // Number of children needs to be even
+        ),
       )
     )
   }

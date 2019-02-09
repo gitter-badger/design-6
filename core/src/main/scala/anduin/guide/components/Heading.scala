@@ -30,10 +30,10 @@ object Heading {
   }
 
   private def getTag(props: Props) = props.level match {
-    case 1 => <.h2(Style.fontSize.px30)
+    case 1 => <.h2(Style.fontSize.px30.fontWeight.semiBold)
     case 2 => <.h3(Style.fontSize.px23.fontWeight.bold)
-    case 3 => <.h4(Style.fontSize.px20)
-    case 4 => <.h5(Style.fontSize.px17)
+    case 3 => <.h4(Style.fontSize.px20.fontWeight.bold)
+    case 4 => <.h5(Style.fontSize.px17.fontWeight.bold)
   }
 
   private def renderLink(id: String): VdomElement = {
