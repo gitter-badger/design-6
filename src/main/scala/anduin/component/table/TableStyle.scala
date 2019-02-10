@@ -28,6 +28,6 @@ object TableStyle {
 
   trait Minimal extends TableStyle {
     override val td: TagMod = TagMod(border, Style.border.bottom)
-    override val th: TagMod = TagMod(border, Style.border.bottom)
+    override val th: TagMod = TagMod(border, Style.border.bottom.background.white)
   }
 }
