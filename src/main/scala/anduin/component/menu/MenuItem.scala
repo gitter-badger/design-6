@@ -38,7 +38,7 @@ object MenuItem {
 
   sealed trait Color { def styles: TagMod }
   case object ColorGray extends Color {
-    val styles: TagMod = Style.color.gray8.background.hoverGray2.background.activeGray3
+    val styles: TagMod = Style.color.gray8.background.hoverGray3.background.activeGray4
   }
   case object ColorNeutral extends Color {
     private[MenuItem] val color = Style.color.hoverWhite.color.activeWhite
