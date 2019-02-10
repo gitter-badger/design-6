@@ -22,7 +22,7 @@ trait IconFile extends Icon.Name {
 object IconFile {
   // File Extensions
   case class ByExtension(extension: String) extends IconFile {
-    val icon: IconFile = extension match {
+    val icon: IconFile = extension.toLowerCase match {
       case e: String if e.endsWith("pdf") => Pdf
       case e: String if e.endsWith("doc") || e.endsWith("docx") => Word
       case e: String if e.endsWith("zip") || e.endsWith("rar") => Archive
