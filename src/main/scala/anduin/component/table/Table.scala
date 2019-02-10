@@ -104,7 +104,8 @@ class Table[A] {
 
       val styles = TagMod(
         SStyle.width.pc100.background.white,
-        ^.cellSpacing := "0",
+        // This is the best we can do now: @TODO: Should revise if have time
+        TagMod(^.borderSpacing := "1px", ^.borderCollapse.separate),
         TagMod.when(props.columns.count(_.width.isEmpty) < 2)(^.tableLayout.fixed),
         props.style.table
       )
