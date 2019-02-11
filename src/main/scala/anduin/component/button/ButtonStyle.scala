@@ -234,7 +234,7 @@ object ButtonStyle {
   }
   object Full {
     def getIconColorNormal(full: Full): TagMod = full.color match {
-      case _: Color.White => Style.color.gray6
+      case _: Color.White => Style.color.gray7
       case _              => Style.color.white
     }
 
@@ -261,7 +261,7 @@ object ButtonStyle {
 
     def getColorNormal(full: Full): TagMod = {
       val textAndShadow: TagMod = full.color match {
-        case _: Color.White => Style.color.gray7.shadow.px1Light
+        case _: Color.White => Style.color.gray8.shadow.px1Light
         case _              => Style.color.white.shadow.px1Dark
       }
       TagMod(textAndShadow, getBgNormal(full), getBorderNormal(full))
