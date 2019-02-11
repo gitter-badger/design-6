@@ -13,7 +13,8 @@ import japgolly.scalajs.react.vdom.html_<^._
 
 final case class StepperHeader(
   titles: Seq[String],
-  current: Int
+  current: Int,
+  onDarkBackground: Boolean = false
 ) {
   def apply(): VdomElement = StepperHeader.component(this)
 }
@@ -36,10 +37,20 @@ object StepperHeader {
   }
 
   private object Dot {
-    private def getMods(status: Status) = status match {
-      case StatusPast    => (Style.borderColor.green3.background.green3.color.white, Icon.Glyph.CheckBold)
-      case StatusPresent => (Style.borderColor.blue4.color.blue4, Icon.Glyph.Circle)
-      case StatusFuture  => (Style.borderColor.gray3, Icon.Glyph.Blank)
+    private def getMods(status: Status, onDarkBackground: Boolean) = {
+      if (onDarkBackground) {
+        status match {
+          case StatusPast    ⇒ Style.borderColor.green3.background.green3.color.white
+          case StatusPresent ⇒ Style.borderColor.blue3.color.blue3
+          case StatusFuture  ⇒ Style.borderColor.gray5
+        }
+      } else {
+        status match {
+          case StatusPast    ⇒ Style.borderColor.green3.background.green3.color.white
+          case StatusPresent ⇒ Style.borderColor.blue4.color.blue4
+          case StatusFuture  ⇒ Style.borderColor.gray3
+        }
+      }
     }
     private val static = TagMod(
       Style.flexbox.none.width.px20.height.px20,
@@ -47,9 +58,19 @@ object StepperHeader {
       Style.border.all.borderWidth.px2.borderRadius.pill
     )
 
+    private def getIconName(status: Status) = status match {
+      case StatusPast    ⇒ Icon.Glyph.CheckBold
+      case StatusPresent ⇒ Icon.Glyph.Circle
+      case StatusFuture  ⇒ Icon.Glyph.Blank
+    }
+
     def render(props: Props, title: String): VdomElement = {
-      val mods = getMods(getStatus(props, title))
-      <.div(static, mods._1, Icon(mods._2)())
+      val status = getStatus(props, title)
+      <.div(
+        static,
+        getMods(status, props.onDarkBackground),
+        Icon(getIconName(status))()
+      )
     }
   }
 
@@ -59,13 +80,24 @@ object StepperHeader {
    * If past => both lines are green
    */
   private object Line {
-    private val gradientSuccessToPrimary =
-      ^.background := s"linear-gradient(to right, ${CssVar.Color.green3}, ${CssVar.Color.blue4})"
+    private def gradientGreenToBlue(blueColor: String) =
+      ^.background := s"linear-gradient(to right, ${CssVar.Color.green3}, $blueColor)"
 
-    private def getColors(status: Status): (TagMod, TagMod) = status match {
-      case StatusPast    => (Style.background.green3, Style.background.green3)
-      case StatusPresent => (gradientSuccessToPrimary, Style.background.gray3)
-      case StatusFuture  => (Style.background.gray3, Style.background.gray3)
+    private def getColors(status: Status, onDarkBackground: Boolean): (TagMod, TagMod) = {
+      if (onDarkBackground) {
+        status match {
+          case StatusPast    => (Style.background.green3, Style.background.green3)
+          case StatusPresent => (gradientGreenToBlue(CssVar.Color.blue3), Style.background.gray5)
+          case StatusFuture  => (Style.background.gray5, Style.background.gray5)
+        }
+      } else {
+        status match {
+          case StatusPast    => (Style.background.green3, Style.background.green3)
+          case StatusPresent => (gradientGreenToBlue(CssVar.Color.blue4), Style.background.gray3)
+          case StatusFuture  => (Style.background.gray3, Style.background.gray3)
+        }
+      }
+
     }
 
     private def renderLine(isInvisible: Boolean, color: TagMod): VdomElement = {
@@ -74,30 +106,43 @@ object StepperHeader {
     }
 
     def render(props: Props, title: String): (VdomElement, VdomElement) = {
-      val colors = getColors(getStatus(props, title))
+      val (leftLineColor, rightLineColor) = getColors(getStatus(props, title), props.onDarkBackground)
       (
-        renderLine(props.titles.headOption.contains(title), colors._1),
-        renderLine(props.titles.lastOption.contains(title), colors._2)
+        renderLine(props.titles.headOption.contains(title), leftLineColor),
+        renderLine(props.titles.lastOption.contains(title), rightLineColor)
       )
     }
   }
-  private def renderTitle(props: Props, title: String): VdomElement = {
-    val state =
-      if (props.titles.indexOf(title) > props.current) {
-        "Future"
-      } else if (props.titles.indexOf(title) < props.current) {
-        "Past"
-      } else {
-        "Current"
+
+  private def getTitleMods(status: Status, onDarkBackground: Boolean) = {
+    if (onDarkBackground) {
+      status match {
+        case StatusPast ⇒ Style.color.green3
+        case StatusPresent ⇒ Style.color.white
+        case StatusFuture ⇒ Style.color.gray4
       }
+    } else {
+      status match {
+        case StatusPast ⇒ Style.color.green4
+        case StatusPresent ⇒ Style.color.gray8
+        case StatusFuture ⇒ Style.color.gray6
+      }
+    }
+  }
+
+  private def renderTitle(props: Props, title: String): VdomElement = {
+    val status = getStatus(props, title)
+    val state = status match {
+      case StatusPast ⇒ "Past"
+      case StatusPresent ⇒ "Current"
+      case StatusFuture ⇒ "Future"
+    }
 
     <.p(
       ComponentUtils.testId(StepperHeader, state),
       Style.fontWeight.medium.padding.hor32,
-      Style.whiteSpace.preLine.textAlign.center, {
-        val isFuture = props.titles.indexOf(title) > props.current
-        TagMod.when(isFuture)(Style.color.gray6)
-      },
+      Style.whiteSpace.preLine.textAlign.center,
+      getTitleMods(status, props.onDarkBackground),
       title
     )
   }
