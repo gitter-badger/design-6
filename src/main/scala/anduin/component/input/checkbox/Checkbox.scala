@@ -5,7 +5,7 @@ package anduin.component.input.checkbox
 import anduin.component.icon.Icon
 import anduin.component.icon.Icon.Glyph.{Blank, CheckBold, MinusBold}
 import anduin.component.input.labelwrapper.LabelWrapper
-import anduin.style.Style
+import anduin.style.{Style => SStyle}
 
 // scalastyle:off underscore.import
 import japgolly.scalajs.react._
@@ -16,7 +16,8 @@ final case class Checkbox(
   isChecked: Boolean,
   onChange: Boolean => Callback = _ => Callback.empty,
   isDisabled: Boolean = false,
-  isIndeterminate: Boolean = false
+  isIndeterminate: Boolean = false,
+  style: Checkbox.Style = Checkbox.Style.Minimal
 ) {
   def apply(children: VdomNode*): VdomElement = {
     Checkbox.component(this)(children: _*)
@@ -27,26 +28,38 @@ object Checkbox {
 
   private type Props = Checkbox
 
+  sealed trait Style {
+    private[checkbox] def get: Props => LabelWrapper.Style
+  }
+  object Style {
+    object Minimal extends Style {
+      private[checkbox] def get = _ => LabelWrapper.Style.Minimal
+    }
+    object Full extends Style {
+      private[checkbox] def get = props => LabelWrapper.Style.Full(props.isChecked)
+    }
+  }
+
   private def inputOnChange(props: Props)(e: ReactEventFromInput) =
     props.onChange(e.target.checked)
 
   private val boxStaticStyles = TagMod(
-    Style.display.block.width.px16.height.px16.borderRadius.px2.border.all,
-    Style.outline.focusLight.transition.allWithOutline
+    SStyle.display.block.width.px16.height.px16.borderRadius.px2.border.all,
+    SStyle.outline.focusLight.transition.allWithOutline
   )
 
   private def boxGetStyles(props: Props): TagMod = {
     val specific: TagMod = if (props.isDisabled) {
-      Style.background.gray1.borderColor.gray3
+      SStyle.background.gray1.borderColor.gray3
     } else if (props.isChecked || props.isIndeterminate) {
       TagMod(
-        Style.background.blue4.background.hoverBlue3.background.activeBlue5,
-        Style.borderColor.blue5.shadow.px1Dark
+        SStyle.background.blue4.background.hoverBlue3.background.activeBlue5,
+        SStyle.borderColor.blue5.shadow.px1Dark
       )
     } else {
       TagMod(
-        Style.background.gray1.background.hoverWhite.background.activeGray2,
-        Style.borderColor.gray4.shadow.px1Light
+        SStyle.background.gray1.background.hoverWhite.background.activeGray2,
+        SStyle.borderColor.gray4.shadow.px1Light
       )
     }
     TagMod(boxStaticStyles, specific)
@@ -66,8 +79,8 @@ object Checkbox {
   private def renderGlyph(props: Props): VdomElement = {
     <.div(
       // Should not consume events
-      Style.pointerEvents.none,
-      if (props.isDisabled) Style.color.gray4 else Style.color.white,
+      SStyle.pointerEvents.none,
+      if (props.isDisabled) SStyle.color.gray4 else SStyle.color.white,
       Icon(if (props.isIndeterminate) MinusBold else if (props.isChecked) CheckBold else Blank)()
     )
   }
@@ -76,7 +89,8 @@ object Checkbox {
     LabelWrapper(
       inputChildren = List((16, renderBox(props)), (16, renderGlyph(props))),
       isDisabled = props.isDisabled,
-      hasPointer = true
+      isInteractive = true,
+      style = props.style.get(props)
     )(children)
   }
 
