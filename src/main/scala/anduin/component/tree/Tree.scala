@@ -60,9 +60,10 @@ class Tree[A] {
     // - eg. if state.isExpanded is true already then this has no effect
     // - eg. users can still turn state.isExpanded to false afterward
     // - IMPORTANT: state.isExpanded is still the single source of truth
-    shouldExpanded: A => Boolean = _ => false
+    shouldExpanded: A => Boolean = _ => false,
+    externalRenderer: (A, A => VdomElement) => VdomElement = (data, renderer) => renderer(data)
   ) {
-    def apply(): VdomElement = component(this)
+    def apply(): VdomElement = externalRenderer(node, completeNode => component(copy(node = completeNode)))
   }
 
   case class State(
