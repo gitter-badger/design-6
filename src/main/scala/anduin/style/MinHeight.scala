@@ -4,5 +4,5 @@ package anduin.style
 
 private[style] final case class MinHeight(classes: List[String] = List.empty) {
   def pc100: Style = new Style(classes :+ "min-h-pc100")
-  def vh100: Style = new Style(classes :+ "min-h-vh-100")
+  def vh100: Style = new Style(classes :+ "min-h-vh100")
 }
