@@ -16,9 +16,13 @@ import japgolly.scalajs.react.vdom.html_<^._
 
 object Tree {
 
-  sealed trait Loader[A]
+  sealed trait Loader[A] {
+    def hasChildren: A => Boolean
+  }
   object Loader {
-    case class Sync[A](loadSync: A => Seq[A]) extends Loader[A]
+    case class Sync[A](loadSync: A => Seq[A], hasChildrenOpt: Option[A => Boolean] = None) extends Loader[A] {
+      def hasChildren: A => Boolean = hasChildrenOpt.getOrElse(loadSync(_).nonEmpty)
+    }
     case class Async[A](hasChildren: A => Boolean, loadAsync: A => Future[Seq[A]]) extends Loader[A]
   }
 
@@ -61,9 +65,9 @@ class Tree[A] {
     // - eg. users can still turn state.isExpanded to false afterward
     // - IMPORTANT: state.isExpanded is still the single source of truth
     shouldExpanded: A => Boolean = _ => false,
-    externalRenderer: (A, A => VdomElement) => VdomElement = (data, renderer) => renderer(data)
+    rendererOnExpand: (A, A => VdomElement) => VdomElement = (data, renderer) => renderer(data)
   ) {
-    def apply(): VdomElement = externalRenderer(node, completeNode => component(copy(node = completeNode)))
+    def apply(): VdomElement = component(this)
   }
 
   case class State(
@@ -80,10 +84,7 @@ class Tree[A] {
     def toggle: Callback = scope.modState(state => state.copy(isExpanded = !state.isExpanded))
 
     private def renderButton(props: Props, state: State): VdomNode = {
-      val hasChildren = props.loader match {
-        case loader: Tree.Loader.Async[A] => loader.hasChildren(props.node)
-        case loader: Tree.Loader.Sync[A]  => loader.loadSync(props.node).nonEmpty
-      }
+      val hasChildren = props.loader.hasChildren(props.node)
       if (hasChildren) {
         val icon = if (state.isExpanded) Icon.Glyph.CaretDown else Icon.Glyph.CaretRight
         val style = Button.Style.Minimal(icon = Some(icon), height = Button.Height.Fix24)
@@ -125,13 +126,21 @@ class Tree[A] {
       }
     }
 
-    def render(props: Props, state: State): VdomElement = {
+    private def renderSubTree(props: Props, state: State) = {
       val rProps = Tree.NodeRenderProps[A](props.node, props.ancestorNodes, toggle, state.isExpanded)
       val content = props.render(rProps)
       <.div(
         <.div(renderBody(props, state, content)),
         <.div(renderChildren(props, state, content))
       )
+    }
+
+    def render(props: Props, state: State): VdomElement = {
+      if (state.isExpanded) {
+        props.rendererOnExpand(props.node, completeNode => renderSubTree(props.copy(node = completeNode), state))
+      } else {
+        renderSubTree(props, state)
+      }
     }
   }
 
