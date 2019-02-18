@@ -12,7 +12,8 @@ import japgolly.scalajs.react.vdom.html_<^._
 final case class Tag(
   color: Tag.Color = Tag.ColorGray,
   size: Tag.Size = Tag.SizeMedium,
-  isSolid: Boolean = false
+  isSolid: Boolean = false,
+  onClick: Callback = Callback.empty
 ) {
   def apply(children: VdomNode*): VdomElement = {
     Tag.component(this)(children: _*)
@@ -64,6 +65,7 @@ object Tag {
       props.size.style,
       Style.borderRadius.px2.width.maxContent,
       Style.fontWeight.medium.whiteSpace.noWrap,
+      ^.onClick --> props.onClick,
       children
     )
   }
