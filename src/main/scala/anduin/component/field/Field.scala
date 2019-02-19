@@ -50,6 +50,7 @@ object Field {
         layout.left.style,
         props.label.map(label => {
           <.p(
+            Style.flexbox.flex.flexbox.itemsCenter,
             ^.paddingTop := "6px",
             <.label(^.htmlFor := props.id, Static.label, label),
             props.help
@@ -70,6 +71,7 @@ object Field {
       <.div(
         props.label.map { label =>
           <.div(
+            Style.flexbox.flex.flexbox.itemsCenter,
             <.label(^.htmlFor := props.id, Static.label, label),
             props.help
           )
