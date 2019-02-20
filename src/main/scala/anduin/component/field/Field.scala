@@ -2,7 +2,6 @@
 
 package anduin.component.field
 
-import anduin.component.tooltip.Tooltip
 import anduin.style.Style
 
 // scalastyle:off underscore.import
@@ -40,18 +39,7 @@ object Field {
   private object Static {
     val desc = Style.fontSize.px10.lineHeight.px16.color.gray7
     val label = Style.fontWeight.semiBold
-    val help = TagMod(Style.fontSize.px11.color.gray6.color.hoverBlue4, "[?]")
     val error = Style.fontSize.px11.color.red5
-  }
-
-  private def renderHelp(props: Props): Option[VdomElement] = {
-    props.help.map { text =>
-      Tooltip(
-        renderTarget = <.span(" ", Static.help),
-        renderContent = () => <.div(Style.maxWidth.px256.whiteSpace.preWrap, text),
-        targetTag = <.span
-      )()
-    }
   }
 
   private def renderHor(props: Props, children: PropsChildren, layout: Layout.Hor): VdomElement = {
@@ -62,9 +50,10 @@ object Field {
         layout.left.style,
         props.label.map(label => {
           <.p(
+            Style.flexbox.flex.flexbox.itemsCenter,
             ^.paddingTop := "6px",
             <.label(^.htmlFor := props.id, Static.label, label),
-            renderHelp(props)
+            props.help
           )
         }),
         props.desc.map(<.p(Static.desc, _))
@@ -82,8 +71,9 @@ object Field {
       <.div(
         props.label.map { label =>
           <.div(
+            Style.flexbox.flex.flexbox.itemsCenter,
             <.label(^.htmlFor := props.id, Static.label, label),
-            renderHelp(props)
+            props.help
           )
         },
         props.desc.map(<.p(Static.desc, _))
