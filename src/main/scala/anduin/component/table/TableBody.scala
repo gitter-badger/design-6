@@ -4,7 +4,6 @@ package anduin.component.table
 
 import anduin.component.util.ComponentUtils
 import anduin.style.Style
-import org.scalajs.dom.html
 
 // scalastyle:off underscore.import
 import japgolly.scalajs.react._
@@ -16,7 +15,7 @@ private[table] class TableBody[A] {
   case class Props(
     rows: Seq[A],
     // key, cells, row
-    renderRow: TableBody.RenderRow[A],
+    renderRow: Table.RenderRow[A],
     align: Table.Align,
     getKey: A => String,
     footer: VdomNode,
@@ -86,15 +85,4 @@ private[table] class TableBody[A] {
     .stateless
     .render_P(render)
     .build
-}
-
-private[component] object TableBody {
-  type Tr = vdom.TagOf[html.TableRow]
-  type RenderRow[A] = (String, VdomArray, A) => Tr
-  def defaultRenderRow[A](key: String, cells: VdomArray, row: A): Tr = {
-    // the default render does not need the row data. However, we still want
-    // to keep this method's signature
-    val _ = row
-    <.tr(^.key := key, Style.background.hoverGray1, cells)
-  }
 }

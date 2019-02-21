@@ -4,6 +4,7 @@ package anduin.component.table
 
 import anduin.component.util.ComponentUtils
 import anduin.style.{Style => SStyle}
+import org.scalajs.dom.html
 
 // scalastyle:off underscore.import
 import japgolly.scalajs.react._
@@ -49,6 +50,15 @@ object Table {
   }
 
   case class Sticky(offset: Int = 0)
+
+  type Tr = vdom.TagOf[html.TableRow]
+  type RenderRow[A] = (String, VdomArray, A) => Tr
+  def defaultRenderRow[A](key: String, cells: VdomArray, row: A): Tr = {
+    // the default render does not need the row data. However, we still want
+    // to keep this method's signature
+    val _ = row
+    <.tr(^.key := key, SStyle.background.hoverGray1, cells)
+  }
 }
 
 class Table[A] {
@@ -75,7 +85,7 @@ class Table[A] {
     sortIsAsc: Boolean = true,
     headIsSticky: Option[Table.Sticky] = None,
     // body
-    renderRow: TableBody.RenderRow[A] = TableBody.defaultRenderRow[A],
+    renderRow: Table.RenderRow[A] = Table.defaultRenderRow[A],
     align: Table.Align = Table.AlignMiddle,
     footer: VdomNode = EmptyVdom
   ) {
