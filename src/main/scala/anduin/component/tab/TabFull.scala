@@ -13,7 +13,8 @@ private[tab] final case class TabFull(
   titles: Seq[(VdomNode, Int)],
   content: VdomNode,
   active: Int,
-  setActive: Int => Callback
+  setActive: Int => Callback,
+  style: Tab.StyleFull
 ) {
   def apply(): VdomElement = TabFull.component(this)
 }
@@ -55,6 +56,7 @@ private[tab] object TabFull {
     <.header(
       ^.marginBottom := "-1px",
       Style.flexbox.flex.lineHeight.px16.fontWeight.medium,
+      TagMod.when(props.style.isHeaderCentered)(Style.flexbox.justifyCenter),
       props.titles.toTagMod { renderButton(props) }
     )
   }

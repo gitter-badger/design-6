@@ -10,7 +10,7 @@ import japgolly.scalajs.react.vdom.html_<^._
 final case class Tab(
   panels: Seq[Tab.Panel],
   defaultPanel: Int = 0,
-  style: Tab.Style = Tab.StyleFull,
+  style: Tab.Style = Tab.StyleFull(),
   // Uncontrolled tab -> Let parent controls the state
   active: Option[Int] = None,
   setActive: Option[Int => Callback] = None
@@ -29,7 +29,7 @@ object Tab {
   )
 
   sealed trait Style
-  case object StyleFull extends Style
+  case class StyleFull(isHeaderCentered: Boolean = false) extends Style
   case object StyleMinimal extends Style
   // case object StyleMinimal extends Style
   // -> Currently we only support StyleFull. Will support StyleMinimal later
@@ -57,7 +57,7 @@ object Tab {
       )
       val titles = props.panels.map(_.title).zipWithIndex
       props.style match {
-        case StyleFull => TabFull(titles, content, active, setActive)()
+        case full: StyleFull => TabFull(titles, content, active, setActive, full)()
         case StyleMinimal => TabMinimal(titles, content, active, setActive)()
       }
     }
