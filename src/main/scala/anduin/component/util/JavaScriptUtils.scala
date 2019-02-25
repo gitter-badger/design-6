@@ -6,8 +6,8 @@ import scala.scalajs.js.timers.RawTimers
 
 import japgolly.scalajs.react.Callback
 import org.scalajs.dom
-import org.scalajs.dom.document
-import org.scalajs.dom.raw.HTMLIFrameElement
+import org.scalajs.dom.raw.{Blob, HTMLIFrameElement, HTMLLinkElement, URL}
+import org.scalajs.dom.{XMLHttpRequest, document}
 
 object JavaScriptUtils {
 
@@ -22,9 +22,8 @@ object JavaScriptUtils {
     * But Firefox then stops all long polling requests which make our application not reactive as expect.
     * This method fixes this problem as it creates a hidden frame for downloading the file.
     * @param url The given URL
-    * @return Callback
     */
-  def download(url: String): Callback = {
+  private def downloadWithIframe(url: String) = {
     @SuppressWarnings(Array("org.wartremover.warts.AsInstanceOf")) // scalastyle:ignore
     val frame = document.createElement("iframe").asInstanceOf[HTMLIFrameElement]
     frame.style.display = "none"
@@ -36,8 +35,76 @@ object JavaScriptUtils {
       document.body.removeChild(frame)
     }, DownloadTimeout)
 
+    frame.src = url
+  }
+
+  /**
+    * Use the `download` attribute on a link to force the browser
+    * to download given file
+    * @param url The given URL
+    * @param fileName The file name
+    */
+  private def downloadWithLink(url: String, fileName: String) = {
+    // If the `url` and our app belong to different domains,
+    // Chrome ignores the `download` attribute.
+    // See https://www.chromestatus.com/feature/4969697975992320
+    val userAgent = dom.window.navigator.userAgent
+    val isChrome = userAgent.indexOf("Chrome") > -1
+    if (!isChrome) {
+      forceDownload(url, fileName)
+    } else {
+      val xhr = new XMLHttpRequest
+      xhr.responseType = "blob"
+      xhr.onload = _ => {
+        if (xhr.status == 200) {
+          @SuppressWarnings(Array("org.wartremover.warts.AsInstanceOf")) // scalastyle:ignore
+          val blob = xhr.response.asInstanceOf[Blob]
+          val blobUrl = URL.createObjectURL(blob)
+
+          forceDownload(blobUrl, fileName)
+          URL.revokeObjectURL(blobUrl)
+        }
+      }
+      xhr.open("GET", url, async = true)
+      xhr.setRequestHeader("X-Requested-With", "XMLHttpRequest")
+      xhr.send()
+    }
+  }
+
+  private def forceDownload(url: String, fileName: String) = {
+    @SuppressWarnings(Array("org.wartremover.warts.AsInstanceOf")) // scalastyle:ignore
+    val link = document.createElement("a").asInstanceOf[HTMLLinkElement]
+    link.style.display = "none"
+    link.style.visibility = "hidden"
+    link.rel = "noopener"
+    link.setAttribute("download", fileName)
+
+    // Firefox requires the element available on page
+    document.body.appendChild(link)
+
+    // Let's download the file
+    link.href = url
+    link.click()
+
+    // Remove the link from document
+    document.body.removeChild(link)
+    ()
+  }
+
+  def download(url: String, fileName: Option[String] = None): Callback = {
     Callback {
-      frame.src = url
+      fileName.fold {
+        downloadWithIframe(url)
+      } { name =>
+        // We can use an iframe to download the file
+        // if the file name taken from `url` is the same as `fileName`
+        val fileNameFromUrl = url.substring(url.lastIndexOf("/") + 1)
+        if (fileNameFromUrl.startsWith(name)) {
+          downloadWithIframe(url)
+        } else {
+          downloadWithLink(url, name)
+        }
+      }
     }
   }
 
