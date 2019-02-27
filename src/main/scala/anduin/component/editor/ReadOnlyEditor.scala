@@ -4,9 +4,8 @@ package anduin.component.editor
 
 import scala.scalajs.js
 
-import japgolly.scalajs.react.vdom.VdomElement
-
 import anduin.scalajs.linkifyit.LinkifyIt
+import anduin.scalajs.slate.SlateReact
 import anduin.scalajs.tlds.Tlds
 
 // scalastyle:off underscore.import
@@ -20,7 +19,7 @@ final case class ReadOnlyEditor(
   html: String,
   maxLengthOpt: Option[Int] = None
 ) {
-  def apply(): ScalaComponent.Unmounted[_, _, _] = ReadOnlyEditor.component(this)
+  def apply(): VdomElement = ReadOnlyEditor.component(this)
 }
 
 object ReadOnlyEditor {
@@ -33,13 +32,16 @@ object ReadOnlyEditor {
 
   private class Backend(scope: BackendScope[ReadOnlyEditor, State]) {
 
+    private val editorRef = Ref.toJsComponentWithMountedFacade[SlateReact.Props, Null, SlateReact.EditorComponent]
+
     def render(state: State): VdomElement = {
       <.div(
         RichEditor(
           placeholder = "",
           value = state.value,
           readOnly = true,
-          onChange = _ => Callback.empty
+          onChange = _ => Callback.empty,
+          ref = () => editorRef
         )()
       )
     }
@@ -48,8 +50,9 @@ object ReadOnlyEditor {
     def findLinks: Callback = {
       for {
         state <- scope.state
+        editorInstance <- editorRef.get
+        editor = editorInstance.raw.editor
         value = state.value
-        change = value.change()
         texts = value.document.getTexts()
         _ <- {
           texts.foreach { textItem =>
@@ -70,13 +73,13 @@ object ReadOnlyEditor {
                   `type` = "link",
                   data = js.Dynamic.literal(href = link.url)
                 )
-                change
+                editor
                   .extendToStartOf(textItem)
                   .wrapInlineAtRange(range, inline)
               }
             }
           }
-          scope.modState(_.copy(value = change.value))
+          scope.modState(_.copy(value = editor.value))
         }
       } yield ()
     }

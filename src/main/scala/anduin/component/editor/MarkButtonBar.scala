@@ -4,6 +4,7 @@ package anduin.component.editor
 
 import anduin.component.icon.Icon
 import anduin.scalajs.slate.Slate.{Editor, Value}
+import anduin.scalajs.slate.SlateReact
 import anduin.style.Style
 
 // scalastyle:off underscore.import
@@ -12,6 +13,7 @@ import japgolly.scalajs.react.vdom.html_<^._
 // scalastyle:on underscore.import
 
 private[editor] final case class MarkButtonBar(
+  editorRef: () => SlateReact.EditorComponentRef,
   value: Value,
   onChange: Editor => Callback
 ) {
@@ -27,14 +29,15 @@ private[editor] object MarkButtonBar {
     private def toggleMark(markNode: MarkNode) = {
       for {
         props <- scope.props
+        editorInstance <- props.editorRef().get
+        editor = editorInstance.raw.editor
         value = props.value
-        change = value.change()
-        newChange = if (value.isFocused) {
-          change.toggleMark(markNode.nodeType)
+        _ = if (value.isFocused) {
+          editor.toggleMark(markNode.nodeType)
         } else {
-          change.focus().toggleMark(markNode.nodeType)
+          editor.focus().toggleMark(markNode.nodeType)
         }
-        _ <- props.onChange(newChange)
+        _ <- props.onChange(editor)
       } yield ()
     }
 

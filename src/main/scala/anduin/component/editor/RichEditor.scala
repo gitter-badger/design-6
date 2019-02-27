@@ -21,7 +21,7 @@ final case class RichEditor(
   value: Value,
   onChange: Value => Callback,
   readOnly: Boolean,
-  renderWrapper: (Callback, VdomElement) => VdomElement = (_, editor: VdomElement) => editor
+  ref: () => SlateReact.EditorComponentRef
 ) {
   def apply(): VdomElement = RichEditor.component(this)
 }
@@ -31,8 +31,6 @@ object RichEditor {
   private val ComponentName = this.getClass.getSimpleName
 
   private class Backend(scope: BackendScope[RichEditor, _]) {
-
-    private val editorRef = Ref.toJsComponent(SlateReact.component)
 
     private def onKeyDown(e: KeyboardEvent, change: Editor) = {
       Callback.when(e.metaKey) {
@@ -88,26 +86,19 @@ object RichEditor {
     }
     // scalastyle:on cyclomatic.complexity
 
-    private def focus() = {
-      editorRef.get.map(_.raw.focus()).toCallback
-    }
-
     def render(props: RichEditor): VdomElement = {
-      props.renderWrapper(
-        focus(),
-        <.div(
-          ComponentUtils.testId(this, "ContentEditor"),
-          ^.cls := "editor",
-          editorRef.component(
-            SlateReact.props(
-              placeholder = props.placeholder,
-              value = props.value,
-              readOnly = props.readOnly,
-              onChange = props.onChange,
-              onKeyDown = onKeyDown,
-              renderNode = renderNode(props),
-              renderMark = (props: SlateReact.RenderMarkProps) => MarkRenderer(props.mark, props.children)
-            )
+      <.div(
+        ComponentUtils.testId(this, "ContentEditor"),
+        ^.cls := "editor",
+        SlateReact.component.withRef(props.ref())(
+          SlateReact.props(
+            placeholder = props.placeholder,
+            value = props.value,
+            readOnly = props.readOnly,
+            onChange = props.onChange,
+            onKeyDown = onKeyDown,
+            renderNode = renderNode(props),
+            renderMark = (props: SlateReact.RenderMarkProps) => MarkRenderer(props.mark, props.children)
           )
         )
       )

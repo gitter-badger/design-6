@@ -14,6 +14,7 @@ import anduin.component.popover.Popover
 import anduin.component.tooltip.Tooltip
 import anduin.component.util.ComponentUtils
 import anduin.scalajs.slate.Slate.{Editor, Value}
+import anduin.scalajs.slate.SlateReact
 import anduin.style.Style
 
 // scalastyle:off underscore.import
@@ -25,6 +26,7 @@ import anduin.component.portal._
 
 final case class Toolbar(
   value: Value,
+  editorRef: () => SlateReact.EditorComponentRef,
   onChange: Editor => Callback,
   attachmentButton: TagMod
 ) {
@@ -55,31 +57,32 @@ object Toolbar {
 
       for {
         props <- scope.props
+        editorInstance <- props.editorRef().get
+        editor = editorInstance.raw.editor
         value = props.value
-        change = value.change()
         // If there's a link inside the current selection, then remove it
         _ <- Callback.when(hasLinks(value)) {
           Callback {
-            change.unwrapInline(LinkNode.nodeType)
+            editor.unwrapInline(LinkNode.nodeType)
           }
         }
         _ <- {
           if (!value.isExpanded) {
             // If there's no selected text, create a link with the same text and href
-            change.insertText(standardLink).extend(0 - standardLink.length)
+            editor.insertText(standardLink).extend(0 - standardLink.length)
           }
           val data = js.Dynamic.literal(href = standardLink)
           if (openInNewTab) {
             data.updateDynamic("target")("_blank")
           }
-          change.wrapInline(
+          editor.wrapInline(
             js.Dynamic.literal(
               `type` = LinkNode.nodeType,
               data = data
             )
           )
-          change.collapseToEnd()
-          props.onChange(change)
+          editor.collapseToEnd()
+          props.onChange(editor)
         }
       } yield ()
     }
@@ -167,11 +170,11 @@ object Toolbar {
             renderContent = _ => {
               <.div(
                 Style.flexbox.flex.flexbox.itemsCenter.padding.all4,
-                MarkButtonBar(props.value, props.onChange)(),
+                MarkButtonBar(props.editorRef, props.value, props.onChange)(),
                 VerticalDivider()(),
-                AlignButtonBar(props.value, props.onChange)(),
+                AlignButtonBar(props.editorRef, props.value, props.onChange)(),
                 VerticalDivider()(),
-                BlockButtonBar(props.value, props.onChange)()
+                BlockButtonBar(props.editorRef, props.value, props.onChange)()
               )
             }
           )()

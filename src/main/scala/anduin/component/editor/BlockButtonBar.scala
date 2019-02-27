@@ -4,6 +4,7 @@ package anduin.component.editor
 
 import anduin.component.icon.Icon
 import anduin.scalajs.slate.Slate.{Editor, Value}
+import anduin.scalajs.slate.SlateReact
 import anduin.style.Style
 
 // scalastyle:off underscore.import
@@ -12,6 +13,7 @@ import japgolly.scalajs.react.vdom.html_<^._
 // scalastyle:on underscore.import
 
 private[editor] final case class BlockButtonBar(
+  editorRef: () => SlateReact.EditorComponentRef,
   value: Value,
   onChange: Editor => Callback
 ) {
@@ -34,8 +36,9 @@ private[editor] object BlockButtonBar {
     private def onClick(nodeType: NodeType) = {
       for {
         props <- scope.props
+        editorInstance <- props.editorRef().get
+        editor = editorInstance.raw.editor
         value = props.value
-        change = value.change()
         _ <- {
           nodeType match {
             // See https://github.com/ianstormtaylor/slate/blob/master/examples/rich-text/index.js
@@ -51,20 +54,20 @@ private[editor] object BlockButtonBar {
                 doc.getClosest(block.key, parent => parent.nodeType == nodeType.nodeType).isDefined
               })
               if (isList && isType) {
-                change
+                editor
                   .setBlock(DefaultNodeType)
                   .unwrapBlock(UnorderedListNode.nodeType)
                   .unwrapBlock(OrderedListNode.nodeType)
               } else if (isList) {
-                change
+                editor
                   .unwrapBlock(wrapBlockType)
                   .wrapBlock(nodeType.nodeType)
               } else {
-                change
+                editor
                   .setBlock(ListItemNode.nodeType)
                   .wrapBlock(nodeType.nodeType)
               }
-              props.onChange(change)
+              props.onChange(editor)
 
             case blockNode: BlockNode =>
               val isActive = hasBlock(value, blockNode)
@@ -72,14 +75,14 @@ private[editor] object BlockButtonBar {
               val newNodeType = if (isActive) DefaultNodeType else nodeType.nodeType
 
               if (isList) {
-                change
+                editor
                   .setBlock(newNodeType)
                   .unwrapBlock(UnorderedListNode.nodeType)
                   .unwrapBlock(OrderedListNode.nodeType)
               } else {
-                change.setBlock(newNodeType)
+                editor.setBlock(newNodeType)
               }
-              props.onChange(change)
+              props.onChange(editor)
 
             case _: MarkNode | _: InlineNode =>
               Callback.empty

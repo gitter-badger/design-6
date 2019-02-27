@@ -6,6 +6,7 @@ import scala.scalajs.js
 
 import anduin.component.icon.Icon
 import anduin.scalajs.slate.Slate.{Editor, Value}
+import anduin.scalajs.slate.SlateReact
 import anduin.style.Style
 
 // scalastyle:off underscore.import
@@ -14,6 +15,7 @@ import japgolly.scalajs.react.vdom.html_<^._
 // scalastyle:on underscore.import
 
 private[editor] final case class AlignButtonBar(
+  editorRef: () => SlateReact.EditorComponentRef,
   value: Value,
   onChange: Editor => Callback
 ) {
@@ -24,9 +26,7 @@ private[editor] object AlignButtonBar {
 
   private val ComponentName = this.getClass.getSimpleName
 
-  private class Backend(backendScope: BackendScope[AlignButtonBar, Unit]) {
-
-    val _ = backendScope
+  private class Backend(scope: BackendScope[AlignButtonBar, Unit]) {
 
     private def hasAlign(value: Value) = {
       value.blocks.exists(block => block.nodeType == TextAlignNode.nodeType)
@@ -39,6 +39,27 @@ private[editor] object AlignButtonBar {
           DataUtil.value(block.data, "textAlign")
         }
         .getOrElse("")
+    }
+
+    private def onClick(align: String) = {
+      for {
+        props <- scope.props
+        editorInstance <- props.editorRef().get
+        editor = editorInstance.raw.editor
+        originalType = props.value.blocks.headOption
+          .map(_.nodeType)
+          .getOrElse(ParagraphNode.nodeType)
+        _ = editor.setBlock(
+          js.Dynamic.literal(
+            `type` = TextAlignNode.nodeType,
+            data = js.Dynamic.literal(
+              textAlign = align,
+              originalType = originalType
+            )
+          )
+        )
+        _ <- props.onChange(editor)
+      } yield ()
     }
 
     def render(props: AlignButtonBar): VdomElement = {
@@ -54,25 +75,7 @@ private[editor] object AlignButtonBar {
               key = align,
               tip = tip,
               active = hasAlign(props.value) && getAlign(props.value) == align,
-              onClick = {
-                val originalType: String = props.value.blocks
-                  .headOption
-                  .map(_.nodeType)
-                  .getOrElse(ParagraphNode.nodeType)
-
-                val change = props.value
-                  .change()
-                  .setBlock(
-                    js.Dynamic.literal(
-                      `type` = TextAlignNode.nodeType,
-                      data = js.Dynamic.literal(
-                        textAlign = align,
-                        originalType = originalType
-                      )
-                    )
-                  )
-                props.onChange(change)
-              }
+              onClick = onClick(align)
             )(icon)
         }
       )
