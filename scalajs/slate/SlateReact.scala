@@ -7,10 +7,13 @@ import scala.scalajs.js.annotation.JSImport
 import scala.scalajs.js.|
 
 import japgolly.scalajs.react.raw.React.Element
-import japgolly.scalajs.react.{Callback, Children, JsComponent}
 import org.scalajs.dom.KeyboardEvent
 
 import anduin.scalajs.slate.Slate.{Editor, Mark, Node, Value}
+
+// scalastyle:off underscore.import
+import japgolly.scalajs.react._
+// scalastyle:on underscore.import
 
 object SlateReact {
 
@@ -21,11 +24,19 @@ object SlateReact {
   @js.native
   trait EditorComponent extends js.Object {
     def focus(): Unit = js.native
+    val value: Value = js.native
+    val editor: Editor = js.native
   }
 
   final class Change(val value: Value) extends js.Object
 
-  val component = JsComponent[Props, Children.None, Null](SlateReact.EditorComponent)
+  type EditorComponentType = JsComponentWithFacade[Props, Null, SlateReact.EditorComponent, CtorType.Props]
+  type EditorComponentRef = Ref.ToJsComponent[
+    SlateReact.Props, Null,
+    JsComponent.RawMounted[SlateReact.Props, Null] with SlateReact.EditorComponent
+  ]
+
+  val component: EditorComponentType = JsComponent[Props, Children.None, Null](SlateReact.EditorComponent)
     .addFacade[SlateReact.EditorComponent]
 
   type RenderOutput = Element | Null
