@@ -5,7 +5,7 @@ package anduin.component.editor
 import scala.scalajs.js
 
 import anduin.component.icon.Icon
-import anduin.scalajs.slate.Slate.{Change, Value}
+import anduin.scalajs.slate.Slate.{Editor, Value}
 import anduin.style.Style
 
 // scalastyle:off underscore.import
@@ -15,7 +15,7 @@ import japgolly.scalajs.react.vdom.html_<^._
 
 private[editor] final case class AlignButtonBar(
   value: Value,
-  onChange: Change => Callback
+  onChange: Editor => Callback
 ) {
   def apply(): VdomElement = AlignButtonBar.component(this)
 }

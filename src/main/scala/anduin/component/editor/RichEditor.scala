@@ -19,7 +19,7 @@ import anduin.scalajs.slate.Slate._
 final case class RichEditor(
   placeholder: String,
   value: Value,
-  onChange: Change => Callback,
+  onChange: Value => Callback,
   readOnly: Boolean,
   renderWrapper: (Callback, VdomElement) => VdomElement = (_, editor: VdomElement) => editor
 ) {
@@ -34,7 +34,7 @@ object RichEditor {
 
     private val editorRef = Ref.toJsComponent(SlateReact.component)
 
-    private def onKeyDown(e: KeyboardEvent, change: Change) = {
+    private def onKeyDown(e: KeyboardEvent, change: Editor) = {
       Callback.when(e.metaKey) {
         e.key match {
           case "b" =>
@@ -56,13 +56,13 @@ object RichEditor {
             e.preventDefault()
             for {
               props <- scope.props
-              _ <- Callback.when(props.value.hasUndos)(props.onChange(change.undo()))
+              _ <- Callback.when(props.value.hasUndos)(props.onChange(change.undo().value))
             } yield ()
           case "y" =>
             e.preventDefault()
             for {
               props <- scope.props
-              _ <- Callback.when(props.value.hasRedos)(props.onChange(change.redo()))
+              _ <- Callback.when(props.value.hasRedos)(props.onChange(change.redo().value))
             } yield ()
           case _ => Callback.empty
         }

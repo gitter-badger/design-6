@@ -2,6 +2,10 @@
 
 package anduin.component.editor
 
+import scala.scalajs.js
+
+import org.scalajs.dom.window
+
 import anduin.component.button.Button
 import anduin.component.icon.Icon
 import anduin.component.menu.VerticalDivider
@@ -9,23 +13,19 @@ import anduin.component.modal.Modal
 import anduin.component.popover.Popover
 import anduin.component.tooltip.Tooltip
 import anduin.component.util.ComponentUtils
-import anduin.scalajs.slate.Slate.{Change, Value}
+import anduin.scalajs.slate.Slate.{Editor, Value}
 import anduin.style.Style
-import org.scalajs.dom.raw.Element
-import org.scalajs.dom.window
-
-import scala.scalajs.js
 
 // scalastyle:off underscore.import
-import anduin.component.portal._
 import japgolly.scalajs.react._
 import japgolly.scalajs.react.vdom.html_<^._
+
+import anduin.component.portal._
 // scalastyle:on underscore.import
 
 final case class Toolbar(
-  editorRef: () => CallbackOption[Element],
   value: Value,
-  onChange: Change => Callback,
+  onChange: Editor => Callback,
   attachmentButton: TagMod
 ) {
   def apply(children: VdomNode*): VdomElement = {
