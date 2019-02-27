@@ -10,7 +10,7 @@ import japgolly.scalajs.react.raw.React.Element
 import japgolly.scalajs.react.{Callback, Children, JsComponent}
 import org.scalajs.dom.KeyboardEvent
 
-import anduin.scalajs.slate.Slate.{Change, Mark, Node, Value}
+import anduin.scalajs.slate.Slate.{Editor, Mark, Node, Value}
 
 object SlateReact {
 
@@ -23,8 +23,10 @@ object SlateReact {
     def focus(): Unit = js.native
   }
 
-  val component =
-    JsComponent[Props, Children.None, Null](SlateReact.EditorComponent).addFacade[SlateReact.EditorComponent]
+  final class Change(val value: Value) extends js.Object
+
+  val component = JsComponent[Props, Children.None, Null](SlateReact.EditorComponent)
+    .addFacade[SlateReact.EditorComponent]
 
   type RenderOutput = Element | Null
   type DecorateNodeFn = js.Function1[Node, js.Array[js.Object]]
@@ -33,8 +35,8 @@ object SlateReact {
     placeholder: String,
     value: Value,
     readOnly: Boolean,
-    onChange: Change => Callback,
-    onKeyDown: (KeyboardEvent, Change) => Callback,
+    onChange: Value => Callback,
+    onKeyDown: (KeyboardEvent, Editor) => Callback,
     renderNode: RenderNodeProps => RenderOutput,
     renderMark: RenderMarkProps => RenderOutput,
     decorateNodeOpt: Option[Node => js.Array[js.Object]] = None
@@ -43,8 +45,10 @@ object SlateReact {
       placeholder = placeholder,
       value = value,
       readOnly = readOnly,
-      onChange = js.defined { onChange(_).runNow() },
-      onKeyDown = js.defined { (e: KeyboardEvent, c: Change) =>
+      onChange = js.defined { change =>
+        onChange(change.value).runNow()
+      },
+      onKeyDown = js.defined { (e: KeyboardEvent, c: Editor) =>
         onKeyDown(e, c).runNow()
       },
       renderNode = js.defined { renderNode },
@@ -59,7 +63,7 @@ object SlateReact {
     val value: Value,
     val readOnly: Boolean,
     val onChange: js.UndefOr[js.Function1[Change, Unit]] = js.undefined,
-    val onKeyDown: js.UndefOr[js.Function2[KeyboardEvent, Change, Unit]] = js.undefined,
+    val onKeyDown: js.UndefOr[js.Function2[KeyboardEvent, Editor, Unit]] = js.undefined,
     val renderNode: js.UndefOr[js.Function1[RenderNodeProps, RenderOutput]] = js.undefined,
     val renderMark: js.UndefOr[js.Function1[RenderMarkProps, RenderOutput]] = js.undefined,
     val decorateNode: js.UndefOr[DecorateNodeFn] = js.undefined
