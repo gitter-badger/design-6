@@ -4,9 +4,9 @@ package anduin.component.editor
 
 import org.scalajs.dom.KeyboardEvent
 
-import anduin.component.editor.Editor.{RenderMarkProps, RenderNodeProps}
 import anduin.component.editor.renderer.{ImageRenderer, LinkRenderer, MarkRenderer, TextAlignRenderer}
 import anduin.component.util.ComponentUtils
+import anduin.scalajs.slate.SlateReact
 import anduin.style.Style
 
 // scalastyle:off underscore.import
@@ -32,7 +32,7 @@ object RichEditor {
 
   private class Backend(scope: BackendScope[RichEditor, _]) {
 
-    private val editorRef = Ref.toJsComponent(Editor.component)
+    private val editorRef = Ref.toJsComponent(SlateReact.component)
 
     private def onKeyDown(e: KeyboardEvent, change: Change) = {
       Callback.when(e.metaKey) {
@@ -70,7 +70,7 @@ object RichEditor {
     }
 
     // scalastyle:off cyclomatic.complexity
-    private def renderNode(editor: RichEditor)(props: RenderNodeProps) = {
+    private def renderNode(editor: RichEditor)(props: SlateReact.RenderNodeProps) = {
       val data = props.node.data
       val children = PropsChildren.fromRawProps(props)
       props.node.nodeType match {
@@ -99,14 +99,14 @@ object RichEditor {
           ComponentUtils.testId(this, "ContentEditor"),
           ^.cls := "editor",
           editorRef.component(
-            Editor.props(
+            SlateReact.props(
               placeholder = props.placeholder,
               value = props.value,
               readOnly = props.readOnly,
               onChange = props.onChange,
               onKeyDown = onKeyDown,
               renderNode = renderNode(props),
-              renderMark = (props: RenderMarkProps) => MarkRenderer(props.mark, props.children)
+              renderMark = (props: SlateReact.RenderMarkProps) => MarkRenderer(props.mark, props.children)
             )
           )
         )
