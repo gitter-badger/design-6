@@ -4,7 +4,7 @@ package anduin.component.editor
 
 import org.scalajs.dom.KeyboardEvent
 
-import anduin.component.editor.renderer.{ImageRenderer, LinkRenderer, MarkRenderer, TextAlignRenderer}
+import anduin.component.editor.renderer.{ImageRenderer, LinkRenderer, TextAlignRenderer}
 import anduin.component.util.ComponentUtils
 import anduin.scalajs.slate.SlateReact
 import anduin.style.Style
@@ -28,11 +28,12 @@ final case class RichEditor(
 
 object RichEditor {
 
-  private val ComponentName = this.getClass.getSimpleName
+  private type Props = RichEditor
 
-  private class Backend(scope: BackendScope[RichEditor, _]) {
+  private class Backend(scope: BackendScope[Props, _]) {
 
-    private def onKeyDown(e: KeyboardEvent, editor: Editor) = {
+    private def onKeyDown(e: KeyboardEvent, editor: Editor, next: SlateReact.KeyDownNextFn) = {
+      val _ = next
       Callback.when(e.metaKey) {
         e.key match {
           case "b" =>
@@ -68,10 +69,14 @@ object RichEditor {
     }
 
     // scalastyle:off cyclomatic.complexity
-    private def renderNode(editor: RichEditor)(props: SlateReact.RenderNodeProps) = {
-      val data = props.node.data
-      val children = PropsChildren.fromRawProps(props)
-      props.node.nodeType match {
+    private def renderNode(
+      renderNodeProps: SlateReact.RenderNodeProps,
+      editor: Editor,
+      next: SlateReact.RenderNextFn
+    ) = {
+      val data = renderNodeProps.node.data
+      val children = PropsChildren.fromRawProps(renderNodeProps)
+      renderNodeProps.node.nodeType match {
         case BlockQuoteNode.nodeType    => <.blockquote(children).rawElement
         case ParagraphNode.nodeType     => <.p(Style.margin.bottom12, children).rawElement
         case CodeNode.nodeType          => <.pre(<.code(children)).rawElement
@@ -79,26 +84,44 @@ object RichEditor {
         case UnorderedListNode.nodeType => <.ul(children).rawElement
         case ListItemNode.nodeType      => <.li(children).rawElement
         case DivNode.nodeType           => <.div(children).rawElement
-        case LinkNode.nodeType          => LinkRenderer(data, props.children, editor.readOnly)
+        case LinkNode.nodeType          => LinkRenderer(data, renderNodeProps.children, editor.readOnly)
         case ImageNode.nodeType         => ImageRenderer(data)
-        case TextAlignNode.nodeType     => TextAlignRenderer(data, props.children)
+        case TextAlignNode.nodeType     => TextAlignRenderer(data, renderNodeProps.children)
+        case _                          => next()
       }
     }
     // scalastyle:on cyclomatic.complexity
 
-    def render(props: RichEditor): VdomElement = {
+    private def renderMark(
+      renderMarkProps: SlateReact.RenderMarkProps,
+      editor: Editor,
+      next: SlateReact.RenderNextFn
+    ) = {
+      val _ = editor
+      val childrenEle = PropsChildren.fromRawProps(renderMarkProps)
+      renderMarkProps.mark.markType match {
+        case BoldNode.nodeType          => <.strong(childrenEle).rawElement
+        case ItalicNode.nodeType        => <.em(childrenEle).rawElement
+        case UnderlineNode.nodeType     => <.u(childrenEle).rawElement
+        case StrikeThroughNode.nodeType => <.del(childrenEle).rawElement
+        case _                          => next()
+      }
+    }
+
+    def render(props: Props): VdomElement = {
       <.div(
         ComponentUtils.testId(this, "ContentEditor"),
         ^.cls := "editor",
         SlateReact.component.withRef(props.ref())(
           SlateReact.props(
-            placeholder = props.placeholder,
-            value = props.value,
-            readOnly = props.readOnly,
-            onChange = props.onChange,
-            onKeyDown = onKeyDown,
-            renderNode = renderNode(props),
-            renderMark = (props: SlateReact.RenderMarkProps) => MarkRenderer(props.mark, props.children)
+            autoFocusParam = !props.readOnly,
+            placeholderParam = props.placeholder,
+            valueParam = props.value,
+            readOnlyParam = props.readOnly,
+            onChangeParam = props.onChange,
+            onKeyDownParam = onKeyDown,
+            renderNodeParam = renderNode,
+            renderMarkParam = renderMark
           )
         )
       )
@@ -106,7 +129,7 @@ object RichEditor {
   }
 
   private val component = ScalaComponent
-    .builder[RichEditor](ComponentName)
+    .builder[Props](this.getClass.getSimpleName)
     .stateless
     .renderBackend[Backend]
     .build
