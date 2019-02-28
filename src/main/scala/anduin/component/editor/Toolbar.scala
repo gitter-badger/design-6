@@ -90,10 +90,30 @@ object Toolbar {
     private def onRemoveLink = {
       for {
         props <- scope.props
+        editorInstance <- props.editorRef().get
+        editor = editorInstance.raw.editor
         value = props.value
         _ <- Callback.when(hasLinks(value)) {
-          props.onChange(value.change().unwrapInline(LinkNode.nodeType))
+          props.onChange(editor.unwrapInline(LinkNode.nodeType))
         }
+      } yield ()
+    }
+
+    private def onClickUndo = {
+      for {
+        props <- scope.props
+        editorInstance <- props.editorRef().get
+        editor = editorInstance.raw.editor
+        _ <- props.onChange(editor.undo())
+      } yield ()
+    }
+
+    private def onClickRedo = {
+      for {
+        props <- scope.props
+        editorInstance <- props.editorRef().get
+        editor = editorInstance.raw.editor
+        _ <- props.onChange(editor.redo())
       } yield ()
     }
 
@@ -113,7 +133,7 @@ object Toolbar {
             targetTag = <.span,
             renderTarget = Button(
               style = Button.Style.Minimal(icon = Some(Icon.Glyph.Undo)),
-              onClick = props.onChange(props.value.change().undo()),
+              onClick = onClickUndo,
               isDisabled = !props.value.hasUndos
             )(),
             renderContent = () => "Undo"
@@ -123,7 +143,7 @@ object Toolbar {
             targetTag = <.span,
             renderTarget = Button(
               style = Button.Style.Minimal(icon = Some(Icon.Glyph.Redo)),
-              onClick = props.onChange(props.value.change().redo()),
+              onClick = onClickRedo,
               isDisabled = props.value.hasRedos
             )(),
             renderContent = () => "Redo"
