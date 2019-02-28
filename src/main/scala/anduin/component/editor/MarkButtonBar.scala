@@ -31,12 +31,7 @@ private[editor] object MarkButtonBar {
         props <- scope.props
         editorInstance <- props.editorRef().get
         editor = editorInstance.raw
-        value = props.value
-        _ = if (value.isFocused) {
-          editor.toggleMark(markNode.nodeType)
-        } else {
-          editor.focus().toggleMark(markNode.nodeType)
-        }
+        _ = editor.toggleMark(markNode.nodeType)
         _ <- props.onChange(editor)
       } yield ()
     }
@@ -54,7 +49,7 @@ private[editor] object MarkButtonBar {
             ToolbarButton(
               key = markNode.nodeType,
               tip = tip,
-              active = props.value.activeMarks.exists(item => item.markType == markNode.nodeType),
+              active = props.value.activeMarks.exists(_.markType == markNode.nodeType),
               onClick = toggleMark(markNode)
             )(icon)
         }
