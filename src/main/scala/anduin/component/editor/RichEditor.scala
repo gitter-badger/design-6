@@ -33,8 +33,7 @@ object RichEditor {
   private class Backend(scope: BackendScope[Props, _]) {
 
     private def onKeyDown(e: KeyboardEvent, editor: Editor, next: SlateReact.KeyDownNextFn) = {
-      val _ = next
-      Callback.when(e.metaKey) {
+      if (e.metaKey) {
         e.key match {
           case "b" =>
             Callback {
@@ -63,8 +62,10 @@ object RichEditor {
               props <- scope.props
               _ <- Callback.when(SlateUtil.hasRedo(props.value))(props.onChange(editor.redo().value))
             } yield ()
-          case _ => Callback.empty
+          case _ => Callback(next())
         }
+      } else {
+        Callback(next())
       }
     }
 

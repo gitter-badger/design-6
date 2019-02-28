@@ -5,7 +5,7 @@ package anduin.component.editor
 import scala.scalajs.js
 
 import org.scalajs.dom.Element
-import org.scalajs.dom.raw.{DOMParser, NodeList}
+import org.scalajs.dom.raw.DOMParser
 
 import anduin.component.editor.renderer.{ImageRenderer, LinkRenderer, MarkRenderer, TextAlignRenderer}
 import anduin.component.editor.serializer.HtmlNormalizer
@@ -50,8 +50,8 @@ object Serializer {
   )
 
   // See https://docs.slatejs.org/walkthroughs/saving-and-loading-html-content
-  private val blockHandler = new Rule(
-    deserialize = (ele: Element, next: js.Function1[NodeList, NodeList]) => {
+  private val blockHandler = Rule(
+    deserializeParam = (ele: Element, next: DeserializeNextFn) => {
       BlockTags.get(ele.tagName.toLowerCase).fold[DeserializeOutputType](()) { tpe =>
         new RuleDeserializeOutput(
           `object` = "block",
@@ -63,7 +63,7 @@ object Serializer {
         )
       }
     },
-    serialize = (obj: RuleSerializeInput, children: js.Object) => {
+    serializeParam = (obj: RuleSerializeInput, children: js.Object) => {
       val res: SerializeOutputType = if (obj.`object` != "block") {
         ()
       } else {
@@ -87,8 +87,8 @@ object Serializer {
     }
   )
 
-  private val textAlignmentHandler = new Rule(
-    deserialize = (ele: Element, next: js.Function1[NodeList, NodeList]) => {
+  private val textAlignmentHandler = Rule(
+    deserializeParam = (ele: Element, next: DeserializeNextFn) => {
       TextAlignmentTags.get(ele.tagName.toLowerCase).fold[DeserializeOutputType](()) { tpe =>
         val textAlign = StyleParser.textAlign(ele)
         if (textAlign.isEmpty) {
@@ -109,7 +109,7 @@ object Serializer {
         }
       }
     },
-    serialize = (obj: RuleSerializeInput, children: js.Object) => {
+    serializeParam = (obj: RuleSerializeInput, children: js.Object) => {
       val res: SerializeOutputType = if (obj.`object` != "block" || obj.tpe != TextAlignNode.nodeType) {
         ()
       } else {
@@ -119,8 +119,8 @@ object Serializer {
     }
   )
 
-  private val linkHandler = new Rule(
-    deserialize = (ele: Element, next: js.Function1[NodeList, NodeList]) => {
+  private val linkHandler = Rule(
+    deserializeParam = (ele: Element, next: DeserializeNextFn) => {
       if (ele.tagName.toLowerCase != "a") {
         ()
       } else {
@@ -138,7 +138,7 @@ object Serializer {
         )
       }
     },
-    serialize = (obj: RuleSerializeInput, children: js.Object) => {
+    serializeParam = (obj: RuleSerializeInput, children: js.Object) => {
       val res: SerializeOutputType = if (obj.`object` != "inline" || obj.tpe != LinkNode.nodeType) {
         ()
       } else {
@@ -148,8 +148,8 @@ object Serializer {
     }
   )
 
-  private val imageHandler = new Rule(
-    deserialize = (ele: Element, next: js.Function1[NodeList, NodeList]) => {
+  private val imageHandler = Rule(
+    deserializeParam = (ele: Element, next: DeserializeNextFn) => {
       if (ele.tagName.toLowerCase != "img") {
         ()
       } else {
@@ -174,7 +174,7 @@ object Serializer {
         }
       }
     },
-    serialize = (obj: RuleSerializeInput, _: js.Object) => {
+    serializeParam = (obj: RuleSerializeInput, _: js.Object) => {
       val res: SerializeOutputType = if (obj.`object` != "inline" || obj.tpe != ImageNode.nodeType) {
         ()
       } else {
@@ -184,8 +184,8 @@ object Serializer {
     }
   )
 
-  private val markHandler = new Rule(
-    deserialize = (ele: Element, next: js.Function1[NodeList, NodeList]) => {
+  private val markHandler = Rule(
+    deserializeParam = (ele: Element, next: DeserializeNextFn) => {
       MarkTags.get(ele.tagName.toLowerCase).fold[DeserializeOutputType](()) { nodeType =>
         new RuleDeserializeOutput(
           `object` = "mark",
@@ -197,15 +197,15 @@ object Serializer {
         )
       }
     },
-    serialize = (obj: RuleSerializeInput, children: js.Object) => {
+    serializeParam = (obj: RuleSerializeInput, children: js.Object) => {
       val res: SerializeOutputType = if (obj.`object` != "mark") () else MarkRenderer(obj.tpe, children)
       res
     }
   )
 
-  private val htmlSerializer = new HtmlSerializer(
-    new Options(
-      rules = js.Array(
+  private val htmlSerializer = HtmlSerializer(
+    Options(
+      rulesParam = js.Array(
         // The order of rules are important
         // We need to put the text alignment before block rule
         textAlignmentHandler,
@@ -214,7 +214,7 @@ object Serializer {
         imageHandler,
         markHandler
       ),
-      parseHtml = js.defined { html: String =>
+      parseHtmlParam = html => {
         val parsed = new DOMParser().parseFromString(html, "text/html")
         val body = parsed.querySelector("body")
 
@@ -249,7 +249,7 @@ object Serializer {
       .replaceAll(">\\s+<", "><")
       .trim
     val sanitized = Caja.htmlSanitize(html = trim, urlTransformer = sanitizeUri)
-    val valueJson = htmlSerializer.deserialize(sanitized, new HtmlDeserializeOptions(toJSON = true))
+    val valueJson = htmlSerializer.deserialize(sanitized, HtmlDeserializeOptions(toJsonParam = true))
     HtmlNormalizer(valueJson)
   }
 
