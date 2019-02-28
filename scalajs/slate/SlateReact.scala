@@ -59,9 +59,9 @@ object SlateReact {
       override val onChange = js.defined { change =>
         onChangeParam(change.value).runNow()
       }
-//      override val onKeyDown = js.defined { (e: KeyboardEvent, c: Editor, next: KeyDownNextFn) =>
-//        onKeyDownParam(e, c, next).runNow()
-//      }
+      override val onKeyDown = js.defined { (e: KeyboardEvent, c: Editor, next: KeyDownNextFn) =>
+        onKeyDownParam(e, c, next).runNow()
+      }
       override val renderNode = js.defined { renderNodeParam }
       override val renderMark = js.defined { renderMarkParam }
     }

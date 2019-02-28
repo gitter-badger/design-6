@@ -6,8 +6,8 @@ import scala.scalajs.js
 import scala.scalajs.js.annotation.{JSImport, JSName}
 import scala.scalajs.js.|
 
-import org.scalajs.dom.{Element, Node}
 import org.scalajs.dom.raw.NodeList
+import org.scalajs.dom.{Element, Node}
 
 import anduin.scalajs.slate.Slate.{Data, Value, ValueJson}
 
@@ -15,36 +15,83 @@ object HtmlSerializer {
 
   type SerializeOutputType = js.Object | Unit
   type DeserializeOutputType = RuleDeserializeOutput | Unit
+  type DeserializeNextFn = NodeList => NodeList
+
+  /* HtmlSerializer */
 
   // See https://github.com/ianstormtaylor/slate/blob/master/docs/reference/slate-html-serializer/index.md
   // and https://docs.slatejs.org/other-packages/slate-html-serializer
   @JSImport("slate-html-serializer", JSImport.Default, "Html")
   @js.native
-  final class HtmlSerializer(
-    val options: js.UndefOr[Options] = js.undefined
-  ) extends js.Object {
+  class HtmlSerializer extends js.Object {
+    val options: js.UndefOr[Options] = js.native
 
-    def deserialize(
-      html: String,
-      options: HtmlDeserializeOptions
-    ): ValueJson = js.native
-
+    def deserialize(html: String, options: HtmlDeserializeOptions): ValueJson = js.native
     def deserialize(html: String): Value = js.native
-
     def serialize(value: Value): String = js.native
   }
 
-  final class HtmlDeserializeOptions(val toJSON: Boolean) extends js.Object
+  object HtmlSerializer {
+    def apply(
+      optionsParam: Options
+    ): HtmlSerializer = {
+      new HtmlSerializer {
+        override val options = js.defined(optionsParam)
+      }
+    }
+  }
 
-  final class Options(
-    val rules: js.UndefOr[js.Array[Rule]] = js.undefined,
+  /* HtmlDeserializeOptions */
+
+  trait HtmlDeserializeOptions extends js.Object {
+    val toJSON: Boolean
+  }
+
+  object HtmlDeserializeOptions {
+    def apply(toJsonParam: Boolean): HtmlDeserializeOptions = {
+      new HtmlDeserializeOptions {
+        override val toJSON = toJsonParam
+      }
+    }
+  }
+
+  /* Options */
+
+  trait Options extends js.Object {
+    val rules: js.UndefOr[js.Array[Rule]] = js.undefined
     val parseHtml: js.UndefOr[js.Function1[String, Node]] = js.undefined
-  ) extends js.Object
+  }
 
-  final class Rule(
-    val deserialize: js.Function2[Element, js.Function1[NodeList, NodeList], DeserializeOutputType],
-    val serialize: js.Function2[RuleSerializeInput, js.Object, SerializeOutputType]
-  ) extends js.Object
+  object Options {
+    def apply(
+      rulesParam: js.Array[Rule],
+      parseHtmlParam: String => Node
+    ): Options = {
+      new Options {
+        override val rules = js.defined(rulesParam)
+        override val parseHtml = js.defined(parseHtmlParam)
+      }
+    }
+  }
+
+  /* Rule */
+
+  trait Rule extends js.Object {
+    val deserialize: (Element, DeserializeNextFn) => DeserializeOutputType
+    val serialize: (RuleSerializeInput, js.Object) => SerializeOutputType
+  }
+
+  object Rule {
+    def apply(
+      deserializeParam: (Element, DeserializeNextFn) => DeserializeOutputType,
+      serializeParam: (RuleSerializeInput, js.Object) => SerializeOutputType
+    ): Rule = {
+      new Rule {
+        override val deserialize = deserializeParam
+        override val serialize = serializeParam
+      }
+    }
+  }
 
   final class RuleSerializeInput(
     val `object`: String,
