@@ -27,7 +27,6 @@ object Slate {
     def activeMarks: ImmutableSet[Mark] = js.native
     def blocks: ImmutableList[Block] = js.native
     def inlines: ImmutableList[Inline] = js.native
-    def change(): Editor = js.native
     def hasUndos: Boolean = js.native
     def hasRedos: Boolean = js.native
     def isExpanded: Boolean = js.native
