@@ -28,7 +28,8 @@ object SlateReact {
 
   type EditorComponentType = JsComponentWithFacade[Props, Null, SlateReact.EditorComponent, CtorType.Props]
   type EditorComponentRef = Ref.ToJsComponent[
-    SlateReact.Props, Null,
+    SlateReact.Props,
+    Null,
     JsComponent.RawMounted[SlateReact.Props, Null] with SlateReact.EditorComponent
   ]
 
@@ -37,44 +38,48 @@ object SlateReact {
 
   type RenderOutput = Element | Null
   type DecorateNodeFn = js.Function1[Node, js.Array[js.Object]]
+  type RenderNextFn = js.Function0[Element]
+  type KeyDownNextFn = js.Function0[Change]
 
   def props(
-    placeholder: String,
-    value: Value,
-    readOnly: Boolean,
-    onChange: Value => Callback,
-    onKeyDown: (KeyboardEvent, Editor) => Callback,
-    renderNode: RenderNodeProps => RenderOutput,
-    renderMark: RenderMarkProps => RenderOutput,
-    decorateNodeOpt: Option[Node => js.Array[js.Object]] = None
+    autoFocusParam: Boolean,
+    placeholderParam: String,
+    valueParam: Value,
+    readOnlyParam: Boolean,
+    onChangeParam: Value => Callback,
+    onKeyDownParam: (KeyboardEvent, Editor, KeyDownNextFn) => Callback,
+    renderNodeParam: (RenderNodeProps, Editor, RenderNextFn) => RenderOutput,
+    renderMarkParam: (RenderMarkProps, Editor, RenderNextFn) => RenderOutput
   ): Props = {
-    new Props(
-      placeholder = placeholder,
-      value = value,
-      readOnly = readOnly,
-      onChange = js.defined { change =>
-        onChange(change.value).runNow()
-      },
-      onKeyDown = js.defined { (e: KeyboardEvent, c: Editor) =>
-        onKeyDown(e, c).runNow()
-      },
-      renderNode = js.defined { renderNode },
-      renderMark = js.defined { renderMark },
-      decorateNode = decorateNodeOpt.fold[js.UndefOr[DecorateNodeFn]](js.undefined)(js.defined(_))
-    )
+    new Props {
+      override val autoFocus = autoFocusParam
+      override val placeholder = placeholderParam
+      override val value = valueParam
+      override val readOnly = readOnlyParam
+      override val onChange = js.defined { change =>
+        onChangeParam(change.value).runNow()
+      }
+//      override val onKeyDown = js.defined { (e: KeyboardEvent, c: Editor, next: KeyDownNextFn) =>
+//        onKeyDownParam(e, c, next).runNow()
+//      }
+      override val renderNode = js.defined { renderNodeParam }
+      override val renderMark = js.defined { renderMarkParam }
+    }
   }
 
-  // See https://docs.slatejs.org/slate-react/editor
-  final class Props(
-    val placeholder: String,
-    val value: Value,
-    val readOnly: Boolean,
-    val onChange: js.UndefOr[js.Function1[Change, Unit]] = js.undefined,
-    val onKeyDown: js.UndefOr[js.Function2[KeyboardEvent, Editor, Unit]] = js.undefined,
-    val renderNode: js.UndefOr[js.Function1[RenderNodeProps, RenderOutput]] = js.undefined,
-    val renderMark: js.UndefOr[js.Function1[RenderMarkProps, RenderOutput]] = js.undefined,
-    val decorateNode: js.UndefOr[DecorateNodeFn] = js.undefined
-  ) extends js.Object
+  // Always use trait to create associate object in facade.
+  // Otherwise, we will see a lot of issues.
+  // For example, pressing Backspace, Enter or Delete keys don't work
+  trait Props extends js.Object {
+    val autoFocus: Boolean
+    val placeholder: String
+    val value: Value
+    val readOnly: Boolean
+    val onChange: js.UndefOr[js.Function1[Change, Unit]] = js.undefined
+    val onKeyDown: js.UndefOr[js.Function3[KeyboardEvent, Editor, KeyDownNextFn, Unit]] = js.undefined
+    val renderNode: js.UndefOr[js.Function3[RenderNodeProps, Editor, RenderNextFn, RenderOutput]] = js.undefined
+    val renderMark: js.UndefOr[js.Function3[RenderMarkProps, Editor, RenderNextFn, RenderOutput]] = js.undefined
+  }
 
   final class RenderMarkProps(
     val mark: Mark,
