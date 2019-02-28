@@ -32,35 +32,35 @@ object RichEditor {
 
   private class Backend(scope: BackendScope[RichEditor, _]) {
 
-    private def onKeyDown(e: KeyboardEvent, change: Editor) = {
+    private def onKeyDown(e: KeyboardEvent, editor: Editor) = {
       Callback.when(e.metaKey) {
         e.key match {
           case "b" =>
             Callback {
               e.preventDefault()
-              change.toggleMark(BoldNode.nodeType)
+              editor.toggleMark(BoldNode.nodeType)
             }
           case "i" =>
             Callback {
               e.preventDefault()
-              change.toggleMark(ItalicNode.nodeType)
+              editor.toggleMark(ItalicNode.nodeType)
             }
           case "u" =>
             Callback {
               e.preventDefault()
-              change.toggleMark(UnderlineNode.nodeType)
+              editor.toggleMark(UnderlineNode.nodeType)
             }
           case "z" =>
             e.preventDefault()
             for {
               props <- scope.props
-              _ <- Callback.when(props.value.hasUndos)(props.onChange(change.undo().value))
+              _ <- Callback.when(SlateUtil.hasUndo(props.value))(props.onChange(editor.undo().value))
             } yield ()
           case "y" =>
             e.preventDefault()
             for {
               props <- scope.props
-              _ <- Callback.when(props.value.hasRedos)(props.onChange(change.redo().value))
+              _ <- Callback.when(SlateUtil.hasRedo(props.value))(props.onChange(editor.redo().value))
             } yield ()
           case _ => Callback.empty
         }

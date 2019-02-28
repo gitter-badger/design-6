@@ -120,6 +120,7 @@ object Toolbar {
     // scalastyle:off method.length multiple.string.literals
     def render(props: Toolbar, children: PropsChildren): VdomElement = {
       val hasLink = hasLinks(props.value)
+
       <.div(
         ComponentUtils.testId(this, "ToolbarContainer"),
         ^.cls := "editor-toolbar",
@@ -134,7 +135,7 @@ object Toolbar {
             renderTarget = Button(
               style = Button.Style.Minimal(icon = Some(Icon.Glyph.Undo)),
               onClick = onClickUndo,
-              isDisabled = !props.value.hasUndos
+              isDisabled = !SlateUtil.hasUndo(props.value)
             )(),
             renderContent = () => "Undo"
           )(),
@@ -144,7 +145,7 @@ object Toolbar {
             renderTarget = Button(
               style = Button.Style.Minimal(icon = Some(Icon.Glyph.Redo)),
               onClick = onClickRedo,
-              isDisabled = props.value.hasRedos
+              isDisabled = !SlateUtil.hasRedo(props.value)
             )(),
             renderContent = () => "Redo"
           )(),
