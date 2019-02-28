@@ -58,7 +58,7 @@ object Toolbar {
       for {
         props <- scope.props
         editorInstance <- props.editorRef().get
-        editor = editorInstance.raw.editor
+        editor = editorInstance.raw
         value = props.value
         // If there's a link inside the current selection, then remove it
         _ <- Callback.when(hasLinks(value)) {
@@ -91,7 +91,7 @@ object Toolbar {
       for {
         props <- scope.props
         editorInstance <- props.editorRef().get
-        editor = editorInstance.raw.editor
+        editor = editorInstance.raw
         value = props.value
         _ <- Callback.when(hasLinks(value)) {
           props.onChange(editor.unwrapInline(LinkNode.nodeType))
@@ -103,7 +103,7 @@ object Toolbar {
       for {
         props <- scope.props
         editorInstance <- props.editorRef().get
-        editor = editorInstance.raw.editor
+        editor = editorInstance.raw
         _ <- props.onChange(editor.undo())
       } yield ()
     }
@@ -112,7 +112,7 @@ object Toolbar {
       for {
         props <- scope.props
         editorInstance <- props.editorRef().get
-        editor = editorInstance.raw.editor
+        editor = editorInstance.raw
         _ <- props.onChange(editor.redo())
       } yield ()
     }

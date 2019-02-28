@@ -51,7 +51,7 @@ object ReadOnlyEditor {
       for {
         state <- scope.state
         editorInstance <- editorRef.get
-        editor = editorInstance.raw.editor
+        editor = editorInstance.raw
         value = state.value
         texts = value.document.getTexts()
         _ <- {

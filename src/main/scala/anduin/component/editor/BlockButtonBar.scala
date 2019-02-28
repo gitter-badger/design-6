@@ -37,7 +37,7 @@ private[editor] object BlockButtonBar {
       for {
         props <- scope.props
         editorInstance <- props.editorRef().get
-        editor = editorInstance.raw.editor
+        editor = editorInstance.raw
         value = props.value
         _ <- {
           nodeType match {

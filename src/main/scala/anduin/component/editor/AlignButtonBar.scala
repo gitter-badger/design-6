@@ -45,7 +45,7 @@ private[editor] object AlignButtonBar {
       for {
         props <- scope.props
         editorInstance <- props.editorRef().get
-        editor = editorInstance.raw.editor
+        editor = editorInstance.raw
         originalType = props.value.blocks.headOption
           .map(_.nodeType)
           .getOrElse(ParagraphNode.nodeType)

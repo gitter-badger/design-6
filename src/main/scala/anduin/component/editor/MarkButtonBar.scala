@@ -30,7 +30,7 @@ private[editor] object MarkButtonBar {
       for {
         props <- scope.props
         editorInstance <- props.editorRef().get
-        editor = editorInstance.raw.editor
+        editor = editorInstance.raw
         value = props.value
         _ = if (value.isFocused) {
           editor.toggleMark(markNode.nodeType)
