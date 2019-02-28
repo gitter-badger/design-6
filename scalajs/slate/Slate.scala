@@ -24,11 +24,11 @@ object Slate {
 
   @js.native
   trait Value extends js.Object {
+    val data: Data = js.native
+
     def activeMarks: ImmutableSet[Mark] = js.native
     def blocks: ImmutableList[Block] = js.native
     def inlines: ImmutableList[Inline] = js.native
-    def hasUndos: Boolean = js.native
-    def hasRedos: Boolean = js.native
     def isExpanded: Boolean = js.native
     def isFocused: Boolean = js.native
     val document: Document = js.native
@@ -66,12 +66,9 @@ object Slate {
     def setBlock(props: js.Object): Editor = js.native
     def unwrapBlock(block: String): Editor = js.native
     def wrapBlock(block: String): Editor = js.native
-    def insertInlineAtRange(range: Range, properties: js.Object): Editor =
-      js.native
-    def wrapInlineAtRange(range: Range, properties: js.Object): Editor =
-      js.native
-    def moveOffsetsTo(anchorOffset: Int, focusOffset: Int): Editor =
-      js.native
+    def insertInlineAtRange(range: Range, properties: js.Object): Editor = js.native
+    def wrapInlineAtRange(range: Range, properties: js.Object): Editor = js.native
+    def moveOffsetsTo(anchorOffset: Int, focusOffset: Int): Editor = js.native
     def deselect(): Editor = js.native
     def extendToStartOf(node: Node): Editor = js.native
   }
@@ -99,12 +96,9 @@ object Slate {
     val nodes: js.UndefOr[ImmutableList[Node]] = js.native
     val text: String = js.native
 
-    def getClosest(key: String, @JSName("match") find: js.Function1[Node, Boolean]): js.UndefOr[Node] =
-      js.native
+    def getClosest(key: String, @JSName("match") find: js.Function1[Node, Boolean]): js.UndefOr[Node] = js.native
     def getTexts(): ImmutableList[Text] = js.native
-
     def set(key: String, value: js.Object): Node = js.native
-
     def toJSON(): js.Object = js.native
   }
 
