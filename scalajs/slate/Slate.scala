@@ -30,7 +30,6 @@ object Slate {
     def blocks: ImmutableList[Block] = js.native
     def inlines: ImmutableList[Inline] = js.native
     def isExpanded: Boolean = js.native
-    def isFocused: Boolean = js.native
     val document: Document = js.native
     def isBlurred: Boolean = js.native
     def toJSON(): js.Object = js.native
