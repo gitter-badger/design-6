@@ -25,12 +25,12 @@ object Slate {
   @js.native
   trait Value extends js.Object {
     val data: Data = js.native
+    val document: Document = js.native
 
     def activeMarks: ImmutableSet[Mark] = js.native
     def blocks: ImmutableList[Block] = js.native
     def inlines: ImmutableList[Inline] = js.native
     def isExpanded: Boolean = js.native
-    val document: Document = js.native
     def isBlurred: Boolean = js.native
     def toJSON(): js.Object = js.native
   }
@@ -61,7 +61,7 @@ object Slate {
     def insertText(text: String): Editor = js.native
     def insertFragment(document: Document): Editor = js.native
     def extend(num: Int): Editor = js.native
-    def setBlock(block: String): Editor = js.native
+    def setBlocks(block: String): Editor = js.native
     def setBlock(props: js.Object): Editor = js.native
     def unwrapBlock(block: String): Editor = js.native
     def wrapBlock(block: String): Editor = js.native
@@ -96,6 +96,7 @@ object Slate {
     val text: String = js.native
 
     def getClosest(key: String, @JSName("match") find: js.Function1[Node, Boolean]): js.UndefOr[Node] = js.native
+    def getParent(node: String): js.UndefOr[Node] = js.native
     def getTexts(): ImmutableList[Text] = js.native
     def set(key: String, value: js.Object): Node = js.native
     def toJSON(): js.Object = js.native
