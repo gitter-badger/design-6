@@ -29,7 +29,18 @@ private[editor] object BlockButtonBar {
   private class Backend(scope: BackendScope[BlockButtonBar, _]) {
 
     private def hasBlock(value: Value, blockNode: NodeType) = {
-      value.blocks.exists(item => item.nodeType == blockNode.nodeType)
+      blockNode match {
+        case UnorderedListNode | OrderedListNode =>
+          value.blocks.headOption.fold(false) { first =>
+            val parent = value.document.getParent(first.key)
+            parent.fold(false) { p =>
+              val hasItemBlock = value.blocks.exists(_.nodeType == ListItemNode.nodeType)
+              hasItemBlock && p.nodeType == blockNode.nodeType
+            }
+          }
+        case _ =>
+          value.blocks.exists(_.nodeType == blockNode.nodeType)
+      }
     }
 
     // scalastyle:off cyclomatic.complexity
@@ -55,7 +66,7 @@ private[editor] object BlockButtonBar {
               })
               if (isList && isType) {
                 editor
-                  .setBlock(DefaultNodeType)
+                  .setBlocks(DefaultNodeType)
                   .unwrapBlock(UnorderedListNode.nodeType)
                   .unwrapBlock(OrderedListNode.nodeType)
               } else if (isList) {
@@ -64,7 +75,7 @@ private[editor] object BlockButtonBar {
                   .wrapBlock(nodeType.nodeType)
               } else {
                 editor
-                  .setBlock(ListItemNode.nodeType)
+                  .setBlocks(ListItemNode.nodeType)
                   .wrapBlock(nodeType.nodeType)
               }
               props.onChange(editor)
@@ -76,11 +87,11 @@ private[editor] object BlockButtonBar {
 
               if (isList) {
                 editor
-                  .setBlock(newNodeType)
+                  .setBlocks(newNodeType)
                   .unwrapBlock(UnorderedListNode.nodeType)
                   .unwrapBlock(OrderedListNode.nodeType)
               } else {
-                editor.setBlock(newNodeType)
+                editor.setBlocks(newNodeType)
               }
               props.onChange(editor)
 
