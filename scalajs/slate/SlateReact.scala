@@ -22,11 +22,7 @@ object SlateReact {
   object EditorComponent extends js.Object
 
   @js.native
-  trait EditorComponent extends js.Object {
-    def focus(): Unit = js.native
-    val value: Value = js.native
-    val editor: Editor = js.native
-  }
+  trait EditorComponent extends Editor
 
   final class Change(val value: Value) extends js.Object
 

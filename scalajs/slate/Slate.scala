@@ -49,7 +49,7 @@ object Slate {
 
   @JSImport("slate", "Editor")
   @js.native
-  final class Editor(val value: Value) extends js.Object {
+  class Editor(val value: Value) extends js.Object {
     def addMark(mark: String): Editor = js.native
     def removeMark(mark: String): Editor = js.native
     def toggleMark(mark: String): Editor = js.native
