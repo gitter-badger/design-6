@@ -49,7 +49,7 @@ private[editor] object AlignButtonBar {
         originalType = props.value.blocks.headOption
           .map(_.nodeType)
           .getOrElse(ParagraphNode.nodeType)
-        _ = editor.setBlock(
+        _ = editor.setBlocks(
           js.Dynamic.literal(
             `type` = TextAlignNode.nodeType,
             data = js.Dynamic.literal(
