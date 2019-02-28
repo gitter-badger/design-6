@@ -68,7 +68,7 @@ object Slate {
     def insertFragment(document: Document): Editor = js.native
     def extend(num: Int): Editor = js.native
     def setBlocks(block: String): Editor = js.native
-    def setBlock(props: js.Object): Editor = js.native
+    def setBlocks(props: js.Object): Editor = js.native
     def unwrapBlock(block: String): Editor = js.native
     def wrapBlock(block: String): Editor = js.native
     def insertInlineAtRange(range: Range, properties: js.Object): Editor = js.native
