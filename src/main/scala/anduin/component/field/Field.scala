@@ -15,7 +15,8 @@ final case class Field(
   label: Option[String] = None,
   help: Option[VdomNode] = None,
   desc: Option[String] = None,
-  error: Option[String] = None
+  error: Option[String] = None,
+  isRequired: Boolean = false
 ) {
   def apply(children: VdomNode*): VdomElement = {
     Field.component(this)(children: _*)
@@ -53,6 +54,9 @@ object Field {
             Style.flexbox.flex.flexbox.itemsCenter,
             ^.paddingTop := "6px",
             <.label(^.htmlFor := props.id, Static.label, label),
+            TagMod.when(props.isRequired)(
+              <.span(Style.color.red4.margin.hor4, "*")
+            ),
             props.help
           )
         }),
@@ -73,6 +77,9 @@ object Field {
           <.div(
             Style.flexbox.flex.flexbox.itemsCenter,
             <.label(^.htmlFor := props.id, Static.label, label),
+            TagMod.when(props.isRequired)(
+              <.span(Style.color.red4.margin.hor4, "*")
+            ),
             props.help
           )
         },
