@@ -26,11 +26,11 @@ object Slate {
   trait Value extends js.Object {
     val data: Data = js.native
     val document: Document = js.native
+    val selection: Selection = js.native
 
     def activeMarks: ImmutableSet[Mark] = js.native
     def blocks: ImmutableList[Block] = js.native
     def inlines: ImmutableList[Inline] = js.native
-    def isExpanded: Boolean = js.native
     def isBlurred: Boolean = js.native
     def toJSON(): js.Object = js.native
   }
@@ -61,12 +61,12 @@ object Slate {
     def focus(): Editor = js.native
     def undo(): Editor = js.native
     def redo(): Editor = js.native
-    def collapseToEnd(): Editor = js.native
+    def moveToEnd(): Editor = js.native
     def unwrapInline(inlineType: String): Editor = js.native
     def wrapInline(props: js.Object): Editor = js.native
     def insertText(text: String): Editor = js.native
     def insertFragment(document: Document): Editor = js.native
-    def extend(num: Int): Editor = js.native
+    def moveFocusBackward(num: Int): Editor = js.native
     def setBlocks(block: String): Editor = js.native
     def setBlocks(props: js.Object): Editor = js.native
     def unwrapBlock(block: String): Editor = js.native
@@ -150,5 +150,14 @@ object Slate {
   @JSImport("slate", "Text")
   @js.native
   final class Text extends Node
+
+  @JSImport("slate", "Selection")
+  @js.native
+  object Selection extends js.Object
+
+  @js.native
+  trait Selection extends js.Object {
+    val isExpanded: Boolean = js.native
+  }
 }
 // scalastyle:on multiple.string.literals
