@@ -53,12 +53,14 @@ object Serializer {
   private val blockHandler = Rule(
     deserializeParam = (ele: Element, next: DeserializeNextFn) => {
       BlockTags.get(ele.tagName.toLowerCase).fold[DeserializeOutputType](()) { tpe =>
-        new RuleDeserializeOutput(
-          `object` = "block",
-          tpe = tpe,
-          nodes = next(ele.childNodes),
-          data = js.Dynamic.literal(
-            style = StyleParser.parseStyle(ele)
+        RuleDeserializeOutput(
+          objectParam = "block",
+          typeParam = tpe,
+          nodesParam = next(ele.childNodes),
+          dataParam = Some(
+            js.Dynamic.literal(
+              style = StyleParser.parseStyle(ele)
+            )
           )
         )
       }
@@ -94,17 +96,17 @@ object Serializer {
         if (textAlign.isEmpty) {
           ()
         } else {
-          new RuleDeserializeOutput(
-            `object` = "block",
-            tpe = TextAlignNode.nodeType,
-            data = js.defined(
+          RuleDeserializeOutput(
+            objectParam = "block",
+            typeParam = TextAlignNode.nodeType,
+            dataParam = Some(
               js.Dynamic.literal(
                 textAlign = textAlign,
                 originalType = tpe,
                 style = StyleParser.parseStyle(ele)
               )
             ),
-            nodes = next(ele.childNodes)
+            nodesParam = next(ele.childNodes)
           )
         }
       }
@@ -124,17 +126,17 @@ object Serializer {
       if (ele.tagName.toLowerCase != "a") {
         ()
       } else {
-        new RuleDeserializeOutput(
-          `object` = "inline",
-          tpe = LinkNode.nodeType,
-          data = js.defined(
+        RuleDeserializeOutput(
+          objectParam = "inline",
+          typeParam = LinkNode.nodeType,
+          dataParam = Some(
             js.Dynamic.literal(
               href = ele.getAttribute("href"),
               target = ele.getAttribute("target"),
               style = StyleParser.parseStyle(ele)
             )
           ),
-          nodes = next(ele.childNodes)
+          nodesParam = next(ele.childNodes)
         )
       }
     },
@@ -155,11 +157,11 @@ object Serializer {
       } else {
         val source = ele.getAttribute("src")
         if (source != null && (source.startsWith("http://") || source.startsWith("https://"))) {
-          new RuleDeserializeOutput(
-            `object` = "inline",
-            tpe = ImageNode.nodeType,
-            isVoid = true,
-            data = js.defined(
+          RuleDeserializeOutput(
+            objectParam = "inline",
+            typeParam = ImageNode.nodeType,
+            isVoidParam = true,
+            dataParam = Some(
               js.Dynamic.literal(
                 source = ele.getAttribute("src"),
                 width = ele.getAttribute("width"),
@@ -167,7 +169,7 @@ object Serializer {
                 style = StyleParser.parseStyle(ele)
               )
             ),
-            nodes = next(ele.childNodes)
+            nodesParam = next(ele.childNodes)
           )
         } else {
           ()
@@ -187,12 +189,14 @@ object Serializer {
   private val markHandler = Rule(
     deserializeParam = (ele: Element, next: DeserializeNextFn) => {
       MarkTags.get(ele.tagName.toLowerCase).fold[DeserializeOutputType](()) { nodeType =>
-        new RuleDeserializeOutput(
-          `object` = "mark",
-          tpe = nodeType,
-          nodes = next(ele.childNodes),
-          data = js.Dynamic.literal(
-            style = StyleParser.parseStyle(ele)
+        RuleDeserializeOutput(
+          objectParam = "mark",
+          typeParam = nodeType,
+          nodesParam = next(ele.childNodes),
+          dataParam = Some(
+            js.Dynamic.literal(
+              style = StyleParser.parseStyle(ele)
+            )
           )
         )
       }
@@ -203,7 +207,7 @@ object Serializer {
     }
   )
 
-  private val htmlSerializer = HtmlSerializer(
+  private val htmlSerializer = new HtmlSerializer(
     Options(
       rulesParam = js.Array(
         // The order of rules are important
