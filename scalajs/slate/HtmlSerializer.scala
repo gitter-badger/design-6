@@ -15,30 +15,17 @@ object HtmlSerializer {
 
   type SerializeOutputType = js.Object | Unit
   type DeserializeOutputType = RuleDeserializeOutput | Unit
-  type DeserializeNextFn = NodeList => NodeList
+  type DeserializeNextFn = js.Function1[NodeList, NodeList]
 
   /* HtmlSerializer */
 
   // See https://github.com/ianstormtaylor/slate/blob/master/docs/reference/slate-html-serializer/index.md
-  // and https://docs.slatejs.org/other-packages/slate-html-serializer
   @JSImport("slate-html-serializer", JSImport.Default, "Html")
   @js.native
-  class HtmlSerializer extends js.Object {
-    val options: js.UndefOr[Options] = js.native
-
+  class HtmlSerializer(val options: Options) extends js.Object {
     def deserialize(html: String, options: HtmlDeserializeOptions): ValueJson = js.native
     def deserialize(html: String): Value = js.native
     def serialize(value: Value): String = js.native
-  }
-
-  object HtmlSerializer {
-    def apply(
-      optionsParam: Options
-    ): HtmlSerializer = {
-      new HtmlSerializer {
-        override val options = js.defined(optionsParam)
-      }
-    }
   }
 
   /* HtmlDeserializeOptions */
@@ -77,14 +64,14 @@ object HtmlSerializer {
   /* Rule */
 
   trait Rule extends js.Object {
-    val deserialize: (Element, DeserializeNextFn) => DeserializeOutputType
-    val serialize: (RuleSerializeInput, js.Object) => SerializeOutputType
+    val deserialize: js.Function2[Element, DeserializeNextFn, DeserializeOutputType]
+    val serialize: js.Function2[RuleSerializeInput, js.Object, SerializeOutputType]
   }
 
   object Rule {
     def apply(
-      deserializeParam: (Element, DeserializeNextFn) => DeserializeOutputType,
-      serializeParam: (RuleSerializeInput, js.Object) => SerializeOutputType
+      deserializeParam: js.Function2[Element, DeserializeNextFn, DeserializeOutputType],
+      serializeParam: js.Function2[RuleSerializeInput, js.Object, SerializeOutputType]
     ): Rule = {
       new Rule {
         override val deserialize = deserializeParam
@@ -93,18 +80,40 @@ object HtmlSerializer {
     }
   }
 
-  final class RuleSerializeInput(
-    val `object`: String,
-    @JSName("type") val tpe: String,
-    val data: Data
-  ) extends js.Object
+  /* RuleSerializeInput */
 
-  final class RuleDeserializeOutput(
+  trait RuleSerializeInput extends js.Object {
+    val `object`: String
+    @JSName("type") val tpe: String
+    val data: Data
+  }
+
+  /* RuleDeserializeOutput */
+
+  trait RuleDeserializeOutput extends js.Object {
     // Can be either `block`, `inline`, `mark` or `text`
-    val `object`: String,
-    val data: js.UndefOr[js.Object] = js.undefined,
-    @JSName("type") val tpe: String,
-    val nodes: NodeList,
-    val isVoid: Boolean = false
-  ) extends js.Object
+    val `object`: String
+    val data: js.UndefOr[js.Object] = js.undefined
+    val `type`: String
+    val nodes: NodeList
+    val isVoid: Boolean
+  }
+
+  object RuleDeserializeOutput {
+    def apply(
+      typeParam: String,
+      objectParam: String,
+      nodesParam: NodeList,
+      dataParam: Option[js.Object] = None,
+      isVoidParam: Boolean = false
+    ): RuleDeserializeOutput = {
+      new RuleDeserializeOutput {
+        override val `type` = typeParam
+        override val `object` = objectParam
+        override val nodes = nodesParam
+        override val data = dataParam.map(js.defined(_)).getOrElse(js.undefined)
+        override val isVoid = isVoidParam
+      }
+    }
+  }
 }
