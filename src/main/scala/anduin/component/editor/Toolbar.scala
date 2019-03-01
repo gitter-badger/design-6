@@ -44,7 +44,7 @@ object Toolbar {
   private class Backend(scope: BackendScope[Toolbar, _]) {
 
     private def hasLinks(value: Value) = {
-      value.inlines.exists(inline => inline.inlineType == LinkNode.nodeType)
+      value.inlines.exists(_.inlineType == LinkNode.nodeType)
     }
 
     private def onAddLink(link: String, openInNewTab: Boolean) = {
@@ -61,15 +61,14 @@ object Toolbar {
         editor = editorInstance.raw
         value = props.value
         // If there's a link inside the current selection, then remove it
-        _ <- Callback.when(hasLinks(value)) {
+        _ <- if (hasLinks(value)) {
           Callback {
             editor.unwrapInline(LinkNode.nodeType)
           }
-        }
-        _ <- {
-          if (!value.isExpanded) {
+        } else {
+          if (!value.selection.isExpanded) {
             // If there's no selected text, create a link with the same text and href
-            editor.insertText(standardLink).extend(0 - standardLink.length)
+            editor.insertText(standardLink).moveFocusBackward(standardLink.length)
           }
           val data = js.Dynamic.literal(href = standardLink)
           if (openInNewTab) {
@@ -81,7 +80,7 @@ object Toolbar {
               data = data
             )
           )
-          editor.collapseToEnd()
+          editor.moveToEnd()
           props.onChange(editor)
         }
       } yield ()
