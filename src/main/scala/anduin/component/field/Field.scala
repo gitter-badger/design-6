@@ -43,6 +43,16 @@ object Field {
     val error = Style.fontSize.px11.color.red5
   }
 
+  private def renderLabelContent(props: Props, label: String) = TagMod(
+    <.label(
+      ^.htmlFor := props.id,
+      Static.label,
+      label,
+      TagMod.when(props.isRequired)(<.span(Style.color.red4, " * "))
+    ),
+    props.help
+  )
+
   private def renderHor(props: Props, children: PropsChildren, layout: Layout.Hor): VdomElement = {
     <.div(
       Style.flexbox.flex,
@@ -53,10 +63,7 @@ object Field {
           <.p(
             Style.flexbox.flex.flexbox.itemsCenter,
             ^.paddingTop := "6px",
-            <.label(^.htmlFor := props.id, Static.label, label),
-            TagMod.when(props.isRequired)(
-              <.span(Style.color.red4.margin.hor4, "*")
-            ),
+            renderLabelContent(props, label),
             props.help
           )
         }),
@@ -76,10 +83,7 @@ object Field {
         props.label.map { label =>
           <.div(
             Style.flexbox.flex.flexbox.itemsCenter,
-            <.label(^.htmlFor := props.id, Static.label, label),
-            TagMod.when(props.isRequired)(
-              <.span(Style.color.red4.margin.hor4, "*")
-            ),
+            renderLabelContent(props, label),
             props.help
           )
         },
