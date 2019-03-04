@@ -1,6 +1,7 @@
 // Copyright (C) 2014-2019 Anduin Transactions Inc.
 
-package anduin.component.editor
+package anduin.component.editor.toolbar
+
 import anduin.component.modal.ModalBody
 import anduin.style.Style
 
@@ -9,11 +10,11 @@ import japgolly.scalajs.react._
 import japgolly.scalajs.react.vdom.html_<^._
 // scalastyle:on underscore.import
 
-private[editor] final case class ShortcutModal(isMac: Boolean) {
+private[toolbar] final case class ShortcutModal(isMac: Boolean) {
   def apply(): VdomElement = ShortcutModal.component(this)
 }
 
-private[editor] object ShortcutModal {
+private[toolbar] object ShortcutModal {
 
   // scalastyle:off multiple.string.literals
   private def render(props: ShortcutModal): VdomElement = {

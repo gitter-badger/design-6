@@ -1,8 +1,10 @@
 // Copyright (C) 2014-2019 Anduin Transactions Inc.
 
-package anduin.component.editor
+package anduin.component.editor.toolbar
 
 import anduin.component.button.Button
+import anduin.component.editor.LinkNode
+import anduin.component.editor.utils.DataUtil
 import anduin.component.input.checkbox.Checkbox
 import anduin.component.modal.{ModalBody, ModalFooterWCancel}
 import anduin.scalajs.slate.Slate.Value
@@ -13,7 +15,7 @@ import japgolly.scalajs.react._
 import japgolly.scalajs.react.vdom.html_<^._
 // scalastyle:on underscore.import
 
-private[editor] final case class LinkModal(
+private[toolbar] final case class LinkModal(
   value: Value,
   onAddLink: (String, Boolean) => Callback,
   onClose: Callback
@@ -21,7 +23,7 @@ private[editor] final case class LinkModal(
   def apply(): VdomElement = LinkModal.component(this)
 }
 
-private[editor] object LinkModal {
+private[toolbar] object LinkModal {
 
   private type Props = LinkModal
 

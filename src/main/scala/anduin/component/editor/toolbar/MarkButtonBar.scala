@@ -1,6 +1,6 @@
 // Copyright (C) 2014-2019 Anduin Transactions Inc.
 
-package anduin.component.editor
+package anduin.component.editor.toolbar
 
 import anduin.component.icon.Icon
 import anduin.scalajs.slate.Slate.Value
@@ -10,16 +10,18 @@ import anduin.style.Style
 // scalastyle:off underscore.import
 import japgolly.scalajs.react._
 import japgolly.scalajs.react.vdom.html_<^._
+
+import anduin.component.editor._
 // scalastyle:on underscore.import
 
-private[editor] final case class MarkButtonBar(
+private[toolbar] final case class MarkButtonBar(
   value: Value,
   editorRef: () => SlateReact.EditorComponentRef
 ) {
   def apply(): VdomElement = MarkButtonBar.component(this)
 }
 
-private[editor] object MarkButtonBar {
+private[toolbar] object MarkButtonBar {
 
   private type Props = MarkButtonBar
 

@@ -1,6 +1,6 @@
 // Copyright (C) 2014-2019 Anduin Transactions Inc.
 
-package anduin.component.editor
+package anduin.component.editor.utils
 
 import anduin.scalajs.slate.Slate.Data
 

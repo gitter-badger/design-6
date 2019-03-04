@@ -6,6 +6,7 @@ import scala.scalajs.js
 
 import org.scalajs.dom.Element
 
+import anduin.component.editor.utils.DataUtil
 import anduin.scalajs.slate.Slate.Data
 
 // scalastyle:off underscore.import

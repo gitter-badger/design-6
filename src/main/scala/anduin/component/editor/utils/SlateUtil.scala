@@ -1,7 +1,8 @@
 // Copyright (C) 2014-2019 Anduin Transactions Inc.
 
-package anduin.component.editor
+package anduin.component.editor.utils
 
+import anduin.component.editor.LinkNode
 import anduin.scalajs.immutable.ImmutableList
 import anduin.scalajs.slate.Slate.Value
 
@@ -19,5 +20,9 @@ private[editor] object SlateUtil {
       case list: ImmutableList[_] => list.nonEmpty
       case _                      => false
     }
+  }
+
+  def hasLinks(value: Value): Boolean = {
+    value.inlines.exists(_.inlineType == LinkNode.nodeType)
   }
 }

@@ -4,7 +4,7 @@ package anduin.component.editor.renderer
 
 import japgolly.scalajs.react.raw
 
-import anduin.component.editor.DataUtil
+import anduin.component.editor.utils.DataUtil
 
 // scalastyle:off underscore.import
 import japgolly.scalajs.react.vdom.html_<^._

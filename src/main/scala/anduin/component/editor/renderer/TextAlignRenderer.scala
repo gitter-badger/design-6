@@ -6,6 +6,8 @@ import scala.scalajs.js
 
 import japgolly.scalajs.react.{PropsChildren, raw}
 
+import anduin.component.editor.utils.DataUtil
+
 // scalastyle:off underscore.import
 import japgolly.scalajs.react.vdom.html_<^._
 

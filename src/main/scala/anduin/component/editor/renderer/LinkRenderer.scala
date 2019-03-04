@@ -3,12 +3,13 @@
 package anduin.component.editor.renderer
 
 import anduin.component.button.Button
-import anduin.component.editor.{DataUtil, StyleParser}
+import anduin.component.editor.StyleParser
 import anduin.component.portal.PositionBottomCenter
 import anduin.component.popover.Popover
 import japgolly.scalajs.react.{PropsChildren, raw}
-
 import scala.scalajs.js
+
+import anduin.component.editor.utils.DataUtil
 
 // scalastyle:off underscore.import
 import anduin.scalajs.slate.Slate._

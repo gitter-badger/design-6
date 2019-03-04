@@ -1,9 +1,11 @@
 // Copyright (C) 2014-2019 Anduin Transactions Inc.
 
-package anduin.component.editor
+package anduin.component.editor.toolbar
 
 import scala.scalajs.js
 
+import anduin.component.editor.utils.DataUtil
+import anduin.component.editor.{ParagraphNode, TextAlignNode}
 import anduin.component.icon.Icon
 import anduin.scalajs.slate.Slate.Value
 import anduin.scalajs.slate.SlateReact
@@ -14,14 +16,14 @@ import japgolly.scalajs.react._
 import japgolly.scalajs.react.vdom.html_<^._
 // scalastyle:on underscore.import
 
-private[editor] final case class AlignButtonBar(
+private[toolbar] final case class AlignButtonBar(
   value: Value,
   editorRef: () => SlateReact.EditorComponentRef
 ) {
   def apply(): VdomElement = AlignButtonBar.component(this)
 }
 
-private[editor] object AlignButtonBar {
+private[toolbar] object AlignButtonBar {
 
   private type Props = AlignButtonBar
 

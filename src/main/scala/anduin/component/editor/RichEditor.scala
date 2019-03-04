@@ -7,6 +7,7 @@ import scala.scalajs.js
 import org.scalajs.dom.KeyboardEvent
 
 import anduin.component.editor.renderer.{ImageRenderer, LinkRenderer, TextAlignRenderer}
+import anduin.component.editor.utils.SlateUtil
 import anduin.component.util.ComponentUtils
 import anduin.scalajs.slate.SlateReact
 import anduin.scalajs.slate.SlateReact.Change
