@@ -22,7 +22,7 @@ import anduin.scalajs.slate.Slate._
 final case class RichEditor(
   placeholder: String,
   value: Value,
-  onChange: Value => Callback,
+  onChange: RichEditor.ContentChange => Callback,
   readOnly: Boolean,
   ref: () => SlateReact.EditorComponentRef
 ) {
@@ -32,6 +32,8 @@ final case class RichEditor(
 object RichEditor {
 
   private type Props = RichEditor
+
+  case class ContentChange(value: Value, isContentChanged: Boolean)
 
   private case class State(value: Value)
 
@@ -59,13 +61,17 @@ object RichEditor {
             e.preventDefault()
             for {
               props <- scope.props
-              _ <- Callback.when(SlateUtil.hasUndo(props.value))(props.onChange(editor.undo().value))
+              _ <- Callback.when(SlateUtil.hasUndo(props.value)) {
+                props.onChange(ContentChange(editor.undo().value, true))
+              }
             } yield ()
           case "y" =>
             e.preventDefault()
             for {
               props <- scope.props
-              _ <- Callback.when(SlateUtil.hasRedo(props.value))(props.onChange(editor.redo().value))
+              _ <- Callback.when(SlateUtil.hasRedo(props.value)) {
+                props.onChange(ContentChange(editor.redo().value, true))
+              }
             } yield ()
           case _ => Callback(next())
         }
@@ -127,9 +133,7 @@ object RichEditor {
         }
         _ <- scope.modState(
           _.copy(value = change.value),
-          Callback.unless(skipSaving) {
-            props.onChange(change.value)
-          }
+          props.onChange(ContentChange(change.value, !skipSaving))
         )
       } yield ()
     }
