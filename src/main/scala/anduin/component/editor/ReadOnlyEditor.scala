@@ -24,13 +24,13 @@ final case class ReadOnlyEditor(
 
 object ReadOnlyEditor {
 
-  private val ComponentName = this.getClass.getSimpleName
+  private type Props = ReadOnlyEditor
 
   private val linkFinder = LinkifyIt().tlds(Tlds.TLDS)
 
   private case class State(value: Value)
 
-  private class Backend(scope: BackendScope[ReadOnlyEditor, State]) {
+  private class Backend(scope: BackendScope[Props, State]) {
 
     private val editorRef = Ref.toJsComponentWithMountedFacade[SlateReact.Props, Null, SlateReact.EditorComponent]
 
@@ -74,7 +74,7 @@ object ReadOnlyEditor {
                   data = js.Dynamic.literal(href = link.url)
                 )
                 editor
-                  .extendToStartOf(textItem)
+                  .moveFocusToStartOfNode(textItem)
                   .wrapInlineAtRange(range, inline)
               }
             }
@@ -86,7 +86,7 @@ object ReadOnlyEditor {
   }
 
   private val component = ScalaComponent
-    .builder[ReadOnlyEditor](ComponentName)
+    .builder[Props](this.getClass.getSimpleName)
     .initialStateFromProps { props =>
       val body = props.maxLengthOpt.map(props.html.substring(0, _)).getOrElse(props.html)
       State(value = Serializer.deserialize(body))
