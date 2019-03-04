@@ -13,7 +13,7 @@ import anduin.component.modal.Modal
 import anduin.component.popover.Popover
 import anduin.component.tooltip.Tooltip
 import anduin.component.util.ComponentUtils
-import anduin.scalajs.slate.Slate.{Editor, Value}
+import anduin.scalajs.slate.Slate.Value
 import anduin.scalajs.slate.SlateReact
 import anduin.style.Style
 
@@ -27,7 +27,6 @@ import anduin.component.portal._
 final case class Toolbar(
   value: Value,
   editorRef: () => SlateReact.EditorComponentRef,
-  onChange: Editor => Callback,
   attachmentButton: TagMod
 ) {
   def apply(children: VdomNode*): VdomElement = {
@@ -37,11 +36,11 @@ final case class Toolbar(
 
 object Toolbar {
 
-  private val ComponentName = this.getClass.getSimpleName
-
   private val isMac = window.navigator.userAgent.matches(".*(Mac|iPod|iPhone|iPad).*")
 
-  private class Backend(scope: BackendScope[Toolbar, _]) {
+  private type Props = Toolbar
+
+  private class Backend(scope: BackendScope[Props, _]) {
 
     private def hasLinks(value: Value) = {
       value.inlines.exists(_.inlineType == LinkNode.nodeType)
@@ -61,27 +60,26 @@ object Toolbar {
         editor = editorInstance.raw
         value = props.value
         // If there's a link inside the current selection, then remove it
-        _ <- if (hasLinks(value)) {
-          Callback {
+        _ <- Callback {
+          if (hasLinks(value)) {
             editor.unwrapInline(LinkNode.nodeType)
-          }
-        } else {
-          if (!value.selection.isExpanded) {
-            // If there's no selected text, create a link with the same text and href
-            editor.insertText(standardLink).moveFocusBackward(standardLink.length)
-          }
-          val data = js.Dynamic.literal(href = standardLink)
-          if (openInNewTab) {
-            data.updateDynamic("target")("_blank")
-          }
-          editor.wrapInline(
-            js.Dynamic.literal(
-              `type` = LinkNode.nodeType,
-              data = data
+          } else {
+            if (!value.selection.isExpanded) {
+              // If there's no selected text, create a link with the same text and href
+              editor.insertText(standardLink).moveFocusBackward(standardLink.length)
+            }
+            val data = js.Dynamic.literal(href = standardLink)
+            if (openInNewTab) {
+              data.updateDynamic("target")("_blank")
+            }
+            editor.wrapInline(
+              js.Dynamic.literal(
+                `type` = LinkNode.nodeType,
+                data = data
+              )
             )
-          )
-          editor.moveToEnd()
-          props.onChange(editor)
+            editor.moveToEnd()
+          }
         }
       } yield ()
     }
@@ -93,7 +91,9 @@ object Toolbar {
         editor = editorInstance.raw
         value = props.value
         _ <- Callback.when(hasLinks(value)) {
-          props.onChange(editor.unwrapInline(LinkNode.nodeType))
+          Callback {
+            editor.unwrapInline(LinkNode.nodeType)
+          }
         }
       } yield ()
     }
@@ -103,7 +103,9 @@ object Toolbar {
         props <- scope.props
         editorInstance <- props.editorRef().get
         editor = editorInstance.raw
-        _ <- props.onChange(editor.undo())
+        _ <- Callback {
+          editor.undo()
+        }
       } yield ()
     }
 
@@ -112,12 +114,14 @@ object Toolbar {
         props <- scope.props
         editorInstance <- props.editorRef().get
         editor = editorInstance.raw
-        _ <- props.onChange(editor.redo())
+        _ <- Callback {
+          editor.redo()
+        }
       } yield ()
     }
 
     // scalastyle:off method.length multiple.string.literals
-    def render(props: Toolbar, children: PropsChildren): VdomElement = {
+    def render(props: Props, children: PropsChildren): VdomElement = {
       val hasLink = hasLinks(props.value)
 
       <.div(
@@ -190,11 +194,11 @@ object Toolbar {
             renderContent = _ => {
               <.div(
                 Style.flexbox.flex.flexbox.itemsCenter.padding.all4,
-                MarkButtonBar(props.editorRef, props.value, props.onChange)(),
+                MarkButtonBar(props.value, props.editorRef)(),
                 VerticalDivider()(),
-                AlignButtonBar(props.editorRef, props.value, props.onChange)(),
+                AlignButtonBar(props.value, props.editorRef)(),
                 VerticalDivider()(),
-                BlockButtonBar(props.editorRef, props.value, props.onChange)()
+                BlockButtonBar(props.value, props.editorRef)()
               )
             }
           )()
@@ -228,7 +232,7 @@ object Toolbar {
   }
 
   private val component = ScalaComponent
-    .builder[Toolbar](ComponentName)
+    .builder[Props](this.getClass.getSimpleName)
     .stateless
     .renderBackendWithChildren[Backend]
     .build

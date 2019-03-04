@@ -5,7 +5,7 @@ package anduin.component.editor
 import scala.scalajs.js
 
 import anduin.component.icon.Icon
-import anduin.scalajs.slate.Slate.{Editor, Value}
+import anduin.scalajs.slate.Slate.Value
 import anduin.scalajs.slate.SlateReact
 import anduin.style.Style
 
@@ -15,26 +15,25 @@ import japgolly.scalajs.react.vdom.html_<^._
 // scalastyle:on underscore.import
 
 private[editor] final case class AlignButtonBar(
-  editorRef: () => SlateReact.EditorComponentRef,
   value: Value,
-  onChange: Editor => Callback
+  editorRef: () => SlateReact.EditorComponentRef
 ) {
   def apply(): VdomElement = AlignButtonBar.component(this)
 }
 
 private[editor] object AlignButtonBar {
 
-  private val ComponentName = this.getClass.getSimpleName
+  private type Props = AlignButtonBar
 
-  private class Backend(scope: BackendScope[AlignButtonBar, Unit]) {
+  private class Backend(scope: BackendScope[Props, _]) {
 
     private def hasAlign(value: Value) = {
-      value.blocks.exists(block => block.nodeType == TextAlignNode.nodeType)
+      value.blocks.exists(_.nodeType == TextAlignNode.nodeType)
     }
 
     private def getAlign(value: Value) = {
       value.blocks
-        .find(block => block.nodeType == TextAlignNode.nodeType)
+        .find(_.nodeType == TextAlignNode.nodeType)
         .map { block =>
           DataUtil.value(block.data, "textAlign")
         }
@@ -49,20 +48,21 @@ private[editor] object AlignButtonBar {
         originalType = props.value.blocks.headOption
           .map(_.nodeType)
           .getOrElse(ParagraphNode.nodeType)
-        _ = editor.setBlocks(
-          js.Dynamic.literal(
-            `type` = TextAlignNode.nodeType,
-            data = js.Dynamic.literal(
-              textAlign = align,
-              originalType = originalType
+        _ <- Callback {
+          editor.setBlocks(
+            js.Dynamic.literal(
+              `type` = TextAlignNode.nodeType,
+              data = js.Dynamic.literal(
+                textAlign = align,
+                originalType = originalType
+              )
             )
           )
-        )
-        _ <- props.onChange(editor)
+        }
       } yield ()
     }
 
-    def render(props: AlignButtonBar): VdomElement = {
+    def render(props: Props): VdomElement = {
       <.div(
         Style.flexbox.flex,
         List(
@@ -83,7 +83,7 @@ private[editor] object AlignButtonBar {
   }
 
   private val component = ScalaComponent
-    .builder[AlignButtonBar](ComponentName)
+    .builder[Props](this.getClass.getSimpleName)
     .stateless
     .renderBackend[Backend]
     .build

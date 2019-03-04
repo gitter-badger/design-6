@@ -3,7 +3,7 @@
 package anduin.component.editor
 
 import anduin.component.icon.Icon
-import anduin.scalajs.slate.Slate.{Editor, Value}
+import anduin.scalajs.slate.Slate.Value
 import anduin.scalajs.slate.SlateReact
 import anduin.style.Style
 
@@ -13,30 +13,30 @@ import japgolly.scalajs.react.vdom.html_<^._
 // scalastyle:on underscore.import
 
 private[editor] final case class MarkButtonBar(
-  editorRef: () => SlateReact.EditorComponentRef,
   value: Value,
-  onChange: Editor => Callback
+  editorRef: () => SlateReact.EditorComponentRef
 ) {
   def apply(): VdomElement = MarkButtonBar.component(this)
 }
 
 private[editor] object MarkButtonBar {
 
-  private val ComponentName = this.getClass.getSimpleName
+  private type Props = MarkButtonBar
 
-  private class Backend(scope: BackendScope[MarkButtonBar, _]) {
+  private class Backend(scope: BackendScope[Props, _]) {
 
     private def toggleMark(markNode: MarkNode) = {
       for {
         props <- scope.props
         editorInstance <- props.editorRef().get
         editor = editorInstance.raw
-        _ = editor.toggleMark(markNode.nodeType)
-        _ <- props.onChange(editor)
+        _ <- Callback {
+          editor.toggleMark(markNode.nodeType)
+        }
       } yield ()
     }
 
-    def render(props: MarkButtonBar): VdomElement = {
+    def render(props: Props): VdomElement = {
       <.div(
         Style.flexbox.flex,
         List(
@@ -58,7 +58,7 @@ private[editor] object MarkButtonBar {
   }
 
   private val component = ScalaComponent
-    .builder[MarkButtonBar](ComponentName)
+    .builder[Props](this.getClass.getSimpleName)
     .stateless
     .renderBackend[Backend]
     .build

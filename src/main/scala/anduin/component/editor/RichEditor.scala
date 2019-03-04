@@ -62,7 +62,9 @@ object RichEditor {
             for {
               props <- scope.props
               _ <- Callback.when(SlateUtil.hasUndo(props.value)) {
-                props.onChange(ContentChange(editor.undo().value, true))
+                Callback {
+                  editor.undo()
+                }
               }
             } yield ()
           case "y" =>
@@ -70,7 +72,9 @@ object RichEditor {
             for {
               props <- scope.props
               _ <- Callback.when(SlateUtil.hasRedo(props.value)) {
-                props.onChange(ContentChange(editor.redo().value, true))
+                Callback {
+                  editor.redo()
+                }
               }
             } yield ()
           case _ => Callback(next())
