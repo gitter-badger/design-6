@@ -76,7 +76,7 @@ object Slate {
     def wrapInlineAtRange(range: Range, properties: js.Object): Editor = js.native
     def moveOffsetsTo(anchorOffset: Int, focusOffset: Int): Editor = js.native
     def deselect(): Editor = js.native
-    def extendToStartOf(node: Node): Editor = js.native
+    def moveFocusToStartOfNode(node: Node): Editor = js.native
   }
 
   final class WrapInlineProps(
