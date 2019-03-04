@@ -2,11 +2,14 @@
 
 package anduin.component.editor
 
+import scala.scalajs.js
+
 import org.scalajs.dom.KeyboardEvent
 
 import anduin.component.editor.renderer.{ImageRenderer, LinkRenderer, TextAlignRenderer}
 import anduin.component.util.ComponentUtils
 import anduin.scalajs.slate.SlateReact
+import anduin.scalajs.slate.SlateReact.Change
 import anduin.style.Style
 
 // scalastyle:off underscore.import
@@ -30,7 +33,9 @@ object RichEditor {
 
   private type Props = RichEditor
 
-  private class Backend(scope: BackendScope[Props, _]) {
+  private case class State(value: Value)
+
+  private class Backend(scope: BackendScope[Props, State]) {
 
     private def onKeyDown(e: KeyboardEvent, editor: Editor, next: SlateReact.KeyDownNextFn) = {
       if (e.metaKey) {
@@ -109,7 +114,27 @@ object RichEditor {
       }
     }
 
-    def render(props: Props): VdomElement = {
+    private def onChange(change: Change) = {
+      for {
+        props <- scope.props
+        // Slate always triggers `onChange` even if there's no actual changes in the document.
+        // For example, it is called when you focus on the editor.
+        // In order to avoid unnecessary saving, we need to check if there is at least one "edit" operation
+        skipSaving = change.operations.forall { operation =>
+          operation.tpe == "set_selection" ||
+          (operation.tpe == "set_value" &&
+          operation.properties.toOption.exists(js.Object.keys(_).forall(_ == "decorations")))
+        }
+        _ <- scope.modState(
+          _.copy(value = change.value),
+          Callback.unless(skipSaving) {
+            props.onChange(change.value)
+          }
+        )
+      } yield ()
+    }
+
+    def render(props: Props, state: State): VdomElement = {
       <.div(
         ComponentUtils.testId(this, "ContentEditor"),
         ^.cls := "editor",
@@ -117,9 +142,9 @@ object RichEditor {
           SlateReact.props(
             autoFocusParam = !props.readOnly,
             placeholderParam = props.placeholder,
-            valueParam = props.value,
+            valueParam = state.value,
             readOnlyParam = props.readOnly,
-            onChangeParam = props.onChange,
+            onChangeParam = onChange,
             onKeyDownParam = onKeyDown,
             renderNodeParam = renderNode,
             renderMarkParam = renderMark
@@ -131,7 +156,9 @@ object RichEditor {
 
   private val component = ScalaComponent
     .builder[Props](this.getClass.getSimpleName)
-    .stateless
+    .initialStateFromProps { props =>
+      State(props.value)
+    }
     .renderBackend[Backend]
     .build
 }
