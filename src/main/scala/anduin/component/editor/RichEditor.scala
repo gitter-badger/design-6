@@ -123,7 +123,7 @@ object RichEditor {
         skipSaving = change.operations.forall { operation =>
           operation.tpe == "set_selection" ||
           (operation.tpe == "set_value" &&
-          operation.properties.toOption.exists(js.Object.properties(_).forall(_ == "decorations")))
+          operation.properties.toOption.exists(js.Object.keys(_).forall(_ == "decorations")))
         }
         _ <- scope.modState(
           _.copy(value = change.value),
