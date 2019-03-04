@@ -52,6 +52,7 @@ object Slate {
 
   @js.native
   trait Editor extends js.Object {
+    val operations: ImmutableList[Operation] = js.native
     val readOnly: Boolean = js.native
     val value: Value = js.native
 
@@ -159,5 +160,12 @@ object Slate {
   trait Selection extends js.Object {
     val isExpanded: Boolean = js.native
   }
+
+  @JSImport("slate", "Operation")
+  @js.native
+  final class Operation(
+    val properties: js.UndefOr[js.Object] = js.native,
+    @JSName("type") val tpe: String = js.native
+  ) extends js.Object
 }
 // scalastyle:on multiple.string.literals

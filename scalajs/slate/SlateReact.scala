@@ -9,10 +9,12 @@ import scala.scalajs.js.|
 import japgolly.scalajs.react.raw.React.Element
 import org.scalajs.dom.KeyboardEvent
 
-import anduin.scalajs.slate.Slate.{Editor, Mark, Node, Value}
+import anduin.scalajs.immutable.ImmutableList
 
 // scalastyle:off underscore.import
 import japgolly.scalajs.react._
+
+import anduin.scalajs.slate.Slate._
 // scalastyle:on underscore.import
 
 object SlateReact {
@@ -24,7 +26,10 @@ object SlateReact {
   @js.native
   trait EditorComponent extends Editor
 
-  final class Change(val value: Value) extends js.Object
+  final class Change(
+    val value: Value,
+    val operations: ImmutableList[Operation]
+  ) extends js.Object
 
   type EditorComponentType = JsComponentWithFacade[Props, Null, SlateReact.EditorComponent, CtorType.Props]
   type EditorComponentRef = Ref.ToJsComponent[
@@ -46,7 +51,7 @@ object SlateReact {
     placeholderParam: String,
     valueParam: Value,
     readOnlyParam: Boolean,
-    onChangeParam: Value => Callback,
+    onChangeParam: Change => Callback,
     onKeyDownParam: (KeyboardEvent, Editor, KeyDownNextFn) => Callback,
     renderNodeParam: (RenderNodeProps, Editor, RenderNextFn) => RenderOutput,
     renderMarkParam: (RenderMarkProps, Editor, RenderNextFn) => RenderOutput
@@ -57,7 +62,7 @@ object SlateReact {
       override val value = valueParam
       override val readOnly = readOnlyParam
       override val onChange = js.defined { change =>
-        onChangeParam(change.value).runNow()
+        onChangeParam(change).runNow()
       }
       override val onKeyDown = js.defined { (e: KeyboardEvent, c: Editor, next: KeyDownNextFn) =>
         onKeyDownParam(e, c, next).runNow()
