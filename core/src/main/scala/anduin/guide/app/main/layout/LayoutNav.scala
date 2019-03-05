@@ -66,6 +66,7 @@ object LayoutNav {
             ),
             li(Title("Progress", Internal(Progress()))),
             h("Container"),
+            li(Title("Tag", Internal(Tag()))),
             li(Title("Card", Internal(Card()))),
             li(Title("Table", Internal(Table()))),
             li(Title("Well", Internal(Well()))),
@@ -75,13 +76,13 @@ object LayoutNav {
             li(Title("Checkbox", Internal(Checkbox()))),
             li(Title("Dropdown", Internal(Dropdown()))),
             li(Title("Radio", Internal(Radio()))),
-            li(
-              Title("TextBox", Internal(TextBox()), Some(_.isInstanceOf[TextBoxT])),
-              ul(
-                li(Title("Value", Internal(TextBoxValue()))),
-                li(Title("Appearance", Internal(TextBoxAppearance()))),
-              ),
-            ),
+//            li(
+//              Title("TextBox", Internal(TextBox()), Some(_.isInstanceOf[TextBoxT])),
+//              ul(
+//                li(Title("Value", Internal(TextBoxValue()))),
+//                li(Title("Appearance", Internal(TextBoxAppearance()))),
+//              ),
+//            ),
           )
         ),
         h(""),

@@ -55,7 +55,10 @@ object Toc {
     <.li(
       ^.key := section.title,
       <.p(renderLink(section.title)),
-      <.ol(Style.listStyle.none, section.children.toVdomArray(renderChild))
+      <.ol(
+        Style.listStyle.none.padding.left16,
+        section.children.toVdomArray(renderChild)
+      )
     )
   }
 
@@ -65,7 +68,7 @@ object Toc {
     ^.paddingTop := "128px"
   )
 
-  private val listStyles = TagMod(
+  private val listStaticStyles = TagMod(
     Style.fontSize.px15.lineHeight.px32,
     Style.color.gray4.color.hoverGray7.transition.all,
     Style.listStyle.none.height.pc100.overflow.autoY,
@@ -80,7 +83,7 @@ object Toc {
       None
     } else {
       val list = <.ol(
-        listStyles,
+        listStaticStyles,
         renderSection(Section("Top", Vector.empty)),
         <.li(Style.margin.bottom24),
         sections.toVdomArray(renderSection)

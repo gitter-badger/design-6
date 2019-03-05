@@ -58,12 +58,19 @@ object Layout {
     )
   }
 
+  def renderNonHome(ctl: Pages.Ctl, res: Res): VdomNode = {
+    React.Fragment(
+      renderSidebar(ctl, res),
+      renderBody(res)
+    )
+  }
+
   def render(ctl: Pages.Ctl, res: Res): VdomElement = {
     <.div(
       Style.fontSize.px20.lineHeight.px32,
       res.page match {
         case Pages.Home => res.render()
-        case _          => React.Fragment(renderSidebar(ctl, res), renderBody(res))
+        case _          => renderNonHome(ctl, res)
       }
     )
   }
