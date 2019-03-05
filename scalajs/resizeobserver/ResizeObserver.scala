@@ -5,6 +5,7 @@ package anduin.scalajs.resizeobserver
 import scala.scalajs.js
 import scala.scalajs.js.annotation.JSImport
 
+import japgolly.scalajs.react.Callback
 import org.scalajs.dom.raw.Element
 
 @JSImport("resize-observer-polyfill", JSImport.Default, "ResizeObserver")
@@ -13,6 +14,14 @@ class ResizeObserver(callback: js.Function2[js.Array[ResizeObserverEntry], Resiz
   def observe(target: Element): Unit = js.native
   def unobserve(target: Element): Unit = js.native
   def disconnect(): Unit = js.native
+}
+
+object ResizeObserver {
+  def apply(
+    callback: (js.Array[ResizeObserverEntry], ResizeObserver) => Callback
+  ): ResizeObserver = {
+    new ResizeObserver((entries, observer) => callback(entries, observer).runNow())
+  }
 }
 
 trait ResizeObserverEntry extends js.Object {
