@@ -41,9 +41,9 @@ object Markdown {
       case _             => (None, string)
     }
     val codeSpan = <.code(
-      Style.fontFamily.mono.background.gray2.borderRadius.px4,
+      Style.fontFamily.mono.background.gray2,
       lngOpt.whenDefined(lng => ^.cls := s"language-$lng"),
-      ^.padding := "2px 4px",
+      ^.padding := "0px 4px",
       ^.dangerouslySetInnerHtml := newContent
     )
     rnd(codeSpan)
@@ -95,10 +95,12 @@ object Markdown {
 
   private val renderLink = (href: String, title: String, text: String) => {
     val link = <.a(
-      Style.color.gray7.color.hoverBlue4.transition.all,
-      Style.fontWeight.medium, // @TODO: should be bolder
+      Style.color.gray7.color.hoverBlue4.transition.all.fontWeight.semiBold,
       Style.border.bottom.borderColor.gray3.borderWidth.px2,
       Style.borderColor.hoverBlue3.textDecoration.hoverNone,
+      // Since code spans can also be links so this is to put the border below
+      // code spans' background
+      ^.padding := "4px 0",
       ^.title := title,
       ^.href := href,
       ^.dangerouslySetInnerHtml := text
