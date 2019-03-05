@@ -3,7 +3,7 @@ package anduin.guide.pages.components.tag
 import anduin.component.icon.Icon
 import anduin.component.menu.{Menu, MenuDivider, MenuItem}
 import anduin.component.popover.Popover
-import anduin.component.tag.{Tag, TagColor, TagExampleClose}
+import anduin.component.tag.{Tag, TagColor}
 import anduin.guide.app.main.Pages
 import anduin.guide.components._
 import anduin.mcro.Source
