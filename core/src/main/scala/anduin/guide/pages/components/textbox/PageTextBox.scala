@@ -1,11 +1,11 @@
 package anduin.guide.pages.components.textbox
 
+import anduin.component.field.Field
 import anduin.guide.components._
-import anduin.component.input.textbox.TextBox
+import anduin.component.input.textbox.{TextBox, TextBoxType}
 import anduin.guide.app.main.Pages
 import anduin.mcro.Source
 import japgolly.scalajs.react.vdom.html_<^._
-
 import anduin.style.Style
 
 object PageTextBox {
@@ -36,9 +36,9 @@ object PageTextBox {
           |onChange: String => Callback = _ => Callback.empty
           |```
           |
-          |Text box is a [controlled] component. Its consumers should provide
-          |the current value via the `value` prop, as well as updated it
-          |accordingly with the `onChange` callback:
+          |Text box is a [controlled] component. The current value should be
+          |passed via the same name prop, as well as updated with the
+          |`onChange` callback:
           |
           |[controlled]: https://reactjs.org/docs/forms.html#controlled-components
           |
@@ -47,80 +47,88 @@ object PageTextBox {
           |
           |TextBox(
           |  value = state.value,
-          |  onChange = newValue => {
-          |    scope.modState(_.copy(value = newValue)
-          |  }
+          |  onChange = v => scope.modState(_.copy(value = v)
           |)()
           |```
-          |
           |""".stripMargin
       )(),
       Markdown(
         """
+          |## Constraint
+          |
+          |### Type
+          |
+        """.stripMargin
+      )(),
+      ExampleRich(Source.annotate({
+        DemoState.Str("", (value, onChange) => {
+          <.div(Style.width.px256)(
+            TextBox(value, onChange, tpe = TextBox.Tpe.Date)()
+          )
+        })()
+      }))(),
+      ExampleSimple()({
+        import TextBox.Tpe._
+        <.div(
+          ^.width := "300px",
+          List(Text, Password, Date, Area()).zipWithIndex.toVdomArray { tuple =>
+            val (tpe, index) = tuple
+            val name = tpe.getClass.getSimpleName
+            val textBox = DemoState.Str("Anduin", (v, c) => {
+              TextBox(v, c, tpe, id = Some(s"tpe-$name"))()
+            })()
+            val layout = Field.Layout.Hor(right = Field.Layout.Grow(2))
+            <.div(
+              TagMod.when(index != 0)(Style.margin.top8),
+              Field(layout, s"tpe-$name", Some(name))(textBox)
+            )
+          }
+        )
+      }),
+      Markdown(
+        """
+          |### Mask
+          |
+          |## Assistance
+          |
+          |### Placeholder
+          |
+          |### Icon
+          |
+          |### Status
+          |
+          |### Field
+          |
+          |# Appearance
+          |
+          |## Style
+          |
+          |""".stripMargin
+      )(),
+      ExampleRich(Source.annotate({
+        DemoState.Str("Anduin", (value, onChange) => {
+          <.div(Style.width.px256)(
+            TextBox(value, onChange).copy(
+              style = TextBox.Style.Minimal
+            )()
+          )
+        })()
+      }))(),
+      ExampleSimple()({
+        TextBoxEmail()()
+      }),
+      Markdown(
+        """
+          |
+          |## Size
+          |
           |# Behaviour
           |
-          |## Disabled & Read-only
+          |## Disabled
           |
-          |```scala
-          |isDisabled: Boolean = false
-          |isReadOnly: Boolean = false
-          |```
-          |
-          |""".stripMargin
-      )(),
-      ExampleRich(Source.annotate({
-        DemoState.Str("Anduin", (value, onChange) => {
-          <.div(Style.width.px256)(
-            TextBox(value = value, onChange = onChange)()
-          )
-        })()
-      }))(),
-      Markdown(
-        """
-          |## Required
-          |
-          |```scala
-          |isRequired: Boolean = false
-          |```
-          |
-          |""".stripMargin
-      )(),
-      ExampleRich(Source.annotate({
-        DemoState.Str("Anduin", (value, onChange) => {
-          <.div(Style.width.px256)(
-            TextBox(value = value, onChange = onChange)()
-          )
-        })()
-      }))(),
-      Markdown(
-        """
           |## Auto-focus
           |
-          |```scala
-          |isAutoFocus: Boolean = false
-          |```
-          |
-          |""".stripMargin
-      )(),
-      ExampleRich(Source.annotate({
-        DemoState.Str("Anduin", (value, onChange) => {
-          <.div(Style.width.px256)(
-            TextBox(value = value, onChange = onChange)()
-          )
-        })()
-      }))(),
-      Markdown(
-        """
-          |# Others
-          |
-          |```scala
-          |id: Option[String] = None
-          |onFocus: Callback = Callback.empty
-          |onBlur: String => Callback = _ => Callback.empty
-          |onKeyDown: ReactKeyboardEventFromInput => Callback = _ => Callback.empty
-          |onKeyUp: ReactKeyboardEventFromInput => Callback = _ => Callback.empty
-          |```
-          |
+          |## Others
         """.stripMargin
       )()
     )
