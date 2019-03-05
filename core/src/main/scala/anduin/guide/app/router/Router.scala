@@ -17,6 +17,7 @@ import anduin.guide.pages.components.modal.PageModal
 import anduin.guide.pages.components.popover.PagePopover
 import anduin.guide.pages.components.stepper.PageStepper
 import anduin.guide.pages.components.tab.PageTab
+import anduin.guide.pages.components.tag.PageTag
 import anduin.guide.pages.components.table.PageTable
 import anduin.guide.pages.components.textbox._
 import anduin.guide.pages.components.toggle.PageToggle
@@ -80,7 +81,7 @@ object Router {
       | dynamicRouteCT("suggest" ~ hash.caseClass[Suggest]) ~> getRender(() => Promise.resolve[RenderFn](PageWIP.render _))
       | dynamicRouteCT("tab" ~ hash.caseClass[Tab]) ~> getRender(() => Promise.resolve[RenderFn](PageTab.render _))
       | dynamicRouteCT("table" ~ hash.caseClass[Table]) ~> getRender(() => Promise.resolve[RenderFn](PageTable.render _))
-      | dynamicRouteCT("tag" ~ hash.caseClass[Tag]) ~> getRender(() => Promise.resolve[RenderFn](PageWIP.render _))
+      | dynamicRouteCT("tag" ~ hash.caseClass[Tag]) ~> getRender(() => Promise.resolve[RenderFn](PageTag.render _))
       | dynamicRouteCT("text-box" ~ hash.caseClass[TextBox]) ~> getRender(() => Promise.resolve[RenderFn](PageTextBox.render _))
       | dynamicRouteCT("text-box-value" ~ hash.caseClass[TextBoxValue]) ~> getRender(() => Promise.resolve[RenderFn](PageTextBoxValue.render _))
       | dynamicRouteCT("text-box-appearance" ~ hash.caseClass[TextBoxAppearance]) ~> getRender(() => Promise.resolve[RenderFn](PageTextBoxAppearance.render _))

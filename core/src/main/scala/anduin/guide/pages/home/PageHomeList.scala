@@ -87,7 +87,7 @@ private[home] object PageHomeList {
           Style.flexbox.flex.flexbox.justifyAround.flexbox.wrap,
           ^.justifyContent := "space-evenly",
           child(Link(Page(ctl, Pages.Tooltip(), isWIP = true))()),
-          child(Link(Page(ctl, Pages.Tag(), isWIP = true))()),
+          child(Link(Page(ctl, Pages.Tag(), isWIP = false))()),
           child(Link(Page(ctl, Pages.Toast(), isWIP = true))()),
           child(Link(Page(ctl, Pages.Well(), isWIP = false))()),
           child(Link(Page(ctl, Pages.Popover(), isWIP = true))()),
@@ -100,10 +100,10 @@ private[home] object PageHomeList {
           Style.flexbox.flex.flexbox.justifyAround.flexbox.wrap,
           ^.justifyContent := "space-evenly",
           child(Link(Page(ctl, Pages.Field(), isWIP = true))()),
+          child(Link(Page(ctl, Pages.TextBox(), isWIP = true))()),
           child(Link(Page(ctl, Pages.Checkbox(), isWIP = false))()),
-          child(Link(Page(ctl, Pages.Dropdown(), isWIP = false))()),
           child(Link(Page(ctl, Pages.Radio(), isWIP = false))()),
-          child(Link(Page(ctl, Pages.TextBox(), isWIP = false))()),
+          child(Link(Page(ctl, Pages.Dropdown(), isWIP = false))()),
           child() // Number of children needs to be even
         ),
       )
