@@ -143,11 +143,11 @@ object PagePlayground {
       ExampleSimple()({
         <.div(
           Style.flexbox.flex,
-          Tag()("9+"),
+          Tag(Tag.Light.Gray)("9+"),
           <.div(Style.margin.right8),
-          Tag(color = Tag.ColorBlue)("42"),
+          Tag(Tag.Light.Blue)("42"),
           <.div(Style.margin.right8),
-          Tag(color = Tag.ColorBlue)("DONE"),
+          Tag(Tag.Light.Blue)("DONE"),
         )
       }),
       ExampleSimple()({

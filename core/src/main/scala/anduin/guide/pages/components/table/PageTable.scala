@@ -32,8 +32,8 @@ object Sample {
     Member(5, "Virginia", rInt, rDb, rBoo, rBoo)
   )
   def renderPoint: Member => Table.Cell = (member: Member) => {
-    val color = if (member.point > 5) Tag.ColorGreen else Tag.ColorGray
-    val content = Tag(color = color)(member.point)
+    val color = if (member.point > 5) Tag.Light.Green else Tag.Light.Gray
+    val content = Tag(color = color)(member.point.toString)
     Table.Cell(content)
   }
   def renderTotal: Member => Table.Cell = (member: Member) => {
@@ -255,10 +255,10 @@ object PageTable {
       ExampleRich(Source.annotate({
         /*>*/
         val renderLevel = (member: Sample.Member) => {
-          val content = member.level
+          val content = member.level.toString
           if (member.id == 1) {
             Table.Cell(
-              Tag(color = Tag.ColorRed, isSolid = true)(content), /*<*/
+              Tag(color = Tag.Light.Red)(content), /*<*/
               align = Table.AlignBottom /*>*/
             )
           } else {
@@ -440,8 +440,8 @@ object PageTable {
         /*>*/
         val render = (b: Boolean) => {
           val (color, text) =
-            if (b) (Tag.ColorGreen, "Pass")
-            else (Tag.ColorRed, "Fail")
+            if (b) (Tag.Light.Green, "Pass")
+            else (Tag.Light.Red, "Fail")
           val tag = Tag(color = color)(text)
           <.div(Style.flexbox.flex.flexbox.justifyCenter, tag)
         } /*<*/

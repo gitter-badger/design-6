@@ -10,6 +10,10 @@ import japgolly.scalajs.react.vdom.html_<^._
 
 object PageIconFolder {
 
+  private val defaultTag = <.div(
+    Tag(color = Tag.Light.Blue)("Default")
+  )
+
   private def renderColor(color: IconFolder.Color): VdomElement = {
     val m = Style.margin.bottom8
     <.div(
@@ -17,9 +21,9 @@ object PageIconFolder {
       ^.width := "72px",
       Style.flexbox.flex.flexbox.column.flexbox.itemsCenter,
       <.div(m, Icon(size = Icon.Size.Px32, name = Icon.Folder(color = color))()),
-      <.div(m, Tag()(color.getClass.getSimpleName)),
+      <.div(m, Tag(color = Tag.Light.Gray)(color.getClass.getSimpleName)),
       color match {
-        case Icon.Folder.Brown => <.div(Tag(color = Tag.ColorBlue)("Default"))
+        case Icon.Folder.Brown => defaultTag
         case _                 => EmptyVdom
       }
     )

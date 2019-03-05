@@ -28,14 +28,14 @@ private[button] object BoxExampleColor {
     getStyle: ButtonStyle.Color => ButtonStyle
   )
 
+  private val defaultTag = Tag(color = Tag.Light.Blue)("Default")
+
   private def renderColor(row: StyleRow)(color: ButtonStyle.Color): VdomElement = {
     <.div(
       ^.key := color.getClass.getSimpleName,
       Style.flexbox.flex.flexbox.column.flexbox.itemsCenter.margin.right12,
       Button(style = row.getStyle(color))(color.getClass.getSimpleName),
-      TagMod.when(row.default == color) {
-        <.div(Style.margin.top8, Tag(color = Tag.ColorBlue, isSolid = true)("Default"))
-      }
+      TagMod.when(row.default == color)(<.div(Style.margin.top8, defaultTag))
     )
   }
 
