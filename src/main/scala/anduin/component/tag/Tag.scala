@@ -2,6 +2,7 @@
 
 package anduin.component.tag
 
+import anduin.component.icon.Icon
 import anduin.style.Style
 
 // scalastyle:off underscore.import
@@ -10,69 +11,110 @@ import japgolly.scalajs.react.vdom.html_<^._
 // scalastyle:on underscore.import
 
 final case class Tag(
-  color: Tag.Color = Tag.ColorGray,
-  size: Tag.Size = Tag.SizeMedium,
-  isSolid: Boolean = false,
-  onClick: Callback = Callback.empty
+  color: TagColor = Tag.Light.Gray,
+  icon: Option[Icon.Name] = None,
+  target: TagTarget = Tag.Target.None,
+  close: Option[Callback] = None
 ) {
-  def apply(children: VdomNode*): VdomElement = {
-    Tag.component(this)(children: _*)
+  def apply(children: String): VdomElement = {
+    Tag.component((this, children))
   }
 }
 
 object Tag {
 
-  type Props = Tag
+  // The "String" here to represent component's children, since we want to
+  // enforce it to always be String instead of the usual VdomNode*
+  private type Props = (Tag, String)
 
-  sealed trait Color {
-    val clear: Style
-    val solid: Style
-  }
-  case object ColorGray extends Color {
-    val clear: Style = Style.background.gray3.color.gray7
-    val solid: Style = Style.background.gray7.color.white
-  }
-  case object ColorBlue extends Color {
-    val clear: Style = Style.background.blue1.color.blue5
-    val solid: Style = Style.background.blue4.color.white
-  }
-  case object ColorGreen extends Color {
-    val clear: Style = Style.background.green1.color.green5
-    val solid: Style = Style.background.green4.color.white
-  }
-  case object ColorOrange extends Color {
-    val clear: Style = Style.background.orange1.color.orange5
-    val solid: Style = Style.background.orange4.color.white
-  }
-  case object ColorRed extends Color {
-    val clear: Style = Style.background.red1.color.red5
-    val solid: Style = Style.background.red4.color.white
+  object Bold {
+    val Gray: TagColor = TagColor.Bold.Gray
+    val Blue: TagColor = TagColor.Bold.Blue
+    val Green: TagColor = TagColor.Bold.Green
+    val Orange: TagColor = TagColor.Bold.Orange
+    val Red: TagColor = TagColor.Bold.Red
   }
 
-  sealed trait Size {
-    val style: Style
-  }
-  case object SizeMedium extends Size {
-    val style: Style = Style.fontSize.px11.padding.hor8.lineHeight.px20
-  }
-  case object SizeSmall extends Size {
-    val style: Style = Style.fontSize.px10.padding.hor4.lineHeight.px16
+  object Light {
+    val Gray: TagColor = TagColor.Light.Gray
+    val Blue: TagColor = TagColor.Light.Blue
+    val Green: TagColor = TagColor.Light.Green
+    val Orange: TagColor = TagColor.Light.Orange
+    val Red: TagColor = TagColor.Light.Red
   }
 
-  def render(props: Props, children: PropsChildren): VdomElement = {
+  object Target {
+    val None: TagTarget = TagTarget.None
+    case class Button(onClick: Callback) extends TagTarget.Button
+    case class Link(href: String) extends TagTarget.Link
+  }
+
+  private val bodyStaticStyles = TagMod(
+    Style.fontWeight.semiBold.fontSize.px11,
+    Style.flexbox.flex.flexbox.itemsCenter,
+    Style.height.px20.padding.hor4.borderRadius.px2,
+    Style.width.maxContent.maxWidth.px128 // auto truncate
+  )
+
+  private val textStaticStyles =
+    Style.flexbox.fill.typography.truncate // auto truncate
+
+  private val interactiveStaticStyles =
+    Style.outline.focusLight.transition.allWithOutline
+
+  private def renderIcon(props: Props)(name: Icon.Name): VdomElement = {
+    <.span(
+      Style.flexbox.none.margin.right4,
+      props._1.color.text.secondary,
+      Icon(name, size = Icon.Size.Custom(12))()
+    )
+  }
+
+  private val closeStaticStyles = TagMod(
+    Style.flexbox.none.width.px20.height.px20,
+    Style.borderRadius.px2.borderRadius.right,
+    Style.flexbox.flex.flexbox.itemsCenter.flexbox.justifyCenter
+  )
+
+  private def renderClose(props: Props)(close: Callback): VdomElement = {
+    <.button(
+      props._1.color.bg.rest,
+      props._1.color.bg.interactive,
+      props._1.color.text.secondary,
+      closeStaticStyles,
+      interactiveStaticStyles,
+      ^.onClick --> close,
+      Icon(name = Icon.Glyph.CrossSmall)()
+    )
+  }
+
+  private def getInteractive(props: Props) =
+    TagMod(props._1.color.bg.interactive, interactiveStaticStyles)
+
+  def render(props: Props): VdomElement = {
     <.div(
-      if (props.isSolid) props.color.solid else props.color.clear,
-      props.size.style,
-      Style.borderRadius.px2.width.maxContent,
-      Style.fontWeight.medium.whiteSpace.noWrap,
-      ^.onClick --> props.onClick,
-      children
+      Style.flexbox.flex.width.maxContent,
+      // - body
+      // -- behaviour is defined inside target.tag
+      props._1.target.tag(
+        // -- appearance
+        props._1.color.bg.rest,
+        TagMod.when(props._1.target.isInteractive)(getInteractive(props)),
+        TagMod.when(props._1.close.isDefined)(Style.borderRadius.left),
+        bodyStaticStyles,
+        // -- content
+        props._1.icon.map(renderIcon(props)),
+        <.span(props._1.color.text.primary, textStaticStyles, props._2),
+        ^.title := props._2
+      ),
+      // - close button
+      props._1.close.map(renderClose(props))
     )
   }
 
   private val component = ScalaComponent
     .builder[Props](this.getClass.getSimpleName)
     .stateless
-    .render_PC(render)
+    .render_P(render)
     .build
 }
