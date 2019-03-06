@@ -2,6 +2,10 @@
 
 package anduin.component.editor.email
 
+import org.scalajs.dom.raw.HTMLIFrameElement
+
+import anduin.style.Style
+
 // scalastyle:off underscore.import
 import japgolly.scalajs.react._
 import japgolly.scalajs.react.vdom.html_<^._
@@ -19,11 +23,26 @@ object EventFrame {
 
   case class Backend(scope: BackendScope[Props, _]) {
 
+    private val frameRef = Ref[HTMLIFrameElement]
+
+    def setHeight(height: Double): Callback = {
+      for {
+        frame <- frameRef.get
+        _ <- {
+          val currentHeight = Option(frame.style).map(_.height).getOrElse("")
+          val newHeight = s"${height}px"
+          Callback.unless(currentHeight == newHeight) {
+            Callback {
+              frame.style.height = newHeight
+            }
+          }
+        }
+      } yield ()
+    }
+
     def render(): VdomElement = {
-      <.iframe(
-        ^.width := "100%",
-        ^.border := "0",
-        ^.padding := "0"
+      <.iframe.withRef(frameRef)(
+        Style.width.pc100.border.none.padding.all0
       )
     }
   }

@@ -48,7 +48,7 @@ private[email] object EmailFrame {
     }
 
     def componentDidUpdate(): Callback = {
-      writeContent()
+      writeContent() >> recalculateContentSize()
     }
 
     def componentWillUnmount(): Callback = {
@@ -66,10 +66,8 @@ private[email] object EmailFrame {
           _.node match {
             case frame: HTMLIFrameElement =>
               Callback {
-                val doc = frame.contentDocument.documentElement
-                org.scalajs.dom.window.console.log(doc.scrollHeight)
-
-                frame.style.height = s"${doc.scrollHeight}px"
+                val newHeight = frame.contentDocument.documentElement.scrollHeight.toDouble
+                frame.style.height = s"${newHeight}px"
               }
             case _ => Callback.empty
           }
