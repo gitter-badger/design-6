@@ -20,10 +20,7 @@ object ViewOnlyEmail {
 
   private type Props = ViewOnlyEmail
 
-  private case class State(
-    hideQuotedContent: Boolean = false,
-    notQuotedContent: String = ""
-  )
+  private case class State(hideQuotedContent: Boolean = false)
 
   private case class Backend(scope: BackendScope[Props, State]) {
 
@@ -37,7 +34,7 @@ object ViewOnlyEmail {
       if (state.hideQuotedContent) {
         <.div(
           EmailFrame(
-            content = state.notQuotedContent
+            content = QuoteTransformer.removeQuotedHtml(props.content)
           )(),
           // Dots for toggling the quoted content
           <.div(
@@ -65,8 +62,7 @@ object ViewOnlyEmail {
     .builder[Props](this.getClass.getSimpleName)
     .initialStateFromProps { props =>
       State(
-        hideQuotedContent = QuoteTransformer.hasQuotedHtml(props.content),
-        notQuotedContent = QuoteTransformer.removeQuotedHtml(props.content)
+        hideQuotedContent = QuoteTransformer.hasQuotedHtml(props.content)
       )
     }
     .renderBackend[Backend]
