@@ -4,10 +4,7 @@ import anduin.style.Style
 import japgolly.scalajs.react._
 import japgolly.scalajs.react.vdom.html_<^._
 
-final case class Heading(
-  content: String,
-  level: Int,
-) {
+final case class Heading(content: String, level: Int) {
   def apply(): VdomElement = Heading.component(this)
 }
 
@@ -30,9 +27,9 @@ object Heading {
   }
 
   private def getTag(props: Props) = props.level match {
-    case 1 => <.h2(Style.fontSize.px30.fontWeight.semiBold)
-    case 2 => <.h3(Style.fontSize.px23.fontWeight.bold)
-    case 3 => <.h4(Style.fontSize.px20.fontWeight.bold)
+    case 1 => <.h2(Style.fontSize.px26.fontWeight.semiBold)
+    case 2 => <.h3(Style.fontSize.px20.fontWeight.bold)
+    case 3 => <.h4(Style.fontSize.px17.fontWeight.bold)
     case 4 => <.h5(Style.fontSize.px17.fontWeight.bold)
   }
 

@@ -17,7 +17,7 @@ object Markdown {
   private val rnd = ReactDOMServer.renderToStaticMarkup _
 
   private val renderHead = (string: String, level: Int) => {
-    val styles = Style.padding.bottom16.padding.top32
+    val styles = Style.padding.bottom12.padding.top24
     val heading = Heading(content = string, level = level)()
     rnd(<.div(styles, heading))
   }
@@ -31,7 +31,7 @@ object Markdown {
   }
 
   private val renderParagraph = (string: String) => {
-    rnd(<.p(Style.padding.ver16, ^.dangerouslySetInnerHtml := string))
+    rnd(<.p(Style.padding.ver12, ^.dangerouslySetInnerHtml := string))
   }
 
   private val renderCodeSpan = (string: String) => {
@@ -43,7 +43,7 @@ object Markdown {
     val codeSpan = <.code(
       Style.fontFamily.mono.background.gray2,
       lngOpt.whenDefined(lng => ^.cls := s"language-$lng"),
-      ^.padding := "0px 4px",
+      ^.padding := "1px 4px",
       ^.dangerouslySetInnerHtml := newContent
     )
     rnd(codeSpan)
@@ -59,13 +59,13 @@ object Markdown {
 
   private val renderBlockQuote = (string: String) => {
     val quoteBlock = QuoteBlock(content = string)()
-    rnd(<.div(Style.padding.ver16, quoteBlock))
+    rnd(<.div(Style.padding.ver12, quoteBlock))
   }
 
   private val renderList = (string: String, ordered: Boolean) => {
     val tag = if (ordered) <.ol else <.ul
     val html = ^.dangerouslySetInnerHtml := string
-    rnd(tag(Style.padding.left32.padding.bottom16, html))
+    rnd(tag(Style.padding.left32.padding.bottom12, html))
   }
 
   private val renderTable = (header: String, body: String) => {
@@ -75,7 +75,7 @@ object Markdown {
       <.thead(Style.background.gray1, ^.dangerouslySetInnerHtml := header),
       <.tbody(^.dangerouslySetInnerHtml := body)
     )
-    rnd(<.div(Style.padding.ver16, element))
+    rnd(<.div(Style.padding.ver12, element))
   }
 
   private val renderTableCell = (string: String, flags: js.Object) => {
@@ -100,7 +100,7 @@ object Markdown {
       Style.borderColor.hoverBlue3.textDecoration.hoverNone,
       // Since code spans can also be links so this is to put the border below
       // code spans' background
-      ^.padding := "4px 0",
+      ^.padding := "3px 0",
       ^.title := title,
       ^.href := href,
       ^.dangerouslySetInnerHtml := text

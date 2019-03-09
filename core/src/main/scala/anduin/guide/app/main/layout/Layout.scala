@@ -67,7 +67,7 @@ object Layout {
 
   def render(ctl: Pages.Ctl, res: Res): VdomElement = {
     <.div(
-      Style.fontSize.px20.lineHeight.px32,
+      Style.fontSize.px17.lineHeight.px28,
       res.page match {
         case Pages.Home => res.render()
         case _          => renderNonHome(ctl, res)
