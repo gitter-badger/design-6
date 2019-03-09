@@ -39,6 +39,7 @@ private[email] object QuoteTransformer {
 
   // Remove unnecessary whitespace from document.
   // It removes the duplicated multiple <br> (such as <br><br>)
+  @SuppressWarnings(Array("org.wartremover.warts.While"))
   private def removeUnnecessaryWhitespace(doc: Document) = {
     Option(doc.querySelector("body")).foreach { body =>
       NodeListSeq(body.childNodes)
