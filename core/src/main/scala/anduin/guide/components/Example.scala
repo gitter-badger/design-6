@@ -15,23 +15,27 @@ object Example {
 
   private type Props = Example
 
+  private def renderElement(props: Props, element: VdomElement): VdomElement = {
+    <.div(
+      Style.borderRadius.px4.border.all.borderColor.gray3,
+      Style.padding.all16,
+      // Sometimes we need a gray background
+      if (props.isBgGray) Style.background.gray2
+      else Style.background.white,
+      // Ensure the example is shown in correct font size
+      // and line height (since these values in Guide is
+      // bigger than in the actual app
+      Style.fontSize.px13.lineHeight.px20.fontFamily.sans,
+      element
+    )
+  }
+
   private def render(props: Props): VdomElement = {
     val (source, element) = props.content
     <.div(
-      Style.background.gray1.padding.all4,
       Style.borderRadius.px4.border.all.borderColor.gray3,
-      <.div(
-        Style.borderRadius.px4.border.all.borderColor.gray3,
-        Style.padding.all16,
-        // Sometimes we need a gray background
-        if (props.isBgGray) Style.background.gray2
-        else Style.background.white,
-        // Ensure the example is shown in correct font size
-        // and line height (since these values in Guide is
-        // bigger than in the actual app
-        Style.fontSize.px13.lineHeight.px20.fontFamily.sans,
-        element
-      ),
+      Style.background.gray1.overflow.hidden,
+      <.div(Style.padding.all4, renderElement(props, element)),
       <.div(CodeBlock(content = source)())
     )
   }

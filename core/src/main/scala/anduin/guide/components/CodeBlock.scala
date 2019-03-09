@@ -20,23 +20,32 @@ object CodeBlock {
     if (cond) content.replaceFirst("\n", "") else content
   }
 
-  private def render(props: Props): VdomElement = {
+  private def getContent(props: Props): TagMod = {
     val htmlContent = trimFirstCollapse(props.content)
       .replace("/*>*/", "<span style=\"opacity: 0.3\">")
       .replace("/*<*/", "</span>")
-    val content: TagMod = if (props.language == "scala") {
+    if (props.language == "scala") {
       ^.dangerouslySetInnerHtml := htmlContent
     } else htmlContent
-    val cls = ^.cls := s"language-${props.language}"
+  }
+
+  private def render(props: Props): VdomElement = {
     <.div(
-      Style.background.gray1,
-      Style.padding.ver12.padding.hor8.overflow.auto,
-      Style.outline.focusLight.transition.allWithOutline,
-      ^.tabIndex := 0,
-      <.pre(
-        Style.fontSize.px17.lineHeight.px24.fontFamily.mono,
-        ^.cls := "line-numbers",
-        <.code(Style.display.block, cls, content)
+      Style.background.gray1.padding.all4,
+      <.div(
+        Style.padding.ver8.padding.hor4.overflow.auto,
+        Style.outline.focusLight.transition.allWithOutline,
+        ^.maxHeight := "260px",
+        ^.tabIndex := 0,
+        <.pre(
+          Style.fontSize.px15.lineHeight.px24.fontFamily.mono,
+          ^.cls := "line-numbers",
+          <.code(
+            Style.display.block,
+            ^.cls := s"language-${props.language}",
+            getContent(props)
+          )
+        )
       )
     )
   }
