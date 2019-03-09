@@ -90,7 +90,7 @@ private[home] object PageHomeList {
           child(Link(Page(ctl, Pages.Tag(), isWIP = false))()),
           child(Link(Page(ctl, Pages.Toast(), isWIP = true))()),
           child(Link(Page(ctl, Pages.Well(), isWIP = false))()),
-          child(Link(Page(ctl, Pages.Popover(), isWIP = true))()),
+          child(Link(Page(ctl, Pages.Popover(), isWIP = false))()),
           child(Link(Page(ctl, Pages.Card(), isWIP = false))()),
           child(Link(Page(ctl, Pages.Modal(), isWIP = false))()),
           child() // Number of children needs to be even

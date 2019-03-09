@@ -3,6 +3,7 @@
 link_paths=(
   button
   card
+  dialog
   dropdown
   field
   icon
