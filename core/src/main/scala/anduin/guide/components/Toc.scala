@@ -43,18 +43,22 @@ object Toc {
     Style.textDecoration.hoverNone.color.hoverBlue4.borderColor.hoverBlue3
   )
 
+  private val linkWrapStyles = TagMod(
+    Style.lineHeight.px20.padding.ver8
+  )
+
   private def renderLink(title: String): VdomElement = {
     <.a(linkStyles, ^.href := s"#${getId(title)}", getTitle(title))
   }
 
   private def renderChild(title: String): VdomElement = {
-    <.li(^.key := title, renderLink(title))
+    <.li(linkWrapStyles, ^.key := title, renderLink(title))
   }
 
   private def renderSection(section: Section): VdomElement = {
     <.li(
       ^.key := section.title,
-      <.p(renderLink(section.title)),
+      <.p(linkWrapStyles, renderLink(section.title)),
       <.ol(
         Style.listStyle.none.padding.left16,
         section.children.toVdomArray(renderChild)
