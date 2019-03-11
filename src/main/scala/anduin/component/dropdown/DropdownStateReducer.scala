@@ -17,15 +17,12 @@ private[dropdown] class DropdownStateReducer[A] {
   case class Data(isInnerClick: Boolean)
   case class Input(state: State, changes: Changes, data: Data)
 
-  // Clear inputValue when menu is opening or opened
+  // Clear inputValue when menu is just opened or closed
   private def clearInput(input: Input): Input = {
-    val isTyping = input.changes.tpe.contains(Types.changeInput)
-    val isOpen = input.changes.isOpen.exists(_ == true) ||
-      input.state.isOpen.exists(_ == true)
-    if (isOpen && !isTyping) {
-      val update = new DownshiftStateChanges[A] {
-        override val inputValue = ""
-      }
+    if (input.state.isOpen.exists { stateIsOpen =>
+          input.changes.isOpen.exists(_ != stateIsOpen)
+        }) {
+      val update = new DownshiftStateChanges[A] { override val inputValue = "" }
       val nextChanges = merge(input.changes, update)
       input.copy(changes = nextChanges)
     } else {
@@ -41,7 +38,7 @@ private[dropdown] class DropdownStateReducer[A] {
   // - See:
   //   - https://stackoverflow.com/q/47865209
   //   - https://github.com/anduintransaction/stargazer/issues/18073
-  //   - and the PR of this change
+  //   - https://github.com/anduintransaction/stargazer/pull/18088
   private def preventClosing(input: Input): Input = {
     if (input.changes.tpe.contains(Types.mouseUp) &&
         input.changes.isOpen.exists(_ == false) &&
