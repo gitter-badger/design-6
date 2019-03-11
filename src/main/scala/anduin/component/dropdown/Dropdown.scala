@@ -2,8 +2,9 @@
 
 package anduin.component.dropdown
 
-import anduin.component.portal.PositionBottomLeft
-import anduin.component.popover.Popover
+import anduin.component.popover.PopoverContent
+import anduin.component.portal.PortalPosition
+import org.scalajs.dom.raw.HTMLElement
 
 import scala.scalajs.js
 
@@ -59,6 +60,7 @@ class Dropdown[A] {
   private final class Backend(backendScope: BackendScope[Props, Unit]) {
 
     val _ = backendScope
+    private val targetRef = Ref[HTMLElement]
 
     // This variable will be set immediately before Downshift's stateReducer
     // (and reset after that) to help Downshift detects whether the click is
@@ -94,16 +96,21 @@ class Dropdown[A] {
     ): raw.React.Node = {
       val measurement = getMeasurement(props)
       val innerProps = InnerProps(props, downshift, measurement)
-      val popover = Popover(
-        isOpened = innerProps.downshift.isOpen.toOption,
-        position = PositionBottomLeft,
-        renderTarget = (_, _) => Target(innerProps)(),
-        renderContent = _ => <.div(isInnerClickWrapper, Content(innerProps)()),
-        isFullWidth = true
-      )()
-      // can't return Popover directly here. Downshift
-      // requires a low-level native tag
-      <.div(popover).rawElement
+      <.div(
+        <.div.withRef(targetRef)(Target(innerProps)()),
+        TagMod.when(innerProps.downshift.isOpen.contains(true)) {
+          PopoverContent(
+            targetRef = targetRef,
+            // Downshift will handle this outside click for us
+            onOverlayClick = None,
+            position = PortalPosition.BottomLeft,
+            // Avoid auto focus to the popover because all (keyboard)
+            // navigation should happen at the target button, which requires
+            // it to be focused instead.
+            isAutoFocus = false
+          )(<.div(isInnerClickWrapper, Content(innerProps)()))
+        }
+      ).rawElement
     }
 
     def render(props: Props): VdomElement = {
