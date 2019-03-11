@@ -12,7 +12,10 @@ import japgolly.scalajs.react._
 import japgolly.scalajs.react.vdom.html_<^._
 // scalastyle:on underscore.import
 
-final case class CopyToClipboard() {
+final case class CopyToClipboard(
+  targetTag: HtmlTag = <.span,
+  renderTargetTag: HtmlTag = <.span
+) {
   def apply(children: VdomNode*): VdomElement = CopyToClipboard.component(this)(children: _*)
 }
 
@@ -47,11 +50,11 @@ object CopyToClipboard {
       } yield ()
     }
 
-    def render(state: State, children: PropsChildren): VdomElement = {
+    def render(props: Props, state: State, children: PropsChildren): VdomElement = {
       Tooltip(
         position = PositionTopCenter,
-        targetTag = <.span,
-        renderTarget = <.span.withRef(childrenRef)(
+        targetTag = props.targetTag,
+        renderTarget = props.renderTargetTag.withRef(childrenRef)(
           ^.onClick --> copyToClipboard,
           ^.onMouseLeave --> scope.modState(_.copy(copied = false)),
           children
