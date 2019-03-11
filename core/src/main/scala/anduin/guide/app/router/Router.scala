@@ -8,6 +8,7 @@ import anduin.guide.pages.components.card.PageCard
 import anduin.guide.pages.components.checkbox.PageCheckbox
 import anduin.guide.pages.components.radio.PageRadio
 import anduin.guide.pages.components.dropdown.PageDropdown
+import anduin.guide.pages.components.dialog.PageDialog
 import anduin.guide.pages.components.button._
 import anduin.guide.pages.components.field.PageField
 import anduin.guide.pages.components.home.PageComponent
@@ -62,6 +63,7 @@ object Router {
       | dynamicRouteCT("checkbox" ~ hash.caseClass[Checkbox]) ~> getRender(() => Promise.resolve[RenderFn](PageCheckbox.render _))
       | dynamicRouteCT("component" ~ hash.caseClass[Component]) ~> getRender(() => Promise.resolve[RenderFn](PageComponent.render _))
       | dynamicRouteCT("date-time" ~ hash.caseClass[DateTime]) ~> getRender(() => Promise.resolve[RenderFn](PageWIP.render _))
+      | dynamicRouteCT("dialog" ~ hash.caseClass[Dialog]) ~> getRender(() => Promise.resolve[RenderFn](PageDialog.render _))
       | dynamicRouteCT("dropdown" ~ hash.caseClass[Dropdown]) ~> getRender(() => Promise.resolve[RenderFn](PageDropdown.render _))
       | dynamicRouteCT("field" ~ hash.caseClass[Field]) ~> getRender(() => Promise.resolve[RenderFn](PageField.render _))
       | dynamicRouteCT("filter" ~ hash.caseClass[Filter]) ~> getRender(() => Promise.resolve[RenderFn](PageWIP.render _))

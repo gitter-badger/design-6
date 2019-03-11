@@ -26,6 +26,7 @@ object Pages {
   case class Card(hash: String = "") extends ComponentT
   case class Checkbox(hash: String = "") extends ComponentT
   case class DateTime(hash: String = "") extends ComponentT
+  case class Dialog(hash: String = "") extends ComponentT
   sealed trait DropdownT extends ComponentT
   case class Dropdown(hash: String = "") extends DropdownT
   case class DropdownMulti(hash: String = "") extends DropdownT
