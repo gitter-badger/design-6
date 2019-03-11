@@ -136,7 +136,9 @@ class Tree[A] {
     }
 
     def render(props: Props, state: State): VdomElement = {
-      if (state.isExpanded) {
+      // Call rendererOnExpand to fetch data when the node is expanded. However, the root doesn't have any parent but
+      // is always present, it should also fetches data.
+      if (state.isExpanded || props.ancestorNodes.isEmpty) {
         props.rendererOnExpand(props.node, completeNode => renderSubTree(props.copy(node = completeNode), state))
       } else {
         renderSubTree(props, state)
