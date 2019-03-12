@@ -22,6 +22,7 @@ import anduin.guide.pages.components.tag.PageTag
 import anduin.guide.pages.components.table.PageTable
 import anduin.guide.pages.components.textbox._
 import anduin.guide.pages.components.toggle.PageToggle
+import anduin.guide.pages.components.tooltip.PageTooltip
 import anduin.guide.pages.components.well.PageWell
 import anduin.guide.pages.components.playground.PagePlayground
 import anduin.guide.pages.style._
@@ -90,7 +91,7 @@ object Router {
       | dynamicRouteCT("text-box-appearance" ~ hash.caseClass[TextBoxAppearance]) ~> getRender(() => Promise.resolve[RenderFn](PageTextBoxAppearance.render _))
       | dynamicRouteCT("toast" ~ hash.caseClass[Toast]) ~> getRender(() => Promise.resolve[RenderFn](PageWIP.render _))
       | dynamicRouteCT("toggle" ~ hash.caseClass[Toggle]) ~> getRender(() => Promise.resolve[RenderFn](PageToggle.render _))
-      | dynamicRouteCT("tooltip" ~ hash.caseClass[Tooltip]) ~> getRender(() => Promise.resolve[RenderFn](PageWIP.render _))
+      | dynamicRouteCT("tooltip" ~ hash.caseClass[Tooltip]) ~> getRender(() => Promise.resolve[RenderFn](PageTooltip.render _))
       | dynamicRouteCT("tree" ~ hash.caseClass[Tree]) ~> getRender(() => Promise.resolve[RenderFn](PageWIP.render _))
       | dynamicRouteCT("well" ~ hash.caseClass[Well]) ~> getRender(() => Promise.resolve[RenderFn](PageWell.render _))
       | emptyRule)

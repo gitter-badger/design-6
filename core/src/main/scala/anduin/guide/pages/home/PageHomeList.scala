@@ -86,7 +86,7 @@ private[home] object PageHomeList {
         <.div(
           Style.flexbox.flex.flexbox.justifyAround.flexbox.wrap,
           ^.justifyContent := "space-evenly",
-          child(Link(Page(ctl, Pages.Tooltip(), isWIP = true))()),
+          child(Link(Page(ctl, Pages.Tooltip(), isWIP = false))()),
           child(Link(Page(ctl, Pages.Tag(), isWIP = false))()),
           child(Link(Page(ctl, Pages.Toast(), isWIP = true))()),
           child(Link(Page(ctl, Pages.Well(), isWIP = false))()),

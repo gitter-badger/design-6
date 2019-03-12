@@ -5,7 +5,8 @@ import anduin.component.dialog.Dialog
 import anduin.component.icon.Icon
 import anduin.component.input.textbox.TextBox
 import anduin.component.menu.{Menu, MenuItem}
-import anduin.component.popover.{Popover, PopoverContent, PopoverPosition}
+import anduin.component.popover.{Popover, PopoverContent}
+import anduin.component.portal.{PortalPosition, PortalWrapper}
 import anduin.guide.app.main.Pages
 import anduin.guide.components._
 import anduin.mcro.Source
@@ -101,11 +102,15 @@ object PagePopover {
       )(),
       Markdown(
         """
-          |## Inline
+          |## Target Wrapper
           |
           |```scala
-          |isInline: Boolean = false
+          |targetWrapper: PortalWrapper = PortalWrapper.BlockContent
           |```
+          |
+          |Behind the scene, popovers must have
+          |
+          |https://github.com/japgolly/scalajs-react/blob/master/doc/REFS.md#refs-to-vdom-tags
           |
           |In order to get [accurate measurement][m] of [targets](#target),
           |popovers will wrap them inside a `<.div(Style.width.maxContent)`.
@@ -127,12 +132,23 @@ object PagePopover {
         <.p(
           "A sentence with an ",
           Popover(
-            isInline = true,
+            targetWrapper = PortalWrapper.Inline,
             renderTarget = (open, _) => Button(Button.Style.Text(), onClick = open)("inline"),
             renderContent = _ => <.div(Style.padding.all8, "Content")
           )(),
           " popover."
         )
+      }))(),
+      ExampleRich(Source.annotate({
+        val popover = Popover(
+          targetWrapper = PortalWrapper.BlockFull,
+          renderTarget = (open, isOpened) => {
+            val style = Button.Style.Full(isSelected = isOpened, isFullWidth = true)
+            Button(style, onClick = open)("Full-width Target")
+          },
+          renderContent = _ => <.div(Style.padding.all8, "Content")
+        )()
+        <.div(Style.width.px256, popover)
       }))(),
       Markdown(
         s"""
@@ -170,7 +186,7 @@ object PagePopover {
               MenuItem(icon = Some(Icon.Glyph.Download))("Download")
             )
           },
-          position = PopoverPosition.BottomLeft
+          position = PortalPosition.BottomLeft
         )()
       }))(),
       Markdown(
@@ -217,7 +233,7 @@ object PagePopover {
           |## Position
           |
           |```scala
-          |position: PopoverPosition = PopoverPosition.TopCenter
+          |position: PortalPosition = PortalPosition.TopCenter
           |```
           |
           |A popover's content is always anchored to its [target](#Target).
@@ -227,7 +243,7 @@ object PagePopover {
       )(),
       ExampleRich(Source.annotate({
         Popover(
-          position = PopoverPosition.RightTop,
+          position = PortalPosition.RightTop,
           renderTarget = (toggle, isOpened) => {
             val style = Button.Style.Full(isSelected = isOpened)
             Button(style, onClick = toggle)("Target")
@@ -259,7 +275,7 @@ object PagePopover {
           |  // - Some(Callback.empty) works like overlay.pointerEvents = auto
           |  onOverlayClick: Option[Callback],
           |  // Same as Popover's `position` prop
-          |  position: PopoverPosition = PopoverPosition.TopCenter,
+          |  position: PortalPosition = PortalPosition.TopCenter,
           |  // Whether users' focus should be shifted into the popover automatically
           |  // - Usually this should be true so keyboard navigation and "Esc to close"
           |  //   would work out of the box
@@ -296,7 +312,7 @@ object PagePopover {
                   targetRef = ref,
                   onOverlayClick = None,
                   isAutoFocus = false,
-                  position = PopoverPosition.BottomLeft
+                  position = PortalPosition.BottomLeft
                 )({
                   val padding = Style.padding.ver8.padding.hor12
                   <.p(padding, "Type something to close this Popover")

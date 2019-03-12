@@ -5,7 +5,8 @@ package anduin.guide.pages.components.button
 import anduin.component.button.Button
 import anduin.component.icon.Icon
 import anduin.component.menu.{Menu, MenuDivider, MenuItem}
-import anduin.component.popover.{Popover, PopoverPosition}
+import anduin.component.popover.Popover
+import anduin.component.portal.PortalPosition
 import anduin.guide.components.ExampleSimple
 
 // scalastyle:off underscore.import
@@ -50,7 +51,7 @@ object BoxExampleMenu {
       Popover(
         renderTarget = renderTarget,
         renderContent = renderContent,
-        position = PopoverPosition.BottomLeft
+        position = PortalPosition.BottomLeft
       )()
     )
   }

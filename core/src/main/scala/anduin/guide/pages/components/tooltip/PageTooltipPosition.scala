@@ -1,10 +1,8 @@
-package anduin.guide.pages.components.popover
+package anduin.guide.pages.components.tooltip
 
-import anduin.component.icon.Icon
-import anduin.component.popover.Popover
 import anduin.component.portal.PortalPosition
 import anduin.component.portal.PortalPosition._
-import anduin.component.tag.Tag
+import anduin.component.tooltip.Tooltip
 import anduin.style.Style
 
 // scalastyle:off underscore.import
@@ -12,12 +10,12 @@ import japgolly.scalajs.react._
 import japgolly.scalajs.react.vdom.html_<^._
 // scalastyle:on underscore.import
 
-final case class PagePopoverPosition() {
-  def apply(): VdomElement = PagePopoverPosition.component(this)
+final case class PageTooltipPosition() {
+  def apply(): VdomElement = PageTooltipPosition.component(this)
 }
 
-object PagePopoverPosition {
-  private type Props = PagePopoverPosition
+object PageTooltipPosition {
+  private type Props = PageTooltipPosition
 
   private val positions = List(
     List(RightTop, BottomLeft, BottomCenter, BottomRight, LeftTop),
@@ -35,18 +33,13 @@ object PagePopoverPosition {
         case _                                  => Style.flexbox.justifyCenter
       },
       ^.key := name,
-      Popover(
-        renderTarget = (open, isOpened) => {
-          val color = if (isOpened) Tag.Bold.Gray else Tag.Light.Gray
-          Tag(color, target = Tag.Target.Button(open))(name)
-        },
-        renderContent = _ => {
-          <.div(
-            Style.flexbox.flex.padding.all8,
-            Icon(name = Icon.File.Final, size = Icon.Size.Px32)(),
-            Icon(name = Icon.File.Archive, size = Icon.Size.Px32)(),
-          )
-        },
+      Tooltip(
+        renderTarget = <.div(
+          Style.background.gray3.height.px20.padding.hor4,
+          Style.fontWeight.semiBold.fontSize.px11.borderRadius.px2,
+          name
+        ),
+        renderContent = () => "Content",
         position = position
       )()
     )

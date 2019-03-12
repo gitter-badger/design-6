@@ -1,12 +1,10 @@
 package anduin.guide.pages.components.playground
 
 import japgolly.scalajs.react.Callback
-
 import anduin.guide.app.main.Pages
 import anduin.guide.components._
 import anduin.mcro.Source
 import japgolly.scalajs.react.vdom.html_<^._
-
 import anduin.component.button.Button
 import anduin.component.card.Card
 import anduin.component.dropdown.Dropdown
@@ -17,7 +15,7 @@ import anduin.component.input.radio.Radio
 import anduin.component.input.textbox.TextBox
 import anduin.component.menu.{Menu, MenuItem}
 import anduin.component.popover.Popover
-import anduin.component.portal.PositionLeftCenter
+import anduin.component.portal.PortalPosition
 import anduin.component.progressindicators.BarIndicator
 import anduin.component.tab.Tab
 import anduin.component.table.Table
@@ -138,7 +136,7 @@ object PagePlayground {
           Tooltip(
             renderTarget = Button(style = Button.Style.Minimal(icon = Some(Icon.Glyph.Bold)))(),
             renderContent = () => "Bold (⌘B)",
-            position = PositionLeftCenter
+            position = PortalPosition.LeftCenter
           )()
         )
       }),
