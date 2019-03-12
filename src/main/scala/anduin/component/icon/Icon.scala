@@ -35,7 +35,6 @@ object Icon {
     object Px16 extends Size { val px = 16 }
     object Px24 extends Size { val px = 24 }
     object Px32 extends Size { val px = 32 }
-    object Px40 extends Size { val px = 40 }
     case class Custom(px: Int) extends Size
   }
 

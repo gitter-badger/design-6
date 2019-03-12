@@ -9,23 +9,17 @@ import japgolly.scalajs.react.vdom.svg_<^._
 
 sealed trait IconProduct extends Icon.Name {
   def paths: String
-  def bg: String
 
-  private def group = TagMod(
-    <.path(^.fill := bg, ^.d := "M20 0C4 0 0 4 0 20s4 20 20 20 20-4 20-20S36 0 20 0z"),
-    <.g(
-      TagMod(^.fill := "none", ^.fillRule := "evenodd"),
-      ^.transform := "translate(4, 4)",
-      vdom.html_<^.^.dangerouslySetInnerHtml := paths
-    )
+  private def group = <.g(
+    TagMod(^.fill := "none", ^.fillRule := "evenodd"),
+    vdom.html_<^.^.dangerouslySetInnerHtml := paths
   )
-  final def sizeMods: Seq[Icon.SizeMod] = Vector(Icon.SizeMod(Icon.Size.Px40, group))
+  final def sizeMods: Seq[Icon.SizeMod] = Vector(Icon.SizeMod(Icon.Size.Px32, group))
 }
 
 // scalastyle:off line.size.limit
 object IconProduct {
   object Negotiation extends IconProduct {
-    val bg: String = "#00A6B7"
     val paths: String =
       """
         |<path fill="#FFF" d="M7 4h13l6 6v17a1 1 0 0 1-1 1H7a1 1 0 0 1-1-1V5a1 1 0 0 1 1-1z"/>
@@ -34,7 +28,6 @@ object IconProduct {
       """.stripMargin
   }
   object LegalDiligence extends IconProduct {
-    val bg: String = "#15B8E6"
     val paths: String =
       """
         |<path fill="#C5EDF8" d="M7.42 9h17.16a.5.5 0 0 1 .48.64l-.7 2.36H7.64l-.69-2.36A.5.5 0 0 1 7.42 9z"/>
@@ -43,7 +36,6 @@ object IconProduct {
       """.stripMargin
   }
   object Signature extends IconProduct {
-    val bg: String = "#9190E5"
     val paths: String =
       """
         |<path fill="#FFF" d="M24.98 9.1l-.01 7.12a4 4 0 0 1-1.53 3.14L18 23.65c-.7.55-1.73.44-2.29-.25a1.6 1.6 0 0 1-.18-.29l-3.09-6.13a4 4 0 0 1-.04-3.5l3.04-6.46c-.38-.28 10.02 1.99 9.55 2.08z"/>
@@ -54,7 +46,6 @@ object IconProduct {
       """.stripMargin
   }
   object Wiring extends IconProduct {
-    val bg: String = "#30A594"
     val paths: String =
       """
         |<path fill="#FFF" d="M7 23h19a1 1 0 0 1 1 1v1a1 1 0 0 1-1 1H5.5a.5.5 0 0 1-.5-.5v-2a.5.5 0 0 1 .5-.5H7zm19.5-11h-21a.5.5 0 0 1-.5-.5V9.35a.5.5 0 0 1 .33-.47L16 5l10.67 3.88a.5.5 0 0 1 .33.47v2.15a.5.5 0 0 1-.5.5z"/>
@@ -62,7 +53,6 @@ object IconProduct {
       """.stripMargin
   }
   object Closing extends IconProduct {
-    val bg: String = "#0AAB68"
     val paths: String =
       """
         |<path fill="#FFF" d="M7 8.66l16.42-4.4a1 1 0 0 1 1.23.7l2.84 10.63-17.38 4.66L7 8.65z"/>
