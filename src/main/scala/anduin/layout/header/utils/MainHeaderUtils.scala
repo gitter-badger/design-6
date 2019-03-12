@@ -12,7 +12,6 @@ object MainHeaderUtils {
   val vr = <.div(Style.height.px16.margin.hor8.border.left.borderColor.gray7)
 
   val interactionStyles: TagMod = TagMod(
-    Style.background.hoverGray7.color.hoverWhite,
     Style.background.activeGray9.color.activeWhite,
     Style.outline.focusDark.transition.allWithOutline
   )
@@ -20,10 +19,5 @@ object MainHeaderUtils {
   val buttonStyles: TagMod = TagMod(
     interactionStyles,
     Style.display.block.borderRadius.px2.padding.all4.color.gray5
-  )
-
-  def popButtonStyles(isOpened: Boolean): TagMod = TagMod(
-    buttonStyles,
-    TagMod.when(isOpened) { Style.background.gray9 }
   )
 }
