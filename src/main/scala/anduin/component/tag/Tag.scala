@@ -14,7 +14,8 @@ final case class Tag(
   color: TagColor = Tag.Light.Gray,
   icon: Option[Icon.Name] = None,
   target: TagTarget = Tag.Target.None,
-  close: Option[Callback] = None
+  close: Option[Callback] = None,
+  maxWidth: Int = 128 // in pixel
 ) {
   def apply(children: String): VdomElement = {
     Tag.component((this, children))
@@ -53,7 +54,7 @@ object Tag {
     Style.fontWeight.semiBold.fontSize.px11,
     Style.flexbox.flex.flexbox.itemsCenter,
     Style.height.px20.padding.hor4.borderRadius.px2,
-    Style.width.maxContent.maxWidth.px128 // auto truncate
+    Style.width.maxContent // auto truncate
   )
 
   private val textStaticStyles =
@@ -102,6 +103,7 @@ object Tag {
         TagMod.when(props._1.target.isInteractive)(getInteractive(props)),
         TagMod.when(props._1.close.isDefined)(Style.borderRadius.left),
         bodyStaticStyles,
+        ^.maxWidth := s"${props._1.maxWidth}px", // for truncate
         // -- content
         props._1.icon.map(renderIcon(props)),
         <.span(props._1.color.text.primary, textStaticStyles, props._2),
