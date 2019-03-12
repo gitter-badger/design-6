@@ -1,6 +1,6 @@
 package anduin.guide.pages.components.icon
 
-import anduin.component.icon.Icon
+import anduin.component.icon.{Icon, IconProduct}
 import anduin.component.icon.Icon.Product._
 import anduin.guide.app.main.Pages
 import anduin.guide.components._
@@ -10,14 +10,22 @@ import japgolly.scalajs.react.vdom.html_<^._
 
 object PageIconProduct {
 
-  private def renderIcon(icon: Icon.Name): VdomElement = {
-    val sName = icon.getClass.getSimpleName
-    val sample = IconSample(icon, Icon.Size.Px40, Style.padding.all8)()
+  private def renderIcon(icon: IconProduct): VdomElement = {
     <.div(
-      ^.key := sName,
+      ^.key := icon.getClass.getSimpleName,
       Style.flexbox.fill,
-      <.div(Style.margin.horAuto.width.maxContent, sample),
-      <.p(Style.textAlign.center.fontWeight.medium.fontSize.px11, sName)
+      <.div(
+        Style.margin.horAuto.width.maxContent.margin.bottom8,
+        IconSample(
+          icon,
+          Icon.Size.Px32,
+          TagMod(icon.bgMod, Style.padding.all4.borderRadius.px2.margin.all4)
+        )()
+      ),
+      <.p(
+        Style.textAlign.center.fontWeight.medium.fontSize.px11,
+        icon.getClass.getSimpleName
+      )
     )
   }
 
@@ -34,15 +42,35 @@ object PageIconProduct {
            |""".stripMargin
       )(),
       ExampleRich(Source.annotate({
-        Icon(name = Icon.Product.Signature, size = Icon.Size.Px40)()
+        <.div(
+          Style.padding.all4.borderRadius.px2.width.maxContent,
+          Icon.Product.Signature.bgMod,
+          Icon(name = Icon.Product.Signature, size = Icon.Size.Px32)()
+        )
       }))(),
       Markdown(
         s"""
-           |Product Icons are designed to work best at 40 pixels. They all
-           |have colorful, [squircle-shaped][ref] background built-in:
-           |
-           |[ref]: https://en.wikipedia.org/wiki/Squircle
+           |Product Icons are designed to work best at 32 pixels and on a
+           |matching background color. These background colors are provided
+           |via the `bgColor: String` and `bgMod: TagMod` properties of each
+           |name:
            |""".stripMargin
+      )(),
+      ExampleRich(Source.annotate({
+        <.div(
+          Style.padding.ver4.padding.hor8,
+          Icon.Product.Negotiation.bgMod,
+          <.span(
+            Style.fontWeight.medium.color.white,
+            "Negotiation bg color should be: ",
+            Icon.Product.Negotiation.bgColor
+          )
+        )
+      }))(),
+      Markdown(
+        """
+          |There are 5 product icons at the moment:
+        """.stripMargin
       )(),
       ExampleSimple()({
         <.div(
@@ -52,8 +80,9 @@ object PageIconProduct {
       }),
       Markdown(
         """
-          |Colors of Product Icons cannot be changed as they reflect each
-          |product's identity.
+          |Obviously the colors of product icons cannot be changed as they
+          |reflect each product's identity. In fact, the consumers must even
+          |provide a matching background as described above.
         """.stripMargin
       )()
     )

@@ -3,7 +3,8 @@
 package anduin.guide.pages.components.icon
 
 import anduin.component.button.Button
-import anduin.component.icon.{Icon, IconFile, IconNego, IconGlyph}
+import anduin.component.icon.{Icon, IconFile, IconGlyph, IconNego}
+import anduin.style.Style
 import org.scalajs.dom
 
 // scalastyle:off underscore.import
@@ -11,11 +12,7 @@ import japgolly.scalajs.react._
 import japgolly.scalajs.react.vdom.html_<^._
 // scalastyle:on underscore.import
 
-final case class IconSample(
-  name: Icon.Name,
-  size: Icon.Size,
-  mod: TagMod
-) {
+final case class IconSample(name: Icon.Name, size: Icon.Size, mod: TagMod) {
   def apply(): VdomElement = IconSample.component(this)
 }
 
@@ -23,8 +20,7 @@ object IconSample {
 
   private type Props = IconSample
 
-  private def getName(props: Props): String =
-    props.name.getClass.getSimpleName
+  private def getName(props: Props): String = props.name.getClass.getSimpleName
 
   private def getNameDef(props: Props): String = {
     val parent = props.name match {
@@ -52,7 +48,9 @@ object IconSample {
     Button(
       style = Button.Style.Minimal(height = Button.Height.Free),
       onClick = copy(props),
-    )(<.div(props.mod, Icon(props.name, props.size)()))
+    )(
+      <.span(Style.display.block, props.mod, Icon(props.name, props.size)())
+    )
   }
 
   private val component = ScalaComponent

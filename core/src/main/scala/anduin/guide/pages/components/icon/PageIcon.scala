@@ -1,6 +1,6 @@
 package anduin.guide.pages.components.icon
 
-import anduin.component.icon.Icon
+import anduin.component.icon.{Icon, IconProduct}
 import anduin.guide.app.main.Pages
 import anduin.guide.components._
 import anduin.mcro.Source
@@ -10,12 +10,21 @@ import japgolly.scalajs.react.vdom.html_<^._
 object PageIcon {
 
   private def renderSetSize(name: Icon.Name)(size: Icon.Size): VdomElement = {
-    <.div(^.key := size.getClass.getSimpleName, Style.margin.right4, Icon(name, size)())
+    val bg = name match {
+      case product: IconProduct => TagMod(product.bgMod, Style.padding.all4.borderRadius.px2)
+      case _                    => TagMod.empty
+    }
+    val key = ^.key := size.getClass.getSimpleName
+    <.div(key, bg, Style.margin.right4, Icon(name, size)())
   }
 
   private def renderSetName(sizes: Seq[Icon.Size])(name: Icon.Name): VdomElement = {
+    val key = name match {
+      case folder: Icon.Folder => folder.color.getClass.getSimpleName
+      case _                   => name.getClass.getSimpleName
+    }
     <.div(
-      ^.key := name.getClass.getSimpleName,
+      ^.key := key,
       Style.flexbox.flex.flexbox.itemsEnd.margin.right20,
       sizes.toVdomArray(renderSetSize(name))
     )
@@ -130,9 +139,8 @@ object PageIcon {
           |## Icon.Product
         """.stripMargin
       )(), {
-        import Icon.Size._
         renderSet(
-          Vector(Px40),
+          Vector(Icon.Size.Px32),
           Icon.Product.Negotiation,
           Icon.Product.LegalDiligence,
           Icon.Product.Signature,
@@ -143,7 +151,7 @@ object PageIcon {
       Markdown(
         s"""
            |`Icon.Product` contains icons that represent the products of
-           |Anduin platform.
+           |the Anduin platform.
            |""".stripMargin
       )(),
       renderButton("Product", ctl, Pages.IconProduct()),
