@@ -16,4 +16,6 @@ private[style] final case class Height(classes: List[String] = List.empty) {
   def pc100: Style = new Style(classes :+ "h-pc100")
   def vh100: Style = new Style(classes :+ "h-vh100")
   def auto: Style = new Style(classes :+ "h-auto")
+  def minContent: Style = new Style(classes :+ "h-min")
+  def maxContent: Style = new Style(classes :+ "h-max")
 }
