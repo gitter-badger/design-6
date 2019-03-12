@@ -72,6 +72,7 @@ object Router {
       | dynamicRouteCT("icon-folder" ~ hash.caseClass[IconFolder]) ~> getRender(() => Promise.resolve[RenderFn](PageIconFolder.render _))
       | dynamicRouteCT("icon-glyph" ~ hash.caseClass[IconGlyph]) ~> getRender(() => Promise.resolve[RenderFn](PageIconGlyph.render _))
       | dynamicRouteCT("icon-negotiation" ~ hash.caseClass[IconNego]) ~> getRender(() => Promise.resolve[RenderFn](PageIconNego.render _))
+      | dynamicRouteCT("icon-product" ~ hash.caseClass[IconProduct]) ~> getRender(() => Promise.resolve[RenderFn](PageIconProduct.render _))
       | dynamicRouteCT("menu" ~ hash.caseClass[Menu]) ~> getRender(() => Promise.resolve[RenderFn](PageWIP.render _))
       | dynamicRouteCT("modal" ~ hash.caseClass[Modal]) ~> getRender(() => Promise.resolve[RenderFn](PageModal.render _))
       | dynamicRouteCT("multi-dropdown" ~ hash.caseClass[DropdownMulti]) ~> getRender(() => Promise.resolve[RenderFn](PageWIP.render _))

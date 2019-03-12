@@ -55,7 +55,7 @@ object PageIcon {
            |```
            |
            |The `name` prop of an Icon defines what will be rendered. There
-           |are 4 sets of Icon's names:
+           |are 5 sets of Icon's names:
            |
            |## Icon.Glyph
            |""".stripMargin
@@ -125,6 +125,28 @@ object PageIcon {
            |""".stripMargin
       )(),
       renderButton("Folder", ctl, Pages.IconFolder()),
+      Markdown(
+        """
+          |## Icon.Product
+        """.stripMargin
+      )(), {
+        import Icon.Size._
+        renderSet(
+          Vector(Px40),
+          Icon.Product.Negotiation,
+          Icon.Product.LegalDiligence,
+          Icon.Product.Signature,
+          Icon.Product.Wiring,
+          Icon.Product.Closing
+        )
+      },
+      Markdown(
+        s"""
+           |`Icon.Product` contains icons that represent the products of
+           |Anduin platform.
+           |""".stripMargin
+      )(),
+      renderButton("Product", ctl, Pages.IconProduct()),
       Markdown(
         s"""
            |# Size
