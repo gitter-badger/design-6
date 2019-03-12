@@ -35,14 +35,18 @@ object Icon {
     object Px16 extends Size { val px = 16 }
     object Px24 extends Size { val px = 24 }
     object Px32 extends Size { val px = 32 }
+    object Px40 extends Size { val px = 40 }
     case class Custom(px: Int) extends Size
   }
 
   private[icon] case class SizeMod(size: Size, mod: TagMod)
   trait Name { def sizeMods: Seq[SizeMod] }
+
   val File: IconFile.type = IconFile
   val Glyph: IconGlyph.type = IconGlyph
   val Nego: IconNego.type = IconNego
+  val Product: IconProduct.type = IconProduct
+
   case class Folder(
     color: IconFolder.Color = Icon.Folder.Brown,
     glyph: Option[IconGlyph] = None
