@@ -13,6 +13,7 @@ import japgolly.scalajs.react.vdom.html_<^._
 final case class Button(
   style: ButtonStyle = Button.Style.Full(),
   tpe: ButtonType = Button.Tpe.Plain(),
+  title: String = "",
   // actually these 2 props don't make much sense when being used with
   // Button.Tpe.Link. However, they are placed here (top-level) due to our
   // massive current usages.
@@ -139,9 +140,10 @@ object Button {
 
   private def render(props: Props, children: PropsChildren): VdomElement = {
     val content = getMods(props, children)
+    val title = TagMod.when(props.title.nonEmpty)(^.title := props.title)
     props.tpe match {
-      case _: Tpe.Link => <.a(content)
-      case _           => <.button(content)
+      case _: Tpe.Link => <.a(title, content)
+      case _           => <.button(title, content)
     }
   }
 
