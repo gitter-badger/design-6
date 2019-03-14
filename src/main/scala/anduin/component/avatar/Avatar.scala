@@ -13,8 +13,7 @@ import japgolly.scalajs.react.vdom.html_<^._
 final case class Avatar(
   id: String,
   borderRadius: Style,
-  avatarSize: AvatarSize = Size32,
-  fontSize: Style = Style.fontSize.px13
+  avatarSize: AvatarSize = Size32
 ) {
   def apply(children: VdomNode*): VdomElement = Avatar.component(this)(children: _*)
 }
@@ -23,17 +22,19 @@ object Avatar {
 
   private type Props = Avatar
 
+  // scalastyle:off multiple.string.literals
   private def render(props: Props, children: PropsChildren) = {
     <.span(
       Style.flexbox.flex.flexbox.itemsCenter.flexbox.justifyCenter.fontWeight.bold.color.white.flexbox.none,
       props.borderRadius,
       ^.width := s"${props.avatarSize.size}px",
       ^.height := s"${props.avatarSize.size}px",
-      props.fontSize,
+      ^.fontSize := s"${props.avatarSize.fontSize}px",
       ^.backgroundColor := AvatarColor(props.id),
       children
     )
   }
+  // scalastyle:on multiple.string.literals
 
   private val component = ScalaComponent
     .builder[Props](this.getClass.getSimpleName)
