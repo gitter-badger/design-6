@@ -21,14 +21,16 @@ object Icon {
   private type Props = Icon
 
   sealed trait Size {
-    def px: Int
+    private[icon] def px: Int
     private def pxS: String = px.toString
     // "dimension" is the target width and height to display the icon at
-    // - ie. this is the size that the icon will be rendered
-    final def dimension: TagMod = TagMod(^.width := pxS, ^.height := pxS)
+    // - i.e. this is the size that the icon will be rendered
+    private[icon] final def dimension: TagMod =
+      TagMod(^.width := pxS, ^ .height := pxS)
     // "viewBox" is the original size that the icon's name is designed at
-    // - ie. this is the size that the icon is designed
-    final def viewBox: TagMod = ^.viewBox := s"0 0 $pxS $pxS"
+    // - i.e. this is the size that the icon is designed
+    private[icon] final def viewBox: TagMod =
+      ^.viewBox := s"0 0 $pxS $pxS"
   }
 
   object Size {
@@ -39,7 +41,7 @@ object Icon {
   }
 
   private[icon] case class SizeMod(size: Size, mod: TagMod)
-  trait Name { def sizeMods: Seq[SizeMod] }
+  trait Name { private[icon] def sizeMods: Seq[SizeMod] }
 
   val File: IconFile.type = IconFile
   val Glyph: IconGlyph.type = IconGlyph
