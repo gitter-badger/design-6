@@ -2,8 +2,10 @@
 
 package anduin.style
 
+// scalastyle:off number.of.methods
 private[style] final case class Width(classes: List[String] = List.empty) {
   // pixel
+  def px1: Style = new Style(classes :+ "w-px1")
   def px8: Style = new Style(classes :+ "w-px8")
   def px16: Style = new Style(classes :+ "w-px16")
   def px20: Style = new Style(classes :+ "w-px20")
@@ -37,3 +39,4 @@ private[style] final case class Width(classes: List[String] = List.empty) {
   def minContent: Style = new Style(classes :+ "w-min")
   def maxContent: Style = new Style(classes :+ "w-max")
 }
+// scalastyle:on number.of.methods
