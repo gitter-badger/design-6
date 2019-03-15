@@ -75,6 +75,7 @@ object LayoutNav {
             li(Title("Popover", Internal(Popover()))),
             li(Title("Card", Internal(Card()))),
             li(Title("Modal", Internal(Modal()))),
+            li(Title("Portal Utilities", Internal(Portal()))),
             h("Form"),
             li(Title("Checkbox", Internal(Checkbox()))),
             li(Title("Dropdown", Internal(Dropdown()))),

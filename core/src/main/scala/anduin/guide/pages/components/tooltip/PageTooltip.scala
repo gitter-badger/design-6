@@ -29,8 +29,6 @@ object PageTooltip {
         )()
       }))(),
       <.div(Style.height.px256),
-      ExampleSimple()(PageTooltipPosition()()),
-      <.div(Style.height.px256),
     )
   }
 }
