@@ -4,7 +4,7 @@ import anduin.component.button.Button
 import anduin.component.input.textbox.TextBox
 import anduin.component.modal.{Modal, ModalBody}
 import anduin.component.popover.{Popover, PopoverContent}
-import anduin.component.portal.{PortalPosition, PortalWrapper}
+import anduin.component.portal.{PortalPosition, PortalTargetWrapper}
 import anduin.component.tooltip.Tooltip
 import anduin.guide.app.main.Pages
 import anduin.guide.components._
@@ -23,7 +23,7 @@ object PagePortal {
       Markdown(
         s"""
            |This page does not describe an actual component. Instead, it
-           |describes the common concepts and properties between portal-based
+           |describes the common concepts and designs between portal-based
            |components, such as [Modal], [Popover], [Tooltip] or [Toast].
            |
            |[Modal]: ${ctl.urlFor(Pages.Modal()).value}
@@ -34,7 +34,7 @@ object PagePortal {
       )(),
       Markdown(
         s"""
-           |# Target & Content
+           |# Target and Content
            |
            |Portal components are made of 2 parts: a "target" and a "content":
            |
@@ -86,6 +86,11 @@ object PagePortal {
           |
           |[stacking]: https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_Positioning/Understanding_z_index/Stacking_without_z-index
           |
+          |Portal components often render the content with their specific
+          |styles. For example, tooltips' contents are shown in black,
+          |rounded boxes with an arrow. In fact, the appearance of content is
+          |the main difference between portal components.
+          |
          """.stripMargin
       )(),
       Markdown(
@@ -93,7 +98,7 @@ object PagePortal {
            |# Target Wrapper
            |
            |```scala
-           |targetWrapper: PortalWrapper = PortalWrapper.BlockContent
+           |portal.PortalTargetWrapper
            |```
            |
            |**Available in:** [Popover], [Tooltip]
@@ -104,20 +109,20 @@ object PagePortal {
            |Popovers and tooltips wrap their targets inside a wrapper tag in
            |order to [obtain DOM-level information][ref] (e.g. to position the
            |contents) or provide built-in functionality (e.g. open a tooltip's
-           |content when hovered) without the need to know or update their
-           |targets directly.
+           |content when hovered) without knowing or updating their targets
+           |directly.
            |
            |[ref]: https://reactjs.org/docs/refs-and-the-dom.html
            |
-           |There are 3 options available at the `PortalWrapper` object:
+           |There are 3 options available at the `PortalTargetWrapper` object:
            |""".stripMargin
       )(),
       Markdown(
         """
            |## BlockContent
            |
-           |`PortalWrapper.BlockContent` is the default value, which wraps its
-           |targets inside a `div` with [intrinsic] width:
+           |`BlockContent` wraps its targets inside a `div` with [intrinsic]
+           |width:
            |
            |[intrinsic]: https://developer.mozilla.org/en-US/docs/Glossary/Intrinsic_Size
            |
@@ -126,8 +131,9 @@ object PagePortal {
            |```
            |
            |As a result, this works best for [block-level] targets whose
-           |width should be based on their content. This may sound strange,
-           |but it is actually the majority of cases in practice:
+           |width should be based on their content. The term "intrinsic" may
+           |sound unfamiliar, but in practice it is the expected
+           |behaviour in the majority of cases:
            |
            |[block-level]: https://developer.mozilla.org/en-US/docs/Web/HTML/Block-level_elements
            |""".stripMargin
@@ -137,8 +143,8 @@ object PagePortal {
         """
           |## Inline
           |
-          |`PortalWrapper.Inline` wraps its target inside a `span` tag,
-          |without any additional styles. It is suitable for [inline] targets:
+          |`Inline` wraps its target inside a `span` tag, without any
+          |additional styles. It is suitable for [inline] targets:
           |
           |[inline]: https://developer.mozilla.org/en-US/docs/Web/HTML/Inline_elements
           |""".stripMargin
@@ -147,7 +153,7 @@ object PagePortal {
         <.p(
           "This is a sentence with an ",
           Tooltip(
-            targetWrapper = PortalWrapper.Inline,
+            targetWrapper = PortalTargetWrapper.Inline,
             renderTarget = <.span(Style.color.blue5, "inline"),
             renderContent = () => "Content"
           )(),
@@ -158,14 +164,15 @@ object PagePortal {
         """
           |## Block
           |
-          |`PortalWrapper.Block` wraps its target inside a `div` tag, like
-          |`BlockContent`, but without the intrinsic width. This allows
-          |full-width targets to be displayed properly:
+          |`Block` wraps its target inside a `div` tag like `BlockContent`,
+          |but without the intrinsic width. This means the built-in full-width
+          |behaviour of block-level elements are used, allows full-width
+          |targets to be displayed properly:
         """.stripMargin
       )(),
       ExampleRich(Source.annotate({
         val popover = Popover(
-          targetWrapper = PortalWrapper.Block,
+          targetWrapper = PortalTargetWrapper.Block,
           renderTarget = (open, isOpened) => {
             val style = Button.Style.Full(isSelected = isOpened, isFullWidth = true)
             Button(style, onClick = open)("Full-width Target")
@@ -175,16 +182,22 @@ object PagePortal {
         <.div(Style.width.px256, popover)
       }))(),
       Markdown(
-        """
+        s"""
           |# Position
           |
           |```scala
-          |position: PortalPosition = PortalPosition.TopCenter
+          |portal.PortalPosition
           |```
           |
-          |A popover's content is always anchored to its [target](#Target).
-          |By default, it is placed on top of the target, horizontally
-          |centered. The `position` prop can be used to set otherwise:
+          |**Available in:** [Popover], [Tooltip]
+          |
+          |[Popover]: ${ctl.urlFor(Pages.Popover()).value}
+          |[Tooltip]: ${ctl.urlFor(Pages.Tooltip()).value}
+          |
+          |The content of a popover or a tooltip is always anchored to its
+          |[target](#Target). By default, it is usually placed on top of the
+          |target and horizontally centered. The `PortalPosition` object
+          |contains options to specify otherwise:
         """.stripMargin
       )(),
       ExampleRich(Source.annotate({
@@ -199,15 +212,16 @@ object PagePortal {
       }))(),
       Markdown(
         """
-          |There are options to place the content on top, right, bottom or
-          |left of the target, with 3 additional variants each for fine tuning:
+          |For both popovers and tooltips, there are options to place the
+          |content on top, right, bottom or left of the target. Each position
+          |also has 3 additional variants for fine tuning:
         """.stripMargin
       )(),
       ExampleSimple()(PagePortalPositionPopover()()),
       ExampleSimple()(PagePortalPositionTooltip()()),
       Markdown(
         """
-          |## Standalone
+          |# Standalone
           |
           |The `PopoverContent` component, available at the same package,
           |allows render the popover's content directly, without a target

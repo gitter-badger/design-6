@@ -20,11 +20,11 @@ object PagePortalPositionTooltip {
   private def renderTooltip(position: PortalPosition): VdomElement = {
     Tooltip(
       renderTarget = <.div(
-        Style.background.gray3.height.px20.padding.hor4,
-        Style.fontWeight.semiBold.fontSize.px11.borderRadius.px2,
+        Style.background.gray3.height.px20.padding.hor4.borderRadius.px2,
+        Style.fontWeight.semiBold.fontSize.px11,
         position.getClass.getSimpleName
       ),
-      renderContent = () => "Content",
+      renderContent = () => "Lorem ipsum dolor\nsit amet",
       position = position
     )()
   }
