@@ -63,7 +63,6 @@ object TooltipContent {
     }
 
     def render(props: Props, state: State): VdomNode = {
-      println("render", state.placement)
       ReactPortal(renderContent(props, state), dom.document.body)
     }
 
