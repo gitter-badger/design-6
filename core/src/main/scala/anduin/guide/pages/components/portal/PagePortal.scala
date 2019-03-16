@@ -90,8 +90,7 @@ object PagePortal {
           |styles. For example, tooltips' contents are shown in black,
           |rounded boxes with an arrow. In fact, the appearance of content is
           |the main difference between portal components.
-          |
-         """.stripMargin
+          |""".stripMargin
       )(),
       Markdown(
         s"""
@@ -119,24 +118,24 @@ object PagePortal {
       )(),
       Markdown(
         """
-           |## BlockContent
-           |
-           |`BlockContent` wraps its targets inside a `div` with [intrinsic]
-           |width:
-           |
-           |[intrinsic]: https://developer.mozilla.org/en-US/docs/Glossary/Intrinsic_Size
-           |
-           |```scala
-           |<.div(Style.width.fitContent.maxWidth.pc100)
-           |```
-           |
-           |As a result, this works best for [block-level] targets whose
-           |width should be based on their content. The term "intrinsic" may
-           |sound unfamiliar, but in practice it is the expected
-           |behaviour in the majority of cases:
-           |
-           |[block-level]: https://developer.mozilla.org/en-US/docs/Web/HTML/Block-level_elements
-           |""".stripMargin
+          |## BlockContent
+          |
+          |`BlockContent` wraps its targets inside a `div` with [intrinsic]
+          |width:
+          |
+          |[intrinsic]: https://developer.mozilla.org/en-US/docs/Glossary/Intrinsic_Size
+          |
+          |```scala
+          |<.div(Style.width.fitContent.maxWidth.pc100)
+          |```
+          |
+          |As a result, this works best for [block-level] targets whose
+          |width should be based on their content. The term "intrinsic" may
+          |sound unfamiliar, but in practice it is the expected
+          |behaviour in the majority of cases:
+          |
+          |[block-level]: https://developer.mozilla.org/en-US/docs/Web/HTML/Block-level_elements
+          |""".stripMargin
       )(),
       PagePortalWrapperContent()(),
       Markdown(
@@ -183,21 +182,21 @@ object PagePortal {
       }))(),
       Markdown(
         s"""
-          |# Position
-          |
-          |```scala
-          |portal.PortalPosition
-          |```
-          |
-          |**Available in:** [Popover], [Tooltip]
-          |
-          |[Popover]: ${ctl.urlFor(Pages.Popover()).value}
-          |[Tooltip]: ${ctl.urlFor(Pages.Tooltip()).value}
-          |
-          |The content of a popover or a tooltip is always anchored to its
-          |[target](#Target). By default, it is usually placed on top of the
-          |target and horizontally centered. The `PortalPosition` object
-          |contains options to specify otherwise:
+           |# Position
+           |
+           |```scala
+           |portal.PortalPosition
+           |```
+           |
+           |**Available in:** [Popover], [Tooltip]
+           |
+           |[Popover]: ${ctl.urlFor(Pages.Popover()).value}
+           |[Tooltip]: ${ctl.urlFor(Pages.Tooltip()).value}
+           |
+           |The content of a popover or a tooltip is always anchored to its
+           |[target](#Target). By default, it is usually placed on top of the
+           |target and horizontally centered. The `PortalPosition` object
+           |contains options to specify otherwise:
         """.stripMargin
       )(),
       ExampleRich(Source.annotate({
@@ -223,40 +222,22 @@ object PagePortal {
         """
           |# Standalone
           |
-          |The `PopoverContent` component, available at the same package,
-          |allows render the popover's content directly, without a target
-          |element or any user interaction. It has the following signature:
+          |The API of portal components are intentionally designed so that
+          |their consumers can only open the content via [callbacks]. In other
+          |words, the content can only be opened in response to users'
+          |interactions with its target. This prevents users from unexpected
+          |interruption.
           |
-          |```scala
-          |PopoverContent(
-          |  // To where the content should be anchored to
-          |  targetRef: Ref.Simple[raw.HTMLElement],
-          |  // Callback when users click on outside:
-          |  // - None works like overlay.pointerEvents = none
-          |  // - Some(Callback.empty) works like overlay.pointerEvents = auto
-          |  onOverlayClick: Option[Callback],
-          |  // Same as Popover's `position` prop
-          |  position: PortalPosition = PortalPosition.TopCenter,
-          |  // Whether users' focus should be shifted into the popover automatically
-          |  // - Usually this should be true so keyboard navigation and "Esc to close"
-          |  //   would work out of the box
-          |  // - However, this should be turned off when the focus should stay OUTSIDE
-          |  //   of the popover (e.g. Dropdown's target)
-          |  isAutoFocus: Boolean = true
-          |)(children: VdomNode*)
-          |```
+          |[callbacks]: https://github.com/japgolly/scalajs-react/blob/master/doc/CALLBACK.md
           |
-          |`PopoverContent` renders its children in the exact same way of
-          |of `Popover`. The only difference is that there is no longer any
-          |state management, so the popover's content will always be visible
-          |as long as `PopoverContent` is rendered.
+          |That being said, there are a few cases where this callback-based
+          |approach may increase the implementation complexity unnecessarily.
           |
-          |[properly]: https://reactjs.org/docs/portals.html
-          |
-          |This could be useful when you want to open a popover based on some
-          |complex condition instead of users' interaction. Below is a simple
-          |example in which a popover will be shown whenever the text box is
-          |empty:
+          |An `XContent` component is rendered in the exact same way of `X`'s
+          |content, including all the appearance specific to `X`. The only
+          |difference is that `XContent` does not have any state management
+          |on its own, so it will always be visible as long as the consumers
+          |choose to render it.
         """.stripMargin
       )(),
       ExampleRich(Source.annotate({
