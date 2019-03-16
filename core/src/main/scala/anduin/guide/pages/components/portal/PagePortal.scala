@@ -41,8 +41,8 @@ object PagePortal {
            |## Target
            |
            |Portals' targets are always rendered. They should trigger the
-           |render of their corresponding [contents](#content) upon users'
-           |interactions, such as [mouse hover] in [Tooltip] components.
+           |render of their corresponding [content](#content) upon users'
+           |interactions, such as [mouse hover] in [Tooltip] components:
            |
            |[mouse hover]: https://en.wikipedia.org/wiki/Mouseover
            |[Tooltip]: ${ctl.urlFor(Pages.Tooltip()).value}
@@ -57,7 +57,6 @@ object PagePortal {
       }))(),
       Markdown(
         """
-          |
           |Target elements are rendered inside the DOM hierarchy of their
           |consumers like normal components. In some cases they might be
           |wrapped inside a [target wrapper](#target-wrapper).
@@ -97,45 +96,76 @@ object PagePortal {
            |targetWrapper: PortalWrapper = PortalWrapper.BlockContent
            |```
            |
-           |**Application for:** [Popover], [Tooltip]
+           |**Available in:** [Popover], [Tooltip]
            |
            |[Popover]: ${ctl.urlFor(Pages.Popover()).value}
            |[Tooltip]: ${ctl.urlFor(Pages.Tooltip()).value}
            |
-           |Behind the scene, popovers must have
+           |Popovers and tooltips wrap their targets inside a wrapper tag in
+           |order to [obtain DOM-level information][ref] (e.g. to position the
+           |contents) or provide built-in functionality (e.g. open a tooltip's
+           |content when hovered) without the need to know or update their
+           |targets directly.
            |
-           |https://github.com/japgolly/scalajs-react/blob/master/doc/REFS.md#refs-to-vdom-tags
+           |[ref]: https://reactjs.org/docs/refs-and-the-dom.html
            |
-           |In order to get [accurate measurement][m] of [targets](#target),
-           |popovers will wrap them inside a `<.div(Style.width.maxContent)`.
-           |This means the rendered results of popovers will always be
-           |[block-level][b] elements.
+           |There are 3 options available at the `PortalWrapper` object:
+           |""".stripMargin
+      )(),
+      Markdown(
+        """
+           |## BlockContent
            |
-           |[m]: https://developer.mozilla.org/en-US/docs/Web/CSS/width#max-content
-           |[b]: https://developer.mozilla.org/en-US/docs/Web/HTML/Block-level_elements
+           |`PortalWrapper.BlockContent` is the default value, which wraps its
+           |targets inside a `div` with [intrinsic] width:
            |
-           |There are a few cases where these block-level elements will not
-           |work, such as in the middle of sentences. In these cases, set
-           |`isInline = true` to have [inline][i] results instead:
+           |[intrinsic]: https://developer.mozilla.org/en-US/docs/Glossary/Intrinsic_Size
            |
-           |[i]: https://developer.mozilla.org/en-US/docs/Web/HTML/Inline_elements
+           |```scala
+           |<.div(Style.width.fitContent.maxWidth.pc100)
+           |```
            |
-        """.stripMargin
+           |As a result, this works best for [block-level] targets whose
+           |width should be based on their content. This may sound strange,
+           |but it is actually the majority of cases in practice:
+           |
+           |[block-level]: https://developer.mozilla.org/en-US/docs/Web/HTML/Block-level_elements
+           |""".stripMargin
+      )(),
+      PagePortalWrapperContent()(),
+      Markdown(
+        """
+          |## Inline
+          |
+          |`PortalWrapper.Inline` wraps its target inside a `span` tag,
+          |without any additional styles. It is suitable for [inline] targets:
+          |
+          |[inline]: https://developer.mozilla.org/en-US/docs/Web/HTML/Inline_elements
+          |""".stripMargin
       )(),
       ExampleRich(Source.annotate({
         <.p(
-          "A sentence with an ",
-          Popover(
+          "This is a sentence with an ",
+          Tooltip(
             targetWrapper = PortalWrapper.Inline,
-            renderTarget = (open, _) => Button(Button.Style.Text(), onClick = open)("inline"),
-            renderContent = _ => <.div(Style.padding.all8, "Content")
+            renderTarget = <.span(Style.color.blue5, "inline"),
+            renderContent = () => "Content"
           )(),
-          " popover."
+          " tooltip."
         )
       }))(),
+      Markdown(
+        """
+          |## Block
+          |
+          |`PortalWrapper.Block` wraps its target inside a `div` tag, like
+          |`BlockContent`, but without the intrinsic width. This allows
+          |full-width targets to be displayed properly:
+        """.stripMargin
+      )(),
       ExampleRich(Source.annotate({
         val popover = Popover(
-          targetWrapper = PortalWrapper.BlockFull,
+          targetWrapper = PortalWrapper.Block,
           renderTarget = (open, isOpened) => {
             val style = Button.Style.Full(isSelected = isOpened, isFullWidth = true)
             Button(style, onClick = open)("Full-width Target")

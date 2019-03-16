@@ -31,10 +31,11 @@ object ExampleSimple {
       props.bgColor.outer,
       border,
       Style.padding.all4.fontSize.px13.lineHeight.px20.fontFamily.sans,
-      // example
-      <.div(border, Style.padding.all16, props.bgColor.inner, children),
       // label
-      <.figcaption(Style.padding.hor16.padding.top4, Markdown(props.label)()).when(!props.label.isEmpty)
+      <.figcaption(Style.padding.hor12.padding.bottom4, Markdown(props.label)())
+        .when(!props.label.isEmpty),
+      // example
+      <.div(border, Style.padding.all16, props.bgColor.inner, children)
     )
     <.div(Style.padding.ver16, figure)
   }
