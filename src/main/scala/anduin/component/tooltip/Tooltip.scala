@@ -3,6 +3,7 @@
 package anduin.component.tooltip
 
 import anduin.component.portal.{PortalPosition, PortalWrapper}
+import anduin.style.Style
 import org.scalajs.dom.raw.HTMLElement
 
 // scalastyle:off underscore.import
@@ -11,11 +12,11 @@ import japgolly.scalajs.react.vdom.html_<^._
 // scalastyle:on underscore.import
 
 final case class Tooltip(
-                          renderTarget: VdomNode,
-                          renderContent: () => String,
-                          position: PortalPosition = PortalPosition.TopCenter,
-                          targetWrapper: PortalWrapper = PortalWrapper.BlockContent,
-                          isDisabled: Boolean = true
+  renderTarget: VdomNode,
+  renderContent: () => String,
+  position: PortalPosition = PortalPosition.TopCenter,
+  targetWrapper: PortalWrapper = PortalWrapper.BlockContent,
+  isDisabled: Boolean = false
 ) {
   def apply(): VdomElement = Tooltip.component(this)
 }
@@ -30,13 +31,8 @@ object Tooltip {
 
     private val targetRef: Ref.Simple[HTMLElement] = Ref[HTMLElement]
 
-    private val eventListeners = TagMod(
-      ^.onMouseEnter --> scope.modState(_.copy(isOpened = true)),
-      ^.onMouseLeave --> scope.modState(_.copy(isOpened = false))
-    )
-
     private def renderContent(props: Props, state: State): VdomNode = {
-      if (state.isOpened) {
+      if (state.isOpened && !props.isDisabled) {
         TooltipContent(targetRef, props.position, props.renderContent())()
       } else {
         EmptyVdom
@@ -44,12 +40,25 @@ object Tooltip {
     }
 
     private def renderTarget(props: Props, state: State): VdomElement = {
-      val children = TagMod(props.renderTarget, eventListeners)
-      props.targetWrapper.tag.withRef(targetRef)(children)
+      props.targetWrapper.tag.withRef(targetRef)(
+        // Mouse navigation
+        ^.onMouseEnter --> scope.modState(_.copy(isOpened = true)),
+        ^.onMouseLeave --> scope.modState(_.copy(isOpened = false)),
+        // Keyboard navigation
+        Style.outline.focusLight.transition.allWithOutline,
+        ^.tabIndex := 0,
+        ^.onFocusCapture --> scope.modState(_.copy(isOpened = true)),
+        ^.onBlurCapture --> scope.modState(_.copy(isOpened = false)),
+        // Users' content
+        props.renderTarget
+      )
     }
 
     def render(props: Props, state: State): VdomElement = {
-      React.Fragment(renderTarget(props, state), renderContent(props, state))
+      React.Fragment(
+        renderTarget(props, state),
+        renderContent(props, state)
+      )
     }
   }
 
