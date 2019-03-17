@@ -4,7 +4,7 @@ import anduin.component.button.Button
 import anduin.component.input.textbox.TextBox
 import anduin.component.modal.{Modal, ModalBody}
 import anduin.component.popover.{Popover, PopoverContent}
-import anduin.component.portal.{PortalPosition, PortalTargetWrapper}
+import anduin.component.portal.{PortalPosition, PortalWrapper}
 import anduin.component.tooltip.Tooltip
 import anduin.guide.app.main.Pages
 import anduin.guide.components._
@@ -96,7 +96,7 @@ object PagePortal {
            |# Target Wrapper
            |
            |```scala
-           |portal.PortalTargetWrapper
+           |portal.PortalWrapper
            |```
            |
            |**Available in:** [Popover], [Tooltip]
@@ -112,7 +112,7 @@ object PagePortal {
            |
            |[ref]: https://reactjs.org/docs/refs-and-the-dom.html
            |
-           |There are 3 options available at the `PortalTargetWrapper` object:
+           |There are 3 options available at the `PortalWrapper` object:
            |""".stripMargin
       )(),
       Markdown(
@@ -151,7 +151,7 @@ object PagePortal {
         <.p(
           "This is a sentence with an ",
           Tooltip(
-            targetWrapper = PortalTargetWrapper.Inline,
+            targetWrapper = PortalWrapper.Inline,
             renderTarget = <.span(Style.color.blue5, "inline"),
             renderContent = () => "Content"
           )(),
@@ -170,7 +170,7 @@ object PagePortal {
       )(),
       ExampleRich(Source.annotate({
         val popover = Popover(
-          targetWrapper = PortalTargetWrapper.Block,
+          targetWrapper = PortalWrapper.Block,
           renderTarget = (open, isOpened) => {
             val style = Button.Style.Full(isSelected = isOpened, isFullWidth = true)
             Button(style, onClick = open)("Full-width Target")
@@ -181,7 +181,7 @@ object PagePortal {
       }))(),
       Markdown(
         s"""
-           |# Position
+           |# Content Position
            |
            |```scala
            |portal.PortalPosition
@@ -219,7 +219,7 @@ object PagePortal {
       ExampleSimple()(PagePortalPositionTooltip()()),
       Markdown(
         """
-          |# Standalone
+          |# Content-only
           |
           |## When to use
           |
@@ -280,7 +280,8 @@ object PagePortal {
           |[portal]: https://reactjs.org/docs/portals.html
           |
           |Below is a very simple example of using Content-only component, in
-          |which a popover will be shown when the text box is empty
+          |which a popover will be shown when the text box is empty. Real use
+          |cases of Content-only components are usually more complex.
         """.stripMargin
       )(),
       ExampleRich(Source.annotate({
