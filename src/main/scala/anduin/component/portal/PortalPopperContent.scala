@@ -16,9 +16,7 @@ private[component] object PortalPopperContent {
     // Avoid showing the content before Popper positioned it
     // - Fixed to top to avoid page jump if there is focus inside the content
     // - Opacity will be set to 1 after positioned
-    Style.position.fixed.position.pinTop.opacity.pc0,
-    // Avoid position transitioning. We only want the opacity here
-    ^.transition := "opacity 0.2s"
+    Style.position.fixed.position.pinTop.opacity.pc0
   )
 
   private def onCreatedDefault(data: Popper.Data): Unit = {

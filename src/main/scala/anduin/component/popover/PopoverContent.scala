@@ -50,6 +50,8 @@ object PopoverContent {
     // Specific styles of Popover
     Style.background.white.borderRadius.px2.shadow.px8,
     Style.border.all.borderColor.gray4.borderWidth.px1,
+    // Avoid position transitioning. We only want the opacity here
+    ^.transition := "opacity 0.3s",
     // Reverse overlay's possible pointerEvents none (see its render)
     Style.pointerEvents.auto
   )
@@ -106,7 +108,10 @@ object PopoverContent {
         target <- props.targetRef.get
         content <- ref.get
         _ <- Callback {
-          val options = PortalPopperContent.getOptions(onPopperCreated(props), props.position)
+          val options = PortalPopperContent.getOptions(
+            onCreated = onPopperCreated(props),
+            position = props.position
+          )
           this.popperOpt = Some(new Popper(target, content, options))
         }
       } yield ()
