@@ -24,12 +24,11 @@ object PagePortal {
         s"""
            |This page does not describe an actual component. Instead, it
            |describes the common concepts and designs between portal-based
-           |components, such as [Modal], [Popover], [Tooltip] or [Toast].
+           |components, such as [Popover], [Tooltip], or [Modal].
            |
-           |[Modal]: ${ctl.urlFor(Pages.Modal()).value}
            |[Popover]: ${ctl.urlFor(Pages.Popover()).value}
            |[Tooltip]: ${ctl.urlFor(Pages.Tooltip()).value}
-           |[Toast]: ${ctl.urlFor(Pages.Toast()).value}
+           |[Modal]: ${ctl.urlFor(Pages.Modal()).value}
         """.stripMargin
       )(),
       Markdown(
@@ -222,22 +221,66 @@ object PagePortal {
         """
           |# Standalone
           |
-          |The API of portal components are intentionally designed so that
-          |their consumers can only open the content via [callbacks]. In other
-          |words, the content can only be opened in response to users'
-          |interactions with its target. This prevents users from unexpected
-          |interruption.
+          |## When to use
+          |
+          |The API of portal components are designed so that their consumers
+          |can only open their content via [callbacks]. In other words, the
+          |content can only be opened in response to specific events, like
+          |users' interactions with the target element. This prevents users
+          |from unexpected interruption.
           |
           |[callbacks]: https://github.com/japgolly/scalajs-react/blob/master/doc/CALLBACK.md
           |
           |That being said, there are a few cases where this callback-based
-          |approach may increase the implementation complexity unnecessarily.
+          |approach may unnecessarily increase the implementation complexity.
+          |In some cases, an ordinary render-based approach may allow much
+          |simpler implementation.
           |
-          |An `XContent` component is rendered in the exact same way of `X`'s
-          |content, including all the appearance specific to `X`. The only
-          |difference is that `XContent` does not have any state management
-          |on its own, so it will always be visible as long as the consumers
-          |choose to render it.
+          |For example, when building a [product tour] experience, it is often
+          |easier and more straightforward to conditionally render popovers'
+          |contents based on the current step than attaching a popover to every
+          |"next" button:
+          |
+          |[product tour]: https://www.invisionapp.com/inside-design/saas-product-tour-trends/
+          |
+          |```scala
+          |case class State(step: Int)
+          |
+          |def render(state: State) = state.step match {
+          |  case 0 => PopoverContent(...)(Step1()())
+          |  case 1 => PopoverContent(...)(Step2()())
+          |  case 2 => PopoverContent(...)(Step3()())
+          |  case _ => EmptyVdom
+          |}
+          |```
+          |
+          |
+          |""".stripMargin
+      )(),
+      Markdown(
+        """
+          |## How to use
+          |
+          |The component to render the content of a portal component is
+          |located at the same package and has the same name but with a
+          |"Content" suffix. For example, `popover.PopoverContent` is the
+          |component to render a popover directly.
+          |
+          |Generally, these Content-only components have similar props to
+          |their full version, excluding target-related props (e.g.
+          |`renderTarget` and `targetWrapper`). Their exact APIs can be found
+          |at the page of its original component.
+          |
+          |Other than that, a Content-only component is rendered in the exact
+          |same way as if it is opened by a target in the full version. This
+          |means it also has the same [portal] behaviours (e.g. appear on top
+          |of current interface) as well as specific appearance of the full
+          |one.
+          |
+          |[portal]: https://reactjs.org/docs/portals.html
+          |
+          |Below is a very simple example of using Content-only component, in
+          |which a popover will be shown when the text box is empty
         """.stripMargin
       )(),
       ExampleRich(Source.annotate({
