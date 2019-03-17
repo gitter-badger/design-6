@@ -2,7 +2,7 @@
 
 package anduin.component.popover
 
-import anduin.component.portal.{PortalPosition, PortalTargetWrapper}
+import anduin.component.portal.{PortalPosition, PortalWrapper}
 import org.scalajs.dom.raw.HTMLElement
 
 // scalastyle:off underscore.import
@@ -14,7 +14,7 @@ final case class Popover(
   renderTarget: (Callback, Boolean) => VdomNode,
   renderContent: Callback => VdomNode,
   position: PortalPosition = PortalPosition.TopCenter,
-  targetWrapper: PortalTargetWrapper = PortalTargetWrapper.BlockContent
+  targetWrapper: PortalWrapper = PortalWrapper.BlockContent
 ) {
   def apply(): VdomElement = Popover.component(this)
 }

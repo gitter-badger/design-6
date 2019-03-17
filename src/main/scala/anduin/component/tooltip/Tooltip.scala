@@ -2,7 +2,7 @@
 
 package anduin.component.tooltip
 
-import anduin.component.portal.{PortalPosition, PortalTargetWrapper}
+import anduin.component.portal.{PortalPosition, PortalWrapper}
 import org.scalajs.dom.raw.HTMLElement
 
 // scalastyle:off underscore.import
@@ -14,7 +14,7 @@ final case class Tooltip(
                           renderTarget: VdomNode,
                           renderContent: () => String,
                           position: PortalPosition = PortalPosition.TopCenter,
-                          targetWrapper: PortalTargetWrapper = PortalTargetWrapper.BlockContent,
+                          targetWrapper: PortalWrapper = PortalWrapper.BlockContent,
                           isDisabled: Boolean = true
 ) {
   def apply(): VdomElement = Tooltip.component(this)
