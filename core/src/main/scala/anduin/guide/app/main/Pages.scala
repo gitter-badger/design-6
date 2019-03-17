@@ -1,4 +1,5 @@
 package anduin.guide.app.main
+
 import japgolly.scalajs.react.extra.router.RouterCtl
 
 object Pages {

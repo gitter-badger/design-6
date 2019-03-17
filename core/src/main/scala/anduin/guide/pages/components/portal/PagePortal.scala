@@ -221,6 +221,10 @@ object PagePortal {
         """
           |# Content-only
           |
+          |In some rare cases, the [contents](#content) of portal components
+          |can be used directly, without their target parts, to simplify the
+          |implementation. This section explains when and how to use them.
+          |
           |## When to use
           |
           |The API of portal components are designed so that their consumers

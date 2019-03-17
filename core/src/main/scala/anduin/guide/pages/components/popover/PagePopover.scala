@@ -8,6 +8,7 @@ import anduin.component.popover.Popover
 import anduin.component.portal.PortalPosition
 import anduin.guide.app.main.Pages
 import anduin.guide.components._
+import anduin.guide.pages.components.portal.PagePortalPositionPopover
 import anduin.mcro.Source
 import anduin.style.Style
 import japgolly.scalajs.react._
@@ -47,10 +48,11 @@ object PagePopover {
         )()
       }))(),
       Markdown(
-        """
-          |A popover requires 2 things to be defined: the [content](#content)
-          |itself, and a [target](#target) where the content will be anchored
-          |to.
+        s"""
+          |Popovers is a [portal-based][p] component. It requires at least
+          |a [target](#target) and a [content](#content) to work:
+          |
+          |[p]: ${ctl.urlFor(Pages.Portal()).value}
         """.stripMargin
       )(),
       Markdown(
@@ -58,8 +60,8 @@ object PagePopover {
            |# Target
            |
            |```scala
-           |// (open, isOpened) => target
            |renderTarget = (Callback, Boolean) => VdomNode
+           |// (open, isOpened) => target
            |```
            |
            |`renderTarget` is a [render prop]. It should return the popover's
@@ -67,35 +69,52 @@ object PagePopover {
            |`renderTarget` has and should use the following parameters:
            |
            |- `open: Callback` to open the popover's content
-           |- `isOpened: Boolean` to indicate whether the content is being
-           |opened
+           |- `isOpen: Boolean` to indicate whether the content is open
            |
            |[render prop]: https://reactjs.org/docs/render-props.html
            |
-           |Because of this, [Buttons] and their [`isSelected`] prop usually
-           |make good targets:
+           |In practice, [Buttons] usually make good targets as their
+           |`onClick` and `isSelected` props are highly suitable for these
+           |parameters:
            |
            |[Buttons]: ${ctl.urlFor(Pages.Button()).value}
-           |[`isSelected`]: ${ctl.urlFor(Pages.Button("#selected")).value}
-           |
-        """.stripMargin
+           |""".stripMargin
       )(),
       ExampleRich(Source.annotate({
         Popover(
-          renderTarget = (open, isOpened) => {
-            val style = Button.Style.Full(isSelected = isOpened)
+          renderTarget = (open, isOpen) => {
+            val style = Button.Style.Full(isSelected = isOpen)
             Button(style = style, onClick = open)("Target")
           },
           renderContent = _ => <.p(Style.padding.all8, "Content")
         )()
       }))(),
       Markdown(
-        """
-          |In general, popovers' contents should only be opened in response
-          |to users' interaction to avoid unexpected distraction. For cases
-          |where the target element (or more specific, the interaction with
-          |it) seems to be unnecessary, see the [Standalone](#standalone)
-          |section below.
+        s"""
+          |For more details and examples, refer to the [Target] section of the
+          |Portal guide.
+          |
+          |[Target]: ${ctl.urlFor(Pages.Portal("#target")).value}
+        """.stripMargin
+      )(),
+      Markdown(
+        s"""
+          |## Target Wrapper
+          |
+          |```scala
+          |targetWrapper: PortalWrapper = PortalWrapper.BlockContent
+          |```
+          |
+          |Popovers use a [target wrapper][tw] in order to position their
+          |contents properly. By default, the [`BlockContent`] wrapper is
+          |used, which can be changed via the `targetWrapper` prop.
+          |
+          |For detailed usages and examples, refer to the [Target Wrapper][tw]
+          |section of the Portal guide.
+          |
+          |[tw]: ${ctl.urlFor(Pages.Portal("#target-wrapper")).value}
+          |[`BlockContent`]: ${ctl.urlFor(Pages.Portal("#blockcontent")).value}
+          |
         """.stripMargin
       )(),
       Markdown(
@@ -103,19 +122,22 @@ object PagePopover {
            |# Content
            |
            |```scala
-           |// (close) => content
            |renderContent = (Callback) => VdomNode
+           |// (close) => content
            |```
            |
            |`renderContent` is a [render prop]. It should return the content of
            |a popover. This content will be displayed usually in response to
-           |users' interaction with the [target](#target) element.
+           |users' interactions with the [target](#target) element. To learn
+           |more about portal's content in general, see the [Content] section
+           |of the Portal guide.
            |
+           |[Content]: ${ctl.urlFor(Pages.Portal("#content")).value}
            |[render prop]: https://reactjs.org/docs/render-props.html
            |
            |Popovers' contents should consist of several elements of one or
-           |more types, organized in simple layouts. A good example is the
-           |[Menu] component:
+           |more types, organized in simple layouts. A common use case is
+           |with the [Menu] component:
            |
            |[Menu]: ${ctl.urlFor(Pages.Menu()).value}
            |
@@ -139,9 +161,9 @@ object PagePopover {
       }))(),
       Markdown(
         s"""
-           |In general, popovers are good for simple to intermediate use cases.
-           |For more complex ones, consider [Modal]. For single descriptive
-           |texts, see [Tooltip].
+           |Generally, popovers are suitable for intermediate use cases. For
+           |more complex ones, consider [Modal]. For single descriptive texts,
+           |see [Tooltip].
            |
            |[Tooltip]: ${ctl.urlFor(Pages.Tooltip()).value}
            |[Modal]: ${ctl.urlFor(Pages.Modal()).value}
@@ -151,9 +173,9 @@ object PagePopover {
         """
           |## Closing
           |
-          |`renderContent` receives a callback to close the popover's content
-          |as its parameter. Consumers can use this to create an explicit
-          |method for users to close the content:
+          |`renderContent` receives a single parameter, which is a callback to
+          |close the popover's content. Consumers can use this to have an
+          |explicit method for users to close the content:
           |""".stripMargin
       )(),
       ExampleRich(Source.annotate({
@@ -170,12 +192,106 @@ object PagePopover {
       }))(),
       Markdown(
         """
-          |Besides, users can also close the content by clicking outside of it
-          |or pressing the "Esc" key. In fact, these two methods are quite
-          |standard and well-known to most users, causing the close callback
-          |to be unnecessary sometimes.
+          |In practice, however, it is often unused as users can also close
+          |the content by clicking outside of it or pressing the "Esc" key.
+          |These 2 methods are actually more intuitive and well-known to
+          |most users.
         """.stripMargin
-      )()
+      )(),
+      Markdown(
+        s"""
+          |## Position
+          |
+          |```scala
+          |position: PortalPosition = PortalPosition.TopCenter,
+          |```
+          |
+          |By default, a portal's content is placed on top of its target,
+          |horizontally centered. This can be set otherwise via the
+          |`position` prop, using one of the options available at the
+          |[`PortalPosition`][pp] object.
+          |
+          |Please refer to the [Content Position][pp] section of the Portal
+          |guide for more details and examples. The below demo simply shows all
+          |available positions when using with popovers:
+          |
+          |[pp]: ${ctl.urlFor(Pages.Portal("#content-position")).value}
+          |""".stripMargin
+      )(),
+      ExampleSimple()(PagePortalPositionPopover()()),
+      Markdown(
+        s"""
+          |## Content-only
+          |
+          |```scala
+          |popover.PopoverContent
+          |```
+          |
+          |The `PopoverContent` component, available at the same package,
+          |allows consumers to render a portal's content directly (instead of
+          |open it via a callback).
+          |
+          |To learn more about this type of component, including when and how
+          |to use it, see the [Content-only] section of the Portal guide.
+          |The below content only describes the props of `PopoverContent`:
+          |
+          |[Content-only]: ${ctl.urlFor(Pages.Portal("#content-only")).value}
+          |
+          |### targetRef
+          |
+          |```scala
+          |targetRef: Ref.Simple[raw.HTMLElement]
+          |```
+          |
+          |A [ref] to a DOM element for the content to be anchored to. Note
+          |that is simply a reference for informational purpose. This element
+          |does not trigger the render of the popover's content at all.
+          |
+          |[ref]: https://github.com/japgolly/scalajs-react/blob/master/doc/REFS.md
+          |
+          |### onOverlayClick
+          |
+          |```scala
+          |onOverlayClick: Option[Callback]
+          |```
+          |
+          |Callback to execute when users click on the outside of the content.
+          |Note that it is an `Option` because there is a difference between
+          |`None` and `Some(Callback.empty)`:
+          |- `None` allows users to interact with the main interface behind,
+          |while still keeping the content visible. This is the equivalent of
+          |a backdrop with `pointer-events: none`.
+          |- `Some(Callback.empty)` prevents users from interacting with the
+          |main interface behind. In other words, clicks on anywhere outside
+          |of the content would result in nothing at all.
+          |
+          |For reference, the Portal component (the full version with target)
+          |provides a `Some(closePopover)` here so that the content would be
+          |closed (unmounted) when users click outside of it.
+          |
+          |### position [position2]
+          |
+          |```scala
+          |position: PortalPosition = PortalPosition.TopCenter
+          |```
+          |
+          |This is similar to the [same name prop](#position) in the full
+          |version.
+          |
+          |### isAutoFocus
+          |
+          |```scala
+          |isAutoFocus: Boolean = true
+          |```
+          |
+          |This defines whether users' focus should be shifted into the popover
+          |automatically. Usually this should be `true` so keyboard navigation
+          |and "Esc to close" work out of the box. However, this can be
+          |disabled when the focus should stay outside of the popover (e.g.
+          |Dropdown's target)
+          |
+        """.stripMargin
+      )(),
     )
   }
 }
