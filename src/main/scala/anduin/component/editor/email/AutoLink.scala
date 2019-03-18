@@ -20,7 +20,7 @@ private[email] object AutoLink {
     val treeWalker = dom.document.createTreeWalker(
       doc.body,
       NodeFilter.SHOW_TEXT,
-      null, // scalastyle.ignore null
+      null, // scalastyle:ignore null
       false
     )
 
