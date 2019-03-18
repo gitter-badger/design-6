@@ -99,7 +99,7 @@ object PagePopover {
       )(),
       Markdown(
         s"""
-          |## Target Wrapper
+          |## Wrapper
           |
           |```scala
           |targetWrapper: PortalWrapper = PortalWrapper.BlockContent

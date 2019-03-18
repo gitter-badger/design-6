@@ -4,6 +4,7 @@ import anduin.component.button.Button
 import anduin.component.dialog.Dialog
 import anduin.component.icon.Icon
 import anduin.component.popover.Popover
+import anduin.component.tag.Tag
 import anduin.component.tooltip.Tooltip
 import anduin.guide.app.main.Pages
 import anduin.guide.components._
@@ -20,11 +21,7 @@ object PageTooltip {
         "Are you sure want to delete this file?",
         Some("You won't be able to recover it later")
       ),
-      submit = Dialog.Submit(
-        Callback.alert("Deleted"),
-        "Delete",
-        Button.Color.Red
-      ),
+      submit = Dialog.Submit(Callback.alert("Deleted"), "Delete", Button.Color.Red),
       cancel = Some(Dialog.Cancel(close))
     )()
 
@@ -68,40 +65,39 @@ object PageTooltip {
            |[Alita Joyce]: https://www.nngroup.com/articles/author/alita-joyce/
            |[Tooltip Guidelines]: https://www.nngroup.com/articles/tooltip-guidelines/
            |
-           |Tooltips should not be your first approach to a UI
-           |problem. Tooltips require users' interaction, and it' eas
-           |
-           |- (e.g. input format requirement)
-           |
-           |In general, spend time to validate the usefulness of what you
-           |want to show in your tooltip. If it's necessary for the users,
-           |find a permanent place. If it's not, consider remove it altogether.
-           |
-           |# Target
-           |
-           |```scala
-           |renderTarget = VdomNode
-           |```
-           |
-           |The `renderTarget` prop defines a tooltip's target element, to
-           |which it will anchor the content to. Technically, it can be any
-           |[render-able][r] item, like a native tag (e.g. `<.div`), a custom
-           |component (`Button()`) or even a string (`"Foo"`).
-           |
-           |[r]: https://reactjs.org/docs/react-component.html#render
-           |
-           |This is because the Tooltip component will wrap its target inside
-           |a [wrapper](#target-wrapper) tag anyway. It will also attach
-           |necessary event handlers to this tag out of the box (e.g. to
-           |open tooltip on mouse over). The consumers don't need to do any
-           |integration:
-           |
-           |[t]: ${ctl.urlFor(Pages.Portal("#target")).value}
+           |Tooltips should never be your first approach to a UI problem. They
+           |can easily do more harm than good to the users' experience if
+           |not careful. Think of them as fail-safe solutions, and use them
+           |sparingly, or not at all.
            |""".stripMargin
+      )(),
+      Markdown(
+        s"""
+          |# Target
+          |
+          |```scala
+          |renderTarget = VdomNode
+          |```
+          |
+          |The `renderTarget` prop defines a tooltip's target element, to
+          |which it will anchor the content to. Technically, it can be any
+          |[render-able][r] item, like a native tag (e.g. `<.div`), a custom
+          |component (`Button()`) or even a string (`"Foo"`).
+          |
+          |[r]: https://reactjs.org/docs/react-component.html#render
+          |
+          |This is because the Tooltip component will wrap its target inside
+          |a [wrapper](#target-wrapper) tag anyway. It will also attach
+          |necessary event handlers to this tag out of the box (e.g. to
+          |open tooltip on mouse over). The consumers don't really need to do
+          |any integration:
+          |
+          |[t]: ${ctl.urlFor(Pages.Portal("#target")).value}
+          |""".stripMargin
       )(),
       ExampleRich(Source.annotate({
         Tooltip(
-          renderTarget = "Target",
+          renderTarget = <.span(^.tabIndex := 0, "Target"),
           renderContent = () => "Content"
         )()
       }))(),
@@ -115,7 +111,38 @@ object PageTooltip {
       )(),
       Markdown(
         s"""
-           |## Target Wrapper
+          |## Accessibility [target-accessibility]
+          |
+          |Anduin's tooltips can be triggered not only via mouse hover but
+          |also keyboard focus. However, this is still far from enough, as it
+          |left out those who don't have or can't use a keyboard or a mouse.
+          |For instance, tooltips are effectively inaccessible for touch
+          |screens and voice navigation.
+          |
+          |Note that out of the box it's not possible to focus on a tooltip
+          |using keyboard. The focus on its target is what actually trigger a
+          |tooltips' content.
+          |
+          |Tooltip's consumers, therefore, should ensure that their target can
+          |be focused, either by using an interactive components (such as
+          |[TextBox] or [Button]), or applying [`tabindex`] to non-interactive
+          |ones:
+          |
+          |[focus-able]: https://developer.mozilla.org/en-US/docs/Mozilla/Tech/XUL/Tutorial/Focus_and_Selection
+          |[TextBox]: ${ctl.urlFor(Pages.TextBox()).value}
+          |[Button]: ${ctl.urlFor(Pages.Button()).value}
+          |[`tabindex`]: https://developer.mozilla.org/en-US/docs/Web/HTML/Global_attributes/tabindex
+        """.stripMargin
+      )(),
+      ExampleRich(Source.annotate({
+        Tooltip(
+          renderTarget = <.span(^.tabIndex := 0, "Target"),
+          renderContent = () => "Content"
+        )()
+      }))(),
+      Markdown(
+        s"""
+           |## Wrapper
            |
            |```scala
            |targetWrapper: PortalWrapper = PortalWrapper.BlockContent
@@ -138,10 +165,10 @@ object PageTooltip {
         """
           |## With other portals
           |
-          |Tooltips rely on "hover" and "focus" interactions, so their targets
-          |may also be used to open another portal-based component in
-          |response to "click" events. For example, an icon button can have a
-          |tooltip to describe the action, with a popover to confirm that
+          |Tooltips rely on "hover" and "focus" interactions, so in response to
+          |"click" events their targets may be used to open another
+          |portal-based component. For example, an icon button can have a
+          |tooltip to label the action, with a popover to confirm that
           |action when users click on it.
           |
           |In these cases, ensure that the tooltip is rendered _inside_ the
@@ -172,38 +199,62 @@ object PageTooltip {
            |renderContent = () => String
            |```
            |
-           |`renderContent` is a [render prop]. It should return the content of
-           |a tooltip. This content will be displayed usually in response to
-           |users' interactions with the [target](#target) element. To learn
-           |more about portal's content in general, see the [Content] section
-           |of the Portal guide.
+           |To avoid unnecessary calculations, `renderContent` is a [render 
+           |prop]. It should return a single `String` to be displayed when
+           |users hover over or focus on the [target](#target) element:
            |
-           |[Content]: ${ctl.urlFor(Pages.Portal("#content")).value}
            |[render prop]: https://reactjs.org/docs/render-props.html
-           |
-           |Tooltips' contents should consist of several elements of one or
-           |more types, organized in simple layouts. A common use case is
-           |with the [Menu] component:
-           |
-           |[Menu]: ${ctl.urlFor(Pages.Menu()).value}
-           |
            |""".stripMargin
       )(),
       ExampleRich(Source.annotate({
         Tooltip(
-          renderTarget = "Target",
+          renderTarget = <.span(^.tabIndex := 0, "Target"),
           renderContent = () => "Content"
         )()
       }))(),
       Markdown(
         s"""
-           |Generally, tooltips are suitable for intermediate use cases. For
-           |more complex ones, consider [Modal]. For single descriptive texts,
-           |see [Tooltip].
-           |
-           |[Tooltip]: ${ctl.urlFor(Pages.Tooltip()).value}
-           |[Modal]: ${ctl.urlFor(Pages.Modal()).value}
+          |To learn more about portal's content in general, see the [Content]
+          |section of the Portal guide.
+          |
+          |[Content]: ${ctl.urlFor(Pages.Portal("#content")).value}
+          |""".stripMargin
+      )(),
+      Markdown(
+        """
+          |## Accessibility [content-accessibility]
+          |
+          |Due to its design, the [content](#content) inside a tooltip can
+          |only be read, either by users or their screen readers, but not
+          |copied or even selected. Avoid tooltips if the text should be
+          |copied by users:
+          |""".stripMargin
+      )(),
+      ExampleSimple(
+        """
+          |This is a bad example. It's possible that users may want to copy
+          |the email addresses inside tooltips, but they simply can't.
         """.stripMargin
+      )({
+        Tooltip(
+          renderTarget = Tag()("Ada Banks"),
+          renderContent = () => "ada.banks@anduintransact.com"
+        )()
+      }),
+      Markdown(
+        s"""
+          |## String only
+          |
+          |Tooltips intentionally accept only a single `String` instead of
+          |`VdomNode*` as their content. This prevents the consumers from
+          |building complex interfaces inside tooltips' content, which likely
+          |bring bad experiences due to tooltips'
+          |[accessibility](#content-accessibility) problems.
+          |
+          |To have anything more than text, consider [Popover].
+          |
+          |[Popover]: ${ctl.urlFor(Pages.Popover()).value}
+          |""".stripMargin
       )(),
       Markdown(
         s"""
