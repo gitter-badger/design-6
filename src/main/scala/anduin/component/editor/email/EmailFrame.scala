@@ -88,6 +88,8 @@ private[email] object EmailFrame {
                 doc.open()
                 doc.write(s"<!DOCTYPE html>${formatEmailContent(props)}")
                 doc.close()
+
+                WhitespaceCleaner.removeUnnecessaryWhitespace(doc)
               }
             case _ => Callback.empty
           }

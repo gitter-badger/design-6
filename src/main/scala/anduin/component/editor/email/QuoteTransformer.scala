@@ -28,58 +28,13 @@ private[email] object QuoteTransformer {
       outputHtml(parseHtml(""), content)
     }
 
-    removeUnnecessaryWhitespace(doc)
+    WhitespaceCleaner.removeUnnecessaryWhitespace(doc)
     outputHtml(doc, content)
   }
 
   def hasQuotedHtml(content: String): Boolean = {
     val doc = parseHtml(content)
     findQuoteElements(doc).nonEmpty
-  }
-
-  // Remove unnecessary whitespace from document.
-  // It removes the duplicated multiple <br> (such as <br><br>)
-  @SuppressWarnings(Array("org.wartremover.warts.While"))
-  private def removeUnnecessaryWhitespace(doc: Document) = {
-    Option(doc.querySelector("body")).foreach { body =>
-      NodeListSeq(body.childNodes)
-        .filter { node =>
-          node.nodeName == "BR" && Option(node.nextSibling).exists(_.nodeName == "BR")
-        }
-        .foreach { node =>
-          node.parentNode.removeChild(node)
-        }
-
-      // Determine the deepest node
-      // scalastyle:off var.field var.local while
-      var deepestNode = body
-      while (Option(deepestNode.lastElementChild).nonEmpty) {
-        deepestNode = deepestNode.lastElementChild
-      }
-
-      // Traverse back to the root and remove "empty" node
-      var topNode: Node = deepestNode
-      while (Option(topNode.parentNode).nonEmpty) {
-        topNode = topNode.parentNode
-        removeTrailingWhitespaceChildren(topNode)
-      }
-    // scalastyle:on var.field var.local while
-    }
-  }
-
-  private def removeTrailingWhitespaceChildren(node: Node): Unit = {
-    Option(node.lastChild).foreach { lastChild =>
-      if (lastChild.nodeType == Node.TEXT_NODE && lastChild.textContent.trim.isEmpty) {
-        lastChild.parentNode.removeChild(lastChild)
-        removeTrailingWhitespaceChildren(node)
-      } else if (List("BR", "P", "DIV", "SPAN", "HR").contains(lastChild.nodeName)) {
-        removeTrailingWhitespaceChildren(lastChild)
-        if (!lastChild.hasChildNodes() || lastChild.textContent.trim.isEmpty) {
-          lastChild.parentNode.removeChild(lastChild)
-          removeTrailingWhitespaceChildren(node)
-        }
-      }
-    }
   }
 
   private def outputHtml(doc: Document, initialHtml: String): String = {
