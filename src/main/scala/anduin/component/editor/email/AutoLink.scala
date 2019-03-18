@@ -25,7 +25,7 @@ private[email] object AutoLink {
     )
 
     // scalastyle:off while
-    val ranges = new ListBuffer[dom.Range]()
+    val ranges = new ListBuffer[(dom.Range, String)]()
     while (Option(treeWalker.nextNode()).nonEmpty) {
       val currentNode = treeWalker.currentNode
       val links = linkFinder.matches(currentNode.textContent)
@@ -34,7 +34,7 @@ private[email] object AutoLink {
           val range = dom.document.createRange()
           range.setStart(currentNode, link.index)
           range.setEnd(currentNode, link.lastIndex)
-          ranges += range
+          ranges += ((range, link.url))
         }
       }
     }
@@ -42,13 +42,15 @@ private[email] object AutoLink {
 
     // We need to change the DOM outside of the loop walking through the tree
     // to avoid an infinitive loop
-    ranges.foreach { range =>
-      val textNode = range.extractContents()
-      val link = dom.document.createElement("a")
-      link.setAttribute("href", textNode.textContent)
-      link.setAttribute("rel", "noopener")
-      link.appendChild(textNode)
-      range.insertNode(link)
+    ranges.foreach {
+      case (range, url) =>
+        val textNode = range.extractContents()
+        val link = dom.document.createElement("a")
+        link.setAttribute("href", url)
+        link.setAttribute("rel", "noopener")
+        link.setAttribute("target", "_blank")
+        link.appendChild(textNode)
+        range.insertNode(link)
     }
   }
 }
