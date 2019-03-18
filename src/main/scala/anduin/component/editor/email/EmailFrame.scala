@@ -95,6 +95,7 @@ private[email] object EmailFrame {
                 doc.close()
 
                 WhitespaceCleaner.removeUnnecessaryWhitespace(doc)
+                AutoLink.linkify(doc)
               }
             case _ => Callback.empty
           }
