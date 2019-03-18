@@ -1,13 +1,32 @@
 package anduin.guide.pages.components.tooltip
 
+import anduin.component.button.Button
+import anduin.component.dialog.Dialog
+import anduin.component.icon.Icon
+import anduin.component.popover.Popover
 import anduin.component.tooltip.Tooltip
 import anduin.guide.app.main.Pages
 import anduin.guide.components._
 import anduin.guide.pages.components.portal.PagePortalPositionTooltip
 import anduin.mcro.Source
+import japgolly.scalajs.react._
 import japgolly.scalajs.react.vdom.html_<^._
 
 object PageTooltip {
+
+  private def renderDeleteDialog(close: Callback) =
+    Dialog(
+      message = Dialog.Message(
+        "Are you sure want to delete this file?",
+        Some("You won't be able to recover it later")
+      ),
+      submit = Dialog.Submit(
+        Callback.alert("Deleted"),
+        "Delete",
+        Button.Color.Red
+      ),
+      cancel = Some(Dialog.Cancel(close))
+    )()
 
   def render(ctl: Pages.Ctl): VdomElement = {
     <.div(
@@ -21,28 +40,63 @@ object PageTooltip {
       )(),
       ExampleRich(Source.annotate({
         Tooltip(
-          renderTarget = "Target",
-          renderContent = () => "Content"
+          renderTarget = {
+            val icon = Some(Icon.Glyph.Bold)
+            Button(style = Button.Style.Full(icon = icon))()
+          },
+          renderContent = () => "Bold (Ctrl + B)"
         )()
       }))(),
       Markdown(
         s"""
            |Tooltips is a [portal-based][p] component. It requires at least
-           |a [target](#target) and a [content](#content) to work:
+           |a [target](#target) and a [content](#content) to work.
            |
            |[p]: ${ctl.urlFor(Pages.Portal()).value}
         """.stripMargin
       )(),
       Markdown(
         s"""
+           |# Usage
+           |
+           |> Many of today’s use cases for tooltips could be omitted if
+           |> people followed other design guidelines (for example, labeling
+           |> icons).
+           |>
+           |> [Alita Joyce] in Nielsen Norman Group's [Tooltip Guidelines]
+           |
+           |[Alita Joyce]: https://www.nngroup.com/articles/author/alita-joyce/
+           |[Tooltip Guidelines]: https://www.nngroup.com/articles/tooltip-guidelines/
+           |
+           |Tooltips should not be your first approach to a UI
+           |problem. Tooltips require users' interaction, and it' eas
+           |
+           |- (e.g. input format requirement)
+           |
+           |In general, spend time to validate the usefulness of what you
+           |want to show in your tooltip. If it's necessary for the users,
+           |find a permanent place. If it's not, consider remove it altogether.
+           |
            |# Target
            |
            |```scala
            |renderTarget = VdomNode
            |```
            |
-           |`renderTarget` should receive the tooltip's target element, to
-           |which the tooltip will anchor its content.
+           |The `renderTarget` prop defines a tooltip's target element, to
+           |which it will anchor the content to. Technically, it can be any
+           |[render-able][r] item, like a native tag (e.g. `<.div`), a custom
+           |component (`Button()`) or even a string (`"Foo"`).
+           |
+           |[r]: https://reactjs.org/docs/react-component.html#render
+           |
+           |This is because the Tooltip component will wrap its target inside
+           |a [wrapper](#target-wrapper) tag anyway. It will also attach
+           |necessary event handlers to this tag out of the box (e.g. to
+           |open tooltip on mouse over). The consumers don't need to do any
+           |integration:
+           |
+           |[t]: ${ctl.urlFor(Pages.Portal("#target")).value}
            |""".stripMargin
       )(),
       ExampleRich(Source.annotate({
@@ -53,8 +107,8 @@ object PageTooltip {
       }))(),
       Markdown(
         s"""
-           |For more details and examples, refer to the [Target] section of the
-           |Portal guide.
+           |To learn more about target elements in general, see the [Target]
+           |section of the Portal guide.
            |
            |[Target]: ${ctl.urlFor(Pages.Portal("#target")).value}
         """.stripMargin
@@ -67,9 +121,10 @@ object PageTooltip {
            |targetWrapper: PortalWrapper = PortalWrapper.BlockContent
            |```
            |
-           |Tooltips use a [target wrapper][tw] in order to position their
-           |contents properly. By default, the [`BlockContent`] wrapper is
-           |used, which can be changed via the `targetWrapper` prop.
+           |As mentioned above, Tooltips use a [target wrapper][tw] to not
+           |only position their content but also provide necessary event
+           |handlers out of the box. By default, they use a [`BlockContent`]
+           |wrapper, which can be changed via the `targetWrapper` prop.
            |
            |For detailed usages and examples, refer to the [Target Wrapper][tw]
            |section of the Portal guide.
@@ -80,12 +135,41 @@ object PageTooltip {
         """.stripMargin
       )(),
       Markdown(
+        """
+          |## With other portals
+          |
+          |Tooltips rely on "hover" and "focus" interactions, so their targets
+          |may also be used to open another portal-based component in
+          |response to "click" events. For example, an icon button can have a
+          |tooltip to describe the action, with a popover to confirm that
+          |action when users click on it.
+          |
+          |In these cases, ensure that the tooltip is rendered _inside_ the
+          |other portal component. This is required for the tooltip to gone
+          |when the other is shown:
+          |""".stripMargin
+      )(),
+      ExampleRich(Source.annotate({
+        Popover(
+          renderTarget = (open, isOpen) => {
+            Tooltip(
+              renderTarget = {
+                val icon = Some(Icon.Glyph.Trash)
+                val style = Button.Style.Full(icon = icon, isSelected = isOpen)
+                Button(style = style, onClick = open)()
+              },
+              renderContent = () => "Delete"
+            )()
+          },
+          renderContent = renderDeleteDialog
+        )()
+      }))(),
+      Markdown(
         s"""
            |# Content
            |
            |```scala
-           |renderContent = (Callback) => VdomNode
-           |// (close) => content
+           |renderContent = () => String
            |```
            |
            |`renderContent` is a [render prop]. It should return the content of
@@ -122,29 +206,6 @@ object PageTooltip {
         """.stripMargin
       )(),
       Markdown(
-        """
-          |## Closing
-          |
-          |`renderContent` receives a single parameter, which is a callback to
-          |close the tooltip's content. Consumers can use this to have an
-          |explicit method for users to close the content:
-          |""".stripMargin
-      )(),
-      ExampleRich(Source.annotate({
-        Tooltip(
-          renderTarget = "Target",
-          renderContent = () => "Content"
-        )()
-      }))(),
-      Markdown(
-        """
-          |In practice, however, it is often unused as users can also close
-          |the content by clicking outside of it or pressing the "Esc" key.
-          |These 2 methods are actually more intuitive and well-known to
-          |most users.
-        """.stripMargin
-      )(),
-      Markdown(
         s"""
            |## Position
            |
@@ -152,7 +213,7 @@ object PageTooltip {
            |position: PortalPosition = PortalPosition.TopCenter,
            |```
            |
-           |By default, a portal's content is placed on top of its target,
+           |By default, a tooltip's content is placed on top of its target,
            |horizontally centered. This can be set otherwise via the
            |`position` prop, using one of the options available at the
            |[`PortalPosition`][pp] object.
@@ -174,14 +235,22 @@ object PageTooltip {
            |```
            |
            |The `TooltipContent` component, available at the same package,
-           |allows consumers to render a portal's content directly (instead of
-           |open it via a callback).
+           |allows consumers to render a tooltip's content directly (instead
+           |of open it via a callback).
            |
            |To learn more about this type of component, including when and how
            |to use it, see the [Content-only] section of the Portal guide.
            |The below content only describes the props of `TooltipContent`:
            |
            |[Content-only]: ${ctl.urlFor(Pages.Portal("#content-only")).value}
+           |
+           |### text
+           |
+           |```scala
+           |text: String
+           |```
+           |
+           |The [content](#content) of the tooltip.
            |
            |### targetRef
            |
@@ -195,26 +264,6 @@ object PageTooltip {
            |
            |[ref]: https://github.com/japgolly/scalajs-react/blob/master/doc/REFS.md
            |
-           |### onOverlayClick
-           |
-           |```scala
-           |onOverlayClick: Option[Callback]
-           |```
-           |
-           |Callback to execute when users click on the outside of the content.
-           |Note that it is an `Option` because there is a difference between
-           |`None` and `Some(Callback.empty)`:
-           |- `None` allows users to interact with the main interface behind,
-           |while still keeping the content visible. This is the equivalent of
-           |a backdrop with `pointer-events: none`.
-           |- `Some(Callback.empty)` prevents users from interacting with the
-           |main interface behind. In other words, clicks on anywhere outside
-           |of the content would result in nothing at all.
-           |
-           |For reference, the Portal component (the full version with target)
-           |provides a `Some(closeTooltip)` here so that the content would be
-           |closed (unmounted) when users click outside of it.
-           |
            |### position [position2]
            |
            |```scala
@@ -224,20 +273,16 @@ object PageTooltip {
            |This is similar to the [same name prop](#position) in the full
            |version.
            |
-           |### isAutoFocus
-           |
-           |```scala
-           |isAutoFocus: Boolean = true
-           |```
-           |
-           |This defines whether users' focus should be shifted into the tooltip
-           |automatically. Usually this should be `true` so keyboard navigation
-           |and "Esc to close" work out of the box. However, this can be
-           |disabled when the focus should stay outside of the tooltip (e.g.
-           |Dropdown's target)
-           |
         """.stripMargin
       )(),
+      Markdown(
+        """
+          |# See also
+          |
+          |- Nielsen Norman Group's [Tooltip Guidelines](https://www.nngroup.com/articles/tooltip-guidelines/)
+          |- Wikipedia's [Tooltip article](https://en.wikipedia.org/wiki/Tooltip)
+        """.stripMargin
+      )()
     )
   }
 }

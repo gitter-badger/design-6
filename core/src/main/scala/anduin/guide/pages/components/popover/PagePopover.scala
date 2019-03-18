@@ -206,7 +206,7 @@ object PagePopover {
           |position: PortalPosition = PortalPosition.TopCenter,
           |```
           |
-          |By default, a portal's content is placed on top of its target,
+          |By default, a popover's content is placed on top of its target,
           |horizontally centered. This can be set otherwise via the
           |`position` prop, using one of the options available at the
           |[`PortalPosition`][pp] object.
@@ -228,7 +228,7 @@ object PagePopover {
           |```
           |
           |The `PopoverContent` component, available at the same package,
-          |allows consumers to render a portal's content directly (instead of
+          |allows consumers to render a popover's content directly (instead of
           |open it via a callback).
           |
           |To learn more about this type of component, including when and how
