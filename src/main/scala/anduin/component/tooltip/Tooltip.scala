@@ -3,7 +3,6 @@
 package anduin.component.tooltip
 
 import anduin.component.portal.{PortalPosition, PortalWrapper}
-import anduin.style.Style
 import org.scalajs.dom.raw.HTMLElement
 
 // scalastyle:off underscore.import
@@ -25,14 +24,14 @@ object Tooltip {
 
   private type Props = Tooltip
 
-  private case class State(isOpened: Boolean)
+  private case class State(isOpen: Boolean)
 
   private class Backend(scope: BackendScope[Props, State]) {
 
     private val targetRef: Ref.Simple[HTMLElement] = Ref[HTMLElement]
 
     private def renderContent(props: Props, state: State): VdomNode = {
-      if (state.isOpened && !props.isDisabled) {
+      if (state.isOpen && !props.isDisabled) {
         TooltipContent(targetRef, props.position, props.renderContent())()
       } else {
         EmptyVdom
@@ -42,13 +41,11 @@ object Tooltip {
     private def renderTarget(props: Props, state: State): VdomElement = {
       props.targetWrapper.tag.withRef(targetRef)(
         // Mouse navigation
-        ^.onMouseEnter --> scope.modState(_.copy(isOpened = true)),
-        ^.onMouseLeave --> scope.modState(_.copy(isOpened = false)),
+        ^.onMouseEnter --> scope.modState(_.copy(isOpen = true)),
+        ^.onMouseLeave --> scope.modState(_.copy(isOpen = false)),
         // Keyboard navigation
-        Style.outline.focusLight.transition.allWithOutline,
-        ^.tabIndex := 0,
-        ^.onFocusCapture --> scope.modState(_.copy(isOpened = true)),
-        ^.onBlurCapture --> scope.modState(_.copy(isOpened = false)),
+        ^.onFocusCapture --> scope.modState(_.copy(isOpen = true)),
+        ^.onBlurCapture --> scope.modState(_.copy(isOpen = false)),
         // Users' content
         props.renderTarget
       )
@@ -64,7 +61,7 @@ object Tooltip {
 
   private val component = ScalaComponent
     .builder[Props](this.getClass.getSimpleName)
-    .initialState(State(isOpened = false))
+    .initialState(State(isOpen = false))
     .renderBackend[Backend]
     .build
 }

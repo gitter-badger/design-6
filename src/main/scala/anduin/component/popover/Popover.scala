@@ -23,18 +23,18 @@ object Popover {
 
   private type Props = Popover
 
-  private case class State(isOpened: Boolean)
+  private case class State(isOpen: Boolean)
 
   private class Backend(scope: BackendScope[Props, State]) {
 
     private val targetRef: Ref.Simple[HTMLElement] = Ref[HTMLElement]
 
     private def toggle: Callback = scope.modState { state =>
-      state.copy(isOpened = !state.isOpened)
+      state.copy(isOpen = !state.isOpen)
     }
 
     private def renderContent(props: Props, state: State): VdomNode = {
-      if (state.isOpened) {
+      if (state.isOpen) {
         PopoverContent(
           targetRef = targetRef,
           onOverlayClick = Some(toggle),
@@ -46,7 +46,7 @@ object Popover {
     }
 
     private def renderTarget(props: Props, state: State): VdomElement = {
-      val children = props.renderTarget(toggle, state.isOpened)
+      val children = props.renderTarget(toggle, state.isOpen)
       props.targetWrapper.tag.withRef(targetRef)(children)
     }
 
@@ -57,7 +57,7 @@ object Popover {
 
   private val component = ScalaComponent
     .builder[Props](this.getClass.getSimpleName)
-    .initialState(State(isOpened = false))
+    .initialState(State(isOpen = false))
     .renderBackend[Backend]
     .build
 }

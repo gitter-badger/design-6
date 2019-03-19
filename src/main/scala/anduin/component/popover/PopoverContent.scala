@@ -51,7 +51,7 @@ object PopoverContent {
     Style.background.white.borderRadius.px2.shadow.px8,
     Style.border.all.borderColor.gray4.borderWidth.px1,
     // Avoid position transitioning. We only want the opacity here
-    ^.transition := "opacity 0.3s",
+    ^.transition := "opacity 250ms",
     // Reverse overlay's possible pointerEvents none (see its render)
     Style.pointerEvents.auto
   )

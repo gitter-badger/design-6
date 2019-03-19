@@ -33,8 +33,9 @@ object TooltipContent {
     // Specific styles of Tooltip
     Style.background.gray9.color.white.shadow.px8,
     Style.maxWidth.px256.padding.ver4.padding.hor8.borderRadius.px4,
-    // Avoid position transitioning. We only want the opacity here
-    ^.transition := "opacity 0.2s",
+    // Note that there is no transition here, not even opacity, because it
+    // looks pretty bad in the case of toolbars (adjacent tooltip targets)
+    ^.transition := "none",
     // Allow line breaking
     Style.whiteSpace.preWrap,
     // Backward compatible
