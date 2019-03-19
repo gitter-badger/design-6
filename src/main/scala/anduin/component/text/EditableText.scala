@@ -5,7 +5,7 @@ package anduin.component.text
 import anduin.component.button.Button
 import anduin.component.button.Button.Color
 import anduin.component.icon.Icon
-import anduin.component.portal.PositionRightCenter
+import anduin.component.portal.PortalPosition
 import anduin.component.tooltip.Tooltip
 import anduin.style.Style
 
@@ -111,7 +111,7 @@ object EditableText {
         )(_.apply(state.value)),
         TagMod.when(props.editable)(
           props.tip.fold(TagMod(icon)) { tip =>
-            Tooltip(position = PositionRightCenter, renderTarget = icon, renderContent = () => tip)()
+            Tooltip(position = PortalPosition.RightCenter, renderTarget = icon, renderContent = () => tip)()
           }
         )
       )

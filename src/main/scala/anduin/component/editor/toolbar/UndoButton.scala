@@ -5,6 +5,7 @@ package anduin.component.editor.toolbar
 import anduin.component.button.Button
 import anduin.component.editor.utils.SlateUtil
 import anduin.component.icon.Icon
+import anduin.component.portal.PortalWrapper
 import anduin.component.tooltip.Tooltip
 import anduin.scalajs.slate.Slate.Value
 import anduin.scalajs.slate.SlateReact
@@ -37,7 +38,7 @@ private[toolbar] object UndoButton {
 
   private def render(props: Props) = {
     Tooltip(
-      targetTag = <.span,
+      targetWrapper = PortalWrapper.Inline,
       renderTarget = Button(
         style = Button.Style.Minimal(icon = Some(Icon.Glyph.Undo)),
         onClick = onClickUndo(props),

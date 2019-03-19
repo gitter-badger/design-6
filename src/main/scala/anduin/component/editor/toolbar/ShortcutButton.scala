@@ -3,10 +3,10 @@
 package anduin.component.editor.toolbar
 
 import org.scalajs.dom
-
 import anduin.component.button.Button
 import anduin.component.icon.Icon
 import anduin.component.modal.Modal
+import anduin.component.portal.PortalWrapper
 import anduin.component.tooltip.Tooltip
 
 // scalastyle:off underscore.import
@@ -24,7 +24,7 @@ private[toolbar] object ShortcutButton {
 
   private def render = {
     Tooltip(
-      targetTag = <.span,
+      targetWrapper = PortalWrapper.Inline,
       renderTarget = Modal(
         title = "Keyboard Shortcuts",
         renderTarget = open => {

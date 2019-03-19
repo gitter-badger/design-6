@@ -2,7 +2,7 @@
 
 package anduin.component.clipboard
 
-import anduin.component.portal.PositionTopCenter
+import anduin.component.portal.{PortalPosition, PortalWrapper}
 import anduin.component.tooltip.Tooltip
 import org.scalajs.dom.raw.HTMLElement
 import org.scalajs.dom.{document, window}
@@ -13,7 +13,7 @@ import japgolly.scalajs.react.vdom.html_<^._
 // scalastyle:on underscore.import
 
 final case class CopyToClipboard(
-  targetTag: HtmlTag = <.span,
+  targetWrapper: PortalWrapper = PortalWrapper.Inline,
   renderTargetTag: HtmlTag = <.span
 ) {
   def apply(children: VdomNode*): VdomElement = CopyToClipboard.component(this)(children: _*)
@@ -52,8 +52,8 @@ object CopyToClipboard {
 
     def render(props: Props, state: State, children: PropsChildren): VdomElement = {
       Tooltip(
-        position = PositionTopCenter,
-        targetTag = props.targetTag,
+        position = PortalPosition.TopCenter,
+        targetWrapper = props.targetWrapper,
         renderTarget = props.renderTargetTag.withRef(childrenRef)(
           ^.onClick --> copyToClipboard,
           ^.onMouseLeave --> scope.modState(_.copy(copied = false)),

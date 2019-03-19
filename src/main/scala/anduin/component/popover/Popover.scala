@@ -2,7 +2,7 @@
 
 package anduin.component.popover
 
-import anduin.component.portal.{PortalPosition, PortalWrapper}
+import anduin.component.portal.{PortalPosition, PortalUtils, PortalWrapper}
 import org.scalajs.dom.raw.HTMLElement
 
 // scalastyle:off underscore.import
@@ -14,7 +14,8 @@ final case class Popover(
   renderTarget: (Callback, Boolean) => VdomNode,
   renderContent: Callback => VdomNode,
   position: PortalPosition = PortalPosition.TopCenter,
-  targetWrapper: PortalWrapper = PortalWrapper.BlockContent
+  targetWrapper: PortalWrapper = PortalWrapper.BlockContent,
+  isClosable: Option[PortalUtils.IsClosable] = PortalUtils.defaultIsClosable
 ) {
   def apply(): VdomElement = Popover.component(this)
 }
@@ -38,7 +39,8 @@ object Popover {
         PopoverContent(
           targetRef = targetRef,
           onOverlayClick = Some(toggle),
-          position = props.position
+          position = props.position,
+          isClosable = props.isClosable
         )(props.renderContent(toggle))
       } else {
         EmptyVdom

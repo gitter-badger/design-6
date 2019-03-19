@@ -5,18 +5,13 @@ package anduin.component.date
 import java.time.format.DateTimeFormatter
 import java.time.{LocalDate, LocalDateTime}
 
-// scalastyle:off underscore.import
-import japgolly.scalajs.react._
-import japgolly.scalajs.react.vdom.html_<^._
-// scalastyle:on underscore.import
-
 final case class DateTime(
   value: LocalDateTime,
   date: DateTime.Date = DateTime.DateShort,
   dateIsRelative: Boolean = false,
   time: DateTime.Time = DateTime.TimeHM12
 ) {
-  def apply(): VdomElement = DateTime.component(this)
+  def apply(): String = DateTime.render(this)
 }
 
 object DateTime {
@@ -55,13 +50,7 @@ object DateTime {
     }
   }
 
-  private def render(props: Props): VdomNode = {
+  def render(props: Props): String = {
     s"${getDate(props)}${getTime(props)}"
   }
-
-  private val component = ScalaComponent
-    .builder[Props](this.getClass.getSimpleName)
-    .stateless
-    .render_P(render)
-    .build
 }

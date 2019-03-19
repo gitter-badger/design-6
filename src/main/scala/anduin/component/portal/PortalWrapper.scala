@@ -17,7 +17,7 @@ import japgolly.scalajs.react.vdom.html_<^._
 sealed trait PortalWrapper { def tag: PortalWrapper.Tag }
 
 object PortalWrapper {
-  private type Tag = VdomTagOf[HTMLElement]
+  type Tag = VdomTagOf[HTMLElement]
 
   // This is the default tag wrapper, as it seems to be the best one we know
   // so far: https://codepen.io/dvkndn/pen/XGzYRy. In short, it:

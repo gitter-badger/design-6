@@ -3,7 +3,7 @@
 package anduin.component.util
 
 import anduin.component.tooltip.Tooltip
-import anduin.component.portal.{Position, PositionTopCenter}
+import anduin.component.portal.PortalPosition
 import anduin.style.Style
 import japgolly.scalajs.react.React
 import japgolly.scalajs.react.vdom.TagMod
@@ -34,13 +34,17 @@ object StringJsUtils {
     splitWords(s).slice(0, maxNumWord).mkString(" ")
   }
 
-  def truncateWithTooltip(string: String, maxLength: Int = 40, position: Position = PositionTopCenter): VdomElement = {
+  def truncateWithTooltip(
+    string: String,
+    maxLength: Int = 40,
+    position: PortalPosition = PortalPosition.TopCenter
+  ): VdomElement = {
     if (string.length > maxLength) {
       <.div(
         Tooltip(
           position = position,
           renderTarget = <.span(Style.color.gray8, StringJsUtils.truncate(string, maxLength)),
-          renderContent = () => <.div(Style.maxWidth.px512.overflowWrap.breakWord, string)
+          renderContent = () => string
         )()
       )
     } else {

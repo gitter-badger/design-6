@@ -6,6 +6,7 @@ import anduin.component.button.Button
 import anduin.component.editor.LinkNode
 import anduin.component.editor.utils.SlateUtil
 import anduin.component.icon.Icon
+import anduin.component.portal.PortalWrapper
 import anduin.component.tooltip.Tooltip
 import anduin.scalajs.slate.Slate.Value
 import anduin.scalajs.slate.SlateReact
@@ -43,7 +44,7 @@ private[toolbar] object RemoveLinkButton {
     val hasLink = SlateUtil.hasLinks(props.value)
 
     Tooltip(
-      targetTag = <.span,
+      targetWrapper = PortalWrapper.Inline,
       renderTarget = Button(
         style = Button.Style.Minimal(icon = Some(Icon.Glyph.Unlink)),
         onClick = onRemoveLink(props),

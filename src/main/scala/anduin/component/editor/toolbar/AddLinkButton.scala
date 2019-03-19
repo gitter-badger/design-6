@@ -3,12 +3,12 @@
 package anduin.component.editor.toolbar
 
 import scala.scalajs.js
-
 import anduin.component.button.Button
 import anduin.component.editor.LinkNode
 import anduin.component.editor.utils.SlateUtil
 import anduin.component.icon.Icon
 import anduin.component.modal.Modal
+import anduin.component.portal.PortalWrapper
 import anduin.component.tooltip.Tooltip
 import anduin.scalajs.slate.Slate.Value
 import anduin.scalajs.slate.SlateReact
@@ -68,7 +68,7 @@ private[toolbar] object AddLinkButton {
 
   private def render(props: Props) = {
     Tooltip(
-      targetTag = <.span,
+      targetWrapper = PortalWrapper.Inline,
       renderTarget = Modal(
         title = "Add a link",
         renderTarget = open => {

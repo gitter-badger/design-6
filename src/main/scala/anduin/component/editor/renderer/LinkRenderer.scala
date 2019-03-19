@@ -4,11 +4,11 @@ package anduin.component.editor.renderer
 
 import anduin.component.button.Button
 import anduin.component.editor.StyleParser
-import anduin.component.portal.PositionBottomCenter
+import anduin.component.portal.{PortalPosition, PortalWrapper}
 import anduin.component.popover.Popover
 import japgolly.scalajs.react.{PropsChildren, raw}
-import scala.scalajs.js
 
+import scala.scalajs.js
 import anduin.component.editor.utils.DataUtil
 
 // scalastyle:off underscore.import
@@ -33,8 +33,8 @@ private[editor] object LinkRenderer {
       link.rawElement
     } else {
       Popover(
-        position = PositionBottomCenter,
-        targetTag = <.span,
+        position = PortalPosition.BottomCenter,
+        targetWrapper = PortalWrapper.Inline,
         renderTarget = (toggle, _) => {
           <.span(^.onClick --> toggle, link)
         },

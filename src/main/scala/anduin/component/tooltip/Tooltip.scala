@@ -38,7 +38,7 @@ object Tooltip {
       }
     }
 
-    private def renderTarget(props: Props, state: State): VdomElement = {
+    private def renderTarget(props: Props): VdomElement = {
       props.targetWrapper.tag.withRef(targetRef)(
         // Mouse navigation
         ^.onMouseEnter --> scope.modState(_.copy(isOpen = true)),
@@ -52,10 +52,7 @@ object Tooltip {
     }
 
     def render(props: Props, state: State): VdomElement = {
-      React.Fragment(
-        renderTarget(props, state),
-        renderContent(props, state)
-      )
+      React.Fragment(renderTarget(props), renderContent(props, state))
     }
   }
 

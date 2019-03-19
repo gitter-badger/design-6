@@ -3,6 +3,7 @@
 package anduin.component.editor.toolbar
 
 import anduin.component.button.Button
+import anduin.component.portal.PortalWrapper
 import anduin.component.tooltip.Tooltip
 
 // scalastyle:off underscore.import
@@ -27,7 +28,7 @@ private[toolbar] object ToolbarButton {
 
   private def render(props: ToolbarButton, children: PropsChildren): VdomElement = {
     Tooltip(
-      targetTag = <.span,
+      targetWrapper = PortalWrapper.Inline,
       renderTarget = Button(
         style = Button.Style.Minimal(isSelected = props.active),
         onClick = props.onClick

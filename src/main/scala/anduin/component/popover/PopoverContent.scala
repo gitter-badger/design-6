@@ -29,7 +29,8 @@ final case class PopoverContent(
   //   would work out of the box
   // - However, this should be turned off when the focus should stay outside
   //   of the popover (e.g. Dropdown's target)
-  isAutoFocus: Boolean = true
+  isAutoFocus: Boolean = true,
+  isClosable: Option[PortalUtils.IsClosable] = PortalUtils.defaultIsClosable
 ) {
   def apply(children: VdomNode*): VdomElement =
     PopoverContent.component(this)(children: _*)
@@ -63,9 +64,6 @@ object PopoverContent {
       TagMod(^.tabIndex := 0, Style.outline.focusLight)
     }
 
-  private val isClosable =
-    Some(PortalUtils.IsClosable(onEsc = true, onOutsideClick = true))
-
   class Backend(scope: BackendScope[Props, _]) {
 
     private val ref = Ref[raw.HTMLElement]
@@ -83,7 +81,7 @@ object PopoverContent {
       <.div(
         overlayStaticMod,
         props.onOverlayClick.fold[TagMod](Style.pointerEvents.none) { onClick =>
-          PortalUtils.getClosableMods(isClosable, onClick)
+          PortalUtils.getClosableMods(props.isClosable, onClick)
         },
         <.div.withRef(ref)(getIsAutoFocusMod(props), bodyStaticMod, children)
       )
