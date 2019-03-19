@@ -10,11 +10,11 @@ import japgolly.scalajs.react._
 import japgolly.scalajs.react.vdom.html_<^._
 // scalastyle:on underscore.import
 
-final case class TooltipArrow(placement: PopperPlacement) {
+private[tooltip] final case class TooltipArrow(placement: PopperPlacement) {
   def apply(): VdomElement = TooltipArrow.component(this)
 }
 
-object TooltipArrow {
+private[tooltip] object TooltipArrow {
 
   private type Props = TooltipArrow
 
