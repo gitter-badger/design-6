@@ -10,6 +10,7 @@ import anduin.guide.app.main.Pages
 import anduin.guide.components._
 import anduin.guide.pages.components.portal.PagePortalPositionTooltip
 import anduin.mcro.Source
+import anduin.style.Style
 import japgolly.scalajs.react._
 import japgolly.scalajs.react.vdom.html_<^._
 
@@ -69,31 +70,48 @@ object PageTooltip {
            |can easily do more harm than good to the users' experience if
            |not careful. Think of them as fail-safe solutions, and use them
            |sparingly, or not at all.
+           |
+           |Before using a tooltip to show an information, ask yourself if this
+           |information is necessary for the users to achieve their goal or
+           |not:
+           |- If it is, then don't use tooltips. Tooltips require users'
+           |interactions to show the information, and usually there is little
+           |to no visual hint whether a element has a tooltip attached or not.
+           |- It it is not, then why you need to show it at all? Be aware of
+           |[information pollution].
+           |
+           |[information pollution]: https://www.nngroup.com/articles/information-pollution/
+           |
+           |In fact, a main point of this page is to show common issues of
+           |tooltips and better alternatives for these cases. Learn more in the
+           |[Target Accessibility](#target-a11y),
+           |[Content Accessibility](#content-a11y) and
+           |[Common Use Cases](#common-use-cases) section.
            |""".stripMargin
       )(),
       Markdown(
         s"""
-          |# Target
-          |
-          |```scala
-          |renderTarget = VdomNode
-          |```
-          |
-          |The `renderTarget` prop defines a tooltip's target element, to
-          |which it will anchor the content to. Technically, it can be any
-          |[render-able][r] item, like a native tag (e.g. `<.div`), a custom
-          |component (`Button()`) or even a string (`"Foo"`).
-          |
-          |[r]: https://reactjs.org/docs/react-component.html#render
-          |
-          |This is because the Tooltip component will wrap its target inside
-          |a [wrapper](#target-wrapper) tag anyway. It will also attach
-          |necessary event handlers to this tag out of the box (e.g. to
-          |open tooltip on mouse over). The consumers don't really need to do
-          |any integration:
-          |
-          |[t]: ${ctl.urlFor(Pages.Portal("#target")).value}
-          |""".stripMargin
+           |# Target
+           |
+           |```scala
+           |renderTarget = VdomNode
+           |```
+           |
+           |The `renderTarget` prop defines a tooltip's target element, to
+           |which it will anchor the content to. Technically, it can be any
+           |[render-able][r] item, like a native tag (e.g. `<.div`), a custom
+           |component (`Button()`) or even a string (`"Foo"`).
+           |
+           |[r]: https://reactjs.org/docs/react-component.html#render
+           |
+           |This is because the Tooltip component will wrap its target inside
+           |a [wrapper](#target-wrapper) tag anyway. It will also attach
+           |necessary event handlers to this tag out of the box (e.g. to
+           |open tooltip on mouse over). The consumers don't really need to do
+           |any integration:
+           |
+           |[t]: ${ctl.urlFor(Pages.Portal("#target")).value}
+           |""".stripMargin
       )(),
       ExampleRich(Source.annotate({
         Tooltip(
@@ -110,8 +128,108 @@ object PageTooltip {
         """.stripMargin
       )(),
       Markdown(
+        """
+          |## Common use cases
+          |
+          |In practice, tooltips are usually used with the following targets.
+          |This section describes their issues and potential better
+          |alternatives.
+          |
+          |### Icon
+          |
+          |["Most icons have some level of ambiguity"][icon], so tooltips are
+          |often used to provide labels for them. This is especially common
+          |in case of toolbars, where several similar icons are placed next
+          |to each other:
+          |
+          |[icon]: https://www.nngroup.com/articles/icon-usability/
+          |""".stripMargin
+      )(),
+      ExampleRich(Source.annotate({
+        def button(name: Icon.Name, text: String) = {
+          val style = Button.Style.Minimal(icon = Some(name))
+          Tooltip(Button(style = style)(), () => text)()
+        }
+        <.div(
+          Style.flexbox.flex,
+          button(Icon.Glyph.AlignLeft, "Left align (Ctrl + Shift + L)"),
+          button(Icon.Glyph.AlignCenter, "Center align (Ctrl + Shift + E)"),
+          button(Icon.Glyph.AlignRight, "Right align (Ctrl + Shift + R)"),
+          button(Icon.Glyph.AlignJustify, "Justify (Ctrl + Shift + J)")
+        )
+      }))(),
+      Markdown(
+        """
+          |Icons in toolbars is a rare case where tooltips are actually
+          |suitable and should be used. Icons in other places, especially
+          |standalone ones, should always have explicit labels that are
+          |always visible.
+          |
+          |### Disabled elements
+          |
+          |Tooltips are also often used to explain why an action is disabled
+          |or an information is not available:
+          |""".stripMargin
+      )(),
+      ExampleRich(Source.annotate({
+        Tooltip(
+          renderTarget = Button(isDisabled = true)("Archive"),
+          renderContent = () =>
+            "You don't have permission to archive this deal. Please " +
+            "contact your deal admins."
+        )()
+      }))(),
+      Markdown(
+        """
+          |Despite being a common pattern, this is not a good one. It has 2
+          |main problems:
+          |- First, there is no visual hint. Tooltips on disabled elements is
+          |not a universal pattern, and thus many users may never know about
+          |the explanation at all.
+          |- Second, explaining why is often not enough. Users often expect
+          |to know what should they do to enable that element or access that
+          |information. This is usually too much for text-only tooltips.
+          |
+          |For example, the above case should give users a link to the
+          |"Contact" page so they can know how to contact their admins:
+          |""".stripMargin
+      )(),
+      ExampleRich(Source.annotate({
+        <.div(
+          Button(isDisabled = true)("Archive"),
+          <.div(Style.color.gray7.margin.top8)(
+            <.p("You don't have permission to archive this deal."),
+            <.p("Please ", <.a(^.href := "#", "click here"), " to contact your deal admins")
+          )
+        )
+      }))(),
+      Markdown(
+        """
+          |### Truncated text
+          |
+          |Tooltips are often used to show the full version of truncated texts:
+          |""".stripMargin
+      )(),
+      ExampleRich(Source.annotate({
+        val text = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, " +
+          "sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
+        Tooltip(
+          renderTarget = <.p(Style.width.px128.typography.truncate, text),
+          renderContent = () => text
+        )()
+      }))(),
+      Markdown(
         s"""
-          |## Accessibility [target-accessibility]
+           |In these cases, users can see the full version when hover over,
+           |but they cannot select or copy it. When using this pattern for
+           |important information, such as file names or email addresses, the
+           |consumers should make sure users have a way to access the
+           |information fully, not just see it.
+           |""".stripMargin
+      )(),
+      Markdown(
+        s"""
+          |## Accessibility [target-a11y]
           |
           |Anduin's tooltips can be triggered not only via mouse hover but
           |also keyboard focus. However, this is still far from enough, as it
@@ -214,15 +332,15 @@ object PageTooltip {
       }))(),
       Markdown(
         s"""
-          |To learn more about portal's content in general, see the [Content]
-          |section of the Portal guide.
-          |
-          |[Content]: ${ctl.urlFor(Pages.Portal("#content")).value}
-          |""".stripMargin
+           |To learn more about portal's content in general, see the [Content]
+           |section of the Portal guide.
+           |
+           |[Content]: ${ctl.urlFor(Pages.Portal("#content")).value}
+           |""".stripMargin
       )(),
       Markdown(
         """
-          |## Accessibility [content-accessibility]
+          |## Accessibility [content-a11y]
           |
           |Due to its design, the [content](#content) inside a tooltip can
           |only be read, either by users or their screen readers, but not
@@ -243,18 +361,18 @@ object PageTooltip {
       }),
       Markdown(
         s"""
-          |## String only
-          |
-          |Tooltips intentionally accept only a single `String` instead of
-          |`VdomNode*` as their content. This prevents the consumers from
-          |building complex interfaces inside tooltips' content, which likely
-          |bring bad experiences due to tooltips'
-          |[accessibility](#content-accessibility) problems.
-          |
-          |To have anything more than text, consider [Popover].
-          |
-          |[Popover]: ${ctl.urlFor(Pages.Popover()).value}
-          |""".stripMargin
+           |## String only
+           |
+           |Tooltips intentionally accept only a single `String` instead of
+           |`VdomNode*` as their content. This prevents the consumers from
+           |building complex interfaces inside tooltips' content, which likely
+           |bring bad experiences due to tooltips'
+           |[accessibility](#content-a11y) problems.
+           |
+           |To have anything more than text, consider [Popover].
+           |
+           |[Popover]: ${ctl.urlFor(Pages.Popover()).value}
+           |""".stripMargin
       )(),
       Markdown(
         s"""
