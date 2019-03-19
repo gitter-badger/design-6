@@ -26,7 +26,7 @@ private[component] object PortalPopperContent {
 
   private def modifiers = new Popper.Modifiers(
     preventOverflow = new Popper.Overflow(Popper.Boundaries.ViewPort),
-    offset = new Popper.Offset("0px,4px"),
+    offset = new Popper.Offset("0px,4px")
   )
 
   def getOptions(
