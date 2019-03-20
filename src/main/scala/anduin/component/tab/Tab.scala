@@ -29,7 +29,11 @@ object Tab {
   )
 
   sealed trait Style
-  case class StyleFull(isHeaderCentered: Boolean = false) extends Style
+  case class StyleFull(
+    isFullHeight: Boolean = false,
+    headerIsCentered: Boolean = false,
+    bodyHasNoPadding: Boolean = false
+  ) extends Style
   case object StyleMinimal extends Style
   // case object StyleMinimal extends Style
   // -> Currently we only support StyleFull. Will support StyleMinimal later
@@ -58,7 +62,7 @@ object Tab {
       val titles = props.panels.map(_.title).zipWithIndex
       props.style match {
         case full: StyleFull => TabFull(titles, content, active, setActive, full)()
-        case StyleMinimal => TabMinimal(titles, content, active, setActive)()
+        case StyleMinimal    => TabMinimal(titles, content, active, setActive)()
       }
     }
   }

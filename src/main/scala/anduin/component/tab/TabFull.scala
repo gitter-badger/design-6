@@ -56,21 +56,30 @@ private[tab] object TabFull {
     <.header(
       ^.marginBottom := "-1px",
       Style.flexbox.flex.lineHeight.px16.fontWeight.medium,
-      TagMod.when(props.style.isHeaderCentered)(Style.flexbox.justifyCenter),
-      props.titles.toTagMod { renderButton(props) }
+      TagMod.when(props.style.isFullHeight)(Style.flexbox.none),
+      TagMod.when(props.style.headerIsCentered)(Style.flexbox.justifyCenter),
+      props.titles.toTagMod(renderButton(props))
     )
   }
 
   private def renderContent(props: Props): VdomElement = {
     <.div(
-      Style.background.white.padding.all16.borderRadius.px2.borderRadius.bottom,
+      Style.background.white.borderRadius.px2.borderRadius.bottom,
       Style.border.all.borderColor.gray3,
+      TagMod.when(props.style.isFullHeight)(Style.flexbox.fill),
+      TagMod.when(!props.style.bodyHasNoPadding)(Style.padding.all16),
       props.content
     )
   }
 
   private def render(props: Props): VdomElement = {
-    <.div(renderHeader(props), renderContent(props))
+    <.div(
+      TagMod.when(props.style.isFullHeight)(
+        Style.flexbox.flex.flexbox.column.height.pc100
+      ),
+      renderHeader(props),
+      renderContent(props)
+    )
   }
 
   private val component = ScalaComponent
