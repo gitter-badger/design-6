@@ -15,7 +15,8 @@ final case class Popover(
   renderContent: Callback => VdomNode,
   position: PortalPosition = PortalPosition.TopCenter,
   targetWrapper: PortalWrapper = PortalWrapper.BlockContent,
-  isClosable: Option[PortalUtils.IsClosable] = PortalUtils.defaultIsClosable
+  isClosable: Option[PortalUtils.IsClosable] = PortalUtils.defaultIsClosable,
+  isAutoFocus: Boolean = true
 ) {
   def apply(): VdomElement = Popover.component(this)
 }
@@ -40,7 +41,8 @@ object Popover {
           targetRef = targetRef,
           onOverlayClick = Some(toggle),
           position = props.position,
-          isClosable = props.isClosable
+          isClosable = props.isClosable,
+          isAutoFocus = props.isAutoFocus
         )(props.renderContent(toggle))
       } else {
         EmptyVdom
