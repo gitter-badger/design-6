@@ -23,6 +23,8 @@ object ReactTextMask {
 
   class Props(
     mask: Option[TextMask] = None,
+    val keepCharPositions: js.UndefOr[Boolean] = js.undefined,
+    val pipe: js.UndefOr[TextMask.Pipe] = js.undefined,
     val value: js.UndefOr[String] = js.undefined,
     val onChange: js.UndefOr[EventListener] = js.undefined,
     val onBlur: js.UndefOr[EventListener] = js.undefined,

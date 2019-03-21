@@ -29,7 +29,14 @@ object TextMaskAddons {
     ): TextMask.Raw = js.native
   }
 
+  @JSImport("text-mask-addons/dist/createAutoCorrectedDatePipe", JSImport.Default)
+  @js.native
+  object AutoCorrectedDatePipe extends js.Object {
+    def apply(format: String): TextMask.Pipe = js.native
+  }
+
   @JSImport("text-mask-addons/dist/emailMask", JSImport.Default)
   @js.native
   object Email extends js.Object
+
 }

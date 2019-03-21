@@ -13,7 +13,11 @@ sealed abstract class TextMask
 
 object TextMask {
 
-  case class Array(value: List[Item]) extends TextMask
+  // We don't really need to have detailed structure for this
+  // as we only use it via addons
+  trait Pipe extends js.Object
+
+  case class Array(value: Seq[Item]) extends TextMask
   case class Func(value: String => Array) extends TextMask
   case class FromJS(value: TextMask.Raw) extends TextMask
 
