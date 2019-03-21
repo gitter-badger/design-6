@@ -5,6 +5,7 @@ import anduin.guide.components._
 import anduin.component.input.textbox.{TextBox, TextBoxType}
 import anduin.guide.app.main.Pages
 import anduin.mcro.Source
+import anduin.scalajs.textmask.TextMask
 import japgolly.scalajs.react.vdom.html_<^._
 import anduin.style.Style
 
@@ -28,109 +29,39 @@ object PageTextBox {
       }))(),
       Markdown(
         """
-          |
-          |# Value
-          |
-          |```scala
-          |value: String
-          |onChange: String => Callback = _ => Callback.empty
-          |```
-          |
-          |Text box is a [controlled] component. The current value should be
-          |passed via the same name prop, as well as updated with the
-          |`onChange` callback:
-          |
-          |[controlled]: https://reactjs.org/docs/forms.html#controlled-components
-          |
-          |```scala
-          |// case class State(value: String, ...)
-          |
-          |TextBox(
-          |  value = state.value,
-          |  onChange = v => scope.modState(_.copy(value = v)
-          |)()
-          |```
-          |""".stripMargin
-      )(),
-      Markdown(
-        """
-          |## Constraint
-          |
-          |### Type
-          |
+          |# Type
         """.stripMargin
       )(),
       ExampleRich(Source.annotate({
-        DemoState.Str("", (value, onChange) => {
-          <.div(Style.width.px256)(
-            TextBox(value, onChange, tpe = TextBox.Tpe.Date)()
-          )
-        })()
-      }))(),
-      ExampleSimple()({
-        import TextBox.Tpe._
-        <.div(
-          ^.width := "300px",
-          List(Text, Password, Date, Area()).zipWithIndex.toVdomArray { tuple =>
-            val (tpe, index) = tuple
-            val name = tpe.getClass.getSimpleName
-            val textBox = DemoState.Str("Anduin", (v, c) => {
-              TextBox(v, c, tpe, id = Some(s"tpe-$name"))()
-            })()
-            val layout = Field.Layout.Hor(right = Field.Layout.Grow(2))
-            <.div(
-              TagMod.when(index != 0)(Style.margin.top8),
-              Field(layout, s"tpe-$name", Some(name))(textBox)
-            )
-          }
+        import TextBox.Type
+        val types = List[TextBoxType](
+          Type.Password,
+          Type.Text,
+          Type.EmailNative,
+          Type.EmailMask,
+          Type.DateNative,
+          Type.DateMask,
+          Type.Currency,
+          Type.Percentage,
+          Type.NumberInt,
+          Type.NumberFloat,
+          Type.Array(List(TextMask.RegExp("\\d"))),
+          Type.Area(3)
         )
-      }),
-      Markdown(
-        """
-          |### Mask
-          |
-          |## Assistance
-          |
-          |### Placeholder
-          |
-          |### Icon
-          |
-          |### Status
-          |
-          |### Field
-          |
-          |# Appearance
-          |
-          |## Style
-          |
-          |""".stripMargin
-      )(),
-      ExampleRich(Source.annotate({
-        DemoState.Str("Anduin", (value, onChange) => {
-          <.div(Style.width.px256)(
-            TextBox(value, onChange).copy(
-              style = TextBox.Style.Minimal
-            )()
+        val layout = Field.Layout.Hor(right = Field.Layout.Grow(2))
+        val nodes = types.toVdomArray { `type` =>
+          val id = `type`.getClass.getSimpleName
+          <.div(^.key := id, Style.margin.bottom16)(
+            DemoState.Str("", (value, onChange) => {
+              val label = Some(s"$id ($value)")
+              Field(layout, id, label)({
+                TextBox(value, onChange, `type`)()
+              })
+            })()
           )
-        })()
-      }))(),
-      ExampleSimple()({
-        TextBoxEmail()()
-      }),
-      Markdown(
-        """
-          |
-          |## Size
-          |
-          |# Behaviour
-          |
-          |## Disabled
-          |
-          |## Auto-focus
-          |
-          |## Others
-        """.stripMargin
-      )()
+        }
+        <.div(nodes)
+      }))()
     )
   }
 }

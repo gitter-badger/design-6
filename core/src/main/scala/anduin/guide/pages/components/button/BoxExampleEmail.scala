@@ -51,7 +51,7 @@ private[button] object BoxExampleEmail {
 
   private val editor: VdomElement = {
     DemoState.Str("Dear John,", (value, onChange) => {
-      TextBox(value, onChange, tpe = TextBox.Tpe.Area(rows = 4))()
+      TextBox(value, onChange, `type` = TextBox.Type.Area(rows = 4))()
     })()
   }
 
