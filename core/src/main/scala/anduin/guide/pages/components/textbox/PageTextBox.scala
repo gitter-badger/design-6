@@ -34,28 +34,30 @@ object PageTextBox {
       )(),
       ExampleRich(Source.annotate({
         import TextBox.Type
-        val types = List[TextBoxType](
-          Type.Password,
-          Type.Text,
-          Type.EmailNative,
-          Type.EmailMask,
-          Type.DateNative,
-          Type.DateMask,
-          Type.Currency,
-          Type.Percentage,
-          Type.NumberInt,
-          Type.NumberFloat,
-          Type.Array(List(TextMask.RegExp("\\d"))),
-          Type.Area(3)
+        val d = TextMask.RegExp("\\d")
+        val types = List[(TextBoxType, String)](
+          (Type.Password, ""),
+          (Type.Text, ""),
+          (Type.EmailNative, ""),
+          (Type.EmailMask, ""),
+          (Type.DateNative, ""),
+          (Type.DateMask, ""),
+          (Type.Currency, ""),
+          (Type.Percentage, ""),
+          (Type.NumberInt, ""),
+          (Type.NumberFloat, ""),
+          (Type.Array(List(d, d, d, d)), "4 digits"),
+          (Type.Func(s => List.fill(s.length)(d)), "n digits"),
+          (Type.Area(3), "")
         )
         val layout = Field.Layout.Hor(right = Field.Layout.Grow(2))
         val nodes = types.toVdomArray { `type` =>
-          val id = `type`.getClass.getSimpleName
+          val id = `type`._1.getClass.getSimpleName
           <.div(^.key := id, Style.margin.bottom16)(
             DemoState.Str("", (value, onChange) => {
               val label = Some(s"$id ($value)")
               Field(layout, id, label)({
-                TextBox(value, onChange, `type`)()
+                TextBox(value, onChange, `type`._1, `type`._2)()
               })
             })()
           )
