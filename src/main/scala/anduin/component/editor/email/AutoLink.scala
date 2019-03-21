@@ -16,6 +16,7 @@ private[email] object AutoLink {
 
   // Find all the text nodes inside given document that looks like a link.
   // Wrap them in an `a` element
+  @SuppressWarnings(Array("org.wartremover.warts.While"))
   def linkify(doc: HTMLDocument): Unit = {
     val treeWalker = dom.document.createTreeWalker(
       doc.body,
