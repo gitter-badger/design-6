@@ -11,43 +11,41 @@ import japgolly.scalajs.react.vdom.html_<^._
 // scalastyle:on underscore.import
 
 sealed trait TextBoxType {
-  private[textbox] def tag: TextBoxType.Tag = <.input.text
-  private[textbox] def placeholder: TextBoxType.Placeholder = None
+  private[textbox] def tag: VdomTag = <.input.text
+  private[textbox] def placeholder: Option[String] = None
   private[textbox] def mask: Option[TextBoxType.Mask] = None
   private[textbox] def isMultiLine: Boolean = false
 }
 
 object TextBoxType {
 
-  private type Tag = VdomTag
   private[textbox] case class Mask(
     value: TextMask,
     keepCharPositions: Boolean = false,
     pipe: Option[TextMask.Pipe] = None
   )
-  private type Placeholder = Option[String]
 
   // 1. <textarea rows="..." />
 
   trait Area extends TextBoxType {
     def rows: Int
-    private[textbox] final override def tag: Tag = <.textarea(^.rows := rows)
+    private[textbox] final override def tag: VdomTag = <.textarea(^.rows := rows)
     private[textbox] final override def isMultiLine: Boolean = true
   }
 
   // 2. <input type="..." /> (no TextMask)
 
   trait Password extends TextBoxType {
-    private[textbox] final override def tag: Tag = <.input.password
+    private[textbox] final override def tag: VdomTag = <.input.password
   }
 
   trait DateNative extends TextBoxType {
-    private[textbox] final override def tag: Tag = <.input.date
+    private[textbox] final override def tag: VdomTag = <.input.date
   }
 
   trait EmailNative extends TextBoxType {
-    private[textbox] final override def placeholder: Placeholder = Some("@")
-    private[textbox] final override def tag: Tag = <.input.email
+    private[textbox] final override def placeholder: Option[String] = Some("@")
+    private[textbox] final override def tag: VdomTag = <.input.email
   }
 
   trait Text extends TextBoxType
@@ -58,7 +56,7 @@ object TextBoxType {
   // should be defined once here and use in respond to TextBox.Mask instances
   private val emailMask = Mask(TextMask.FromJS(TextMaskAddons.Email))
   trait EmailMask extends TextBoxType {
-    private[textbox] final override def placeholder: Placeholder = Some("@")
+    private[textbox] final override def placeholder: Option[String] = Some("@")
     private[textbox] final override def mask: Option[Mask] = Some(emailMask)
   }
 
@@ -70,7 +68,7 @@ object TextBoxType {
     Mask(value, keepCharPositions = true, pipe)
   }
   trait DateMask extends TextBoxType {
-    private[textbox] final override def placeholder: Placeholder = Some("mm/dd/yyyy")
+    private[textbox] final override def placeholder: Option[String] = Some("mm/dd/yyyy")
     private[textbox] final override def mask: Option[Mask] = Some(dateMask)
   }
 
@@ -79,7 +77,7 @@ object TextBoxType {
     Mask(TextMask.FromJS(TextMaskAddons.Number(config)))
   }
   trait Currency extends TextBoxType {
-    private[textbox] final override def placeholder: Placeholder = Some("$")
+    private[textbox] final override def placeholder: Option[String] = Some("$")
     private[textbox] final override def mask: Option[Mask] = Some(currencyMask)
   }
 
@@ -88,7 +86,7 @@ object TextBoxType {
     Mask(TextMask.FromJS(TextMaskAddons.Number(config)))
   }
   trait Percentage extends TextBoxType {
-    private[textbox] final override def placeholder: Placeholder = Some("%")
+    private[textbox] final override def placeholder: Option[String] = Some("%")
     private[textbox] final override def mask: Option[Mask] = Some(percentageMask)
   }
 
