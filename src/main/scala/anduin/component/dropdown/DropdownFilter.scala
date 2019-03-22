@@ -43,7 +43,13 @@ private[dropdown] object DropdownFilter {
 
   // static mods
   private val staticMods = TagMod(
-    TextBoxStyle.getInput(TextBox(value = "")),
+    TextBoxStyle.getStyles(
+      style = TextBox.Style.Full,
+      customColor = None,
+      customBg = None,
+      customBorderColor = None,
+      customSize = None
+    ),
     ^.autoFocus := true,
     ^.placeholder := "Search…"
   )
