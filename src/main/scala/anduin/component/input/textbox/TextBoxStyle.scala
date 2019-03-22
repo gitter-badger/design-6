@@ -2,92 +2,59 @@
 
 package anduin.component.input.textbox
 
-import anduin.component.icon.Icon
 import anduin.style.Style
 
 // scalastyle:off underscore.import
 import japgolly.scalajs.react.vdom.html_<^._
 // scalastyle:on underscore.import
 
-// Internal styling logic of TextBox
-private[component] object TextBoxStyle {
+// This is not only the exposed API but also the main style implementation
+// for a text box (see getStyles method).
+// - Other props can provide further minor customizations (e.g. TextBoxStatus
+//   can provide a custom border color) but the end decision must be made here.
+// - The API here should be designed to not knowing the API of TextBox
+// - Note that this is for the actual control element (e.g. `input` or
+//   `textarea` tag), not the container. In other words, this is for
+//   TextBoxBody, not TextBox
+sealed trait TextBoxStyle {
+  def borderColor: TagMod
+  def borderRadius: TagMod
+}
 
-  private type Props = TextBox
+object TextBoxStyle {
 
-  // Border
+  trait Minimal extends TextBoxStyle {
+    final def borderColor: TagMod = Style.borderColor.transparent
+    final def borderRadius: TagMod = TagMod.empty
+  }
 
-  private val borderStatic = Style.border.all.borderWidth.px1.borderRadius.px2
+  trait Full extends TextBoxStyle {
+    final def borderColor: TagMod = Style.borderColor.gray4
+    final def borderRadius: TagMod = Style.borderRadius.px2
+  }
 
-  // Common styles for both input and context
-
-  private def getCommon(props: Props): TagMod = TagMod(
-    borderStatic,
-    Style.padding.hor12.padding.ver8,
-    props.tpe.getSize(props.size)
-  )
-
-  // Input
-
-  private val inputStatic = TagMod(
-    borderStatic,
-    Style.display.block.width.pc100.padding.hor12.padding.ver8,
+  private val staticStyles = TagMod(
+    // Border should always be defined because we use it for focus state
+    // - Only the border's color is customizable
+    Style.display.block.width.pc100.border.all.borderWidth.px1,
     Style.shadow.focusSpread.borderColor.focusBlue4.transition.allWithShadow
   )
 
-  private def getColor(props: Props): TagMod =
-    if (props.isDisabled) Style.color.gray6 else Style.color.gray8
-
-  private def getBackground(props: Props): TagMod = {
-    if (props.isReadOnly) {
-      Style.background.gray1
-    } else if (props.isDisabled) {
-      Style.background.gray2
-    } else {
-      Style.background.white
-    }
-  }
-
-  private def getBorderColor(props: Props): TagMod = props.status match {
-    case TextBox.StatusInvalid => Style.borderColor.red4
-    case TextBox.StatusValid   => Style.borderColor.green4
-    case _                     => Style.borderColor.gray4
-  }
-
-  def getInput(props: Props): TagMod = TagMod(
-    inputStatic,
-    getCommon(props),
-    getBorderColor(props),
-    getBackground(props),
-    getColor(props),
-    TagMod.when(props.context.isDefined) {
-      Style.borderRadius.right
-    }
+  def getStyles(
+    style: TextBoxStyle,
+    customColor: Option[TagMod], // isReadOnly or isDisabled
+    customBg: Option[TagMod], // isReadOnly or isDisabled
+    customBorderColor: Option[TagMod], // TextBoxStatus
+    customSize: Option[TagMod] // TextBoxSize, icon and TextBoxStatus
+  ): TagMod = TagMod(
+    staticStyles,
+    customColor.getOrElse(Style.color.gray8),
+    customBg.getOrElse(Style.background.white),
+    style.borderRadius,
+    style match {
+      case minimal: Minimal => minimal.borderColor
+      case full: Full       => customBorderColor.getOrElse(full.borderColor)
+    },
+    customSize.getOrElse(Style.height.px32.lineHeight.px16.padding.hor12.fontSize.px13)
   )
-
-  // Context
-
-  private val contextStatic = TagMod(
-    Style.background.gray2.color.gray6,
-    Style.borderRadius.left.borderColor.gray4,
-    Style.flexbox.flex.flexbox.itemsCenter,
-    ^.borderRightWidth := "0"
-  )
-
-  def getContext(props: Props): TagMod =
-    TagMod(getCommon(props), contextStatic)
-
-  // Icon
-
-  private val iconWrapper = TagMod(
-    Style.position.absolute.margin.right8.margin.verAuto,
-    Style.position.pinTop.position.pinBottom.position.pinRight,
-    Style.background.white.height.px16
-  )
-
-  def getIcon(props: Props): Option[VdomElement] = props.status match {
-    case TextBox.StatusValid =>
-      Some(<.div(iconWrapper, Icon(Icon.Glyph.Check)(), Style.color.green4))
-    // case StatusBusy => ??? should have some icon here
-    case _ => None
-  }
 }

@@ -9,20 +9,24 @@ import japgolly.scalajs.react.vdom.html_<^._
 // scalastyle:on underscore.import
 
 sealed trait TextBoxSize {
-  protected def common: TagMod
-  protected def singleOnly: TagMod
-  protected val areaOnly: TagMod = Style.lineHeight.ratio1p5
-  def single: TagMod = TagMod(common, singleOnly)
-  def area: TagMod = TagMod(common, areaOnly)
+  def height: Int
+  def horPadding: Int
+  def text: TagMod
+
+  // convenient helpers
+  final def heightPx: String = s"${height}px"
+  final def horPaddingPx: String = s"${horPadding}px"
 }
 
 private[textbox] object TextBoxSize {
   trait Px32 extends TextBoxSize {
-    val common: TagMod = Style.fontSize.px13.padding.hor12
-    val singleOnly: TagMod = Style.lineHeight.px16.height.px32
+    final def height: Int = 32
+    final def horPadding: Int = 12
+    final def text: TagMod = Style.fontSize.px13.lineHeight.px20
   }
   trait Px40 extends TextBoxSize {
-    val common: TagMod = Style.fontSize.px15.padding.hor16
-    val singleOnly: TagMod = Style.lineHeight.px24.height.px40
+    final def height: Int = 40
+    final def horPadding: Int = 16
+    final def text: TagMod = Style.fontSize.px15.lineHeight.px24
   }
 }
