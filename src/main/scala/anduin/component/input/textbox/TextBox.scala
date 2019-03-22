@@ -2,38 +2,42 @@
 
 package anduin.component.input.textbox
 
-import anduin.scalajs.textmask.{ReactTextMask, TextMask}
-import anduin.scalajs.util.Util
-import anduin.style.Style
-import org.scalajs.dom.html.Input
+import anduin.scalajs.textmask.TextMask
+import anduin.style.{Style => SStyle}
 
-import scala.scalajs.js
+import anduin.component.icon.Icon
 
 // scalastyle:off underscore.import
 import japgolly.scalajs.react._
 import japgolly.scalajs.react.vdom.html_<^._
 // scalastyle:on underscore.import
 
+// This component is only the container/wrapper. The actual control (e.g.
+// `input` or `textarea`) is defined inside TextBoxBody. This component simply
+// wraps it with overlay stuffs (e.g. icon and status) as well as exposes the
+// full API
 final case class TextBox(
   value: String,
   onChange: String => Callback = _ => Callback.empty,
-  onFocus: Callback = Callback.empty,
-  onBlur: String => Callback = _ => Callback.empty,
-  onKeyDown: ReactKeyboardEventFromInput => Callback = _ => Callback.empty,
-  onKeyUp: ReactKeyboardEventFromInput => Callback = _ => Callback.empty,
+  // Type
+  `type`: TextBoxType = TextBox.Type.Text,
   placeholder: String = "",
-  context: Option[VdomNode] = None,
-  // ===
+  // Appearance
+  style: TextBoxStyle = TextBox.Style.Full,
+  icon: Option[Icon.Name] = None,
+  status: Option[TextBoxStatus] = None,
+  size: TextBoxSize = TextBox.Size.Px32,
+  // Behaviour
   id: Option[String] = None,
-  tpe: TextBoxType = TextBox.TpeText,
-  status: TextBox.Status = TextBox.StatusNone,
-  size: TextBoxSize = TextBox.Size32,
-  mask: Option[TextBox.Mask] = None,
-  // ===
   isDisabled: Boolean = false,
   isRequired: Boolean = false,
   isReadOnly: Boolean = false,
-  isAutoFocus: Boolean = false
+  isAutoFocus: Boolean = false,
+  // Event listeners
+  onFocus: Callback = Callback.empty,
+  onBlur: String => Callback = _ => Callback.empty,
+  onKeyDown: ReactKeyboardEventFromInput => Callback = _ => Callback.empty,
+  onKeyUp: ReactKeyboardEventFromInput => Callback = _ => Callback.empty
 ) {
   def apply(): VdomElement = TextBox.component(this)
 }
@@ -42,108 +46,60 @@ object TextBox {
 
   private type Props = TextBox
 
-  // Options
-
-  object TpeText extends TextBoxType.Text
-  object TpePassword extends TextBoxType.Password
-  case class TpeArea(rows: Int = 3) extends TextBoxType.Area
-
-  object Size32 extends TextBoxSize.Px32
-  object Size40 extends TextBoxSize.Px40
-
-  sealed abstract class Status
-  case object StatusNone extends Status
-  case object StatusBusy extends Status
-  case object StatusValid extends Status
-  case object StatusInvalid extends Status
-
-  sealed abstract class Mask(private[TextBox] val placeholder: String)
-  case object MaskEmail extends Mask("@")
-  case object MaskCurrency extends Mask("$")
-  case object MaskPercentage extends Mask("%")
-  case object MaskNumber extends Mask("")
-  case object MaskFloat extends Mask("")
-  case class MaskCustomArray(value: List[TextMask.Item]) extends Mask("")
-  case class MaskCustomFunc(value: String => TextMask.Array) extends Mask("")
-
-  // only onChange and onBlur should be defined here because they are
-  // controlled by TextMask
-
-  private def onChange(props: Props)(e: ReactEventFromInput): Unit = {
-    val value = e.target.value
-    props.onChange(value).runNow()
+  object Type {
+    // <textarea rows="..." />
+    case class Area(rows: Int) extends TextBoxType.Area
+    // <input type="..." />
+    object Password extends TextBoxType.Password
+    object DateNative extends TextBoxType.DateNative
+    object EmailNative extends TextBoxType.EmailNative
+    object Text extends TextBoxType.Text
+    // <input type="text" /> with TextMask
+    object EmailMask extends TextBoxType.EmailMask
+    object DateMask extends TextBoxType.DateMask
+    object Currency extends TextBoxType.Currency
+    object Percentage extends TextBoxType.Percentage
+    object NumberInt extends TextBoxType.NumberInt
+    object NumberFloat extends TextBoxType.NumberFloat
+    case class Array(items: List[TextMask.Item]) extends TextBoxType.Array
+    case class Func(func: String => List[TextMask.Item]) extends TextBoxType.Func
   }
 
-  private def onBlur(props: Props)(e: ReactEventFromInput): Unit = {
-    val value = e.target.value
-    props.onBlur(value).runNow()
+  object Style {
+    object Full extends TextBoxStyle.Full
+    object Minimal extends TextBoxStyle.Minimal
   }
 
-  // ===
-
-  private def getPlaceholder(props: Props): String = {
-    if (props.placeholder.nonEmpty) {
-      props.placeholder
-    } else {
-      props.mask.fold("")(_.placeholder)
-    }
+  object Size {
+    object Px32 extends TextBoxSize.Px32
+    object Px40 extends TextBoxSize.Px40
   }
 
-  private def getTextMaskMods(maskProps: js.Dictionary[js.Any]): TagMod = {
-    // "maskProps" defines "onChange", "onBlue" and "defaultValue"
-    // - In case of masked, TextMask will update "value" based on
-    //   "defaultValue" properly
-    // - In case of not masked, TextMask won't, so the "value" of the input
-    //   is out of sync
-    // The solution here is to always set "value" instead of "defaultValue"
-    // See:
-    // - https://github.com/text-mask/text-mask/issues/838
-    // - https://github.com/text-mask/text-mask/pull/831
-    val updatedMaskProps = maskProps.map { prop =>
-      if (prop._1 == "defaultValue") ("value", prop._2) else prop
-    }
-    Util.getModsFromProps(updatedMaskProps)
+  object Status {
+    object Busy extends TextBoxStatus.Busy
+    object Valid extends TextBoxStatus.Valid
+    object Invalid extends TextBoxStatus.Invalid
   }
 
-  private def renderTextMask(props: Props)(
-    maskRef: raw.React.RefFn[Input],
-    maskProps: js.Dictionary[js.Any]
-  ): raw.React.Element = {
-    val attrs = TagMod(
-      TextBoxStyle.getInput(props),
-      // These mods and ref will control `onChange`, `onBlur` and `value`
-      getTextMaskMods(maskProps),
-      VdomAttr("ref") := maskRef,
-      // All other props
-      ^.id :=? props.id,
-      ^.placeholder := getPlaceholder(props),
-      ^.onFocus --> props.onFocus,
-      ^.onKeyDown ==> props.onKeyDown,
-      ^.onKeyUp ==> props.onKeyUp,
-      ^.disabled := props.isDisabled,
-      ^.readOnly := props.isReadOnly,
-      ^.autoFocus := props.isAutoFocus
-    )
-    props.tpe.tag(attrs).rawElement
-  }
-
-  private def renderInput(props: Props): VdomElement = {
-    val maskProps = new ReactTextMask.Props(
-      mask = props.mask.map(TextBoxMask.get),
-      value = props.value,
-      onChange = js.defined(onChange(props)),
-      onBlur = js.defined(onBlur(props)),
-      render = js.defined(renderTextMask(props))
-    )
-    ReactTextMask.component(maskProps)
+  private def renderOverlay(props: Props, horPin: TagMod)(
+    node: VdomNode
+  ): VdomElement = {
+    <.div(
+      TagMod(SStyle.position.absolute.position.pinTop, horPin),
+      TagMod(SStyle.height.pc100, ^.width := s"${props.size.height}px"),
+      SStyle.flexbox.flex.flexbox.itemsCenter.flexbox.justifyCenter
+    )(node)
   }
 
   private def render(props: Props): VdomElement = {
     <.div(
-      Style.position.relative.flexbox.flex,
-      props.context.map(node => <.div(TextBoxStyle.getContext(props), node)),
-      renderInput(props),
-      TextBoxStyle.getIcon(props)
+      SStyle.position.relative,
+      props.icon
+        .map(name => <.div(SStyle.color.gray4, Icon(name)()))
+        .map(renderOverlay(props, SStyle.position.pinLeft)),
+      TextBoxBody(props = props)(),
+      props.status.flatMap(_.node)
+        .map(renderOverlay(props, SStyle.position.pinRight))
     )
   }
 
