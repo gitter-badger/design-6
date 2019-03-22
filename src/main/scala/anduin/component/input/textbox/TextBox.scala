@@ -25,7 +25,7 @@ final case class TextBox(
   // Appearance
   style: TextBoxStyle = TextBox.Style.Full,
   icon: Option[Icon.Name] = None,
-  status: Option[TextBoxStatus] = None,
+  status: TextBoxStatus = TextBox.Status.None,
   size: TextBoxSize = TextBox.Size.Px32,
   // Behaviour
   id: Option[String] = None,
@@ -79,6 +79,7 @@ object TextBox {
     object Busy extends TextBoxStatus.Busy
     object Valid extends TextBoxStatus.Valid
     object Invalid extends TextBoxStatus.Invalid
+    object None extends TextBoxStatus.None
   }
 
   private def renderOverlay(props: Props, horPin: TagMod)(
@@ -98,8 +99,7 @@ object TextBox {
         .map(name => <.div(SStyle.color.gray4, Icon(name)()))
         .map(renderOverlay(props, SStyle.position.pinLeft)),
       TextBoxBody(props = props)(),
-      props.status.flatMap(_.node)
-        .map(renderOverlay(props, SStyle.position.pinRight))
+      props.status.node.map(renderOverlay(props, SStyle.position.pinRight))
     )
   }
 

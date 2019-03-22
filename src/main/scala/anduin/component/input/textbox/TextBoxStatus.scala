@@ -28,4 +28,8 @@ object TextBoxStatus {
     def node: Option[VdomNode] = None
     def borderColor: TagMod = Style.borderColor.red4
   }
+  trait None extends TextBoxStatus {
+    def node: Option[VdomNode] = None
+    def borderColor: TagMod = Style.borderColor.gray4
+  }
 }

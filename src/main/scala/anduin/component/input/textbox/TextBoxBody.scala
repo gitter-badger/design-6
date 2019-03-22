@@ -76,7 +76,7 @@ object TextBoxBody {
       props.size.text,
       if (props.`type`.isMultiLine) Style.padding.ver8 else ^.height := props.size.heightPx,
       ^.paddingLeft := getPadding(props.icon.isDefined),
-      ^.paddingRight := getPadding(props.status.exists(_.node.isDefined))
+      ^.paddingRight := getPadding(props.status.node.isDefined)
     )
   }
 
@@ -88,7 +88,7 @@ object TextBoxBody {
       style = props.style,
       customColor = if (isDimmed) Some(Style.color.gray7) else None,
       customBg = if (isDimmed) Some(Style.background.gray2) else None,
-      customBorderColor = props.status.map(_.borderColor),
+      customBorderColor = Some(props.status.borderColor),
       customSize = Some(getStylesSize(props))
     )
   }
