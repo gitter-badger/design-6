@@ -43,15 +43,13 @@ object Field {
     val error = Style.fontSize.px11.color.red5
   }
 
-  private def renderLabelContent(props: Props, label: String) = TagMod(
+  private def renderLabelContent(props: Props, label: String) =
     <.label(
       ^.htmlFor := props.id,
       Static.label,
       label,
       TagMod.when(props.isRequired)(<.span(Style.color.red4, " * "))
-    ),
-    props.help
-  )
+    )
 
   private def renderHor(props: Props, children: PropsChildren, layout: Layout.Hor): VdomElement = {
     <.div(
