@@ -22,11 +22,12 @@ lazy val core = (project in file("core"))
     commonSettings,
     scalacOptions += "-P:scalajs:sjsDefinedByDefault",
     scalaJSUseMainModuleInitializer := true,
-    scalaJSLinkerConfig ~= {
-      _.withESFeatures(_.withUseECMAScript2015(true))
-    },
+    // Temporarily give up on scalajs-split :(
+    // scalaJSLinkerConfig ~= {
+    //   _.withESFeatures(_.withUseECMAScript2015(true))
+    // },
     webpackBundlingMode in fastOptJS := BundlingMode.LibraryOnly(),
-    webpackBundlingMode in fullOptJS := BundlingMode.LibraryOnly(),
+    webpackBundlingMode in fullOptJS := BundlingMode.Application,
     version in webpack := "4.18.0",
     version in startWebpackDevServer := "3.1.4",
     libraryDependencies ++= Seq(

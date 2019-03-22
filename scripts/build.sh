@@ -24,8 +24,12 @@ postcss ${core_css_main} --config ${core_css_config} --output ${docs}/app.css
 echo -e "${PURPLE}4/5${NC} Compiling JS (sbt)..."
 sbt fullOptJS::webpack
 
-echo -e "${PURPLE}5/5${NC} Optimizing JS (scalajs-split)..."
-npx scalajs-split ./core
-cp -r ${core_target}/scalajs-split/scripts ${docs}/scripts
+echo -e "${PURPLE}5/5${NC} Copying JS..."
+cp ${core_target}/core-opt-bundle.js ${docs}/app.js
+
+# Temporarily give up scalajs-split
+# echo -e "${PURPLE}5/5${NC} Optimizing JS (scalajs-split)..."
+# npx scalajs-split ./core
+# cp -r ${core_target}/scalajs-split/scripts ${docs}/scripts
 
 echo -e "${GREEN}success${NC} Built at ./docs!"
