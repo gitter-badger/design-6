@@ -20,7 +20,7 @@ final case class TextBox(
   value: String,
   onChange: String => Callback = _ => Callback.empty,
   // Type
-  `type`: TextBoxType = TextBox.Type.Text,
+  tpe: TextBoxTpe = TextBox.Tpe.Text,
   placeholder: String = "",
   // Appearance
   style: TextBoxStyle = TextBox.Style.Full,
@@ -46,23 +46,23 @@ object TextBox {
 
   private type Props = TextBox
 
-  object Type {
+  object Tpe {
     // <textarea rows="..." />
-    case class Area(rows: Int) extends TextBoxType.Area
+    case class Area(rows: Int) extends TextBoxTpe.Area
     // <input type="..." />
-    object Password extends TextBoxType.Password
-    object DateNative extends TextBoxType.DateNative
-    object EmailNative extends TextBoxType.EmailNative
-    object Text extends TextBoxType.Text
+    object Password extends TextBoxTpe.Password
+    object DateNative extends TextBoxTpe.DateNative
+    object EmailNative extends TextBoxTpe.EmailNative
+    object Text extends TextBoxTpe.Text
     // <input type="text" /> with TextMask
-    object EmailMask extends TextBoxType.EmailMask
-    object DateMask extends TextBoxType.DateMask
-    object Currency extends TextBoxType.Currency
-    object Percentage extends TextBoxType.Percentage
-    object NumberInt extends TextBoxType.NumberInt
-    object NumberFloat extends TextBoxType.NumberFloat
-    case class Array(items: List[TextMask.Item]) extends TextBoxType.Array
-    case class Func(func: String => List[TextMask.Item]) extends TextBoxType.Func
+    object EmailMask extends TextBoxTpe.EmailMask
+    object DateMask extends TextBoxTpe.DateMask
+    object Currency extends TextBoxTpe.Currency
+    object Percentage extends TextBoxTpe.Percentage
+    object NumberInt extends TextBoxTpe.NumberInt
+    object NumberFloat extends TextBoxTpe.NumberFloat
+    case class Array(items: List[TextMask.Item]) extends TextBoxTpe.Array
+    case class Func(func: String => List[TextMask.Item]) extends TextBoxTpe.Func
   }
 
   object Style {

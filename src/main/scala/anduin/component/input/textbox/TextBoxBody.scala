@@ -49,7 +49,7 @@ object TextBoxBody {
     if (props.placeholder.nonEmpty) {
       props.placeholder
     } else {
-      props.`type`.placeholder.getOrElse("")
+      props.tpe.placeholder.getOrElse("")
     }
   }
 
@@ -74,7 +74,7 @@ object TextBoxBody {
       if (hasContent) props.size.heightPx else props.size.horPaddingPx
     TagMod(
       props.size.text,
-      if (props.`type`.isMultiLine) Style.padding.ver8 else ^.height := props.size.heightPx,
+      if (props.tpe.isMultiLine) Style.padding.ver8 else ^.height := props.size.heightPx,
       ^.paddingLeft := getPadding(props.icon.isDefined),
       ^.paddingRight := getPadding(props.status.node.isDefined)
     )
@@ -112,14 +112,14 @@ object TextBoxBody {
       ^.readOnly := props.isReadOnly,
       ^.autoFocus := props.isAutoFocus
     )
-    props.`type`.tag(attrs).rawElement
+    props.tpe.tag(attrs).rawElement
   }
 
   private def render(props: Props): VdomElement = {
     val maskProps = new ReactTextMask.Props(
-      mask = props.`type`.mask.map(_.value),
-      pipe = props.`type`.mask.flatMap(_.pipe).orUndefined,
-      keepCharPositions = props.`type`.mask.map(_.keepCharPositions).orUndefined,
+      mask = props.tpe.mask.map(_.value),
+      pipe = props.tpe.mask.flatMap(_.pipe).orUndefined,
+      keepCharPositions = props.tpe.mask.map(_.keepCharPositions).orUndefined,
       value = props.value,
       onChange = js.defined(onChange(props)),
       onBlur = js.defined(onBlur(props)),
