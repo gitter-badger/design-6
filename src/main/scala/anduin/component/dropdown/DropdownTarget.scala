@@ -7,8 +7,6 @@ import anduin.component.icon.Icon
 import anduin.scalajs.util.ScalaJSUtils
 import anduin.style.Style
 
-import scala.scalajs.js
-
 // scalastyle:off underscore.import
 import japgolly.scalajs.react._
 import japgolly.scalajs.react.vdom.html_<^._
