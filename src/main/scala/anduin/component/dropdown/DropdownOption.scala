@@ -4,8 +4,8 @@ package anduin.component.dropdown
 
 import anduin.component.icon.Icon
 import anduin.component.menu.MenuItem
-import anduin.scalajs.downshift.{DownshiftRenderProps, GetItemPropsOptions}
-import anduin.scalajs.util.Util
+import anduin.scalajs.downshift.{DownshiftRenderProps, DownshiftItem}
+import anduin.scalajs.util.ScalaJSUtils
 import anduin.style.Style
 
 // scalastyle:off underscore.import
@@ -32,7 +32,9 @@ private[dropdown] class DropdownOption[A] {
 
   private def renderIcon(props: Props): VdomElement = {
     val value = props.option.value
-    val isSelected = props.downshift.exists(_.selectedItem.contains(value))
+    val isSelected = props.downshift.exists{ downshift =>
+      ScalaJSUtils.jsNullToOption(downshift.selectedItem).contains(value)
+    }
     val iconName = if (isSelected) Icon.Glyph.Check else Icon.Glyph.Blank
     <.span(
       TagMod(Style.margin.right8, ^.marginLeft := "-4px"),
@@ -41,21 +43,21 @@ private[dropdown] class DropdownOption[A] {
   }
 
   private def getMods(props: Props): TagMod = {
-    val options = new GetItemPropsOptions[A](
+    val options = new DownshiftItem[A](
       props.index,
       props.option.value,
       Some(props.option.isDisabled).orUndefined
     )
     props.downshift
       .map(_.getItemProps(options))
-      .map(jsProps => Util.getModsFromProps(jsProps))
+      .map(ScalaJSUtils.jsPropsToTagMod(_))
       .getOrElse(TagMod.empty)
   }
 
   private def getStyles(props: Props): TagMod = TagMod(
     // isHighlighted
-    TagMod.when(props.downshift.exists {
-      _.highlightedIndex.contains(props.index)
+    TagMod.when(props.downshift.exists { downshift =>
+      ScalaJSUtils.jsNullToOption(downshift.highlightedIndex).contains(props.index)
     })(Style.background.gray2),
     // isDisabled
     TagMod.when(props.option.isDisabled)(Style.color.gray6)
@@ -78,9 +80,5 @@ private[dropdown] class DropdownOption[A] {
     )
   }
 
-  private val component = ScalaComponent
-    .builder[Props](this.getClass.getSimpleName)
-    .stateless
-    .render_P(render)
-    .build
+  private val component = ScalaFnComponent(render)
 }

@@ -3,7 +3,7 @@
 package anduin.component.dropdown
 
 import anduin.component.input.textbox.{TextBox, TextBoxStyle}
-import anduin.scalajs.util.Util
+import anduin.scalajs.util.ScalaJSUtils
 import anduin.style.Style
 
 // scalastyle:off underscore.import
@@ -26,7 +26,7 @@ private[dropdown] class DropdownFilter[A] {
     props.outer.options.lift(10).map(_ => {
       val input = <.input(
         DropdownFilter.staticMods,
-        Util.getModsFromProps(props.downshift.getInputProps())
+        ScalaJSUtils.jsPropsToTagMod(props.downshift.getInputProps())
       )
       <.div(Style.padding.hor8.margin.bottom8, input)
     })
@@ -55,15 +55,9 @@ private[dropdown] object DropdownFilter {
   )
 
   def byValue[A](props: Dropdown[A]#InnerProps)(option: Dropdown.Opt[A]): Boolean = {
-    val inputOpt = props.downshift.inputValue.toOption.filter(_ != null)
-    inputOpt match {
-      case None | Some("") => true
-      case Some(input) =>
-        val op = props.outer
-        val filter = op.getFilterValue.getOrElse(op.getValueString)
-        val value = filter(option.value).toLowerCase
-        value.contains(input.toLowerCase)
-    }
+    val filter = props.outer.getFilterValue.getOrElse(props.outer.getValueString)
+    val value = filter(option.value).toLowerCase
+    value.contains(props.downshift.inputValue.toLowerCase)
   }
 
 }

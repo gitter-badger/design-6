@@ -4,7 +4,7 @@ package anduin.component.dropdown
 
 import anduin.component.util.ComponentUtils
 import anduin.scalajs.reactvirtualized.{ReactVirtualizedAutoSizer, ReactVirtualizedList}
-import anduin.scalajs.util.Util
+import anduin.scalajs.util.ScalaJSUtils
 import anduin.style.Style
 import org.scalajs.dom.document.documentElement
 
@@ -103,7 +103,7 @@ private[dropdown] class DropdownContent[A] {
     val props = outerProps.props
     <.div(
       ComponentUtils.testId(this, "Container"),
-      Util.getModsFromProps(props.downshift.getMenuProps()),
+      ScalaJSUtils.jsPropsToTagMod(props.downshift.getMenuProps()),
       props.outer.header.map(<.div(Style.border.bottom, boxStyles, _)),
       TagMod.when(props.outer.options.nonEmpty) {
         <.div(

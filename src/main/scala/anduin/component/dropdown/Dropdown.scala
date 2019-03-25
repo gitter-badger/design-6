@@ -4,6 +4,7 @@ package anduin.component.dropdown
 
 import anduin.component.popover.PopoverContent
 import anduin.component.portal.PortalPosition
+import anduin.scalajs.util.ScalaJSUtils
 import org.scalajs.dom.raw.HTMLElement
 
 import scala.scalajs.js
@@ -79,8 +80,8 @@ class Dropdown[A] {
       props.staticMeasurement.getOrElse(Measure.get(props))
     }
 
-    private def itemToString(props: Props)(item: A): String =
-      if (item == null) "" else props.getValueString(item)
+    private def itemToString(props: Props)(item: js.|[A, Null]): String =
+      ScalaJSUtils.jsNullToOption(item).fold("")(props.getValueString)
 
     private def onChange(props: Props)(item: A): Unit =
       props.onChange(item).runNow()
@@ -98,7 +99,7 @@ class Dropdown[A] {
       val innerProps = InnerProps(props, downshift, measurement)
       <.div(
         <.div.withRef(targetRef)(Target(innerProps)()),
-        TagMod.when(innerProps.downshift.isOpen.contains(true)) {
+        TagMod.when(innerProps.downshift.isOpen) {
           PopoverContent(
             targetRef = targetRef,
             // Downshift will handle this outside click for us
@@ -120,6 +121,8 @@ class Dropdown[A] {
         stateReducer = stateReducer,
         children = renderChildren(props),
         // ===
+        inputValue = js.undefined,
+        onInputValueChange = js.undefined,
         selectedItem = js.defined(props.value match {
           case Some(value) => value
           case None        => null // scalastyle:ignore null

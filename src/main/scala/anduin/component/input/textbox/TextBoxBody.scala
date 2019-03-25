@@ -5,7 +5,7 @@ package anduin.component.input.textbox
 import scala.scalajs.js
 import org.scalajs.dom.html
 import anduin.scalajs.textmask.ReactTextMask
-import anduin.scalajs.util.Util
+import anduin.scalajs.util.ScalaJSUtils
 import anduin.style.Style
 
 // scalastyle:off underscore.import
@@ -66,7 +66,7 @@ object TextBoxBody {
     val updatedMaskProps = maskProps.map { prop =>
       if (prop._1 == "defaultValue") ("value", prop._2) else prop
     }
-    Util.getModsFromProps(updatedMaskProps)
+    ScalaJSUtils.jsPropsToTagMod(updatedMaskProps)
   }
 
   def getStylesSize(props: Props): TagMod = {
