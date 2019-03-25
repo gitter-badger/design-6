@@ -3,7 +3,6 @@
 package anduin.scalajs.downshift
 
 import scala.scalajs.js
-import scala.scalajs.js.|
 
 class DownshiftItem[A](
   val index: Number,
