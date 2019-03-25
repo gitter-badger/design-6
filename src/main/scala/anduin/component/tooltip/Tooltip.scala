@@ -14,7 +14,7 @@ final case class Tooltip(
   renderTarget: VdomNode,
   renderContent: () => String,
   position: PortalPosition = PortalPosition.TopCenter,
-  targetWrapper: PortalWrapper = PortalWrapper.BlockContent,
+  targetWrapper: PortalWrapper = PortalWrapper.Block,
   isDisabled: Boolean = false
 ) {
   def apply(): VdomElement = Tooltip.component(this)
