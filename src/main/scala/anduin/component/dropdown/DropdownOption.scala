@@ -50,7 +50,7 @@ private[dropdown] class DropdownOption[A] {
     )
     props.downshift
       .map(_.getItemProps(options))
-      .map(jsProps => ScalaJSUtils.jsPropsToTagMod(jsProps))
+      .map(ScalaJSUtils.jsPropsToTagMod(_))
       .getOrElse(TagMod.empty)
   }
 
