@@ -21,7 +21,7 @@ object UppyXHRUpload {
   final class Options(
     val endpoint: String,
     val headers: js.Dictionary[String],
-    val bundle: Boolean,
+    val limit: Int,
     val fieldName: String,
     val getResponseData: js.Function2[String, Response, String]
   ) extends js.Object

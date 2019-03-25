@@ -12,12 +12,15 @@ class Uppy(
 ) extends js.Object {
   def use(plugin: Uppy.Plugin, options: js.Object): Uppy = js.native
   def on(event: String, callback: js.Function): Uppy = js.native
+  def setMeta(data: Uppy.MetaData): Uppy = js.native
   def reset(): Unit = js.native
   def close(): Unit = js.native
 }
 
 object Uppy {
   final class Options(val id: String) extends js.Object
+
+  final class MetaData(val params: String) extends js.Object
 
   trait FileResponse extends js.Object {
     val status: String
@@ -39,4 +42,7 @@ object Uppy {
 
   def onComplete(uppy: Uppy, callback: Uppy.UploadResult => Unit): Uppy =
     uppy.on("complete", callback)
+
+  def setMeta(uppy: Uppy, params: String): Uppy =
+    uppy.setMeta(new MetaData(params))
 }
