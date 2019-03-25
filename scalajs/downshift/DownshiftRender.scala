@@ -3,21 +3,22 @@
 package anduin.scalajs.downshift
 
 import scala.scalajs.js
+import scala.scalajs.js.|
 
-class GetItemPropsOptions[A](
+class DownshiftItem[A](
   val index: Number,
   val item: A,
   val disabled: js.UndefOr[Boolean] = js.undefined
 ) extends js.Object
 
-private[downshift] trait DownshiftPropsGetter[A] extends js.Object {
-  type JsDict = js.Dictionary[js.Any]
-  def getRootProps: js.Function0[JsDict]
-  def getToggleButtonProps: js.Function0[JsDict]
-  def getLabelProps: js.Function0[JsDict]
-  def getMenuProps: js.Function0[JsDict]
-  def getInputProps: js.Function0[JsDict]
-  def getItemProps: js.Function1[GetItemPropsOptions[A], JsDict]
+trait DownshiftRenderProps[A] extends js.Object with DownshiftState[A] {
+  private type Dict = js.Dictionary[js.Any]
+  private type UDict = js.UndefOr[Dict]
+  // Props Getter
+  def getRootProps(options: UDict = js.undefined): Dict
+  def getToggleButtonProps(option: UDict = js.undefined): Dict
+  def getLabelProps(options: UDict = js.undefined): Dict
+  def getMenuProps(options: UDict = js.undefined): Dict
+  def getInputProps(options: UDict = js.undefined): Dict
+  def getItemProps(item: DownshiftItem[A]): Dict
 }
-
-trait DownshiftRenderProps[A] extends js.Object with DownshiftState[A] with DownshiftPropsGetter[A]

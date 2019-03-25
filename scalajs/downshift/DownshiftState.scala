@@ -7,15 +7,24 @@ import scala.scalajs.js.annotation.JSName
 import scala.scalajs.js.|
 
 trait DownshiftState[A] extends js.Object {
-  val highlightedIndex: js.UndefOr[Int] = js.undefined
-  val inputValue: js.UndefOr[String] = js.undefined
-  val isOpen: js.UndefOr[Boolean] = js.undefined
-  val selectedItem: js.UndefOr[A] = js.undefined
+  val highlightedIndex: Int | Null
+  val inputValue: String
+  val isOpen: Boolean
+  val selectedItem: A | Null
 }
 
-trait DownshiftStateChanges[A] extends js.Object with DownshiftState[A] {
+trait DownshiftStateChanges[A] extends js.Object {
+  // This is `UndefOr` since this trait is used in 2 ways:
+  // - As provided parameter of stateReducer
+  // - As returned result of stateReducer
+  // The latter requires the `UndefOr`
   @JSName("type")
-  val tpe: js.UndefOr[String] = js.undefined
+  val tpe: js.UndefOr[String | Int] = js.undefined
+  // These are similar to DownshiftState but may be undefined
+  val highlightedIndex: js.UndefOr[Int | Null] = js.undefined
+  val inputValue: js.UndefOr[String] = js.undefined
+  val isOpen: js.UndefOr[Boolean] = js.undefined
+  val selectedItem: js.UndefOr[A | Null] = js.undefined
 }
 
 trait DownshiftStateChangeTypes extends js.Object {
