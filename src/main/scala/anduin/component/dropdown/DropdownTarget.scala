@@ -4,8 +4,10 @@ package anduin.component.dropdown
 
 import anduin.component.button.Button
 import anduin.component.icon.Icon
-import anduin.scalajs.util.Util
+import anduin.scalajs.util.ScalaJSUtils
 import anduin.style.Style
+
+import scala.scalajs.js
 
 // scalastyle:off underscore.import
 import japgolly.scalajs.react._
@@ -53,7 +55,7 @@ private[dropdown] class DropdownTarget[A] {
   }
 
   private def getButtonStyle(props: Props) = {
-    val isSelected = props.downshift.isOpen.contains(true)
+    val isSelected = props.downshift.isOpen
     val isFullWidth = props.outer.isFullWidth
     props.outer.style match {
       case Dropdown.StyleFull =>
@@ -71,7 +73,7 @@ private[dropdown] class DropdownTarget[A] {
       ^.id :=? props.outer.id,
       ^.tpe := "button",
       ^.disabled := isDisabled,
-      Util.getModsFromProps(props.downshift.getToggleButtonProps()),
+      ScalaJSUtils.jsPropsToTagMod(props.downshift.getToggleButtonProps()),
       style.container,
       style.sizeRect,
       if (isDisabled) style.colorDisabled else style.colorNormal
