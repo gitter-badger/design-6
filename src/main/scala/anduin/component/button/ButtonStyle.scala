@@ -52,7 +52,7 @@ object ButtonStyle {
       private def common = Style.height.px40.fontSize.px15
       final def square: TagMod = TagMod(common, ^.width := "40px")
       final def rect: TagMod = TagMod(common, Style.padding.hor16)
-      final def iconSize: Icon.Size = Icon.Size.Custom(20)
+      final def iconSize: Icon.Size = Icon.Size.Px24
     }
     trait Free extends Height {
       final def square: TagMod = TagMod.empty
