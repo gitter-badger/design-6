@@ -15,6 +15,7 @@ object JsDateFormatterUtils {
 
   val CreatedAtDatePattern = "hh:mm A" // 07:40 AM
   val LongDatePattern = "MMM DD YYYY" // Dec 12 2015
+  val LongDatePatternWithTime = "MMM DD YYYY HH:mm" // Dec 12 2015 12:40
   val SuperLongDatePattern = "YYYY-MM-DD HH:mm:ss" // 2016-10-19 12:40:30
   val LongDatePattern1 = "MMM D, YYYY" // May 1, 2016
   val ShortLocalDatePattern = "MMM D"
@@ -34,6 +35,7 @@ object JsDateFormatterUtils {
         month = localDate.getMonthValue - 1,
         date = localDate.getDayOfMonth
       ),
-      pattern)
+      pattern
+    )
   }
 }
