@@ -121,8 +121,12 @@ class Dropdown[A] {
         stateReducer = stateReducer,
         children = renderChildren(props),
         // ===
+        // Avoid inputValue being set to selectedItem in first render
+        initialInputValue = js.defined(""),
+        // However we don't control inputValue in subsequent renders
         inputValue = js.undefined,
         onInputValueChange = js.undefined,
+        // We do control selected item, using props.value
         selectedItem = js.defined(props.value match {
           case Some(value) => value
           case None        => null // scalastyle:ignore null

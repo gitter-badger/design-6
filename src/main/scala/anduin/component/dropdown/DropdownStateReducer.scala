@@ -4,8 +4,7 @@ package anduin.component.dropdown
 
 import anduin.scalajs.downshift.{Downshift, DownshiftState, DownshiftStateChanges, DownshiftUtils}
 
-import scala.scalajs.js.{UndefOr, |}
-import scala.scalajs.js.annotation.JSName
+import scala.scalajs.js
 
 private[dropdown] class DropdownStateReducer[A] {
 
@@ -16,10 +15,12 @@ private[dropdown] class DropdownStateReducer[A] {
   case class Data(isInnerClick: Boolean)
   case class Input(state: State, changes: Changes, data: Data)
 
-  // Clear inputValue when menu is just opened or closed
-  private def clearInput(input: Input): Input = {
-    if (input.changes.isOpen.exists(_ != input.state.isOpen)) {
-      val update = new DownshiftStateChanges[A] { override val inputValue = "" }
+  private def clearInputValue(input: Input): Input = {
+    if (input.changes.inputValue.isDefined &&
+        !input.changes.tpe.contains(Types.changeInput)) {
+      val update: DownshiftStateChanges[A] = new DownshiftStateChanges[A] {
+        override val inputValue: js.UndefOr[String] = js.defined("")
+      }
       val nextChanges = DownshiftUtils.mergeChanges(input.changes, update)
       input.copy(changes = nextChanges)
     } else {
@@ -41,8 +42,8 @@ private[dropdown] class DropdownStateReducer[A] {
         input.changes.isOpen.exists(_ == false) &&
         input.data.isInnerClick) {
       input.copy(changes = new DownshiftStateChanges[A] {
-        @JSName("type")
-        override val tpe: UndefOr[String | Int] = input.changes.tpe
+        @js.annotation.JSName("type")
+        override val tpe: js.UndefOr[js.|[String, Int]] = input.changes.tpe
       })
     } else {
       input
@@ -50,7 +51,7 @@ private[dropdown] class DropdownStateReducer[A] {
   }
 
   def get(input: Input): Changes = {
-    val composed = clearInput _ andThen preventClosing
+    val composed = clearInputValue _ andThen preventClosing
     composed(input).changes
   }
 }
