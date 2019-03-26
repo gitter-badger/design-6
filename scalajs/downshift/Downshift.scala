@@ -23,6 +23,7 @@ class Downshift[A] {
     val stateReducer: js.Function2[State, StateChanges, StateChanges],
     val children: js.Function1[RenderProps, raw.React.Node],
     // ===
+    val initialInputValue: js.UndefOr[String],
     val onInputValueChange: js.UndefOr[js.Function1[String, Unit]],
     val inputValue: js.UndefOr[String],
     val selectedItem: js.UndefOr[A | Null]
