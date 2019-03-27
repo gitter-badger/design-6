@@ -113,7 +113,7 @@ class Table[A] {
     def render(props: Props, state: State): VdomElement = {
 
       val styles = TagMod(
-        SStyle.width.pc100.background.white,
+        SStyle.width.pc100.background.gray0,
         // This is the best we can do now: @TODO: Should revise if have time
         TagMod(^.borderSpacing := "0px", ^.borderCollapse.separate),
         TagMod.when(props.columns.count(_.width.isEmpty) < 2)(^.tableLayout.fixed),

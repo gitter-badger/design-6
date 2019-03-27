@@ -20,7 +20,7 @@ object UserIconAvatar {
 
   private def render(props: Props) = {
     <.span(
-      Style.flexbox.flex.flexbox.itemsCenter.flexbox.justifyCenter.fontWeight.bold.color.white.borderRadius.pill.background.gray4,
+      Style.flexbox.flex.flexbox.itemsCenter.flexbox.justifyCenter.fontWeight.bold.color.gray0.borderRadius.pill.background.gray4,
       ^.width := s"${props.avatarSize.size}px",
       ^.height := s"${props.avatarSize.size}px",
       Icon(name = Icon.Glyph.UserSingle)()

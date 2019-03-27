@@ -12,7 +12,7 @@ object MainHeaderUtils {
   val vr = <.div(Style.height.px16.margin.hor8.border.left.borderColor.gray7)
 
   val interactionStyles: TagMod = TagMod(
-    Style.background.activeGray9.color.activeWhite,
+    Style.background.activeGray9.color.activeGray0,
     Style.outline.focusDark.transition.allWithOutline
   )
 

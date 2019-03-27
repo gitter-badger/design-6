@@ -26,7 +26,7 @@ object RadioBox {
 
   private val check: VdomElement = {
     <.div(
-      Style.position.absolute.borderRadius.pill.background.white.color.green4,
+      Style.position.absolute.borderRadius.pill.background.gray0.color.success4,
       Style.flexbox.flex.flexbox.itemsCenter.flexbox.justifyCenter,
       TagMod(^.width := "20px", ^.height := "20px", ^.top := "-10px", ^.right := "-10px"),
       Icon(name = Icon.Glyph.CheckCircle)()
@@ -44,7 +44,7 @@ object RadioBox {
     <.button(
       // style
       styles,
-      if (props.isChecked) Style.borderColor.green4 else Style.borderColor.gray4,
+      if (props.isChecked) Style.borderColor.success4 else Style.borderColor.gray4,
       TagMod.when(props.isDisabled) { Style.opacity.pc50 },
       // behaviour
       ^.tpe := "button",

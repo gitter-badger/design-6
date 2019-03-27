@@ -40,7 +40,7 @@ object Field {
   private object Static {
     val desc = Style.fontSize.px10.lineHeight.px16.color.gray7
     val label = Style.fontWeight.semiBold
-    val error = Style.fontSize.px11.color.red5
+    val error = Style.fontSize.px11.color.danger5
   }
 
   private def renderLabelContent(props: Props, label: String) =
@@ -48,7 +48,7 @@ object Field {
       ^.htmlFor := props.id,
       Static.label,
       label,
-      TagMod.when(props.isRequired)(<.span(Style.color.red4, " * "))
+      TagMod.when(props.isRequired)(<.span(Style.color.danger4, " * "))
     )
 
   private def renderHor(props: Props, children: PropsChildren, layout: Layout.Hor): VdomElement = {

@@ -49,7 +49,7 @@ object PopoverContent {
     // Common Popper content styles
     PortalPopperContent.staticStyles,
     // Specific styles of Popover
-    Style.background.white.borderRadius.px4.overflow.hidden.shadow.px8,
+    Style.background.gray0.borderRadius.px4.overflow.hidden.shadow.px8,
     Style.border.all.borderColor.gray4.borderWidth.px1,
     // Avoid position transitioning. We only want the opacity here
     ^.transition := "opacity 250ms",

@@ -17,16 +17,16 @@ sealed trait TextBoxStatus {
 
 object TextBoxStatus {
   trait Busy extends TextBoxStatus {
-    def node: Option[VdomNode] = Some(<.div(Style.color.blue4, CircleIndicator()()))
+    def node: Option[VdomNode] = Some(<.div(Style.color.primary4, CircleIndicator()()))
     def borderColor: TagMod = Style.borderColor.gray4
   }
   trait Valid extends TextBoxStatus {
-    def node: Option[VdomNode] = Some(<.div(Style.color.green4, Icon(Icon.Glyph.Check)()))
-    def borderColor: TagMod = Style.borderColor.green4
+    def node: Option[VdomNode] = Some(<.div(Style.color.success4, Icon(Icon.Glyph.Check)()))
+    def borderColor: TagMod = Style.borderColor.success4
   }
   trait Invalid extends TextBoxStatus {
     def node: Option[VdomNode] = None
-    def borderColor: TagMod = Style.borderColor.red4
+    def borderColor: TagMod = Style.borderColor.danger4
   }
   trait None extends TextBoxStatus {
     def node: Option[VdomNode] = None

@@ -57,7 +57,7 @@ private[toolbar] object LinkModal {
         ModalFooterWCancel(cancel = props.onClose)(
           <.div(
             Button(
-              style = Button.Style.Full(color = Button.Color.Blue),
+              style = Button.Style.Full(color = Button.Color.Primary),
               isDisabled = state.link.isEmpty,
               onClick = {
                 for {

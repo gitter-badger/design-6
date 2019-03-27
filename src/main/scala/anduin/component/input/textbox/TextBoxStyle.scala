@@ -37,7 +37,7 @@ object TextBoxStyle {
     // Border should always be defined because we use it for focus state
     // - Only the border's color is customizable
     Style.display.block.width.pc100.border.all.borderWidth.px1,
-    Style.shadow.focusSpread.borderColor.focusBlue4.transition.allWithShadow
+    Style.shadow.focusSpread.borderColor.focusPrimary4.transition.allWithShadow
   )
 
   def getStyles(
@@ -49,7 +49,7 @@ object TextBoxStyle {
   ): TagMod = TagMod(
     staticStyles,
     customColor.getOrElse(Style.color.gray8),
-    customBg.getOrElse(Style.background.white),
+    customBg.getOrElse(Style.background.gray0),
     style.borderRadius,
     style match {
       case minimal: Minimal => minimal.borderColor

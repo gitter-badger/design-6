@@ -47,10 +47,10 @@ object Radio {
     val specific: TagMod = if (props.isDisabled) {
       SStyle.background.gray1.borderColor.gray3
     } else if (props.isChecked) {
-      SStyle.background.blue4.borderColor.blue5
+      SStyle.background.primary4.borderColor.primary5
     } else {
       TagMod(
-        SStyle.background.gray1.background.hoverWhite.background.activeGray2,
+        SStyle.background.gray1.background.hoverGray0.background.activeGray2,
         SStyle.borderColor.gray4.shadow.px1Light
       )
     }
@@ -72,7 +72,7 @@ object Radio {
     <.div(
       // Should not consume events
       SStyle.pointerEvents.none,
-      if (props.isDisabled) SStyle.color.gray4 else SStyle.color.white,
+      if (props.isDisabled) SStyle.color.gray4 else SStyle.color.gray0,
       Icon(if (props.isChecked) Circle else Blank, Icon.Size.Custom(12))()
     )
   }

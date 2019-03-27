@@ -13,7 +13,7 @@ final case class ConfirmationModal(
   content: VdomNode,
   onConfirm: Callback,
   confirmBtnLabel: String,
-  confirmBtnColor: ButtonStyle.Color = Button.Color.White,
+  confirmBtnColor: ButtonStyle.Color = Button.Color.Gray0,
   onCloseModal: Callback,
   cancelBtnLabel: String = "Cancel",
   isDisableConfirm: Boolean = false

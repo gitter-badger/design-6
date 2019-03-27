@@ -34,7 +34,7 @@ object CommonConfirmModal {
         ModalBody()(props.displayInfo),
         ModalFooterWCancel(cancel = props.onClose, cancelLabel = props.cancelBtnLabel)(
           Button(
-            style = Button.Style.Full(color = Button.Color.Blue, isBusy = state.confirmBtnIsBusy),
+            style = Button.Style.Full(color = Button.Color.Primary, isBusy = state.confirmBtnIsBusy),
             onClick = for {
               _ <- scope.modState(_.copy(confirmBtnIsBusy = true))
               _ <- props.onConfirm(props.onClose)

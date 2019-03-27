@@ -40,14 +40,14 @@ object StepperHeader {
     private def getMods(status: Status, onDarkBackground: Boolean) = {
       if (onDarkBackground) {
         status match {
-          case StatusPast    ⇒ Style.borderColor.green3.background.green3.color.white
-          case StatusPresent ⇒ Style.borderColor.blue3.color.blue3
+          case StatusPast    ⇒ Style.borderColor.success3.background.success3.color.gray0
+          case StatusPresent ⇒ Style.borderColor.primary3.color.primary3
           case StatusFuture  ⇒ Style.borderColor.gray5
         }
       } else {
         status match {
-          case StatusPast    ⇒ Style.borderColor.green3.background.green3.color.white
-          case StatusPresent ⇒ Style.borderColor.blue4.color.blue4
+          case StatusPast    ⇒ Style.borderColor.success3.background.success3.color.gray0
+          case StatusPresent ⇒ Style.borderColor.primary4.color.primary4
           case StatusFuture  ⇒ Style.borderColor.gray3
         }
       }
@@ -81,19 +81,19 @@ object StepperHeader {
    */
   private object Line {
     private def gradientGreenToBlue(blueColor: String) =
-      ^.background := s"linear-gradient(to right, ${CssVar.Color.green3}, $blueColor)"
+      ^.background := s"linear-gradient(to right, ${CssVar.Color.success3}, $blueColor)"
 
     private def getColors(status: Status, onDarkBackground: Boolean): (TagMod, TagMod) = {
       if (onDarkBackground) {
         status match {
-          case StatusPast    => (Style.background.green3, Style.background.green3)
-          case StatusPresent => (gradientGreenToBlue(CssVar.Color.blue3), Style.background.gray5)
+          case StatusPast    => (Style.background.success3, Style.background.success3)
+          case StatusPresent => (gradientGreenToBlue(CssVar.Color.primary3), Style.background.gray5)
           case StatusFuture  => (Style.background.gray5, Style.background.gray5)
         }
       } else {
         status match {
-          case StatusPast    => (Style.background.green3, Style.background.green3)
-          case StatusPresent => (gradientGreenToBlue(CssVar.Color.blue4), Style.background.gray3)
+          case StatusPast    => (Style.background.success3, Style.background.success3)
+          case StatusPresent => (gradientGreenToBlue(CssVar.Color.primary4), Style.background.gray3)
           case StatusFuture  => (Style.background.gray3, Style.background.gray3)
         }
       }
@@ -117,13 +117,13 @@ object StepperHeader {
   private def getTitleMods(status: Status, onDarkBackground: Boolean) = {
     if (onDarkBackground) {
       status match {
-        case StatusPast ⇒ Style.color.green3
-        case StatusPresent ⇒ Style.color.white
+        case StatusPast ⇒ Style.color.success3
+        case StatusPresent ⇒ Style.color.gray0
         case StatusFuture ⇒ Style.color.gray4
       }
     } else {
       status match {
-        case StatusPast ⇒ Style.color.green4
+        case StatusPast ⇒ Style.color.success4
         case StatusPresent ⇒ Style.color.gray8
         case StatusFuture ⇒ Style.color.gray6
       }

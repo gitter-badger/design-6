@@ -46,7 +46,7 @@ object CheckMark {
           <.span(
             ^.classSet(
               "at-icon" -> true,
-              Style.flexbox.flex.flexbox.justifyCenter.flexbox.itemsCenter.borderRadius.pill.color.white.value -> true
+              Style.flexbox.flex.flexbox.justifyCenter.flexbox.itemsCenter.borderRadius.pill.color.gray0.value -> true
             ),
             Icon(name = Icon.Glyph.Check)()
           )

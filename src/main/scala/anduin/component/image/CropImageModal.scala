@@ -126,7 +126,7 @@ private[image] object CropImageModal {
                   ComponentUtils.testId(CropImageModal, "CropAndUploadButton"),
                   Style.margin.right8,
                   Button(
-                    style = Button.Style.Full(color = Button.Color.Blue),
+                    style = Button.Style.Full(color = Button.Color.Primary),
                     onClick = crop(props, state)
                   )("Crop and Upload")
                 ),
@@ -150,7 +150,7 @@ private[image] object CropImageModal {
                 <.div(
                   Style.margin.right8,
                   FileButtonInput(
-                    style = Button.Style.Full(color = Button.Color.Blue),
+                    style = Button.Style.Full(color = Button.Color.Primary),
                     acceptTypes = "image/png, image/jpeg",
                     isMultiple = false,
                     onChange = onChooseFile(props)

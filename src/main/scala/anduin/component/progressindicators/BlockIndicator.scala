@@ -29,7 +29,7 @@ object BlockIndicator {
       ComponentUtils.testId(this, "Loading"),
       if (props.isFullHeight) Style.height.pc100 else Style.height.px256,
       Style.flexbox.flex.flexbox.column.flexbox.justifyCenter.flexbox.itemsCenter,
-      <.div(Style.color.blue4, props.indicator),
+      <.div(Style.color.primary4, props.indicator),
       props.title.map { title =>
         <.p(Style.margin.top12.fontSize.px15.color.gray6, title)
       }

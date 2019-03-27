@@ -11,10 +11,10 @@ object IconFolder {
   object Color {
     object Brown extends Color("#D6A06B", "#E9D799", "#EABE9D")
     object Gray extends Color(gray5, gray2, gray4)
-    object Red extends Color(red5, red3, red4)
-    object Orange extends Color(orange5, orange3, orange4)
-    object Green extends Color(green5, green3, green4)
-    object Blue extends Color(blue5, blue3, blue4)
+    object Danger extends Color(danger5, danger3, danger4)
+    object Warning extends Color(warning5, warning3, warning4)
+    object Success extends Color(success5, success3, success4)
+    object Primary extends Color(primary5, primary3, primary4)
   }
 }
 

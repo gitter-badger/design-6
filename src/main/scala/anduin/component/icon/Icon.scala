@@ -55,10 +55,10 @@ object Icon {
   object Folder {
     val Brown: IconFolder.Color = IconFolder.Color.Brown
     val Gray: IconFolder.Color = IconFolder.Color.Gray
-    val Red: IconFolder.Color = IconFolder.Color.Red
-    val Orange: IconFolder.Color = IconFolder.Color.Orange
-    val Green: IconFolder.Color = IconFolder.Color.Green
-    val Blue: IconFolder.Color = IconFolder.Color.Blue
+    val Danger: IconFolder.Color = IconFolder.Color.Danger
+    val Warning: IconFolder.Color = IconFolder.Color.Warning
+    val Success: IconFolder.Color = IconFolder.Color.Success
+    val Primary: IconFolder.Color = IconFolder.Color.Primary
   }
 
   // getContent must return 3 things:

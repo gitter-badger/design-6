@@ -30,18 +30,18 @@ object Tag {
 
   object Bold {
     val Gray: TagColor = TagColor.Bold.Gray
-    val Blue: TagColor = TagColor.Bold.Blue
-    val Green: TagColor = TagColor.Bold.Green
-    val Orange: TagColor = TagColor.Bold.Orange
-    val Red: TagColor = TagColor.Bold.Red
+    val Primary: TagColor = TagColor.Bold.Primary
+    val Success: TagColor = TagColor.Bold.Success
+    val Warning: TagColor = TagColor.Bold.Warning
+    val Danger: TagColor = TagColor.Bold.Danger
   }
 
   object Light {
     val Gray: TagColor = TagColor.Light.Gray
-    val Blue: TagColor = TagColor.Light.Blue
-    val Green: TagColor = TagColor.Light.Green
-    val Orange: TagColor = TagColor.Light.Orange
-    val Red: TagColor = TagColor.Light.Red
+    val Primary: TagColor = TagColor.Light.Primary
+    val Success: TagColor = TagColor.Light.Success
+    val Warning: TagColor = TagColor.Light.Warning
+    val Danger: TagColor = TagColor.Light.Danger
   }
 
   object Target {

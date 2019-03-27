@@ -87,14 +87,14 @@ private[input] object LabelWrapper {
       private val staticStyles = TagMod(
         SStyle.flexbox.flex.flexbox.itemsStart.border.all.borderRadius.px2,
         SStyle.width.pc100.padding.ver8.padding.hor12.position.relative,
-        SStyle.background.white.outline.focusLight.transition.allWithOutline
+        SStyle.background.gray0.outline.focusLight.transition.allWithOutline
       )
 
       def render(full: Style.Full)(props: Props, children: PropsChildren): VdomElement = {
         <.label(
           staticStyles,
           TagMod.when(props.isInteractive)(SStyle.background.activeGray2),
-          if (full.isSelected) SStyle.borderColor.blue4 else SStyle.borderColor.gray4,
+          if (full.isSelected) SStyle.borderColor.primary4 else SStyle.borderColor.gray4,
           Common.get(props, children)
         )
       }

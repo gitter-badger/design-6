@@ -25,7 +25,7 @@ object Dialog {
 
   case class Message(primary: String, secondary: Option[String] = None)
   case class Cancel(cb: Callback, label: String = "Cancel")
-  case class Submit(cb: Callback, label: String, color: ButtonStyle.Color = Button.Color.Blue)
+  case class Submit(cb: Callback, label: String, color: ButtonStyle.Color = Button.Color.Primary)
 
   private def renderFooter(props: Props): VdomElement = {
     <.div(

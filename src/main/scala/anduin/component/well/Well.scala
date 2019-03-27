@@ -34,25 +34,25 @@ object Well {
     private[Well] val bg = Style.background.gray1
     private[Well] val close = Style.background.gray3
   }
-  case object ColorBlue extends Color {
+  case object ColorPrimary extends Color {
     private[Well] val iconName = Icon.Glyph.Info
-    private[Well] val iconColor = Style.color.blue4
-    private[Well] val bg = Style.background.blue1
+    private[Well] val iconColor = Style.color.primary4
+    private[Well] val bg = Style.background.primary1
   }
-  case object ColorGreen extends Color {
+  case object ColorSuccess extends Color {
     private[Well] val iconName = Icon.Glyph.Check
-    private[Well] val iconColor = Style.color.green4
-    private[Well] val bg = Style.background.green1
+    private[Well] val iconColor = Style.color.success4
+    private[Well] val bg = Style.background.success1
   }
-  case object ColorOrange extends Color {
+  case object ColorWarning extends Color {
     private[Well] val iconName = Icon.Glyph.Warning
-    private[Well] val iconColor = Style.color.orange4
-    private[Well] val bg = Style.background.orange1
+    private[Well] val iconColor = Style.color.warning4
+    private[Well] val bg = Style.background.warning1
   }
-  case object ColorRed extends Color {
+  case object ColorDanger extends Color {
     private[Well] val iconName = Icon.Glyph.Error
-    private[Well] val iconColor = Style.color.red4
-    private[Well] val bg = Style.background.red1
+    private[Well] val iconColor = Style.color.danger4
+    private[Well] val bg = Style.background.danger1
   }
 
   private def renderClose(props: Well): VdomNode = {

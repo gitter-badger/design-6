@@ -63,11 +63,11 @@ object ButtonStyle {
 
   sealed trait Color
   object Color {
-    trait White extends Color
-    trait Black extends Color
-    trait Blue extends Color
-    trait Green extends Color
-    trait Red extends Color
+    trait Gray0 extends Color
+    trait Gray9 extends Color
+    trait Primary extends Color
+    trait Success extends Color
+    trait Danger extends Color
   }
 
   // convenient shortcut
@@ -142,31 +142,31 @@ object ButtonStyle {
       // We see "isBusy" as a special state of "isSelected"
       val isSelected: Boolean = boxNoBg.isSelected || boxNoBg.isBusy
       boxNoBg.color match {
-        case _: Color.White => if (isSelected) bgc.gray8 else Style.background.hoverGray7.background.activeGray8
-        case _: Color.Black => if (isSelected) bgc.gray4 else Style.background.hoverGray3.background.activeGray4
-        case _: Color.Blue  => if (isSelected) bgc.blue2 else Style.background.hoverBlue1.background.activeBlue2
-        case _: Color.Red   => if (isSelected) bgc.red2 else Style.background.hoverRed1.background.activeRed2
-        case _: Color.Green => if (isSelected) bgc.green2 else Style.background.hoverGreen1.background.activeGreen2
+        case _: Color.Gray0 => if (isSelected) bgc.gray8 else Style.background.hoverGray7.background.activeGray8
+        case _: Color.Gray9 => if (isSelected) bgc.gray4 else Style.background.hoverGray3.background.activeGray4
+        case _: Color.Primary  => if (isSelected) bgc.primary2 else Style.background.hoverPrimary1.background.activePrimary2
+        case _: Color.Danger   => if (isSelected) bgc.danger2 else Style.background.hoverDanger1.background.activeDanger2
+        case _: Color.Success => if (isSelected) bgc.success2 else Style.background.hoverSuccess1.background.activeSuccess2
       }
     }
     // scalastyle:on cyclomatic.complexity
 
     private def getTextNormal(boxNoBg: BoxNoBg): TagMod = boxNoBg.color match {
-      case _: Color.White => Style.color.gray4
-      case _: Color.Black => Style.color.gray7
-      case _: Color.Blue  => Style.color.blue5
-      case _: Color.Green => Style.color.green5
-      case _: Color.Red   => Style.color.red5
+      case _: Color.Gray0 => Style.color.gray4
+      case _: Color.Gray9 => Style.color.gray7
+      case _: Color.Primary  => Style.color.primary5
+      case _: Color.Success => Style.color.success5
+      case _: Color.Danger   => Style.color.danger5
     }
 
     def getColorNormal(boxNoBg: BoxNoBg): TagMod = TagMod(getTextNormal(boxNoBg), getBgNormal(boxNoBg))
 
     def getIconColorNormal(boxNoBg: BoxNoBg): TagMod = boxNoBg.color match {
-      case _: Color.White => Style.color.gray5
-      case _: Color.Black => Style.color.gray6
-      case _: Color.Blue  => Style.color.blue4
-      case _: Color.Green => Style.color.green4
-      case _: Color.Red   => Style.color.red4
+      case _: Color.Gray0 => Style.color.gray5
+      case _: Color.Gray9 => Style.color.gray6
+      case _: Color.Primary  => Style.color.primary4
+      case _: Color.Success => Style.color.success4
+      case _: Color.Danger   => Style.color.danger4
     }
   }
 
@@ -206,11 +206,11 @@ object ButtonStyle {
   }
   object Text {
     def getColorNormal(text: Text): TagMod = text.color match {
-      case _: Color.White => Style.color.white
-      case _: Color.Black => Style.color.gray8
-      case _: Color.Blue  => Style.color.blue4
-      case _: Color.Green => Style.color.green4
-      case _: Color.Red   => Style.color.red4
+      case _: Color.Gray0 => Style.color.gray0
+      case _: Color.Gray9 => Style.color.gray8
+      case _: Color.Primary  => Style.color.primary4
+      case _: Color.Success => Style.color.success4
+      case _: Color.Danger   => Style.color.danger4
     }
   }
 
@@ -234,35 +234,35 @@ object ButtonStyle {
   }
   object Full {
     def getIconColorNormal(full: Full): TagMod = full.color match {
-      case _: Color.White => Style.color.gray7
-      case _              => Style.color.white
+      case _: Color.Gray0 => Style.color.gray7
+      case _              => Style.color.gray0
     }
 
     // scalastyle:off cyclomatic.complexity
     private def getBgNormal(full: Full): TagMod = {
       val isSelected: Boolean = full.isSelected || full.isBusy
       full.color match {
-        case _: Color.White => if (isSelected) bgc.gray2 else bgc.gray1.background.hoverWhite.background.activeGray2
-        case _: Color.Black => if (isSelected) bgc.gray8 else bgc.gray7.background.hoverGray6.background.activeGray8
-        case _: Color.Blue  => if (isSelected) bgc.blue5 else bgc.blue4.background.hoverBlue3.background.activeBlue5
-        case _: Color.Red   => if (isSelected) bgc.red5 else bgc.red4.background.hoverRed3.background.activeRed5
-        case _: Color.Green => if (isSelected) bgc.green5 else bgc.green4.background.hoverGreen3.background.activeGreen5
+        case _: Color.Gray0 => if (isSelected) bgc.gray2 else bgc.gray1.background.hoverGray0.background.activeGray2
+        case _: Color.Gray9 => if (isSelected) bgc.gray8 else bgc.gray7.background.hoverGray6.background.activeGray8
+        case _: Color.Primary  => if (isSelected) bgc.primary5 else bgc.primary4.background.hoverPrimary3.background.activePrimary5
+        case _: Color.Danger   => if (isSelected) bgc.danger5 else bgc.danger4.background.hoverDanger3.background.activeDanger5
+        case _: Color.Success => if (isSelected) bgc.success5 else bgc.success4.background.hoverSuccess3.background.activeSuccess5
       }
     }
     // scalastyle:on cyclomatic.complexity
 
     private def getBorderNormal(full: Full): TagMod = full.color match {
-      case _: Color.White => Style.borderColor.gray4
-      case _: Color.Black => Style.borderColor.gray8
-      case _: Color.Blue  => Style.borderColor.blue5
-      case _: Color.Red   => Style.borderColor.red5
-      case _: Color.Green => Style.borderColor.green5
+      case _: Color.Gray0 => Style.borderColor.gray4
+      case _: Color.Gray9 => Style.borderColor.gray8
+      case _: Color.Primary  => Style.borderColor.primary5
+      case _: Color.Danger   => Style.borderColor.danger5
+      case _: Color.Success => Style.borderColor.success5
     }
 
     def getColorNormal(full: Full): TagMod = {
       val textAndShadow: TagMod = full.color match {
-        case _: Color.White => Style.color.gray8.shadow.px1Light
-        case _              => Style.color.white.shadow.px1Dark
+        case _: Color.Gray0 => Style.color.gray8.shadow.px1Light
+        case _              => Style.color.gray0.shadow.px1Dark
       }
       TagMod(textAndShadow, getBgNormal(full), getBorderNormal(full))
     }
@@ -285,11 +285,11 @@ object ButtonStyle {
   }
   object Ghost {
     def getBorderNormal(ghost: Ghost): TagMod = ghost.color match {
-      case _: Color.White => Style.borderColor.gray7
-      case _: Color.Black => Style.borderColor.gray4
-      case _: Color.Blue  => Style.borderColor.blue3
-      case _: Color.Red   => Style.borderColor.red3
-      case _: Color.Green => Style.borderColor.green3
+      case _: Color.Gray0 => Style.borderColor.gray7
+      case _: Color.Gray9 => Style.borderColor.gray4
+      case _: Color.Primary  => Style.borderColor.primary3
+      case _: Color.Danger   => Style.borderColor.danger3
+      case _: Color.Success => Style.borderColor.success3
     }
   }
 

@@ -56,20 +56,20 @@ object Button {
   }
 
   object Color {
-    object White extends ButtonStyle.Color.White
-    object Black extends ButtonStyle.Color.Black
-    object Blue extends ButtonStyle.Color.Blue
-    object Green extends ButtonStyle.Color.Green
-    object Red extends ButtonStyle.Color.Red
+    object Gray0 extends ButtonStyle.Color.Gray0
+    object Gray9 extends ButtonStyle.Color.Gray9
+    object Primary extends ButtonStyle.Color.Primary
+    object Success extends ButtonStyle.Color.Success
+    object Danger extends ButtonStyle.Color.Danger
   }
 
   object Style {
     final case class Text(
-      color: ButtonStyle.Color = Color.Blue,
+      color: ButtonStyle.Color = Color.Primary,
       isBlock: Boolean = false
     ) extends ButtonStyle.Text
     final case class Full(
-      color: ButtonStyle.Color = Color.White,
+      color: ButtonStyle.Color = Color.Gray0,
       height: ButtonStyle.Height = Height.Fix32,
       icon: Option[Icon.Name] = None,
       isFullWidth: Boolean = false,
@@ -77,7 +77,7 @@ object Button {
       isBusy: Boolean = false
     ) extends ButtonStyle.Full
     final case class Ghost(
-      color: ButtonStyle.Color = Color.Black,
+      color: ButtonStyle.Color = Color.Gray9,
       height: ButtonStyle.Height = Height.Fix32,
       icon: Option[Icon.Name] = None,
       isFullWidth: Boolean = false,
@@ -85,7 +85,7 @@ object Button {
       isBusy: Boolean = false
     ) extends ButtonStyle.Ghost
     final case class Minimal(
-      color: ButtonStyle.Color = Color.Black,
+      color: ButtonStyle.Color = Color.Gray9,
       height: ButtonStyle.Height = Height.Fix32,
       icon: Option[Icon.Name] = None,
       isFullWidth: Boolean = false,

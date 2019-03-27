@@ -53,12 +53,12 @@ object Checkbox {
       SStyle.background.gray1.borderColor.gray3
     } else if (props.isChecked || props.isIndeterminate) {
       TagMod(
-        SStyle.background.blue4.background.hoverBlue3.background.activeBlue5,
-        SStyle.borderColor.blue5.shadow.px1Dark
+        SStyle.background.primary4.background.hoverPrimary3.background.activePrimary5,
+        SStyle.borderColor.primary5.shadow.px1Dark
       )
     } else {
       TagMod(
-        SStyle.background.gray1.background.hoverWhite.background.activeGray2,
+        SStyle.background.gray1.background.hoverGray0.background.activeGray2,
         SStyle.borderColor.gray4.shadow.px1Light
       )
     }
@@ -80,7 +80,7 @@ object Checkbox {
     <.div(
       // Should not consume events
       SStyle.pointerEvents.none,
-      if (props.isDisabled) SStyle.color.gray4 else SStyle.color.white,
+      if (props.isDisabled) SStyle.color.gray4 else SStyle.color.gray0,
       Icon(if (props.isIndeterminate) MinusBold else if (props.isChecked) CheckBold else Blank)()
     )
   }

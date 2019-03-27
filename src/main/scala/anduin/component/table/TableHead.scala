@@ -31,7 +31,7 @@ private[table] class TableHead[A] {
     val (color, icon) = if (props.sortColumn.contains(index)) {
       // Sorting by this column
       val icon = if (props.sortIsAsc) Icon.Glyph.CaretDown else Icon.Glyph.CaretUp
-      (Style.color.blue4, icon)
+      (Style.color.primary4, icon)
     } else {
       // Not sorting by this column
       (Style.color.gray4, Icon.Glyph.CaretVertical)
@@ -47,7 +47,7 @@ private[table] class TableHead[A] {
 
   private def renderTitleSortable(props: Props, column: Table.Column[A], index: Int) = {
     <.button(
-      Style.color.activeBlue5.outline.focusLight.transition.allWithOutline,
+      Style.color.activePrimary5.outline.focusLight.transition.allWithOutline,
       TagMod.when(props.sortColumn.contains(index))(Style.color.gray8),
       titleStyles,
       ^.tpe := "button",

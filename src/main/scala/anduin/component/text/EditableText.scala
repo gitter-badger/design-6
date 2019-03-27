@@ -77,14 +77,14 @@ object EditableText {
           <.span(
             Style.margin.left8,
             Button(
-              style = Button.Style.Minimal(icon = Some(Icon.Glyph.Check), color = Color.Blue),
+              style = Button.Style.Minimal(icon = Some(Icon.Glyph.Check), color = Color.Primary),
               onClick = onSave
             )()
           ),
           <.span(
             Style.margin.left8,
             Button(
-              style = Button.Style.Minimal(icon = Some(Icon.Glyph.Cross), color = Color.Red),
+              style = Button.Style.Minimal(icon = Some(Icon.Glyph.Cross), color = Color.Danger),
               onClick = scope.modState(_.copy(value = props.value, editing = false))
             )()
           )
@@ -94,7 +94,7 @@ object EditableText {
 
     private def renderView(props: Props, state: State): VdomElement = {
       val icon = Button(
-        style = Button.Style.Minimal(icon = Some(Icon.Glyph.Edit), color = Color.Blue),
+        style = Button.Style.Minimal(icon = Some(Icon.Glyph.Edit), color = Color.Primary),
         onClick = scope.modState(_.copy(editing = true))
       )()
       <.div(

@@ -24,15 +24,15 @@ private[tab] object TabFull {
   private type Props = TabFull
 
   private val activeStyles = TagMod(
-    Style.background.white.color.gray8.borderRadius.px2.borderRadius.top,
+    Style.background.gray0.color.gray8.borderRadius.px2.borderRadius.top,
     ^.borderBottomColor := "transparent",
-    ^.borderTopColor := CssVar.Color.blue4,
-    ^.boxShadow := s"${CssVar.Color.blue4} 0 -1px 0 0"
+    ^.borderTopColor := CssVar.Color.primary4,
+    ^.boxShadow := s"${CssVar.Color.primary4} 0 -1px 0 0"
   )
 
   private val normalStyles = TagMod(
     Style.background.gray1.color.gray7,
-    Style.background.hoverWhite.background.activeGray2
+    Style.background.hoverGray0.background.activeGray2
   )
 
   private def renderButton(props: Props)(titleTup: (VdomNode, Int)): VdomElement = {
@@ -64,7 +64,7 @@ private[tab] object TabFull {
 
   private def renderContent(props: Props): VdomElement = {
     <.div(
-      Style.background.white.borderRadius.px2.borderRadius.bottom,
+      Style.background.gray0.borderRadius.px2.borderRadius.bottom,
       Style.border.all.borderColor.gray3,
       TagMod.when(props.style.isFullHeight)(Style.flexbox.fill),
       TagMod.when(!props.style.bodyHasNoPadding)(Style.padding.all16),
