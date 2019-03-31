@@ -10,8 +10,7 @@ import scala.scalajs.js.annotation.{JSImport, JSName}
 @js.native
 trait LinkifyIt extends js.Object {
 
-  def tlds(list: js.Array[String], keepOld: Boolean = false)
-    : LinkifyIt = js.native
+  def tlds(list: js.Array[String], keepOld: Boolean = false): LinkifyIt = js.native
   @JSName("match")
   def matches(text: String): js.Array[MatchingItem] = js.native
 }
