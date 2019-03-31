@@ -53,7 +53,7 @@ object Layout {
       ^.width := "576px",
       ^.padding := "48px 0",
       // Should always on top
-      Style.position.relative.zIndex.idx1.background.white,
+      Style.position.relative.zIndex.idx1.background.gray0,
       res.render()
     )
   }

@@ -122,9 +122,9 @@ object PageIcon {
         import Icon.Size._
         renderSet(
           Vector(Px32, Px24, Px16),
-          Icon.Folder(color = Icon.Folder.Blue),
-          Icon.Folder(color = Icon.Folder.Orange, glyph = Some(Icon.Glyph.Warning)),
-          Icon.Folder(color = Icon.Folder.Green, glyph = Some(Icon.Glyph.Check))
+          Icon.Folder(color = Icon.Folder.Primary),
+          Icon.Folder(color = Icon.Folder.Warning, glyph = Some(Icon.Glyph.Warning)),
+          Icon.Folder(color = Icon.Folder.Success, glyph = Some(Icon.Glyph.Check))
         )
       },
       Markdown(

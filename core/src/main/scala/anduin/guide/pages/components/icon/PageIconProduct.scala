@@ -61,7 +61,7 @@ object PageIconProduct {
           Style.padding.ver4.padding.hor8,
           Icon.Product.Negotiation.bgMod,
           <.span(
-            Style.fontWeight.medium.color.white,
+            Style.fontWeight.medium.color.gray0,
             "Negotiation bg color should be: ",
             Icon.Product.Negotiation.bgColor
           )

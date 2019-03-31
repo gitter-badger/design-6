@@ -25,33 +25,33 @@ object PageColorPurposeful {
   }
 
   private val colors = List(
-    Color("**Blue colors** to highlight elements")(
-      Shade(Style.background.blue5, "blue5", "137CBD"),
-      Shade(Style.background.blue4, "blue4", "2B95D6"),
-      Shade(Style.background.blue3, "blue3", "48AFF0"),
-      Shade(Style.background.blue2, "blue2", "ACDBF8"),
-      Shade(Style.background.blue1, "blue1", "D3EEFF")
+    Color("**Primary colors** to highlight elements")(
+      Shade(Style.background.primary5, "primary5", "137CBD"),
+      Shade(Style.background.primary4, "primary4", "2B95D6"),
+      Shade(Style.background.primary3, "primary3", "48AFF0"),
+      Shade(Style.background.primary2, "primary2", "ACDBF8"),
+      Shade(Style.background.primary1, "primary1", "D3EEFF")
     ),
-    Color("**Green colors** to indicate successful operations")(
-      Shade(Style.background.green5, "green5", "0F9960"),
-      Shade(Style.background.green4, "green4", "15B371"),
-      Shade(Style.background.green3, "green3", "3DCC91"),
-      Shade(Style.background.green2, "green2", "76D5AD"),
-      Shade(Style.background.green1, "green1", "C7F2DF")
+    Color("**Success colors** to indicate successful operations")(
+      Shade(Style.background.success5, "success5", "0F9960"),
+      Shade(Style.background.success4, "success4", "15B371"),
+      Shade(Style.background.success3, "success3", "3DCC91"),
+      Shade(Style.background.success2, "success2", "76D5AD"),
+      Shade(Style.background.success1, "success1", "C7F2DF")
     ),
-    Color("**Orange colors** to indicate warnings")(
-      Shade(Style.background.orange5, "orange5", "D9822B"),
-      Shade(Style.background.orange4, "orange4", "F29D49"),
-      Shade(Style.background.orange3, "orange3", "FFB366"),
-      Shade(Style.background.orange2, "orange2", "EFBE8E"),
-      Shade(Style.background.orange1, "orange1", "FAECDE")
+    Color("**Warning colors** to indicate warnings")(
+      Shade(Style.background.warning5, "warning5", "D9822B"),
+      Shade(Style.background.warning4, "warning4", "F29D49"),
+      Shade(Style.background.warning3, "warning3", "FFB366"),
+      Shade(Style.background.warning2, "warning2", "EFBE8E"),
+      Shade(Style.background.warning1, "warning1", "FAECDE")
     ),
-    Color("**Red colors** to indicate errors and negative actions")(
-      Shade(Style.background.red5, "red5", "DB3737"),
-      Shade(Style.background.red4, "red4", "F55656"),
-      Shade(Style.background.red3, "red3", "FF7373"),
-      Shade(Style.background.red2, "red2", "F5AAAA"),
-      Shade(Style.background.red1, "red1", "FCF0F0")
+    Color("**Danger colors** to indicate errors and negative actions")(
+      Shade(Style.background.danger5, "danger5", "DB3737"),
+      Shade(Style.background.danger4, "danger4", "F55656"),
+      Shade(Style.background.danger3, "danger3", "FF7373"),
+      Shade(Style.background.danger2, "danger2", "F5AAAA"),
+      Shade(Style.background.danger1, "danger1", "FCF0F0")
     )
   )
 

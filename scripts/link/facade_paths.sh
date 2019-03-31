@@ -7,5 +7,5 @@ link_paths=(
   reactvirtualized
   reacttruncatemarkup
   focusvisible
-  util/Util.scala
+  util/ScalaJSUtils.scala
 )

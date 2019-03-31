@@ -2,7 +2,7 @@ package anduin.guide.pages.components.textbox
 
 import anduin.component.field.Field
 import anduin.guide.components._
-import anduin.component.input.textbox.{TextBox, TextBoxType}
+import anduin.component.input.textbox.{TextBox, TextBoxTpe}
 import anduin.guide.app.main.Pages
 import anduin.mcro.Source
 import anduin.scalajs.textmask.TextMask
@@ -33,31 +33,30 @@ object PageTextBox {
         """.stripMargin
       )(),
       ExampleRich(Source.annotate({
-        import TextBox.Type
         val d = TextMask.RegExp("\\d")
-        val types = List[(TextBoxType, String)](
-          (Type.Password, ""),
-          (Type.Text, ""),
-          (Type.EmailNative, ""),
-          (Type.EmailMask, ""),
-          (Type.DateNative, ""),
-          (Type.DateMask, ""),
-          (Type.Currency, ""),
-          (Type.Percentage, ""),
-          (Type.NumberInt, ""),
-          (Type.NumberFloat, ""),
-          (Type.Array(List(d, d, d, d)), "4 digits"),
-          (Type.Func(s => List.fill(s.length)(d)), "n digits"),
-          (Type.Area(3), "")
+        val tpes = List[(TextBoxTpe, String)](
+          (TextBox.Tpe.Password, ""),
+          (TextBox.Tpe.Text, ""),
+          (TextBox.Tpe.EmailNative, ""),
+          (TextBox.Tpe.EmailMask, ""),
+          (TextBox.Tpe.DateNative, ""),
+          (TextBox.Tpe.DateMask, ""),
+          (TextBox.Tpe.Currency, ""),
+          (TextBox.Tpe.Percentage, ""),
+          (TextBox.Tpe.NumberInt, ""),
+          (TextBox.Tpe.NumberFloat, ""),
+          (TextBox.Tpe.Array(List(d, d, d, d)), "4 digits"),
+          (TextBox.Tpe.Func(s => List.fill(s.length)(d)), "n digits"),
+          (TextBox.Tpe.Area(3), "")
         )
         val layout = Field.Layout.Hor(right = Field.Layout.Grow(2))
-        val nodes = types.toVdomArray { `type` =>
-          val id = `type`._1.getClass.getSimpleName
+        val nodes = tpes.toVdomArray { tpe =>
+          val id = tpe._1.getClass.getSimpleName
           <.div(^.key := id, Style.margin.bottom16)(
             DemoState.Str("", (value, onChange) => {
               val label = Some(s"$id ($value)")
               Field(layout, id, label)({
-                TextBox(value, onChange, `type`._1, `type`._2)()
+                TextBox(value, onChange, tpe._1, tpe._2)()
               })
             })()
           )

@@ -7,7 +7,7 @@ import japgolly.scalajs.react.vdom.html_<^._
 
 final case class ExampleSimple(
   label: String = "",
-  bgColor: ExampleSimple.BgColor = BgColor.White
+  bgColor: ExampleSimple.BgColor = BgColor.Gray0
 ) {
   def apply(children: VdomNode*): VdomElement = {
     ExampleSimple.component(this)(children: _*)
@@ -20,7 +20,7 @@ object ExampleSimple {
 
   sealed abstract class BgColor(val inner: TagMod, val outer: TagMod)
   object BgColor {
-    object White extends BgColor(Style.background.white, Style.background.gray1)
+    object Gray0 extends BgColor(Style.background.gray0, Style.background.gray1)
     object Gray2 extends BgColor(Style.background.gray2, Style.background.gray1)
   }
 

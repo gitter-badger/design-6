@@ -32,7 +32,7 @@ object PageColorGray {
     Color(Style.background.gray6, "gray6", "809AAD", ""),
     Color(Style.background.gray1, "gray1", "F5F9FC", "Background"),
     Color(Style.background.gray5, "gray5", "9BB0C2", ""),
-    Color(Style.background.white, "white", "FFFFFF", "Background"),
+    Color(Style.background.gray0, "gray0", "FFFFFF", "Background"),
   )
 
   private val contrastTestMod = TagMod(Style.flexbox.none.width.pc50, "Aa")
@@ -43,14 +43,14 @@ object PageColorGray {
     <.div(Style.color.gray8, contrastTestMod),
     <.div(Style.color.gray7, contrastTestMod),
     <.div(Style.color.gray4, contrastTestMod),
-    <.div(Style.color.white, contrastTestMod)
+    <.div(Style.color.gray0, contrastTestMod)
   )
 
   private def renderPreview(state: State, color: Color): VdomElement = {
     <.div(
       Style.borderRadius.px4.padding.all8,
       TagMod(^.width := "56px", ^.height := "56px"),
-      TagMod.when(color.name == "white") {
+      TagMod.when(color.name == "gray0") {
         ^.boxShadow := "0 0 0 1px var(--color-gray-3) inset"
       },
       color.value,

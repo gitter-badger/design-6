@@ -95,9 +95,9 @@ object Markdown {
 
   private val renderLink = (href: String, title: String, text: String) => {
     val link = <.a(
-      Style.color.gray7.color.hoverBlue4.transition.all.fontWeight.semiBold,
+      Style.color.gray7.color.hoverPrimary4.transition.all.fontWeight.semiBold,
       Style.border.bottom.borderColor.gray3.borderWidth.px2,
-      Style.borderColor.hoverBlue3.textDecoration.hoverNone,
+      Style.borderColor.hoverPrimary3.textDecoration.hoverNone,
       // Since code spans can also be links so this is to put the border below
       // code spans' background
       ^.padding := "3px 0",

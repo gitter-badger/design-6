@@ -39,7 +39,7 @@ object PageModal {
       sampleArchiveBody(isBold),
       ModalFooterWCancel(cancel = close)(
         Button(
-          style = Button.Style.Full(color = Button.Color.Red),
+          style = Button.Style.Full(color = Button.Color.Danger),
           onClick = Callback.alert("Deal archived") >> close
         )("Archive Deal")
       )
@@ -194,7 +194,7 @@ object PageModal {
                 Style.flexbox.itemsCenter,
                 <.p(Style.color.gray6, "Error code: 8AS13FHS"),
                 Button(
-                  style = Button.Style.Full(color = Button.Color.Blue),
+                  style = Button.Style.Full(color = Button.Color.Primary),
                   onClick = close
                 )("Okay")
               )
@@ -225,7 +225,7 @@ object PageModal {
           renderContent = close => {
             val footer = ModalFooterWCancel(cancel = close)(
               Button(
-                style = Button.Style.Full(color = Button.Color.Red),
+                style = Button.Style.Full(color = Button.Color.Danger),
                 onClick = Callback.alert("Deal archived") >> close
               )("Archive Deal")
             ) /*>*/
@@ -366,7 +366,7 @@ object PageModal {
             val body = ModalBody()("Content")
             val submit = Callback.alert("Submitted") >> close
             val button = Button(
-              style = Button.Style.Full(color = Button.Color.Blue),
+              style = Button.Style.Full(color = Button.Color.Primary),
               tpe = Button.Tpe.Plain(isAutoFocus = true),
               onClick = submit
             )("Submit")

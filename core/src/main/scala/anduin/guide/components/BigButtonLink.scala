@@ -25,7 +25,7 @@ object BigButtonLink {
       Style.fontFamily.sans.padding.ver12,
       Button(
         tpe = Button.Tpe.Link(props.ctl.urlFor(props.page).value),
-        style = Button.Style.Full(color = Button.Color.Blue, height = Button.Height.Fix40)
+        style = Button.Style.Full(color = Button.Color.Primary, height = Button.Height.Fix40)
       )(
         <.span(Style.margin.right12, props.label),
         Icon(name = Icon.Glyph.ArrowRight)()

@@ -21,7 +21,7 @@ object Example {
       Style.padding.all16,
       // Sometimes we need a gray background
       if (props.isBgGray) Style.background.gray2
-      else Style.background.white,
+      else Style.background.gray0,
       // Ensure the example is shown in correct font size
       // and line height (since these values in Guide is
       // bigger than in the actual app

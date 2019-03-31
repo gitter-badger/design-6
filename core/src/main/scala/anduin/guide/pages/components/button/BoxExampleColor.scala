@@ -28,7 +28,7 @@ private[button] object BoxExampleColor {
     getStyle: ButtonStyle.Color => ButtonStyle
   )
 
-  private val defaultTag = Tag(color = Tag.Light.Blue)("Default")
+  private val defaultTag = Tag(color = Tag.Light.Primary)("Default")
 
   private def renderColor(row: StyleRow)(color: ButtonStyle.Color): VdomElement = {
     <.div(
@@ -42,7 +42,7 @@ private[button] object BoxExampleColor {
   private def renderLabel(isDark: Boolean, row: StyleRow): VdomElement = {
     <.p(
       Style.fontWeight.semiBold.lineHeight.px32.width.px64.margin.right24,
-      if (isDark) Style.color.white else Style.color.gray8,
+      if (isDark) Style.color.gray0 else Style.color.gray8,
       row.name
     )
   }
@@ -53,7 +53,7 @@ private[button] object BoxExampleColor {
       Style.flexbox.flex.flexbox.itemsStart,
       Style.border.top.borderColor.gray3.margin.top16.padding.top16,
       renderLabel(isDark, row),
-      List(White, Black, Red, Blue).toVdomArray(renderColor(row))
+      List(Gray0, Gray9, Danger, Primary).toVdomArray(renderColor(row))
     )
   }
 
@@ -65,13 +65,13 @@ private[button] object BoxExampleColor {
           Style.padding.all16,
           TagMod.when(isDark)(Style.background.gray8),
           Button(
-            style = Full(color = if (isDark) Black else White),
+            style = Full(color = if (isDark) Gray9 else Gray0),
             onClick = setDark(!isDark)
           )(s"Use ${if (isDark) "light" else "dark"} background"),
           List(
-            StyleRow("Full", White, c => Full(c)),
-            StyleRow("Ghost", Black, c => Ghost(c)),
-            StyleRow("Minimal", Black, c => Minimal(c)),
+            StyleRow("Full", Gray0, c => Full(c)),
+            StyleRow("Ghost", Gray9, c => Ghost(c)),
+            StyleRow("Minimal", Gray9, c => Minimal(c)),
           ).toVdomArray(renderRow(isDark))
         )
       }

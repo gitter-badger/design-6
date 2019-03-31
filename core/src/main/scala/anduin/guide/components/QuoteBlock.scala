@@ -15,10 +15,10 @@ object QuoteBlock {
   private type Props = QuoteBlock
 
   private def getColors(key: String): TagMod = key match {
-    case "primary" => Style.background.blue1.borderColor.blue4
-    case "success" => Style.background.green1.borderColor.green4
-    case "warning" => Style.background.orange1.borderColor.orange4
-    case "danger"  => Style.background.red1.borderColor.red4
+    case "primary" => Style.background.primary1.borderColor.primary4
+    case "success" => Style.background.success1.borderColor.success4
+    case "warning" => Style.background.warning1.borderColor.warning4
+    case "danger"  => Style.background.danger1.borderColor.danger4
     case _         => Style.background.gray1.borderColor.gray4
   }
 

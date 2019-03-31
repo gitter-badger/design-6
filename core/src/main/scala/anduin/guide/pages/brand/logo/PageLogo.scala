@@ -29,7 +29,7 @@ object PageLogo {
   private def logoLinkStyles = TagMod(
     Style.flexbox.flex.flexbox.itemsCenter.flexbox.justifyCenter,
     Style.fontSize.px11.padding.ver8,
-    Style.background.gray1.background.hoverWhite.background.activeGray2,
+    Style.background.gray1.background.hoverGray0.background.activeGray2,
     Style.transition.allWithOutline.outline.focusLight,
     Style.border.top.borderColor.gray3
   )
@@ -39,7 +39,7 @@ object PageLogo {
       logoContainerStyles,
       <.div(
         Style.padding.ver12,
-        TagMod.when(logo.isDark) { Style.background.blue3 },
+        TagMod.when(logo.isDark) { Style.background.primary3 },
         <.img(
           logoImgStyles,
           ^.src := renderLink(s"${logo.svg}.svg")

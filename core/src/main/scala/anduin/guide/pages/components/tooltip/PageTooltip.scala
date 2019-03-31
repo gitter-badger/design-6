@@ -22,7 +22,7 @@ object PageTooltip {
         "Are you sure want to delete this file?",
         Some("You won't be able to recover it later")
       ),
-      submit = Dialog.Submit(Callback.alert("Deleted"), "Delete", Button.Color.Red),
+      submit = Dialog.Submit(Callback.alert("Deleted"), "Delete", Button.Color.Danger),
       cancel = Some(Dialog.Cancel(close))
     )()
 

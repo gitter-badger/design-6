@@ -152,7 +152,7 @@ object PagePortal {
           "This is a sentence with an ",
           Tooltip(
             targetWrapper = PortalWrapper.Inline,
-            renderTarget = <.span(Style.color.blue5, "inline"),
+            renderTarget = <.span(Style.color.primary5, "inline"),
             renderContent = () => "Content"
           )(),
           " tooltip."

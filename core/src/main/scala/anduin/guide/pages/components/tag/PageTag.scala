@@ -116,7 +116,7 @@ object PageTag {
           |""".stripMargin
       )(),
       ExampleRich(Source.annotate({
-        Tag(color = Tag.Light.Green)("Success")
+        Tag(color = Tag.Light.Success)("Success")
       }))(),
       Markdown(
         """
@@ -124,7 +124,7 @@ object PageTag {
           |""".stripMargin
       )(), {
         import Tag.Light._
-        renderColors(List(Gray, Blue, Green, Orange, Red))
+        renderColors(List(Gray, Primary, Success, Warning, Danger))
       },
       Markdown(
         """
@@ -134,7 +134,7 @@ object PageTag {
           |""".stripMargin
       )(),
       ExampleRich(Source.annotate({
-        Tag(color = Tag.Bold.Green)("Success")
+        Tag(color = Tag.Bold.Success)("Success")
       }))(),
       Markdown(
         """
@@ -142,7 +142,7 @@ object PageTag {
           |""".stripMargin
       )(), {
         import Tag.Bold._
-        renderColors(List(Gray, Blue, Green, Orange, Red))
+        renderColors(List(Gray, Primary, Success, Warning, Danger))
       },
       Markdown(
         """

@@ -35,7 +35,7 @@ object BoxExampleArchive {
       ),
       ModalFooterWCancel(closeModal)(
         Button(
-          style = Button.Style.Full(color = Button.Color.Red),
+          style = Button.Style.Full(color = Button.Color.Danger),
           onClick = Callback.alert("Deal archived") >> closeModal
         )("Archive")
       )

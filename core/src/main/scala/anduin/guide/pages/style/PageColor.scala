@@ -21,7 +21,7 @@ object PageColor {
         <.div(
           Style.flexbox.flex,
           <.div(box, Style.background.gray3),
-          <.div(box, Style.background.blue3),
+          <.div(box, Style.background.primary3),
           <.div(box, Style.background.gray3),
           <.div(box, Style.background.gray3)
         )
@@ -36,7 +36,7 @@ object PageColor {
       )(),
       ExampleRich(Source.annotate({
         <.div(
-          Style.background.gray2.color.blue4,
+          Style.background.gray2.color.primary4,
           Style.border.all.borderColor.gray4,
           Style.width.maxContent.padding.all8,
           "Text"
@@ -44,7 +44,7 @@ object PageColor {
       }))(),
       Markdown(
         """
-          |Color names (e.g. `gray2`, `gray4`, `blue4`) are the same for all
+          |Color names (e.g. `gray2`, `gray4`, `primary4`) are the same for all
           |properties and are divided into 2 sets: [gray](#gray-set) and
           |[purposeful](#purposeful-set). See their sections for the complete
           |name list.
@@ -55,7 +55,7 @@ object PageColor {
       )(),
       ExampleRich(Source.annotate({
         <.div(
-          Style.background.hoverBlue4.color.hoverWhite,
+          Style.background.hoverPrimary4.color.hoverGray0,
           Style.width.maxContent.padding.all8,
           "Hover me"
         )
@@ -64,14 +64,14 @@ object PageColor {
         """
           |# Gray set
           |
-          |The gray set contains white and 9 shades of gray to build app's
-          |interface, from text to background:
+          |The gray set contains 10 shades of gray to build app's interface,
+          |from text to background:
         """.stripMargin
       )(),
       PageColorGray()(),
       Markdown(
         """
-          |White and gray colors should be used to create distinction between
+          |These gray colors should be used to create distinction between
           |elements, but not to highlight any of them. To highlight specific
           |elements, use the [purposeful set](#purposeful-set):
         """.stripMargin
@@ -90,7 +90,7 @@ object PageColor {
         s"""
            |Some components support these colors via a `color` prop, but they
            |might not support all of them. For example, [Button] doesn't
-           |support the orange color, while [Well] does.
+           |support the warning color, while [Well] does.
            |
            |[Button]: ${ctl.urlFor(Pages.ButtonBox("#color")).value}
            |[Well]: ${ctl.urlFor(Pages.Well("#color")).value}

@@ -115,24 +115,24 @@ object PageButton {
             Style.flexbox.flex.flexbox.itemsCenter,
             border,
             label("Full"),
-            margin(Button(style = Full(color = Blue))("Submit")),
-            margin(Button(style = Full(color = White))("Cancel")),
-            margin(Button(style = Full(color = White, icon = icon))()),
+            margin(Button(style = Full(color = Primary))("Submit")),
+            margin(Button(style = Full(color = Gray0))("Cancel")),
+            margin(Button(style = Full(color = Gray0, icon = icon))()),
           ),
           <.div(
             Style.flexbox.flex.flexbox.itemsCenter,
             border,
             label("Ghost"),
-            margin(Button(style = Ghost(color = Blue))("Submit")),
-            margin(Button(style = Ghost(color = Black))("Cancel")),
-            margin(Button(style = Ghost(color = Black, icon = icon))()),
+            margin(Button(style = Ghost(color = Primary))("Submit")),
+            margin(Button(style = Ghost(color = Gray9))("Cancel")),
+            margin(Button(style = Ghost(color = Gray9, icon = icon))()),
           ),
           <.div(
             Style.flexbox.flex.flexbox.itemsCenter,
             label("Minimal"),
-            margin(Button(style = Minimal(color = Blue))("Submit")),
-            margin(Button(style = Minimal(color = Black))("Cancel")),
-            margin(Button(style = Minimal(color = Black, icon = icon))()),
+            margin(Button(style = Minimal(color = Primary))("Submit")),
+            margin(Button(style = Minimal(color = Gray9))("Cancel")),
+            margin(Button(style = Minimal(color = Gray9, icon = icon))()),
           ),
         )
       }),
@@ -159,23 +159,23 @@ object PageButton {
           "You can ",
           Button(style = Button.Style.Text())("Accept"),
           " or ",
-          Button(style = Button.Style.Text(color = Button.Color.Red))("Decline"),
+          Button(style = Button.Style.Text(color = Button.Color.Danger))("Decline"),
           " this invitation."
         )
       }))(),
       Markdown(
         """
           |Their color can be changed via the `color` parameter, with
-          |`Button.Color.Blue` is the default one:
+          |`Button.Color.Primary` is the default one:
         """.stripMargin
       )(),
       ExampleRich(Source.annotate({
         <.p(
-          Button(style = Button.Style.Text())("Blue (Default)"),
+          Button(style = Button.Style.Text())("Primary (Default)"),
           <.span(", "),
-          Button(style = Button.Style.Text(color = Button.Color.Red))("Red"),
+          Button(style = Button.Style.Text(color = Button.Color.Danger))("Danger"),
           <.span(", "),
-          Button(style = Button.Style.Text(color = Button.Color.Black))("Black"),
+          Button(style = Button.Style.Text(color = Button.Color.Gray9))("Gray9"),
         )
       }))(),
       Markdown(

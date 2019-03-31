@@ -77,7 +77,7 @@ object PageIconNego {
       )(),
       ExampleRich(Source.annotate({
         <.div(
-          Style.color.blue4,
+          Style.color.primary4,
           Icon(name = Icon.Nego.MarkAsFinal, size = Icon.Size.Px24)()
         )
       }))(),

@@ -55,8 +55,8 @@ private[home] object PageHomeLink {
     Style.flexbox.flex.flexbox.itemsStart,
     Style.padding.ver32.border.bottom.borderWidth.px2,
     // color
-    Style.color.gray8.color.hoverBlue4,
-    Style.borderColor.gray2.borderColor.hoverBlue3,
+    Style.color.gray8.color.hoverPrimary4,
+    Style.borderColor.gray2.borderColor.hoverPrimary3,
     Style.outline.focusLight,
     // interaction
     Style.textDecoration.hoverNone.transition.allWithOutline

@@ -20,7 +20,7 @@ object PageTextBoxValue {
           |## Tpe
           |
           |```scala
-          |tpe: TextBoxType = TextBox.TpeText
+          |tpe: TextBoxTpe = TextBox.TpeText
           |```
           |""".stripMargin
       )(),

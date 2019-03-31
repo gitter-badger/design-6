@@ -26,7 +26,7 @@ object BoxExampleHeight {
   private val tag: VdomElement = {
     <.div(
       Style.flexbox.flex.flexbox.justifyCenter.margin.top8,
-      Tag(color = Tag.Light.Blue)("Default")
+      Tag(color = Tag.Light.Primary)("Default")
     )
   }
 

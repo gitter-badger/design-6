@@ -11,7 +11,7 @@ import japgolly.scalajs.react.vdom.html_<^._
 object PageIconFolder {
 
   private val defaultTag = <.div(
-    Tag(color = Tag.Light.Blue)("Default")
+    Tag(color = Tag.Light.Primary)("Default")
   )
 
   private def renderColor(color: IconFolder.Color): VdomElement = {
@@ -44,7 +44,7 @@ object PageIconFolder {
       ExampleRich(Source.annotate({
         Icon(
           name = Icon.Folder(
-            color = Icon.Folder.Green,
+            color = Icon.Folder.Success,
             glyph = Some(Icon.Glyph.Check)
           ),
           size = Icon.Size.Px32
@@ -80,7 +80,7 @@ object PageIconFolder {
       )(),
       ExampleRich(Source.annotate({
         Icon(
-          name = Icon.Folder(color = Icon.Folder.Orange),
+          name = Icon.Folder(color = Icon.Folder.Warning),
           size = Icon.Size.Px32
         )()
       }))(),
@@ -91,7 +91,7 @@ object PageIconFolder {
         """.stripMargin
       )(), {
         import Icon.Folder._
-        val icons = Vector(Brown, Gray, Red, Orange, Green, Blue)
+        val icons = Vector(Brown, Gray, Danger, Warning, Success, Primary)
         ExampleSimple()(<.div(Style.flexbox.flex, icons.toVdomArray(renderColor)))
       },
       Markdown(
@@ -128,7 +128,7 @@ object PageIconFolder {
             Icon(name = name, size = Icon.Size.Px32)()
           )
         }
-        <.div(Style.flexbox.flex, Vector(Brown, Gray, Red, Orange, Green, Blue).toVdomArray(renderIcon))
+        <.div(Style.flexbox.flex, Vector(Brown, Gray, Danger, Warning, Success, Primary).toVdomArray(renderIcon))
       }),
       Markdown(
         s"""

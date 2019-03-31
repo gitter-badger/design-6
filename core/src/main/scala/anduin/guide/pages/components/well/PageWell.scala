@@ -23,7 +23,7 @@ object PageWell {
         """.stripMargin
       )(),
       ExampleRich(Source.annotate({
-        Well(color = Well.ColorBlue)("Hello World!")
+        Well(color = Well.ColorPrimary)("Hello World!")
       }))(),
       Markdown(
         """
@@ -108,10 +108,10 @@ object PageWell {
         val margin = Style.margin.bottom8
         <.div(
           <.div(Well(color = Well.ColorGray)("Gray"), margin),
-          <.div(Well(color = Well.ColorBlue)("Blue"), margin),
-          <.div(Well(color = Well.ColorGreen)("Green"), margin),
-          <.div(Well(color = Well.ColorOrange)("Orange"), margin),
-          <.div(Well(color = Well.ColorRed)("Red"))
+          <.div(Well(color = Well.ColorPrimary)("Primary"), margin),
+          <.div(Well(color = Well.ColorSuccess)("Success"), margin),
+          <.div(Well(color = Well.ColorWarning)("Warning"), margin),
+          <.div(Well(color = Well.ColorDanger)("Danger"))
         )
       }))()
     )

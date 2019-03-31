@@ -67,7 +67,7 @@ object PagePlayground {
           Icon(name = Icon.Glyph.ArrowRight, size = Icon.Size.Px32)()
         )
         val styles = TagMod(
-          Style.color.white.padding.hor8,
+          Style.color.gray0.padding.hor8,
           Style.outline.focusLight.transition.allWithOutline,
           ^.width := "120px",
           // Use parent's height (this will stretch the link to be as tall as
@@ -103,9 +103,9 @@ object PagePlayground {
       ExampleSimple()({
         <.div(
           Style.flexbox.flex,
-          Button(style = Button.Style.Full(color = Button.Color.White))("Cancel"),
+          Button(style = Button.Style.Full(color = Button.Color.Gray0))("Cancel"),
           <.div(Style.margin.right8),
-          Button(style = Button.Style.Full(color = Button.Color.Blue))("Sign")
+          Button(style = Button.Style.Full(color = Button.Color.Primary))("Sign")
         )
       }),
       ExampleSimple()({
@@ -121,7 +121,7 @@ object PagePlayground {
         )
       }),
       ExampleSimple()({
-        <.div(width, Style.color.blue4, BarIndicator()())
+        <.div(width, Style.color.primary4, BarIndicator()())
       }),
       ExampleSimple(bgColor = ExampleSimple.BgColor.Gray2)({
         <.div(width, Card()(<.span(Style.fontWeight.semiBold, "Deal Report")))
@@ -205,9 +205,9 @@ object PagePlayground {
           Style.flexbox.flex,
           Tag(Tag.Light.Gray)("9+"),
           <.div(Style.margin.right8),
-          Tag(Tag.Light.Blue)("42"),
+          Tag(Tag.Light.Primary)("42"),
           <.div(Style.margin.right8),
-          Tag(Tag.Light.Blue)("DONE"),
+          Tag(Tag.Light.Primary)("DONE"),
         )
       }),
       ExampleSimple()({

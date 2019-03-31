@@ -49,7 +49,7 @@ object PageIconGlyph {
       )(),
       ExampleRich(Source.annotate({
         <.div(
-          Style.color.blue4,
+          Style.color.primary4,
           Icon(name = Icon.Glyph.Tag)()
         )
       }))()

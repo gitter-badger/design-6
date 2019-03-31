@@ -34,12 +34,12 @@ object PageButtonBox {
         val big = <.div(Style.border.right.borderColor.gray3.height.px16.padding.right16.margin.right16)
         <.div(
           Style.flexbox.flex.flexbox.itemsCenter,
-          React.Fragment(Button(Full(Blue))("Full"), small),
-          React.Fragment(Button(Full(White))("Full"), big),
-          React.Fragment(Button(Ghost(Blue))("Ghost"), small),
-          React.Fragment(Button(Ghost(Black))("Ghost"), big),
-          React.Fragment(Button(Minimal(Blue))("Minimal"), small),
-          React.Fragment(Button(Minimal(Black))("Minimal")),
+          React.Fragment(Button(Full(Primary))("Full"), small),
+          React.Fragment(Button(Full(Gray0))("Full"), big),
+          React.Fragment(Button(Ghost(Primary))("Ghost"), small),
+          React.Fragment(Button(Ghost(Gray9))("Ghost"), big),
+          React.Fragment(Button(Minimal(Primary))("Minimal"), small),
+          React.Fragment(Button(Minimal(Gray9))("Minimal")),
         )
       }),
       Markdown(
@@ -119,13 +119,13 @@ object PageButtonBox {
       )(),
       ExampleRich(Source.annotate({
         Button(
-          style = Button.Style.Full(color = Button.Color.Blue)
+          style = Button.Style.Full(color = Button.Color.Primary)
         )("Submit")
       }))(),
       Markdown(
         """
           |Most colors work best on white background, with the exception of
-          |`White` of `Ghost` and `Minimal` styles, which are prepared for
+          |`Gray0` of `Ghost` and `Minimal` styles, which are prepared for
           |dark or colorful background only:
         """.stripMargin
       )(),
@@ -134,7 +134,7 @@ object PageButtonBox {
         """
           |### Color Usage
           |
-          |`Color.Blue` is usually used to highlight the primary action among
+          |`Color.Primary` is usually used to highlight the primary action among
           |a group of related buttons:
         """.stripMargin
       )(),
@@ -143,16 +143,16 @@ object PageButtonBox {
         val f = Button.Style.Full
         <.div(
           Style.flexbox.flex,
-          m(Button(style = f(color = Button.Color.Blue, icon = Some(Icon.Glyph.Check)))("Mark as Final")),
+          m(Button(style = f(color = Button.Color.Primary, icon = Some(Icon.Glyph.Check)))("Mark as Final")),
           m(Button(style = f(icon = Some(Icon.Glyph.Upload)))("Upload")),
           m(Button(style = f(icon = Some(Icon.Glyph.Share)))("Share")),
         )
       }),
       Markdown(
         """
-          |`Color.Red` should be used for destructive actions, such as
+          |`Color.Danger` should be used for destructive actions, such as
           |archiving deals. Usually only the final actions, like those in
-          |confirmation modals, need the color Red:
+          |confirmation modals, need the color Danger:
         """.stripMargin
       )(),
       BoxExampleArchive()(),

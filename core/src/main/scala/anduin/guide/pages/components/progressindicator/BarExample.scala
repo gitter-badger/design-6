@@ -23,7 +23,7 @@ object BarExample {
   private def render(props: Props): VdomElement = {
     ExampleSimple(bgColor = ExampleSimple.BgColor.Gray2)(
       <.div(
-        Style.background.white.border.all.borderColor.gray3,
+        Style.background.gray0.border.all.borderColor.gray3,
         Style.width.px256,
         <.div(
           Style.padding.all8.flexbox.flex.flexbox.itemsCenter,
@@ -38,7 +38,7 @@ object BarExample {
           )
         ),
         <.div(
-          Style.color.blue4,
+          Style.color.primary4,
           BarIndicator()()
         )
       )

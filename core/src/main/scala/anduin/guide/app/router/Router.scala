@@ -18,6 +18,7 @@ import anduin.guide.pages.components.modal.PageModal
 import anduin.guide.pages.components.portal.PagePortal
 import anduin.guide.pages.components.popover.PagePopover
 import anduin.guide.pages.components.stepper.PageStepper
+import anduin.guide.pages.components.suggest.PageSuggest
 import anduin.guide.pages.components.tab.PageTab
 import anduin.guide.pages.components.tag.PageTag
 import anduin.guide.pages.components.table.PageTable
@@ -84,7 +85,7 @@ object Router {
       | dynamicRouteCT("progress-indicator" ~ hash.caseClass[Progress]) ~> getRender(() => Promise.resolve[RenderFn](PageProgressIndicator.render _))
       | dynamicRouteCT("radio" ~ hash.caseClass[Radio]) ~> getRender(() => Promise.resolve[RenderFn](PageRadio.render _))
       | dynamicRouteCT("stepper" ~ hash.caseClass[Stepper]) ~> getRender(() => Promise.resolve[RenderFn](PageStepper.render _))
-      | dynamicRouteCT("suggest" ~ hash.caseClass[Suggest]) ~> getRender(() => Promise.resolve[RenderFn](PageWIP.render _))
+      | dynamicRouteCT("suggest" ~ hash.caseClass[Suggest]) ~> getRender(() => Promise.resolve[RenderFn](PageSuggest.render _))
       | dynamicRouteCT("tab" ~ hash.caseClass[Tab]) ~> getRender(() => Promise.resolve[RenderFn](PageTab.render _))
       | dynamicRouteCT("table" ~ hash.caseClass[Table]) ~> getRender(() => Promise.resolve[RenderFn](PageTable.render _))
       | dynamicRouteCT("tag" ~ hash.caseClass[Tag]) ~> getRender(() => Promise.resolve[RenderFn](PageTag.render _))

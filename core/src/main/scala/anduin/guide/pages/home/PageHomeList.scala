@@ -64,7 +64,7 @@ private[home] object PageHomeList {
         child(Link(URL("Work with us", "https://www.anduintransact.com/careers"))()),
       ),
       <.div(
-        Style.background.white,
+        Style.background.gray0,
         ^.flex := "2 1 0px",
         ^.padding := "32px 0 96px",
         ^.boxShadow := "0px 4px 16px 0px rgba(0, 0, 0, 0.06)",

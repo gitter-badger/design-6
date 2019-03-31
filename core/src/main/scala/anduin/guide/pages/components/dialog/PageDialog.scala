@@ -28,7 +28,7 @@ object PageDialog {
           submit = Dialog.Submit(
             Callback.alert("Deleted"),
             "Delete",
-            Button.Color.Red
+            Button.Color.Danger
           ),
           cancel = Some(Dialog.Cancel(Callback.empty))
         )()

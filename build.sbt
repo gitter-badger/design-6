@@ -43,11 +43,12 @@ lazy val core = (project in file("core"))
       "react-truncate-markup" -> "3.0.0",
       "react-virtualized" -> "9.21.0",
       "react-text-mask" -> "5.4.3",
+      "react-window" -> "1.7.1",
       "text-mask-addons" -> "3.8.0",
       "popper.js" -> "1.14.7",
       "marked" -> "0.3.19",
       "focus-visible" -> "4.1.5",
-      "downshift" -> "3.2.2"
+      "downshift" -> "3.2.7"
     )
   )
 
