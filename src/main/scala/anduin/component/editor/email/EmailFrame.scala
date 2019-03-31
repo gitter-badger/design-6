@@ -67,13 +67,13 @@ private[email] object EmailFrame {
             case frame: HTMLIFrameElement =>
               // Need to set the height to zero in order to get the correct document's height
               frameRef.raw.backend.setHeight(0) >>
-              Callback {
-                val doc = frame.contentDocument.documentElement
-                val docHeight = doc.scrollHeight.toDouble
-                val bodyHeight = Option(doc.querySelector("body")).map(_.scrollHeight).getOrElse(0).toDouble
-                val height = Math.max(docHeight, bodyHeight)
-                frame.style.height = s"${height}px"
-              }
+                Callback {
+                  val doc = frame.contentDocument.documentElement
+                  val docHeight = doc.scrollHeight.toDouble
+                  val bodyHeight = Option(doc.querySelector("body")).map(_.scrollHeight).getOrElse(0).toDouble
+                  val height = Math.max(docHeight, bodyHeight)
+                  frame.style.height = s"${height}px"
+                }
             case _ => Callback.empty
           }
         }

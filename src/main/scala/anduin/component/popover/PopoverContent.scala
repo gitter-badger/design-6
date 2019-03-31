@@ -97,7 +97,9 @@ object PopoverContent {
       observer.observe(content, observerOptions)
       // Only focus if asked and necessary
       val isFocused = content.contains(dom.document.activeElement)
-      if (props.isAutoFocus && !isFocused) { content.focus() }
+      if (props.isAutoFocus && !isFocused) {
+        content.focus()
+      }
     }
 
     def initPopper: Callback = {

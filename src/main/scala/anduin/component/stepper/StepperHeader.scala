@@ -40,15 +40,15 @@ object StepperHeader {
     private def getMods(status: Status, onDarkBackground: Boolean) = {
       if (onDarkBackground) {
         status match {
-          case StatusPast    ⇒ Style.borderColor.success3.background.success3.color.gray0
+          case StatusPast ⇒ Style.borderColor.success3.background.success3.color.gray0
           case StatusPresent ⇒ Style.borderColor.primary3.color.primary3
-          case StatusFuture  ⇒ Style.borderColor.gray5
+          case StatusFuture ⇒ Style.borderColor.gray5
         }
       } else {
         status match {
-          case StatusPast    ⇒ Style.borderColor.success3.background.success3.color.gray0
+          case StatusPast ⇒ Style.borderColor.success3.background.success3.color.gray0
           case StatusPresent ⇒ Style.borderColor.primary4.color.primary4
-          case StatusFuture  ⇒ Style.borderColor.gray3
+          case StatusFuture ⇒ Style.borderColor.gray3
         }
       }
     }
@@ -59,9 +59,9 @@ object StepperHeader {
     )
 
     private def getIconName(status: Status) = status match {
-      case StatusPast    ⇒ Icon.Glyph.CheckBold
+      case StatusPast ⇒ Icon.Glyph.CheckBold
       case StatusPresent ⇒ Icon.Glyph.Circle
-      case StatusFuture  ⇒ Icon.Glyph.Blank
+      case StatusFuture ⇒ Icon.Glyph.Blank
     }
 
     def render(props: Props, title: String): VdomElement = {

@@ -23,13 +23,15 @@ private[dropdown] class DropdownFilter[A] {
 
   private def render(outerProps: OuterProps): Option[VdomElement] = {
     val props = outerProps.props
-    props.outer.options.lift(10).map(_ => {
-      val input = <.input(
-        DropdownFilter.staticMods,
-        ScalaJSUtils.jsPropsToTagMod(props.downshift.getInputProps())
-      )
-      <.div(Style.padding.hor8.margin.bottom8, input)
-    })
+    props.outer.options
+      .lift(10)
+      .map(_ => {
+        val input = <.input(
+          DropdownFilter.staticMods,
+          ScalaJSUtils.jsPropsToTagMod(props.downshift.getInputProps())
+        )
+        <.div(Style.padding.hor8.margin.bottom8, input)
+      })
   }
 
   private val component = ScalaComponent

@@ -32,7 +32,7 @@ private[dropdown] class DropdownOption[A] {
 
   private def renderIcon(props: Props): VdomElement = {
     val value = props.option.value
-    val isSelected = props.downshift.exists{ downshift =>
+    val isSelected = props.downshift.exists { downshift =>
       ScalaJSUtils.jsNullToOption(downshift.selectedItem).contains(value)
     }
     val iconName = if (isSelected) Icon.Glyph.Check else Icon.Glyph.Blank

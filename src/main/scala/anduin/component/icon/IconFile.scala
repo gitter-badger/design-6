@@ -23,11 +23,11 @@ object IconFile {
   // File Extensions
   case class ByExtension(extension: String) extends IconFile {
     val icon: IconFile = extension.toLowerCase match {
-      case e: String if e.endsWith("pdf") => Pdf
+      case e: String if e.endsWith("pdf")                       => Pdf
       case e: String if e.endsWith("doc") || e.endsWith("docx") => Word
-      case e: String if e.endsWith("zip") || e.endsWith("rar") => Archive
-      case e: String if e.endsWith("txt") => Text
-      case _ => Generic
+      case e: String if e.endsWith("zip") || e.endsWith("rar")  => Archive
+      case e: String if e.endsWith("txt")                       => Text
+      case _                                                    => Generic
     }
     def path16: String = icon.path16
     def path24: String = icon.path24

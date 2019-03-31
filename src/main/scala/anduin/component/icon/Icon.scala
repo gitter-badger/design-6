@@ -26,7 +26,7 @@ object Icon {
     // "dimension" is the target width and height to display the icon at
     // - i.e. this is the size that the icon will be rendered
     private[icon] final def dimension: TagMod =
-      TagMod(^.width := pxS, ^ .height := pxS)
+      TagMod(^.width := pxS, ^.height := pxS)
     // "viewBox" is the original size that the icon's name is designed at
     // - i.e. this is the size that the icon is designed
     private[icon] final def viewBox: TagMod =

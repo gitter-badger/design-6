@@ -35,7 +35,7 @@ private[email] object WhitespaceCleaner {
         topNode = topNode.parentNode
         removeTrailingWhitespaceChildren(topNode)
       }
-      // scalastyle:on var.field var.local while
+    // scalastyle:on var.field var.local while
     }
   }
 
