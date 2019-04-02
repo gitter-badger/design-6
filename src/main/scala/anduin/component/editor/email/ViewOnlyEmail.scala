@@ -5,6 +5,7 @@ package anduin.component.editor.email
 import anduin.component.button.Button
 import anduin.component.icon.Icon
 import anduin.component.tooltip.Tooltip
+import anduin.scalajs.dompurify.DomPurify
 import anduin.style.Style
 
 // scalastyle:off underscore.import
@@ -31,10 +32,11 @@ object ViewOnlyEmail {
     }
 
     def render(props: Props, state: State): VdomElement = {
+      val content = DomPurify.sanitize(props.content)
       if (state.hideQuotedContent) {
         <.div(
           EmailFrame(
-            content = QuoteTransformer.removeQuotedHtml(props.content)
+            content = QuoteTransformer.removeQuotedHtml(content)
           )(),
           // Dots for toggling the quoted content
           <.div(
@@ -52,7 +54,7 @@ object ViewOnlyEmail {
         )
       } else {
         EmailFrame(
-          content = props.content
+          content = content
         )()
       }
     }
