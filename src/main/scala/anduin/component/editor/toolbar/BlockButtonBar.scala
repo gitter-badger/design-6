@@ -67,15 +67,18 @@ private[toolbar] object BlockButtonBar {
               })
               if (isList && isType) {
                 editor
+                  .focus()
                   .setBlocks(DefaultNodeType)
                   .unwrapBlock(UnorderedListNode.nodeType)
                   .unwrapBlock(OrderedListNode.nodeType)
               } else if (isList) {
                 editor
+                  .focus()
                   .unwrapBlock(wrapBlockType)
                   .wrapBlock(nodeType.nodeType)
               } else {
                 editor
+                  .focus()
                   .setBlocks(ListItemNode.nodeType)
                   .wrapBlock(nodeType.nodeType)
               }
@@ -87,11 +90,12 @@ private[toolbar] object BlockButtonBar {
 
               if (isList) {
                 editor
+                  .focus()
                   .setBlocks(newNodeType)
                   .unwrapBlock(UnorderedListNode.nodeType)
                   .unwrapBlock(OrderedListNode.nodeType)
               } else {
-                editor.setBlocks(newNodeType)
+                editor.focus().setBlocks(newNodeType)
               }
 
             case _: MarkNode | _: InlineNode =>

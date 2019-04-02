@@ -33,7 +33,7 @@ private[toolbar] object MarkButtonBar {
         editorInstance <- props.editorRef().get
         editor = editorInstance.raw
         _ <- Callback {
-          editor.toggleMark(markNode.nodeType)
+          editor.focus().toggleMark(markNode.nodeType)
         }
       } yield ()
     }

@@ -51,15 +51,17 @@ private[toolbar] object AlignButtonBar {
           .map(_.nodeType)
           .getOrElse(ParagraphNode.nodeType)
         _ <- Callback {
-          editor.setBlocks(
-            js.Dynamic.literal(
-              `type` = TextAlignNode.nodeType,
-              data = js.Dynamic.literal(
-                textAlign = align,
-                originalType = originalType
+          editor
+            .focus()
+            .setBlocks(
+              js.Dynamic.literal(
+                `type` = TextAlignNode.nodeType,
+                data = js.Dynamic.literal(
+                  textAlign = align,
+                  originalType = originalType
+                )
               )
             )
-          )
         }
       } yield ()
     }
