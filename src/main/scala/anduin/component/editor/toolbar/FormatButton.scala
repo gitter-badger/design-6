@@ -6,7 +6,7 @@ import anduin.component.button.Button
 import anduin.component.icon.Icon
 import anduin.component.menu.VerticalDivider
 import anduin.component.popover.Popover
-import anduin.component.portal.{PortalPosition, PortalUtils, PortalWrapper}
+import anduin.component.portal.{PortalPosition, PortalWrapper}
 import anduin.component.tooltip.Tooltip
 import anduin.scalajs.slate.Slate.Value
 import anduin.scalajs.slate.SlateReact
@@ -31,7 +31,7 @@ private[toolbar] object FormatButton {
   private def render(props: Props) = {
     Popover(
       position = PortalPosition.TopCenter,
-      isClosable = Some(PortalUtils.IsClosable(onEsc = false, onOutsideClick = true)),
+      isClosable = None,
       renderTarget = (toggle, isOpened) => {
         Tooltip(
           targetWrapper = PortalWrapper.Inline,
