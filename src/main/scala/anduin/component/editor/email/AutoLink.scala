@@ -7,6 +7,7 @@ import scala.collection.mutable.ListBuffer
 import org.scalajs.dom
 import org.scalajs.dom.raw.{HTMLDocument, NodeFilter}
 
+import anduin.component.util.NodeListSeq
 import anduin.scalajs.linkifyit.LinkifyIt
 import anduin.scalajs.tlds.Tlds
 
@@ -52,6 +53,13 @@ private[email] object AutoLink {
         link.setAttribute("target", "_blank")
         link.appendChild(textNode)
         range.insertNode(link)
+    }
+  }
+
+  def setLinkOpenInNewTab(doc: HTMLDocument): Unit = {
+    NodeListSeq(doc.getElementsByTagName("a")).foreach { element =>
+      element.setAttribute("rel", "noopener")
+      element.setAttribute("target", "_blank")
     }
   }
 }
