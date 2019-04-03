@@ -78,10 +78,15 @@ object PopoverContent {
     private val observer = new raw.MutationObserver(observerCallback)
 
     private def renderContent(props: Props, children: PropsChildren): VdomElement = {
+      val closeOpt = for {
+        overlayClick <- props.onOverlayClick
+        closable <- props.isClosable
+      } yield (overlayClick, closable)
+
       <.div(
         overlayStaticMod,
-        props.onOverlayClick.fold[TagMod](Style.pointerEvents.none) { onClick =>
-          PortalUtils.getClosableMods(props.isClosable, onClick)
+        closeOpt.fold[TagMod](Style.pointerEvents.none) { close =>
+          PortalUtils.getClosableMods(Some(close._2), close._1)
         },
         <.div.withRef(ref)(getIsAutoFocusMod(props), bodyStaticMod, children)
       )
