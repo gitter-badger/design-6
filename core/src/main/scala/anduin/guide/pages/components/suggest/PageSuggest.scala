@@ -30,7 +30,7 @@ object PageSuggest {
       Contact("Vincent Harris", "vincent.harris.ccfo@gmail.com"),
       Contact("Virginia Lee", "virginia.lee.cc@gmail.com")
     ).map(c => Suggest.Opt(c)),
-    getNode = _.name,
+    getNode = c => s"${c.name} (${c.email})",
     getFilterString = c => s"${c.name} + ${c.email}",
     getSubmitString = _.email
   )
