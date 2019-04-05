@@ -4,28 +4,30 @@ package anduin.component.dropdown
 
 import anduin.component.icon.Icon
 import anduin.component.menu.MenuItem
-import anduin.scalajs.downshift.{DownshiftRenderProps, DownshiftItem}
+import anduin.scalajs.downshift.{DownshiftItemOptions, DownshiftRenderProps}
 import anduin.scalajs.util.ScalaJSUtils
 import anduin.style.Style
 
-// scalastyle:off underscore.import
-import scala.scalajs.js.JSConverters._
+import scala.scalajs.js
 
+// scalastyle:off underscore.import
 import japgolly.scalajs.react._
 import japgolly.scalajs.react.vdom.html_<^._
 // scalastyle:on underscore.import
 
-private[dropdown] class DropdownOption[A] {
+private[dropdown] class DropdownOpt[A] {
 
   def apply(): Props.type = Props
 
   case class Props(
-    outer: Dropdown[A]#Props,
-    // This can be used to render ghost Option,
-    // in which downshift is not available
-    downshift: Option[DownshiftRenderProps[A]],
+    // == Specific props for this option
     option: Dropdown.Opt[A],
-    index: Int
+    index: Int,
+    // == Common props for all sibling options
+    dropdown: Dropdown[A]#Props,
+    // This can be used to render ghost Option, in which case "downshift" is
+    // not available
+    downshift: Option[DownshiftRenderProps[A]] = None
   ) {
     def apply(): VdomElement = component(this)
   }
@@ -43,10 +45,10 @@ private[dropdown] class DropdownOption[A] {
   }
 
   private def getMods(props: Props): TagMod = {
-    val options = new DownshiftItem[A](
-      props.index,
-      props.option.value,
-      Some(props.option.isDisabled).orUndefined
+    val options = new DownshiftItemOptions[A](
+      index = props.index,
+      item = props.option.value,
+      disabled = js.defined(props.option.isDisabled)
     )
     props.downshift
       .map(_.getItemProps(options))
@@ -64,7 +66,7 @@ private[dropdown] class DropdownOption[A] {
   )
 
   private def renderBody(props: Props): VdomNode = {
-    val (op, v) = (props.outer, props.option.value)
+    val (op, v) = (props.dropdown, props.option.value)
     op.renderOption.map(_(v)).getOrElse(op.getValueString(v))
   }
 
@@ -80,5 +82,9 @@ private[dropdown] class DropdownOption[A] {
     )
   }
 
-  private val component = ScalaFnComponent(render)
+  private val component = ScalaComponent
+    .builder[Props](this.getClass.getSimpleName)
+    .stateless
+    .render_P(render)
+    .build
 }

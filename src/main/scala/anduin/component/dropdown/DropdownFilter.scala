@@ -3,6 +3,7 @@
 package anduin.component.dropdown
 
 import anduin.component.input.textbox.{TextBox, TextBoxStyle}
+import anduin.scalajs.downshift.DownshiftRenderProps
 import anduin.scalajs.util.ScalaJSUtils
 import anduin.style.Style
 
@@ -13,17 +14,17 @@ import japgolly.scalajs.react.vdom.html_<^._
 
 private[dropdown] class DropdownFilter[A] {
 
-  def apply(): OuterProps.type = OuterProps
+  def apply(): Props.type = Props
 
-  case class OuterProps(props: Props) {
+  case class Props(
+    dropdown: Dropdown[A]#Props,
+    downshift: DownshiftRenderProps[A]
+  ) {
     def apply(): VdomElement = component(this)
   }
 
-  private type Props = Dropdown[A]#InnerProps
-
-  private def render(outerProps: OuterProps): Option[VdomElement] = {
-    val props = outerProps.props
-    props.outer.options
+  private def render(props: Props): Option[VdomElement] = {
+    props.dropdown.options
       .lift(10)
       .map(_ => {
         val input = <.input(
@@ -35,7 +36,7 @@ private[dropdown] class DropdownFilter[A] {
   }
 
   private val component = ScalaComponent
-    .builder[OuterProps](this.getClass.getSimpleName)
+    .builder[Props](this.getClass.getSimpleName)
     .stateless
     .render_P(render)
     .build
@@ -56,10 +57,13 @@ private[dropdown] object DropdownFilter {
     ^.placeholder := "Search…"
   )
 
-  def byValue[A](props: Dropdown[A]#InnerProps)(option: Dropdown.Opt[A]): Boolean = {
-    val filter = props.outer.getFilterValue.getOrElse(props.outer.getValueString)
+  def byValue[A](
+    dropdown: Dropdown[A]#Props,
+    downshift: DownshiftRenderProps[A],
+  )(option: Dropdown.Opt[A]): Boolean = {
+    val filter = dropdown.getFilterValue.getOrElse(dropdown.getValueString)
     val value = filter(option.value).toLowerCase
-    value.contains(props.downshift.inputValue.toLowerCase)
+    value.contains(downshift.inputValue.toLowerCase)
   }
 
 }
