@@ -14,6 +14,7 @@ import anduin.scalajs.datefns.Format
 object JsDateFormatterUtils {
 
   val CreatedAtDatePattern = "hh:mm A" // 07:40 AM
+  val NumericPattern = "MM/DD/YYYY" // 12/30/2019
   val LongDatePattern = "MMM DD YYYY" // Dec 12 2015
   val LongDatePatternWithTime = "MMM DD YYYY HH:mm" // Dec 12 2015 12:40
   val SuperLongDatePattern = "YYYY-MM-DD HH:mm:ss" // 2016-10-19 12:40:30
