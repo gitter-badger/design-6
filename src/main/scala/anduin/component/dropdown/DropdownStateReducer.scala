@@ -8,50 +8,44 @@ import scala.scalajs.js
 
 private[dropdown] class DropdownStateReducer[A] {
 
-  private type State = DownshiftState[A]
   private type Changes = DownshiftStateChanges[A]
   private val Types = Downshift.stateChangeTypes
 
-  case class Data(isInnerClick: Boolean)
-  case class Input(state: State, changes: Changes, data: Data)
-
-  private def clearInputValue(input: Input): Input = {
-    if (input.changes.inputValue.isDefined &&
-        !input.changes.tpe.contains(Types.changeInput)) {
-      val update: DownshiftStateChanges[A] = new DownshiftStateChanges[A] {
-        override val inputValue: js.UndefOr[String] = js.defined("")
-      }
-      val nextChanges = DownshiftUtils.mergeChanges(input.changes, update)
-      input.copy(changes = nextChanges)
+  /* Downshift sometimes set the inputValue to selectedItem automatically. We
+   * need to prevent this because we are using inputValue to filter options, so
+   * setting it to selectedItem on first render would result in only 1 option
+   * being shown
+   */
+  private def clearInputValue(changes: Changes): Changes = {
+    if (changes.inputValue.isDefined && !changes.tpe.contains(Types.changeInput)) {
+      val update = new Changes { override val inputValue: js.UndefOr[String] = js.defined("") }
+      DownshiftUtils.mergeChanges(changes, update)
     } else {
-      input
+      changes
     }
   }
 
-  // Prevent closing when clicking on the area created by React's Portal
-  // inside Dropdown's content e.g. Header and Footer.
-  // - The reason we need this is because Downshift use native the
-  //   element.contains methods to detect outer click, which does not work
-  //   with React Portal.
-  // - See:
-  //   - https://stackoverflow.com/q/47865209
-  //   - https://github.com/anduintransaction/stargazer/issues/18073
-  //   - https://github.com/anduintransaction/stargazer/pull/18088
-  private def preventClosing(input: Input): Input = {
-    if (input.changes.tpe.contains(Types.mouseUp) &&
-        input.changes.isOpen.exists(_ == false) &&
-        input.data.isInnerClick) {
-      input.copy(changes = new DownshiftStateChanges[A] {
-        @js.annotation.JSName("type")
-        override val tpe: js.UndefOr[js.|[String, Int]] = input.changes.tpe
-      })
+  /* Downshift closes the menu when users click outside of it. However, its
+   * [condition check][1] doesn't work with React's Portal, so we skip it and
+   * close the menu ourselves (see Dropdown > PopoverContent > onOverlayClick)
+   *
+   * [1] https://github.com/downshift-js/downshift/blob/dddd76caa62b4011ff1f71f8709f08a82b952fb6/src/utils.js#L41-L48
+   */
+  private def preventDefaultOuterClick(changes: Changes): Changes = {
+    if (changes.isOpen.isDefined && changes.tpe.contains(Types.mouseUp)) {
+      val update = new Changes { override val isOpen: js.UndefOr[Boolean] = js.defined(true) }
+      DownshiftUtils.mergeChanges(changes, update)
     } else {
-      input
+      changes
     }
   }
 
-  def get(input: Input): Changes = {
-    val composed = clearInputValue _ andThen preventClosing
-    composed(input).changes
+  /* So far we don't need info from current state so we are just gonna skip
+   * it here to simplify the composition. When we need it, simply have a
+   * case class Input(state: State, changes: Changes) as the parameter
+   */
+  def get(state: DownshiftState[A], changes: Changes): Changes = {
+    val _ = state
+    (preventDefaultOuterClick _ andThen clearInputValue)(changes)
   }
 }

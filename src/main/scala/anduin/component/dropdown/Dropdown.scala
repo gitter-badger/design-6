@@ -11,7 +11,6 @@ import scala.scalajs.js
 
 // scalastyle:off underscore.import
 import anduin.scalajs.downshift._
-
 import japgolly.scalajs.react._
 import japgolly.scalajs.react.vdom.html_<^._
 // scalastyle:on underscore.import
@@ -22,10 +21,6 @@ class Dropdown[A] {
   private val Target = (new DropdownTarget[A])()
   private val Content = (new DropdownContent[A])()
   private val StateReducer = new DropdownStateReducer[A]
-
-  private type Measurement = Dropdown.Measurement[A]
-  private type Changes = DownshiftStateChanges[A]
-  private type State = DownshiftState[A]
 
   def apply(): Props.type = Props
 
@@ -47,38 +42,18 @@ class Dropdown[A] {
     getFilterValue: Option[A => String] = None,
     renderValue: Option[A => VdomNode] = None,
     renderOption: Option[A => VdomNode] = None,
-    staticMeasurement: Option[Measurement] = None
+    staticMeasurement: Option[Dropdown.Measurement[A]] = None
   ) {
     def apply(): VdomElement = component(this)
   }
-
-  private[dropdown] case class InnerProps(
-    outer: Dropdown[A]#Props,
-    downshift: DownshiftRenderProps[A],
-    measurement: Dropdown.Measurement[A]
-  )
 
   private final class Backend(backendScope: BackendScope[Props, Unit]) {
 
     val _ = backendScope
     private val targetRef = Ref[HTMLElement]
 
-    // This variable will be set immediately before Downshift's stateReducer
-    // (and reset after that) to help Downshift detects whether the click is
-    // inside or outside the Dropdown's area.
-    // - Learn more in the comment in StateReducer > preventClosing
-    private var isInnerClick: Boolean = false // scalastyle:ignore var.field
-    private val isInnerClickWrapper = TagMod(
-      ^.onMouseDown --> Callback(isInnerClick = true),
-      ^.onMouseUp --> Callback(isInnerClick = false).delayMs(100).toCallback
-    )
-
     // This needs to be new for each instance of Dropdown component
     private val Measure = new DropdownMeasure[A]
-
-    private def getMeasurement(props: Props): Measurement = {
-      props.staticMeasurement.getOrElse(Measure.get(props))
-    }
 
     private def itemToString(props: Props)(item: js.|[A, Null]): String =
       ScalaJSUtils.jsNullToOption(item).fold("")(props.getValueString)
@@ -86,47 +61,42 @@ class Dropdown[A] {
     private def onChange(props: Props)(item: A): Unit =
       props.onChange(item).runNow()
 
-    private def stateReducer(state: State, changes: Changes): Changes = {
-      val data = StateReducer.Data(this.isInnerClick)
-      val input = StateReducer.Input(state, changes, data)
-      StateReducer.get(input)
-    }
-
     private def renderChildren(props: Props)(
       downshift: DownshiftRenderProps[A]
     ): raw.React.Node = {
-      val measurement = getMeasurement(props)
-      val innerProps = InnerProps(props, downshift, measurement)
+      val measurement = props.staticMeasurement.getOrElse(Measure.get(props))
       <.div(
-        <.div.withRef(targetRef)(Target(innerProps)()),
-        TagMod.when(innerProps.downshift.isOpen) {
+        <.div.withRef(targetRef)(Target(props, downshift, measurement)()),
+        TagMod.when(downshift.isOpen)(
           PopoverContent(
             targetRef = targetRef,
-            // Downshift will handle this outside click for us
-            onOverlayClick = None,
             position = PortalPosition.BottomLeft,
-            // Avoid auto focus to the popover because all (keyboard)
-            // navigation should happen at the target button, which requires
-            // it to be focused instead.
+            /* Downshift's condition check to close menu doesn't work with
+             * React's Portal so we need to close the menu ourselves.
+             * - See DropdownStateReducer > preventDefaultOuterClick */
+            onOverlayClick = Some(Callback(downshift.closeMenu())),
+            /* Keep the focus at the button so Downshift's keyboard event
+             * handler could work properly */
             isAutoFocus = false
-          )(<.div(isInnerClickWrapper, Content(innerProps)()))
-        }
-      ).rawElement
+          )(Content(props, downshift, measurement)())
+        )
+      ).rawNode
     }
 
     def render(props: Props): VdomElement = {
       val downshiftProps = new DownshiftA.Props(
         onChange = onChange(props),
         itemToString = itemToString(props),
-        stateReducer = stateReducer,
+        stateReducer = StateReducer.get,
         children = renderChildren(props),
         // ===
         // Avoid inputValue being set to selectedItem in first render
+        // - See also: DropdownStateReducer > clearInputValue
         initialInputValue = js.defined(""),
         // However we don't control inputValue in subsequent renders
         inputValue = js.undefined,
         onInputValueChange = js.undefined,
-        // We do control selected item, using props.value
+        // We do control selected item, using props.value:
         selectedItem = js.defined(props.value match {
           case Some(value) => value
           case None        => null // scalastyle:ignore null

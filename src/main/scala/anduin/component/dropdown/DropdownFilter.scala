@@ -59,7 +59,7 @@ private[dropdown] object DropdownFilter {
 
   def byValue[A](
     dropdown: Dropdown[A]#Props,
-    downshift: DownshiftRenderProps[A],
+    downshift: DownshiftRenderProps[A]
   )(option: Dropdown.Opt[A]): Boolean = {
     val filter = dropdown.getFilterValue.getOrElse(dropdown.getValueString)
     val value = filter(option.value).toLowerCase
