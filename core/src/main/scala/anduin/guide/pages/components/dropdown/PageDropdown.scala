@@ -1,12 +1,12 @@
 package anduin.guide.pages.components.dropdown
 
 import anduin.guide.components._
-
 import anduin.component.button.Button
 import anduin.component.dropdown.Dropdown
 import anduin.component.icon.Icon
 import anduin.component.input.checkbox.Checkbox
 import anduin.component.menu.VerticalDivider
+import anduin.component.modal.{Modal, ModalBody}
 import anduin.guide.app.main.Pages
 import anduin.guide.components.DemoState
 import anduin.mcro.Source
@@ -16,6 +16,7 @@ import japgolly.scalajs.react.{Callback, React}
 
 private case class Fruit(name: String)
 
+//noinspection TypeAnnotation
 private object Fruit {
 
   val options = List("Apple", "Banana", "Lemon", "Orange", "Pearl")
@@ -43,6 +44,7 @@ private object Fruit {
 
 private case class Country(code: String, name: String, continent: String)
 
+//noinspection TypeAnnotation
 private object Country {
   val options = List(
     Country("us", "United States", "North America"),
@@ -442,26 +444,30 @@ object PageDropdown {
           |
           |## Header and Footer
           |
-          |Dropdown's menu can also have an header and/or footer to provide
-          |additional information for the option list if necessary:
-          |
           |```scala
           |header: Option[VdomNode] = None
           |footer: Option[VdomNode] = None
           |```
           |
-        """.stripMargin
+          |Dropdown's menu can have a header and/or a footer. They are usually
+          |used to provide additional information or action (e.g. open a dialog
+          |to add new option):
+          |""".stripMargin
       )(),
       ExampleRich(Source.annotate({
-        /*>*/
         Fruit.StateSample.copy(render = (value, onChange) => {
           Fruit.DropdownSample.copy(
+            header = Some("Fruit is fun"),
+            footer = Some(
+              Modal(
+                renderTarget = open => Button(Button.Style.Text(), onClick = open)("What else?"),
+                renderContent = _ => ModalBody()("Fruit is fun")
+              )()
+            ),
             value = Some(value),
-            onChange = onChange, /*<*/
-            header = Some("Fruit is good"),
-            footer = Some("Fruit is fun") /*>*/
+            onChange = onChange
           )()
-        })() /*<*/
+        })()
       }))(),
       Markdown(
         """
