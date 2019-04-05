@@ -19,8 +19,10 @@ object Menu {
   private def render(children: PropsChildren): VdomElement = {
     <.div(
       ComponentUtils.testId(this, "Container"),
-      Style.margin.ver8.overflow.autoY.overflow.hiddenX,
-      TagMod(^.maxWidth := "640px", ^.maxHeight := "480px", ^.minWidth := "192px"),
+      Style.padding.ver8.overflow.autoY.overflow.hiddenX,
+      ^.maxWidth := "640px",
+      ^.maxHeight := "480px",
+      ^.minWidth := "192px",
       children
     )
   }
