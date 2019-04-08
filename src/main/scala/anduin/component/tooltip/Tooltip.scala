@@ -12,7 +12,7 @@ import japgolly.scalajs.react.vdom.html_<^._
 
 final case class Tooltip(
   renderTarget: VdomNode,
-  renderContent: () => VdomNode,
+  renderContent: () => String,
   position: PortalPosition = PortalPosition.TopCenter,
   targetWrapper: PortalWrapper = PortalWrapper.Block,
   isDisabled: Boolean = false

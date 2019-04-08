@@ -18,7 +18,7 @@ final case class TooltipContent(
   targetRef: Ref.Simple[HTMLElement],
   // Same as Tooltip's `position` prop
   position: PortalPosition = PortalPosition.TopCenter,
-  text: VdomNode
+  text: String
 ) {
   def apply(): VdomElement = TooltipContent.component(this)
 }
