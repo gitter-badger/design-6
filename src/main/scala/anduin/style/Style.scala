@@ -64,6 +64,12 @@ class Style(val classes: List[String]) {
   def whiteSpace: WhiteSpace = WhiteSpace(classes)
   def overflowWrap: OverflowWrap = OverflowWrap(classes)
 
+  // Visibility
+  def visibility: Visibility = Visibility(classes)
+
+  // Group
+  def group: Group = Group(classes)
+
   // Not categorized by Tailwind
   def animation: Animation = Animation(classes)
   def transition: Transition = Transition(classes)
