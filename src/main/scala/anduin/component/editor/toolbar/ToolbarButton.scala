@@ -34,7 +34,7 @@ private[toolbar] object ToolbarButton {
         onClick = props.onClick
       )(children),
       renderContent = () => props.tip,
-      isDisabled = props.tip.nonEmpty
+      isDisabled = props.tip.isEmpty
     )()
   }
 
