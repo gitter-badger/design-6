@@ -27,6 +27,16 @@ private[email] object EmailFrame {
 
     private val eventFrameRef = Ref.toScalaComponent(EventFrame.component)
 
+    private val fontStyles =
+      """
+        |html, body {
+        |font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen", "Ubuntu",
+        | "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif;
+        |-webkit-font-smoothing: antialiased;
+        |font-size: 13px;
+        |}
+      """.stripMargin
+
     def componentDidMount(): Callback = {
       for {
         frameRef <- eventFrameRef.get
@@ -91,7 +101,9 @@ private[email] object EmailFrame {
               val doc = frame.contentDocument.asInstanceOf[HTMLDocument]
               Callback {
                 doc.open()
-                doc.write(s"<!DOCTYPE html>${formatEmailContent(props)}")
+                doc.write(
+                  s"<!DOCTYPE html><style>$fontStyles</style><html><body>${formatEmailContent(props)}</body></html>"
+                )
                 doc.close()
 
                 WhitespaceCleaner.removeUnnecessaryWhitespace(doc)
