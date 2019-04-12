@@ -9,7 +9,7 @@ import japgolly.scalajs.react.vdom.html_<^._
 import anduin.style.Style
 // scalastyle:on underscore.import
 
-case class VerticalDivider() {
+final case class VerticalDivider() {
   def apply(): VdomElement = VerticalDivider.component()
 }
 
