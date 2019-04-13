@@ -12,7 +12,6 @@ link_paths=(
   input/radio
   input/textbox
   input/suggest
-  list
   menu
   modal
   popover
