@@ -22,18 +22,17 @@ lazy val core = (project in file("core"))
     commonSettings,
     scalacOptions += "-P:scalajs:sjsDefinedByDefault",
     scalaJSUseMainModuleInitializer := true,
-    // Temporarily give up on scalajs-split :(
-    // scalaJSLinkerConfig ~= {
-    //   _.withESFeatures(_.withUseECMAScript2015(true))
-    // },
     webpackBundlingMode in fastOptJS := BundlingMode.LibraryOnly(),
     webpackBundlingMode in fullOptJS := BundlingMode.Application,
-    version in webpack := "4.18.0",
-    version in startWebpackDevServer := "3.1.4",
+    webpackCliVersion := "3.3.0",
+    version in webpack := "4.29.6",
+    version in startWebpackDevServer := "3.2.1",
     libraryDependencies ++= Seq(
       "org.scalatest" %% "scalatest" % "3.0.5" % Test,
       "org.scala-js" %%% "scalajs-dom" % "0.9.5",
-      "com.github.japgolly.scalajs-react" %%% "extra" % "1.4.0"
+      "com.github.japgolly.scalajs-react" %%% "extra" % "1.4.0",
+      "io.github.cquiroz" %%% "scala-java-time" % "2.0.0-RC1",
+      "io.github.cquiroz" %%% "scala-java-time-tzdb" % "2.0.0-RC1_2018f"
     ),
     // https://github.com/webjars/webjars/issues/1789
     dependencyOverrides += "org.webjars.npm" % "js-tokens" % "3.0.2",
