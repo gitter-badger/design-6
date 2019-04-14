@@ -37,16 +37,19 @@ lazy val core = (project in file("core"))
     // https://github.com/webjars/webjars/issues/1789
     dependencyOverrides += "org.webjars.npm" % "js-tokens" % "3.0.2",
     npmDependencies in Compile ++= Seq(
+      // for documentation
+      "highlight.js" -> "9.15.6",
+      "marked" -> "0.6.2",
+      // for components
+      "downshift" -> "3.2.7",
+      "focus-visible" -> "4.1.5",
+      "popper.js" -> "1.14.7",
       "react" -> "16.7.0",
       "react-dom" -> "16.7.0",
+      "react-text-mask" -> "5.4.3",
       "react-truncate-markup" -> "3.0.0",
       "react-virtualized" -> "9.21.0",
-      "react-text-mask" -> "5.4.3",
-      "text-mask-addons" -> "3.8.0",
-      "popper.js" -> "1.14.7",
-      "marked" -> "0.3.19",
-      "focus-visible" -> "4.1.5",
-      "downshift" -> "3.2.7"
+      "text-mask-addons" -> "3.8.0"
     )
   )
 

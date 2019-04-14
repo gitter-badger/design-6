@@ -1,7 +1,5 @@
 package anduin.guide.pages.components.suggest
 
-import java.time.ZoneId
-
 import anduin.component.button.Button
 import anduin.guide.components._
 import anduin.component.input.suggest.Suggest
@@ -9,7 +7,6 @@ import anduin.guide.app.main.Pages
 import anduin.mcro.Source
 import japgolly.scalajs.react._
 import japgolly.scalajs.react.vdom.html_<^._
-import scala.collection.JavaConverters._
 
 object PageSuggest {
 
@@ -38,14 +35,14 @@ object PageSuggest {
     getSubmitString = _.email
   )
 
-  def render(ctl: Pages.Ctl): VdomElement = {
-    println(
-      ZoneId.getAvailableZoneIds.asScala.toList.map { zoneString =>
-        val id = ZoneId.of(zoneString)
-        (id.getId, zoneString)
-      }
-    )
+  //    println(
+  //      ZoneId.getAvailableZoneIds.asScala.toList.map { zoneString =>
+  //        val id = ZoneId.of(zoneString)
+  //        (id.getId, zoneString)
+  //      }
+  //    )
 
+  def render(ctl: Pages.Ctl): VdomElement = {
     <.div(
       Header("Suggest", Some(Suggest))(),
       Toc(headings = Source.getTocHeadings)(),
