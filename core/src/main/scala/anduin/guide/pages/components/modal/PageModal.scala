@@ -111,22 +111,13 @@ object PageModal {
            |""".stripMargin
       )(),
       ExampleRich(Source.annotate({
-        /*>*/
-        val modal = Modal(
-          title = "Hello World",
-          renderContent = _ => {
-            ModalBody()("Modal's content")
-          }, /*<*/
-          renderTarget = open => {
-            Button(
-              style = Button.Style.Text(),
-              onClick = open
-            )("open a modal")
-          } /*>*/
-        )() /*<*/
         <.p(
           "For example you can ",
-          modal,
+          Modal(
+            title = "Hello World",
+            renderContent = _ => ModalBody()("Modal's content"),
+            renderTarget = open => Button(Button.Style.Text(), onClick = open)("open a modal")
+          )(),
           " in the middle of a sentence."
         )
       }))(),
@@ -177,31 +168,27 @@ object PageModal {
           |""".stripMargin
       )(),
       ExampleRich(Source.annotate({
-        /*>*/
         Modal(
           title = "Error signing document",
-          renderTarget = open => {
-            Button(onClick = open)("Open Modal")
-          }, /*<*/
-          renderContent = close => {
-            val body = ModalBody()(
-              <.p("There was an unknown error signing your document."),
-              <.p("Please try again or contact us for support.")
-            )
-            val footer = ModalFooter()(
-              <.div(
-                Style.flexbox.flex.flexbox.justifyBetween,
-                Style.flexbox.itemsCenter,
-                <.p(Style.color.gray6, "Error code: 8AS13FHS"),
-                Button(
-                  style = Button.Style.Full(color = Button.Color.Primary),
-                  onClick = close
-                )("Okay")
+          renderTarget = open => Button(onClick = open)("Open Modal"),
+          renderContent = close =>
+            React.Fragment(
+              ModalBody()(
+                <.p("There was an unknown error signing your document."),
+                <.p("Please try again or contact us for support.")
+              ),
+              ModalFooter()(
+                <.div(
+                  Style.flexbox.flex.flexbox.justifyBetween,
+                  Style.flexbox.itemsCenter,
+                  <.p(Style.color.gray6, "Error code: 8AS13FHS"), {
+                    val style = Button.Style.Full(color = Button.Color.Primary)
+                    Button(style, onClick = close)("Okay")
+                  }
+                )
               )
-            )
-            React.Fragment(body, footer)
-          } /*>*/
-        )() /*<*/
+          )
+        )()
       }))(),
       Markdown(
         """
@@ -218,20 +205,19 @@ object PageModal {
           |""".stripMargin
       )(),
       ExampleRich(Source.annotate({
-        /*>*/
         Modal(
           title = "Deal archive confirmation",
-          renderTarget = sampleArchiveButton, /*<*/
+          renderTarget = sampleArchiveButton,
           renderContent = close => {
             val footer = ModalFooterWCancel(cancel = close)(
               Button(
                 style = Button.Style.Full(color = Button.Color.Danger),
                 onClick = Callback.alert("Deal archived") >> close
               )("Archive Deal")
-            ) /*>*/
+            )
             React.Fragment(sampleArchiveBody(), footer)
           }
-        )() /*<*/
+        )()
       }))(),
       Markdown(
         """
@@ -296,14 +282,12 @@ object PageModal {
         """.stripMargin
       )(),
       ExampleRich(Source.annotate({
-        /*>*/
         Modal(
           title = "960px Modal",
           renderTarget = open => Button(onClick = open)("Open 960px Modal"),
           renderContent = _ => ModalBody()("Hello world"),
-          /*<*/
-          size = Modal.Size(Modal.Width.Px960) /*>*/
-        )() /*<*/
+          size = Modal.Size(Modal.Width.Px960)
+        )()
       }))(),
       Markdown(
         """
@@ -326,16 +310,12 @@ object PageModal {
         """.stripMargin
       )(),
       ExampleRich(Source.annotate({
-        /*>*/
         Modal(
           title = "Full-screen Modal",
-          renderTarget = open =>
-            Button(onClick = open)(
-              "Open a Full-screen Modal"
-          ),
-          renderContent = _ => ModalBody()("Hello world"), /*<*/
-          size = Modal.Size(Modal.Width.Full, Modal.Height.Full) /*>*/
-        )() /*<*/
+          renderTarget = open => Button(onClick = open)("Open a Full-screen Modal"),
+          renderContent = _ => ModalBody()("Hello world"),
+          size = Modal.Size(Modal.Width.Full, Modal.Height.Full)
+        )()
       }))(),
       Markdown(
         """
@@ -358,10 +338,9 @@ object PageModal {
         """.stripMargin
       )(),
       ExampleRich(Source.annotate({
-        /*>*/
         Modal(
           title = "Example Modal",
-          renderTarget = open => Button(onClick = open)("Open Modal"), /*<*/
+          renderTarget = open => Button(onClick = open)("Open Modal"),
           renderContent = close => {
             val body = ModalBody()("Content")
             val submit = Callback.alert("Submitted") >> close
@@ -372,8 +351,8 @@ object PageModal {
             )("Submit")
             val footer = ModalFooterWCancel(close)(button)
             React.Fragment(body, footer)
-          } /*>*/
-        )() /*<*/
+          }
+        )()
       }))(),
       Markdown(
         """
@@ -414,19 +393,12 @@ object PageModal {
           """.stripMargin
       )(),
       ExampleRich(Source.annotate({
-        /*>*/
         Modal(
           title = "Example Modal",
-          renderTarget = open => {
-            Button(onClick = open)("Open Modal")
-          },
-          renderContent = _ => {
-            ModalBody()("You cannot close this by clicking outside")
-          }, /*<*/
-          isClosable = Some(
-            IsClosable(onEsc = true, onOutsideClick = false)
-          ) /*>*/
-        )() /*<*/
+          renderTarget = open => Button(onClick = open)("Open Modal"),
+          renderContent = _ => ModalBody()("You cannot close this by clicking outside"),
+          isClosable = Some(IsClosable(onEsc = true, onOutsideClick = false))
+        )()
       }))(),
       Markdown(
         """
@@ -463,13 +435,12 @@ object PageModal {
               React.Fragment(body, footer)
             }
           )()
-        /*>*/
         Modal(
-          title = "Example Modal", /*<*/
-          isClosable = None, /*>*/
+          title = "Example Modal",
+          isClosable = None,
           renderTarget = open => Button(onClick = open)("Open Modal"),
           renderContent = renderContent
-        )() /*<*/
+        )()
       }))(),
       Markdown(
         """
@@ -497,41 +468,10 @@ object PageModal {
           |>Ensure that you read carefully to understand the underlying work
           |>before using them.
           |
-          |## URL
-          |
-          |>::warning:: **This feature is not available yet.** It is
-          |currently a proposal and here for early evaluation.
-          |
-          |**Sometimes Modal's content can also be accessible as a standalone
-          |page.** This is especially common for full-screen or large modals.
-          |In these cases we usually want to update browser's address to
-          |match the new page in the Modal, so bookmark or link sharing
-          |will work properly.
-          |
-          |**In these cases, use the `url` prop to ask Modal to update
-          |browser's url** when its content is shown (i.e. opening). Its
-          |value should be the path to the new page, which usually come from
-          |`routerCtl.pathFor`:
-          |
-          |[ps]: https://developer.mozilla.org/en-US/docs/Web/API/History_API#The_pushState()_method
-          |
         """.stripMargin
       )(),
-      ExampleRich(Source.annotate({
-        /*>*/
-        Modal(
-          title = "URL Modal",
-          renderTarget = open => Button(onClick = open)("Open Modal"),
-          renderContent = _ => ModalBody()("home content"), /*<*/
-          /* url = ctl.pathFor(Pages.Welcome()).value, */ /*>*/
-          size = Modal.Size(Modal.Width.Px1160)
-        )() /*<*/
-      }))(),
       Markdown(
         """
-          |Modal will also bring back the previous URL for you after it is
-          |closed or unmounted.
-          |
           |## Event hooks
           |
           |Modal provides 2 event hooks: `onOpen` and `onClose`. These
@@ -577,11 +517,10 @@ object PageModal {
           """.stripMargin
       )(),
       ExampleRich(Source.annotate({
-        /*>*/
         val renderModal = (setValue: Boolean => Callback) => {
           Modal(
-            title = "Example Modal", /*<*/
-            isPermanent = true, /*>*/
+            title = "Example Modal",
+            isPermanent = true,
             renderTarget = open => Button(onClick = open)("Open Modal"),
             renderContent = close => {
               val body = <.div(
@@ -593,7 +532,7 @@ object PageModal {
               ModalBody()(body)
             }
           )()
-        } /*<*/
+        }
         DemoState.Bool(
           initialValue = true,
           render = (value, setValue) => {
@@ -604,7 +543,7 @@ object PageModal {
               <.p("Modal's parent is destroyed")
             }
           }
-        )() /*>*/
+        )()
       }))(),
       Markdown(
         """
@@ -674,7 +613,7 @@ object PageModal {
       )(),
       ExampleRich(Source.annotate({
         DemoState.Bool(
-          initialValue = false, /*<*/
+          initialValue = false,
           render = (isOpened, setIsOpened) => {
             val modal = Modal(
               title = "Example Modal",
@@ -682,19 +621,12 @@ object PageModal {
               isOpened = Some(isOpened),
               // ===
               afterUserClose = setIsOpened(false),
-              isClosable = Some(
-                IsClosable(
-                  onEsc = true,
-                  onOutsideClick = false
-                )
-              )
+              isClosable = Some(IsClosable(onEsc = true, onOutsideClick = false))
             )()
-            val button = Button(
-              onClick = setIsOpened(true)
-            )("Open Modal") /*>*/
+            val button = Button(onClick = setIsOpened(true))("Open Modal")
             <.div(modal, button)
           }
-        )() /*<*/
+        )()
       }))()
     )
   }

@@ -41,15 +41,14 @@ object PageTab {
           """.stripMargin
       )(),
       ExampleRich(Source.annotate({
-        /*>*/
         val panels = List(
           Tab.Panel("First", () => "First tab"),
           Tab.Panel("Second", () => "Second tab")
         )
         Tab(
-          panels = panels, /*<*/
-          defaultPanel = 1 /*>*/
-        )() /*<*/
+          panels = panels,
+          defaultPanel = 1
+        )()
       }))(),
       Markdown(
         """
@@ -153,29 +152,28 @@ object PageTab {
           |consumer's state and only provides the appearance.
           |
           |```scala
-          |/*>*/object MyComponent {/*<*/
+          |object MyComponent {
           |  case class State(tab: Int)
-          |  /*>*/
-          |  private class Backend(scope: BackendScope[_, State]) {/*<*/
+          |  private class Backend(scope: BackendScope[_, State]) {
           |    private def setTab(nextTab: Int) = scope.modState {
           |      state => state.copy(tab = nextTab)
-          |    }/*>*/
+          |    }
           |
           |    def render(state: State) {
           |      Tab(
-          |        panels = /* ... */,/*<*/
+          |        panels = /* ... */,
           |        active = Some(state.tab),
-          |        setActive = Some(setTab)/*>*/
+          |        setActive = Some(setTab)
           |      )()
           |    }
           |  }
           |
           |  private val component = ScalaComponent
-          |   .builder[Unit](this.getClass.getSimpleName)/*<*/
-          |   .initialState(State(0))/*>*/
+          |   .builder[Unit](this.getClass.getSimpleName)
+          |   .initialState(State(0))
           |   .renderBackend[Backend]
           |   .build
-          |}/*<*/
+          |}
           |```
           |
           |When Tab is stateless, `defaultPanel` has no effect at all.

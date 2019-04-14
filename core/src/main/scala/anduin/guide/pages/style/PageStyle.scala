@@ -52,11 +52,11 @@ object PageStyle {
            |related ones under one `Style`.
            |
            |```scala
-           |/*>*/<.div(
-           |  /*<*/Style.background.primary4.color.gray0, // Color
-           |  Style.margin.left8.padding.all4, // Spacing/*>*/
+           |<.div(
+           | Style.background.primary4.color.gray0, // Color
+           |  Style.margin.left8.padding.all4, // Spacing
            |  ...
-           |)/*<*/
+           |)
            |```
            |
            |# Classes

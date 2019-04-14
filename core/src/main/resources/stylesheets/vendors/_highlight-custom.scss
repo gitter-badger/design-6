@@ -1,9 +1,23 @@
-.hljs, .hljs-subst { color: var(--color-gray-8) }
+.hljs,
+.hljs-subst {
+  color: var(--color-gray-8)
+}
 
-.hljs-comment { color: var(--color-gray-5) }
-.hljs-keyword { color: var(--color-danger-5) }
-.hljs-type { color: var(--color-primary-5) }
-.hljs-string, .hljs-number, .hljs-literal { color: var(--color-warning-5) }
+.hljs-comment {
+  color: var(--color-gray-5)
+}
+.hljs-keyword {
+  color: var(--color-danger-5)
+}
+.hljs-type,
+.hljs-title {
+  color: var(--color-primary-5)
+}
+.hljs-string,
+.hljs-number,
+.hljs-literal {
+  color: var(--color-warning-5)
+}
 
 .hljs-emphasis { font-style: italic }
 .hljs-strong { font-weight: bold };

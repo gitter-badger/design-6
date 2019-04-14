@@ -202,9 +202,8 @@ object PageDropdown {
         """.stripMargin
       )(),
       ExampleRich(Source.annotate({
-        /*>*/
         Fruit.State(
-          initialValue = Fruit("Apple"), /*<*/
+          initialValue = Fruit("Apple"),
           render = (value, onChange) => {
             Fruit.FDropdown(
               value = Some(value),
@@ -218,7 +217,7 @@ object PageDropdown {
               onChange = onChange,
               getValueString = _.name
             )()
-          } /*>*/
+          }
         )()
       }))(),
       Markdown(
@@ -270,14 +269,13 @@ object PageDropdown {
         """.stripMargin
       )(),
       ExampleRich(Source.annotate({
-        /*>*/
         Fruit.StateSample.copy(render = (value, onChange) => {
           Fruit.DropdownSample.copy(
             value = Some(value),
-            onChange = onChange, /*<*/
-            isDisabled = true /*>*/
+            onChange = onChange,
+            isDisabled = true
           )()
-        })() /*<*/
+        })()
       }))(),
       Markdown(
         """
@@ -309,8 +307,8 @@ object PageDropdown {
           Country.DropdownSample.copy(
             value = Some(value),
             onChange = onChange,
-            options = Country.options, /*<*/
-            getFilterValue = Some(c => c.name + c.continent) /*>*/
+            options = Country.options,
+            getFilterValue = Some(c => c.name + c.continent)
           )()
         })()
       }))(),
@@ -346,14 +344,13 @@ object PageDropdown {
         """.stripMargin
       )(),
       ExampleRich(Source.annotate({
-        /*>*/
         val dropdown = Fruit.StateSample.copy(render = (value, onChange) => {
           Fruit.DropdownSample.copy(
             value = Some(value),
-            onChange = onChange, /*<*/
-            isFullWidth = true /*>*/
+            onChange = onChange,
+            isFullWidth = true
           )()
-        })() /*<*/
+        })()
         <.div(Style.width.px256, dropdown)
       }))(),
       Markdown(
@@ -485,7 +482,7 @@ object PageDropdown {
             onChange = onChange,
             options = Country.options,
             header = Some("Sample header"),
-            footer = Some("Sample footer") /*>*/
+            footer = Some("Sample footer")
           )()
         })()
       }),
@@ -519,14 +516,14 @@ object PageDropdown {
             TagMod(^.width := "16px", ^.height := "16px")
           )
           React.Fragment(flag, country.name)
-        } /*>*/
+        }
         Country.StateSample.copy(render = (value, onChange) => {
           Country.DropdownSample.copy(
             value = Some(value),
-            onChange = onChange, /*<*/
-            renderValue = Some(renderValue) /*>*/
+            onChange = onChange,
+            renderValue = Some(renderValue)
           )()
-        })() /*<*/
+        })()
       }))(),
       Markdown(
         s"""
@@ -550,14 +547,14 @@ object PageDropdown {
             <.span(country.name),
             <.span(Style.color.gray6, s" - ${country.continent}")
           )
-        } /*>*/
+        }
         Country.StateSample.copy(render = (value, onChange) => {
           Country.DropdownSample.copy(
             value = Some(value),
-            onChange = onChange, /*<*/
-            renderOption = Some(renderOption) /*>*/
+            onChange = onChange,
+            renderOption = Some(renderOption)
           )()
-        })() /*<*/
+        })()
       }))(),
       Markdown(
         """

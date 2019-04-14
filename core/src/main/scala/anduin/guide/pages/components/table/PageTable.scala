@@ -208,18 +208,11 @@ object PageTable {
           """.stripMargin
       )(),
       ExampleRich(Source.annotate({
-        /*>*/
         val rows = Sample.BaseTable.rows.take(3)
-        val table1 = Sample.BaseTable.copy(
-          rows = rows, /*<*/
-          style = Table.Style.Full /*>*/
-        )()
-        val table2 = Sample.BaseTable.copy(
-          rows = rows, /*<*/
-          style = Table.Style.Minimal /*>*/
-        )()
+        val table1 = Sample.BaseTable.copy(rows = rows, style = Table.Style.Full)()
+        val table2 = Sample.BaseTable.copy(rows = rows, style = Table.Style.Minimal)()
         val p = (content: String) => <.p(Style.lineHeight.px40, content)
-        <.div(p("Full (default):"), table1, p("Minimal:"), table2) /*<*/
+        <.div(p("Full (default):"), table1, p("Minimal:"), table2)
       }))(),
       Markdown(
         """
@@ -253,29 +246,25 @@ object PageTable {
           |""".stripMargin
       )(),
       ExampleRich(Source.annotate({
-        /*>*/
         val renderLevel = (member: Sample.Member) => {
           val content = member.level.toString
           if (member.id == 1) {
-            Table.Cell(
-              Tag(color = Tag.Light.Danger)(content), /*<*/
-              align = Table.AlignBottom /*>*/
-            )
+            Table.Cell(Tag(color = Tag.Light.Danger)(content), align = Table.AlignBottom)
           } else {
             Table.Cell(content)
           }
         }
         val table = Sample.BaseTable.copy(
           columns = List(
-            Table.Column("Name", Sample.renderNameId), /*<*/
-            Table.Column("Level", renderLevel), /*>*/
+            Table.Column("Name", Sample.renderNameId),
+            Table.Column("Level", renderLevel),
             Sample.BaseTable.columns(3),
             Sample.BaseTable.columns(4)
           ),
-          rows = Sample.BaseTable.rows.take(3), /*<*/
-          align = Table.AlignTop /*>*/
+          rows = Sample.BaseTable.rows.take(3),
+          align = Table.AlignTop
         )()
-        <.div(table) /*<*/
+        <.div(table)
       }))(),
       Markdown(
         """
@@ -293,22 +282,21 @@ object PageTable {
           |""".stripMargin
       )(),
       ExampleRich(Source.annotate({
-        /*>*/
         val table = Sample.BaseTable.copy(
           rows = Sample.BaseTable.rows.take(3),
           columns = List(
-            Sample.BaseTable.columns.head, /*<*/
+            Sample.BaseTable.columns.head,
             Table.Column(
               head = "Name",
               render = member => Table.Cell(member.name),
               width = "50%"
-            ), /*>*/
+            ),
             Sample.BaseTable.columns(2),
             Sample.BaseTable.columns(3),
             Sample.BaseTable.columns(4)
           )
         )()
-        <.div(table) /*<*/
+        <.div(table)
       }))(),
       Markdown(
         """
@@ -330,22 +318,21 @@ object PageTable {
           |""".stripMargin
       )(),
       ExampleRich(Source.annotate({
-        /*>*/
         val table = Sample.BaseTable.copy(
           rows = Sample.BaseTable.rows.take(3),
           columns = List(
-            Sample.BaseTable.columns.head, /*<*/
+            Sample.BaseTable.columns.head,
             Table.Column(
               head = "Long long long long long long long long long long long " +
                 "long long name",
               render = member => Table.Cell(member.name)
-            ), /*>*/
+            ),
             Sample.BaseTable.columns(2),
             Sample.BaseTable.columns(3),
             Sample.BaseTable.columns(4)
           )
         )()
-        <.div(table) /*<*/
+        <.div(table)
       }))(),
       Markdown(
         """
@@ -389,24 +376,17 @@ object PageTable {
            |""".stripMargin
       )(),
       ExampleRich(Source.annotate({
-        /*>*/
         val table = Sample.BaseTable.copy(
           columns = List(
-            Sample.BaseTable.columns.head, /*<*/
-            Sample.BaseTable
-              .columns(1)
-              .copy(sortBy = Table.ColumnOrdering(_.name)),
-            Sample.BaseTable
-              .columns(2)
-              .copy(sortBy = Table.ColumnOrdering(_.level.toDouble)), /*>*/
-            Sample.BaseTable.columns(3), /*<*/
-            Sample.BaseTable
-              .columns(4)
-              .copy(sortBy = Table.ColumnOrdering(m => m.point * m.level)) /*>*/
-          ), /*<*/
-          sortColumn = Some(1) /*>*/
+            Sample.BaseTable.columns.head,
+            Sample.BaseTable.columns(1).copy(sortBy = Table.ColumnOrdering(_.name)),
+            Sample.BaseTable.columns(2).copy(sortBy = Table.ColumnOrdering(_.level.toDouble)),
+            Sample.BaseTable.columns(3),
+            Sample.BaseTable.columns(4).copy(sortBy = Table.ColumnOrdering(m => m.point * m.level))
+          ),
+          sortColumn = Some(1)
         )()
-        <.div(table) /*<*/
+        <.div(table)
       }))(),
       Markdown(
         """
@@ -437,14 +417,13 @@ object PageTable {
         """.stripMargin
       )(),
       ExampleRich(Source.annotate({
-        /*>*/
         val render = (b: Boolean) => {
           val (color, text) =
             if (b) (Tag.Light.Success, "Pass")
             else (Tag.Light.Danger, "Fail")
           val tag = Tag(color = color)(text)
           <.div(Style.flexbox.flex.flexbox.justifyCenter, tag)
-        } /*<*/
+        }
         val isSame = (m: Sample.Member) => m.testA == m.testB
         val renderTestA = (member: Sample.Member) => {
           val colSpan = if (isSame(member)) 2 else 1
@@ -453,17 +432,17 @@ object PageTable {
         val renderTestB = (member: Sample.Member) => {
           if (isSame(member)) Table.Cell(isNone = true)
           else Table.Cell(render(member.testB))
-        } /*>*/
+        }
         val center = Style.textAlign.center
         val table = Sample.BaseTable.copy(
           columns = List(
             Sample.BaseTable.columns.head,
-            Sample.BaseTable.columns(1), /*<*/
+            Sample.BaseTable.columns(1),
             Table.Column(<.p(center, "Test A"), renderTestA),
-            Table.Column(<.p(center, "Test B"), renderTestB) /*>*/
+            Table.Column(<.p(center, "Test B"), renderTestB)
           )
         )()
-        <.div(table) /*<*/
+        <.div(table)
       }))(),
       Markdown(
         """
@@ -491,8 +470,7 @@ object PageTable {
         """.stripMargin
       )(),
       ExampleRich(Source.annotate({
-        /*>*/
-        val table = Sample.BaseTable.copy( /*<*/
+        val table = Sample.BaseTable.copy(
           renderRow = (
             key: String,
             cells: VdomArray,
@@ -509,9 +487,9 @@ object PageTable {
               ^.key := key,
               cells
             )
-          } /*>*/
+          }
         )()
-        <.div(table) /*<*/
+        <.div(table)
       }))(),
       Markdown(
         """
@@ -555,18 +533,17 @@ object PageTable {
           |""".stripMargin
       )(),
       ExampleRich(Source.annotate({
-        /*>*/
         val table = Sample.BaseTable.copy(
-          rows = Sample.BaseTable.rows.take(3), /*<*/
+          rows = Sample.BaseTable.rows.take(3),
           footer = <.div(
             Style.flexbox.flex.flexbox.itemsCenter,
             Button(
               style = Button.Style.Full(color = Button.Color.Primary)
             )("Invite Member"),
             <.p(Style.margin.left16, "New member will see all history.")
-          ) /*>*/
+          )
         )()
-        <.div(table) /*<*/
+        <.div(table)
       }))()
     )
   }

@@ -118,15 +118,14 @@ object PageComponent {
            |""".stripMargin
       )(),
       ExampleRich(Source.annotate({
-        /*>*/
         val margin = Style.margin.left8
         <.div(
-          /*<*/
-          Style.flexbox.flex.flexbox.itemsCenter, /*>*/
+
+          Style.flexbox.flex.flexbox.itemsCenter,
           <.div(Icon(name = Icon.Glyph.LightBolt)()),
           <.div(Button()("Button"), margin),
           <.span("Text", margin)
-        ) /*<*/
+        )
       }))(),
       Markdown(
         """
@@ -150,7 +149,7 @@ object PageComponent {
           |> React element and calls it instead of implementing its own render
           |> logic.
           |>
-          |> ```plain
+          |> ```text
           |> <DataProvider render={data => (
           |>   <h1>Hello {data.target}</h1>
           |> )}/>
