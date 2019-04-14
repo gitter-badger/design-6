@@ -1,7 +1,6 @@
 package anduin.guide.app.router
 
 import anduin.guide.app.main.layout.Layout
-import anduin.guide.app.main.PageWrapper
 import anduin.guide.app.main.Pages._
 import anduin.guide.pages.brand.logo.PageLogo
 import anduin.guide.pages.components.card.PageCard
@@ -33,8 +32,6 @@ import anduin.guide.pages.wip.PageWIP
 import japgolly.scalajs.react.extra.router.{Redirect, RouterConfig, RouterConfigDsl}
 import japgolly.scalajs.react.vdom.VdomElement
 
-import scala.scalajs.js.Promise
-
 object Router {
 
   private type RenderFn = Ctl => VdomElement
@@ -44,59 +41,55 @@ object Router {
 
     val hash = string("(#.*|)$")
 
-    def getRender(promiseFn: () => Promise[RenderFn]) = {
-      renderR(ctl => PageWrapper(ctl, promiseFn)())
-    }
-
     // format: off
     (trimSlashes
-      | staticRoute(root, Home) ~> getRender(() => Promise.resolve[RenderFn](PageHome.render _))
+      | staticRoute(root, Home) ~> renderR(PageHome.render)
       // Style
-      | dynamicRouteCT("style" ~ hash.caseClass[Style]) ~> getRender(() => Promise.resolve[RenderFn](PageStyle.render _))
-      | dynamicRouteCT("logo" ~ hash.caseClass[Logo]) ~> getRender(() => Promise.resolve[RenderFn](PageLogo.render _))
-      | dynamicRouteCT("color" ~ hash.caseClass[Color]) ~> getRender(() => Promise.resolve[RenderFn](PageColor.render _))
-      | dynamicRouteCT("layout" ~ hash.caseClass[Layout]) ~> getRender(() => Promise.resolve[RenderFn](PageLayout.render _))
-      | dynamicRouteCT("typography" ~ hash.caseClass[Typography]) ~> getRender(() => Promise.resolve[RenderFn](PageTypography.render _))
+      | dynamicRouteCT("style" ~ hash.caseClass[Style]) ~> renderR(PageStyle.render)
+      | dynamicRouteCT("logo" ~ hash.caseClass[Logo]) ~> renderR(PageLogo.render)
+      | dynamicRouteCT("color" ~ hash.caseClass[Color]) ~> renderR(PageColor.render)
+      | dynamicRouteCT("layout" ~ hash.caseClass[Layout]) ~> renderR(PageLayout.render)
+      | dynamicRouteCT("typography" ~ hash.caseClass[Typography]) ~> renderR(PageTypography.render)
       // Component
-      | dynamicRouteCT("playground" ~ hash.caseClass[Playground]) ~> getRender(() => Promise.resolve[RenderFn](PagePlayground.render _))
-      | dynamicRouteCT("avatar" ~ hash.caseClass[Avatar]) ~> getRender(() => Promise.resolve[RenderFn](PageWIP.render _))
-      | dynamicRouteCT("button" ~ hash.caseClass[Button]) ~> getRender(() => Promise.resolve[RenderFn](PageButton.render _))
-      | dynamicRouteCT("button-box" ~ hash.caseClass[ButtonBox]) ~> getRender(() => Promise.resolve[RenderFn](PageButtonBox.render _))
-      | dynamicRouteCT("card" ~ hash.caseClass[Card]) ~> getRender(() => Promise.resolve[RenderFn](PageCard.render _))
-      | dynamicRouteCT("checkbox" ~ hash.caseClass[Checkbox]) ~> getRender(() => Promise.resolve[RenderFn](PageCheckbox.render _))
-      | dynamicRouteCT("component" ~ hash.caseClass[Component]) ~> getRender(() => Promise.resolve[RenderFn](PageComponent.render _))
-      | dynamicRouteCT("date-time" ~ hash.caseClass[DateTime]) ~> getRender(() => Promise.resolve[RenderFn](PageWIP.render _))
-      | dynamicRouteCT("dialog" ~ hash.caseClass[Dialog]) ~> getRender(() => Promise.resolve[RenderFn](PageDialog.render _))
-      | dynamicRouteCT("dropdown" ~ hash.caseClass[Dropdown]) ~> getRender(() => Promise.resolve[RenderFn](PageDropdown.render _))
-      | dynamicRouteCT("field" ~ hash.caseClass[Field]) ~> getRender(() => Promise.resolve[RenderFn](PageField.render _))
-      | dynamicRouteCT("filter" ~ hash.caseClass[Filter]) ~> getRender(() => Promise.resolve[RenderFn](PageWIP.render _))
-      | dynamicRouteCT("icon" ~ hash.caseClass[Icon]) ~> getRender(() => Promise.resolve[RenderFn](PageIcon.render _))
-      | dynamicRouteCT("icon-file" ~ hash.caseClass[IconFile]) ~> getRender(() => Promise.resolve[RenderFn](PageIconFile.render _))
-      | dynamicRouteCT("icon-folder" ~ hash.caseClass[IconFolder]) ~> getRender(() => Promise.resolve[RenderFn](PageIconFolder.render _))
-      | dynamicRouteCT("icon-glyph" ~ hash.caseClass[IconGlyph]) ~> getRender(() => Promise.resolve[RenderFn](PageIconGlyph.render _))
-      | dynamicRouteCT("icon-negotiation" ~ hash.caseClass[IconNego]) ~> getRender(() => Promise.resolve[RenderFn](PageIconNego.render _))
-      | dynamicRouteCT("icon-product" ~ hash.caseClass[IconProduct]) ~> getRender(() => Promise.resolve[RenderFn](PageIconProduct.render _))
-      | dynamicRouteCT("menu" ~ hash.caseClass[Menu]) ~> getRender(() => Promise.resolve[RenderFn](PageWIP.render _))
-      | dynamicRouteCT("modal" ~ hash.caseClass[Modal]) ~> getRender(() => Promise.resolve[RenderFn](PageModal.render _))
-      | dynamicRouteCT("multi-dropdown" ~ hash.caseClass[DropdownMulti]) ~> getRender(() => Promise.resolve[RenderFn](PageWIP.render _))
-      | dynamicRouteCT("multi-suggest" ~ hash.caseClass[SuggestMulti]) ~> getRender(() => Promise.resolve[RenderFn](PageWIP.render _))
-      | dynamicRouteCT("portal" ~ hash.caseClass[Portal]) ~> getRender(() => Promise.resolve[RenderFn](PagePortal.render _))
-      | dynamicRouteCT("popover" ~ hash.caseClass[Popover]) ~> getRender(() => Promise.resolve[RenderFn](PagePopover.render _))
-      | dynamicRouteCT("progress-indicator" ~ hash.caseClass[Progress]) ~> getRender(() => Promise.resolve[RenderFn](PageProgressIndicator.render _))
-      | dynamicRouteCT("radio" ~ hash.caseClass[Radio]) ~> getRender(() => Promise.resolve[RenderFn](PageRadio.render _))
-      | dynamicRouteCT("stepper" ~ hash.caseClass[Stepper]) ~> getRender(() => Promise.resolve[RenderFn](PageStepper.render _))
-      | dynamicRouteCT("suggest" ~ hash.caseClass[Suggest]) ~> getRender(() => Promise.resolve[RenderFn](PageSuggest.render _))
-      | dynamicRouteCT("tab" ~ hash.caseClass[Tab]) ~> getRender(() => Promise.resolve[RenderFn](PageTab.render _))
-      | dynamicRouteCT("table" ~ hash.caseClass[Table]) ~> getRender(() => Promise.resolve[RenderFn](PageTable.render _))
-      | dynamicRouteCT("tag" ~ hash.caseClass[Tag]) ~> getRender(() => Promise.resolve[RenderFn](PageTag.render _))
-      | dynamicRouteCT("text-box" ~ hash.caseClass[TextBox]) ~> getRender(() => Promise.resolve[RenderFn](PageTextBox.render _))
-      | dynamicRouteCT("text-box-value" ~ hash.caseClass[TextBoxValue]) ~> getRender(() => Promise.resolve[RenderFn](PageTextBoxValue.render _))
-      | dynamicRouteCT("text-box-appearance" ~ hash.caseClass[TextBoxAppearance]) ~> getRender(() => Promise.resolve[RenderFn](PageTextBoxAppearance.render _))
-      | dynamicRouteCT("toast" ~ hash.caseClass[Toast]) ~> getRender(() => Promise.resolve[RenderFn](PageWIP.render _))
-      | dynamicRouteCT("toggle" ~ hash.caseClass[Toggle]) ~> getRender(() => Promise.resolve[RenderFn](PageToggle.render _))
-      | dynamicRouteCT("tooltip" ~ hash.caseClass[Tooltip]) ~> getRender(() => Promise.resolve[RenderFn](PageTooltip.render _))
-      | dynamicRouteCT("tree" ~ hash.caseClass[Tree]) ~> getRender(() => Promise.resolve[RenderFn](PageWIP.render _))
-      | dynamicRouteCT("well" ~ hash.caseClass[Well]) ~> getRender(() => Promise.resolve[RenderFn](PageWell.render _))
+      | dynamicRouteCT("playground" ~ hash.caseClass[Playground]) ~> renderR(PagePlayground.render)
+      | dynamicRouteCT("avatar" ~ hash.caseClass[Avatar]) ~> renderR(PageWIP.render)
+      | dynamicRouteCT("button" ~ hash.caseClass[Button]) ~> renderR(PageButton.render)
+      | dynamicRouteCT("button-box" ~ hash.caseClass[ButtonBox]) ~> renderR(PageButtonBox.render)
+      | dynamicRouteCT("card" ~ hash.caseClass[Card]) ~> renderR(PageCard.render)
+      | dynamicRouteCT("checkbox" ~ hash.caseClass[Checkbox]) ~> renderR(PageCheckbox.render)
+      | dynamicRouteCT("component" ~ hash.caseClass[Component]) ~> renderR(PageComponent.render)
+      | dynamicRouteCT("date-time" ~ hash.caseClass[DateTime]) ~> renderR(PageWIP.render)
+      | dynamicRouteCT("dialog" ~ hash.caseClass[Dialog]) ~> renderR(PageDialog.render)
+      | dynamicRouteCT("dropdown" ~ hash.caseClass[Dropdown]) ~> renderR(PageDropdown.render)
+      | dynamicRouteCT("field" ~ hash.caseClass[Field]) ~> renderR(PageField.render)
+      | dynamicRouteCT("filter" ~ hash.caseClass[Filter]) ~> renderR(PageWIP.render)
+      | dynamicRouteCT("icon" ~ hash.caseClass[Icon]) ~> renderR(PageIcon.render)
+      | dynamicRouteCT("icon-file" ~ hash.caseClass[IconFile]) ~> renderR(PageIconFile.render)
+      | dynamicRouteCT("icon-folder" ~ hash.caseClass[IconFolder]) ~> renderR(PageIconFolder.render)
+      | dynamicRouteCT("icon-glyph" ~ hash.caseClass[IconGlyph]) ~> renderR(PageIconGlyph.render)
+      | dynamicRouteCT("icon-negotiation" ~ hash.caseClass[IconNego]) ~> renderR(PageIconNego.render)
+      | dynamicRouteCT("icon-product" ~ hash.caseClass[IconProduct]) ~> renderR(PageIconProduct.render)
+      | dynamicRouteCT("menu" ~ hash.caseClass[Menu]) ~> renderR(PageWIP.render)
+      | dynamicRouteCT("modal" ~ hash.caseClass[Modal]) ~> renderR(PageModal.render)
+      | dynamicRouteCT("multi-dropdown" ~ hash.caseClass[DropdownMulti]) ~> renderR(PageWIP.render)
+      | dynamicRouteCT("multi-suggest" ~ hash.caseClass[SuggestMulti]) ~> renderR(PageWIP.render)
+      | dynamicRouteCT("portal" ~ hash.caseClass[Portal]) ~> renderR(PagePortal.render)
+      | dynamicRouteCT("popover" ~ hash.caseClass[Popover]) ~> renderR(PagePopover.render)
+      | dynamicRouteCT("progress-indicator" ~ hash.caseClass[Progress]) ~> renderR(PageProgressIndicator.render)
+      | dynamicRouteCT("radio" ~ hash.caseClass[Radio]) ~> renderR(PageRadio.render)
+      | dynamicRouteCT("stepper" ~ hash.caseClass[Stepper]) ~> renderR(PageStepper.render)
+      | dynamicRouteCT("suggest" ~ hash.caseClass[Suggest]) ~> renderR(PageSuggest.render)
+      | dynamicRouteCT("tab" ~ hash.caseClass[Tab]) ~> renderR(PageTab.render)
+      | dynamicRouteCT("table" ~ hash.caseClass[Table]) ~> renderR(PageTable.render)
+      | dynamicRouteCT("tag" ~ hash.caseClass[Tag]) ~> renderR(PageTag.render)
+      | dynamicRouteCT("text-box" ~ hash.caseClass[TextBox]) ~> renderR(PageTextBox.render)
+      | dynamicRouteCT("text-box-value" ~ hash.caseClass[TextBoxValue]) ~> renderR(PageTextBoxValue.render)
+      | dynamicRouteCT("text-box-appearance" ~ hash.caseClass[TextBoxAppearance]) ~> renderR(PageTextBoxAppearance.render)
+      | dynamicRouteCT("toast" ~ hash.caseClass[Toast]) ~> renderR(PageWIP.render)
+      | dynamicRouteCT("toggle" ~ hash.caseClass[Toggle]) ~> renderR(PageToggle.render)
+      | dynamicRouteCT("tooltip" ~ hash.caseClass[Tooltip]) ~> renderR(PageTooltip.render)
+      | dynamicRouteCT("tree" ~ hash.caseClass[Tree]) ~> renderR(PageWIP.render)
+      | dynamicRouteCT("well" ~ hash.caseClass[Well]) ~> renderR(PageWell.render)
       | emptyRule)
       .notFound(redirectToPage(Home)(Redirect.Replace))
       .renderWith(Layout.render)
