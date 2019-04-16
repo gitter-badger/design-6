@@ -82,12 +82,10 @@ object TextBoxBody {
 
   // This simply uses TextBoxStyle
   private def getStyles(props: Props): TagMod = {
-    // At the moment we don't really separate these 2 props in appearance
-    val isDimmed = props.isDisabled || props.isReadOnly
     TextBoxStyle.getStyles(
       style = props.style,
-      customColor = if (isDimmed) Some(Style.color.gray7) else None,
-      customBg = if (isDimmed) Some(Style.background.gray2) else None,
+      customColor = if (props.isDisabled) Some(Style.color.gray7) else None,
+      customBg = if (props.isDisabled || props.isReadOnly) Some(Style.background.gray2) else None,
       customBorderColor = Some(props.status.borderColor),
       customSize = Some(getStylesSize(props))
     )
