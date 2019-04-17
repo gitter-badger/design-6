@@ -33,15 +33,15 @@ object UploadAndCrop {
 
   case class OnUpload(file: File, onSuccess: Callback, onError: Callback)
 
-  private sealed trait Status
+  sealed trait Status
   private object FileNotSelected extends Status
   private case class FileSelected(src: String) extends Status
   private case class Uploading(src: String) extends Status
   private case class DidUpload(src: String) extends Status
 
-  private case class State(status: Status = FileNotSelected)
+  case class State(status: Status = FileNotSelected)
 
-  private case class Backend(scope: BackendScope[Props, State]) {
+  case class Backend(scope: BackendScope[Props, State]) {
 
     private def onDidSelectFile(file: File) = {
       Callback.future {
@@ -87,6 +87,10 @@ object UploadAndCrop {
       )
     }
 
+    def removeFile(): Callback = {
+      scope.modState(_.copy(status = FileNotSelected))
+    }
+
     def render(props: Props, state: State): VdomElement = {
       state.status match {
         case FileNotSelected =>
@@ -125,7 +129,7 @@ object UploadAndCrop {
     }
   }
 
-  private val component = ScalaComponent
+  val component = ScalaComponent
     .builder[Props](this.getClass.getSimpleName)
     .initialState(State())
     .renderBackend[Backend]
