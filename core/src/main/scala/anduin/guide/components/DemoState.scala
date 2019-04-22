@@ -43,4 +43,5 @@ object DemoState {
   val SeqStr = (new DemoState[Seq[String]])()
   val Bool = (new DemoState[Boolean])()
   val BoolF = Bool(initialValue = false, render = (_, _) => EmptyVdom)
+  def StrEmpty(render: (String, String => Callback) => VdomNode) = Str("", render)
 }
