@@ -1,23 +1,37 @@
-.hljs,
-.hljs-subst {
+.hljs {
   color: var(--color-gray-8)
 }
 
 .hljs-comment {
   color: var(--color-gray-5)
 }
+
 .hljs-keyword {
   color: var(--color-danger-5)
 }
+
 .hljs-type,
 .hljs-title {
   color: var(--color-primary-5)
 }
-.hljs-string,
-.hljs-number,
-.hljs-literal {
+
+.hljs-string {
   color: var(--color-warning-5)
 }
 
-.hljs-emphasis { font-style: italic }
-.hljs-strong { font-weight: bold };
+.hljs-subst {
+  color: var(--color-warning-4)
+}
+
+.hljs-number,
+.hljs-literal {
+  color: var(--color-success-5)
+}
+
+.hljs-emphasis {
+  font-style: italic
+}
+
+.hljs-strong {
+  font-weight: bold
+};
