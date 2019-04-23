@@ -4,7 +4,6 @@ package anduin.component.input.textbox
 
 import anduin.scalajs.textmask.TextMask
 import anduin.style.{Style => SStyle}
-
 import anduin.component.icon.Icon
 
 // scalastyle:off underscore.import
@@ -37,7 +36,9 @@ final case class TextBox(
   onFocus: Callback = Callback.empty,
   onBlur: String => Callback = _ => Callback.empty,
   onKeyDown: ReactKeyboardEventFromInput => Callback = _ => Callback.empty,
-  onKeyUp: ReactKeyboardEventFromInput => Callback = _ => Callback.empty
+  onKeyUp: ReactKeyboardEventFromInput => Callback = _ => Callback.empty,
+  // ADVANCED
+  unsafeTagMod: TagMod = TagMod.empty
 ) {
   def apply(): VdomElement = TextBox.component(this)
 }

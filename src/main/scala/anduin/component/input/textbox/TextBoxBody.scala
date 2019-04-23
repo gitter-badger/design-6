@@ -95,7 +95,7 @@ object TextBoxBody {
     maskRef: raw.React.RefFn[html.Input],
     maskProps: js.Dictionary[js.Any]
   ): raw.React.Element = {
-    val attrs = TagMod(
+    props.tpe.tag(
       getStyles(props),
       // These mods and ref will control `onChange`, `onBlur` and `value`
       getTextMaskMods(maskProps),
@@ -108,9 +108,9 @@ object TextBoxBody {
       ^.onKeyUp ==> props.onKeyUp,
       ^.disabled := props.isDisabled,
       ^.readOnly := props.isReadOnly,
-      ^.autoFocus := props.isAutoFocus
-    )
-    props.tpe.tag(attrs).rawElement
+      ^.autoFocus := props.isAutoFocus,
+      props.unsafeTagMod
+    ).rawElement
   }
 
   private def render(props: Props): VdomElement = {
