@@ -18,11 +18,13 @@ class Downshift[A] {
   private type StateChanges = DownshiftStateChanges[A]
 
   class Props(
+    // Basic props
     val onChange: js.Function1[A, Unit],
     val itemToString: js.Function1[A | Null, String],
     val stateReducer: js.Function2[State, StateChanges, StateChanges],
     val children: js.Function1[RenderProps, raw.React.Node],
-    // ===
+    // Advanced props (mostly controlled stuff)
+    val defaultHighlightedIndex: js.UndefOr[Int | Null],
     val initialInputValue: js.UndefOr[String],
     val onInputValueChange: js.UndefOr[js.Function1[String, Unit]],
     val inputValue: js.UndefOr[String],

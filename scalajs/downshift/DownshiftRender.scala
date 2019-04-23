@@ -22,4 +22,8 @@ trait DownshiftRenderProps[A] extends js.Object with DownshiftState[A] {
   def getItemProps(options: DownshiftItemOptions[A]): Dict
   // Actions
   def closeMenu(callback: js.UndefOr[js.Function] = js.undefined): Unit
+  def selectHighlightedItem(
+    otherStateToSet: js.UndefOr[js.Object] = js.undefined,
+    callback: js.UndefOr[js.Function] = js.undefined
+  ): Unit
 }
