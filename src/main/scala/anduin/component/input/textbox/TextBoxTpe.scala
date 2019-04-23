@@ -5,19 +5,23 @@ package anduin.component.input.textbox
 import anduin.scalajs.textmask.TextMask
 import anduin.scalajs.textmask.TextMaskAddons
 import anduin.scalajs.textmask.TextMaskAddons.NumberConfig
+import org.scalajs.dom.html
 
 // scalastyle:off underscore.import
+import japgolly.scalajs.react._
 import japgolly.scalajs.react.vdom.html_<^._
 // scalastyle:on underscore.import
 
 sealed trait TextBoxTpe {
-  private[textbox] def tag: VdomTag = <.input.text
+  private[textbox] def tag: TextBoxTpe.Tag = <.input.text
   private[textbox] def placeholder: Option[String] = None
   private[textbox] def mask: Option[TextBoxTpe.Mask] = None
   private[textbox] def isMultiLine: Boolean = false
 }
 
 object TextBoxTpe {
+
+  private[textbox] type Tag = vdom.TagOf[html.Element]
 
   private[textbox] case class Mask(
     value: TextMask,
@@ -29,23 +33,23 @@ object TextBoxTpe {
 
   trait Area extends TextBoxTpe {
     def rows: Int
-    private[textbox] final override def tag: VdomTag = <.textarea(^.rows := rows)
+    private[textbox] final override def tag: Tag = <.textarea(^.rows := rows)
     private[textbox] final override def isMultiLine: Boolean = true
   }
 
   // 2. <input type="..." /> (no TextMask)
 
   trait Password extends TextBoxTpe {
-    private[textbox] final override def tag: VdomTag = <.input.password
+    private[textbox] final override def tag: Tag = <.input.password
   }
 
   trait DateNative extends TextBoxTpe {
-    private[textbox] final override def tag: VdomTag = <.input.date
+    private[textbox] final override def tag: Tag = <.input.date
   }
 
   trait EmailNative extends TextBoxTpe {
     private[textbox] final override def placeholder: Option[String] = Some("@")
-    private[textbox] final override def tag: VdomTag = <.input.email
+    private[textbox] final override def tag: Tag = <.input.email
   }
 
   trait Text extends TextBoxTpe
