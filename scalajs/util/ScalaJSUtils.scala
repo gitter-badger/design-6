@@ -4,7 +4,6 @@ package anduin.scalajs.util
 
 import scala.collection.mutable
 import scala.scalajs.js
-import scala.scalajs.js.|
 
 // scalastyle:off underscore.import
 import japgolly.scalajs.react.vdom.html_<^._
@@ -18,7 +17,7 @@ object ScalaJSUtils {
     // rid of them before converting this "props" to a TagMod
     // See also: https://github.com/scala-js/scala-js/issues/2227
     val filtered = props.filterNot(_._1.contains("bitmap$"))
-    filtered.map(prop => VdomAttr(prop._1) := prop._2).toTagMod
+    filtered.map(prop => VdomAttr[Any](prop._1) := prop._2).toTagMod
   }
 
   // Dealing with null in scala-js
@@ -27,7 +26,7 @@ object ScalaJSUtils {
   //   `Option[A]`, allows easier usage
   // - ref: https://github.com/scala-js/scala-js/issues/2344
   @SuppressWarnings(Array("org.wartremover.warts.AsInstanceOf")) // scalastyle:ignore
-  def jsNullToOption[A](value: A | Null): Option[A] = {
+  def jsNullToOption[A](value: js.|[A, Null]): Option[A] = {
     if (value == null) None else Option(value.asInstanceOf[A])
   }
 }
