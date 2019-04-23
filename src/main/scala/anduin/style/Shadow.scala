@@ -11,4 +11,5 @@ private[style] final case class Shadow(classes: List[String] = List.empty) {
   def hoverPx1Light: Style = new Style(classes :+ "hover:shadow-1-dark")
   def hoverPx1Dark: Style = new Style(classes :+ "hover:shadow-1-light")
   def focusSpread: Style = new Style(classes :+ "focus:shadow-spread")
+  def focusWithinSpread: Style = new Style(classes :+ "focus-within:shadow-spread")
 }

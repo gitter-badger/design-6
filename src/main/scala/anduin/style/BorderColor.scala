@@ -57,5 +57,6 @@ private[style] final case class BorderColor(classes: List[String] = List.empty) 
   def activeDanger5: Style = new Style(classes :+ "active:border-danger-5")
   // focus
   def focusPrimary4: Style = new Style(classes :+ "focus:border-primary-4")
+  def focusWithinPrimary4: Style = new Style(classes :+ "focus-within:border-primary-4")
 }
 // scalastyle:on number.of.methods
