@@ -8,7 +8,7 @@ import anduin.style.Style
 import japgolly.scalajs.react.vdom.html_<^._
 // scalastyle:on underscore.import
 
-sealed trait TextBoxSize {
+trait TextBoxSize {
   def height: Int
   def horPadding: Int
   def text: TagMod
