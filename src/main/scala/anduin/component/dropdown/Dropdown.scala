@@ -90,6 +90,7 @@ class Dropdown[A] {
         stateReducer = StateReducer.get,
         children = renderChildren(props),
         // ===
+        defaultHighlightedIndex = js.undefined,
         // Avoid inputValue being set to selectedItem in first render
         // - See also: DropdownStateReducer > clearInputValue
         initialInputValue = js.defined(""),
