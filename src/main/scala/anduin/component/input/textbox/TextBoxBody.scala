@@ -95,22 +95,24 @@ object TextBoxBody {
     maskRef: raw.React.RefFn[html.Input],
     maskProps: js.Dictionary[js.Any]
   ): raw.React.Element = {
-    props.tpe.tag(
-      getStyles(props),
-      // These mods and ref will control `onChange`, `onBlur` and `value`
-      getTextMaskMods(maskProps),
-      VdomAttr("ref") := maskRef,
-      // All other props
-      ^.id :=? props.id,
-      ^.placeholder := getPlaceholder(props),
-      ^.onFocus --> props.onFocus,
-      ^.onKeyDown ==> props.onKeyDown,
-      ^.onKeyUp ==> props.onKeyUp,
-      ^.disabled := props.isDisabled,
-      ^.readOnly := props.isReadOnly,
-      ^.autoFocus := props.isAutoFocus,
-      props.unsafeTagMod
-    ).rawElement
+    props.tpe
+      .tag(
+        getStyles(props),
+        // These mods and ref will control `onChange`, `onBlur` and `value`
+        getTextMaskMods(maskProps),
+        VdomAttr("ref") := maskRef,
+        // All other props
+        ^.id :=? props.id,
+        ^.placeholder := getPlaceholder(props),
+        ^.onFocus --> props.onFocus,
+        ^.onKeyDown ==> props.onKeyDown,
+        ^.onKeyUp ==> props.onKeyUp,
+        ^.disabled := props.isDisabled,
+        ^.readOnly := props.isReadOnly,
+        ^.autoFocus := props.isAutoFocus,
+        props.unsafeTagMod
+      )
+      .rawElement
   }
 
   private def render(props: Props): VdomElement = {
