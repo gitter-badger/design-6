@@ -26,20 +26,17 @@ object ModalHeader {
   private type Props = ModalHeader
 
   private val containerStyles = TagMod(
-    Style.background.gray0.padding.ver16.position.relative,
-    Style.border.bottom.borderColor.gray3.borderWidth.px1
+    Style.flexbox.flex.flexbox.itemsCenter,
+    Style.background.gray0.padding.top16.padding.left20
   )
 
   private val titleStyles = TagMod(
-    Style.fontWeight.medium.textAlign.center.color.gray7.margin.all4,
-    ^.paddingLeft := "45px",
-    ^.paddingRight := "45px"
+    Style.fontWeight.bold.fontSize.px17.lineHeight.px28.flexbox.fill
   )
 
   private val closeStyles = TagMod(
-    Style.position.absolute.position.pinTop.background.gray0,
     Style.flexbox.flex.flexbox.itemsCenter.height.pc100, // center vertical
-    ^.right := "12px"
+    Style.margin.right16
   )
 
   private def render(props: Props): VdomElement = {

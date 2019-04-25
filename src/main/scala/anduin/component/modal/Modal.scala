@@ -84,7 +84,7 @@ object Modal {
   )
 
   private val containerStaticMod = TagMod(
-    Style.background.gray1.borderRadius.px2,
+    Style.background.gray0.borderRadius.px2,
     // Allow (keyboard) focus so Esc can work
     ^.tabIndex := 0,
     Style.outline.focusLight.transition.allWithOutline
