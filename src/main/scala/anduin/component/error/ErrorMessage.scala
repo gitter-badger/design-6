@@ -3,9 +3,8 @@
 package anduin.component.error
 
 import anduin.component.button.Button
-import anduin.component.input.textbox.TextBox
+import anduin.component.clipboard.ClipboardCopy
 import anduin.component.modal.{Modal, ModalBody, ModalFooter}
-import anduin.component.toggle.Toggle
 import anduin.style.Style
 import org.scalajs.dom
 
@@ -14,7 +13,7 @@ import japgolly.scalajs.react._
 import japgolly.scalajs.react.vdom.html_<^._
 // scalastyle:on underscore.import
 
-final case class ErrorMessage(exception: Exception) {
+final case class ErrorMessage(throwable: Throwable) {
   def apply(): VdomElement = ErrorMessage.component(this)
   def renderIntoBody(): Unit = {
     val container = dom.document.createElement("div")
@@ -28,45 +27,42 @@ object ErrorMessage {
 
   private type Props = ErrorMessage
 
-  private def getDetail(e: Exception): String = dom.window.btoa {
-    List(
-      dom.document.location.href,
-      e.toString,
-      e.getStackTrace.map(_.toString).mkString("\r\n")
-    ).mkString("\r\n")
-  }
+  private val break = "\r\n"
 
-  private def renderBody(props: Props, isShowDetail: Boolean): VdomElement = ModalBody()(
+  private val supportLink = "https://www.anduintransact.com/contact"
+
+  private val renderBody: VdomElement = ModalBody()(
     <.p(
       "Please save all work in progress and reload the page. ",
       "If the problem persists, please ",
-      <.a(^.href := "https://www.anduintransact.com/contact", "contact support"),
+      <.a(^.href := supportLink, ^.target.blank, "contact support"),
       " and include the error detail in your message."
-    ),
-    if (isShowDetail) {
-      <.div(Style.margin.top16)(
-        TextBox(
-          tpe = TextBox.Tpe.Area(3),
-          value = getDetail(props.exception),
-          isReadOnly = true
-        )()
-      )
-    } else {
-      EmptyVdom
-    }
+    )
   )
 
-  private def renderFooter(close: Callback, showDetail: (Boolean, Callback)): VdomNode = ModalFooter()(
+  private def getDetail(throwable: Throwable): String =
+    s"Please give the following to our support at $supportLink:$break" +
+      dom.window.btoa {
+        List(
+          dom.document.location.href,
+          throwable.toString,
+          throwable.getStackTrace.map(_.toString).mkString(break)
+        ).mkString(break)
+      }
+
+  private def renderFooter(props: Props, close: Callback): VdomNode = ModalFooter()(
     <.div(
       Style.flexbox.flex,
       <.div(Style.flexbox.fill)(
-        Button(onClick = showDetail._2)(
-          s"${if (showDetail._1) "Hide" else "Show"} error detail"
-        )
+        ClipboardCopy(
+          render = (copy, isJustCopied) => {
+            val label = if (isJustCopied) "Copied to clipboard" else "Copy error detail"
+            Button(onClick = copy)(label)
+          },
+          text = getDetail(props.throwable)
+        )()
       ),
-      <.div(Style.flexbox.none.margin.right8)(
-        Button(onClick = close)("Reload later")
-      ),
+      <.div(Style.flexbox.none.margin.right8)(Button(onClick = close)("Reload later")),
       <.div(Style.flexbox.none)(
         Button(
           style = Button.Style.Full(color = Button.Color.Primary),
@@ -79,16 +75,7 @@ object ErrorMessage {
   private def render(props: Props): VdomElement = {
     Modal(
       title = "We encountered an unexpected problem",
-      renderContent = close => {
-        Toggle(
-          render = (toggle, isExpanded) => {
-            React.Fragment(
-              renderBody(props, isExpanded),
-              renderFooter(close, (isExpanded, toggle))
-            )
-          }
-        )()
-      },
+      renderContent = close => React.Fragment(renderBody, renderFooter(props, close)),
       isClosable = None,
       defaultIsOpened = true,
       beforeClose = Callback.alert(
