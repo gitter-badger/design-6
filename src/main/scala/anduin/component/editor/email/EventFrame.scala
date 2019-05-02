@@ -11,7 +11,9 @@ import japgolly.scalajs.react._
 import japgolly.scalajs.react.vdom.html_<^._
 // scalastyle:on underscore.import
 
-final case class EventFrame() {
+final case class EventFrame(
+  onLoad: Callback
+) {
   def apply(): VdomElement = EventFrame.component(this)
 }
 
@@ -40,8 +42,9 @@ object EventFrame {
       } yield ()
     }
 
-    def render(): VdomElement = {
+    def render(props: Props): VdomElement = {
       <.iframe.withRef(frameRef)(
+        ^.onLoad --> props.onLoad,
         Style.width.pc100.border.none.padding.all0
       )
     }

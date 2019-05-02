@@ -40,7 +40,6 @@ private[email] object EmailFrame {
     def componentDidMount(): Callback = {
       for {
         frameRef <- eventFrameRef.get
-        _ <- writeContent()
         _ <- Callback.traverseOption(ReactDOM.findDOMNode(frameRef.raw)) {
           _.node match {
             case frame: HTMLIFrameElement =>
@@ -54,6 +53,7 @@ private[email] object EmailFrame {
             case _ => Callback.empty
           }
         }
+        _ <- writeContent()
       } yield ()
     }
 
@@ -122,7 +122,10 @@ private[email] object EmailFrame {
 
     def render(): VdomElement = {
       eventFrameRef.component(
-        EventFrame()
+        EventFrame(
+          // We need to recalculate the frame height when the frame is loaded completely
+          onLoad = recalculateContentSize
+        )
       )
     }
   }
