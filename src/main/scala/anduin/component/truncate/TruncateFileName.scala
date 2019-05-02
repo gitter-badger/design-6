@@ -21,9 +21,10 @@ object TruncateFileName {
         ^.title := fileName,
         // @TODO: This is bad but it's the only way (so far) because
         // TruncateMarkup won't work unless there are more than 2 words
-        // TruncateMarkup requires all elements inside visible, so I am not sure if
-        // `Style.visibility.invisible` works
-        <.span(^.fontSize := "1px", Style.opacity.pc0, "a "),
+        // TruncateMarkup requires all elements inside visible, so `Style.display.none` here doesn't work
+        TagMod.unless(fileName.contains(" ")) {
+          <.span(^.fontSize := "1px", Style.visibility.invisible, "a ")
+        },
         fileName
       )
     )()
