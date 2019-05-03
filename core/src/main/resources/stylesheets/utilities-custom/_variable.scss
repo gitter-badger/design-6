@@ -1,0 +1,51 @@
+// scss-lint:disable PropertySortOrder
+:root {
+    --color-gray-1: #F5F9FC;
+    --color-gray-2: #EBF2F7;
+    --color-gray-3: #DFE9F0;
+    --color-gray-4: #BACDDB;
+    --color-gray-5: #9BB0C2;
+    --color-gray-6: #809AAD;
+    --color-gray-7: #4F6F89;
+    --color-gray-8: #20394D;
+    --color-gray-9: #182A38;
+    --color-gray-0: #FFFFFF;
+    --color-danger-1: #FCF0F0;
+    --color-danger-2: #F5AAAA;
+    --color-danger-3: #FF7373;
+    --color-danger-4: #F55656;
+    --color-danger-5: #DB3737;
+    --color-primary-1: #D3EEFF;
+    --color-primary-2: #ACDBF8;
+    --color-primary-3: #48AFF0;
+    --color-primary-4: #2B95D6;
+    --color-primary-5: #137CBD;
+    --color-success-1: #C7F2DF;
+    --color-success-2: #76D5AD;
+    --color-success-3: #3DCC91;
+    --color-success-4: #15B371;
+    --color-success-5: #0F9960;
+    --color-warning-1: #FAECDE;
+    --color-warning-2: #EFBE8E;
+    --color-warning-3: #FFB366;
+    --color-warning-4: #F29D49;
+    --color-warning-5: #D9822B;
+
+    --space-0: 0;
+    --space-4: 4px;
+    --space-8: 8px;
+    --space-12: 12px;
+    --space-16: 16px;
+    --space-20: 20px;
+    --space-24: 24px;
+    --space-32: 32px;
+    --space-40: 40px;
+    --space-48: 48px;
+
+    --shadow-1-light: 0px 1px 1px 0px rgba(0, 0, 0, 0.08);
+    --shadow-1-dark: 0px 1px 1px 0px rgba(0, 0, 0, 0.16);
+    --shadow-4: 0px 1px 4px  0px rgba(0, 0, 0, 0.16);
+    --shadow-8: 0px 1px 8px  0px rgba(0, 0, 0, 0.16);
+    --shadow-12: 0px 4px 12px 0px rgba(0, 0, 0, 0.20);
+}
+// scss-lint:enable PropertySortOrder

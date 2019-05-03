@@ -1,0 +1,153 @@
+// RESET STYLES
+
+*,
+*::before,
+*::after {
+    background: none;
+    border: 0;
+    box-sizing: border-box;
+    color: inherit;
+    margin: 0;
+    padding: 0;
+}
+
+// Form elements have default font-family and appearance, which we don't want
+button,
+input,
+optgroup,
+select,
+textarea {
+    appearance: none;
+    font: inherit;
+}
+
+// Code-related elements have default mono fonts, but we want
+// to enforce engineers to use ours
+code,
+kbd,
+samp {
+    font: inherit;
+}
+
+// BASE STYLES
+
+// ul and ol still need padding left, since their default style is list-style
+ul,
+ol {
+    padding-left: var(--space-20);
+}
+
+img {
+    max-width: 100%;
+}
+
+// encouraging using correct heading
+h1 {
+    font-size: 32px;
+    font-weight: 400;
+    line-height: 36px;
+}
+
+h2 {
+    font-size: 24px;
+    font-weight: 400;
+    line-height: 32px;
+}
+
+h3 {
+    font-size: 20px;
+    font-weight: 500;
+    line-height: 24px;
+}
+
+h4 {
+    font-size: 16px;
+    font-weight: 600;
+    line-height: 20px;
+}
+
+h5 {
+    font-size: 13px;
+    font-weight: 600;
+    line-height: 20px;
+}
+
+h6 {
+    font-size: 12px;
+    font-weight: 600;
+    line-height: 20px;
+}
+
+small {
+    font-size: 12px;
+}
+
+// default typography
+body {
+    background-color: var(--color-gray-1);
+    color: var(--color-gray-8);
+    font-family: -apple-system, BlinkMacSystemFont,
+                 "Segoe UI", "Roboto", "Oxygen", "Ubuntu",
+                 "Fira Sans", "Droid Sans",
+                 "Helvetica Neue", sans-serif;
+    font-size: 13px;
+    -moz-osx-font-smoothing: grayscale;
+    -webkit-font-smoothing: antialiased;
+    line-height: 20px;
+    // Portal's overlay relies on body's size
+    // See https://git.io/fhkJk and https://git.io/fhkJU
+    min-height: 100vh;
+    // Until we have proper responsive support
+    min-width: 1260px;
+    // Portal positioning relies on body's size
+    position: relative;
+}
+
+// INTERACTIVE STYLES
+
+// "a" should always have underline when hover to ensure
+// accessibility (eg: hint: this changes url)
+a {
+    color: var(--color-primary-4);
+    text-decoration: none;
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
+// Although this against web standard, it's necessary for
+// us and also as backward compatible
+button:not(:disabled),
+select:not(:disabled) {
+    cursor: pointer;
+}
+
+// Reset outline styles since we will provide these individually in each component
+button:focus,
+input:focus,
+textarea:focus {
+    outline: none;
+}
+
+// Force option to not inherit color from select
+option {
+    background: var(--color-gray-0);
+    color: var(--color-gray-8);
+}
+
+// Selection
+::selection {
+    background: var(--color-primary-4);
+    color: var(--color-gray-0);
+}
+
+::placeholder {
+    color: var(--color-gray-6);
+}
+
+// Allow mouse events of disabled elements can be captured by their parent.
+// This is necessary to show hint for disabled elements, like using a Tooltip
+*:disabled {
+    pointer-events: none;
+}
