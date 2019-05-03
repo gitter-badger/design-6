@@ -1,0 +1,101 @@
+// Copyright (C) 2014-2019 Anduin Transactions Inc.
+
+package anduin.component.office
+
+import scala.concurrent.Promise
+import scala.scalajs.concurrent.JSExecutionContext.Implicits.queue
+
+import org.scalajs.dom
+import org.scalajs.dom.ext.PimpedNodeList
+import org.scalajs.dom.raw.Event
+
+import anduin.scalajs.onlyoffice.{Config, Editor}
+
+// scalastyle:off underscore.import
+import japgolly.scalajs.react._
+import japgolly.scalajs.react.vdom.html_<^._
+// scalastyle:on underscore.import
+
+final case class OnlyOfficeEditor(
+  containerId: String,
+  apiUrl: String,
+  config: Config
+) {
+  def apply(): VdomElement = OnlyOfficeEditor.component(this)
+}
+
+object OnlyOfficeEditor {
+
+  private type Props = OnlyOfficeEditor
+
+  private case class Backend(scope: BackendScope[Props, _]) {
+
+    private var editor: Option[Editor] = None // scalastyle:ignore var.field
+
+    def loadScript(props: Props): Callback = {
+      if (dom.document.querySelectorAll(s"script[src='${props.apiUrl}']").length > 0) {
+        // The script is already loaded
+        showEditor(props)
+      } else {
+        Callback.future {
+          val promise = Promise[Callback]()
+
+          val script = dom.document.createElement("script")
+          script.setAttribute("src", props.apiUrl)
+          script.setAttribute("async", "true")
+          script.addEventListener("load", (_: Event) => {
+            promise.success {
+              showEditor(props)
+            }
+          })
+
+          dom.document.body.appendChild(script)
+          promise.future
+        }
+      }
+    }
+
+    private def removeScript(props: Props) = {
+      Callback {
+        PimpedNodeList(dom.document.querySelectorAll("script[src]")).foreach { script =>
+          script.domToHtml.foreach { s =>
+            val src = s.getAttribute("src")
+            if (src == props.apiUrl) {
+              s.parentNode.removeChild(s)
+            }
+          }
+        }
+      }
+    }
+
+    def componentWillUnmount(): Callback = {
+      for {
+        props <- scope.props
+        _ <- removeScript(props)
+        _ <- Callback.traverseOption(editor) { editorInstance =>
+          Callback(editorInstance.destroyEditor())
+        }
+      } yield ()
+    }
+
+    private def showEditor(props: Props) = {
+      Callback {
+        editor = Some(Editor(props.containerId, props.config))
+      }
+    }
+
+    def render(props: Props): VdomElement = {
+      <.div(^.id := props.containerId)
+    }
+  }
+
+  private val component = ScalaComponent
+    .builder[Props](this.getClass.getSimpleName)
+    .stateless
+    .renderBackend[Backend]
+    .componentDidMount { scope =>
+      scope.backend.loadScript(scope.props)
+    }
+    .componentWillUnmount(_.backend.componentWillUnmount())
+    .build
+}
