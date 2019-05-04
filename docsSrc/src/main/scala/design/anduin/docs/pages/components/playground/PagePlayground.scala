@@ -38,68 +38,6 @@ object PagePlayground {
     <.div(
       Header("Playground", None)(),
       Toc(headings = Source.getTocHeadings)(),
-      ExampleRich(Source.annotate({
-        // Structure of this implementation:
-        // div
-        // - body
-        // - link <~ this is what you asked
-        //   - icon
-        //   - title
-        //   - arrow
-
-        // This spanBlock is not a part of the structure. It's purely a helper
-        // - We can't use "div" because we will be inside an "a". We can only
-        //   use "span".
-        // - However we should still have the "block" display
-        val spanBlock = <.span(Style.display.block)
-        val icon = spanBlock(
-          Icon(name = Icon.File.Final, size = Icon.Size.Px32)()
-        )
-        val title = spanBlock(
-          Style.margin.top8,
-          Style.fontSize.px11.fontWeight.bold.lineHeight.px16,
-          // Break line at "\n"
-          Style.whiteSpace.preWrap,
-          "Term Sheet\nWorkspace"
-        )
-        val arrow = spanBlock(
-          Style.opacity.pc50.margin.top8,
-          Icon(name = Icon.Glyph.ArrowRight, size = Icon.Size.Px32)()
-        )
-        val styles = TagMod(
-          Style.color.gray0.padding.hor8,
-          Style.outline.focusLight.transition.allWithOutline,
-          ^.width := "120px",
-          // Use parent's height (this will stretch the link to be as tall as
-          // the card's body on the left side)
-          Style.height.pc100,
-          // No underline when hover
-          Style.textDecoration.hoverNone,
-          // Center its children, both x and y axis
-          Style.flexbox.flex.flexbox.column,
-          Style.flexbox.itemsCenter.flexbox.justifyCenter,
-          // Shamefully control background with CSS
-          ^.cls := "shame-term-sheet-bg"
-        )
-        val link = <.a(^.href := "https://anduin.design", styles, icon, title, arrow)
-        val body = {
-          <.p(
-            Style.height.px256.padding.all16,
-            """
-              |This is the card's body. This should be filled with tasks. The
-              |height this body will be the height of the whole card. To demo
-              |we set it to "256px" explicitly, but in reality it should be
-              |based on the content (i.e. how many tasks are there)
-            """.stripMargin
-          )
-        }
-        <.div(
-          Style.flexbox.flex.overflow.hidden,
-          Style.borderRadius.px4.shadow.px8,
-          <.div(Style.flexbox.fill, body),
-          <.div(Style.flexbox.none, link)
-        )
-      }))(),
       ExampleSimple()({
         <.div(
           Style.flexbox.flex,
