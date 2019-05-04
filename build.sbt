@@ -1,7 +1,7 @@
 // Copyright (C) 2014-2019 Anduin Transactions Inc.
 
-ThisBuild / name := "anduin.design"
-ThisBuild / organization := "anduin.design"
+ThisBuild / name := "Anduin Design"
+ThisBuild / organization := "Anduin Transactions"
 ThisBuild / version := "0.2"
 
 ThisBuild / scalaVersion := Dependencies.Versions.scala
@@ -69,5 +69,5 @@ lazy val docsSrc = project
   )
 
 lazy val root = (project in file("."))
-  .settings(name := "anduin.design")
+  .settings(name := "Anduin Design")
   .aggregate(docsSrc)
