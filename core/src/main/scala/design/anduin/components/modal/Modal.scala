@@ -1,10 +1,10 @@
 // Copyright (C) 2014-2019 Anduin Transactions Inc.
 
-package anduin.component.modal
+package design.anduin.components.modal
 
-import anduin.component.portal.{Portal, PortalUtils}
-import anduin.component.util.ComponentUtils
-import anduin.style.Style
+import design.anduin.components.portal.{Portal, PortalUtils}
+import design.anduin.components.util.ComponentUtils
+import design.anduin.style.Style
 import org.scalajs.dom
 
 // scalastyle:off underscore.import

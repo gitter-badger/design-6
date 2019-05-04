@@ -1,11 +1,11 @@
-package anduin.guide.pages.components.stepper
+package design.anduin.docs.pages.components.stepper
 
-import anduin.guide.components._
-import anduin.component.button.Button
-import anduin.component.stepper.Stepper
-import anduin.guide.app.main.Pages
+import design.anduin.docs.components._
+import design.anduin.components.button.Button
+import design.anduin.components.stepper.Stepper
+import design.anduin.docs.app.main.Pages
 import anduin.mcro.Source
-import anduin.style.Style
+import design.anduin.style.Style
 import japgolly.scalajs.react.Callback
 import japgolly.scalajs.react.vdom.html_<^._
 

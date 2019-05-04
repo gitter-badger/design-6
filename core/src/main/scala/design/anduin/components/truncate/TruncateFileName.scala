@@ -1,8 +1,8 @@
 // Copyright (C) 2014-2019 Anduin Transactions Inc.
 
-package anduin.component.truncate
+package design.anduin.components.truncate
 
-import anduin.style.Style
+import design.anduin.style.Style
 
 // scalastyle:off underscore.import
 import japgolly.scalajs.react.vdom.html_<^._

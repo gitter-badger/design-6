@@ -1,10 +1,10 @@
 // Copyright (C) 2014-2019 Anduin Transactions Inc.
 
-package anduin.component.input.textbox
+package design.anduin.components.input.textbox
 
-import anduin.scalajs.textmask.TextMask
-import anduin.style.{Style => SStyle}
-import anduin.component.icon.Icon
+import design.anduin.facades.textmask.TextMask
+import design.anduin.style.{Style => SStyle}
+import design.anduin.components.icon.Icon
 
 // scalastyle:off underscore.import
 import japgolly.scalajs.react._

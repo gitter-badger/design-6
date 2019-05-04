@@ -1,14 +1,14 @@
-package anduin.guide.pages.components.modal
+package design.anduin.docs.pages.components.modal
 
-import anduin.guide.components._
-import anduin.component.button.Button
-import anduin.component.input.textbox.TextBox
-import anduin.component.portal.PortalUtils.IsClosable
-import anduin.component.modal._
-import anduin.guide.app.main.Pages
-import anduin.guide.components.DemoState
+import design.anduin.docs.components._
+import design.anduin.components.button.Button
+import design.anduin.components.input.textbox.TextBox
+import design.anduin.components.portal.PortalUtils.IsClosable
+import design.anduin.components.modal._
+import design.anduin.docs.app.main.Pages
+import design.anduin.docs.components.DemoState
 import anduin.mcro.Source
-import anduin.style.Style
+import design.anduin.style.Style
 import japgolly.scalajs.react._
 import japgolly.scalajs.react.vdom.html_<^._
 

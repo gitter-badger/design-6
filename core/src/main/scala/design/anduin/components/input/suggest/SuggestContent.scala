@@ -1,13 +1,13 @@
 // Copyright (C) 2014-2019 Anduin Transactions Inc.
 
-package anduin.component.input.suggest
+package design.anduin.components.input.suggest
 
-import anduin.component.menu.Menu
-import anduin.component.popover.PopoverContent
-import anduin.component.portal.PortalPosition
-import anduin.scalajs.downshift.DownshiftRenderProps
-import anduin.scalajs.util.ScalaJSUtils
-import anduin.style.Style
+import design.anduin.components.menu.Menu
+import design.anduin.components.popover.PopoverContent
+import design.anduin.components.portal.PortalPosition
+import design.anduin.facades.downshift.DownshiftRenderProps
+import design.anduin.facades.util.ScalaJSUtils
+import design.anduin.style.Style
 import org.scalajs.dom.raw.HTMLElement
 
 // scalastyle:off underscore.import

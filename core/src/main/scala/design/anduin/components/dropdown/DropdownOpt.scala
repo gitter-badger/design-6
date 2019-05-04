@@ -1,12 +1,12 @@
 // Copyright (C) 2014-2019 Anduin Transactions Inc.
 
-package anduin.component.dropdown
+package design.anduin.components.dropdown
 
-import anduin.component.icon.Icon
-import anduin.component.menu.MenuItem
-import anduin.scalajs.downshift.{DownshiftItemOptions, DownshiftRenderProps}
-import anduin.scalajs.util.ScalaJSUtils
-import anduin.style.Style
+import design.anduin.components.icon.Icon
+import design.anduin.components.menu.MenuItem
+import design.anduin.facades.downshift.{DownshiftItemOptions, DownshiftRenderProps}
+import design.anduin.facades.util.ScalaJSUtils
+import design.anduin.style.Style
 
 import scala.scalajs.js
 

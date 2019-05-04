@@ -1,4 +1,4 @@
-package anduin.guide.scalajs.marked
+package design.anduin.docs.facades.marked
 
 import scala.scalajs.js
 import scala.scalajs.js.UndefOr

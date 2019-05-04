@@ -1,11 +1,11 @@
 // Copyright (C) 2014-2019 Anduin Transactions Inc.
 
-package anduin.guide.pages.home
+package design.anduin.docs.pages.home
 
-import anduin.guide.app.main.Pages
-import anduin.guide.pages.home.{PageHomeLink => Link}
-import anduin.guide.pages.home.PageHomeLink.Target._
-import anduin.style.Style
+import design.anduin.docs.app.main.Pages
+import design.anduin.docs.pages.home.{PageHomeLink => Link}
+import design.anduin.docs.pages.home.PageHomeLink.Target._
+import design.anduin.style.Style
 
 // scalastyle:off underscore.import
 import japgolly.scalajs.react._

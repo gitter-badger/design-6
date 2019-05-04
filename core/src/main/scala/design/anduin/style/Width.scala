@@ -1,6 +1,6 @@
 // Copyright (C) 2014-2019 Anduin Transactions Inc.
 
-package anduin.style
+package design.anduin.style
 
 // scalastyle:off number.of.methods
 private[style] final case class Width(classes: List[String] = List.empty) {

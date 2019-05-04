@@ -1,13 +1,13 @@
 // Copyright (C) 2014-2019 Anduin Transactions Inc.
 
-package anduin.component.truncate
+package design.anduin.components.truncate
 
 import scala.scalajs.js
 import scala.scalajs.js.|
 
 import japgolly.scalajs.react.raw.React.Element
 
-import anduin.scalajs.reacttruncatemarkup.ReactTruncateMarkup
+import design.anduin.facades.reacttruncatemarkup.ReactTruncateMarkup
 
 // scalastyle:off underscore.import
 import japgolly.scalajs.react._

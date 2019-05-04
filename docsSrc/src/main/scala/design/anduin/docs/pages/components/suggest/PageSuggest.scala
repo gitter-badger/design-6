@@ -1,11 +1,11 @@
-package anduin.guide.pages.components.suggest
+package design.anduin.docs.pages.components.suggest
 
 import java.time.{ZoneId, ZonedDateTime}
 
-import anduin.component.input.suggest.{MultiSuggest, Suggest}
-import anduin.component.tag.Tag
-import anduin.guide.app.main.Pages
-import anduin.guide.components._
+import design.anduin.components.input.suggest.{MultiSuggest, Suggest}
+import design.anduin.components.tag.Tag
+import design.anduin.docs.app.main.Pages
+import design.anduin.docs.components._
 import anduin.mcro.Source
 import japgolly.scalajs.react.vdom.html_<^._
 

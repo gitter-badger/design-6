@@ -1,10 +1,10 @@
 // Copyright (C) 2014-2019 Anduin Transactions Inc.
 
-package anduin.component.input.textbox
+package design.anduin.components.input.textbox
 
-import anduin.scalajs.textmask.TextMask
-import anduin.scalajs.textmask.TextMaskAddons
-import anduin.scalajs.textmask.TextMaskAddons.NumberConfig
+import design.anduin.facades.textmask.TextMask
+import design.anduin.facades.textmask.TextMaskAddons
+import design.anduin.facades.textmask.TextMaskAddons.NumberConfig
 import org.scalajs.dom.html
 
 // scalastyle:off underscore.import

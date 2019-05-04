@@ -1,12 +1,12 @@
-package anduin.guide.pages.components.home
+package design.anduin.docs.pages.components.home
 
-import anduin.component.button.Button
-import anduin.component.icon.Icon
-import anduin.guide.app.main.Pages
+import design.anduin.components.button.Button
+import design.anduin.components.icon.Icon
+import design.anduin.docs.app.main.Pages
 import anduin.mcro.Source
-import anduin.style.Style
+import design.anduin.style.Style
 import japgolly.scalajs.react.vdom.html_<^._
-import anduin.guide.components._
+import design.anduin.docs.components._
 
 object PageComponent {
   def render(ctl: Pages.Ctl): VdomElement = {
@@ -23,12 +23,12 @@ object PageComponent {
           |available anywhere in our apps:
           |
           |```scala
-          |import anduin.component.button.Button
-          |import anduin.component.icon.Icon
+          |import design.anduin.components.button.Button
+          |import design.anduin.components.icon.Icon
           |
           |// Related components are grouped under the same package
-          |import anduin.component.portal.{Modal, Tooltip, Popover}
-          |import anduin.component.container.{Table, Well}
+          |import design.anduin.components.portal.{Modal, Tooltip, Popover}
+          |import design.anduin.components.container.{Table, Well}
           |```
           |
           |# Generic

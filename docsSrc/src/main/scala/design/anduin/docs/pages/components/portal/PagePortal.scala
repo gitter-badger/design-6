@@ -1,15 +1,15 @@
-package anduin.guide.pages.components.portal
+package design.anduin.docs.pages.components.portal
 
-import anduin.component.button.Button
-import anduin.component.input.textbox.TextBox
-import anduin.component.modal.{Modal, ModalBody}
-import anduin.component.popover.{Popover, PopoverContent}
-import anduin.component.portal.{PortalPosition, PortalWrapper}
-import anduin.component.tooltip.Tooltip
-import anduin.guide.app.main.Pages
-import anduin.guide.components._
+import design.anduin.components.button.Button
+import design.anduin.components.input.textbox.TextBox
+import design.anduin.components.modal.{Modal, ModalBody}
+import design.anduin.components.popover.{Popover, PopoverContent}
+import design.anduin.components.portal.{PortalPosition, PortalWrapper}
+import design.anduin.components.tooltip.Tooltip
+import design.anduin.docs.app.main.Pages
+import design.anduin.docs.components._
 import anduin.mcro.Source
-import anduin.style.Style
+import design.anduin.style.Style
 import japgolly.scalajs.react._
 import japgolly.scalajs.react.vdom.html_<^._
 import org.scalajs.dom.raw.HTMLElement

@@ -1,11 +1,11 @@
 // Copyright (C) 2014-2019 Anduin Transactions Inc.
 
-package anduin.component.dropdown
+package design.anduin.components.dropdown
 
-import anduin.component.input.textbox.{TextBox, TextBoxStyle}
-import anduin.scalajs.downshift.DownshiftRenderProps
-import anduin.scalajs.util.ScalaJSUtils
-import anduin.style.Style
+import design.anduin.components.input.textbox.{TextBox, TextBoxStyle}
+import design.anduin.facades.downshift.DownshiftRenderProps
+import design.anduin.facades.util.ScalaJSUtils
+import design.anduin.style.Style
 
 // scalastyle:off underscore.import
 import japgolly.scalajs.react._

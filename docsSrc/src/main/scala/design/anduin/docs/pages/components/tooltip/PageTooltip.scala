@@ -1,16 +1,16 @@
-package anduin.guide.pages.components.tooltip
+package design.anduin.docs.pages.components.tooltip
 
-import anduin.component.button.Button
-import anduin.component.dialog.Dialog
-import anduin.component.icon.Icon
-import anduin.component.popover.Popover
-import anduin.component.tag.Tag
-import anduin.component.tooltip.Tooltip
-import anduin.guide.app.main.Pages
-import anduin.guide.components._
-import anduin.guide.pages.components.portal.PagePortalPositionTooltip
+import design.anduin.components.button.Button
+import design.anduin.components.dialog.Dialog
+import design.anduin.components.icon.Icon
+import design.anduin.components.popover.Popover
+import design.anduin.components.tag.Tag
+import design.anduin.components.tooltip.Tooltip
+import design.anduin.docs.app.main.Pages
+import design.anduin.docs.components._
+import design.anduin.docs.pages.components.portal.PagePortalPositionTooltip
 import anduin.mcro.Source
-import anduin.style.Style
+import design.anduin.style.Style
 import japgolly.scalajs.react._
 import japgolly.scalajs.react.vdom.html_<^._
 

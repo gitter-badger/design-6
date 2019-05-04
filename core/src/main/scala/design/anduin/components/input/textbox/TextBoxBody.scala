@@ -1,12 +1,12 @@
 // Copyright (C) 2014-2019 Anduin Transactions Inc.
 
-package anduin.component.input.textbox
+package design.anduin.components.input.textbox
 
 import scala.scalajs.js
 import org.scalajs.dom.html
-import anduin.scalajs.textmask.ReactTextMask
-import anduin.scalajs.util.ScalaJSUtils
-import anduin.style.Style
+import design.anduin.facades.textmask.ReactTextMask
+import design.anduin.facades.util.ScalaJSUtils
+import design.anduin.style.Style
 
 // scalastyle:off underscore.import
 import js.JSConverters._

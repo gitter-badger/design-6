@@ -1,13 +1,13 @@
-package anduin.guide.pages.components.textbox
+package design.anduin.docs.pages.components.textbox
 
-import anduin.component.field.Field
-import anduin.guide.components._
-import anduin.component.input.textbox.{TextBox, TextBoxTpe}
-import anduin.guide.app.main.Pages
+import design.anduin.components.field.Field
+import design.anduin.docs.components._
+import design.anduin.components.input.textbox.{TextBox, TextBoxTpe}
+import design.anduin.docs.app.main.Pages
 import anduin.mcro.Source
-import anduin.scalajs.textmask.TextMask
+import design.anduin.facades.textmask.TextMask
 import japgolly.scalajs.react.vdom.html_<^._
-import anduin.style.Style
+import design.anduin.style.Style
 
 object PageTextBox {
 

@@ -1,6 +1,6 @@
 // Copyright (C) 2014-2019 Anduin Transactions Inc.
 
-package anduin.scalajs.util
+package design.anduin.facades.util
 
 import scala.collection.mutable
 import scala.scalajs.js

@@ -1,9 +1,9 @@
 // Copyright (C) 2014-2019 Anduin Transactions Inc.
 
-package anduin.component.input.suggest
+package design.anduin.components.input.suggest
 
-import anduin.component.tag.{Tag, TagColor}
-import anduin.style.Style
+import design.anduin.components.tag.{Tag, TagColor}
+import design.anduin.style.Style
 import org.scalajs.dom.html
 
 // scalastyle:off underscore.import

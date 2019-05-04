@@ -1,10 +1,10 @@
-package anduin.guide.pages.components.field
+package design.anduin.docs.pages.components.field
 
-import anduin.guide.components._
-import anduin.component.field.Field
-import anduin.component.input.textbox.TextBox
-import anduin.guide.app.main.Pages
-import anduin.guide.components.DemoState
+import design.anduin.docs.components._
+import design.anduin.components.field.Field
+import design.anduin.components.input.textbox.TextBox
+import design.anduin.docs.app.main.Pages
+import design.anduin.docs.components.DemoState
 import anduin.mcro.Source
 import japgolly.scalajs.react.vdom.html_<^._
 

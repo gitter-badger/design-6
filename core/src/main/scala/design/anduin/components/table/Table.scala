@@ -1,9 +1,9 @@
 // Copyright (C) 2014-2019 Anduin Transactions Inc.
 
-package anduin.component.table
+package design.anduin.components.table
 
-import anduin.component.util.ComponentUtils
-import anduin.style.{Style => SStyle}
+import design.anduin.components.util.ComponentUtils
+import design.anduin.style.{Style => SStyle}
 import org.scalajs.dom.html
 
 // scalastyle:off underscore.import

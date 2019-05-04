@@ -1,10 +1,10 @@
 // Copyright (C) 2014-2019 Anduin Transactions Inc.
 
-package anduin.guide.pages.components.portal
+package design.anduin.docs.pages.components.portal
 
-import anduin.component.tooltip.Tooltip
-import anduin.component.portal.PortalPosition
-import anduin.style.Style
+import design.anduin.components.tooltip.Tooltip
+import design.anduin.components.portal.PortalPosition
+import design.anduin.style.Style
 
 // scalastyle:off underscore.import
 import japgolly.scalajs.react._

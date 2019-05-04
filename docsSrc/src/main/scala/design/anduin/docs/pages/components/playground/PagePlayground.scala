@@ -1,29 +1,29 @@
-package anduin.guide.pages.components.playground
+package design.anduin.docs.pages.components.playground
 
 import japgolly.scalajs.react.Callback
-import anduin.guide.app.main.Pages
-import anduin.guide.components._
+import design.anduin.docs.app.main.Pages
+import design.anduin.docs.components._
 import anduin.mcro.Source
 import japgolly.scalajs.react.vdom.html_<^._
-import anduin.component.button.Button
-import anduin.component.card.Card
-import anduin.component.dropdown.Dropdown
-import anduin.component.field.Field
-import anduin.component.icon.Icon
-import anduin.component.input.checkbox.Checkbox
-import anduin.component.input.radio.Radio
-import anduin.component.input.textbox.TextBox
-import anduin.component.menu.{Menu, MenuItem}
-import anduin.component.popover.Popover
-import anduin.component.portal.PortalPosition
-import anduin.component.progressindicators.BarIndicator
-import anduin.component.tab.Tab
-import anduin.component.table.Table
-import anduin.component.tag.Tag
-import anduin.component.tooltip.Tooltip
-import anduin.component.tree.Tree
-import anduin.component.well.Well
-import anduin.style.Style
+import design.anduin.components.button.Button
+import design.anduin.components.card.Card
+import design.anduin.components.dropdown.Dropdown
+import design.anduin.components.field.Field
+import design.anduin.components.icon.Icon
+import design.anduin.components.input.checkbox.Checkbox
+import design.anduin.components.input.radio.Radio
+import design.anduin.components.input.textbox.TextBox
+import design.anduin.components.menu.{Menu, MenuItem}
+import design.anduin.components.popover.Popover
+import design.anduin.components.portal.PortalPosition
+import design.anduin.components.progressindicators.BarIndicator
+import design.anduin.components.tab.Tab
+import design.anduin.components.table.Table
+import design.anduin.components.tag.Tag
+import design.anduin.components.tooltip.Tooltip
+import design.anduin.components.tree.Tree
+import design.anduin.components.well.Well
+import design.anduin.style.Style
 
 object PagePlayground {
 

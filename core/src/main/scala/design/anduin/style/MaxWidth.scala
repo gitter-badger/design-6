@@ -1,6 +1,6 @@
 // Copyright (C) 2014-2019 Anduin Transactions Inc.
 
-package anduin.style
+package design.anduin.style
 
 private[style] final case class MaxWidth(classes: List[String] = List.empty) {
   def px128: Style = new Style(classes :+ "max-w-px128")

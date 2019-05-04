@@ -1,8 +1,8 @@
 // Copyright (C) 2014-2019 Anduin Transactions Inc.
 
-package anduin.component.dropdown
+package design.anduin.components.dropdown
 
-import anduin.scalajs.downshift.{Downshift, DownshiftState, DownshiftStateChanges, DownshiftUtils}
+import design.anduin.facades.downshift.{Downshift, DownshiftState, DownshiftStateChanges, DownshiftUtils}
 
 import scala.scalajs.js
 

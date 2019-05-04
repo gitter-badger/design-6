@@ -1,6 +1,6 @@
 // Copyright (C) 2014-2019 Anduin Transactions Inc.
 
-package anduin.scalajs.popper
+package design.anduin.facades.popper
 
 sealed trait PopperPlacement { val raw: String }
 

@@ -1,9 +1,9 @@
-package anduin.guide.app.main.layout
+package design.anduin.docs.app.main.layout
 
-import anduin.component.toggle.Toggle
-import anduin.guide.app.main.Pages
-import anduin.guide.app.main.Pages.Page
-import anduin.style.Style
+import design.anduin.components.toggle.Toggle
+import design.anduin.docs.app.main.Pages
+import design.anduin.docs.app.main.Pages.Page
+import design.anduin.style.Style
 import japgolly.scalajs.react._
 import japgolly.scalajs.react.vdom.html_<^._
 

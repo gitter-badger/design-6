@@ -1,11 +1,11 @@
-package anduin.guide.pages.components.well
+package design.anduin.docs.pages.components.well
 
-import anduin.guide.components._
-import anduin.component.toggle.Toggle
-import anduin.component.well.Well
-import anduin.guide.app.main.Pages
+import design.anduin.docs.components._
+import design.anduin.components.toggle.Toggle
+import design.anduin.components.well.Well
+import design.anduin.docs.app.main.Pages
 import anduin.mcro.Source
-import anduin.style.Style
+import design.anduin.style.Style
 import japgolly.scalajs.react.Callback
 import japgolly.scalajs.react.vdom.html_<^._
 

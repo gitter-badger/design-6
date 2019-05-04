@@ -1,11 +1,11 @@
 // Copyright (C) 2014-2019 Anduin Transactions Inc.
 
-package anduin.component.input.suggest
+package design.anduin.components.input.suggest
 
-import anduin.component.menu.MenuItem
-import anduin.scalajs.downshift.{DownshiftItemOptions, DownshiftRenderProps}
-import anduin.scalajs.util.ScalaJSUtils
-import anduin.style.Style
+import design.anduin.components.menu.MenuItem
+import design.anduin.facades.downshift.{DownshiftItemOptions, DownshiftRenderProps}
+import design.anduin.facades.util.ScalaJSUtils
+import design.anduin.style.Style
 
 // scalastyle:off underscore.import
 import japgolly.scalajs.react._

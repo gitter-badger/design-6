@@ -1,8 +1,8 @@
 // Copyright (C) 2014-2019 Anduin Transactions Inc.
 
-package anduin.component.dropdown
+package design.anduin.components.dropdown
 
-import anduin.style.Style
+import design.anduin.style.Style
 import org.scalajs.dom
 
 // scalastyle:off underscore.import

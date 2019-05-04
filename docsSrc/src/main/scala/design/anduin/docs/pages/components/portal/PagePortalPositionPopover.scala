@@ -1,12 +1,12 @@
 // Copyright (C) 2014-2019 Anduin Transactions Inc.
 
-package anduin.guide.pages.components.portal
+package design.anduin.docs.pages.components.portal
 
-import anduin.component.icon.Icon
-import anduin.component.popover.Popover
-import anduin.component.portal.PortalPosition
-import anduin.component.tag.Tag
-import anduin.style.Style
+import design.anduin.components.icon.Icon
+import design.anduin.components.popover.Popover
+import design.anduin.components.portal.PortalPosition
+import design.anduin.components.tag.Tag
+import design.anduin.style.Style
 
 // scalastyle:off underscore.import
 import japgolly.scalajs.react._

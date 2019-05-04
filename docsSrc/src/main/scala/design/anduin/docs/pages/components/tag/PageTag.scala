@@ -1,13 +1,13 @@
-package anduin.guide.pages.components.tag
+package design.anduin.docs.pages.components.tag
 
-import anduin.component.icon.Icon
-import anduin.component.menu.{Menu, MenuDivider, MenuItem}
-import anduin.component.popover.Popover
-import anduin.component.tag.{Tag, TagColor}
-import anduin.guide.app.main.Pages
-import anduin.guide.components._
+import design.anduin.components.icon.Icon
+import design.anduin.components.menu.{Menu, MenuDivider, MenuItem}
+import design.anduin.components.popover.Popover
+import design.anduin.components.tag.{Tag, TagColor}
+import design.anduin.docs.app.main.Pages
+import design.anduin.docs.components._
 import anduin.mcro.Source
-import anduin.style.Style
+import design.anduin.style.Style
 import japgolly.scalajs.react.Callback
 import japgolly.scalajs.react.vdom.html_<^._
 

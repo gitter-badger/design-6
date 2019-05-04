@@ -1,10 +1,10 @@
 // Copyright (C) 2014-2019 Anduin Transactions Inc.
 
-package anduin.guide.pages.components.icon
+package design.anduin.docs.pages.components.icon
 
-import anduin.component.button.Button
-import anduin.component.icon.{Icon, IconFile, IconGlyph, IconNego}
-import anduin.style.Style
+import design.anduin.components.button.Button
+import design.anduin.components.icon.{Icon, IconFile, IconGlyph, IconNego}
+import design.anduin.style.Style
 import org.scalajs.dom
 
 // scalastyle:off underscore.import

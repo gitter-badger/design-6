@@ -1,11 +1,11 @@
 // Copyright (C) 2014-2019 Anduin Transactions Inc.
 
-package anduin.component.portal
+package design.anduin.components.portal
 
-import anduin.scalajs.popper.PopperPlacement
+import design.anduin.facades.popper.PopperPlacement
 
 // scalastyle:off underscore.import
-import anduin.scalajs.popper.PopperPlacement._
+import design.anduin.facades.popper.PopperPlacement._
 // scalastyle:on underscore.import
 
 abstract class PortalPosition(

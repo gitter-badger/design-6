@@ -1,15 +1,15 @@
 // Copyright (C) 2014-2019 Anduin Transactions Inc.
 
-package anduin.component.menu
+package design.anduin.components.menu
 
-import anduin.component.icon.Icon
+import design.anduin.components.icon.Icon
 
 // scalastyle:off underscore.import
 import japgolly.scalajs.react._
 import japgolly.scalajs.react.vdom.html_<^._
 // scalastyle:on underscore.import
 
-import anduin.style.Style
+import design.anduin.style.Style
 
 final case class MenuItem(
   // common

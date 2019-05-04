@@ -1,12 +1,12 @@
 // Copyright (C) 2014-2019 Anduin Transactions Inc.
 
-package anduin.component.menu
+package design.anduin.components.menu
 
 // scalastyle:off underscore.import
 import japgolly.scalajs.react._
 import japgolly.scalajs.react.vdom.html_<^._
 
-import anduin.style.Style
+import design.anduin.style.Style
 // scalastyle:on underscore.import
 
 final case class VerticalDivider() {

@@ -1,9 +1,9 @@
 // Copyright (C) 2014-2019 Anduin Transactions Inc.
 
-package anduin.component.portal
+package design.anduin.components.portal
 
-import anduin.scalajs.popper.Popper
-import anduin.style.Style
+import design.anduin.facades.popper.Popper
+import design.anduin.style.Style
 
 // scalastyle:off underscore.import
 import japgolly.scalajs.react.vdom.html_<^._

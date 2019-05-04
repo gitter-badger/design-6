@@ -1,9 +1,9 @@
-package anduin.guide.app.main.layout
+package design.anduin.docs.app.main.layout
 
 import japgolly.scalajs.react.React
 
-import anduin.guide.app.main.Pages
-import anduin.style.Style
+import design.anduin.docs.app.main.Pages
+import design.anduin.style.Style
 import japgolly.scalajs.react.extra.router.Resolution
 import japgolly.scalajs.react.vdom.html_<^._
 

@@ -8,7 +8,8 @@ lazy val core = project
   .enablePlugins(ScalaJSPlugin, ScalaJSBundlerPlugin)
   .settings(
     libraryDependencies ++= Seq(
-      "org.scala-js" %%% "scalajs-dom" % "0.9.5"
+      "org.scala-js" %%% "scalajs-dom" % "0.9.5",
+      "com.github.japgolly.scalajs-react" %%% "core" % "1.4.0"
     ),
     Compile / npmDependencies ++= Seq(
       "downshift" -> "3.2.7",

@@ -1,8 +1,8 @@
-package anduin.guide.app.main
+package design.anduin.docs.app.main
 
-import anduin.guide.app.router.Router
-import anduin.guide.scalajs.highlight.Highlight
-import anduin.scalajs.focusvisible.FocusVisible
+import design.anduin.docs.app.router.Router
+import design.anduin.docs.facades.highlight.Highlight
+import design.anduin.facades.focusvisible.FocusVisible
 import japgolly.scalajs.react.extra.router.{BaseUrl, Router => RawRouter}
 import org.scalajs.dom
 

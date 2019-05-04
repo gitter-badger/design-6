@@ -1,7 +1,7 @@
-package anduin.guide.pages.home
+package design.anduin.docs.pages.home
 
-import anduin.guide.app.main.Pages
-import anduin.style.Style
+import design.anduin.docs.app.main.Pages
+import design.anduin.style.Style
 
 import japgolly.scalajs.react._
 import japgolly.scalajs.react.vdom.html_<^._

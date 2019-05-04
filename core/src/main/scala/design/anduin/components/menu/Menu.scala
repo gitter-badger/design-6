@@ -1,15 +1,15 @@
 // Copyright (C) 2014-2019 Anduin Transactions Inc.
 
-package anduin.component.menu
+package design.anduin.components.menu
 
 // scalastyle:off underscore.import
 import japgolly.scalajs.react._
 import japgolly.scalajs.react.vdom.html_<^._
 
-import anduin.component.util.ComponentUtils
+import design.anduin.components.util.ComponentUtils
 // scalastyle:on underscore.import
 
-import anduin.style.Style
+import design.anduin.style.Style
 
 case class Menu() {
   def apply(children: VdomNode*): VdomElement = Menu.component(children: _*)

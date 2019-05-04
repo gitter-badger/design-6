@@ -1,15 +1,15 @@
 // Copyright (C) 2014-2019 Anduin Transactions Inc.
 
-package anduin.guide.app.main.layout
+package design.anduin.docs.app.main.layout
 
-import anduin.guide.app.main.Pages
-import anduin.guide.app.main.Pages._
-import anduin.guide.app.main.Pages.{Layout => PagesLayout}
-import anduin.style.Style
-import anduin.guide.app.main.layout.NavElements.PageTarget._
+import design.anduin.docs.app.main.Pages
+import design.anduin.docs.app.main.Pages._
+import design.anduin.docs.app.main.Pages.{Layout => PagesLayout}
+import design.anduin.style.Style
+import design.anduin.docs.app.main.layout.NavElements.PageTarget._
 
 // scalastyle:off underscore.import
-import anduin.guide.app.main.layout.NavElements._
+import design.anduin.docs.app.main.layout.NavElements._
 import japgolly.scalajs.react._
 import japgolly.scalajs.react.vdom.html_<^._
 // scalastyle:on underscore.import

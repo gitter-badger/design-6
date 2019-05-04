@@ -1,10 +1,10 @@
 // Copyright (C) 2014-2019 Anduin Transactions Inc.
 
-package anduin.component.popover
+package design.anduin.components.popover
 
-import anduin.component.portal.{PortalPopperContent, PortalPosition, PortalUtils}
-import anduin.scalajs.popper.Popper
-import anduin.style.Style
+import design.anduin.components.portal.{PortalPopperContent, PortalPosition, PortalUtils}
+import design.anduin.facades.popper.Popper
+import design.anduin.style.Style
 import org.scalajs.dom
 import org.scalajs.dom.raw
 

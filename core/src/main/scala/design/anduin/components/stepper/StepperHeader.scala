@@ -1,10 +1,10 @@
 // Copyright (C) 2014-2019 Anduin Transactions Inc.
 
-package anduin.component.stepper
+package design.anduin.components.stepper
 
-import anduin.style.{CssVar, Style}
-import anduin.component.icon.Icon
-import anduin.component.util.ComponentUtils
+import design.anduin.style.{CssVar, Style}
+import design.anduin.components.icon.Icon
+import design.anduin.components.util.ComponentUtils
 
 // scalastyle:off underscore.import
 import japgolly.scalajs.react._

@@ -1,6 +1,6 @@
 // Copyright (C) 2014-2019 Anduin Transactions Inc.
 
-package anduin.scalajs.downshift
+package design.anduin.facades.downshift
 
 import scala.scalajs.js
 import scala.scalajs.js.annotation.JSImport

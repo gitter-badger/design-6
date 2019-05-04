@@ -1,12 +1,12 @@
-package anduin.guide.pages.components.portal
+package design.anduin.docs.pages.components.portal
 
-import anduin.component.button.Button
-import anduin.component.icon.Icon
-import anduin.component.table.Table
-import anduin.component.tooltip.Tooltip
-import anduin.component.truncate.TruncateMarkup
-import anduin.guide.components.ExampleSimple
-import anduin.style.Style
+import design.anduin.components.button.Button
+import design.anduin.components.icon.Icon
+import design.anduin.components.table.Table
+import design.anduin.components.tooltip.Tooltip
+import design.anduin.components.truncate.TruncateMarkup
+import design.anduin.docs.components.ExampleSimple
+import design.anduin.style.Style
 
 // scalastyle:off underscore.import
 import japgolly.scalajs.react._

@@ -1,11 +1,11 @@
-package anduin.guide.pages.components.progressindicator
+package design.anduin.docs.pages.components.progressindicator
 
-import anduin.component.button.Button
-import anduin.component.progressindicators.{BarIndicator, BlockIndicator, CircleIndicator}
-import anduin.guide.app.main.Pages
-import anduin.guide.components._
+import design.anduin.components.button.Button
+import design.anduin.components.progressindicators.{BarIndicator, BlockIndicator, CircleIndicator}
+import design.anduin.docs.app.main.Pages
+import design.anduin.docs.components._
 import anduin.mcro.Source
-import anduin.style.Style
+import design.anduin.style.Style
 
 // scalastyle:off underscore.import
 import japgolly.scalajs.react.vdom.html_<^._

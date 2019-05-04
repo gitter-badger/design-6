@@ -1,9 +1,9 @@
 // Copyright (C) 2014-2019 Anduin Transactions Inc.
 
-package anduin.component.tab
+package design.anduin.components.tab
 
-import anduin.component.util.ComponentUtils
-import anduin.style.{CssVar, Style}
+import design.anduin.components.util.ComponentUtils
+import design.anduin.style.{CssVar, Style}
 
 // scalastyle:off underscore.import
 import japgolly.scalajs.react._

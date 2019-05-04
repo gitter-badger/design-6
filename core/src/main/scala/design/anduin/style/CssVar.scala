@@ -1,6 +1,6 @@
 // Copyright (C) 2014-2019 Anduin Transactions Inc.
 
-package anduin.style
+package design.anduin.style
 
 // The global CSS variables defined in `stylesheets/tachyons/variables` directory
 object CssVar {

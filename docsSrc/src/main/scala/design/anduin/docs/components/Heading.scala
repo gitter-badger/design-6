@@ -1,6 +1,6 @@
-package anduin.guide.components
+package design.anduin.docs.components
 
-import anduin.style.Style
+import design.anduin.style.Style
 import japgolly.scalajs.react._
 import japgolly.scalajs.react.vdom.html_<^._
 

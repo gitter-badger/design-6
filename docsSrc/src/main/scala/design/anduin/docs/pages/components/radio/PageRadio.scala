@@ -1,13 +1,13 @@
-package anduin.guide.pages.components.radio
+package design.anduin.docs.pages.components.radio
 
 import japgolly.scalajs.react._
 import japgolly.scalajs.react.vdom.html_<^._
 
-import anduin.component.input.radio.Radio
-import anduin.guide.app.main.Pages
-import anduin.guide.components._
+import design.anduin.components.input.radio.Radio
+import design.anduin.docs.app.main.Pages
+import design.anduin.docs.components._
 import anduin.mcro.Source
-import anduin.style.Style
+import design.anduin.style.Style
 
 object PageRadio {
   def render(ctl: Pages.Ctl): VdomElement = {

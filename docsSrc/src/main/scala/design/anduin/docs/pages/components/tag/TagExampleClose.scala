@@ -1,10 +1,10 @@
 // Copyright (C) 2014-2019 Anduin Transactions Inc.
 
-package anduin.guide.pages.components.tag
+package design.anduin.docs.pages.components.tag
 
-import anduin.component.button.Button
-import anduin.component.tag.Tag
-import anduin.style.Style
+import design.anduin.components.button.Button
+import design.anduin.components.tag.Tag
+import design.anduin.style.Style
 
 import scala.util.Random
 

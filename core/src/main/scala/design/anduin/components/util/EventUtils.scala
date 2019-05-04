@@ -1,6 +1,6 @@
 // Copyright (C) 2014-2019 Anduin Transactions Inc.
 
-package anduin.component.util
+package design.anduin.components.util
 
 import japgolly.scalajs.react.ReactMouseEventFromHtml
 import org.scalajs.dom.MouseEvent

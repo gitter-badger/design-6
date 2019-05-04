@@ -1,9 +1,9 @@
 // Copyright (C) 2014-2019 Anduin Transactions Inc.
 
-package anduin.component.input.suggest
+package design.anduin.components.input.suggest
 
-import anduin.component.input.textbox.{TextBox, TextBoxSize}
-import anduin.style.Style
+import design.anduin.components.input.textbox.{TextBox, TextBoxSize}
+import design.anduin.style.Style
 
 // scalastyle:off underscore.import
 import japgolly.scalajs.react._

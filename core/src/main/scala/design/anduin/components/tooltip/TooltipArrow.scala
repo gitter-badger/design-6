@@ -1,9 +1,9 @@
 // Copyright (C) 2014-2019 Anduin Transactions Inc.
 
-package anduin.component.tooltip
+package design.anduin.components.tooltip
 
-import anduin.scalajs.popper.PopperPlacement
-import anduin.style.Style
+import design.anduin.facades.popper.PopperPlacement
+import design.anduin.style.Style
 
 // scalastyle:off underscore.import
 import japgolly.scalajs.react._

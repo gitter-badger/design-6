@@ -1,10 +1,10 @@
 // Copyright (C) 2014-2019 Anduin Transactions Inc.
 
-package anduin.guide.pages.components.checkbox
+package design.anduin.docs.pages.components.checkbox
 
-import anduin.component.input.checkbox.Checkbox
-import anduin.guide.components.ExampleSimple
-import anduin.style.Style
+import design.anduin.components.input.checkbox.Checkbox
+import design.anduin.docs.components.ExampleSimple
+import design.anduin.style.Style
 
 // scalastyle:off underscore.import
 import japgolly.scalajs.react._

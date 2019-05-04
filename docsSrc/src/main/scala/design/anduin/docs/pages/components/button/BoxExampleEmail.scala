@@ -1,12 +1,12 @@
 // Copyright (C) 2014-2019 Anduin Transactions Inc.
 
-package anduin.guide.pages.components.button
+package design.anduin.docs.pages.components.button
 
-import anduin.component.button.Button
-import anduin.component.icon.Icon
-import anduin.component.input.textbox.TextBox
-import anduin.guide.components.{DemoState, ExampleSimple}
-import anduin.style.Style
+import design.anduin.components.button.Button
+import design.anduin.components.icon.Icon
+import design.anduin.components.input.textbox.TextBox
+import design.anduin.docs.components.{DemoState, ExampleSimple}
+import design.anduin.style.Style
 
 // scalastyle:off underscore.import
 import japgolly.scalajs.react._

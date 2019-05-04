@@ -1,12 +1,12 @@
-package anduin.guide.components
+package design.anduin.docs.components
 
 import japgolly.scalajs.react._
 import japgolly.scalajs.react.vdom.html_<^._
 
-import anduin.component.button.Button
-import anduin.component.icon.Icon
-import anduin.guide.app.main.Pages
-import anduin.style.Style
+import design.anduin.components.button.Button
+import design.anduin.components.icon.Icon
+import design.anduin.docs.app.main.Pages
+import design.anduin.style.Style
 
 final case class BigButtonLink(
   ctl: Pages.Ctl,

@@ -1,4 +1,4 @@
-package anduin.guide.app.main
+package design.anduin.docs.app.main
 
 import japgolly.scalajs.react.extra.router.RouterCtl
 

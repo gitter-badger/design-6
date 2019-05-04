@@ -1,12 +1,12 @@
 // Copyright (C) 2014-2019 Anduin Transactions Inc.
 
-package anduin.component.dropdown
+package design.anduin.components.dropdown
 
-import anduin.component.util.ComponentUtils
-import anduin.scalajs.downshift.DownshiftRenderProps
-import anduin.scalajs.reactvirtualized.{ReactVirtualizedAutoSizer, ReactVirtualizedList}
-import anduin.scalajs.util.ScalaJSUtils
-import anduin.style.Style
+import design.anduin.components.util.ComponentUtils
+import design.anduin.facades.downshift.DownshiftRenderProps
+import design.anduin.facades.reactvirtualized.{ReactVirtualizedAutoSizer, ReactVirtualizedList}
+import design.anduin.facades.util.ScalaJSUtils
+import design.anduin.style.Style
 import org.scalajs.dom.document.documentElement
 
 // scalastyle:off underscore.import

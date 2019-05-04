@@ -1,12 +1,12 @@
 // Copyright (C) 2014-2019 Anduin Transactions Inc.
 
-package anduin.component.dropdown
+package design.anduin.components.dropdown
 
-import anduin.component.button.Button
-import anduin.component.icon.Icon
-import anduin.scalajs.downshift.DownshiftRenderProps
-import anduin.scalajs.util.ScalaJSUtils
-import anduin.style.Style
+import design.anduin.components.button.Button
+import design.anduin.components.icon.Icon
+import design.anduin.facades.downshift.DownshiftRenderProps
+import design.anduin.facades.util.ScalaJSUtils
+import design.anduin.style.Style
 
 // scalastyle:off underscore.import
 import japgolly.scalajs.react._

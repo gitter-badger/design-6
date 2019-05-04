@@ -1,7 +1,7 @@
-package anduin.guide.components
+package design.anduin.docs.components
 
-import anduin.guide.scalajs.marked.{Marked, MarkedOptions, MarkedRenderer}
-import anduin.style.Style
+import design.anduin.docs.facades.marked.{Marked, MarkedOptions, MarkedRenderer}
+import design.anduin.style.Style
 import japgolly.scalajs.react._
 import japgolly.scalajs.react.vdom.html_<^._
 

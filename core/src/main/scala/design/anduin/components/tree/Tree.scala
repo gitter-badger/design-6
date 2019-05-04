@@ -1,10 +1,10 @@
 // Copyright (C) 2014-2019 Anduin Transactions Inc.
 
-package anduin.component.tree
+package design.anduin.components.tree
 
-import anduin.component.button.Button
-import anduin.component.icon.Icon
-import anduin.style.Style
+import design.anduin.components.button.Button
+import design.anduin.components.icon.Icon
+import design.anduin.style.Style
 
 import scala.concurrent.Future
 import scala.concurrent.ExecutionContext.Implicits.global

@@ -1,16 +1,16 @@
-package anduin.guide.pages.components.dropdown
+package design.anduin.docs.pages.components.dropdown
 
-import anduin.guide.components._
-import anduin.component.button.Button
-import anduin.component.dropdown.Dropdown
-import anduin.component.icon.Icon
-import anduin.component.input.checkbox.Checkbox
-import anduin.component.menu.VerticalDivider
-import anduin.component.modal.{Modal, ModalBody}
-import anduin.guide.app.main.Pages
-import anduin.guide.components.DemoState
+import design.anduin.docs.components._
+import design.anduin.components.button.Button
+import design.anduin.components.dropdown.Dropdown
+import design.anduin.components.icon.Icon
+import design.anduin.components.input.checkbox.Checkbox
+import design.anduin.components.menu.VerticalDivider
+import design.anduin.components.modal.{Modal, ModalBody}
+import design.anduin.docs.app.main.Pages
+import design.anduin.docs.components.DemoState
 import anduin.mcro.Source
-import anduin.style.Style
+import design.anduin.style.Style
 import japgolly.scalajs.react.vdom.html_<^._
 import japgolly.scalajs.react.{Callback, React}
 

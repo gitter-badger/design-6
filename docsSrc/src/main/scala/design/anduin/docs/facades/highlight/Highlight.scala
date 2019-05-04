@@ -1,4 +1,4 @@
-package anduin.guide.scalajs.highlight
+package design.anduin.docs.facades.highlight
 
 import scala.scalajs.js
 import scala.scalajs.js.annotation.JSImport

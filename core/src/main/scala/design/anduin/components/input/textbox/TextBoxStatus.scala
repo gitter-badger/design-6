@@ -1,10 +1,10 @@
 // Copyright (C) 2014-2019 Anduin Transactions Inc.
 
-package anduin.component.input.textbox
+package design.anduin.components.input.textbox
 
-import anduin.component.icon.Icon
-import anduin.component.progressindicators.CircleIndicator
-import anduin.style.Style
+import design.anduin.components.icon.Icon
+import design.anduin.components.progressindicators.CircleIndicator
+import design.anduin.style.Style
 
 // scalastyle:off underscore.import
 import japgolly.scalajs.react.vdom.html_<^._

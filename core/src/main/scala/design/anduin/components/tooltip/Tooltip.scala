@@ -1,8 +1,8 @@
 // Copyright (C) 2014-2019 Anduin Transactions Inc.
 
-package anduin.component.tooltip
+package design.anduin.components.tooltip
 
-import anduin.component.portal.{PortalPosition, PortalWrapper}
+import design.anduin.components.portal.{PortalPosition, PortalWrapper}
 import org.scalajs.dom.raw.HTMLElement
 
 // scalastyle:off underscore.import

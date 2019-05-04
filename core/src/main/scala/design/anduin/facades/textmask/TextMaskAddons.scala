@@ -1,6 +1,6 @@
 // Copyright (C) 2014-2019 Anduin Transactions Inc.
 
-package anduin.scalajs.textmask
+package design.anduin.facades.textmask
 
 import scala.scalajs.js
 import scala.scalajs.js.annotation.JSImport

@@ -1,4 +1,4 @@
-package anduin.mcro
+package design.anduin.macros
 
 import japgolly.scalajs.react.vdom.VdomElement
 

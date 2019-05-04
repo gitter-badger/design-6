@@ -1,11 +1,11 @@
 // Copyright (C) 2014-2019 Anduin Transactions Inc.
 
-package anduin.component.input.checkbox
+package design.anduin.components.input.checkbox
 
-import anduin.component.icon.Icon
-import anduin.component.icon.Icon.Glyph.{Blank, CheckBold, MinusBold}
-import anduin.component.input.labelwrapper.LabelWrapper
-import anduin.style.{Style => SStyle}
+import design.anduin.components.icon.Icon
+import design.anduin.components.icon.Icon.Glyph.{Blank, CheckBold, MinusBold}
+import design.anduin.components.input.labelwrapper.LabelWrapper
+import design.anduin.style.{Style => SStyle}
 
 // scalastyle:off underscore.import
 import japgolly.scalajs.react._

@@ -1,8 +1,8 @@
 // Copyright (C) 2014-2019 Anduin Transactions Inc.
 
-package anduin.component.portal
+package design.anduin.components.portal
 
-import anduin.style.Style
+import design.anduin.style.Style
 import org.scalajs.dom.raw.HTMLElement
 
 // scalastyle:off underscore.import

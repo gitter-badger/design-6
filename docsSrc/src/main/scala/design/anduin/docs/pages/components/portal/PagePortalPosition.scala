@@ -1,8 +1,8 @@
-package anduin.guide.pages.components.portal
+package design.anduin.docs.pages.components.portal
 
-import anduin.component.portal.PortalPosition
-import anduin.component.portal.PortalPosition._
-import anduin.style.Style
+import design.anduin.components.portal.PortalPosition
+import design.anduin.components.portal.PortalPosition._
+import design.anduin.style.Style
 
 // scalastyle:off underscore.import
 import japgolly.scalajs.react._

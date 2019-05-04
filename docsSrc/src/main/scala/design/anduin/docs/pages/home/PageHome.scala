@@ -1,10 +1,10 @@
-package anduin.guide.pages.home
+package design.anduin.docs.pages.home
 
-import anduin.guide.app.main.Pages
+import design.anduin.docs.app.main.Pages
 
 import japgolly.scalajs.react.vdom.html_<^._
 
-import anduin.style.Style
+import design.anduin.style.Style
 
 object PageHome {
 

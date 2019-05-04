@@ -1,8 +1,8 @@
 // Copyright (C) 2014-2019 Anduin Transactions Inc.
 
-package anduin.component.input.labelwrapper
+package design.anduin.components.input.labelwrapper
 
-import anduin.style.{Style => SStyle}
+import design.anduin.style.{Style => SStyle}
 
 // scalastyle:off underscore.import
 import japgolly.scalajs.react._

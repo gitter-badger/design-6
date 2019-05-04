@@ -1,14 +1,14 @@
 // Copyright (C) 2014-2019 Anduin Transactions Inc.
 
-package anduin.guide.pages.components.icon
+package design.anduin.docs.pages.components.icon
 
-import anduin.component.icon.Icon
-import anduin.component.icon.Icon.Glyph._
-import anduin.component.input.textbox.TextBox
-import anduin.component.tooltip.Tooltip
-import anduin.guide.app.main.Pages
-import anduin.guide.components.Markdown
-import anduin.style.Style
+import design.anduin.components.icon.Icon
+import design.anduin.components.icon.Icon.Glyph._
+import design.anduin.components.input.textbox.TextBox
+import design.anduin.components.tooltip.Tooltip
+import design.anduin.docs.app.main.Pages
+import design.anduin.docs.components.Markdown
+import design.anduin.style.Style
 
 // scalastyle:off underscore.import
 import japgolly.scalajs.react._

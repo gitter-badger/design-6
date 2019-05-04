@@ -1,12 +1,12 @@
-package anduin.guide.pages.components.table
+package design.anduin.docs.pages.components.table
 
-import anduin.guide.components._
-import anduin.component.button.Button
-import anduin.component.table.Table
-import anduin.component.tag.Tag
-import anduin.guide.app.main.Pages
+import design.anduin.docs.components._
+import design.anduin.components.button.Button
+import design.anduin.components.table.Table
+import design.anduin.components.tag.Tag
+import design.anduin.docs.app.main.Pages
 import anduin.mcro.Source
-import anduin.style.Style
+import design.anduin.style.Style
 import japgolly.scalajs.react.vdom.html_<^._
 
 object Sample {

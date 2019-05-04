@@ -1,6 +1,6 @@
 // Copyright (C) 2014-2019 Anduin Transactions Inc.
 
-package anduin.component.icon
+package design.anduin.components.icon
 
 // scalastyle:off underscore.import
 import japgolly.scalajs.react._
