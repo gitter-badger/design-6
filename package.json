@@ -1,21 +1,12 @@
 {
-  "name": "design",
-  "version": "1.0.0",
+  "name": "@anduin/design",
+  "version": "0.0.2",
   "repository": "https://github.com/anduintransaction/design",
-  "author": "Thien Do <thien@anduintransact.com>",
   "license": "MIT",
   "scripts": {
-    "link": "bash ./scripts/link/link.sh",
-    "dev-watch": "bash ./scripts/dev-watch.sh",
-    "dev-serve": "node ./scripts/dev-serve",
-    "build": "bash ./scripts/build.sh"
-  },
-  "devDependencies": {
-    "@anduin/scalajs-split": "0.0.1-5",
-    "@csstools/postcss-sass": "^2.0.0",
-    "autoprefixer": "^9.1.0",
-    "cssnano": "^4.0.5",
-    "postcss-cli": "^6.0.0",
-    "tailwindcss": "^0.7.4"
+    "core-css": "node ./core/style",
+    "docs-dev-watch": "bash ./docsSrc/scripts/dev-watch.sh",
+    "docs-dev-serve": "node ./scripts/dev-serve",
+    "docs-build": "bash ./scripts/build.sh"
   }
 }

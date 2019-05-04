@@ -1,0 +1,11 @@
+.trns-a {
+  transition: all 0.1s;
+}
+
+.trns-o {
+  transition: all 0.1s, outline 0.3s ease;
+}
+
+.trns-s {
+  transition: all 0.1s, box-shadow 0.3s ease;
+}

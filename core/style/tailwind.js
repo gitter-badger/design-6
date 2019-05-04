@@ -1,4 +1,4 @@
-let colors = {
+const colors = {
   "gray-0": "var(--color-gray-0)",
   "gray-1": "var(--color-gray-1)",
   "gray-2": "var(--color-gray-2)",
