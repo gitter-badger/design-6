@@ -1,24 +1,15 @@
-// @TODO: This should be a simple server-static
-// https://github.com/expressjs/serve-static
-
 const express = require('express');
-const path = require("path");
+const path = require('path');
 const app = express();
 
 app.get('/', function (req, res) {
-    res.sendFile(path.join(__dirname, './index.html'));
+  res.sendFile(path.join(__dirname, './index.html'));
 });
 
-[
-  '../../core/target/scala-2.12/scalajs-bundler/main',
-  '../../core/src/main/resources/public',
-  '../../../scalajs-code-splitting/o/o',
-].forEach(target => {
-    app.use(express.static(path.join(__dirname, target)));
-})
+app.use(express.static(path.join(__dirname, '../../public')));
 
 app.get('/*', function (req, res) {
-    res.sendFile(path.join(__dirname, './index.html'));
+  res.sendFile(path.join(__dirname, './index.html'));
 });
 
 app.listen(3000, () => console.log('Port 3000!'));

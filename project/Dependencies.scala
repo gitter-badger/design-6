@@ -10,7 +10,7 @@ object Dependencies {
     val scala = "2.12.8"
     val webpack = "4.29.6"
     val webpackCli = "3.3.0"
-    val webpackDevServer = "3.2.1"
+    val webpackDevServer = "3.3.1"
   }
 
   object Libraries {
@@ -28,14 +28,14 @@ object Dependencies {
   object NPM {
     // Core
     val downshift = "downshift" -> "3.2.7"
-    val focusVisible = "focusVisible" -> "4.1.5"
+    val focusVisible = "focus-visible" -> "4.1.5"
     val popper = "popper.js" -> "1.14.7"
     val react = "react" -> "16.7.0"
-    val reactDom = "reactDom" -> "16.7.0"
-    val reactTextMask = "reactTextMask" -> "5.4.3"
-    val reactTruncateMarkup = "reactTruncateMarkup" -> "3.0.0"
-    val reactVirtualized = "reactVirtualized" -> "9.21.0"
-    val textMaskAddons = "textMaskAddons" -> "3.8.0"
+    val reactDom = "react-dom" -> "16.7.0"
+    val reactTextMask = "react-text-mask" -> "5.4.3"
+    val reactTruncateMarkup = "react-truncate-markup" -> "3.0.0"
+    val reactVirtualized = "react-virtualized" -> "9.21.0"
+    val textMaskAddons = "text-mask-addons" -> "3.8.0"
     // Docs
     val highlight = "highlight.js" -> "9.15.6"
     val marked = "marked" -> "0.6.2"

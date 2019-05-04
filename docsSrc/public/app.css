@@ -1,17 +1,9 @@
-/* Auto linked from Gondor */
-@import "base";
-@import "utilities-custom/index";
-@tailwind utilities;
-
-/* Our own */
-@import "vendors/highlight-custom";
+/* Anduin Design */
 
 body {
   background: white;
   min-width: 940px;
 }
-
-/* Anduin Design Scroll Bar */
 
 ::-webkit-scrollbar {
   width: 12px;
@@ -37,3 +29,43 @@ body {
 ::-webkit-scrollbar-thumb:active {
   background: var(--color-gray-5);
 }
+
+/* Highlight.js syntax */
+
+.hljs {
+  color: var(--color-gray-8)
+}
+
+.hljs-comment {
+  color: var(--color-gray-5)
+}
+
+.hljs-keyword {
+  color: var(--color-danger-5)
+}
+
+.hljs-type,
+.hljs-title {
+  color: var(--color-primary-5)
+}
+
+.hljs-string {
+  color: var(--color-warning-5)
+}
+
+.hljs-subst {
+  color: var(--color-warning-4)
+}
+
+.hljs-number,
+.hljs-literal {
+  color: var(--color-success-5)
+}
+
+.hljs-emphasis {
+  font-style: italic
+}
+
+.hljs-strong {
+  font-weight: bold
+};

@@ -5,8 +5,8 @@
   "license": "MIT",
   "scripts": {
     "core-css": "node ./core/style",
-    "docs-dev-watch": "bash ./docsSrc/scripts/dev-watch.sh",
-    "docs-dev-serve": "node ./scripts/dev-serve",
-    "docs-build": "bash ./scripts/build.sh"
+    "docs-dev-watch": "echo \"~fastOptJS::webpack\" | sbt",
+    "docs-dev-serve": "node ./docsSrc/scripts/dev-serve",
+    "docs-build": "bash ./docsSrc/scripts/build.sh"
   }
 }
