@@ -5,7 +5,7 @@ import design.anduin.components.button.Button
 import design.anduin.components.table.Table
 import design.anduin.components.tag.Tag
 import design.anduin.docs.app.main.Pages
-import anduin.mcro.Source
+import design.anduin.macros.Source
 import design.anduin.style.Style
 import japgolly.scalajs.react.vdom.html_<^._
 

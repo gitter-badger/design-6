@@ -9,7 +9,7 @@ import design.anduin.components.menu.VerticalDivider
 import design.anduin.components.modal.{Modal, ModalBody}
 import design.anduin.docs.app.main.Pages
 import design.anduin.docs.components.DemoState
-import anduin.mcro.Source
+import design.anduin.macros.Source
 import design.anduin.style.Style
 import japgolly.scalajs.react.vdom.html_<^._
 import japgolly.scalajs.react.{Callback, React}

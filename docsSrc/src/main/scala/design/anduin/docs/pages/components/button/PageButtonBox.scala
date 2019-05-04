@@ -6,7 +6,7 @@ import design.anduin.components.button.Button
 import design.anduin.components.icon.Icon
 import design.anduin.docs.app.main.Pages
 import design.anduin.docs.components._
-import anduin.mcro.Source
+import design.anduin.macros.Source
 import design.anduin.style.Style
 import japgolly.scalajs.react.React
 

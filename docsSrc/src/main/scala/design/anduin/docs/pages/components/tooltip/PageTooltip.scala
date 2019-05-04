@@ -9,7 +9,7 @@ import design.anduin.components.tooltip.Tooltip
 import design.anduin.docs.app.main.Pages
 import design.anduin.docs.components._
 import design.anduin.docs.pages.components.portal.PagePortalPositionTooltip
-import anduin.mcro.Source
+import design.anduin.macros.Source
 import design.anduin.style.Style
 import japgolly.scalajs.react._
 import japgolly.scalajs.react.vdom.html_<^._

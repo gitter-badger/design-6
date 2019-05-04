@@ -9,7 +9,7 @@ import design.anduin.facades.popper.PopperPlacement._
 // scalastyle:on underscore.import
 
 abstract class PortalPosition(
-  private[component] val popperPlacement: PopperPlacement
+  private[components] val popperPlacement: PopperPlacement
 )
 
 object PortalPosition {

@@ -3,7 +3,7 @@ package design.anduin.docs.pages.components.textbox
 import design.anduin.docs.components._
 import design.anduin.components.input.textbox.TextBox
 import design.anduin.docs.app.main.Pages
-import anduin.mcro.Source
+import design.anduin.macros.Source
 import japgolly.scalajs.react.vdom.html_<^._
 
 import design.anduin.components.icon.Icon

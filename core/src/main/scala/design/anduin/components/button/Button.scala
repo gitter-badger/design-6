@@ -94,7 +94,7 @@ object Button {
     ) extends ButtonStyle.Minimal
   }
 
-  private[component] def getStyles(props: Props, children: Option[PropsChildren]): TagMod = TagMod(
+  private[components] def getStyles(props: Props, children: Option[PropsChildren]): TagMod = TagMod(
     props.style.container, {
       val isIconOnly = props.style.iconInfo.isDefined && children.exists(_.isEmpty)
       if (isIconOnly) props.style.sizeSquare else props.style.sizeRect
@@ -102,7 +102,7 @@ object Button {
     if (props.isDisabled) props.style.colorDisabled else props.style.colorNormal
   )
 
-  private[component] def getBehaviours(props: Props): TagMod = TagMod(
+  private[components] def getBehaviours(props: Props): TagMod = TagMod(
     if (props.isDisabled) props.tpe.disabled else props.tpe.normal,
     TagMod.when(!props.isDisabled) {
       TagMod(
@@ -127,12 +127,12 @@ object Button {
     }
   }
 
-  private[component] def getContent(props: Props, children: PropsChildren): TagMod = TagMod(
+  private[components] def getContent(props: Props, children: PropsChildren): TagMod = TagMod(
     <.span(props.style.body, getIcon(props, children), children),
     props.style.overlay
   )
 
-  private[component] def getMods(props: Props, children: PropsChildren): TagMod = TagMod(
+  private[components] def getMods(props: Props, children: PropsChildren): TagMod = TagMod(
     getStyles(props, Some(children)),
     getBehaviours(props),
     getContent(props, children)

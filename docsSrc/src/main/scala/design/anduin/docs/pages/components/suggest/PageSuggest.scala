@@ -6,7 +6,7 @@ import design.anduin.components.input.suggest.{MultiSuggest, Suggest}
 import design.anduin.components.tag.Tag
 import design.anduin.docs.app.main.Pages
 import design.anduin.docs.components._
-import anduin.mcro.Source
+import design.anduin.macros.Source
 import japgolly.scalajs.react.vdom.html_<^._
 
 import scala.collection.JavaConverters._

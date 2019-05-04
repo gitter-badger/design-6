@@ -3,7 +3,7 @@ package design.anduin.docs.pages.components.icon
 import design.anduin.components.icon.{Icon, IconProduct}
 import design.anduin.docs.app.main.Pages
 import design.anduin.docs.components._
-import anduin.mcro.Source
+import design.anduin.macros.Source
 import design.anduin.style.Style
 import japgolly.scalajs.react.vdom.html_<^._
 

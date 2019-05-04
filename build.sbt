@@ -1,17 +1,20 @@
 // Copyright (C) 2014-2019 Anduin Transactions Inc.
 
-ThisBuild / name := "Anduin Design"
+ThisBuild / name := "anduin.design"
 ThisBuild / organization := "anduin.design"
 ThisBuild / version := "0.2"
 
-ThisBuild / scalaVersion := Dependencies.scalaVersion
+ThisBuild / scalaVersion := Dependencies.Versions.scala
 
 //noinspection SpellCheckingInspection
 lazy val core = project
   .enablePlugins(ScalaJSPlugin, ScalaJSBundlerPlugin)
   .settings(
+    scalacOptions += "-language:existentials",
+    scalacOptions += "-P:scalajs:sjsDefinedByDefault",
     libraryDependencies ++= List(
       Dependencies.Libraries.scalajsDom.value,
+      Dependencies.Libraries.scalaJavaTime.value,
       Dependencies.Libraries.scalajsReact.core.value
     ),
     Compile / npmDependencies ++= List(
@@ -31,7 +34,7 @@ lazy val core = project
 lazy val docsMacros = project
   .enablePlugins(ScalaJSPlugin)
   .settings(
-    scalacOptions += "-P:scalajs:sjsDefinedByDefault -Yrangepos",
+    scalacOptions += "-Yrangepos",
     libraryDependencies ++= List(
       Dependencies.Libraries.scalajsReact.core.value,
       Dependencies.Libraries.scalaReflect
@@ -43,13 +46,15 @@ lazy val docsSrc = project
   .dependsOn(docsMacros, core)
   .enablePlugins(ScalaJSPlugin, ScalaJSBundlerPlugin)
   .settings(
+    scalacOptions += "-Yrangepos",
+    scalacOptions += "-language:existentials",
     scalacOptions += "-P:scalajs:sjsDefinedByDefault",
     scalaJSUseMainModuleInitializer := true,
     webpackBundlingMode in fastOptJS := BundlingMode.LibraryOnly(),
     webpackBundlingMode in fullOptJS := BundlingMode.Application,
-    webpackCliVersion := "3.3.0",
-    webpack / version := "4.29.6",
-    startWebpackDevServer / version := "3.2.1",
+    webpackCliVersion := Dependencies.Versions.webpackCli,
+    webpack / version := Dependencies.Versions.webpack,
+    startWebpackDevServer / version := Dependencies.Versions.webpackDevServer,
     libraryDependencies ++= List(
       Dependencies.Libraries.scalajsDom.value,
       Dependencies.Libraries.scalajsReact.core.value,
@@ -63,4 +68,6 @@ lazy val docsSrc = project
     )
   )
 
-lazy val root = (project in file(".")).aggregate(docsSrc)
+lazy val root = (project in file("."))
+  .settings(name := "anduin.design")
+  .aggregate(docsSrc)

@@ -9,7 +9,7 @@ import design.anduin.style.Style
 import japgolly.scalajs.react.vdom.html_<^._
 // scalastyle:on underscore.import
 
-private[component] object PortalPopperContent {
+private[components] object PortalPopperContent {
   val staticStyles = TagMod(
     // Ensure Popper will deal with the "real" size
     Style.width.maxContent,

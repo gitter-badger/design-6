@@ -2,6 +2,8 @@
 
 package design.anduin.style
 
+import scala.language.implicitConversions
+
 // scalastyle:off underscore.import
 import japgolly.scalajs.react.vdom.html_<^._
 // scalastyle:on underscore.import

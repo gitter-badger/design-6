@@ -5,7 +5,7 @@ import japgolly.scalajs.react.vdom.html_<^._
 import design.anduin.components.input.checkbox.Checkbox
 import design.anduin.docs.app.main.Pages
 import design.anduin.docs.components._
-import anduin.mcro.Source
+import design.anduin.macros.Source
 import design.anduin.style.Style
 
 object PageCheckbox {

@@ -5,7 +5,7 @@ import design.anduin.components.field.Field
 import design.anduin.components.input.textbox.TextBox
 import design.anduin.docs.app.main.Pages
 import design.anduin.docs.components.DemoState
-import anduin.mcro.Source
+import design.anduin.macros.Source
 import japgolly.scalajs.react.vdom.html_<^._
 
 object PageField {

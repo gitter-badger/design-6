@@ -7,7 +7,7 @@ import design.anduin.components.portal.PortalUtils.IsClosable
 import design.anduin.components.modal._
 import design.anduin.docs.app.main.Pages
 import design.anduin.docs.components.DemoState
-import anduin.mcro.Source
+import design.anduin.macros.Source
 import design.anduin.style.Style
 import japgolly.scalajs.react._
 import japgolly.scalajs.react.vdom.html_<^._

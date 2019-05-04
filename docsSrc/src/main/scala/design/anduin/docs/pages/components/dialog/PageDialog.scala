@@ -4,7 +4,7 @@ import design.anduin.components.button.Button
 import design.anduin.components.dialog.Dialog
 import design.anduin.docs.app.main.Pages
 import design.anduin.docs.components._
-import anduin.mcro.Source
+import design.anduin.macros.Source
 import japgolly.scalajs.react._
 import japgolly.scalajs.react.vdom.html_<^._
 

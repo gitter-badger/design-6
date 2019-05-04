@@ -3,7 +3,7 @@ package design.anduin.docs.pages.components.playground
 import japgolly.scalajs.react.Callback
 import design.anduin.docs.app.main.Pages
 import design.anduin.docs.components._
-import anduin.mcro.Source
+import design.anduin.macros.Source
 import japgolly.scalajs.react.vdom.html_<^._
 import design.anduin.components.button.Button
 import design.anduin.components.card.Card

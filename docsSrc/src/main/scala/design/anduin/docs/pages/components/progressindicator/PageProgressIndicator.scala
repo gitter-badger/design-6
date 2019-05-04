@@ -4,7 +4,7 @@ import design.anduin.components.button.Button
 import design.anduin.components.progressindicators.{BarIndicator, BlockIndicator, CircleIndicator}
 import design.anduin.docs.app.main.Pages
 import design.anduin.docs.components._
-import anduin.mcro.Source
+import design.anduin.macros.Source
 import design.anduin.style.Style
 
 // scalastyle:off underscore.import

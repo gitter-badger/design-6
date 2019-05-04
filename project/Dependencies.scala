@@ -6,13 +6,19 @@ import org.portablescala.sbtplatformdeps.PlatformDepsPlugin.autoImport._
 //noinspection SpellCheckingInspection
 object Dependencies {
 
-  val scalaVersion = "2.12.8"
+  object Versions {
+    val scala = "2.12.8"
+    val webpack = "4.29.6"
+    val webpackCli = "3.3.0"
+    val webpackDevServer = "3.2.1"
+  }
 
   object Libraries {
-    val scalaReflect = "org.scala-lang" % "scala-reflect" % scalaVersion
-    val scalajsDom = Def.setting("org.scala-js" %%% "scalajs-dom" % "0.9.5")
+    val scalaReflect = "org.scala-lang" % "scala-reflect" % Versions.scala
+    val scalajsDom = Def.setting("org.scala-js" %%% "scalajs-dom" % "0.9.7")
+    val scalaJavaTime = Def.setting("io.github.cquiroz" %%% "scala-java-time" % "2.0.0-RC1")
     object scalajsReact {
-      val version = "1.4.0"
+      val version = "1.4.1"
       val core = Def.setting("com.github.japgolly.scalajs-react" %%% "core" % version)
       val extra = Def.setting("com.github.japgolly.scalajs-react" %%% "extra" % version)
     }

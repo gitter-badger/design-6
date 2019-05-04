@@ -1,15 +1,14 @@
 package design.anduin.docs.pages.components.button
 
 import design.anduin.components.button.Button
+import design.anduin.components.icon.Icon
+import design.anduin.components.input.textbox.TextBox
 import design.anduin.docs.app.main.Pages
 import design.anduin.docs.components._
-import anduin.mcro.Source
+import design.anduin.macros.Source
 import design.anduin.style.Style
 import japgolly.scalajs.react._
 import japgolly.scalajs.react.vdom.html_<^._
-
-import design.anduin.components.icon.Icon
-import design.anduin.components.input.textbox.TextBox
 
 object PageButton {
 
@@ -104,8 +103,8 @@ object PageButton {
           |""".stripMargin
       )(),
       ExampleSimple()({
-        import Button.Style._
         import Button.Color._
+        import Button.Style._
         val margin = <.div(Style.margin.right12)
         val icon = Some(Icon.Glyph.Download)
         val border = Style.margin.bottom16.padding.bottom16.border.bottom.borderColor.gray3
