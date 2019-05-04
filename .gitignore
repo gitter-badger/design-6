@@ -7,15 +7,7 @@
 # Scala & SBT
 target
 
-# Local config
-sgz_src.txt
-
-# Linked content
 .scalafmt.conf
-
-# Generated content
-core/src/main/resources/stylesheets/core-fastopt.css
-core/src/main/resources/stylesheets/core-fastopt.css.map
 
 # IDE
 .idea
@@ -25,4 +17,3 @@ core/src/main/resources/stylesheets/core-fastopt.css.map
 # NPM
 node_modules
 *.log
-.sass-cache/
