@@ -1,46 +1,16 @@
-name := "anduin-design"
+ThisBuild / name := "Anduin Design"
+ThisBuild / organization := "design.anduin"
+ThisBuild / version := "0.2"
+ThisBuild / scalaVersion := "2.12.8"
 
-lazy val commonSettings = Seq(
-  organization := "co.anduin",
-  version := "0.1",
-  scalaVersion := "2.12.6",
-  libraryDependencies += "com.github.japgolly.scalajs-react" %%% "core" % "1.4.0",
-  scalacOptions += "-Yrangepos"
-)
-
-lazy val mcro = (project in file("mcro"))
-  .enablePlugins(ScalaJSPlugin)
-  .settings(
-    commonSettings,
-    libraryDependencies += "org.scala-lang" % "scala-reflect" % scalaVersion.value
-  )
-
-lazy val core = (project in file("core"))
-  .dependsOn(mcro)
+//noinspection SpellCheckingInspection
+lazy val core = project
   .enablePlugins(ScalaJSPlugin, ScalaJSBundlerPlugin)
   .settings(
-    commonSettings,
-    scalacOptions += "-P:scalajs:sjsDefinedByDefault",
-    scalaJSUseMainModuleInitializer := true,
-    webpackBundlingMode in fastOptJS := BundlingMode.LibraryOnly(),
-    webpackBundlingMode in fullOptJS := BundlingMode.Application,
-    webpackCliVersion := "3.3.0",
-    version in webpack := "4.29.6",
-    version in startWebpackDevServer := "3.2.1",
     libraryDependencies ++= Seq(
-      "org.scalatest" %% "scalatest" % "3.0.5" % Test,
-      "org.scala-js" %%% "scalajs-dom" % "0.9.5",
-      "com.github.japgolly.scalajs-react" %%% "extra" % "1.4.0",
-      "io.github.cquiroz" %%% "scala-java-time" % "2.0.0-RC1",
-      "io.github.cquiroz" %%% "scala-java-time-tzdb" % "2.0.0-RC1_2018f"
+      "org.scala-js" %%% "scalajs-dom" % "0.9.5"
     ),
-    // https://github.com/webjars/webjars/issues/1789
-    dependencyOverrides += "org.webjars.npm" % "js-tokens" % "3.0.2",
-    npmDependencies in Compile ++= Seq(
-      // for documentation
-      "highlight.js" -> "9.15.6",
-      "marked" -> "0.6.2",
-      // for components
+    Compile / npmDependencies ++= Seq(
       "downshift" -> "3.2.7",
       "focus-visible" -> "4.1.5",
       "popper.js" -> "1.14.7",
@@ -53,4 +23,34 @@ lazy val core = (project in file("core"))
     )
   )
 
-lazy val root = (project in file(".")).aggregate(core)
+//noinspection SpellCheckingInspection
+lazy val docsMacros = project
+  .enablePlugins(ScalaJSPlugin)
+  .settings(
+    scalacOptions += "-P:scalajs:sjsDefinedByDefault -Yrangepos",
+    libraryDependencies += "org.scala-lang" % "scala-reflect" % scalaVersion.value
+  )
+
+//noinspection SpellCheckingInspection
+lazy val docsSrc = project
+  .dependsOn(docsMacros, core)
+  .enablePlugins(ScalaJSPlugin, ScalaJSBundlerPlugin)
+  .settings(
+    scalacOptions += "-P:scalajs:sjsDefinedByDefault",
+    scalaJSUseMainModuleInitializer := true,
+    webpackBundlingMode in fastOptJS := BundlingMode.LibraryOnly(),
+    webpackBundlingMode in fullOptJS := BundlingMode.Application,
+    webpackCliVersion := "3.3.0",
+    webpack / version := "4.29.6",
+    startWebpackDevServer / version := "3.2.1",
+    libraryDependencies ++= Seq(
+      "org.scala-js" %%% "scalajs-dom" % "0.9.5",
+      "com.github.japgolly.scalajs-react" %%% "extra" % "1.4.0"
+    ),
+    Compile / npmDependencies ++= Seq(
+      "highlight.js" -> "9.15.6",
+      "marked" -> "0.6.2"
+    )
+  )
+
+lazy val root = (project in file(".")).aggregate(docsSrc)
