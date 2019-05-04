@@ -1,26 +1,29 @@
+// Copyright (C) 2014-2019 Anduin Transactions Inc.
+
 ThisBuild / name := "Anduin Design"
-ThisBuild / organization := "design.anduin"
+ThisBuild / organization := "anduin.design"
 ThisBuild / version := "0.2"
-ThisBuild / scalaVersion := "2.12.8"
+
+ThisBuild / scalaVersion := Dependencies.scalaVersion
 
 //noinspection SpellCheckingInspection
 lazy val core = project
   .enablePlugins(ScalaJSPlugin, ScalaJSBundlerPlugin)
   .settings(
-    libraryDependencies ++= Seq(
-      "org.scala-js" %%% "scalajs-dom" % "0.9.5",
-      "com.github.japgolly.scalajs-react" %%% "core" % "1.4.0"
+    libraryDependencies ++= List(
+      Dependencies.Libraries.scalajsDom.value,
+      Dependencies.Libraries.scalajsReact.core.value
     ),
-    Compile / npmDependencies ++= Seq(
-      "downshift" -> "3.2.7",
-      "focus-visible" -> "4.1.5",
-      "popper.js" -> "1.14.7",
-      "react" -> "16.7.0",
-      "react-dom" -> "16.7.0",
-      "react-text-mask" -> "5.4.3",
-      "react-truncate-markup" -> "3.0.0",
-      "react-virtualized" -> "9.21.0",
-      "text-mask-addons" -> "3.8.0"
+    Compile / npmDependencies ++= List(
+      Dependencies.NPM.downshift,
+      Dependencies.NPM.focusVisible,
+      Dependencies.NPM.popper,
+      Dependencies.NPM.react,
+      Dependencies.NPM.reactDom,
+      Dependencies.NPM.reactTextMask,
+      Dependencies.NPM.reactTruncateMarkup,
+      Dependencies.NPM.reactVirtualized,
+      Dependencies.NPM.textMaskAddons
     )
   )
 
@@ -29,7 +32,10 @@ lazy val docsMacros = project
   .enablePlugins(ScalaJSPlugin)
   .settings(
     scalacOptions += "-P:scalajs:sjsDefinedByDefault -Yrangepos",
-    libraryDependencies += "org.scala-lang" % "scala-reflect" % scalaVersion.value
+    libraryDependencies ++= List(
+      Dependencies.Libraries.scalajsReact.core.value,
+      Dependencies.Libraries.scalaReflect
+    )
   )
 
 //noinspection SpellCheckingInspection
@@ -44,13 +50,16 @@ lazy val docsSrc = project
     webpackCliVersion := "3.3.0",
     webpack / version := "4.29.6",
     startWebpackDevServer / version := "3.2.1",
-    libraryDependencies ++= Seq(
-      "org.scala-js" %%% "scalajs-dom" % "0.9.5",
-      "com.github.japgolly.scalajs-react" %%% "extra" % "1.4.0"
+    libraryDependencies ++= List(
+      Dependencies.Libraries.scalajsDom.value,
+      Dependencies.Libraries.scalajsReact.core.value,
+      Dependencies.Libraries.scalajsReact.extra.value
     ),
-    Compile / npmDependencies ++= Seq(
-      "highlight.js" -> "9.15.6",
-      "marked" -> "0.6.2"
+    Compile / npmDependencies ++= List(
+      Dependencies.NPM.react,
+      Dependencies.NPM.reactDom,
+      Dependencies.NPM.highlight,
+      Dependencies.NPM.marked
     )
   )
 
