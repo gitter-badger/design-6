@@ -4,9 +4,9 @@
   "repository": "https://github.com/anduintransaction/design",
   "license": "MIT",
   "scripts": {
-    "core-style": "node ./core/style",
-    "docs-dev-watch": "bash ./docsSrc/scripts/dev-watch.sh",
-    "docs-dev-serve": "node ./docsSrc/scripts/dev-serve",
-    "docs-build": "bash ./docsSrc/scripts/build.sh"
+    "web-style-build": "bash ./web/style/build.sh",
+    "docs-dev-watch":  "bash ./docsSrc/scripts/dev-watch.sh",
+    "docs-dev-serve":  "bash ./docsSrc/scripts/dev-serve/index.sh",
+    "docs-build":      "bash ./docsSrc/scripts/build.sh"
   }
 }
