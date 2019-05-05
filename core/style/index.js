@@ -6,10 +6,10 @@ const from = `${__dirname}/app.css`;
 const toDir = `${__dirname}/../target`
 const to = `${toDir}/style.css`;
 
-console.log(chalk.cyan('core-style 1/2') + ' verify deps...')
+console.log(`${chalk.cyan('core/style 1/2')} Verifying dependencies...`)
 execSync('yarn');
 
-console.log(chalk.cyan('core-style 2/2') + ' run postcss...')
+console.log(`${chalk.cyan('core/style 2/2')} Running postcss...`)
 fs.readFile(from, (err, css) => {
   require('postcss')([
     require('postcss-import'),
