@@ -1,15 +1,15 @@
 // Copyright (C) 2014-2019 Anduin Transactions Inc.
 
-ThisBuild / name := "Anduin Design"
-ThisBuild / organization := "Anduin Transactions"
+ThisBuild / organization := "design.anduin"
 ThisBuild / version := "0.2"
 
 ThisBuild / scalaVersion := Dependencies.Versions.scala
 
 //noinspection SpellCheckingInspection
-lazy val core = project
+lazy val web = project
   .enablePlugins(ScalaJSPlugin, ScalaJSBundlerPlugin)
   .settings(
+    name := "web",
     scalacOptions += "-language:existentials",
     scalacOptions += "-P:scalajs:sjsDefinedByDefault",
     libraryDependencies ++= List(
@@ -43,7 +43,7 @@ lazy val docsMacros = project
 
 //noinspection SpellCheckingInspection
 lazy val docsSrc = project
-  .dependsOn(docsMacros, core)
+  .dependsOn(docsMacros, web)
   .enablePlugins(ScalaJSPlugin, ScalaJSBundlerPlugin)
   .settings(
     scalacOptions += "-Yrangepos",
@@ -69,5 +69,6 @@ lazy val docsSrc = project
   )
 
 lazy val root = (project in file("."))
-  .settings(name := "Anduin Design")
+  .settings(name := "anduin-design")
   .aggregate(docsSrc)
+
