@@ -1,15 +1,12 @@
 const fs = require('fs');
-const { execSync } = require('child_process');
-const chalk = require('chalk');
+const path = require('path');
 
-const from = `${__dirname}/app.css`;
-const toDir = `${__dirname}/../target`
+const from = `${__dirname}/index.css`;
+const toDir = path.resolve(`${__dirname}/../target`);
 const to = `${toDir}/style.css`;
 
-console.log(`${chalk.cyan('core/style 1/2')} Verifying dependencies...`)
-execSync('yarn');
+if (fs.existsSync(to)) { fs.unlinkSync(to); }
 
-console.log(`${chalk.cyan('core/style 2/2')} Running postcss...`)
 fs.readFile(from, (err, css) => {
   require('postcss')([
     require('postcss-import'),
@@ -23,3 +20,6 @@ fs.readFile(from, (err, css) => {
       fs.writeFile(to, result.css, () => true);
     })
 })
+
+const pathFromRoot = path.relative(`${__dirname}/../..`, to)
+console.log(`success Built at <root>/${pathFromRoot}!`)

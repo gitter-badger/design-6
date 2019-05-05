@@ -1,9 +1,8 @@
 {
-  "name": "@anduin/design-css",
+  "name": "@anduin/design-web-css",
   "license": "MIT",
   "devDependencies": {
     "autoprefixer": "9.5.1",
-    "chalk": "^2.4.2",
     "cssnano": "4.1.10",
     "postcss": "7.0.16",
     "postcss-import": "12.0.1",
