@@ -5,8 +5,6 @@ ThisBuild / version := "0.2"
 
 ThisBuild / scalaVersion := Dependencies.Versions.scala
 
-val artifactoryUrl = "https://artifactory.anduin.co/artifactory/webapp/#/artifacts/browse/tree/General/anduin-design"
-
 //noinspection SpellCheckingInspection
 lazy val web = project
   .enablePlugins(ScalaJSPlugin, ScalaJSBundlerPlugin)
@@ -14,8 +12,7 @@ lazy val web = project
     name := "web",
     scalacOptions += "-language:existentials",
     scalacOptions += "-P:scalajs:sjsDefinedByDefault",
-    publishTo := Some("Anduin Artifactory" at artifactoryUrl),
-    publishConfiguration := publishConfiguration.value.withOverwrite(true),
+    publishTo := Some("Anduin Artifactory" at "https://artifactory.anduin.co/artifactory/anduin-design"),
     credentials += Credentials(Path.userHome / ".sbt" / ".credentials"),
     libraryDependencies ++= List(
       Dependencies.Libraries.scalajsDom.value,
